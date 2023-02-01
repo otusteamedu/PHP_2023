@@ -1,0 +1,15 @@
+{
+  "name": "pzagainov/sandbox",
+  "author": "Pavel Zagainov",
+  "require": {
+    "php": ">=8.2",
+    "ext-memcached": "*",
+    "ext-pdo": "*",
+    "ext-redis": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Sandbox\\": "src/"
+    }
+  }
+}

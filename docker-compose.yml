@@ -1,0 +1,75 @@
+version: "3.8"
+
+services:
+  otus-nginx:
+    container_name: webserver-hw1
+    build:
+      context: docker/nginx
+    ports:
+      - "127.0.0.1:80:80"
+    volumes:
+      - ./:/var/www/html/application.local
+      - ./docker/logs/nginx:/var/log/nginx/
+      - fpm-socket:/run
+    networks:
+      - hw1-network
+    depends_on:
+      - otus-php
+
+  otus-php:
+    container_name: php-fpm-hw1
+    build:
+      context: docker/php-fpm
+    volumes:
+      - .:/var/www/html/application.local
+      - ./docker/logs/php-fpm:/var/log/fpm-php.www.log
+      - fpm-socket:/run
+    networks:
+      - hw1-network
+    depends_on:
+      - otus-db
+      - otus-memcached
+      - otus-redis
+
+  otus-db:
+    container_name: postgres-hw1
+    image: postgres:15.1-alpine
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - hw1-network
+
+  otus-memcached:
+    image: 'bitnami/memcached:latest'
+    env_file:
+      - .env
+    ports:
+      - "11211"
+    networks:
+      - hw1-network
+
+  otus-redis:
+    image: 'bitnami/redis:latest'
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:6379:6379"
+    networks:
+      - hw1-network
+
+volumes:
+  fpm-socket:
+  db-data:
+
+networks:
+  hw1-network:

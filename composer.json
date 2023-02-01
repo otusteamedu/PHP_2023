@@ -1,0 +1,21 @@
+{
+    "name": "twent/hw1",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "twent"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "ext-memcached": "*",
+        "ext-redis": "*",
+        "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

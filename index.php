@@ -28,7 +28,7 @@ $redis->set("test", "Test");
 echo "<br>Stored string in Redis: " . $redis->get("test");
 
 // Memcached
-$memcached = new Memcached;
+$memcached = new Memcached();
 $memcached->addServer('otus-memcached', 11211) or print("<br>Could not connect");
 $memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
 $memcached->setSaslAuthData($dotenv['MEMCACHED_USERNAME'], $dotenv['MEMCACHED_PASSWORD']);

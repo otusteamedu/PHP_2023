@@ -1,7 +1,7 @@
 FROM nginx:alpine
 
-RUN addgroup -g 1001 -S web
-RUN adduser -u 1001 -S -G web web
+RUN addgroup -g 1001 -S web \
+    && adduser -u 1001 -S -G web web
 
 RUN rm /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf

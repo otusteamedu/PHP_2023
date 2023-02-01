@@ -1,5 +1,10 @@
-<?php
-
-echo 123;
-echo 325;
-echo 111111111111;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <p><?php echo "Hello, world!"?></p>
+</body>
+</html>

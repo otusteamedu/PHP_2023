@@ -17,17 +17,17 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
-#RUN groupadd --gid 1000 www && \
-#    useradd --gid 1000 www
+RUN set -x \
+        && deluser www-data \
+        && groupadd --gid 1000 www-data \
+        && useradd --gid 1000 www-data
 
 RUN rm /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /data
 
-#COPY ./www.conf /usr/local/etc/php-fpm.d/www.conf
+RUN chown -R www-data:www-data /data
 
-#RUN chown -R www:www /data
-#
-#USER www
+USER www-data
 
 CMD ["php-fpm", "--nodaemonize"]

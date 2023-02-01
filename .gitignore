@@ -1,5 +1,7 @@
 /.idea
 /db-data
 /vendor
+/logs
+/socket
 
 .env

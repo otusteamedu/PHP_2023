@@ -6,7 +6,7 @@ services:
     build:
       context: docker/nginx
     ports:
-      - "127.0.0.1:80:80"
+      - "80:80"
     volumes:
       - ./:/var/www/html/application.local
       - ./docker/logs/nginx:/var/log/nginx/
@@ -40,7 +40,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER $$POSTGRES_DB"]
       interval: 5s
@@ -63,7 +63,7 @@ services:
     env_file:
       - .env
     ports:
-      - "127.0.0.1:6379:6379"
+      - "6379:6379"
     networks:
       - hw1-network
 

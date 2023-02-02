@@ -54,7 +54,7 @@
     echo "Проверка соединения с memcached:" . $br;
     echo "Добавление в memcached записи с ключом testMemcachedKey:" . $br;
 
-    $memcached = new Memcached;
+    $memcached = new Memcached();
     $memcached->addServer('memcached', 11211);
     $memcached->set("testMemcachedKey", "Test Memcached value");
     echo $memcached->get("testMemcachedKey") . $br;

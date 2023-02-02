@@ -14,7 +14,7 @@ services:
       - ./project:/data/application.local
       - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
       - ./logs:/var/log/nginx/application
-      - ./socket:/socket
+      - socket:/socket
     networks:
       - otus-network
     links:
@@ -34,7 +34,7 @@ services:
       - ./project:/data/application.local
       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
       - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      - ./socket:/socket
+      - socket:/socket
     networks:
       - otus-network
 
@@ -65,3 +65,6 @@ services:
 networks:
   otus-network:
     driver: bridge
+
+volumes:
+  socket:

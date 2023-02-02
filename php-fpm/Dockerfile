@@ -1,5 +1,7 @@
 FROM php:8.1-fpm
 
+WORKDIR /socket
+
 RUN apt-get update && apt-get install -y \
     procps \
     libfreetype6-dev \
@@ -30,7 +32,9 @@ RUN apt-get update && apt-get install -y \
     && groupadd --gid 1000 www-data \
     && useradd --gid 1000 www-data \
     \
-    && rm /usr/local/etc/php-fpm.d/zz-docker.conf
+    && rm /usr/local/etc/php-fpm.d/zz-docker.conf \
+    \
+    && chown -R www-data:www-data /socket
 
 WORKDIR /data
 

@@ -33,7 +33,6 @@
         while ($row = $res->fetch(PDO::FETCH_ASSOC)) {
             echo($row["table_name"] . '-' . $row["column_name"] . $br);
         }
-
     } catch (PDOException $e) {
         echo $e->getMessage();
     }
@@ -56,7 +55,6 @@
     echo "Добавление в memcached записи с ключом testMemcachedKey:" . $br;
 
     $memcached = new Memcached;
-
     $memcached->addServer('memcached', 11211);
     $memcached->set("testMemcachedKey", "Test Memcached value");
     echo $memcached->get("testMemcachedKey") . $br;

@@ -26,6 +26,10 @@ services:
       dockerfile: Dockerfile
     image: otus/php
     container_name: otus-php
+    environment:
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_DATABASE: '${DB_DATABASE}'
     volumes:
       - ./project:/data/application.local
       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini

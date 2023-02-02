@@ -9,7 +9,7 @@ services:
     image: otus/nginx
     container_name: otus-nginx
     ports:
-      - "80:80"
+      - '${APP_PORT}:80'
     volumes:
       - ./project:/data/application.local
       - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
@@ -31,6 +31,28 @@ services:
       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
       - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./socket:/socket
+    networks:
+      - otus-network
+
+  redis:
+    image: redis
+    container_name: otus-redis
+    ports:
+      - '${REDIS_PORT}:6379'
+    networks:
+      - otus-network
+
+  postgres:
+    image: postgres
+    container_name: otus-postgres
+    ports:
+      - '${DB_PORT}:5432'
+    environment:
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_DATABASE}'
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
     networks:
       - otus-network
 

@@ -52,6 +52,12 @@ services:
     networks:
       - otus-network
 
+  memcached:
+    image: memcached
+    container_name: otus-memcached
+    networks:
+      - otus-network
+
 networks:
   otus-network:
     driver: bridge

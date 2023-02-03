@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: always
+    container_name: imitronov_hw1_nginx
+    depends_on:
+      - php-fpm
+    ports:
+      - "${NGINX_PORT:-80}:80"
+    networks:
+      - otus
+    volumes:
+      - php_fpm_socket:/var/run
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    restart: always
+    container_name: imitronov_hw1_php-fpm
+    entrypoint: /entrypoint.sh
+    depends_on:
+      - db
+      - redis
+      - memcached
+    networks:
+      - otus
+    volumes:
+      - php_fpm_socket:/var/run
+
+  db:
+    image: mariadb:10.10
+    restart: always
+    container_name: imitronov_hw1_db
+    environment:
+      MYSQL_DATABASE: ${DB_NAME:-otus}
+      MYSQL_USER: ${DB_USER:-otus}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-secret}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-super_secret}
+    networks:
+      - otus
+    volumes:
+      - ./data/db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  redis:
+    image: redis:7.0-alpine3.17
+    command: ["redis-server"]
+    restart: always
+    container_name: imitronov_hw1_redis
+    networks:
+      - otus
+
+  memcached:
+    image: memcached:1.6.18-alpine3.17
+    command: ["memcached"]
+    restart: always
+    container_name: imitronov_hw1_memcached
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge
+
+volumes:
+  php_fpm_socket:

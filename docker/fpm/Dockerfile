@@ -1,14 +1,12 @@
 FROM php:8.2-fpm-alpine
 
+
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
 RUN apk update && apk upgrade \
-        mc \
-	    libpng-dev \
-	    libzip-dev \
-	    libmemcached-dev \
-	    libmcrypt-dev \
-        && docker-php-ext-install -j$(nproc) mbstring mysqli pdo_mysql zip \
-	    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-        && docker-php-ext-install -j$(nproc) gd
+    && chmod +x /usr/local/bin/install-php-extensions \
+    && install-php-extensions memcache redis
+
 
 COPY docker/fpm/php.ini /usr/local/etc/php/conf.d/php-custom.ini
 

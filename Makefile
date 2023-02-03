@@ -24,7 +24,5 @@ re:
 	docker-compose stop
 	docker-compose up --build -d
 
-
-
 start:
 	-i docker network create 172.31.0.0 --subnet 172.31.0.0/16

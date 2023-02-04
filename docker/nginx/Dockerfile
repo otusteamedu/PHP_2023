@@ -5,8 +5,6 @@ COPY docker/nginx/hosts/mysite.local.conf /etc/nginx/conf.d
 
 WORKDIR /var/www
 
-VOLUME /var/www
-
 
 EXPOSE 80
 

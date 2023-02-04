@@ -1,3 +1,4 @@
-# PHP_2023
+# PHP_2023 HW2 - Linux (Bash)
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+1. Simple Calculator `./src/calc.sh` (have `-o` operation set option and `-h` help option)
+2. Popular Cities Finder `./src/most_popular_cities.sh` (for example use `data.txt` file)

@@ -1,0 +1,5 @@
+.code
+.idea
+.env
+vendor
+.editorconfig

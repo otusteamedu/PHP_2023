@@ -43,10 +43,6 @@ services:
       - "15580:5432"
     networks:
       - 172.31.0.0
-    environment:
-      - POSTGRES_USER=user
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=lesson
 
   redis_service:
     image: redis:latest

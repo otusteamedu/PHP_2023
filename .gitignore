@@ -2,3 +2,4 @@
 logs
 redis
 postgres
+.env

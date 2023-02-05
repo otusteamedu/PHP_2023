@@ -4,7 +4,7 @@ green=$(tput setaf 2)
 bold=$(tput bold)
 resetFormat=$(tput sgr0)
 
-operationList="+-/^"
+operationList="+-*/%^"
 operation="+"
 
 function showHelp() {
@@ -37,18 +37,6 @@ case "$#" in
   *);; # 2 args or more is ok - continue
 esac
 
-function checkDependencies() {
-  echo "Checking dependencies..."
-  package="bc"
-
-  if [ "$(which $package)" ]; then
-    echo "${bold}$package${resetFormat} is installed."
-  else
-    echo "${red}Package $package is not installed. Please enter your root password for install it."
-    sudo apt-get install -y $package
-  fi
-}
-
 function validateInput() {
   isInt="^-\?[0-9]+$"
   isFloat="^[0-9]+([.][0-9]+)?$"
@@ -60,8 +48,6 @@ function validateInput() {
 }
 
 # Start of script
-checkDependencies
-
 result=0
 argsCount=1
 
@@ -72,7 +58,7 @@ for currentArg in "$@"; do
   if [ $argsCount == 1 ]; then
     result=$currentArg
   else
-    result=$(echo "scale=8; $result $operation $currentArg" | bc)
+    result=$(awk "BEGIN { print ($result $operation $currentArg) }")
   fi
 
   ((argsCount++))

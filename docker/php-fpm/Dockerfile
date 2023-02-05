@@ -9,9 +9,9 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY zz-docker.conf "$PHP_INI_DIR/../php-fpm.d/zz-docker.conf"
-COPY composer-setup.php /tmp/composer-setup.php
+COPY composer-setup /tmp/composer-setup
 
-RUN php /tmp/composer-setup.php --install-dir=/usr/bin --filename=composer
+RUN php /tmp/composer-setup --install-dir=/usr/bin --filename=composer
 
 WORKDIR /var/www/application.local
 

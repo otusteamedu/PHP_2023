@@ -1,0 +1,73 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus_nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./../code:/data/mysite.local
+       - phpsocket:/var/run
+    networks:
+      - otus-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  php:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php # имя будущего образа
+    container_name: otus_php # имя контейнера после запуска
+    environment:
+      DB_NAME: '${DB_NAME}'
+      DB_ROOT_PASSWORD: '${DB_ROOT_PASSWORD}'
+    volumes:
+       - ./../code:/data/mysite.local
+       - phpsocket:/var/run
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - otus-network
+
+  redis:
+    image: redis
+    container_name: otus_redis
+    networks:
+      - otus-network
+
+  memcached:
+    image: memcached
+    container_name: otus_memcached
+    networks:
+      - otus-network
+
+  db:
+    image: mariadb
+    container_name: otus_db
+    ports:
+      - 3306:3306
+    restart: always
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+    networks:
+      - otus-network
+
+#Docker Networks
+networks:
+  otus-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
+  dbdata:

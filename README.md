@@ -1,3 +1,6 @@
-# PHP_2023
+# Homework #1
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+После docker-compose:
+1. В папке docker переименовать файл .env.example в .env
+2. Работоспособность всех контейнеров можно проверить открыв http://mysite.local 
+

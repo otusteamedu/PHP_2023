@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 $postgresql_user = 'user';
@@ -47,7 +48,10 @@ function checkMemcached(string $host): bool
     return is_string($testOut) && $testOut === $testIn['value'];
 }
 
-echo 'postgresql: ', (checkPostgresql("pgsql:dbname={$postgresql_db} host={$postgresql_host}",
-        $postgresql_user, $postgresql_pass) ? 'OK' : 'Error'), '<br>';
+echo 'postgresql: ', (checkPostgresql(
+    "pgsql:dbname={$postgresql_db} host={$postgresql_host}",
+    $postgresql_user,
+    $postgresql_pass
+) ? 'OK' : 'Error'), '<br>';
 echo 'redis: ', (checkRedis($redis_host) ? 'OK' : 'Error'), '<br>';
 echo 'memcached: ', (checkMemcached($memcached_host) ? 'OK' : 'Error'), '<br>';

@@ -1,3 +1,3 @@
-# PHP_2023
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# Запуск сборки
+  - В консоли - make up
+  - В браузере вводим http://172.31.0.1:9999

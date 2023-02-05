@@ -1,0 +1,67 @@
+version: '3.8'
+
+networks:
+  172.31.0.0:
+    external: true
+
+services:
+  nginx_service:
+    build:
+      dockerfile: docker/nginx/Dockerfile
+      context: .
+    user: 'root:users'
+    volumes:
+      - ./app:/var/www
+      - ./logs/nginx:/var/log/nginx
+      - ./docker/sock:/sock:rw
+    container_name: otus_nginx_lesson_1
+    ports:
+      - "9999:80"
+    networks:
+      - 172.31.0.0
+  fpm_service:
+    build:
+      dockerfile: docker/fpm/Dockerfile
+      context: .
+    user: 'root:users'
+    volumes:
+      - ./app:/var/www
+      - ./docker/sock:/sock:rw
+      - ./docker/fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    container_name: otus_fpm_lesson_1
+    networks:
+      - 172.31.0.0
+
+  postgres_service:
+    image: postgres:latest
+    hostname: otus_pgs_lesson_1
+    container_name: otus_pgs_lesson_1
+    env_file:
+      - '.env'
+    volumes:
+      - ./logs/postgres:/logs
+      - ./db/postgres:/var/lib/postgresql/data:ro
+    ports:
+      - "15580:5432"
+    networks:
+      - 172.31.0.0
+
+  redis_service:
+    image: redis:latest
+    hostname: otus_redis_lesson_1
+    container_name: otus_redis_lesson_1
+    volumes:
+      - ./db/redis:/var/lib/redis:rw
+    ports:
+      - "6379:6379"
+    networks:
+      - 172.31.0.0
+
+  memcached_service:
+    image: memcached:latest
+    container_name: otus_memcached_lesson_1
+    hostname: otus_memcached_lesson_1
+    networks:
+      - 172.31.0.0
+    ports:
+      - "11211:11211"

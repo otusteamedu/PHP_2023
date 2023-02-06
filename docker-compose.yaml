@@ -25,6 +25,7 @@ services:
     container_name: app
     volumes:
        - ./code:/data/mysite.local
+       - ./sock:/var/run/php-fpm.sock
     networks:
       - app-network
   mysql:

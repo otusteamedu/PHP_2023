@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y \
         docker-php-ext-enable memcached
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer self-update --2
+RUN mkdir -p /home/$user/.composer
 
 WORKDIR /data
 

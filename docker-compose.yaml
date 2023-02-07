@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+    image: '${DOCKER_PREFIX}/nginx'
+    container_name: '${DOCKER_PREFIX}_nginx'
+    ports:
+      - '${NGNIX_PORT}:80'
+    volumes:
+      - ./app/src:/var/www/application.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - hw01-network
+
+  php-fpm:
+    build:
+      context: docker/php-fpm
+    image: '${DOCKER_PREFIX}/php-fpm'
+    container_name: '${DOCKER_PREFIX}_php-fpm'
+    volumes:
+      - ./app/src:/var/www/application.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - hw01-network
+
+  postgresql:
+    build:
+      context: docker/postgresql
+    image: "${DOCKER_PREFIX}/postgresql"
+    container_name: "${DOCKER_PREFIX}_postgresql"
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    volumes:
+      - ./app/data:/var/lib/postgresql/data
+    networks:
+      - hw01-network
+
+  memcached:
+     build:
+       context: docker/memcached
+     image: "${DOCKER_PREFIX}/memcached"
+     container_name: "${DOCKER_PREFIX}_memcached"
+     networks:
+       - hw01-network
+
+  redis:
+    build:
+      context: docker/redis
+    image: "${DOCKER_PREFIX}/redis"
+    container_name: "${DOCKER_PREFIX}_redis"
+    networks:
+      - hw01-network
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  hw01-network:
+    driver: bridge

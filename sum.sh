@@ -42,7 +42,6 @@ then
     fi
   done
 
-  #echo '-10 1 2 3.1232' | awk 'BEGIN {p=0;m=0} {for(i=1; i<=NF; i++) { if ($i > 0)p+=$i; else m-=$i; } print p; print m; } END { print p - m}'
   SUM=$(echo "$*" | awk 'BEGIN {p=0;m=0} {for(i=1; i<=NF; i++) { if ($i > 0)p+=$i; else m-=$i; } } END { print p - m }')
   echo "$SUM"
   exit 0

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#tail -n +2 data | awk -F' ' '{print($3)}'
-#tail -n +2 data | awk '{print($3)}' | sort | uniq -c | sort -r -k1 | head -n3 | awk '{print($2)}'
-
 print_help () {
     echo "Usage: $0 filename"
 }

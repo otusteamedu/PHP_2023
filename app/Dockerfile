@@ -3,7 +3,10 @@ FROM php:8.2-fpm
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-RUN curl -sS https://getcomposer.org/installer | php -- \
+RUN mkdir /data && \
+    mkdir /data/mysite.local && \
+    chown -R www-data:www-data /data && \
+    curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/bin --filename=composer && \
     apt-get update -y &&  \
     apt-get -y install gcc make autoconf libc-dev pkg-config libzip-dev &&  \
@@ -36,8 +39,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- \
 	pecl install memcached && \
     pecl install xdebug && \
 	docker-php-ext-install opcache pdo pdo_pgsql pgsql && \
-	docker-php-ext-enable ds imagick igbinary memcached xdebug redis opcache && \
-    chown -R www-data:www-data /data
+	docker-php-ext-enable ds imagick igbinary memcached xdebug redis opcache
 
 WORKDIR /data
 

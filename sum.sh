@@ -2,6 +2,7 @@
 
 ARGS=2
 E_BADARGS=65
+SUM=0
 
 if [ $# -lt $ARGS ] || [ $# -gt $ARGS ]; then
     echo "Error: Two arguments expected"
@@ -19,5 +20,12 @@ done
 echo "Argument 1: $1"
 echo "Argument 2: $2"
 
-SUM=$(echo "$1+$2" | bc -l)
+if ! command -v bc &> /dev/null
+then
+    SUM=$(echo $1 $2 | awk '{print $1 + $2}')
+
+else
+    SUM=$(echo "$1+$2" | bc -l)
+fi
+
 echo "Sum: $SUM"

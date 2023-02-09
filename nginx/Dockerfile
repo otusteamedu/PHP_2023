@@ -1,10 +1,12 @@
 FROM nginx:latest
 
-COPY ./hosts/mysite.local.conf /etc/nginx/conf.d/mysite.local.conf
+COPY ./mysite.local.conf /etc/nginx/conf.d/mysite.local.conf
 
-WORKDIR /data  
+WORKDIR /data
 
-VOLUME /data  
+VOLUME /data
+
+VOLUME /var/run/php-fpm.sock
 
 EXPOSE 80
 

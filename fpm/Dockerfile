@@ -14,7 +14,9 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
+COPY zz-docker.conf "$PHP_INI_DIR/../php-fpm.d/zz-docker.conf"
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer self-update --2
 RUN mkdir -p /home/$user/.composer
@@ -22,5 +24,6 @@ RUN mkdir -p /home/$user/.composer
 WORKDIR /data
 
 VOLUME /data
+VOLUME /var/run/php-fpm.sock
 
 CMD ["php-fpm"]

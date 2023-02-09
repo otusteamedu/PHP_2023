@@ -17,8 +17,8 @@
     }
   ],
   "require": {
-    "php": "^8.1",
-    "twent/design-patterns": "0.1.0"
+    "php": ">=8.1",
+    "twent/design-patterns": "0.*"
   },
   "license": "GPL-3.0-only"
 }

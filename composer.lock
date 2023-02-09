@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87706480231ee64e27b64f9b2658fc6d",
+    "content-hash": "b9ceabb92612d4c5874eb70c8e5adc5e",
     "packages": [
         {
             "name": "twent/design-patterns",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twent/design-patterns-php.git",
-                "reference": "feb5cd7f684dc2aea360e82309fb146db3cd3f7e"
+                "reference": "2f4f8a05834a61c1ab32492f6155375ae18cdfe3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twent/design-patterns-php/zipball/feb5cd7f684dc2aea360e82309fb146db3cd3f7e",
-                "reference": "feb5cd7f684dc2aea360e82309fb146db3cd3f7e",
+                "url": "https://api.github.com/repos/twent/design-patterns-php/zipball/2f4f8a05834a61c1ab32492f6155375ae18cdfe3",
+                "reference": "2f4f8a05834a61c1ab32492f6155375ae18cdfe3",
                 "shasum": ""
             },
             "require": {
@@ -47,9 +47,9 @@
             "description": "Learn design patterns",
             "support": {
                 "issues": "https://github.com/twent/design-patterns-php/issues",
-                "source": "https://github.com/twent/design-patterns-php/tree/0.1.0"
+                "source": "https://github.com/twent/design-patterns-php/tree/0.2.0"
             },
-            "time": "2023-02-07T15:07:33+00:00"
+            "time": "2023-02-08T16:26:54+00:00"
         }
     ],
     "packages-dev": [],
@@ -58,7 +58,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=8.1"
+    },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"
 }

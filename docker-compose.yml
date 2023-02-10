@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/www/website.local
+    networks:
+      - web-network
+  php:
+    build: ./php
+    container_name: php
+    volumes:
+      - ./www:/www/website.local
+    networks:
+      - web-network
+  postgres:
+    build: ./postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - web-network
+  redis:
+    image: redis:apline
+    container_name: redis
+  memcached:
+    image: memcached:apline
+    container_name: memcached
+
+networks:
+  web-network:
+    driver: bridge

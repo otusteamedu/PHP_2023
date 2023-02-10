@@ -1,6 +1,7 @@
 .idea
 .code
 .editorconfig
+.phpunit.cache
 vendor
 docker/logs/**
 .env

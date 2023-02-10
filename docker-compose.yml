@@ -1,75 +1,104 @@
 version: "3.8"
 
 services:
-  otus-nginx:
-    container_name: webserver-hw1
+  nginx-balancer:
+    container_name: nginx-balancer
     build:
       context: docker/nginx
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www/html/application.local
-      - ./docker/logs/nginx:/var/log/nginx/
-      - fpm-socket:/run
+      - ./docker/logs/balancer:/var/log/nginx/
     networks:
-      - hw1-network
+      - hw4-network
     depends_on:
-      - otus-php
+      - nginx1
+      - nginx2
 
-  otus-php:
-    container_name: php-fpm-hw1
+  nginx1:
+    container_name: nginx1
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www/html/application.local
+      - ./docker/logs/nginx1:/var/log/nginx/
+      - fpm-socket1:/run/php-fpm1/
+      - fpm-socket2:/run/php-fpm2/
+    networks:
+      - hw4-network
+    depends_on:
+      - php-fpm1
+
+  nginx2:
+    container_name: nginx2
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www/html/application.local
+      - ./docker/logs/nginx2:/var/log/nginx/
+      - fpm-socket2:/run/php-fpm2/
+      - fpm-socket1:/run/php-fpm1/
+    networks:
+      - hw4-network
+    depends_on:
+      - php-fpm2
+
+  php-fpm1:
+    container_name: php-fpm1
     build:
       context: docker/php-fpm
+      args:
+        MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
+        MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
     volumes:
       - .:/var/www/html/application.local
-      - ./docker/logs/php-fpm:/var/log/fpm-php.www.log
-      - fpm-socket:/run
+      - ./docker/logs/php-fpm1:/var/log/fpm-php.www.log
+      - fpm-socket1:/run
     networks:
-      - hw1-network
+      - hw4-network
     depends_on:
-      - otus-db
-      - otus-memcached
-      - otus-redis
+      - memcached1
 
-  otus-db:
-    container_name: postgres-hw1
-    image: postgres:15.1-alpine
-    restart: unless-stopped
-    env_file:
-      - .env
+  php-fpm2:
+    container_name: php-fpm2
+    build:
+      context: docker/php-fpm
+      args:
+        MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
+        MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
     volumes:
-      - db-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER $$POSTGRES_DB"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      - .:/var/www/html/application.local
+      - ./docker/logs/php-fpm2:/var/log/fpm-php.www.log
+      - fpm-socket2:/run
     networks:
-      - hw1-network
+      - hw4-network
+    depends_on:
+      - memcached1
 
-  otus-memcached:
+  memcached1:
+    container_name: memcached1
     image: 'bitnami/memcached:latest'
     env_file:
       - .env
     ports:
       - "11211"
     networks:
-      - hw1-network
+      - hw4-network
 
-  otus-redis:
-    image: 'bitnami/redis:latest'
+  memcached2:
+    container_name: memcached2
+    image: 'bitnami/memcached:latest'
     env_file:
       - .env
     ports:
-      - "6379:6379"
+      - "11211"
     networks:
-      - hw1-network
+      - hw4-network
 
 volumes:
-  fpm-socket:
+  fpm-socket1:
+  fpm-socket2:
   db-data:
 
 networks:
-  hw1-network:
+  hw4-network:

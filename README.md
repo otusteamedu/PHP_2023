@@ -1,14 +1,8 @@
-# PHP_2023 HW1 - Local dev environment in Docker
+# PHP_2023 HW4 - Brackets validator
+
+This project using: Nginx balancer, 2 Nginx, 2 php-fpm + opcache, 2 memcached
 
 How to run this:
 1. Clone this repo
-2. Run `composer install --ignore-platform-reqs`
-3. Run `docker compose up -d` in project root dir
-
-This local dev environment includes:
-
-1. PHP-FPM 8.1
-2. Nginx Web Server (answers on http://application.local, http://dev.local, http://local.dev)
-3. PostgreSQL
-4. Memcached
-5. Redis
+2. Run `make & make test`
+3. Run `make start`

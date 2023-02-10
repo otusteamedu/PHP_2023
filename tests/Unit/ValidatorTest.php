@@ -51,7 +51,6 @@ final class ValidatorTest extends TestCase
         ];
 
         foreach ($rightInputs as $rightInput) {
-            dump($rightInput);
             $this->assertTrue(Validator::run($rightInput));
         }
     }

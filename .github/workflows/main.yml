@@ -18,6 +18,9 @@ jobs:
           fetch-depth: 0 # important!
 
       - uses: php-actions/composer@v6
+        with:
+          php_version: "8.1"
+          php_extensions: memcached
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3

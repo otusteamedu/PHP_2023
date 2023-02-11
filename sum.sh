@@ -7,13 +7,23 @@ fi
 
 a=$1
 b=$2
-r='^[+-]?[0-9]+$'
+isIntRegExp='^[+-]?[0-9]+$'
+isNumberRegExp='^[+-]?[0-9]+[\.]?[0-9]?$'
 
-if ! [[ $a =~ $r ]] || ! [[ $b =~ $r ]]; then
-     echo "Ошибка: Оба аргумента должны быть числом"
-     exit 1
+if ! [[ $a =~ $isNumberRegExp ]] || ! [[ $b =~ $isNumberRegExp ]]; then
+  echo "Ошибка: Оба аргумента должны быть числом"
+  exit 1
 fi
 
-c=$(($a+$b))
+#если оба числа целые
+if [[ $a =~ $isIntRegExp ]] && [[ $b =~ $isIntRegExp ]]; then
+  echo "Сумма "$(($a+$b))
+  exit 0
+else
+  c=$(echo "$a+$b" | bc) || {
+      echo "Ошибка выполнения скрипта, проверьте наличи bc"
+      exit 1
+  }
 
-echo "Сумма $c"
+  echo "Сумма $c"
+fi

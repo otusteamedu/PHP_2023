@@ -18,6 +18,12 @@ COPY www.conf /usr/local/etc/php-fpm.d/www.conf
 COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 COPY opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
+ARG MEMCACHED_USERNAME
+ARG MEMCACHED_PASSWORD
+
+RUN sed -i "s/\$MEMCACHED_USERNAME/$MEMCACHED_USERNAME/g" /usr/local/etc/php/conf.d/php-custom.ini \
+    && sed -i "s/\$MEMCACHED_PASSWORD/$MEMCACHED_PASSWORD/g" /usr/local/etc/php/conf.d/php-custom.ini
+
 STOPSIGNAL SIGTERM
 
 WORKDIR /var/www/html/application.local

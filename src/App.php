@@ -5,23 +5,41 @@ declare(strict_types=1);
 namespace Twent\BracketsValidator;
 
 use Exception;
+use Twent\BracketsValidator\Exceptions\InvalidArgumentException;
+use Twent\BracketsValidator\Http\Request;
+use Twent\BracketsValidator\Http\Response;
+use Twent\BracketsValidator\Http\Session;
 
 final class App
 {
-    public static function getValidationResult(): string
+    public static function make(): App
     {
-        if (!$_REQUEST['string']) {
-            http_response_code(400);
-            return 'Не передан параметр string';
+        return new App();
+    }
+
+    public function __construct(
+        public Session $session = new Session(),
+        public Request $request = new Request(),
+    ) {
+        $this->run();
+    }
+
+    private function run(): void
+    {
+        try {
+            $this->getValidationResult();
+            Response::make('Строка корректна');
+        } catch (Exception $e) {
+            Response::make($e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function getValidationResult(): bool
+    {
+        if (!$string = $this->request->string) {
+            throw new InvalidArgumentException('Не передан параметр');
         }
 
-        try {
-            Validator::run($_REQUEST['string']);
-            http_response_code(200);
-            return 'Строка корректна';
-        } catch (Exception $e) {
-            http_response_code(400);
-            return $e->getMessage();
-        }
+        return Validator::run($string);
     }
 }

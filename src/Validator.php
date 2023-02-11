@@ -18,7 +18,7 @@ final class Validator
      */
     public static function run(string $string): bool
     {
-        $string = htmlspecialchars(trim($string, "\x00..\x24\x5F"));
+        $string = trim($string, "\x00..\x24\x5F");
 
         if (empty($string)) {
             throw new EmptyStringException();

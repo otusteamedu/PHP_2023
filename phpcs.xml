@@ -4,6 +4,7 @@
     <description>PHPCS configuration file.</description>
     <file>src</file>
     <file>public</file>
+    <file>tests</file>
 
     <!-- exclude our migrations directory from the violation check-->
     <exclude-pattern>*/vendor/*</exclude-pattern>
@@ -14,4 +15,10 @@
     <rule  ref="PSR1"/>
   
     <rule  ref="PSR12"/>
+
+    <rule ref="Generic.PHP.ForbiddenFunctions">
+        <properties>
+            <property name="forbiddenFunctions" type="array" value="eval=>NULL,dd=>NULL,dump=>NULL,die=>NULL,var_dump=>NULL,sizeof=>count,delete=>unset,print=>echo,create_function=>NULL"/>
+        </properties>
+    </rule>
 </ruleset>

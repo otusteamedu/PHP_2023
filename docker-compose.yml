@@ -50,6 +50,7 @@ services:
       args:
         MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
         MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
+    env_file: .env
     volumes:
       - .:/var/www/html/application.local
       - ./docker/logs/php-fpm1:/var/log/fpm-php.www.log
@@ -66,6 +67,7 @@ services:
       args:
         MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
         MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
+    env_file: .env
     volumes:
       - .:/var/www/html/application.local
       - ./docker/logs/php-fpm2:/var/log/fpm-php.www.log
@@ -73,7 +75,7 @@ services:
     networks:
       - hw4-network
     depends_on:
-      - memcached1
+      - memcached2
 
   memcached1:
     container_name: memcached1

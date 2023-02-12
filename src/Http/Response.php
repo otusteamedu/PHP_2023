@@ -6,22 +6,21 @@ namespace Twent\BracketsValidator\Http;
 
 final class Response
 {
-    public static function make($body, int $code = 200): Response
+    public static function make($body, int $code = 200): string
     {
-        return new Response($body, $code);
+        return (new Response($body, $code))->emit();
     }
 
     public function __construct(
         public $body,
         public int $code = 200,
     ) {
-        $this->run();
     }
 
-    public function run(): void
+    public function emit(): string
     {
         $this->setCode($this->code);
-        echo $this->body;
+        return $this->body;
     }
 
     public function setCode(int $code = 200): bool|int

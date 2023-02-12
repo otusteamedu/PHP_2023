@@ -6,7 +6,7 @@ namespace Twent\BracketsValidator;
 
 use SplStack;
 use Twent\BracketsValidator\Enums\ClosingBrackets;
-use Twent\BracketsValidator\Enums\OpeningBrackets;
+use Twent\BracketsValidator\Enums\Brackets;
 use Twent\BracketsValidator\Exceptions\EmptyStringException;
 use Twent\BracketsValidator\Exceptions\InvalidArgumentException;
 
@@ -28,11 +28,11 @@ final class Validator
             throw new InvalidArgumentException();
         }
 
-        $bracketsMatch = array_combine(OpeningBrackets::values(), ClosingBrackets::values());
+        $brackets = Brackets::match();
         $stack = new SplStack();
 
         foreach (str_split($string) as $char) {
-            if (in_array($char, OpeningBrackets::values())) {
+            if (in_array($char, array_keys($brackets))) {
                 $stack->push($char);
                 continue;
             }
@@ -41,12 +41,12 @@ final class Validator
                 throw new InvalidArgumentException();
             }
 
-            if (!in_array($char, ClosingBrackets::values())) {
+            if (!in_array($char, array_values($brackets))) {
                 continue;
             }
 
             $lastItemFromStack = $stack->pop();
-            if ($bracketsMatch[$lastItemFromStack] !== $char) {
+            if ($brackets[$lastItemFromStack] !== $char) {
                 throw new InvalidArgumentException();
             }
         }

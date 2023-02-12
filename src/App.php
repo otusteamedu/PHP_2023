@@ -28,13 +28,13 @@ final class App
     {
         try {
             $this->getValidationResult();
-            Response::make('Строка корректна');
+            echo Response::make('Строка корректна');
         } catch (Exception $e) {
-            Response::make($e->getMessage(), $e->getCode());
+            echo Response::make($e->getMessage(), $e->getCode());
         }
     }
 
-    public function getValidationResult(): bool
+    private function getValidationResult(): bool
     {
         if (!$string = $this->request->string) {
             throw new InvalidArgumentException('Не передан параметр');

@@ -1,0 +1,86 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - ${DOCKER_NGINX_PORT:-80}:80
+    volumes:
+       - ./src:/data/mysite.local
+       - phpsocket:/var/run
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+       - ./src:/data/mysite.local
+       - ./docker/fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+       - phpsocket:/var/run
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    image: myapp/redis
+    container_name: redis
+    ports:
+      - ${DOCKER_REDIS_PORT:-6379}:6379
+    volumes:
+      - redis:/redis/data
+    networks:
+      - app-network
+
+  memcached:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: myapp/memcached
+    container_name: memcached
+    ports:
+      - ${DOCKER_MEMCACHED_PORT:-11211}:11211
+    networks:
+      - app-network
+
+  postres:
+    build:
+      context: ./docker/postgresql
+      dockerfile: Dockerfile
+    image: myapp/postres
+    restart: always
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  postgres:
+  redis:
+  phpsocket:
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

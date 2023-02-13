@@ -1,0 +1,53 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "057ed0eecc71be8dd46b0d90e340196f",
+    "packages": [
+        {
+            "name": "vppavlenko/name-faker",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vppavlenko/name-faker.git",
+                "reference": "7f5a51217f6482a09d12f2220df823151e772cfe"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vppavlenko/name-faker/zipball/7f5a51217f6482a09d12f2220df823151e772cfe",
+                "reference": "7f5a51217f6482a09d12f2220df823151e772cfe",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vppavlenko\\NameFaker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "VladimirPavlenko",
+                    "email": "v.pavlenko@worksolutions.ru"
+                }
+            ],
+            "description": "Generate fake user fullname",
+            "support": {
+                "issues": "https://github.com/vppavlenko/name-faker/issues",
+                "source": "https://github.com/vppavlenko/name-faker/tree/v1.0.0"
+            },
+            "time": "2023-02-13T20:45:39+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

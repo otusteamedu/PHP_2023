@@ -28,3 +28,6 @@ try {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
 }
+
+$printer = new PrintCat\PrintCat();
+$printer->printRandom();

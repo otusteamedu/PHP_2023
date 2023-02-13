@@ -1,0 +1,18 @@
+{
+    "name": "vladimir/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vladimir\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "VladimirPavlenko",
+            "email": "v.pavlenko@worksolutions.ru"
+        }
+    ],
+    "require": {
+        "vppavlenko/name-faker": "^1.0"
+    }
+}

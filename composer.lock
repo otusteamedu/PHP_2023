@@ -4,8 +4,44 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1d52b48c1dcbeb937b7638055c887d9e",
-    "packages": [],
+    "content-hash": "89204a5f945cb63b4f820a369c49b184",
+    "packages": [
+        {
+            "name": "pasha-zigzag/print-cat",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pasha-zigzag/print-cat.git",
+                "reference": "ddbdf62faac50e4c80622e310702523823c23376"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pasha-zigzag/print-cat/zipball/ddbdf62faac50e4c80622e310702523823c23376",
+                "reference": "ddbdf62faac50e4c80622e310702523823c23376",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "PrintCat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Pavel Zagainov"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/pasha-zigzag/print-cat/issues",
+                "source": "https://github.com/pasha-zigzag/print-cat/tree/v1.0.1"
+            },
+            "time": "2023-02-13T21:09:14+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",

@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3cada371088ce4b6ee812db42df180d5",
+    "packages": [
+        {
+            "name": "graywolfy/otus-composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/GrayWolfy/otus-composer-package.git",
+                "reference": "774ed9a1e7fff0e0cea79dfb0c35722fc2476e07"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/GrayWolfy/otus-composer-package/zipball/774ed9a1e7fff0e0cea79dfb0c35722fc2476e07",
+                "reference": "774ed9a1e7fff0e0cea79dfb0c35722fc2476e07",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Graywolfy\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "GrayWolfy",
+                    "email": "fymigator@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/GrayWolfy/otus-composer-package/issues",
+                "source": "https://github.com/GrayWolfy/otus-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-02-14T20:15:18+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

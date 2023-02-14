@@ -1,0 +1,5 @@
+{
+    "require": {
+        "graywolfy/otus-composer-package": "^1.0"
+    }
+}

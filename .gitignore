@@ -1,0 +1,5 @@
+/hw1/.idea/
+/hw1/.env
+/hw1/code/vendor/
+/hw1/mysqldata/*
+/hw1/redisdata/*

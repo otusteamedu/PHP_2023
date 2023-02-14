@@ -6,19 +6,15 @@ then
   exit
 fi
 
-if [[ ! $1 =~ ^[-]?[0-9]+([.][0-9]+)?$ ]] || [[ ! $2 =~ ^[-]?[0-9]+([.,][0-9]+)?$ ]]
+if [[ ! $1 =~ ^[-]?[0-9]+([.,][0-9]+)?$ ]] || [[ ! $2 =~ ^[-]?[0-9]+([.,][0-9]+)?$ ]]
 then
   echo "Необходимо передать 2 числа"
   exit
 fi
 
-BC=`dpkg -s bc | grep "Status"`
+FORMATTED1=`echo "$1" | sed 's/[.]/,/g'`
+FORMATTED2=`echo "$2" | sed 's/[.]/,/g'`
 
-if [ -z "$BC" ]
-then
-  sudo apt-get update -y
-  sudo apt-get install -y bc
-fi
+RESULT=`echo "$FORMATTED1 $FORMATTED2" | awk '{ print $1 + $2 }' | sed 's/[,]/./g'`
 
-RESULT=`echo "$1+$2"|bc`
 echo $RESULT

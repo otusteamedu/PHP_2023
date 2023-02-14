@@ -7,12 +7,12 @@ try {
     print "Error! {$e->getMessage()}";
 }
 
-$statement = $db->prepare('select body from test');
-$statement->execute();
-$posts = $statement->fetchAll();
-foreach($posts as $post) {
-    echo '<li>' . $post['body'] . '</li>';
-}
+//$statement = $db->prepare('select body from test');
+//$statement->execute();
+//$posts = $statement->fetchAll();
+//foreach($posts as $post) {
+//    echo '<li>' . $post['body'] . '</li>';
+//}
 
 require __DIR__ . '/vendor/autoload.php';
 try {

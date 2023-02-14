@@ -1,5 +1,10 @@
 #!/bin/bash
 
+if [[ $# -ne 2 ]]; then
+  echo "Error: 2 arguments expected, $# provided"
+  exit 1
+fi
+
 re='^[+-]?[0-9]+([.][0-9]+)?$'
 if ! [[ $1 =~ $re ]] ; then
   echo "Ошибка: Первый аргумент должен быть числом" >&2
@@ -11,4 +16,6 @@ if ! [[ $2 =~ $re ]] ; then
   exit 1
 fi
 
-echo "$(echo "$1 + $2"| bc)"
+sum=$(awk 'BEGIN {printf "%f", '"$1"' + '"$2"'}')
+
+echo "$sum"

@@ -1,0 +1,68 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/application.local
+      - php-fpm-socket:/var/run/php-socket
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  php:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+      - ./code:/data/application.local
+      - php-fpm-socket:/var/run/php-socket
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  postgresql:
+    build:
+      context: ./postgres
+    container_name: postgresql
+    environment:
+      POSTGRES_DB: "app_db"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - app-network
+      
+  memcached:
+     build:
+       context: ./memcached
+     container_name: memcached
+     networks:
+       - app-network
+  redis:
+    build:
+      context: ./redis
+    container_name: redis
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  php-fpm-socket:

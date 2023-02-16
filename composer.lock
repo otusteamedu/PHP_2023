@@ -8,23 +8,23 @@
     "packages": [
         {
             "name": "imitronov/cbrf-currency-rate",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/imitronov/cbrf-currency-rate.git",
-                "reference": "fd20c7d154eaa3338b250c97b49f5eadc4b311d3"
+                "reference": "62252355f608d9f8ba25ebbfda50941502760cf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/imitronov/cbrf-currency-rate/zipball/fd20c7d154eaa3338b250c97b49f5eadc4b311d3",
-                "reference": "fd20c7d154eaa3338b250c97b49f5eadc4b311d3",
+                "url": "https://api.github.com/repos/imitronov/cbrf-currency-rate/zipball/62252355f608d9f8ba25ebbfda50941502760cf8",
+                "reference": "62252355f608d9f8ba25ebbfda50941502760cf8",
                 "shasum": ""
             },
             "require": {
                 "ext-bcmath": "*",
                 "ext-simplexml": "*",
-                "php": "^8.0",
-                "symfony/http-client": "^6.2"
+                "php": ">=7.1.3||^8.0",
+                "symfony/http-client": ">=4.4"
             },
             "type": "library",
             "autoload": {
@@ -41,9 +41,9 @@
             ],
             "support": {
                 "issues": "https://github.com/imitronov/cbrf-currency-rate/issues",
-                "source": "https://github.com/imitronov/cbrf-currency-rate/tree/1.0.1"
+                "source": "https://github.com/imitronov/cbrf-currency-rate/tree/1.0.2"
             },
-            "time": "2023-02-14T18:59:42+00:00"
+            "time": "2023-02-16T20:32:33+00:00"
         },
         {
             "name": "psr/container",

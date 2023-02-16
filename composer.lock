@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2a800f0fdfec93c6d77f6458060360cb",
+    "packages": [
+        {
+            "name": "sva/print",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/WebDev2030/print.git",
+                "reference": "9084dacfd844da9a361265caee0b715693ef0eb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/WebDev2030/print/zipball/9084dacfd844da9a361265caee0b715693ef0eb9",
+                "reference": "9084dacfd844da9a361265caee0b715693ef0eb9",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sva\\Print\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Vyacheslav Shevchenko",
+                    "email": "webdev2030@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/WebDev2030/print/issues",
+                "source": "https://github.com/WebDev2030/print/tree/v1.0.3"
+            },
+            "time": "2023-02-16T12:15:52+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
+}

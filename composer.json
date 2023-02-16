@@ -1,0 +1,13 @@
+{
+    "name": "sva/hw4",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vyacheslav Shevchenko",
+            "email": "webdev2030@gmail.com"
+        }
+    ],
+    "require": {
+        "sva/print": "^1.0"
+    }
+}

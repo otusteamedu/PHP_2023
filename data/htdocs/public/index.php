@@ -4,7 +4,7 @@ require __DIR__.'/../vendor/autoload.php';
 ini_set('display_errors', 1);
 
 $memcache = new \Memcached();
-$memcache->addServer('memcached', 11211, 1000);
+$memcache->addServer('repcached', 11211, 1000);
 $key = 'server';
 
 $arServers = $memcache->get($key);

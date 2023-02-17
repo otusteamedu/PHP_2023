@@ -90,6 +90,28 @@ services:
         networks:
             - app-network
 
+    repcached:
+        build:
+            context: ./repcached
+            dockerfile: Dockerfile
+        image: myapp/repcached
+        container_name: repcached
+        environment:
+            - SLAVE=repcached2
+        networks:
+            - app-network
+
+    repcached2:
+        build:
+            context: ./repcached
+            dockerfile: Dockerfile
+        image: myapp/repcached
+        container_name: repcached2
+        environment:
+            - SLAVE=repcached
+        networks:
+            - app-network
+
     postgres:
         build:
             context: ./postgresql
@@ -101,9 +123,9 @@ services:
         networks:
             - app-network
         environment:
-            - POSTGRES_USER:${POSTGRES_USER}
-            - POSTGRES_PASSWORD:${POSTGRES_PASSWORD}
-            - POSTGRES_DB:${POSTGRES_DB}
+            - POSTGRES_USER=${POSTGRES_USER}
+            - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+            - POSTGRES_DB=${POSTGRES_DB}
         volumes:
             - ./data/postgresql/:/var/lib/postgresql/data
 

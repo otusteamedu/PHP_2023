@@ -10,7 +10,7 @@ services:
         ports:
             - ${WEB_PORT}:80
         volumes:
-            - ./data/htdocs:/data/mysite.local
+            - ./data/htdocs:/data/default
             - ./data/log/nginx:/var/log/nginx
             - ./data/phpsocket:/var/run
         networks:
@@ -23,7 +23,7 @@ services:
         image: myapp/app
         container_name: app
         volumes:
-            - ./data/htdocs:/data/mysite.local
+            - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php
             - ./data/phpsocket:/var/run
         networks:

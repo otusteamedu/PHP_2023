@@ -1,6 +1,6 @@
 FROM nginx
 
-COPY ./mysite.local.conf /etc/nginx/conf.d/mysite.local.conf
+COPY ./default.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /data
 

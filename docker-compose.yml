@@ -16,12 +16,51 @@ services:
         networks:
             - app-network
 
-    app:
+    app1:
         build:
             context: ./app
             dockerfile: Dockerfile
         image: myapp/app
-        container_name: app
+        container_name: app1
+        volumes:
+            - ./data/htdocs:/data/default
+            - ./data/log/php:/var/log/php
+            - ./data/phpsocket:/var/run
+        networks:
+            - app-network
+
+    app2:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        image: myapp/app
+        container_name: app2
+        volumes:
+            - ./data/htdocs:/data/default
+            - ./data/log/php:/var/log/php
+            - ./data/phpsocket:/var/run
+        networks:
+            - app-network
+
+    app3:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        image: myapp/app
+        container_name: app3
+        volumes:
+            - ./data/htdocs:/data/default
+            - ./data/log/php:/var/log/php
+            - ./data/phpsocket:/var/run
+        networks:
+            - app-network
+
+    app4:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        image: myapp/app
+        container_name: app4
         volumes:
             - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php

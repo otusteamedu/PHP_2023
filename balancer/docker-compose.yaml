@@ -23,8 +23,13 @@ services:
       dockerfile: Dockerfile
     image: balance/php
     container_name: app1
+    environment:
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_DATABASE: '${DB_DATABASE}'
     volumes:
        - ./project:/data/application.local
+       - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
     networks:
       - otus-network
 
@@ -34,8 +39,31 @@ services:
       dockerfile: Dockerfile
     image: balance/php
     container_name: app2
+    environment:
+      DB_USERNAME: '${DB_USERNAME}'
+      DB_PASSWORD: '${DB_PASSWORD}'
+      DB_DATABASE: '${DB_DATABASE}'
     volumes:
       - ./project:/data/application.local
+      - ./fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
+    networks:
+      - otus-network
+
+  postgres:
+    image: postgres
+    container_name: otus-postgres
+    environment:
+      POSTGRES_USER: '${DB_USERNAME}'
+      POSTGRES_PASSWORD: '${DB_PASSWORD}'
+      POSTGRES_DB: '${DB_DATABASE}'
+    volumes:
+      - ../db-data:/var/lib/postgresql/data
+    networks:
+      - otus-network
+
+  memcache:
+    image: memcached
+    container_name: otus-memcached
     networks:
       - otus-network
 

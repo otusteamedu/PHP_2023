@@ -17,6 +17,32 @@ services:
     networks:
       - otus-network
 
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx1
+    volumes:
+      - ./project:/data/application.local
+      - ./nginx/hosts/nginx1.conf:/etc/nginx/conf.d/nginx1.conf
+      - ../logs:/var/log/nginx/application
+    networks:
+      - otus-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx
+    container_name: nginx2
+    volumes:
+      - ./project:/data/application.local
+      - ./nginx/hosts/nginx2.conf:/etc/nginx/conf.d/nginx2.conf
+      - ../logs:/var/log/nginx/application
+    networks:
+      - otus-network
+
   app1:
     build:
       context: ./fpm

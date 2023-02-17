@@ -12,7 +12,9 @@ session_start();
         <?php
         $br = '<br>';
         echo "Привет, Otus!" . $br . date("Y-m-d H:i:s") . $br . $br;
-        echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . $br;
+        echo "Запрос обработал контейнер app: " . $_SERVER['HOSTNAME'] . $br;
+        echo $br;
+        echo "Запрос обработал контейнер nginx: " . $_SERVER['SERVER_NAME'] . $br;
         echo $br;
         echo "Проверка соединения с postgres:" . $br;
         echo "Создание таблицы test и вывод списка table-column:" . $br;

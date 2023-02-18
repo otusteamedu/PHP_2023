@@ -40,7 +40,6 @@ class App
         $counter = 0;
 
         foreach ($brackets as $bracket) {
-
             if ($bracket == '(') {
                 $counter++;
             }

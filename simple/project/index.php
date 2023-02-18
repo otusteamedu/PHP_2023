@@ -11,10 +11,7 @@ try {
 
     header('HTTP/1.1 200 OK');
     echo $result . PHP_EOL;
-
 } catch (BadRequestException $e) {
-
     header('HTTP/1.1 400 Bad Request');
     echo $e->getMessage() . PHP_EOL;
-
 }

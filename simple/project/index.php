@@ -2,6 +2,11 @@
 
 require 'autoload.php';
 
+use src\Validator;
+use src\Request;
+use src\App;
+use src\BadRequestException;
+
 $validator = new Validator();
 $request = new Request($_POST, $_SERVER['REQUEST_METHOD']);
 

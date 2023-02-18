@@ -1,7 +1,3 @@
-# PHP_2023 HW5 Email Validator
+# PHP_2023
 
-How to run:
-1. Clone repo
-2. Run `make`
-3. Change email list in `public/index.php`
-4. Run `make start`
+https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus

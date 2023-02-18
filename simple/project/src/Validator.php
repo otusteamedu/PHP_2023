@@ -8,7 +8,7 @@ class Validator
 {
     private ?string $error = null;
 
-    public function validate (Request $request): bool
+    public function validate(Request $request): bool
     {
         if (!$request->isPost()) {
             $this->error = "Warning! POST method expected";

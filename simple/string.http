@@ -1,0 +1,9 @@
+
+
+### Send POST request for check string
+POST http://application.local
+Host: fgf.ru
+Content-Type: application/x-www-form-urlencoded
+
+string=(()()()()))((((()()()))(()()()(((()))))))
+

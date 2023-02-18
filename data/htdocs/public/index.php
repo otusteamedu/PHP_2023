@@ -2,9 +2,9 @@
 require __DIR__.'/../vendor/autoload.php';
 
 ini_set('display_errors', 1);
-
+/** part2 **/
 $memcache = new \Memcached();
-$memcache->addServer('repcached', 11211, 1000);
+$memcache->addServer('repcached2', 11211, 1000);
 $key = 'server';
 
 $arServers = $memcache->get($key);
@@ -15,12 +15,15 @@ if(!$arServers) {
     $arServers = json_decode($arServers, true);
 }
 
+$arServers[] = $_SERVER['HOSTNAME'];
 $arServers = array_unique($arServers);
+
 var_dump($arServers);
 
-$arServers[] = $_SERVER['HOSTNAME'];
 $memcache->set($key, json_encode($arServers));
 
+
+/** part1 **/
 if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
     $incomingStr = $_POST['string'];
     $pattern = '(()()()()))((((()()()))(()()()(((()))))))';
@@ -45,7 +48,5 @@ if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
         http_response_code(400);
         echo $e->getMessage();
     }
-
-
 }
 

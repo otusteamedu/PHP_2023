@@ -1,0 +1,18 @@
+{
+    "name": "builov/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Builov\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "builov",
+            "email": "builov@inbox.ru"
+        }
+    ],
+    "require": {
+        "builov/cyrillic-remover": "^1.0"
+    }
+}

@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e9b30c770d4f5587476d14d3d80aea85",
+    "packages": [
+        {
+            "name": "builov/cyrillic-remover",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/builov/cyrillic-remover.git",
+                "reference": "6ae240b1a849d72b686f7ad5e82e7db2f914671d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/builov/cyrillic-remover/zipball/6ae240b1a849d72b686f7ad5e82e7db2f914671d",
+                "reference": "6ae240b1a849d72b686f7ad5e82e7db2f914671d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Builov\\CyrillicRemover\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "n",
+            "support": {
+                "issues": "https://github.com/builov/cyrillic-remover/issues",
+                "source": "https://github.com/builov/cyrillic-remover/tree/v1.0.1"
+            },
+            "time": "2023-02-18T16:23:00+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

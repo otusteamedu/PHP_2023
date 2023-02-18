@@ -1,0 +1,40 @@
+version: '3.2'
+
+services:
+  nginx:
+    build: ./docker/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/www/application.local
+    networks:
+      - my-network
+  php:
+    build: ./docker/php
+    container_name: php
+    volumes:
+      - ./www:/www/application.local
+    networks:
+      - my-network
+  postgres:
+    image: postgres:15.1-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"
+    networks:
+      - my-network
+  redis:
+    image: redis:7.0-alpine
+    container_name: redis
+  memcached:
+    image: memcached:1.6.18-alpine
+    container_name: memcached
+
+networks:
+  my-network:
+    driver: bridge

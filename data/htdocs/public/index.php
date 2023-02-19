@@ -1,8 +1,11 @@
 <?php
 
+ini_set('display_errors', 1);
+
+session_start();
+
 require __DIR__ . '/../vendor/autoload.php';
 
-ini_set('display_errors', 1);
 /** part2 **/
 $memcache = new \Memcached();
 $memcache->addServer('repcached2', 11211, 1000);

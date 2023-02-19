@@ -10,7 +10,7 @@ $key = 'server';
 
 $arServers = $memcache->get($key);
 
-if(!$arServers) {
+if (!$arServers) {
     $arServers = [];
 } else {
     $arServers = json_decode($arServers, true);
@@ -25,7 +25,7 @@ $memcache->set($key, json_encode($arServers));
 
 
 /** part1 **/
-if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
+if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
     $incomingStr = $_POST['string'];
     $pattern = '(()()()()))((((()()()))(()()()(((()))))))';
     $openCnt = substr_count($pattern, '(');
@@ -36,11 +36,11 @@ if(strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
             throw new Exception('Строка пустая');
         }
 
-        if($openCnt != substr_count($incomingStr, '(')) {
+        if ($openCnt != substr_count($incomingStr, '(')) {
             throw new Exception('Количество открытых скобок не верное');
         }
 
-        if($closeCnt != substr_count($incomingStr, ')')) {
+        if ($closeCnt != substr_count($incomingStr, ')')) {
             throw new Exception('Количество закрытых скобок не верное');
         }
 

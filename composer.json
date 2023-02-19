@@ -1,0 +1,20 @@
+{
+    "name": "twent/hw6",
+    "description": "Solution for Leetcode task \"Merge Two Sorted Lists\"",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Twent\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "twent",
+            "email": "i@twent.ru"
+        }
+    ],
+    "require": {},
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*"
+    }
+}

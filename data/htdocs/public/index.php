@@ -50,4 +50,3 @@ if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {
         echo $e->getMessage();
     }
 }
-

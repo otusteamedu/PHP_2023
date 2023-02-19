@@ -2,7 +2,7 @@ version: '3.2'
 
 services:
   nginx:
-    build: ./docker/nginx
+    build: .
     container_name: nginx
     ports:
       - "80:80"
@@ -11,7 +11,7 @@ services:
     networks:
       - my-network
   php:
-    build: ./docker/php
+    build: .
     container_name: php
     volumes:
       - ./www:/www/application.local

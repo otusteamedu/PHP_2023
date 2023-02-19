@@ -8,7 +8,7 @@ final class ListNode
 {
     public function __construct(
         public int $val = 0,
-        public ?int $next = null
+        public ?self $next = null
     ) {
     }
 }

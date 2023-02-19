@@ -58,6 +58,8 @@ services:
             - repcached
         image: myapp/app
         container_name: app1
+        environment:
+            - MEMCACHED_HOST=repcached
         volumes:
             - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php
@@ -72,6 +74,8 @@ services:
             -   repcached2
         image: myapp/app
         container_name: app2
+        environment:
+            - MEMCACHED_HOST=repcached2
         volumes:
             - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php

@@ -8,6 +8,9 @@ require __DIR__ . '/../vendor/autoload.php';
 
 /** part2 **/
 $memcache = new \Memcached();
+
+echo $_ENV['MEMCACHED_HOST'];
+
 $memcache->addServer('repcached2', 11211, 1000);
 $key = 'server';
 
@@ -22,10 +25,10 @@ if (!$arServers) {
 $arServers[] = $_SERVER['HOSTNAME'];
 $arServers = array_unique($arServers);
 
+var_dump($_SERVER['HOSTNAME']);
 var_dump($arServers);
 
 $memcache->set($key, json_encode($arServers));
-
 
 /** part1 **/
 if (strtolower($_SERVER['REQUEST_METHOD']) == 'post') {

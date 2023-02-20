@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3cada371088ce4b6ee812db42df180d5",
+    "content-hash": "07f65255d97852f17c9308f20e5d79ea",
     "packages": [
         {
             "name": "graywolfy/otus-composer-package",
-            "version": "v1.0.2",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/GrayWolfy/otus-composer-package.git",
-                "reference": "774ed9a1e7fff0e0cea79dfb0c35722fc2476e07"
+                "reference": "90ba59cbfd81c98068a130428c0aaa603eb40f38"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/GrayWolfy/otus-composer-package/zipball/774ed9a1e7fff0e0cea79dfb0c35722fc2476e07",
-                "reference": "774ed9a1e7fff0e0cea79dfb0c35722fc2476e07",
+                "url": "https://api.github.com/repos/GrayWolfy/otus-composer-package/zipball/90ba59cbfd81c98068a130428c0aaa603eb40f38",
+                "reference": "90ba59cbfd81c98068a130428c0aaa603eb40f38",
                 "shasum": ""
             },
             "type": "library",
@@ -35,9 +35,9 @@
             ],
             "support": {
                 "issues": "https://github.com/GrayWolfy/otus-composer-package/issues",
-                "source": "https://github.com/GrayWolfy/otus-composer-package/tree/v1.0.2"
+                "source": "https://github.com/GrayWolfy/otus-composer-package/tree/v1.0.3"
             },
-            "time": "2023-02-14T20:15:18+00:00"
+            "time": "2023-02-20T19:45:14+00:00"
         }
     ],
     "packages-dev": [],

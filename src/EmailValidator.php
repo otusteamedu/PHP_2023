@@ -15,7 +15,7 @@ final class EmailValidator
      * @throws NotValidEmailString
      * @throws MxRecordNotExists
      */
-    public static function handle(string ...$emails): bool
+    public function handle(string ...$emails): void
     {
         foreach ($emails as $email) {
             $email = trim(htmlspecialchars($email));
@@ -24,34 +24,31 @@ final class EmailValidator
                 throw new EmptyEmailString();
             }
 
-            self::checkSyntax($email);
-            self::checkMxRecord($email);
-        }
+            if (! $this->checkSyntax($email)) {
+                throw new NotValidEmailString($email);
+            }
 
-        return true;
+            [$username, $domain] = explode('@', $email);
+
+            if (! $this->checkMxRecord($domain)) {
+                throw new MxRecordNotExists($domain);
+            }
+        }
     }
 
-    /**
-     * @throws NotValidEmailString
-     */
-    public static function checkSyntax(string $email): bool
+    private function checkSyntax(string $email): bool
     {
         if (! filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new NotValidEmailString($email);
+            return false;
         }
 
         return true;
     }
 
-    /**
-     * @throws MxRecordNotExists
-     */
-    public static function checkMxRecord(string $email): bool
+    private function checkMxRecord(string $domain): bool
     {
-        [$username, $domain] = explode('@', $email);
-
         if (! checkdnsrr($domain)) {
-            throw new MxRecordNotExists($domain);
+            return false;
         }
 
         return true;

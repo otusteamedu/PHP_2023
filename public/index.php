@@ -12,7 +12,7 @@ $emailList = [
 ];
 
 try {
-    EmailValidator::handle(...$emailList);
+    (new EmailValidator())->handle(...$emailList);
     echo 'Переданный/ые email корректен/ны' . PHP_EOL;
 } catch (Throwable $e) {
     echo $e->getMessage() . PHP_EOL;

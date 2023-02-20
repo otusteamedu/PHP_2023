@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Twent\EmailValidator\Exceptions;
 
-use Exception;
+use InvalidArgumentException;
 use Throwable;
 
-final class NotValidEmailString extends Exception
+final class NotValidEmailString extends InvalidArgumentException
 {
     public function __construct(string $message = "", int $code = 400, ?Throwable $previous = null)
     {

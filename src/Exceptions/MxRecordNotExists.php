@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Twent\EmailValidator\Exceptions;
 
-use Exception;
+use InvalidArgumentException;
 use Throwable;
 
-final class MxRecordNotExists extends Exception
+final class MxRecordNotExists extends InvalidArgumentException
 {
     public function __construct(string $message = "", int $code = 400, ?Throwable $previous = null)
     {

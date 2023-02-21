@@ -8,11 +8,11 @@ use Twent\EmailValidator\EmailValidator;
 
 $emailList = [
     'mail@example.com',
-    'help@otus.ru'
+    'help@otus.ru',
 ];
 
 try {
-    (new EmailValidator())->handle(...$emailList);
+    (new EmailValidator($emailList))->handle();
     echo 'Переданный/ые email корректен/ны' . PHP_EOL;
 } catch (Throwable $e) {
     echo $e->getMessage() . PHP_EOL;

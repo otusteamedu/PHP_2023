@@ -1,0 +1,28 @@
+{
+    "name": "twent/hw5",
+    "description": "Email Validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Twent\\EmailValidator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "twent",
+            "email": "i@twent.ru"
+        }
+    ],
+    "require": {
+        "php": ">=8.1"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "3.*",
+        "nunomaduro/phpinsights": "2.*"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

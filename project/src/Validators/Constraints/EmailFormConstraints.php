@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vp\App\Validators\Constraints;
@@ -11,7 +12,7 @@ class EmailFormConstraints
     {
         return new Assert\Collection([
             'email' => [
-                new Assert\NotBlank(null, null, null,'trim'),
+                new Assert\NotBlank(null, null, null, 'trim'),
                 new Assert\Type('string'),
                 new Assert\Email()
             ]

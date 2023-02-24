@@ -1,5 +1,6 @@
 /.idea
 /db-data
 /vendor
+/project/vendor
 
 .env

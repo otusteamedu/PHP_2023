@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus-nginx
+    ports:
+      - '${APP_PORT}:80'
+    volumes:
+      - ./project:/data/application.local
+      - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./logs:/var/log/nginx/application
+      - socket:/socket
+    networks:
+      - otus-network
+    links:
+      - php
+
+  php:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus-php
+    volumes:
+      - ./project:/data/application.local
+      - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
+      - socket:/socket
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
+
+volumes:
+  socket:

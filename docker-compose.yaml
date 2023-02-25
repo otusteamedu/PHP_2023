@@ -39,9 +39,9 @@ services:
       context: ./postgres
     container_name: postgresql
     environment:
-      POSTGRES_DB: "app_db"
-      POSTGRES_USER: "postgres"
-      POSTGRES_PASSWORD: "password"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
     volumes:
       - ./postgres/data:/var/lib/postgresql/data
     networks:

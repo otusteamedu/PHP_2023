@@ -1,0 +1,106 @@
+version: "3.8"
+
+services:
+  nginx-balancer:
+    container_name: nginx-balancer
+    build:
+      context: docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/logs/balancer:/var/log/nginx/
+    networks:
+      - hw4-network
+    depends_on:
+      - nginx1
+      - nginx2
+
+  nginx1:
+    container_name: nginx1
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www/html/application.local
+      - ./docker/logs/nginx1:/var/log/nginx/
+      - fpm-socket1:/run/php-fpm1/
+      - fpm-socket2:/run/php-fpm2/
+    networks:
+      - hw4-network
+    depends_on:
+      - php-fpm1
+
+  nginx2:
+    container_name: nginx2
+    build:
+      context: docker/nginx
+    volumes:
+      - ./:/var/www/html/application.local
+      - ./docker/logs/nginx2:/var/log/nginx/
+      - fpm-socket2:/run/php-fpm2/
+      - fpm-socket1:/run/php-fpm1/
+    networks:
+      - hw4-network
+    depends_on:
+      - php-fpm2
+
+  php-fpm1:
+    container_name: php-fpm1
+    build:
+      context: docker/php-fpm
+      args:
+        MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
+        MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
+    env_file: .env
+    volumes:
+      - .:/var/www/html/application.local
+      - ./docker/logs/php-fpm1:/var/log/fpm-php.www.log
+      - fpm-socket1:/run
+    networks:
+      - hw4-network
+    depends_on:
+      - memcached1
+
+  php-fpm2:
+    container_name: php-fpm2
+    build:
+      context: docker/php-fpm
+      args:
+        MEMCACHED_USERNAME: ${MEMCACHED_USERNAME}
+        MEMCACHED_PASSWORD: ${MEMCACHED_PASSWORD}
+    env_file: .env
+    volumes:
+      - .:/var/www/html/application.local
+      - ./docker/logs/php-fpm2:/var/log/fpm-php.www.log
+      - fpm-socket2:/run
+    networks:
+      - hw4-network
+    depends_on:
+      - memcached2
+
+  memcached1:
+    container_name: memcached1
+    image: 'bitnami/memcached:latest'
+    env_file:
+      - .env
+    ports:
+      - "11211"
+    networks:
+      - hw4-network
+
+  memcached2:
+    container_name: memcached2
+    image: 'bitnami/memcached:latest'
+    env_file:
+      - .env
+    ports:
+      - "11211"
+    networks:
+      - hw4-network
+
+volumes:
+  fpm-socket1:
+  fpm-socket2:
+  db-data:
+
+networks:
+  hw4-network:

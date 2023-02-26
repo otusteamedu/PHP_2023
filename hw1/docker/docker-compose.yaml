@@ -1,0 +1,72 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./../src:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: otus/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+      - ./../src:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: otus/redis
+    container_name: redis
+    volumes:
+      - ./redis:/data
+    networks:
+      - app-network
+
+  memcached:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: otus/memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+  postgresql:
+    build:
+      context: ./postgresql
+      dockerfile: Dockerfile
+    image: otus/postgresql
+    container_name: postgresql
+    volumes:
+      - ./postgresql:/var/lib/postgresql
+    environment:
+      - POSTGRES_DB={DB_NAME}
+      - POSTGRES_USER={DB_USER}
+      - POSTGRES_PASSWORD={DB_PASSWORD}
+    networks:
+      - app-network
+    #Docker Networks
+networks:
+  app-network:
+    driver: bridge

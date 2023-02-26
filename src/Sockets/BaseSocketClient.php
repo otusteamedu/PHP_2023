@@ -33,7 +33,7 @@ abstract class BaseSocketClient implements SocketClientContract
     public function getSocket(): ?Socket
     {
         if (! static::$socket) {
-            static::$socket = @socket_create(AF_UNIX, SOCK_STREAM, 0);
+            static::$socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         }
 
         if (static::$socket === false) {
@@ -48,7 +48,7 @@ abstract class BaseSocketClient implements SocketClientContract
      */
     public function connect(): ?bool
     {
-        $result = @socket_connect($this->getSocket(), $this->config->get('socket_path'));
+        $result = socket_connect($this->getSocket(), $this->config->get('socket_path'));
 
         $this->throwIfFalse($result);
 
@@ -60,7 +60,7 @@ abstract class BaseSocketClient implements SocketClientContract
      */
     public function read(): ?string
     {
-        $result = @socket_read($this->getSocket(), 100000);
+        $result = socket_read($this->getSocket(), 100000);
 
         $this->throwIfFalse($result);
 
@@ -72,7 +72,7 @@ abstract class BaseSocketClient implements SocketClientContract
      */
     public function write(string $data): ?int
     {
-        $result = @socket_write($this->getSocket(), $data, strlen($data));
+        $result = socket_write($this->getSocket(), $data, strlen($data));
 
         $this->throwIfFalse($result);
 

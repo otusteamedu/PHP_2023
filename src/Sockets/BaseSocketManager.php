@@ -22,7 +22,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
 
     public function read(?Socket $socket = null): ?string
     {
-        $result = @socket_read(! $socket ? $this->getSocket() : $socket, 100000);
+        $result = socket_read(! $socket ? $this->getSocket() : $socket, 100000);
 
         $this->throwIfFalse($result);
 
@@ -31,7 +31,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
 
     public function write(string $data, ?Socket $socket = null): ?int
     {
-        $result = @socket_write(! $socket ? $this->getSocket() : $socket, $data, strlen($data));
+        $result = socket_write(! $socket ? $this->getSocket() : $socket, $data, strlen($data));
 
         $this->throwIfFalse($result);
 
@@ -44,7 +44,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
     public function select(array &$read): ?int
     {
         [$write , $except] = null;
-        $result = @socket_select($read, $write, $except, null);
+        $result = socket_select($read, $write, $except, null);
 
         $this->throwIfFalse($result);
 
@@ -56,7 +56,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
      */
     public function accept(): ?Socket
     {
-        $result = @socket_accept($this->getSocket());
+        $result = socket_accept($this->getSocket());
 
         $this->throwIfFalse($result);
 
@@ -80,7 +80,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
     {
         $unixSocket = new UnixSocket($this->config->get('socket_path'));
 
-        $result = @socket_bind($this->getSocket(), (string) $unixSocket);
+        $result = socket_bind($this->getSocket(), (string) $unixSocket);
 
         $this->throwIfFalse($result);
     }
@@ -90,7 +90,7 @@ abstract class BaseSocketManager extends BaseSocketClient implements SocketManag
      */
     protected function listen(): bool
     {
-        $result = @socket_listen($this->getSocket(), intval($this->config->get('max_clients')));
+        $result = socket_listen($this->getSocket(), intval($this->config->get('max_clients')));
 
         $this->throwIfFalse($result);
 

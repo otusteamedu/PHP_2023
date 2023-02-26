@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  php-socket-server:
+    image: php-socket-server
+    build:
+      context: docker/php
+    container_name: php-socket-server
+    env_file: .env
+    volumes:
+      - .:/var/www/html/application.local
+      - unix-socket-dir:${UNIX_SOCKET_DIR:-/run}
+    networks:
+      - hw8-network
+    entrypoint: php src/app.php server
+
+  php-socket-client:
+    image: php-socket-client
+    build:
+      context: docker/php
+    env_file: .env
+    volumes:
+      - .:/var/www/html/application.local
+      - unix-socket-dir:${UNIX_SOCKET_DIR:-/run}
+    networks:
+      - hw8-network
+    depends_on:
+      - php-socket-server
+    tty: true
+    stdin_open: true
+    entrypoint: php src/app.php client
+    deploy:
+      replicas: 3
+
+volumes:
+  unix-socket-dir:
+
+networks:
+  hw8-network:

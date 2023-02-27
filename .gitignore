@@ -1,0 +1,6 @@
+.idea
+.code
+.env
+composer.lock
+unix_socket.ini
+vendor

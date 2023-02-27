@@ -15,6 +15,7 @@ services:
       - "80:80"
     volumes:
        - ./code:/data/mysite.local
+       - php-fpm-socket:/var/run/php-socket
     networks:
       - app-network
 

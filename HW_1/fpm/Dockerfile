@@ -20,5 +20,6 @@ COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 WORKDIR /data
 
 VOLUME /data
+VOLUME /var/run/php-socket/php-fpm.sock
 
 CMD ["php-fpm"]

@@ -36,9 +36,7 @@ abstract class BaseSocketClient implements SocketClientContract
             static::$socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         }
 
-        if (static::$socket === false) {
-            throw new UnixSocketError($this->getErrorMessage());
-        }
+        $this->throwIfFalse(static::$socket);
 
         return static::$socket;
     }

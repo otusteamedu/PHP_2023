@@ -18,7 +18,7 @@ final class UnixSocketConfig implements Config
         private readonly string $path = __DIR__ . '/../../unix_socket.ini'
     ) {
         if (! file_exists($this->path)) {
-            throw new Exception('config.ini не найден.');
+            throw new Exception('unix_socket.ini не найден.');
         }
 
         $this->data = parse_ini_file($this->path);

@@ -19,7 +19,7 @@ final class App
      */
     public function __construct()
     {
-        if (! isset($_SERVER['argv']) && count($_SERVER['argv']) !== 2) {
+        if (! isset($_SERVER['argv']) || count($_SERVER['argv']) !== 2) {
             throw new Exception('Передано неверное кол-во агрументов!');
         }
 
@@ -30,6 +30,8 @@ final class App
         }
 
         $this->mode = $mode;
+
+        set_error_handler(fn () => true);
     }
 
     /**
@@ -37,7 +39,11 @@ final class App
      */
     public function run(): void
     {
-        $this->getInstance()->run();
+        $server = $this->getInstance();
+
+        foreach ($server->run() as $line) {
+            echo $line;
+        }
     }
 
     private function getInstance(): ServerContract

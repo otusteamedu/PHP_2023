@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twent\Chat\Servers;
 
+use Generator;
 use Twent\Chat\Servers\Contracts\ServerContract;
 use Twent\Chat\Sockets\BaseSocketClient;
 use Twent\Chat\Sockets\BaseSocketManager;
@@ -26,13 +27,13 @@ final class Client extends BaseServer
         return self::$instance;
     }
 
-    public function run(): void
+    public function run(): Generator
     {
         while (true) {
-            echo 'Введите сообщение: ';
+            yield 'Введите сообщение: ';
             $message = fgets(fopen('php://stdin', 'r'));
             $this->socketManager->write($message);
-            echo $this->socketManager->read();
+            yield $this->socketManager->read();
         }
     }
 }

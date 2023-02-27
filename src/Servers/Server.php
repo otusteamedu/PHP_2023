@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Twent\Chat\Servers;
 
+use Generator;
 use Twent\Chat\Servers\Contracts\ServerContract;
 use Twent\Chat\Sockets\BaseSocketClient;
 use Twent\Chat\Sockets\BaseSocketManager;
@@ -30,7 +31,7 @@ final class Server extends BaseServer
         return self::$instance;
     }
 
-    public function run(): void
+    public function run(): Generator
     {
         while (true) {
             $connects = $this->connects;
@@ -49,7 +50,8 @@ final class Server extends BaseServer
                     // добавляем в список для обработки
                     $this->connects[] = $connect;
                     $key = array_search($connect, $this->connects) + 1;
-                    echo "Клиент {$key} подключен\n";
+                    yield "Клиент {$key} подключен\n";
+                    yield 'Подключено клиентов: ' . count($this->connects) . PHP_EOL;
                 }
 
                 unset($connects[array_search($this->socket, $connects)]);
@@ -62,16 +64,16 @@ final class Server extends BaseServer
 
                 if (! $message) {
                     // соединение было закрыто
-                    echo "Клиент {$key} отключен.\n";
+                    yield "Клиент {$key} отключен.\n";
                     $this->socketManager->close($connect);
                     unset($this->connects[array_search($connect, $this->connects)]);
-                    echo 'Подключено клиентов: ' . count($this->connects) . PHP_EOL;
+                    yield 'Подключено клиентов: ' . count($this->connects) . PHP_EOL;
                     break;
                 }
 
                 $bytes = strlen($message);
-                echo "Сообщение от клиента {$key}: {$message}";
-                echo $answer = "Размер сообщения: {$bytes} байт\n";
+                yield "Сообщение от клиента {$key}: {$message}";
+                yield $answer = "Размер сообщения: {$bytes} байт\n";
                 $this->socketManager->write($answer, $connect);
             }
 

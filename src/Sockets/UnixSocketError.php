@@ -14,6 +14,6 @@ final class UnixSocketError extends Exception
     public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);
-        $this->message = "Ошибка сокета: {$this->message}\n";
+        $this->message = "\nОшибка сокета: {$this->message}\n";
     }
 }

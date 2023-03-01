@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 
 COPY zz-docker.conf "$PHP_INI_DIR/../php-fpm.d/zz-docker.conf"
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY ./php-fpm1-pool.conf /usr/local/etc/php-fpm.d/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer self-update --2

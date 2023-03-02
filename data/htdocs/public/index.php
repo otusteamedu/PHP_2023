@@ -1,4 +1,7 @@
-<?php ini_set('display_errors', 1); require "../vendor/autoload.php";
+<?php
+
+ini_set('display_errors', 1);
+require "../vendor/autoload.php";
 
 $validator = new \Sva\EmailValidator();
 $separator = ',';

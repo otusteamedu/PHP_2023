@@ -1,0 +1,19 @@
+{
+    "name": "imitronov/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw4\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    },
+    "require": {
+        "php": "8.1.*",
+        "ext-mbstring": "*",
+        "php-di/php-di": "^7.0",
+        "bramus/router": "~1.6"
+    }
+}

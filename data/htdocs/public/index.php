@@ -7,6 +7,7 @@ $validator = new \Sva\EmailValidator();
 $separator = ',';
 
 $input = file_get_contents('php://input');
+$input = htmlspecialchars($input);
 $emails = explode($separator, $input);
 
 $result = [];

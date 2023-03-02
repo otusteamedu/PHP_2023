@@ -24,6 +24,5 @@ RUN mkdir -p /home/$user/.composer
 WORKDIR /data
 
 VOLUME /data
-VOLUME /var/run/php-fpm.sock
 
 CMD ["php-fpm"]

@@ -16,7 +16,7 @@ class Validator
     private function validateIsString(): self
     {
         if (!is_string($this->string) || $this->string === '') {
-            throw new NotAStringException();
+            throw new NotAStringException('Error: Invalid input.');
         }
 
         return $this;
@@ -28,7 +28,7 @@ class Validator
         $close_count = substr_count($this->string, ')');
 
         if ($open_count !== $close_count) {
-            throw new InvalidCountException();
+            throw new InvalidCountException('Error: The number of opening and closing parentheses do not match.');
         }
 
         return $this;
@@ -44,7 +44,7 @@ class Validator
                 array_push($stack, '(');
             } elseif ($this->string[$i] === ')') {
                 if (empty($stack)) {
-                    throw new NotClosedExcaption();
+                    throw new NotClosedExcaption('Error: The parentheses are not correctly balanced.');
                 } else {
                     array_pop($stack);
                 }
@@ -52,7 +52,7 @@ class Validator
         }
 
         if (!empty($stack)) {
-            throw new NotClosedExcaption();
+            throw new NotClosedExcaption('Error: The parentheses are not correctly balanced.');
         }
 
         return $this;

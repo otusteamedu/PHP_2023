@@ -13,23 +13,20 @@ class Validator
     {
     }
 
-    private function validateIsString()
+    private function validateIsString(): self
     {
-        // Check if the input is valid
-        if (!$this->string || !is_string($this->string)) {
+        if (!is_string($this->string) || $this->string === '') {
             throw new NotAStringException();
         }
 
         return $this;
     }
 
-    private function validateCount()
+    private function validateCount(): self
     {
-// Count the number of open and closed parentheses
         $open_count = substr_count($this->string, '(');
         $close_count = substr_count($this->string, ')');
 
-// Check if the number of open and closed parentheses is equal
         if ($open_count !== $close_count) {
             throw new InvalidCountException();
         }
@@ -37,11 +34,12 @@ class Validator
         return $this;
     }
 
-    private function checkClosed()
+    private function checkClosed(): self
     {
-        // Check if the parentheses are correctly balanced
         $stack = [];
-        for ($i = 0; $i < strlen($this->string); $i++) {
+
+        $length = mb_strlen($this->string);
+        for ($i = 0; $i < $length; $i++) {
             if ($this->string[$i] === '(') {
                 array_push($stack, '(');
             } elseif ($this->string[$i] === ')') {
@@ -53,7 +51,6 @@ class Validator
             }
         }
 
-// If the stack is not empty, the parentheses are not balanced
         if (!empty($stack)) {
             throw new NotClosedExcaption();
         }
@@ -62,12 +59,11 @@ class Validator
     }
 
     /**
-     * @return true
      * @throws InvalidCountException
      * @throws NotAStringException
      * @throws NotClosedExcaption
      */
-    public function validate()
+    public function validate(): bool
     {
         $this->validateIsString()->validateCount()->checkClosed();
 

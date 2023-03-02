@@ -1,35 +1,23 @@
 <?php
 declare(strict_types=1);
 
-use Exceptions\InvalidCountException;
-use Exceptions\NotAStringException;
-use Exceptions\NotClosedExcaption;
 use Validator\Validator;
 
 class Controller
 {
     public function stringBalance(): void
     {
-        $validator = new Validator($_POST['string']);
-
         try {
-            $validator->validate();
-        } catch (InvalidCountException $e) {
-            http_response_code(400);
-            echo "Error: The number of opening and closing parentheses do not match.";
-            exit;
-        } catch (NotClosedExcaption $e) {
-            http_response_code(400);
-            echo "Error: The parentheses are not correctly balanced.";
-            exit;
-        } catch (NotAStringException $e) {
-            http_response_code(400);
-            echo "Error: Invalid input.";
-            exit;
-        } finally {
-            // If everything is fine, return 200 OK response
-            http_response_code(200);
-            echo "The string has correctly balanced parentheses.";
+            (new Validator($_POST['string']))->validate();
+            $this->sendResponse(200, 'The string has correctly balanced parentheses.');
+        } catch (Exception $e) {
+            $this->sendResponse(400, $e->getMessage());
         }
+    }
+
+    private function sendResponse(int $code, string $message): void
+    {
+        http_response_code($code);
+        echo 'Error: ' . $message;
     }
 }

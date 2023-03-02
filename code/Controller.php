@@ -18,6 +18,6 @@ class Controller
     private function sendResponse(int $code, string $message): void
     {
         http_response_code($code);
-        echo 'Error: ' . $message;
+        echo $message;
     }
 }

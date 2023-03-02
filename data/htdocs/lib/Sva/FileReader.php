@@ -4,7 +4,7 @@ namespace Sva;
 
 class FileReader
 {
-    function getLines($file): \Generator
+    public function getLines($file): \Generator
     {
         $f = fopen($file, 'r');
         try {

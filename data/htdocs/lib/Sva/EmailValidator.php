@@ -8,7 +8,7 @@ class EmailValidator
     {
         $result = false;
 
-        if($this->isValidFormat($email)) {
+        if ($this->isValidFormat($email)) {
             $result = $this->validateMx($email);
         }
 

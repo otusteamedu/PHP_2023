@@ -11,8 +11,6 @@ services:
       - '${NGINX_PORT}:80'
     volumes:
       - ./code:/data/mysite.local
-      - php-fpm-socket1:/var/run/php-fpm1.sock
-      - php-fpm-socket2:/var/run/php-fpm2.sock
     networks:
       - app-network
 
@@ -26,7 +24,6 @@ services:
       - '${NGINX_PORT_1}:80'
     volumes:
       - ./code:/data/mysite.local
-      - php-fpm-socket1:/var/run/php-fpm1.sock
     networks:
       - app-network
 
@@ -40,7 +37,6 @@ services:
       - '${NGINX_PORT_2}:80'
     volumes:
       - ./code:/data/mysite.local
-      - php-fpm-socket2:/var/run/php-fpm2.sock
     networks:
       - app-network
 
@@ -50,10 +46,11 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     container_name: app
+    environment:
+      FPM_HOST: app
+      FPM_PORT: 9000
     volumes:
       - ./code:/data/mysite.local
-      - php-fpm-socket1:/var/run/php-fpm-app1.sock
-      - php-fpm-socket2:/var/run/php-fpm-app2.sock
     networks:
       - app-network
 
@@ -63,10 +60,11 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     container_name: app2
+    environment:
+      FPM_HOST: app-2
+      FPM_PORT: 9000
     volumes:
       - ./code:/data/mysite.local
-      - php-fpm-socket1:/var/run/php-fpm-app1.sock
-      - php-fpm-socket2:/var/run/php-fpm-app2.sock
     networks:
       - app-network
 
@@ -91,10 +89,6 @@ services:
       - "11211:11211"
     networks:
       - app-network
-
-volumes:
-  php-fpm-socket1:
-  php-fpm-socket2:
 
 networks:
   app-network:

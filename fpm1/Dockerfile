@@ -14,7 +14,6 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
-COPY zz-docker.conf "$PHP_INI_DIR/../php-fpm.d/zz-docker.conf"
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 COPY ./php-fpm1-pool.conf /usr/local/etc/php-fpm.d/
 

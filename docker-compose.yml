@@ -54,6 +54,7 @@ services:
       - balancer
     volumes:
       - php_fpm_socket1:/var/run
+      - ./app:/var/www/app
 
   app2:
     build:

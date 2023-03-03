@@ -1,0 +1,6 @@
+.idea
+.code
+.editorconfig
+vendor
+docker/logs/**
+.env

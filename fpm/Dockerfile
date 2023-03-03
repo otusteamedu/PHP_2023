@@ -17,13 +17,16 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached \
      && pecl install redis && \
-        docker-php-ext-enable redis
+        docker-php-ext-enable redis \
+     && curl -sS https://getcomposer.org/installer | php \
+        && chmod +x composer.phar && mv composer.phar /usr/local/bin/composer
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
-WORKDIR /data
+WORKDIR /data/mysite.local
 
 VOLUME /data
 
+CMD bash -c "composer install"
 CMD ["php-fpm"]

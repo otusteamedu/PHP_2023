@@ -4,7 +4,8 @@ namespace Klobkovsky\Hw11;
 
 class DBConfig
 {
-    public static function getNormalizedParams($params) {
+    public static function getNormalizedParams($params)
+    {
         return [
             $params['host'],
             $params['user'],

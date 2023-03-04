@@ -1,5 +1,8 @@
 #!/bin/bash
 
+float1=`echo "$1" | sed 's/[.]/,/g'`
+float2=`echo "$2" | sed 's/[.]/,/g'`
+
 if [ $# -ne 2 ]; then
     echo "Error. Please provide two arguments."
     exit 1;
@@ -15,5 +18,6 @@ if ! [[ $2 =~ ^-?[0-9]+([.][0-9]+)?$ ]]; then
     exit 1;
 fi
 
-sum=$(echo "$1 + $2" | bc)
+sum=`echo "$float1 $float2" | awk '{ print $1 + $2 }' | sed 's/[,]/./g'`
+
 echo "$1 + $2" = $sum

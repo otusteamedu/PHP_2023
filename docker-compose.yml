@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+  app_hw1_1:
+    build:
+      args:
+        user: student
+        uid: 1000
+      context: ./deploy_hw1_1/fpm
+      dockerfile: Dockerfile
+    image: app_hw1_1/php
+    container_name: app_hw1_1
+    restart: on-failure
+    volumes:
+      - ./deploy_hw1_1/socket:/socket
+      - ./code:/var/www
+      - ./deploy_hw1_1/logs:/usr/local/var/log
+    networks:
+      - net_hw1_1
+#    depends_on:
+#      - db_hw1_1
+#      - redis_hw1_1
+
+  nginx_hw1_1:
+    build:
+      context: ./deploy_hw1_1/nginx
+      dockerfile: Dockerfile
+    image: nginx_hw1_1/nginx
+    container_name: nginx_hw1_1
+    restart: on-failure
+    ports:
+      - "8080:80"
+    volumes:
+      - ./deploy_hw1_1/socket:/socket
+      - ./code:/var/www
+    depends_on:
+      - app_hw1_1
+    healthcheck:
+      test: [ "CMD", "service", "nginx", "status" ]
+    networks:
+      - net_hw1_1
+
+networks:
+  net_hw1_1:
+    driver: bridge

@@ -1,0 +1,15 @@
+{
+    "name": "builov/hw6",
+    "description": "hw6",
+    "autoload": {
+        "psr-4": {
+            "Builov\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "builov"
+        }
+    ],
+    "require": {}
+}

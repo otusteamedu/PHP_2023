@@ -11,9 +11,9 @@ try {
     $validator->validate($email);
     
     echo sprintf('✅ "%s" валидный.', $email);
-} catch (EmptyEmailAddress $e) {
+} catch (EmptyEmailAddressException $e) {
     echo sprintf('❌ "%s" пустой.', $email);
-} catch (InvalidEmailAddress $e) {
+} catch (InvalidEmailAddressException $e) {
     echo sprintf('❌ "%s" невалидный.', $email);
 } catch (EmptyMxRecordsException $e) {
     echo sprintf('❌ "%s" без MX-записи.', $email);

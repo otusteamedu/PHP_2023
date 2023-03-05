@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw5;
 
-use Imitronov\Hw5\Exception\EmptyEmailAddress;
+use Imitronov\Hw5\Exception\EmptyEmailAddressException;
 use Imitronov\Hw5\Exception\EmptyMxRecordsException;
-use Imitronov\Hw5\Exception\InvalidEmailAddress;
+use Imitronov\Hw5\Exception\InvalidEmailAddressException;
 
 final class EmailValidator
 {
@@ -15,18 +15,18 @@ final class EmailValidator
 REGEXP;
 
     /**
-     * @throws InvalidEmailAddress
-     * @throws EmptyEmailAddress
+     * @throws InvalidEmailAddressException
+     * @throws EmptyEmailAddressException
      * @throws EmptyMxRecordsException
      */
     public function validate(string $emailAddress): void
     {
         if (empty(trim($emailAddress))) {
-            throw new EmptyEmailAddress();
+            throw new EmptyEmailAddressException();
         }
 
         if (!preg_match(self::REGEXP, $emailAddress)) {
-            throw new InvalidEmailAddress();
+            throw new InvalidEmailAddressException();
         }
 
         $host = mb_substr($emailAddress, mb_stripos($emailAddress, '@') + 1);

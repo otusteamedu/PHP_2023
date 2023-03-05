@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 use Imitronov\Hw5\EmailValidator;
-use Imitronov\Hw5\Exception\EmptyEmailAddress;
+use Imitronov\Hw5\Exception\EmptyEmailAddressException;
 use Imitronov\Hw5\Exception\EmptyMxRecordsException;
-use Imitronov\Hw5\Exception\InvalidEmailAddress;
+use Imitronov\Hw5\Exception\InvalidEmailAddressException;
 
 require __DIR__ . '/vendor/autoload.php';
 
@@ -26,9 +26,9 @@ foreach ($emails as $email) {
     try {
         $validator->validate($email);
         echo sprintf('✅ "%s" валидный.', $email) . PHP_EOL;
-    } catch (EmptyEmailAddress $e) {
+    } catch (EmptyEmailAddressException $e) {
         echo sprintf('❌ "%s" пустой.', $email) . PHP_EOL;
-    } catch (InvalidEmailAddress $e) {
+    } catch (InvalidEmailAddressException $e) {
         echo sprintf('❌ "%s" невалидный.', $email) . PHP_EOL;
     } catch (EmptyMxRecordsException $e) {
         echo sprintf('❌ "%s" без MX-записи.', $email) . PHP_EOL;

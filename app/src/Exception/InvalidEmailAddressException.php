@@ -4,6 +4,6 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw5\Exception;
 
-final class EmptyEmailAddress extends \Exception
+final class InvalidEmailAddressException extends \Exception
 {
 }

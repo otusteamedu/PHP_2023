@@ -2,11 +2,16 @@
 
 namespace Builov\Hw6;
 
+/**
+ * Основной метод класса принимает строку или ссылку на текстовый файл (возможны 3 режима: string', 'file_local', 'file_remote')
+ * и возвращает два массива подстрок:
+ * - соответствующие паттерну емейла и имеющие соответсвующую MX-запись
+ * - и соответствующие паттерну емейла, но не имеющие соответсвующей MX-записи
+ */
 class EmailValidator
 {
+    /** @var string паттерн емейла */
     private $pattern = "/[a-zA-Z0-9_\-.+]+@[a-zA-Z0-9-]+.[a-zA-Z]+/";
-    private $correct = [];
-    private $incorrect = [];
 
     /**
      * @param $src  //Источник данных
@@ -14,6 +19,8 @@ class EmailValidator
      * @return array[]  //Массивы валидных и невалидных адресов
      */
     public function validate($src, $mode = 'string') {
+        $correct = [];
+        $incorrect = [];
 
         switch ($mode) {
             case 'string':  //для валидации строк "на лету"
@@ -31,18 +38,19 @@ class EmailValidator
             preg_match_all($this->pattern, $line,$out, PREG_PATTERN_ORDER);
 
             foreach ($out[0] as $email) {
-
                 $hostname = explode("@", $email);
 
                 if (getmxrr($hostname[1],$hosts)) {
-                    echo $email . PHP_EOL;
+                    $correct[] = $email;
+                } else {
+                    $incorrect[] = $email;
                 }
             }
         }
 
         return [
-            'correct' => $this->correct,
-            'incorrect' => $this->incorrect
+            'correct' => $correct,
+            'incorrect' => $incorrect
         ];
     }
 

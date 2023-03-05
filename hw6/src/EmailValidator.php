@@ -18,7 +18,8 @@ class EmailValidator
      * @param $mode //Тип источника данных:'string', 'file_local', 'file_remote'
      * @return array[]  //Массивы валидных и невалидных адресов
      */
-    public function validate($src, $mode = 'string') {
+    public function validate($src, $mode = 'string')
+    {
         $correct = [];
         $incorrect = [];
 
@@ -35,12 +36,12 @@ class EmailValidator
         }
 
         foreach ($data as $line) {
-            preg_match_all($this->pattern, $line,$out, PREG_PATTERN_ORDER);
+            preg_match_all($this->pattern, $line, $out, PREG_PATTERN_ORDER);
 
             foreach ($out[0] as $email) {
                 $hostname = explode("@", $email);
 
-                if (getmxrr($hostname[1],$hosts)) {
+                if (getmxrr($hostname[1], $hosts)) {
                     $correct[] = $email;
                 } else {
                     $incorrect[] = $email;
@@ -55,15 +56,17 @@ class EmailValidator
     }
 
 
-    private function getFileLinesLocal($path) {
+    private function getFileLinesLocal($path)
+    {
 	    $file = fopen($path, 'r');
-	    while (($line = fgets($file)) !== false) {
-	        yield $line;
-	    }
-	    fclose($file);
-	}
+        while (($line = fgets($file)) !== false) {
+            yield $line;
+        }
+        fclose($file);
+    }
 
-    private function getFileLinesRemote($path) {
+    private function getFileLinesRemote($path)
+    {
         return file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     }
 

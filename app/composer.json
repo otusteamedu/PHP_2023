@@ -1,0 +1,20 @@
+{
+    "name": "imitronov/hw5",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan Mitronov",
+            "email": "imitronov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1",
+        "ext-mbstring": "*",
+        "ext-intl": "*"
+    }
+}

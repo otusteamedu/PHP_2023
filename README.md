@@ -7,15 +7,13 @@
 ```php
 $validator = new EmailValidator();
 
-try {
-    $validator->validate($email);
-    
-    echo sprintf('✅ "%s" валидный.', $email);
-} catch (EmptyEmailAddressException $e) {
-    echo sprintf('❌ "%s" пустой.', $email);
-} catch (InvalidEmailAddressException $e) {
-    echo sprintf('❌ "%s" невалидный.', $email);
-} catch (EmptyMxRecordsException $e) {
-    echo sprintf('❌ "%s" без MX-записи.', $email);
+foreach ($emails as $email) {
+    try {
+        $validator->validate($email);
+
+        echo sprintf('✅ "%s" валидный.', $email) . PHP_EOL;
+    } catch (ValidationException $e) {
+        echo sprintf('❌ "%s" - %s', $email, $e->getMessage()) . PHP_EOL;
+    }
 }
 ```

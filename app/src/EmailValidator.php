@@ -4,35 +4,31 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw5;
 
-use Imitronov\Hw5\Exception\EmptyEmailAddressException;
-use Imitronov\Hw5\Exception\EmptyMxRecordsException;
-use Imitronov\Hw5\Exception\InvalidEmailAddressException;
-
-final class EmailValidator
+final class EmailValidator implements Validator
 {
-    private const REGEXP = <<<REGEXP
-        #^[a-zа-я0-9!\#$%&'*+/=?^_‘{|}~-]+(?:\.[a-zа-я0-9!\#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-zа-я0-9](?:[a-zа-я0-9-]*[a-zа-я0-9])?\.)+[a-zа-я0-9](?:[a-zа-я0-9-]*[a-zа-я0-9])?$#u
+    private $notEmptyValidator;
+
+    private $regExMatchValidator;
+
+    private $dnsRecordExistsValidator;
+
+    public function __construct()
+    {
+        $regEx = <<<REGEXP
+        #^[a-zа-яA-ZА-Я0-9!\#$%&'*+/=?^_‘{|}~-]+(?:\.[a-zа-яA-ZА-Я0-9!\#$%&'*+/=?^_‘{|}~-]+)*@(?:[a-zа-яA-ZА-Я0-9](?:[a-zа-яA-ZА-Я0-9-]*[a-zа-яA-ZА-Я0-9])?\.)+[a-zа-яA-ZА-Я0-9](?:[a-zа-яA-ZА-Я0-9-]*[a-zа-яA-ZА-Я0-9])?$#u
 REGEXP;
 
-    /**
-     * @throws InvalidEmailAddressException
-     * @throws EmptyEmailAddressException
-     * @throws EmptyMxRecordsException
-     */
-    public function validate(string $emailAddress): void
+        $this->notEmptyValidator = new NotEmptyStringValidator();
+        $this->regExMatchValidator = new RegExMatchValidator($regEx);
+        $this->dnsRecordExistsValidator = new DnsRecordExistValidator('MX');
+    }
+
+    public function validate($value, $message = null): void
     {
-        if (empty(trim($emailAddress))) {
-            throw new EmptyEmailAddressException();
-        }
+        $this->notEmptyValidator->validate($value, $message);
+        $this->regExMatchValidator->validate($value, $message ?? 'Почта указана некорректно.');
 
-        if (!preg_match(self::REGEXP, $emailAddress)) {
-            throw new InvalidEmailAddressException();
-        }
-
-        $host = mb_substr($emailAddress, mb_stripos($emailAddress, '@') + 1);
-
-        if (!checkdnsrr(idn_to_ascii($host), 'MX')) {
-            throw new EmptyMxRecordsException();
-        }
+        $host = idn_to_ascii(mb_substr($value, mb_stripos($value, '@') + 1));
+        $this->dnsRecordExistsValidator->validate($host, $message);
     }
 }

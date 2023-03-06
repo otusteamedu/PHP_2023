@@ -1,0 +1,90 @@
+version: "3.7"
+
+services:
+  app_hw1_1:
+    build:
+      args:
+        user: student
+        uid: 1000
+      context: ./deploy_hw1_1/fpm
+      dockerfile: Dockerfile
+    image: app_hw1_1/php
+    container_name: app_hw1_1
+    restart: on-failure
+    volumes:
+      - ./deploy_hw1_1/socket:/socket
+      - ./code:/var/www
+      - ./deploy_hw1_1/logs:/usr/local/var/log
+    networks:
+      - net_hw1_1
+    depends_on:
+      - db_hw1_1
+      - redis_hw1_1
+      - memcached_hw1_1
+
+  nginx_hw1_1:
+    build:
+      context: ./deploy_hw1_1/nginx
+      dockerfile: Dockerfile
+    image: nginx_hw1_1/nginx
+    container_name: nginx_hw1_1
+    restart: on-failure
+    ports:
+      - '${FORWARD_NGINX_PORT:-8080}:80'
+    volumes:
+      - ./deploy_hw1_1/socket:/socket
+      - ./code:/var/www
+    depends_on:
+      - app_hw1_1
+    healthcheck:
+      test: [ "CMD", "service", "nginx", "status" ]
+    networks:
+      - net_hw1_1
+
+  db_hw1_1:
+      image: mysql:latest
+      container_name: db_hw1_1
+      restart: on-failure
+      ports:
+        - '${FORWARD_DB_PORT:-3306}:3306'
+      environment:
+        MYSQL_DATABASE: '${DB_DATABASE:-socket}'
+        MYSQL_ROOT_PASSWORD: '${DB_ROOT_PASSWORD:-superSecret}'
+        MYSQL_USER: '${DB_USER:-student}'
+        MYSQL_USER_PASSWORD: '${DB_PASSWORD:-password}'
+      volumes:
+        - db_hw1_1:/var/lib/mysql
+      networks:
+        - net_hw1_1
+      healthcheck:
+        test: [ "CMD", "mysqladmin", "ping" ]
+
+  redis_hw1_1:
+    image: 'redis:alpine'
+    container_name: redis_hw1_1
+    ports:
+      - '${FORWARD_REDIS_PORT:-6379}:6379'
+    volumes:
+      - redis:/data
+    networks:
+      - net_hw1_1
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+
+  memcached_hw1_1:
+    image: 'memcached:alpine'
+    container_name: memcached_hw1_1
+    ports:
+      - '${FORWARD_MEMCACHED_PORT:-11211}:11211'
+    networks:
+      - net_hw1_1
+
+networks:
+  net_hw1_1:
+    driver: bridge
+
+volumes:
+  db_hw1_1:
+    driver: local
+  redis:
+    driver: local

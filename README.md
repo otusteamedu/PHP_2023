@@ -1,3 +1,18 @@
-# PHP_2023
+# Получение названия месяца по его номеру
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Требования
+- PHP 7.4
+
+## Установка
+
+```bash
+$ composer require nartamomonov/otus_hw3_month_name
+```
+
+## Использование
+
+```php
+<?php
+$processor = new MonthProcessor();
+echo processor->getMonthName(1); // Январь
+```

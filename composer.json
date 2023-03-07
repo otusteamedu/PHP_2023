@@ -1,0 +1,18 @@
+{
+    "name": "nartamomonov/otus_hw3_month_name",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Nikolay Artamonov",
+            "email": "nartamonov997@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Nartamonov\\Hw3\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=7.4"
+    }
+}

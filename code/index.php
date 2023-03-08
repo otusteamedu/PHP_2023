@@ -2,4 +2,4 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-build_response();
+echo build_response();

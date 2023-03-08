@@ -1,25 +1,22 @@
 <?php
 
-function build_response(): void
+function build_response(): string
 {
     if (empty($_POST['string'])) {
         http_response_code('400');
-        echo "Empty string";
-        return;
+        return "Empty string";
     }
 
     if (!checkPattern($_POST['string'])) {
         http_response_code('400');
-        echo "String contains extra characters";
-        return;
+        return "String contains extra characters";
     }
 
     if (!checkBrackets($_POST['string'])) {
         http_response_code('400');
-        echo "Brackets are placed incorrectly";
-        return;
+        return "Brackets are placed incorrectly";
     }
 
     http_response_code('200');
-    echo "Ok!";
+    return "Ok!";
 }

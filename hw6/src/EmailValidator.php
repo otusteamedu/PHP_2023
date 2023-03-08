@@ -58,7 +58,7 @@ class EmailValidator
 
     private function getFileLinesLocal($path)
     {
-	    $file = fopen($path, 'r');
+        $file = fopen($path, 'r');
         while (($line = fgets($file)) !== false) {
             yield $line;
         }
@@ -69,5 +69,4 @@ class EmailValidator
     {
         return file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
     }
-
 }

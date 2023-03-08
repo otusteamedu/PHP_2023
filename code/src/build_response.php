@@ -1,6 +1,6 @@
 <?php
 
-function build_response(): string
+function buildResponse(): string
 {
     if (empty($_POST['string'])) {
         http_response_code('400');

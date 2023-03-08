@@ -2,7 +2,7 @@
 
 function getValidEmails($emails): Generator
 {
-    foreach($emails as $email) {
+    foreach ($emails as $email) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             continue;
         }

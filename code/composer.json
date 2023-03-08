@@ -1,0 +1,16 @@
+{
+    "name": "hw5/code",
+    "type": "project",
+    "authors": [
+        {
+            "name": "fatyanova.maria",
+            "email": "fatyanova.m@i20.team"
+        }
+    ],
+    "autoload": {
+        "files": ["src/validate.php", "src/build_response.php"]
+    },
+    "require": {
+        "ext-mbstring": "*"
+    }
+}

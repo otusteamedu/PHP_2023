@@ -1,0 +1,7 @@
+{
+  "name": "mfatjanova/code_hw6",
+  "type": "project",
+  "autoload": {
+    "files": ["src/validate.php", "src/response.php"]
+  }
+}

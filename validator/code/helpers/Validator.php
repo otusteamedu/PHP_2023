@@ -37,7 +37,9 @@ class Validator
         }
         for ($i = strlen($this->string) / 2; $i >= 0 && strlen($this->string) > 0; $i--) {
             $this->string = str_replace('()', '', $this->string);
-            if (strlen($this->string) == 0) return true;
+            if (strlen($this->string) == 0) {
+                return true;
+            }
         }
 
         return false;

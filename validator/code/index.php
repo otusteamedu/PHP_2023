@@ -21,9 +21,7 @@
     use app\code\helpers\Validator;
 
     if (isset($_POST['string'])) {
-
         $validator = new Validator($_POST['string']);
-
         try {
             $validator->checkCorrect();
             echo 'Скобки корректны.';

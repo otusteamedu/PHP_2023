@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/validator/EmailValidator.php';
 
 if (isset($_REQUEST['email'])) {

@@ -1,3 +1,3 @@
-# PHP_2023
+# Home work #5 
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Email validator

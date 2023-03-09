@@ -2,14 +2,17 @@
 
 declare(strict_types=1);
 
-class Solution {
+namespace Vp;
 
+class Solution
+{
     /**
      * @param ListNode $list1
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists(ListNode $list1, ListNode $list2) {
+    public function mergeTwoLists(ListNode $list1, ListNode $list2)
+    {
         $list3 = new ListNode();
         $tmpNode = $list3;
 

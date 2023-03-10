@@ -1,5 +1,6 @@
 <?php
-declare (strict_types=1);
+
+declare(strict_types=1);
 
 use Dgibadullin\Otus\App;
 use Dgibadullin\Otus\StringService;

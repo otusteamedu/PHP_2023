@@ -1,0 +1,15 @@
+{
+    "name": "daniil/php_2023",
+    "autoload": {
+        "psr-4": {
+            "DOlshev\\Hw": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "danolshev",
+            "email": "danolshev1991@ya.ru"
+        }
+    ],
+    "require": {}
+}

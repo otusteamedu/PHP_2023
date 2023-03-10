@@ -60,7 +60,7 @@ services:
     container_name: app2
     environment:
       FPM_HOST: app-2
-      FPM_PORT: 9000
+      FPM_PORT: 9001
     volumes:
       - ./code:/data/mysite.local
     networks:

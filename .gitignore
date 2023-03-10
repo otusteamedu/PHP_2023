@@ -7,7 +7,12 @@
 ##### Composer
 composer.phar
 /vendor/
-composer.lock
+
+# PHPStorm files
+*.iml
+.idea
+/out/
+/import/
 
 # Icon must end with two \r
 Icon

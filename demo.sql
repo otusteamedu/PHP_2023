@@ -31,4 +31,4 @@ INSERT INTO tickets (price, place, payed, session_id, customer_id) VALUES
     (250, 20, 1, 3, 3),
     (250, 21, 1, 4, 3);
 
-SELECT f.id, f.name, SUM(t.price) AS sum FROM films AS f JOIN sessions AS s on f.id = s.film_id JOIN tickets AS t on s.id = t.session_id GROUP BY f.id ORDER BY sum DESC LIMIT 1;
+SELECT f.id, f.name, SUM(t.price) AS sum FROM films AS f JOIN sessions AS s on f.id = s.film_id JOIN tickets AS t on s.id = t.session_id WHERE t.payed=1 GROUP BY f.id ORDER BY sum DESC LIMIT 1;

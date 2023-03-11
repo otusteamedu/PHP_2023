@@ -1,0 +1,20 @@
+{
+    "name": "dgibadullin/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dgibadullin\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniil Gibadullin",
+            "email": "daniil.gibadullin@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "danielstjules/stringy": "^3.1",
+        "dgibadullin/otus-composer-package": "^1.0"
+    }
+}

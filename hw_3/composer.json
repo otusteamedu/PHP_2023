@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "php": ">=7.0",
         "danielstjules/stringy": "^3.1",
         "dgibadullin/otus-composer-package": "^1.0"
     }

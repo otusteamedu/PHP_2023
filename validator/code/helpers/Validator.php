@@ -1,16 +1,31 @@
 <?php
 
-namespace app\code\helpers;
+namespace app\helpers;
 
 use Exception;
 
 class Validator
 {
-    public string $string;
+    public ?string $string = null;
 
-    public function __construct($string)
+    public function __construct()
     {
-        $this->string = $string;
+        $this->string = $_POST['string'] ?? null;
+    }
+
+    public function checkString()
+    {
+        if (!is_null($this->string)) {
+            try {
+                $this->checkCorrect();
+                return 'Скобки корректны.';
+            } catch (Exception $e) {
+                http_response_code($e->getCode());
+                return $e->getMessage();
+            }
+        }
+        return false;
+
     }
 
     /**
@@ -32,14 +47,23 @@ class Validator
 
     private function unpairedBrackets(): bool
     {
-        if (strlen($this->string) % 2 !== 0) {
+        $length = strlen($this->string);
+        if ($length % 2 !== 0) {
             return false;
         }
-        for ($i = strlen($this->string) / 2; $i >= 0 && strlen($this->string) > 0; $i--) {
-            $this->string = str_replace('()', '', $this->string);
-            if (strlen($this->string) == 0) {
-                return true;
+        $counter = 0;
+        for ($i = 0; $i < $length; $i++) {
+            if ($this->string[$i] == '(') {
+                $counter++;
+            } else {
+                $counter--;
             }
+            if ($counter < 0) {
+                return false;
+            }
+        }
+        if ($counter == 0) {
+            return true;
         }
 
         return false;

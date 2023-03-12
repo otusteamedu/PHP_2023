@@ -8,12 +8,8 @@ services:
       dockerfile: Dockerfile
     image: otus/php1
     container_name: otus-php1
-    environment:
-      PHP_IDE_CONFIG: serverName=Docker
-      XDEBUG_SESSION: 1
     volumes:
       - ./project:/data/application
-      - ./php1/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - socket:/socket
     networks:
       - otus-network
@@ -24,12 +20,8 @@ services:
       dockerfile: Dockerfile
     image: otus/php2
     container_name: otus-php2
-    environment:
-      PHP_IDE_CONFIG: serverName=Docker
-      XDEBUG_SESSION: 1
     volumes:
       - ./project:/data/application
-      - ./php2/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - socket:/socket
     networks:
       - otus-network

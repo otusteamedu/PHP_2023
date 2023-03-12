@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Vp\App\Services;
 
-class Container {
-
+class Container
+{
     private \DI\Container $container;
 
     public function __construct()

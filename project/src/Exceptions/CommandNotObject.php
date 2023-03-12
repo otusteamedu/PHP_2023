@@ -6,6 +6,6 @@ namespace Vp\App\Exceptions;
 
 use Exception;
 
-class CommandNotObject extends Exception {
-
+class CommandNotObject extends Exception
+{
 }

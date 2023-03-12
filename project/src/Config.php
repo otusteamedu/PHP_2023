@@ -26,5 +26,4 @@ class Config
     {
         return self::$socketPath;
     }
-
 }

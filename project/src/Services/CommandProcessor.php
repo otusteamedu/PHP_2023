@@ -30,7 +30,7 @@ class CommandProcessor
         $commandObj = $this->createCommand($command);
 
         if (!$commandObj instanceof CommandInterface) {
-            throw new CommandNotObject("Command '" . $command ."' is not an object.");
+            throw new CommandNotObject("Command '" . $command . "' is not an object.");
         }
 
         $commandObj->run();
@@ -65,7 +65,7 @@ class CommandProcessor
         $className = 'Vp\\App\\Commands\\Command' . $command;
 
         if (!class_exists($className)) {
-            throw new CommandNotFound("Command '" . $command ."' does not exist.");
+            throw new CommandNotFound("Command '" . $command . "' does not exist.");
         }
 
         return $className;

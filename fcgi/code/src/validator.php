@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-function checkBrackets(string $string):bool
+function checkBrackets(string $string): bool
 {
     $counter = 0;
     for ($i = 0; $i < mb_strlen($string); $i++) {

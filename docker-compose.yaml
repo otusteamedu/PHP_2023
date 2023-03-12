@@ -1,0 +1,42 @@
+version: '3'
+
+services:
+
+  php1:
+    build:
+      context: ./php1
+      dockerfile: Dockerfile
+    image: otus/php1
+    container_name: otus-php1
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      XDEBUG_SESSION: 1
+    volumes:
+      - ./server:/data/application
+      - ./php1/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - socket:/socket
+    networks:
+      - otus-network
+
+  php2:
+    build:
+      context: ./php2
+      dockerfile: Dockerfile
+    image: otus/php2
+    container_name: otus-php2
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      XDEBUG_SESSION: 1
+    volumes:
+      - ./client:/data/application
+      - ./php2/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - socket:/socket
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge
+
+volumes:
+  socket:

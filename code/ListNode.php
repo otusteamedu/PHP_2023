@@ -1,5 +1,7 @@
 <?php
 
+namespace app;
+
 class ListNode
 {
     public $val = 0;

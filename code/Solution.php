@@ -1,5 +1,7 @@
 <?php
 
+namespace app;
+
 require './ListNode.php';
 
 class Solution

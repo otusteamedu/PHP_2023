@@ -1,5 +1,8 @@
 <?php
 
+use app\ListNode;
+use app\Solution;
+
 require './Solution.php';
 
 $solution = new Solution();

@@ -6,13 +6,12 @@ require './ListNode.php';
 
 class Solution
 {
-
     /**
      * @param ListNode|null $list1
      * @param ListNode|null $list2
      * @return ListNode
      */
-    function mergeTwoLists(?ListNode $list1, ?ListNode $list2): ?ListNode
+    public function mergeTwoLists(?ListNode $list1, ?ListNode $list2): ?ListNode
     {
         if ($list1 === null && $list2 === null) {
             return null;

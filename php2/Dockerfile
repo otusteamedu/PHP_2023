@@ -6,6 +6,9 @@ RUN apt-get update && apt-get install -y \
     procps \
 	libzip-dev \
 	libmcrypt-dev \
+    zip \
+    unzip \
+    git \
     && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-ext-install sockets \

@@ -12,7 +12,7 @@ services:
       PHP_IDE_CONFIG: serverName=Docker
       XDEBUG_SESSION: 1
     volumes:
-      - ./server:/data/application
+      - ./project:/data/application
       - ./php1/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - socket:/socket
     networks:
@@ -28,7 +28,7 @@ services:
       PHP_IDE_CONFIG: serverName=Docker
       XDEBUG_SESSION: 1
     volumes:
-      - ./client:/data/application
+      - ./project:/data/application
       - ./php2/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - socket:/socket
     networks:

@@ -5,87 +5,124 @@ declare(strict_types=1);
 namespace Vp\App\Services;
 
 use Vp\App\Config;
+use Vp\App\DTO\InitResult;
+use Vp\App\DTO\SocketMessage;
 
 class Server implements SocketInterface
 {
-    public Output $output;
+    private Output $output;
+    private string $address;
 
     public function __construct(Output $output)
     {
         $this->output = $output;
+        $this->address = Config::getSocketPath();
     }
 
-    public function start()
+    public function work()
     {
-        error_reporting(E_ALL);
         set_time_limit(0);
         ob_implicit_flush();
 
-        $address = Config::getSocketPath();
-        unlink($address);
+        unlink($this->address);
 
-        fwrite(STDOUT, "Создаем socket" . PHP_EOL);
+        $this->output->show(SocketMessage::SERVER_APP);
+        $initResult = $this->initSocket();
 
-        if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
-            $error = "Ошибка. Не удалось создать сокет: " . socket_strerror(socket_last_error());
-            fwrite(STDOUT, $error . PHP_EOL);
+        if (!$initResult->isSuccess()) {
+            $this->output->show($initResult->getError());
+            return;
         }
 
-        fwrite(STDOUT, "Привязываем адрес источника" . PHP_EOL);
-
-        if (socket_bind($sock, $address) === false) {
-            $error = "Ошибка. Не удалось привязать адрес источника: " . socket_strerror(socket_last_error($sock));
-            fwrite(STDOUT, $error . PHP_EOL);
-        }
-
-        fwrite(STDOUT, "Включаем прослушивание входящих сообщений" . PHP_EOL);
-
-        if (socket_listen($sock, 5) === false) {
-            $error = "Ошибка. Не удалось включить прослушивание: " . socket_strerror(socket_last_error($sock));
-            fwrite(STDOUT, $error . PHP_EOL);
-        }
+        $sock = $initResult->getSocket();
+        $this->output->show(SocketMessage::SOCKET_CREATE);
 
         while (true) {
-            fwrite(STDOUT, "Включаем прием сообщений" . PHP_EOL);
             $msgSock = socket_accept($sock);
 
             if ($msgSock === false) {
-                $error = "Ошибка. Не удалось включить прием сообщений: " . socket_strerror(socket_last_error($sock));
-                fwrite(STDOUT, $error . PHP_EOL);
+                $this->output->show(
+                    sprintf(SocketMessage::FAILED_RECEIVING_SOCKET, socket_strerror(socket_last_error()))
+                );
                 break;
             }
 
+            $this->output->show(SocketMessage::RECEIVING_SOCKET);
+
             while (true) {
-                $inbound = socket_read($msgSock, 255);
+                $inbound = socket_read($msgSock, Config::getLength());
 
                 if ($inbound === false) {
-                    $error = "Ошибка. Не удалось прочитать сообщений: " . socket_strerror(socket_last_error($msgSock));
-                    fwrite(STDOUT, $error . PHP_EOL);
-                    socket_close($msgSock);
+                    $this->output->show(
+                        sprintf(SocketMessage::FAILED_READ_MESSAGE, socket_strerror(socket_last_error($msgSock)))
+                    );
+                    $this->close($msgSock);
                     break 2;
                 }
 
                 if ($inbound == 'stop') {
-                    fwrite(STDOUT, PHP_EOL . "Клиент отключился" . PHP_EOL);
-                    socket_close($msgSock);
+                    $this->output->show(SocketMessage::CLIENT_DISCONNECT);
+                    $this->close($msgSock);
                     break 2;
                 }
 
-                fwrite(STDOUT, "---------------" . PHP_EOL);
-                fwrite(STDOUT, $inbound . PHP_EOL);
+                $this->output->show(SocketMessage::MESSAGE_SEPARATOR);
+                $this->output->show($inbound);
 
-                $response = "Получено сообщение '$inbound'" . PHP_EOL;
-                $write = socket_write($msgSock, $response, strlen($response));
+                $write = $this->sendResponse($inbound, $msgSock);
 
                 if (!$write) {
-                    fwrite(STDOUT, "Ошибка. Клиент закрыл соединение" . PHP_EOL);
-                    socket_close($msgSock);
+                    $this->output->show(SocketMessage::ERROR_CLIENT_CLOSED);
+                    $this->close($msgSock);
                     break 2;
                 }
             }
         }
 
-        fwrite(STDOUT, "Закрываем сокет." . PHP_EOL);
-        socket_close($sock);
+        $this->output->show(SocketMessage::CLOSE_SOCKET);
+        $this->close($sock);
+    }
+
+    private function initSocket(): InitResult
+    {
+        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+
+        if ($socket === false) {
+            return new InitResult(
+                false,
+                sprintf(SocketMessage::FAILED_CREATE_SOCKET, socket_strerror(socket_last_error()))
+            );
+        }
+
+        $bound = socket_bind($socket, $this->address);
+
+        if ($bound === false) {
+            return new InitResult(
+                false,
+                sprintf(SocketMessage::FAILED_BIND_SOCKET, socket_strerror(socket_last_error($socket)))
+            );
+        }
+
+        $listening = socket_listen($socket, 5);
+
+        if ($listening === false) {
+            return new InitResult(
+                false,
+                sprintf(SocketMessage::FAILED_LISTEN_SOCKET, socket_strerror(socket_last_error($socket)))
+            );
+        }
+
+        return new InitResult(true, null, $socket);
+    }
+
+    private function close(\Socket $socket)
+    {
+        socket_close($socket);
+    }
+
+    private function sendResponse(string $inbound, \Socket $msgSock): int|false
+    {
+        $response = sprintf(SocketMessage::RESPONSE_MESSAGE, $inbound) . PHP_EOL;
+        return socket_write($msgSock, $response, strlen($response));
     }
 }

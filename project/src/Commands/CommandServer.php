@@ -17,8 +17,7 @@ class CommandServer implements CommandInterface
      */
     public function run(): void
     {
-        /** @var Server $server */
         $server = Container::getInstance()->get(Server::class);
-        $server->start();
+        $server->work();
     }
 }

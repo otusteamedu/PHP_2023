@@ -6,5 +6,5 @@ namespace Vp\App\Services;
 
 interface SocketInterface
 {
-
+    public function work();
 }

@@ -5,42 +5,38 @@ declare(strict_types=1);
 namespace Vp\App\Services;
 
 use Vp\App\Config;
+use Vp\App\DTO\InitResult;
+use Vp\App\DTO\SocketMessage;
 
 class Client implements SocketInterface
 {
-    public function start()
+    private Output $output;
+    private string $address;
+
+    public function __construct(Output $output)
     {
-        error_reporting(E_ALL);
+        $this->output = $output;
+        $this->address = Config::getSocketPath();
+    }
+    public function work()
+    {
+        $this->output->show(SocketMessage::CLIENT_APP);
+        $initResult = $this->initSocket();
 
-        fwrite(STDOUT, "Соединение через socket" . PHP_EOL);
-
-        $address = Config::getSocketPath();
-
-        fwrite(STDOUT, "Создаем socket" . PHP_EOL);
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-
-        if ($socket === false) {
-            $error = "Ошибка. Не удалось создать сокет: " . socket_strerror(socket_last_error());
-            fwrite(STDOUT, $error . PHP_EOL);
+        if (!$initResult->isSuccess()) {
+            $this->output->show($initResult->getError());
+            return;
         }
 
-        fwrite(STDOUT, "Устанавливаем соединение" . PHP_EOL);
-        $result = socket_connect($socket, $address, 0);
-
-        if ($result === false) {
-            $error = "Ошибка. Не удалось установить соединение: " . socket_strerror(socket_last_error($socket));
-            fwrite(STDOUT, $error . PHP_EOL);
-        }
-
-        $welcome = "Соединение установлено, можно отправлять сообщения! Чтобы отключиться введите stop.";
-        fwrite(STDOUT, $welcome . PHP_EOL . PHP_EOL);
+        $socket = $initResult->getSocket();
+        $this->output->show(SocketMessage::CLIENT_WELCOME);
 
         while (true) {
-            $message = stream_get_line(STDIN, 255, PHP_EOL);
-            $write = socket_write($socket, $message, strlen($message));
+            $message = $this->getMessage();
+            $write = $this->sendMessage($socket, $message);
 
             if (!$write) {
-                fwrite(STDOUT, "Ошибка. Сервер закрыл соединение" . PHP_EOL);
+                $this->output->show(SocketMessage::ERROR_SERVER_CLOSED);
                 break;
             }
 
@@ -48,13 +44,50 @@ class Client implements SocketInterface
                 break;
             }
 
-            fwrite(STDOUT, PHP_EOL . "Ответ сервера:" . PHP_EOL);
-            $out = socket_read($socket, 255);
-            fwrite(STDOUT, $out . PHP_EOL);
+            $inbound = socket_read($socket, Config::getLength());
+            $this->output->show(sprintf(SocketMessage::SERVER_MESSAGE, $inbound));
         }
 
-        fwrite(STDOUT, "Закрываем сокет." . PHP_EOL);
-        socket_close($socket);
+        $this->output->show(SocketMessage::CLOSE_SOCKET);
+        $this->close($socket);
+    }
 
+    private function initSocket(): InitResult
+    {
+        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+
+        if ($socket === false) {
+            return new InitResult(
+                false,
+                sprintf(SocketMessage::FAILED_CREATE_SOCKET, socket_strerror(socket_last_error()))
+            );
+        }
+
+        $result = socket_connect($socket, $this->address, 0);
+
+        if ($result === false) {
+            return new InitResult(
+                false,
+                sprintf(SocketMessage::FAILED_SOCKET_CONNECT, socket_strerror(socket_last_error($socket)))
+            );
+        }
+
+        return new InitResult(true, null, $socket);
+    }
+
+    private function getMessage(): string|false
+    {
+        $message = stream_get_line(STDIN, Config::getLength(), PHP_EOL);
+        return $message;
+    }
+
+    private function sendMessage(?\Socket $socket, bool|string $message): int|false
+    {
+        return socket_write($socket, $message, strlen($message));
+    }
+
+    private function close(\Socket $socket)
+    {
+        socket_close($socket);
     }
 }

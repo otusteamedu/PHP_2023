@@ -18,6 +18,6 @@ class CommandClient implements CommandInterface
     public function run(): void
     {
         $client = Container::getInstance()->get(Client::class);
-        $client->start();
+        $client->work();
     }
 }

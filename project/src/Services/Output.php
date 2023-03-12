@@ -6,8 +6,8 @@ namespace Vp\App\Services;
 
 class Output
 {
-    public function getMessage(): string
+    public function show($message): void
     {
-        return 'Output getMessage';
+        fwrite(STDOUT, $message . PHP_EOL);
     }
 }

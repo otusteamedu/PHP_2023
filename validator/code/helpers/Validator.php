@@ -25,7 +25,6 @@ class Validator
             }
         }
         return false;
-
     }
 
     /**
@@ -65,7 +64,6 @@ class Validator
         if ($counter == 0) {
             return true;
         }
-
         return false;
     }
 }

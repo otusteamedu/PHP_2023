@@ -18,8 +18,7 @@ END; $$ language 'plpgsql' STRICT;
 -- 1. Кинотеатры
 CREATE TABLE IF NOT EXISTS cinemas
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
     title VARCHAR(128) NOT NULL,
     description VARCHAR(1024) NOT NULL,
     address VARCHAR(512) NOT NULL,
@@ -31,9 +30,8 @@ CREATE TABLE IF NOT EXISTS cinemas
 -- 2. Залы
 CREATE TABLE IF NOT EXISTS halls
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-    cinema_id BIGSERIAL NOT NULL,
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    cinema_id UUID NOT NULL,
     title VARCHAR(128) NOT NULL,
     seats_count SMALLINT NOT NULL,
     PRIMARY KEY (id),
@@ -50,9 +48,8 @@ END $$;
 -- Места
 CREATE TABLE IF NOT EXISTS seats
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-    hall_id BIGSERIAL NOT NULL,
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    hall_id UUID NOT NULL,
     row INT NOT NULL,
     number INT NOT NULL,
     type seat_type NOT NULL DEFAULT 'basic',
@@ -64,8 +61,7 @@ CREATE TABLE IF NOT EXISTS seats
 -- 4. Жанры
 CREATE TABLE IF NOT EXISTS genres
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
     title VARCHAR(256) NOT NULL,
     description TEXT NOT NULL,
     PRIMARY KEY (id)
@@ -74,9 +70,8 @@ CREATE TABLE IF NOT EXISTS genres
 -- 5. Фильмы
 CREATE TABLE IF NOT EXISTS movies
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-    genre_id BIGSERIAL NOT NULL,
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    genre_id UUID NOT NULL,
     title VARCHAR(256) NOT NULL,
     description VARCHAR(1024) NOT NULL,
     duration SMALLINT NOT NULL,
@@ -92,14 +87,12 @@ CREATE TABLE IF NOT EXISTS movies
 -- 6. Сеансы
 CREATE TABLE IF NOT EXISTS sessions
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-    movie_id BIGSERIAL NOT NULL,
-    hall_id BIGSERIAL NOT NULL,
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    movie_id UUID NOT NULL,
+    hall_id UUID NOT NULL,
     date DATE NOT NULL,
     start_time TIME NOT NULL,
     finish_time TIME NOT NULL,
-    price INT NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (movie_id) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (hall_id) REFERENCES halls(id) ON UPDATE CASCADE ON DELETE CASCADE,
@@ -109,8 +102,7 @@ CREATE TABLE IF NOT EXISTS sessions
 -- 7. Клиенты
 CREATE TABLE IF NOT EXISTS clients
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
     firstname VARCHAR(256) NOT NULL,
     lastname VARCHAR(256) NOT NULL,
     email VARCHAR(256) NOT NULL,
@@ -124,11 +116,11 @@ CREATE TABLE IF NOT EXISTS clients
 -- 8. Билеты
 CREATE TABLE IF NOT EXISTS tickets
 (
-    id BIGSERIAL NOT NULL,
-    uuid UUID NOT NULL DEFAULT uuid_generate_v4(),
-    session_id BIGSERIAL NOT NULL,
-    seat_id BIGSERIAL NOT NULL,
-    client_id BIGSERIAL NOT NULL,
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    session_id UUID NOT NULL,
+    seat_id UUID NOT NULL,
+    client_id UUID NOT NULL,
+    price INT NOT NULL,
     is_paid BOOLEAN NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON UPDATE CASCADE ON DELETE CASCADE,

@@ -6,7 +6,7 @@
 
 -- Вариант 1
 SELECT
-    movies.title, SUM(sessions.price) as total
+    movies.title, SUM(tickets.price) as total
 FROM
     movies, tickets, sessions
 WHERE
@@ -14,14 +14,14 @@ WHERE
     AND sessions.movie_id = movies.id
     AND tickets.is_paid = true
 GROUP BY
-    movies.title
+    movies.id
 ORDER BY
     total DESC
 LIMIT 1;
 
 -- Вариант 2
 SELECT
-    movies.title, SUM(sessions.price) as total
+    movies.title, SUM(tickets.price) as total
 FROM
     movies
 INNER JOIN
@@ -31,7 +31,7 @@ INNER JOIN
 WHERE
     tickets.is_paid = true
 GROUP BY
-    movies.title
+    movies.id
 ORDER BY
     total DESC
 LIMIT 1;
@@ -39,7 +39,7 @@ LIMIT 1;
 -- Вариант 3
 WITH total AS (
     SELECT
-        sessions.movie_id, SUM(sessions.price) AS total
+        sessions.movie_id, SUM(tickets.price) AS total
     FROM
         sessions
     INNER JOIN
@@ -50,7 +50,7 @@ WITH total AS (
         sessions.movie_id
 )
 SELECT
-    movies.title, total.total
+    movies.title, total
 FROM
     movies
 INNER JOIN

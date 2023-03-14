@@ -26,11 +26,18 @@ CREATE TABLE "movie_genres" (
   PRIMARY KEY ("movie_id", "genre_id")
 );
 
+CREATE TABLE "place_types" (
+    "id" BIGINT NOT NULL,
+    "name" VARCHAR NOT NULL,
+    PRIMARY KEY ("id")
+);
+
 CREATE TABLE "places" (
   "id" BIGINT NOT NULL,
   "cinema_hall_id" BIGINT NOT NULL,
   "row" INT NOT NULL,
   "place" INT NOT NULL,
+  "place_type_id" BIGINT NOT NULL,
   PRIMARY KEY ("id")
 );
 
@@ -39,8 +46,14 @@ CREATE TABLE "schedules" (
   "datetime" TIMESTAMP NOT NULL,
   "movie_id" BIGINT NOT NULL,
   "cinema_hall_id" BIGINT NOT NULL,
-  "price" NUMERIC(10,2) NOT NULL,
   PRIMARY KEY ("id")
+);
+
+CREATE TABLE "schedule_prices" (
+    "schedule_id" BIGINT NOT NULL,
+    "place_type_id" BIGINT NOT NULL,
+    "price" NUMERIC(10,2) NOT NULL,
+    PRIMARY KEY ("schedule_id", "place_type_id")
 );
 
 CREATE TABLE "tickets" (
@@ -59,7 +72,7 @@ CREATE SEQUENCE "genres_id_seq" INCREMENT BY 1 MINVALUE 1 START 1;
 
 CREATE SEQUENCE "movies_id_seq" INCREMENT BY 1 MINVALUE 1 START 1;
 
-CREATE SEQUENCE "movie_genres_id_seq" INCREMENT BY 1 MINVALUE 1 START 1;
+CREATE SEQUENCE "place_types_id_seq" INCREMENT BY 1 MINVALUE 1 START 1;
 
 CREATE SEQUENCE "places_id_seq" INCREMENT BY 1 MINVALUE 1 START 1;
 
@@ -73,9 +86,15 @@ ALTER TABLE "movie_genres" ADD FOREIGN KEY ("genre_id") REFERENCES "genres" ("id
 
 ALTER TABLE "places" ADD FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_halls" ("id");
 
+ALTER TABLE "places" ADD FOREIGN KEY ("place_type_id") REFERENCES "place_types" ("id");
+
 ALTER TABLE "schedules" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id");
 
 ALTER TABLE "schedules" ADD FOREIGN KEY ("cinema_hall_id") REFERENCES "cinema_halls" ("id");
+
+ALTER TABLE "schedule_prices" ADD FOREIGN KEY ("schedule_id") REFERENCES "schedules" ("id");
+
+ALTER TABLE "schedule_prices" ADD FOREIGN KEY ("place_type_id") REFERENCES "place_types" ("id");
 
 ALTER TABLE "tickets" ADD FOREIGN KEY ("movie_id") REFERENCES "movies" ("id");
 

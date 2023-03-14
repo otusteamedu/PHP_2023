@@ -5,7 +5,7 @@ declare(strict_types=1);
 function getMessage(): string
 {
     if (empty($_GET['string'])) {
-       return generateResponse(400,'Empty string');
+        return generateResponse(400,'Empty string');
     }
 
     if (!checkBrackets($_GET['string'])) {

@@ -2,7 +2,7 @@
     "name": "dgibadullin/code",
     "type": "project",
     "autoload": {
-        "files": ["src/validator.php", "src/getMessage.php", "src/generator.php"]
+        "files": ["src/validator.php", "src/getMessage.php"]
     },
     "authors": [
         {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 function getMessage(): string
 {
-    if (isset($_POST['string'])) {
+    if (!isset($_POST['string'])) {
         generateResponse(400, "Empty string");
     }
 

@@ -1,0 +1,17 @@
+{
+    "name": "dgibadullin/code",
+    "type": "project",
+    "autoload": {
+        "files": ["src/validator.php", "src/getMessage.php", "src/generator.php"]
+    },
+    "authors": [
+        {
+            "name": "Daniil Gibadullin",
+            "email": "daniil.gibadullin@mail.ru"
+        }
+    ],
+    "require": {
+        "ext-mbstring": "*"
+    }
+}
+

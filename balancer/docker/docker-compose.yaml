@@ -1,0 +1,83 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus_nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./../code:/data/mysite.local
+       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - otus-network
+
+  backend1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus_nginx1
+    ports:
+      - "8081:80"
+    volumes:
+      - ./../code:/data/mysite.local
+      - ./nginx/hosts/backend.conf:/etc/nginx/conf.d/backend.conf
+    networks:
+      - otus-network
+
+  backend2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus_nginx2
+    ports:
+      - "8082:80"
+    volumes:
+      - ./../code:/data/mysite.local
+      - ./nginx/hosts/backend.conf:/etc/nginx/conf.d/backend.conf
+    networks:
+      - otus-network
+
+  php1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus_php1
+    volumes:
+       - ./../code:/data/mysite.local
+       - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
+    networks:
+      - otus-network
+
+  php2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus_php2
+    volumes:
+      - ./../code:/data/mysite.local
+      - ./php-fpm/php.ini:/usr/local/etc/php/conf.d/php-application.ini
+    networks:
+      - otus-network
+
+  memcached:
+    image: memcached
+    container_name: otus_memcached
+    networks:
+      - otus-network
+
+#Docker Networks
+networks:
+  otus-network:
+    driver: bridge

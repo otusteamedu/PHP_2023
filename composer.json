@@ -1,0 +1,14 @@
+{
+    "name": "nikolay/hw3_project",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Nikolay Artamonov",
+            "email": "nartamonov997@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "nartamonov997/otus-hw3-month-name": "^1.0"
+    }
+}

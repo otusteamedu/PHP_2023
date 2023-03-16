@@ -13,24 +13,24 @@ class Validator
         $this->string = $_POST['string'] ?? null;
     }
 
-    public function checkString()
+    /**
+     * @throws Exception
+     */
+    public function checkString(): ?string
     {
-        if (!is_null($this->string)) {
-            try {
-                $this->checkCorrect();
-                return 'Скобки корректны.';
-            } catch (Exception $e) {
-                http_response_code($e->getCode());
-                return $e->getMessage();
-            }
+        if (!isset($_POST['string'])) {
+            return null;
         }
-        return false;
+        if ($this->checkCorrect()) {
+            return 'Скобки корректны.';
+        }
+        return null;
     }
 
     /**
      * @throws Exception
      */
-    public function checkCorrect()
+    public function checkCorrect(): bool
     {
         if (empty($this->string)) {
             throw new Exception("Неверный запрос. Пустая строка", 400);
@@ -42,6 +42,7 @@ class Validator
         if ($this->unpairedBrackets() === false) {
             throw new Exception("Есть лишние скобки", 400);
         }
+        return true;
     }
 
     private function unpairedBrackets(): bool

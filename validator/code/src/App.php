@@ -15,6 +15,10 @@ class App
     {
         $this->view = new View();
     }
+
+    /**
+     * @throws \Exception
+     */
     public function load(): void
     {
         $validator = new Validator();

@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS movies
     rental_finish TIMESTAMPTZ NOT NULL,
     rating FLOAT NOT NULL,
     thumbnail TEXT NOT NULL,
+    attributes JSON NULL,
     PRIMARY KEY (id),
     FOREIGN KEY (genre_id) REFERENCES genres(id) ON UPDATE CASCADE ON DELETE CASCADE
 );
@@ -127,4 +128,35 @@ CREATE TABLE IF NOT EXISTS tickets
     FOREIGN KEY (seat_id) REFERENCES seats(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE (session_id, seat_id, client_id)
+);
+
+-- 9. Типы атрибутов
+CREATE TABLE IF NOT EXISTS attribute_types
+(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    type VARCHAR(256) NOT NULL UNIQUE
+);
+
+-- 10. Атрибуты
+CREATE TABLE attributes
+(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    parent_id BIGINT NULL,
+    attribute_type_id BIGINT NOT NULL,
+    title VARCHAR(256) NOT NULL UNIQUE,
+    FOREIGN KEY (parent_id) REFERENCES attributes(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- 11. Значения атрибутов
+CREATE TABLE values(
+    id UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    movie_id UUID NOT NULL,
+    attribute_id BIGINT NOT NULL,
+    text TEXT NULL,
+    bool BOOLEAN NULL,
+    date DATE NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (movie_id, attribute_id)
 );

@@ -100,3 +100,115 @@ FROM
     (SELECT id FROM sessions) as session,
     (SELECT id FROM seats) as seat,
     (SELECT id FROM clients) as client;
+
+-- 9. Типы атрибутов
+INSERT INTO
+    attribute_types(type)
+VALUES
+    ('TEXT'),
+    ('BOOL'),
+    ('DATE');
+
+-- 10. Атрибуты
+INSERT INTO attributes
+    (parent_id, attribute_type_id, title)
+VALUES
+    (NULL, 1, 'Рецензии'),
+    (1, 1, 'Рецензия кинокритика'),
+    (1, 1, 'Рецензия киноакадемии'), --3
+    (NULL, 2, 'Премии'),
+    (4, 2, 'Оскар'),
+    (4, 2, 'Ника'), --6
+    (NULL, 3, 'Важные даты'),
+    (7, 3, 'Мировая премьера'),
+    (7, 3, 'Премьера в России'), --9
+    (NULL, 3, 'Служебные даты'),
+    (10, 3, 'Дата начала продажи'),
+    (10, 3, 'Дата запуска рекламы'); --12
+
+/*
+
+10. Атрибуты
+10.1 Рецензии
+
+*/
+INSERT INTO values
+    (movie_id, attribute_id, text)
+SELECT
+    movie.id,
+    2,
+    'Текст рецензии кинокритика'
+FROM
+    (SELECT id FROM movies) as movie;
+
+INSERT INTO values
+    (movie_id, attribute_id, text)
+SELECT
+    movie.id,
+    3,
+    'Текст рецензии киноакадемии'
+FROM
+    (SELECT id FROM movies) as movie;
+
+-- 10.2 Премии
+INSERT INTO values
+    (movie_id, attribute_id, bool)
+SELECT
+    movie.id,
+    5,
+    round(random())::int::boolean --true/false random value
+FROM
+    (SELECT id FROM movies) as movie;
+
+INSERT INTO values
+    (movie_id, attribute_id, bool)
+SELECT
+    movie.id,
+    6,
+    round(random())::int::boolean --true/false random value
+FROM
+    (SELECT id FROM movies) as movie;
+
+-- 10.3 Важные даты
+INSERT INTO values
+    (movie_id, attribute_id, date)
+SELECT
+    movie.id,
+    8,
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
+FROM
+    (SELECT id FROM movies) as movie;
+
+INSERT INTO values
+    (movie_id, attribute_id, date)
+SELECT
+    movie.id,
+    9,
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
+FROM
+    (SELECT id FROM movies) as movie;
+
+-- 10.4 Служебные даты
+INSERT INTO values
+    (movie_id, attribute_id, date)
+SELECT
+    movie.id,
+    11,
+    random_timestamp(
+        NOW(),
+        NOW() + INTERVAL '20 DAY'
+    )
+FROM
+    (SELECT id FROM movies) as movie;
+
+INSERT INTO values
+    (movie_id, attribute_id, date)
+SELECT
+    movie.id,
+    12,
+    random_timestamp(
+        NOW(),
+        NOW() + INTERVAL '20 DAY'
+    )
+FROM
+    (SELECT id FROM movies) as movie;

@@ -1,0 +1,18 @@
+version: '3.3'
+
+services:
+  pgdb:
+    image: postgres
+    container_name: psql-otus
+    environment:
+      - POSTGRES_USER=pavlenko
+      - POSTGRES_PASSWORD=pavlenko
+      - POSTGRES_DB=otus
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    networks:
+      - docknet
+
+networks:
+    docknet:
+      driver: bridge

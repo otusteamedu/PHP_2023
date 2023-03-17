@@ -9,8 +9,8 @@ $$ BEGIN
 END; $$ language 'plpgsql' STRICT;
 
 -- Случайная дата
-CREATE OR REPLACE FUNCTION random_timestamp(start_date timestamp, end_date timestamptz)
-    RETURNS TIMESTAMP AS
+CREATE OR REPLACE FUNCTION random_timestamp(start_date TIMESTAMPTZ, end_date TIMESTAMPTZ)
+    RETURNS TIMESTAMPTZ AS
 $$ BEGIN
     RETURN start_date + random() * (end_date - start_date);
 END; $$ language 'plpgsql' STRICT;
@@ -76,8 +76,8 @@ CREATE TABLE IF NOT EXISTS movies
     description VARCHAR(1024) NOT NULL,
     duration SMALLINT NOT NULL,
     release_date DATE NOT NULL,
-    rental_start TIMESTAMP NOT NULL,
-    rental_finish TIMESTAMP NOT NULL,
+    rental_start TIMESTAMPTZ NOT NULL,
+    rental_finish TIMESTAMPTZ NOT NULL,
     rating FLOAT NOT NULL,
     thumbnail TEXT NOT NULL,
     PRIMARY KEY (id),

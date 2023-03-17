@@ -17,6 +17,9 @@ CREATE TABLE "public"."cinema" (
     "address" character varying(512) NOT NULL,
     "working_hours_start" time without time zone,
     "working_hours_end" time without time zone,
+    "base_ticket_price" integer NOT NULL,
+    "imax_margin" smallint NOT NULL,
+    "vip_margin" smallint NOT NULL,
     CONSTRAINT "cinema_id" PRIMARY KEY ("id")
 );
 
@@ -52,7 +55,7 @@ CREATE TABLE "public"."hall" (
 
 CREATE INDEX "hall_name" ON "public"."hall" USING btree ("name");
 
--- Фильмы
+-- Фильмы;
 CREATE SEQUENCE movie_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
 
 CREATE TABLE "public"."movie" (
@@ -73,7 +76,7 @@ CREATE INDEX "movie_name" ON "public"."movie" USING btree ("name");
 
 CREATE INDEX "movie_release_date" ON "public"."movie" USING btree ("release_date");
 
--- Места в зале
+-- Места в зале;
 CREATE SEQUENCE seat_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
 
 CREATE TABLE "public"."seat" (
@@ -87,7 +90,7 @@ CREATE TABLE "public"."seat" (
     CONSTRAINT "seat_hall_id_fkey" FOREIGN KEY (hall_id) REFERENCES hall(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE
 );
 
--- Сеансы фильмов
+-- Сеансы фильмов;
 CREATE SEQUENCE session_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
 
 CREATE TABLE "public"."session" (
@@ -95,15 +98,25 @@ CREATE TABLE "public"."session" (
     "movie_id" integer NOT NULL,
     "hall_id" integer NOT NULL,
     "date" date NOT NULL,
-    "start_time" time without time zone NOT NULL,
     "end_time" time without time zone NOT NULL,
+    "session_period_id" integer NOT NULL,
     CONSTRAINT "session_id" PRIMARY KEY ("id"),
-    CONSTRAINT "session_movie_id_hall_id_date_start_time" UNIQUE ("movie_id", "hall_id", "date", "start_time"),
     CONSTRAINT "session_hall_id_fkey" FOREIGN KEY (hall_id) REFERENCES hall(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE,
-    CONSTRAINT "session_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES movie(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE
+    CONSTRAINT "session_movie_id_fkey" FOREIGN KEY (movie_id) REFERENCES movie(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "session_session_period_id_fkey" FOREIGN KEY (session_period_id) REFERENCES session_period(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE
 );
 
+-- Типы сеансов по времени;
+CREATE SEQUENCE session_period_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
 
+CREATE TABLE "public"."session_period" (
+    "id" integer DEFAULT nextval('session_period_id_seq') NOT NULL,
+    "start_time" time without time zone NOT NULL,
+    "margin" smallint NOT NULL,
+    CONSTRAINT "session_period_id" PRIMARY KEY ("id")
+);
+
+-- Билеты;
 CREATE SEQUENCE ticket_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 START 1 CACHE 1;
 
 CREATE TABLE "public"."ticket" (
@@ -116,7 +129,7 @@ CREATE TABLE "public"."ticket" (
     "confirmed" boolean DEFAULT false NOT NULL,
     CONSTRAINT "ticket_id" PRIMARY KEY ("id"),
     CONSTRAINT "ticket_session_id_seat_id" UNIQUE ("session_id", "seat_id"),
-    CONSTRAINT "ticket_client_id_fkey" FOREIGN KEY (client_id) REFERENCES client(id) ON DELETE CASCADE NOT DEFERRABLE,
+    CONSTRAINT "ticket_client_id_fkey" FOREIGN KEY (client_id) REFERENCES client(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE,
     CONSTRAINT "ticket_seat_id_fkey" FOREIGN KEY (seat_id) REFERENCES seat(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE,
     CONSTRAINT "ticket_session_id_fkey" FOREIGN KEY (session_id) REFERENCES session(id) ON UPDATE CASCADE ON DELETE CASCADE NOT DEFERRABLE
 );

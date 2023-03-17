@@ -56,9 +56,9 @@ SELECT
     concat('Movie ', number),
     concat('Movie ', number, ' description'),
     random_between(60, 200),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW()),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW()),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW()),
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
     random() * 10,
     concat('/movies/', number, '/thumbnail.webp')
 FROM
@@ -70,9 +70,9 @@ INSERT INTO sessions (movie_id, hall_id, date,start_time, finish_time)
 SELECT
     movie.id,
     hall.id,
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW()),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW()),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW())
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
 FROM
     (SELECT id FROM movies) as movie,
     (SELECT id FROM halls) as hall;
@@ -84,7 +84,7 @@ SELECT
     concat('Lastname ', number),
     concat('email', number, '@example.com'),
     random_between(9210000000, 9999999999),
-    random_timestamp(current_setting('my.start_date')::timestamp, NOW())
+    random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
 FROM
     GENERATE_SERIES(1, current_setting('my.clients_count')::int) as number;
 

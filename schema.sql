@@ -24,10 +24,8 @@ CREATE TABLE attributes (
 
 CREATE TABLE film_attribute_values (
   id SERIAL PRIMARY KEY,
-  text_value TEXT,
   char_value VARCHAR(256),
   integer_value INT,
-  float_value FLOAT4,
   numeric_value NUMERIC(4,2),
   bool_value BOOL,
   date_value DATE,

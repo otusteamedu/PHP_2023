@@ -110,6 +110,8 @@ CREATE TABLE "public.orders" (
 CREATE TABLE "public.order_list" (
 	"order_id" integer NOT NULL,
 	"ticket_id" integer NOT NULL,
+	"price" integer NOT NULL,
+	"currency_id" integer NOT NULL,
 	CONSTRAINT "order_list_pk" PRIMARY KEY ("order_id","ticket_id")
 ) WITH (
   OIDS=FALSE
@@ -127,16 +129,15 @@ ALTER TABLE "public.ticket" ADD CONSTRAINT "ticket_fk1" FOREIGN KEY ("seat_id") 
 ALTER TABLE "public.orders" ADD CONSTRAINT "orders_fk0" FOREIGN KEY ("customer_id") REFERENCES "public.customer"("id");
 ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk0" FOREIGN KEY ("order_id") REFERENCES "public.orders"("id");
 ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk1" FOREIGN KEY ("ticket_id") REFERENCES "public.ticket"("id");
+ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk2" FOREIGN KEY ("currency_id") REFERENCES "public.currency"("id");
 
 
 SELECT 
-	SUM("public.price_level"."price"),
+	SUM("public.order_list"."price"),
 	"public.movie"."title"
 FROM "public.orders"
 LEFT JOIN "public.order_list" ON "public.order_list"."order_id" = "public.orders"."id"
 LEFT JOIN "public.ticket" ON "public.ticket"."id" = "public.order_list"."ticket_id"
-LEFT JOIN "public.seat" ON "public.seat"."id" = "public.ticket"."seat_id"
-LEFT JOIN "public.price_level" ON "public.seat"."price_level_id" = "public.price_level"."id"
 LEFT JOIN "public.sessions" ON "public.ticket"."session_id" = "public.sessions"."id"
 LEFT JOIN "public.movie" ON "public.sessions"."movie_id" = "public.movie"."id"
 GROUP BY "public.movie"."title";

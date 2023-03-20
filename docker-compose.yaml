@@ -19,7 +19,7 @@ services:
     image: myapp/nginx
     container_name: webserver1
     ports:
-      - '${NGINX_PORT_1}:80'
+      - '${NGINX_PORT_1}:8081'
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -32,7 +32,7 @@ services:
     image: myapp/nginx
     container_name: webserver2
     ports:
-      - '${NGINX_PORT_2}:80'
+      - '${NGINX_PORT_2}:8082'
     volumes:
       - ./code:/data/mysite.local
     networks:

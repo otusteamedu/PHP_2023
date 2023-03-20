@@ -5,7 +5,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
+    image: myapp/nginx/balancer
     container_name: webserver
     ports:
       - '${NGINX_PORT}:80'
@@ -16,7 +16,7 @@ services:
     build:
       context: ./nginx1
       dockerfile: Dockerfile
-    image: myapp/nginx
+    image: myapp/nginx/balanced/first
     container_name: webserver1
     ports:
       - '${NGINX_PORT_1}:8081'
@@ -29,7 +29,7 @@ services:
     build:
       context: ./nginx2
       dockerfile: Dockerfile
-    image: myapp/nginx
+    image: myapp/nginx/balanced/second
     container_name: webserver2
     ports:
       - '${NGINX_PORT_2}:8082'
@@ -42,7 +42,7 @@ services:
     build:
       context: ./fpm1
       dockerfile: Dockerfile
-    image: myapp/php
+    image: myapp/php/first
     container_name: app
     environment:
       FPM_HOST: app
@@ -56,7 +56,7 @@ services:
     build:
       context: ./fpm2
       dockerfile: Dockerfile
-    image: myapp/php
+    image: myapp/php/second
     container_name: app2
     environment:
       FPM_HOST: app-2

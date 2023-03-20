@@ -1,0 +1,157 @@
+
+
+CREATE TABLE "public.hall" (
+	"id" serial NOT NULL,
+	"name" VARCHAR(255) NOT NULL,
+	CONSTRAINT "hall_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.seat" (
+	"id" serial NOT NULL,
+	"hall_id" integer NOT NULL,
+	"row_num" integer NOT NULL,
+	"seat_num" integer NOT NULL,
+	"price_level_id" integer NOT NULL,
+	CONSTRAINT "seat_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.price_level" (
+	"id" serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"price" integer NOT NULL,
+	"currency_id" integer NOT NULL,
+	CONSTRAINT "price_level_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.currency" (
+	"id" serial NOT NULL,
+	"name" varchar(255) NOT NULL,
+	"sign" varchar(255),
+	CONSTRAINT "currency_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.age_limit" (
+	"id" serial NOT NULL,
+	"age" integer NOT NULL,
+	"name" varchar(255) NOT NULL,
+	CONSTRAINT "age_limit_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.movie" (
+	"id" serial NOT NULL,
+	"title" varchar(255) NOT NULL,
+	"duration" TIME NOT NULL,
+	"description" TEXT NOT NULL,
+	"age_limit_id" integer NOT NULL,
+	CONSTRAINT "movie_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.hall_session" (
+	"id" serial NOT NULL,
+	"hall_id" integer NOT NULL,
+	"session_time" TIME WITH TIME ZONE NOT NULL,
+	CONSTRAINT "hall_session_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.sessions" (
+	"id" serial NOT NULL,
+	"hall_session_id" integer NOT NULL,
+	"session_date" TIMESTAMP WITH TIME ZONE NOT NULL,
+	"movie_id" integer NOT NULL,
+	CONSTRAINT "sessions_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.customer" (
+	"id" serial NOT NULL,
+	"lastname" varchar(255) NOT NULL,
+	"firstname" varchar(255) NOT NULL,
+	"patronym" varchar(255) NOT NULL,
+	"phone" varchar(255) NOT NULL,
+	"email" varchar(255) NOT NULL,
+	CONSTRAINT "customer_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.ticket" (
+	"id" serial NOT NULL,
+	"session_id" integer NOT NULL,
+	"seat_id" integer NOT NULL,
+	CONSTRAINT "ticket_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.orders" (
+	"id" serial NOT NULL,
+	"customer_id" integer NOT NULL,
+	"order_datetime" TIMESTAMP WITH TIME ZONE NOT NULL,
+	CONSTRAINT "orders_pk" PRIMARY KEY ("id")
+) WITH (
+  OIDS=FALSE
+);
+
+CREATE TABLE "public.order_list" (
+	"order_id" integer NOT NULL,
+	"ticket_id" integer NOT NULL,
+	"price" integer NOT NULL,
+	"currency_id" integer NOT NULL,
+	CONSTRAINT "order_list_pk" PRIMARY KEY ("order_id","ticket_id")
+) WITH (
+  OIDS=FALSE
+);
+
+ALTER TABLE "public.seat" ADD CONSTRAINT "seat_fk0" FOREIGN KEY ("hall_id") REFERENCES "public.hall"("id");
+ALTER TABLE "public.seat" ADD CONSTRAINT "seat_fk1" FOREIGN KEY ("price_level_id") REFERENCES "public.price_level"("id");
+ALTER TABLE "public.price_level" ADD CONSTRAINT "price_level_fk0" FOREIGN KEY ("currency_id") REFERENCES "public.currency"("id");
+ALTER TABLE "public.movie" ADD CONSTRAINT "movie_fk0" FOREIGN KEY ("age_limit_id") REFERENCES "public.age_limit"("id");
+ALTER TABLE "public.hall_session" ADD CONSTRAINT "hall_session_fk0" FOREIGN KEY ("hall_id") REFERENCES "public.hall"("id");
+ALTER TABLE "public.sessions" ADD CONSTRAINT "sessions_fk0" FOREIGN KEY ("hall_session_id") REFERENCES "public.hall_session"("id");
+ALTER TABLE "public.sessions" ADD CONSTRAINT "sessions_fk1" FOREIGN KEY ("movie_id") REFERENCES "public.movie"("id");
+ALTER TABLE "public.ticket" ADD CONSTRAINT "ticket_fk0" FOREIGN KEY ("session_id") REFERENCES "public.sessions"("id");
+ALTER TABLE "public.ticket" ADD CONSTRAINT "ticket_fk1" FOREIGN KEY ("seat_id") REFERENCES "public.seat"("id");
+ALTER TABLE "public.orders" ADD CONSTRAINT "orders_fk0" FOREIGN KEY ("customer_id") REFERENCES "public.customer"("id");
+ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk0" FOREIGN KEY ("order_id") REFERENCES "public.orders"("id");
+ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk1" FOREIGN KEY ("ticket_id") REFERENCES "public.ticket"("id");
+ALTER TABLE "public.order_list" ADD CONSTRAINT "order_list_fk2" FOREIGN KEY ("currency_id") REFERENCES "public.currency"("id");
+
+
+SELECT 
+	SUM("public.order_list"."price"),
+	"public.movie"."title"
+FROM "public.orders"
+LEFT JOIN "public.order_list" ON "public.order_list"."order_id" = "public.orders"."id"
+LEFT JOIN "public.ticket" ON "public.ticket"."id" = "public.order_list"."ticket_id"
+LEFT JOIN "public.sessions" ON "public.ticket"."session_id" = "public.sessions"."id"
+LEFT JOIN "public.movie" ON "public.sessions"."movie_id" = "public.movie"."id"
+GROUP BY "public.movie"."title";
+
+
+
+
+
+
+
+
+
+
+
+
+
+

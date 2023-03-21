@@ -1,0 +1,15 @@
+{
+    "name": "sva/merge-two-sorted-lists",
+    "authors": [
+        {
+            "name": "Vyacheslav Shevchenko",
+            "email": "webdev2030@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "lib"
+        }
+    },
+    "require": {}
+}

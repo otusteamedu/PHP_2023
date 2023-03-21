@@ -68,11 +68,9 @@ class Solution
             $list->next = $newNode;
         } else {
             $temp = $list->next;
-            
             while ($temp->next != null) {
                 $temp = $temp->next;
             }
-            
             $temp->next = $newNode;
         }
     }

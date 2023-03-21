@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Definition for a singly-linked list.
- */
 namespace Sva;
 
 class ListNode

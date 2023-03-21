@@ -4,7 +4,6 @@ namespace Sva;
 
 class Solution
 {
-
     /**
      * @param ListNode|null $list1
      * @param ListNode|null $list2

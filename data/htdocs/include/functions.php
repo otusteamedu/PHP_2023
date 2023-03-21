@@ -1,4 +1,5 @@
 <?php
+
 function printList(?Sva\ListNode $node): void
 {
     if ($node != null) {

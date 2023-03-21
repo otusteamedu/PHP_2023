@@ -1,0 +1,16 @@
+{
+    "name": "m.fatjanova/mergetwolists",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MFatjanova\\MergeTwoLists\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "fatyanova.maria",
+            "email": "fatyanova.m@i20.team"
+        }
+    ],
+    "require": {}
+}

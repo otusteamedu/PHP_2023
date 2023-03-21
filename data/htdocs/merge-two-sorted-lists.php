@@ -1,4 +1,5 @@
 <?php
+
 function printList(?ListNode $node): void
 {
     if ($node != null) {
@@ -20,7 +21,7 @@ class ListNode
     public $val = 0;
     public ?ListNode $next = null;
 
-    function __construct($val = 0, $next = null)
+    public function __construct($val = 0, $next = null)
     {
         $this->val = $val;
         $this->next = $next;
@@ -31,11 +32,12 @@ class Solution
 {
 
     /**
-     * @param ListNode $list1
-     * @param ListNode $list2
+     * @param ListNode|null $list1
+     * @param ListNode|null $list2
      * @return ListNode
      */
-    function mergeTwoLists(?ListNode $list1, ?ListNode $list2) {
+    function mergeTwoLists(?ListNode $list1, ?ListNode $list2): ?ListNode {
+        // Проверка если переданы 1 или меньше аргументов
         if(is_null($list1) && is_null($list2)) {
             return null;
         } elseif(is_null($list1)) {
@@ -44,6 +46,7 @@ class Solution
             return $list1;
         }
 
+        // Определяем в каком списке первый элемент меньше с того и начнём работу
         if ($list2->val >= $list1->val) {
             $tmp1 = $list1;
             $tmp2 = $list2;
@@ -56,23 +59,24 @@ class Solution
         $tmp1 = $tmp1->next;
         $tmp3 = $list3;
 
-        while ($tmp1 != null) {
-            while ($tmp2 != null && $tmp2->val <= $tmp1->val) {
+        while ($tmp1 || $tmp2) {
+            if($tmp1 && $tmp2) {
+                if($tmp1->val < $tmp2->val) {
+                    $tmp3->next = new ListNode($tmp1->val);
+                    $tmp1 = $tmp1->next;
+                } else {
+                    $tmp3->next = new ListNode($tmp2->val);
+                    $tmp2 = $tmp2->next;
+                }
+            } elseif($tmp1) {
+                $tmp3->next = new ListNode($tmp1->val);
+                $tmp1 = $tmp1->next;
+            } elseif($tmp2) {
                 $tmp3->next = new ListNode($tmp2->val);
-                $tmp3 = $tmp3->next;
                 $tmp2 = $tmp2->next;
             }
 
-            $tmp3->next = new ListNode($tmp1->val);
             $tmp3 = $tmp3->next;
-
-            $tmp1 = $tmp1->next;
-        }
-
-        while($tmp2) {
-            $tmp3->next = new ListNode($tmp2->val);
-            $tmp3 = $tmp3->next;
-            $tmp2 = $tmp2->next;
         }
 
         return $list3;

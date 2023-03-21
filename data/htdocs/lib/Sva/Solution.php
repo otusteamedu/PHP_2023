@@ -9,7 +9,7 @@ class Solution
      * @param ListNode|null $list2
      * @return ListNode
      */
-    function mergeTwoLists(?ListNode $list1, ?ListNode $list2): ?ListNode
+    public function mergeTwoLists(?ListNode $list1, ?ListNode $list2): ?ListNode
     {
         // Проверка если переданы 1 или меньше аргументов
         if (is_null($list1) && is_null($list2)) {
@@ -68,8 +68,11 @@ class Solution
             $list->next = $newNode;
         } else {
             $temp = $list->next;
-            while ($temp->next != null)
+            
+            while ($temp->next != null) {
                 $temp = $temp->next;
+            }
+            
             $temp->next = $newNode;
         }
     }

@@ -1,4 +1,5 @@
 <?php
+
 include './vendor/autoload.php';
 include './include/functions.php';
 
@@ -37,7 +38,7 @@ printList($first3);
 echo "\n----";
 
 $solution = new Solution();
-$list1 = new ListNode(2);;
+$list1 = new ListNode(2);
 $list2 = new ListNode(1);
 
 $first3 = $solution->mergeTwoLists($list1, $list2);
@@ -50,7 +51,7 @@ printList($first3);
 echo "\n----";
 
 $solution = new Solution();
-$list1 = new ListNode(-9);;
+$list1 = new ListNode(-9);
 $solution->addToList($list1, new ListNode(3));
 
 $list2 = new ListNode(5);

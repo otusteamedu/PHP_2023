@@ -33,7 +33,6 @@ class Solution
                 } else {
                     $result_head->next = null;
                 }
-
             } elseif ((!empty($list1)) && ($list1->val > $list2->val)) {
                 $result_head->val = $list2->val;
                 $result_head->next = new ListNode($list1->val);

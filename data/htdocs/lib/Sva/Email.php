@@ -5,7 +5,6 @@ namespace Sva;
 use Sva\Email\FromInput;
 use Sva\Email\FromFile;
 
-
 class Email
 {
     public static function validateFromInput(string $separator = ','): array

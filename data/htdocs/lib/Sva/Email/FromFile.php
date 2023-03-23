@@ -2,6 +2,9 @@
 
 namespace Sva\Email;
 
+use Exception;
+use Generator;
+
 class FromFile
 {
     private Validator $validator;
@@ -11,11 +14,16 @@ class FromFile
         $this->validator = new Validator();
     }
 
+    /**
+     * @param string $filePath
+     * @return array
+     * @throws Exception
+     */
     public function validate(string $filePath): array
     {
         $result = [];
 
-        if(file_exists($filePath)) {
+        if (file_exists($filePath)) {
             $lines = $this->getLines($filePath);
 
             foreach ($lines as $key => $line) {
@@ -25,11 +33,15 @@ class FromFile
 
             return $result;
         } else {
-            throw new \Exception('File \'' . $filePath . '\' not found');
+            throw new Exception('File \'' . $filePath . '\' not found');
         }
     }
 
-    private function getLines($file): \Generator
+    /**
+     * @param $file
+     * @return Generator
+     */
+    private function getLines($file): Generator
     {
         $f = fopen($file, 'r');
         try {

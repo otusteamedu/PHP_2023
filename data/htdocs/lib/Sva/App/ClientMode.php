@@ -6,22 +6,18 @@ use Exception;
 
 class ClientMode
 {
-    private bool $running;
-    private string $socketPath;
-
     /**
      * @throws Exception
      */
     public function start(): void
     {
         $config = Config::getInstance();
-        $this->socketPath = $config->get('socket');
+        $socketPath = $config->get('socket');
 
         if ($f = fopen('php://stdin', 'r')) {
+            $running = true;
 
-            $this->running = true;
-
-            while ($this->running) {
+            while ($running) {
                 echo "Введите сообщение для сервера\n";
 
                 echo "> ";
@@ -37,7 +33,7 @@ class ClientMode
                     throw new Exception("Unable to create socket: " . socket_strerror(socket_last_error()));
                 }
 
-                if (socket_connect($this->socket, $this->socketPath) === false) {
+                if (socket_connect($this->socket, $socketPath) === false) {
                     throw new Exception("Unable to connect socket: " . "[" . socket_last_error() . "] " . socket_strerror(socket_last_error()));
                 }
 
@@ -56,7 +52,7 @@ class ClientMode
                 socket_close($this->socket);
             }
 
-            $this->running = false;
+            $running = false;
             fclose($f);
         }
     }

@@ -69,7 +69,7 @@ class Arr
         return array_key_exists($key, $array);
     }
 
-    static function buildTree(array $elements, $parentId = 0, $idKeyName = 'ID', $parentIdKeyName = 'PARENT_ID'): array
+    public static function buildTree(array $elements, $parentId = 0, $idKeyName = 'ID', $parentIdKeyName = 'PARENT_ID'): array
     {
         $branch = array();
 

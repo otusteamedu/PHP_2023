@@ -16,7 +16,7 @@ class Config
 
     protected function __construct()
     {
-        if(file_exists($this->getPath())) {
+        if (file_exists($this->getPath())) {
             $this->config = include $this->getPath();
         }
     }

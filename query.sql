@@ -12,7 +12,7 @@ FROM
 WHERE
     tickets.session_id = sessions.id
     AND sessions.movie_id = movies.id
-    AND tickets.is_paid = true
+    AND tickets.paid_at IS NOT NULL
 GROUP BY
     movies.id
 ORDER BY
@@ -21,17 +21,15 @@ LIMIT 1;
 
 -- Вариант 2
 SELECT
-    movies.title, SUM(tickets.price) as total
+    m.title, SUM(t.price) as total
 FROM
-    movies
-INNER JOIN
-    sessions ON sessions.movie_id = movies.id
-INNER JOIN
-    tickets ON tickets.session_id = sessions.id
+    movies m
+    JOIN sessions s ON s.movie_id = m.id
+    JOIN tickets t ON t.session_id = s.id
 WHERE
-    tickets.is_paid = true
+    t.paid_at IS NOT NULL
 GROUP BY
-    movies.id
+    m.id
 ORDER BY
     total DESC
 LIMIT 1;
@@ -45,7 +43,7 @@ WITH total AS (
     INNER JOIN
         tickets ON tickets.session_id = sessions.id
     WHERE
-        tickets.is_paid = true
+        tickets.paid_at IS NOT NULL
     GROUP BY
         sessions.movie_id
 )

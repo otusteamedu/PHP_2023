@@ -3,7 +3,6 @@
 namespace Sva\App;
 
 use Sva\Singleton;
-use Sva\Arr;
 
 class Config
 {
@@ -17,17 +16,17 @@ class Config
     protected function __construct()
     {
         if (file_exists($this->getPath())) {
-            $this->config = include $this->getPath();
+            $this->config = parse_ini_file($this->getPath());
         }
     }
 
     public function get($message)
     {
-        return Arr::get($this->config, $message);
+        return $this->config[$message];
     }
 
     protected function getPath(): string
     {
-        return realpath(__DIR__ . "/../../../config/app.php");
+        return realpath(__DIR__ . "/../../../config/app.ini");
     }
 }

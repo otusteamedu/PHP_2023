@@ -9,7 +9,7 @@ class Arr
     /**
      * Determine whether the given value is array accessible.
      *
-     * @param  mixed  $value
+     * @param mixed $value
      * @return bool
      */
     public static function accessible($value): bool
@@ -20,8 +20,8 @@ class Arr
     /**
      * Get an item from an array using "dot" notation.
      *
-     * @param ArrayAccess|array  $array
-     * @param  string|int|null  $key
+     * @param ArrayAccess|array $array
+     * @param string|int|null $key
      * @return mixed
      */
     public static function get($array, $key)
@@ -52,8 +52,8 @@ class Arr
     /**
      * Determine if the given key exists in the provided array.
      *
-     * @param ArrayAccess|array  $array
-     * @param  string|int  $key
+     * @param ArrayAccess|array $array
+     * @param string|int $key
      * @return bool
      */
     public static function exists($array, $key): bool
@@ -63,7 +63,7 @@ class Arr
         }
 
         if (is_float($key)) {
-            $key = (string) $key;
+            $key = (string)$key;
         }
 
         return array_key_exists($key, $array);

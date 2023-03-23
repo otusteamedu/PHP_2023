@@ -7,11 +7,6 @@ use Exception;
 class ServerMode
 {
     protected bool $running = false;
-    private \Socket $socket;
-    /**
-     * @var array|\ArrayAccess|mixed|null
-     */
-    private mixed $socketPath;
 
     /**
      * @return void
@@ -22,23 +17,23 @@ class ServerMode
         $this->running = true;
 
         $config = Config::getInstance();
-        $this->socketPath = $config->get('socket');
+        $socketPath = $config->get('socket');
 
-        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if ($this->socket === false) {
+        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if ($socket === false) {
             throw new Exception("Unable to create socket: " . socket_strerror(socket_last_error()));
         }
 
-        if (socket_bind($this->socket, $this->socketPath) === false) {
+        if (socket_bind($socket, $socketPath) === false) {
             throw new Exception("Unable to bind socket: " . "[" . socket_last_error() . "] " . socket_strerror(socket_last_error()));
         }
 
-        if (socket_listen($this->socket) === false) {
+        if (socket_listen($socket) === false) {
             throw new Exception("Unable to listen on socket: " . socket_strerror(socket_last_error()));
         }
 
         while ($this->running) {
-            $clientSocket = socket_accept($this->socket);
+            $clientSocket = socket_accept($socket);
             if ($clientSocket === false) {
                 throw new Exception("Unable to accept client connection: " . socket_strerror(socket_last_error()));
             }
@@ -58,10 +53,10 @@ class ServerMode
             socket_close($clientSocket);
         }
 
-        socket_close($this->socket);
+        socket_close($socket);
     }
 
-    public function stop()
+    public function stop(): void
     {
         $this->running = false;
     }

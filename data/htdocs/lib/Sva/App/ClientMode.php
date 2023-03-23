@@ -6,6 +6,9 @@ use Exception;
 
 class ClientMode
 {
+    private bool $running;
+    private string $socketPath;
+
     /**
      * @throws Exception
      */
@@ -14,18 +17,18 @@ class ClientMode
         $config = Config::getInstance();
         $this->socketPath = $config->get('socket');
 
-        if($f = fopen( 'php://stdin', 'r' )) {
+        if ($f = fopen('php://stdin', 'r')) {
 
             $this->running = true;
 
-            while($this->running){
+            while ($this->running) {
                 echo "Введите сообщение для сервера\n";
 
                 echo "> ";
 
                 $message = trim(fgets($f));
 
-                if($message == 'exit') {
+                if ($message == 'exit') {
                     break;
                 }
 

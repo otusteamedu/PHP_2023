@@ -1,4 +1,5 @@
 <?php
+
 namespace Sva\App;
 
 use Sva\App\Exceptions\UnknownMode;
@@ -16,11 +17,11 @@ class App
     public function run()
     {
         $this->config = Config::getInstance();
-        $mode =$this->config->get('mode');
+        $mode = $this->config->get('mode');
 
-        if($mode == 'server') {
+        if ($mode == 'server') {
             $this->startServer();
-        } elseif($mode == 'client') {
+        } elseif ($mode == 'client') {
             $this->startClient();
         } else {
             throw new UnknownMode($mode);

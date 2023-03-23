@@ -1,8 +1,8 @@
 <?php
 
-namespace Sva;
+namespace Sva\Email;
 
-class EmailValidator
+class Validator
 {
     public function validate(string $email): bool
     {
@@ -15,7 +15,7 @@ class EmailValidator
         return $result;
     }
 
-    public function validateMx($email)
+    public function validateMx($email): bool
     {
         list ($name, $host) =  explode('@', $email);
         $mx = checkdnsrr($host, 'MX');

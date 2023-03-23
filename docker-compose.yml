@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    image: myapp/app
+    container_name: server
+    environment:
+      - APP_MODE=server
+    volumes:
+      - ./data/htdocs:/data/default
+      - ./data/log/php:/var/log/php
+    networks:
+      - app-network
+    tty: true
+    stdin_open: true
+
+  client:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    depends_on:
+      - server
+    image: myapp/app
+    container_name: client
+    environment:
+      - APP_MODE=client
+    volumes:
+      - ./data/htdocs:/data/default
+      - ./data/log/php:/var/log/php
+    networks:
+      - app-network
+    tty: true
+    stdin_open: true
+
+networks:
+  app-network:
+    driver: bridge

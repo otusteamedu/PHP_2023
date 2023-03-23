@@ -1,0 +1,21 @@
+server {
+    listen       80 default_server;
+    listen  [::]:80 default_server;
+    server_name  _;
+
+    root /data/default/public;
+    index index.php index.html;
+
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass ${APP}:9000;
+    }
+
+    location ~ /\.ht {
+        deny  all;
+    }
+}

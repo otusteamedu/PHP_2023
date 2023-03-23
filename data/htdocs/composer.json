@@ -1,0 +1,16 @@
+{
+    "name": "sva/email",
+    "type": "project",
+    "description": "",
+    "license": "MIT",
+    "require": {
+        "php": "^8.0.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "": "lib"
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

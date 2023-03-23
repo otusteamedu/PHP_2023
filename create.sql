@@ -15,6 +15,23 @@ $$ BEGIN
     RETURN start_date + random() * (end_date - start_date);
 END; $$ language 'plpgsql' STRICT;
 
+-- Случайный набор символов
+CREATE OR REPLACE FUNCTION random_word(length INTEGER)
+    RETURNS TEXT AS
+$$ DECLARE
+    chars text[] := '{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+    result text := '';
+    i integer := 0;
+BEGIN
+    IF length < 0 THEN
+        length := 1;
+    END IF;
+    FOR i IN 1..length LOOP
+        result := result || chars[1+random()*(array_length(chars, 1)-1)];
+    END LOOP;
+    RETURN result;
+END; $$ LANGUAGE plpgsql;
+
 -- 1. Кинотеатры
 CREATE TABLE IF NOT EXISTS cinemas
 (
@@ -122,7 +139,8 @@ CREATE TABLE IF NOT EXISTS tickets
     seat_id UUID NOT NULL,
     client_id UUID NOT NULL,
     price INT NOT NULL,
-    is_paid BOOLEAN NOT NULL,
+    paid_at TIMESTAMPTZ DEFAULT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (id),
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (seat_id) REFERENCES seats(id) ON UPDATE CASCADE ON DELETE CASCADE,

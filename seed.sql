@@ -1,18 +1,19 @@
 -- Параметры
-SET SESSION my.cinemas_count = '5';
-SET SESSION my.genres_count = '5';
-SET SESSION my.movies_count = '5';
-SET SESSION my.clients_count = '5';
+SET SESSION my.cinemas_count = '15';
+SET SESSION my.genres_count = '15';
+SET SESSION my.movies_count = '15';
+SET SESSION my.clients_count = '15';
+-- 20.5 Млн билетов
 
-SET SESSION my.start_date = '1941-01-01';
+SET SESSION my.start_date = '2022-01-01';
 
--- 1. Фильмы
+-- 1. Кинотеатры
 INSERT INTO cinemas (title, description, address, thumbnail, halls_count)
 SELECT
-    concat('Cinema ', number),
-    concat('Cinema ', number, ' description'),
-    concat('Cinema ', number, ' address'),
-    concat('/cinemas/', number, '/thumbnail.webp'),
+    concat('Cinema ', random_word(5)),
+    concat('Cinema ', random_word(5), ' description'),
+    concat('Cinema ', random_word(5), ' address'),
+    concat('/cinemas/', random_word(5), '/thumbnail.webp'),
     random_between(10, 50)
 FROM
     GENERATE_SERIES(1, current_setting('my.cinemas_count')::int) as number;
@@ -21,7 +22,7 @@ FROM
 INSERT INTO halls (cinema_id, title, seats_count)
 SELECT
     cinema.id,
-    concat('Hall ', number),
+    concat('Hall ', random_word(5)),
     random_between(100, 800)
 FROM
     GENERATE_SERIES(1, 3) as number,
@@ -40,8 +41,8 @@ FROM
 -- 4. Жанры
 INSERT INTO genres (title, description)
 SELECT
-    concat('Genre ', number),
-    concat('Genre ', number, ' description')
+    concat('Genre ', random_word(5)),
+    concat('Genre ', random_word(5), ' description')
 FROM
     GENERATE_SERIES(1, current_setting('my.genres_count')::int) as number;
 
@@ -53,24 +54,24 @@ INSERT INTO movies (
 )
 SELECT
     genre.id,
-    concat('Movie ', number),
-    concat('Movie ', number, ' description'),
+    concat('Movie ', random_word(5)),
+    concat('Movie ', random_word(5), ' description'),
     random_between(60, 200),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
     random() * 10,
-    concat('/movies/', number, '/thumbnail.webp')
+    concat('/movies/', random_word(5), '/thumbnail.webp')
 FROM
     GENERATE_SERIES(1, current_setting('my.movies_count')::int) as number,
     (SELECT id FROM genres) as genre;
 
 -- 6. Киносеансы
-INSERT INTO sessions (movie_id, hall_id, date,start_time, finish_time)
+INSERT INTO sessions (movie_id, hall_id, date, start_time, finish_time)
 SELECT
     movie.id,
     hall.id,
-    random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
+    random_timestamp(NOW() - INTERVAL '2 WEEK', NOW() + INTERVAL '2 MONTH'),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW()),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
 FROM
@@ -80,24 +81,24 @@ FROM
 -- 7. Клиенты
 INSERT INTO clients (firstname, lastname, email, phone, birth_date)
 SELECT
-    concat('Firstname ', number),
-    concat('Lastname ', number),
-    concat('email', number, '@example.com'),
+    concat('Firstname ', random_word(5)),
+    concat('Lastname ', random_word(5)),
+    concat('email', random_word(5), '@example.com'),
     random_between(9210000000, 9999999999),
     random_timestamp(current_setting('my.start_date')::timestamptz, NOW())
 FROM
     GENERATE_SERIES(1, current_setting('my.clients_count')::int) as number;
 
 -- 8. Билеты
-INSERT INTO tickets (session_id, seat_id, client_id, price, is_paid)
+INSERT INTO tickets (session_id, seat_id, client_id, price, paid_at)
 SELECT
     session.id,
     seat.id,
     client.id,
     random_between(200, 1600),
-    random() > 0.5
+    (session.date + INTERVAL '14 HOURS')::timestamptz
 FROM
-    (SELECT id FROM sessions) as session,
+    (SELECT id, date FROM sessions) as session,
     (SELECT id FROM seats) as seat,
     (SELECT id FROM clients) as client;
 

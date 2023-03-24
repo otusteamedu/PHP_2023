@@ -1,0 +1,209 @@
+-- Uuid расширение
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Случайное число
+CREATE OR REPLACE FUNCTION random_between(low BIGINT ,high BIGINT)
+    RETURNS BIGINT AS
+$$ BEGIN
+    RETURN floor(random()* (high-low + 1) + low);
+END; $$ language 'plpgsql' STRICT;
+
+-- Случайная дата
+CREATE OR REPLACE FUNCTION random_timestamp(start_date TIMESTAMPTZ, end_date TIMESTAMPTZ)
+    RETURNS TIMESTAMPTZ AS
+$$ BEGIN
+    RETURN start_date + random() * (end_date - start_date);
+END; $$ language 'plpgsql' STRICT;
+
+-- Случайный набор символов
+CREATE OR REPLACE FUNCTION random_word(length INTEGER)
+    RETURNS TEXT AS
+$$ DECLARE
+    chars text[] := '{A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+    result text := '';
+    i integer := 0;
+BEGIN
+    IF length < 0 THEN
+        length := 1;
+    END IF;
+    FOR i IN 1..length LOOP
+        result := result || chars[1+random()*(array_length(chars, 1)-1)];
+    END LOOP;
+    RETURN result;
+END; $$ LANGUAGE plpgsql;
+
+-- 1. Кинотеатры
+CREATE TABLE IF NOT EXISTS cinemas
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    title VARCHAR(128) NOT NULL,
+    description VARCHAR(1024) NOT NULL,
+    address VARCHAR(512) NOT NULL,
+    thumbnail TEXT NOT NULL,
+    halls_count SMALLINT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- 2. Залы
+CREATE TABLE IF NOT EXISTS halls
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    cinema_id UUID NOT NULL,
+    title VARCHAR(128) NOT NULL,
+    seats_count SMALLINT NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (cinema_id) REFERENCES cinemas(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- 3. Типы мест (ENUM)
+DO $$ BEGIN
+    IF NOT EXISTS (SELECT 1 FROM pg_type WHERE typname = 'seat_type')
+        THEN CREATE TYPE seat_type AS ENUM ('basic', 'premium', 'deluxe');
+    END IF;
+END $$;
+
+-- Места
+CREATE TABLE IF NOT EXISTS seats
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    hall_id UUID NOT NULL,
+    row INT NOT NULL,
+    number INT NOT NULL,
+    type seat_type NOT NULL DEFAULT 'basic',
+    PRIMARY KEY (id),
+    FOREIGN KEY (hall_id) REFERENCES halls(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (hall_id, row, number)
+);
+
+-- 4. Жанры
+CREATE TABLE IF NOT EXISTS genres
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    title VARCHAR(256) NOT NULL,
+    description TEXT NOT NULL,
+    PRIMARY KEY (id)
+);
+
+-- 5. Фильмы
+CREATE TABLE IF NOT EXISTS movies
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    genre_id UUID NOT NULL,
+    title VARCHAR(256) NOT NULL,
+    description VARCHAR(1024) NOT NULL,
+    duration SMALLINT NOT NULL,
+    release_date DATE NOT NULL,
+    rental_start TIMESTAMPTZ NOT NULL,
+    rental_finish TIMESTAMPTZ NOT NULL,
+    rating FLOAT NOT NULL,
+    thumbnail TEXT NOT NULL,
+    attributes JSON NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (genre_id) REFERENCES genres(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- 6. Сеансы
+CREATE TABLE IF NOT EXISTS sessions
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    movie_id UUID NOT NULL,
+    hall_id UUID NOT NULL,
+    date DATE NOT NULL,
+    start_time TIMETZ NOT NULL,
+    finish_time TIMETZ NOT NULL,
+    PRIMARY KEY (id),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (hall_id) REFERENCES halls(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (movie_id, hall_id, date, start_time, finish_time)
+);
+
+-- 7. Клиенты
+CREATE TABLE IF NOT EXISTS clients
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    firstname VARCHAR(256) NOT NULL,
+    lastname VARCHAR(256) NOT NULL,
+    email VARCHAR(256) NOT NULL,
+    phone BIGINT,
+    birth_date DATE NOT NULL,
+    PRIMARY KEY (id),
+    UNIQUE (email),
+    UNIQUE (phone)
+);
+
+/* _8 Статусы билетов
+
+  0 - Забронирован
+  1 - Оплачен
+  2 - Запрошен возврат
+  3 - Возврат
+  4 - Отменён
+ */
+
+-- 8. Билеты
+CREATE TABLE IF NOT EXISTS tickets
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4(),
+    session_id UUID NOT NULL,
+    seat_id UUID NOT NULL,
+    client_id UUID NOT NULL,
+    status SMALLINT DEFAULT 0,
+    price INT NOT NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW(),
+    PRIMARY KEY (id),
+    FOREIGN KEY (session_id) REFERENCES sessions(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (seat_id) REFERENCES seats(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (client_id) REFERENCES clients(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (session_id, seat_id, client_id)
+);
+
+/* _8.1 Статусы платежей
+
+  0 - В обработке
+  1 - Успешно завершён
+  2 - Отменён
+ */
+-- 8.1 Платежи
+CREATE TABLE IF NOT EXISTS payments
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    ticket_id UUID NOT NULL REFERENCES tickets(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    transaction_id UUID UNIQUE NOT NULL,
+    paid BOOL DEFAULT false,
+    status SMALLINT DEFAULT 0,
+    card VARCHAR(16) NOT NULL,
+    amount INT NOT NULL,
+    payload JSON NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 9. Типы атрибутов
+CREATE TABLE IF NOT EXISTS attribute_types
+(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    type VARCHAR(256) NOT NULL UNIQUE
+);
+
+-- 10. Атрибуты
+CREATE TABLE attributes
+(
+    id BIGSERIAL NOT NULL PRIMARY KEY,
+    parent_id BIGINT NULL,
+    attribute_type_id BIGINT NOT NULL,
+    title VARCHAR(256) NOT NULL UNIQUE,
+    FOREIGN KEY (parent_id) REFERENCES attributes(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (attribute_type_id) REFERENCES attribute_types(id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+-- 11. Значения атрибутов
+CREATE TABLE values(
+    id UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    movie_id UUID NOT NULL,
+    attribute_id BIGINT NOT NULL,
+    text TEXT NULL,
+    bool BOOLEAN NULL,
+    date DATE NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (attribute_id) REFERENCES attributes(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    UNIQUE (movie_id, attribute_id)
+);

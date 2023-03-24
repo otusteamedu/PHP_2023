@@ -131,6 +131,15 @@ CREATE TABLE IF NOT EXISTS clients
     UNIQUE (phone)
 );
 
+/* _8 Статусы билетов
+
+  0 - Забронирован
+  1 - Оплачен
+  2 - Запрошен возврат
+  3 - Возврат
+  4 - Отменён
+ */
+
 -- 8. Билеты
 CREATE TABLE IF NOT EXISTS tickets
 (
@@ -138,14 +147,34 @@ CREATE TABLE IF NOT EXISTS tickets
     session_id UUID NOT NULL,
     seat_id UUID NOT NULL,
     client_id UUID NOT NULL,
+    status SMALLINT DEFAULT 0,
     price INT NOT NULL,
-    paid_at TIMESTAMPTZ DEFAULT NULL,
     created_at TIMESTAMPTZ DEFAULT NOW(),
     PRIMARY KEY (id),
     FOREIGN KEY (session_id) REFERENCES sessions(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (seat_id) REFERENCES seats(id) ON UPDATE CASCADE ON DELETE CASCADE,
     FOREIGN KEY (client_id) REFERENCES clients(id) ON UPDATE CASCADE ON DELETE CASCADE,
     UNIQUE (session_id, seat_id, client_id)
+);
+
+/* _8.1 Статусы платежей
+
+  0 - В обработке
+  1 - Успешно завершён
+  2 - Отменён
+ */
+-- 8.1 Платежи
+CREATE TABLE IF NOT EXISTS payments
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    ticket_id UUID NOT NULL REFERENCES tickets(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    transaction_id UUID UNIQUE NOT NULL,
+    paid BOOL DEFAULT false,
+    status SMALLINT DEFAULT 0,
+    card VARCHAR(16) NOT NULL,
+    amount INT NOT NULL,
+    payload JSON NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- 9. Типы атрибутов

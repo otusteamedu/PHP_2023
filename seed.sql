@@ -1,9 +1,9 @@
 -- Параметры
-SET SESSION my.cinemas_count = '15';
-SET SESSION my.genres_count = '15';
-SET SESSION my.movies_count = '15';
-SET SESSION my.clients_count = '15';
--- 20.5 Млн билетов
+SET SESSION my.cinemas_count = '12';
+SET SESSION my.genres_count = '12';
+SET SESSION my.movies_count = '12';
+SET SESSION my.clients_count = '12';
+-- Tickets ~ 6.7M + Payments 6.7M = 13+M
 
 SET SESSION my.start_date = '2022-01-01';
 
@@ -89,18 +89,58 @@ SELECT
 FROM
     GENERATE_SERIES(1, current_setting('my.clients_count')::int) as number;
 
+/* _8 Статусы билетов
+
+  0 - Забронирован
+  1 - Оплачен
+  2 - Запрошен возврат
+  3 - Возврат
+  4 - Отменён
+ */
 -- 8. Билеты
-INSERT INTO tickets (session_id, seat_id, client_id, price, paid_at)
+INSERT INTO tickets (session_id, seat_id, client_id, status, price, created_at)
 SELECT
     session.id,
     seat.id,
     client.id,
+    random_between(0, 4),
     random_between(200, 1600),
-    (session.date + INTERVAL '14 HOURS')::timestamptz
+    random_timestamp(NOW() - INTERVAL '2 MONTH', NOW())
 FROM
     (SELECT id, date FROM sessions) as session,
     (SELECT id FROM seats) as seat,
     (SELECT id FROM clients) as client;
+/* _8.1 Статусы платежей
+
+  0 - В обработке
+  1 - Оплачен
+  2 - Отменён
+ */
+-- 8.1 Платежи
+INSERT INTO payments (ticket_id, transaction_id, paid, status, card, amount, payload)
+SELECT
+    ticket.id,
+    uuid_generate_v4(),
+    round(random())::int::boolean,
+    random_between(0, 2),
+    CONCAT('44433456', random_between(10000000, 99999999)::char),
+    ticket.price,
+    '{}'
+FROM
+    (SELECT id, price FROM tickets) as ticket;
+
+CREATE TABLE IF NOT EXISTS payments
+(
+    id UUID NOT NULL DEFAULT uuid_generate_v4() PRIMARY KEY,
+    ticket_id UUID NOT NULL REFERENCES tickets(id) ON UPDATE CASCADE ON DELETE CASCADE,
+    transaction_id UUID UNIQUE NOT NULL,
+    paid BOOL DEFAULT 0,
+    status SMALLINT DEFAULT 0,
+    card VARCHAR(16) NOT NULL,
+    amount INT NOT NULL,
+    payload JSON NULL,
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
 -- 9. Типы атрибутов
 INSERT INTO

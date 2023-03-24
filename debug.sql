@@ -1,7 +1,7 @@
 -- 1. Check settings
 SELECT name, setting FROM pg_settings;
 
---2. Tables & Indexes size stat
+-- 2. Tables & Indexes size stat
 SELECT
     relname AS entity,
     CASE
@@ -26,7 +26,7 @@ ORDER BY
     pg_total_relation_size(C.oid) DESC
 LIMIT 50;
 
---2. Indexes usage stat
+-- 2. Indexes usage stat
 SELECT
     table_name,
     pg_size_pretty(table_size) AS table_size,

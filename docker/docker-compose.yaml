@@ -1,34 +1,96 @@
 version: '3.9'
 services:
-  nginx:
+  nginx-master:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
+    image: myapp/nginx-master
+    container_name: master-webserver
     ports:
       - "8080:80"
     volumes:
       - ./..:/app
-    links:
-      - php-fpm
     networks:
       - app-network
     depends_on:
-      - php-fpm
+      - nginx1
+      - nginx2
 
-  php-fpm:
+  nginx1:
+    build:
+      context: ./nginx
+    image: myapp/nginx
+    container_name: webserver1
+    volumes:
+      - ./..:/app
+    links:
+      - app1
+    networks:
+      - app-network
+    depends_on:
+      - app1
+
+  nginx2:
+    build:
+      context: ./nginx
+    image: myapp/nginx
+    container_name: webserver2
+    volumes:
+      - ./..:/app
+    links:
+      - app2
+    networks:
+      - app-network
+    depends_on:
+      - app2
+
+  app1:
     build:
       context: ./php-fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: app
-    environment:
-      PHP_IDE_CONFIG: "serverName=sandbox"
+    container_name: app1
     volumes:
       - ./..:/app
     networks:
       - app-network
+
+  app2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    volumes:
+      - ./..:/app
+    networks:
+      - app-network
+
+  memcache:
+    container_name: memcache
+    image: memcached:alpine
+    networks:
+      - app-network
+
+  db:
+    container_name: db
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: '${MYSQL_DATABASE}'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD}'
+      MYSQL_USER: '${MYSQL_USER}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD}'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
 
 networks:
   app-network:

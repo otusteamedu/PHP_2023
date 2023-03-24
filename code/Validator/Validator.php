@@ -69,4 +69,20 @@ class Validator
 
         return true;
     }
+
+    public static function validatePost()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            header('Allow: POST');
+            echo 'Method Not Allowed';
+            exit;
+        }
+
+        if (!isset($_POST['string'])) {
+            http_response_code(422);
+            echo 'There is no key string in the request';
+            exit;
+        }
+    }
 }

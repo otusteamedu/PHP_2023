@@ -7,11 +7,15 @@ class Controller
 {
     public function stringBalance(): void
     {
+        Validator::validatePost();
+
         try {
             (new Validator($_POST['string']))->validate();
             $this->sendResponse(200, 'The string has correctly balanced parentheses.');
+            exit;
         } catch (Exception $e) {
             $this->sendResponse(400, $e->getMessage());
+            exit;
         }
     }
 

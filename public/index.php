@@ -1,33 +1,13 @@
 <?php
 
-session_start();
-$string = $_POST['string'] ?? '';
+use Pzagainov\Balancer\App;
 
-function check(string $string): bool
-{
-    if (!$string) {
-        return false;
-    }
+require_once(__DIR__ . '/../vendor/autoload.php');
 
-    $counter = 0;
-    for ($i = 0; $i < strlen($string); $i++) {
-        if ($string[$i] === '(') {
-            $counter++;
-        } elseif ($string[$i] === ')') {
-            $counter--;
-        }
-        if ($counter < 0) {
-            return false;
-        }
-    }
-
-    return $counter === 0;
-}
-
-if (check($string)) {
-    http_response_code(200);
-    echo 'OK';
-} else {
-    http_response_code(400);
-    echo 'Bad request';
+try {
+    $app = new App();
+    echo $app->run();
+} catch (\Exception $e) {
+    http_response_code($e->getCode());
+    echo $e->getMessage();
 }

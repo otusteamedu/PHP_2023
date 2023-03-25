@@ -1,0 +1,10 @@
+{
+    "name": "pzagainov/balancer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Pzagainov\\Balancer\\": "src/"
+        }
+    },
+    "require": {}
+}

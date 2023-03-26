@@ -95,7 +95,8 @@ CREATE TABLE IF NOT EXISTS "tickets"
     "session_id"  int                not null REFERENCES sessions ("id") ON DELETE CASCADE,
     "seat_id"     int                not null REFERENCES seats ("id") ON DELETE SET NULL,
     "customer_id" int                NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-    "type" int NOT NULL REFERENCES tickets_types(id) ON DELETE NO ACTION,
+    "type_id" int NOT NULL REFERENCES tickets_types(id) ON DELETE NO ACTION,
+    "sale_price"  int,
     UNIQUE (session_id, seat_id),    -- на одном сеансе не могут быть заняты два одинаковых места
     UNIQUE (session_id, customer_id) --на одном сеансе не может находится один пользователь два раза
 );

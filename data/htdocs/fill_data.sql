@@ -106,12 +106,12 @@ INSERT INTO tickets_types(id, name, price) VALUES
     (2, 'Детский', 500),
     (3, 'Студенческий', 1000);
 
-INSERT INTO tickets(id, session_id, seat_id, customer_id, type) VALUES
-    (1, 1, 1, 1, 1),
-    (2, 1, 2, 2, 2),
-    (3, 1, 3, 3, 2),
-    (4, 2, 17, 1, 1),
-    (5, 2, 18, 2, 2),
-    (6, 2, 19, 3, 2),
-    (7, 2, 20, 4, 2),
-    (8, 4, 20, 4, 1);
+INSERT INTO tickets(id, session_id, seat_id, customer_id, type_id, sale_price) VALUES
+    (1, 1, 1, 1, 1, 2000),
+    (2, 1, 2, 2, 2, 500),
+    (3, 1, 3, 3, 2, 1000),
+    (4, 2, 17, 1, 1, 2000),
+    (5, 2, 18, 2, 2, 500),
+    (6, 2, 19, 3, 2, 500),
+    (7, 2, 20, 4, 2, 500),
+    (8, 4, 20, 4, 1, 1800);

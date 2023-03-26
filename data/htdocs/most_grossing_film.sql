@@ -44,7 +44,7 @@ SELECT
     f.id as film_id,
     f.name as film_name,
     COUNT(*) as tickets_sold,
-    SUM(tt.price) as sum
+    SUM(t.sale_price) as sum
 FROM films f
          INNER JOIN sessions s on f.id = s.film_id
          INNER JOIN tickets t on t.session_id = s.id

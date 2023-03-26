@@ -1,0 +1,35 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  server:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: otus/server
+    container_name: otus_server
+    volumes:
+      - ./../code:/var/www
+      - ./phpsocket:/var/run/socket
+    command: "tail -f /dev/null"
+    networks:
+      - otus-network
+
+  client:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: otus/client
+    container_name: otus_client
+    volumes:
+      - ./../code:/var/www
+      - ./phpsocket:/var/run/socket
+    command: "tail -f /dev/null"
+    networks:
+      - otus-network
+
+#Docker Networks
+networks:
+  otus-network:
+    driver: bridge

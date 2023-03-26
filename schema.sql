@@ -89,13 +89,16 @@ CREATE TABLE tickets (
      total_price INT NOT NULL,
      payed BOOL DEFAULT FALSE,
      purchase_date TIMESTAMP,
+     film_date_start TIMESTAMP NOT NULL,
      row_id INT NOT NULL,
      place_id INT NOT NULL,
      session_id INT NOT NULL,
+     film_id INT NOT NULL,
      customer_id INT NOT NULL,
      CONSTRAINT c_fk_ticket_row FOREIGN KEY (row_id) REFERENCES rows (id) ON DELETE RESTRICT,
      CONSTRAINT c_fk_ticket_place FOREIGN KEY (place_id) REFERENCES places (id) ON DELETE RESTRICT,
      CONSTRAINT c_fk_session FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE RESTRICT,
+     CONSTRAINT c_fk_film FOREIGN KEY (film_id) REFERENCES films (id) ON DELETE RESTRICT,
      CONSTRAINT c_fk_customer FOREIGN KEY (customer_id) REFERENCES customers (id) ON DELETE RESTRICT
 );
 
@@ -225,6 +228,23 @@ CREATE TRIGGER "trCreateSessions"
     FOR EACH ROW EXECUTE PROCEDURE "fCreateSessions"();
 ----
 
+-- Задать значение поля date_end
+CREATE OR REPLACE FUNCTION "fSetDateEnd"()
+    RETURNS trigger
+    LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.date_end := NEW.date_start + interval '2 hours';
+    RETURN NEW;
+END;
+$function$
+;
+
+CREATE TRIGGER "trSetDateEnd"
+    BEFORE INSERT ON "sessions"
+    FOR EACH ROW EXECUTE PROCEDURE "fSetDateEnd"();
+----
+
 -- Создание билетов
 CREATE OR REPLACE FUNCTION "fCreateTickets"()
     RETURNS trigger
@@ -235,12 +255,23 @@ DECLARE
     _place_id integer;
     _price_id integer;
     _price integer;
+    _payed boolean;
+    _purchase_date timestamp;
 BEGIN
     FOR _row_id IN SELECT id FROM "rows" WHERE hall_id=NEW.hall_id LOOP
         FOR _place_id IN SELECT id FROM "places" WHERE row_id=_row_id LOOP
+
+            _payed := random() < 0.8;
+
+            IF (_payed) THEN
+                _purchase_date := NEW.date_start + interval '-1 days';
+            ELSE
+                _purchase_date := NULL;
+            END IF;
+
             SELECT INTO _price_id price_id FROM places WHERE id=_place_id;
             SELECT INTO _price amount FROM prices WHERE id=_price_id;
-            INSERT INTO "tickets" (total_price, payed, row_id, place_id, session_id, customer_id) VALUES (_price, random() < 0.8, _row_id, _place_id, NEW.id, random_customer());
+            INSERT INTO "tickets" (total_price, payed, film_date_start, purchase_date, row_id, place_id, session_id, film_id, customer_id) VALUES (_price, _payed, NEW.date_start, _purchase_date, _row_id, _place_id, NEW.id, NEW.film_id, random_customer());
         END LOOP;
     END LOOP;
     RETURN NULL;
@@ -255,7 +286,9 @@ CREATE TRIGGER "trCreateTickets"
 ----
 
 -- Индексы
-CREATE INDEX total_price_idx ON tickets (total_price);
+CREATE INDEX film_date_start_idx ON tickets (film_date_start);
+CREATE INDEX payed_ticket_idx ON tickets (payed) WHERE payed=true;
+CREATE INDEX purchase_date_idx ON tickets (purchase_date);
 CREATE INDEX session_id_idx ON tickets (session_id);
 CREATE INDEX date_start_idx ON sessions (date_start);
 ----

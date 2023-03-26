@@ -2,6 +2,7 @@
 
 namespace Sva\App;
 
+use Generator;
 use Exception;
 
 class ServerMode
@@ -9,60 +10,33 @@ class ServerMode
     protected bool $running = false;
 
     /**
-     * @return void
+     * @return Generator
      * @throws Exception
      */
-    public function start(): void
+    public function start(): Generator
     {
-        $this->running = true;
+        $socketManager = new Socket\Manager();
+        yield "Waiting connections...\n";
 
-        $config = Config::getInstance();
-        $socketPath = $config->get('socket');
+        while (true) {
+            $socketConnection = $socketManager->acceptConnection();
+            yield "Client is connected...\n";
 
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if ($socket === false) {
-            throw new Exception("Unable to create socket: " . socket_strerror(socket_last_error()));
-        }
-
-        if (socket_bind($socket, $socketPath) === false) {
-            throw new Exception("Unable to bind socket: " . "[" . socket_last_error() . "] " . socket_strerror(socket_last_error()));
-        }
-
-        if (socket_listen($socket) === false) {
-            throw new Exception("Unable to listen on socket: " . socket_strerror(socket_last_error()));
-        }
-
-        while ($this->running) {
-            $clientSocket = socket_accept($socket);
-            if ($clientSocket === false) {
-                throw new Exception("Unable to accept client connection: " . socket_strerror(socket_last_error()));
-            }
-
-            $message = socket_read($clientSocket, 1024);
-            if ($message === false) {
-                throw new Exception("Unable to read message from client: " . socket_strerror(socket_last_error()));
-            }
+            $message = $socketConnection->read();
 
             $response = "Получено сообщение(" . strlen($message) . " байт): " . $message;
-            echo $response . "\n";
+            yield $response . "\n";
 
-            if (socket_write($clientSocket, $response) === false) {
-                throw new Exception("Unable to write response to client: " . socket_strerror(socket_last_error()));
+            $socketConnection->write($response);
+            $socketConnection->close();
+            yield "Client is disconnected...\n";
+
+            if ($message == 'exit') {
+                yield "Message is \"exit\" exiting...\n";
+                break;
             }
-
-            socket_close($clientSocket);
         }
 
-        socket_close($socket);
-    }
-
-    public function stop(): void
-    {
-        $this->running = false;
-    }
-
-    public function __destruct()
-    {
-        $this->stop();
+        $socketManager->close();
     }
 }

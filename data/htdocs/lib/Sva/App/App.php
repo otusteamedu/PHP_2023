@@ -33,7 +33,9 @@ class App
      */
     private function startServer(): void
     {
-        (new ServerMode())->start();
+        foreach ((new ServerMode())->start() as $line) {
+            echo $line;
+        }
     }
 
     /**
@@ -41,6 +43,8 @@ class App
      */
     private function startClient(): void
     {
-        (new ClientMode())->start();
+        foreach ((new ClientMode())->start() as $line) {
+            echo $line;
+        }
     }
 }

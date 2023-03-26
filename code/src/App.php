@@ -33,6 +33,6 @@ class App
 
     private function setRunner($runner): Runner
     {
-        return new $this->runners[$runner];
+        return new $this->runners[$runner]();
     }
 }

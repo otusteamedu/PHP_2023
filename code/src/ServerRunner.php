@@ -6,7 +6,6 @@ use Exception;
 
 class ServerRunner extends Runner
 {
-
     public function run()
     {
         $this->checkExists();

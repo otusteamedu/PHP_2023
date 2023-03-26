@@ -1,0 +1,16 @@
+{
+    "name": "sva/socket-chat",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Vyacheslav Shevchenko",
+            "email": "webdev2030@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "": "lib"
+        }
+    }
+}

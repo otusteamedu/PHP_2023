@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y \
         docker-php-ext-enable memcached
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
-COPY ./php-fpm2-pool.conf /usr/local/etc/php-fpm.d/
+COPY conf/php-fpm2-pool.conf /usr/local/etc/php-fpm.d/
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer self-update --2

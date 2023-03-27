@@ -44,9 +44,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/php/first
     container_name: app
-    environment:
-      FPM_HOST: app
-      FPM_PORT: 9000
     volumes:
       - ./code:/data/mysite.local
     networks:
@@ -58,9 +55,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/php/second
     container_name: app2
-    environment:
-      FPM_HOST: app-2
-      FPM_PORT: 9001
     volumes:
       - ./code:/data/mysite.local
     networks:

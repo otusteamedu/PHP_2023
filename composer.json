@@ -1,0 +1,19 @@
+{
+    "name": "aporivaev/hw04",
+    "description": "HW-04",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aporivaev\\Hw04\\": "src/"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Bay13/hw-04.git"
+        }
+    ],
+    "require": {
+        "bay13/hw-04": "dev-master"
+    }
+}

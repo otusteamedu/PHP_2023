@@ -59,6 +59,16 @@ CREATE TABLE "films_genres"
     "genre_id" int not null REFERENCES genres (id) ON DELETE CASCADE
 );
 
+CREATE TABLE "users"
+(
+    "id"        serial primary key not null,
+    "name"      varchar            not null,
+    "last_name" varchar            not null,
+    "password"  varchar            not null,
+    "email"     varchar            not null UNIQUE,
+    "avatar"    int                null REFERENCES files (id) ON DELETE SET NULL
+);
+
 CREATE EXTENSION IF NOT EXISTS btree_gist;
 CREATE TABLE IF NOT EXISTS "sessions"
 (
@@ -73,20 +83,10 @@ CREATE TABLE IF NOT EXISTS "sessions"
 
 CREATE TABLE IF NOT EXISTS "tickets_sessions"
 (
-    "id"          serial primary key not null,
-    "name"          varchar not null,
-    "price"          int not null CHECK ( price > 0 ),
-    "session_id" int not null REFERENCES sessions(id) on delete set null
-);
-
-CREATE TABLE "users"
-(
-    "id"        serial primary key not null,
-    "name"      varchar            not null,
-    "last_name" varchar            not null,
-    "password"  varchar            not null,
-    "email"     varchar            not null UNIQUE,
-    "avatar"    int                null REFERENCES files (id) ON DELETE SET NULL
+    "id"         serial primary key not null,
+    "name"       varchar            not null,
+    "price"      int                not null CHECK ( price > 0 ),
+    "session_id" int                not null REFERENCES sessions (id) on delete cascade
 );
 
 -- В билете должны быть указаны места только того зала в котором проходит сеанс
@@ -96,7 +96,7 @@ CREATE TABLE IF NOT EXISTS "tickets"
     "session_id"  int                NOT null REFERENCES sessions ("id") ON DELETE CASCADE,
     "seat_id"     int                NOT null REFERENCES seats ("id") ON DELETE SET NULL,
     "customer_id" int                NOT NULL REFERENCES users (id) ON DELETE CASCADE,
-        "sale_price"  int,
+    "sale_price"  int,
     UNIQUE (session_id, seat_id),    -- на одном сеансе не могут быть заняты два одинаковых места
     UNIQUE (session_id, customer_id) --на одном сеансе не может находится один пользователь два раза
 );

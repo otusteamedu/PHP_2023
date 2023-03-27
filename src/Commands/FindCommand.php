@@ -180,8 +180,6 @@ final class FindCommand extends Command
                 $stock
             ]);
         }
-
-        $table->addRow(new TableSeparator());
     }
 
     private function createIndexIfNotExists()
@@ -200,23 +198,27 @@ final class FindCommand extends Command
 
     private function transformCompareOperators(string $string): array
     {
-        $getCleanDigital = fn(string $string) => str_replace(['>', '<', '='], '', $string);
+        $digit = str_replace(['>', '<', '='], '', $string);
 
-        if (str_contains($string, '<=')) {
-            $arrayQuery = ['lte' => $getCleanDigital($string)];
-        } elseif (str_contains($string, '>=')) {
-            $arrayQuery = ['gte' => $getCleanDigital($string)];
-        } elseif (str_contains($string, '<')) {
-            $arrayQuery = ['lt' => $getCleanDigital($string)];
-        } elseif (str_contains($string, '>')) {
-            $arrayQuery = ['gt' => $getCleanDigital($string)];
-        } else {
-            $arrayQuery = [
-                'lte' => $getCleanDigital($string),
-                'gte' => $getCleanDigital($string)
-            ];
+        if (str_contains($string, '<')) {
+            return ['lt' => $digit];
         }
 
-        return $arrayQuery;
+        if (str_contains($string, '>')) {
+            return ['gt' => $digit];
+        }
+
+        if (str_contains($string, '<=')) {
+            return ['lte' => $digit];
+        }
+
+        if (str_contains($string, '>=')) {
+            return ['gte' => $digit];
+        }
+
+        return [
+            'lte' => $digit,
+            'gte' => $digit
+        ];
     }
 }

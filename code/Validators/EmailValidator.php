@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Validator;
+namespace Validators;
 
-use code\model\Email;
+use Models\Email;
 
 class EmailValidator implements EmailValidatorInterface
 {
@@ -18,7 +18,7 @@ class EmailValidator implements EmailValidatorInterface
             } else {
                 $domain = explode('@', $email)[1];
 
-                if (checkdnsrr($domain, 'MX') === false) {
+                if (checkdnsrr($domain) === false) {
                     $result[] = new Email($email, false, 'MX record not found for domain');
                 } else {
                     $result[] = new Email($email, true);

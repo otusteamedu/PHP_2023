@@ -1,19 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Services;
+namespace Services;
 
-use code\Validator\EmailValidator;
-use code\Validator\EmailValidatorInterface;
+
+use Validators\EmailValidator;
+use Validators\EmailValidatorInterface;
 
 class EmailValidationService implements EmailValidationInterface
 {
-    private EmailValidatorInterface $validator;
-
-    public function __construct()
-    {
-        $this->validator = new EmailValidator();
-    }
+    public function __construct(private readonly EmailValidatorInterface $validator)
+    {}
 
     public function validateEmails(array $emails): array
     {

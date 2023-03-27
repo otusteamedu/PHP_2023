@@ -1,22 +1,19 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Controllers;
+namespace Controllers;
 
-
-use code\Services\EmailValidationInterface;
+use Services\EmailValidationInterface;
 
 class EmailValidationController
 {
-    private EmailValidationInterface $service;
+    public function __construct(private readonly EmailValidationInterface $service)
+    {}
 
-    public function __construct(EmailValidationInterface $service)
+    public function validateEmails(): void
     {
-        $this->service = $service;
-    }
-
-    public function validateEmails(array $emails): array
-    {
-        return $this->service->validateEmails($emails);
+        $input = json_decode(file_get_contents('php://input'), true);
+        header('Content-Type: application/json');
+        echo json_encode(['result' => $this->service->validateEmails($input['emails'] ?? [])], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     }
 }

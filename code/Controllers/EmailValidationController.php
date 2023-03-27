@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Controllers\EmailValidationController;
+namespace code\Controllers;
 
-use code\Services\EmailValidationInterface\EmailValidationInterface;
+
+use code\Services\EmailValidationInterface;
 
 class EmailValidationController
 {

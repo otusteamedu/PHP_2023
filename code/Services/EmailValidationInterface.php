@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Services\EmailValidationInterface;
+namespace code\Services;
 
 interface EmailValidationInterface
 {

@@ -1,10 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace code\Services\EmailValidationService;
+namespace code\Services;
 
 use code\Validator\EmailValidator;
-use code\Services\EmailValidationInterface\EmailValidationInterface;
 use code\Validator\EmailValidatorInterface;
 
 class EmailValidationService implements EmailValidationInterface

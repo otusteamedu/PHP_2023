@@ -15,4 +15,4 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - ./code:/var/www/html
+      - ./code:/data/mysite.local

@@ -1,17 +1,25 @@
-FROM php:8.2-fpm-alpine
+FROM php:8.2-fpm
 
-RUN apk add --no-cache libzip-dev && \
-    docker-php-ext-install zip
+# ставим необходимые для нормальной работы модули
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+	libpng-dev \
+	libonig-dev \
+	libzip-dev \
+	libmemcached-dev \
+        && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+        && docker-php-ext-install -j$(nproc) gd \
+     && pecl install memcached && \
+        docker-php-ext-enable memcached
 
-WORKDIR /var/www/html
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer self-update --2
+RUN mkdir -p /home/$user/.composer
 
-COPY composer.* ./
+WORKDIR /data
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
-    php /usr/local/bin/composer install --no-autoloader --no-scripts --prefer-dist --no-progress --no-suggest && \
-    php /usr/local/bin/composer clear-cache && \
-    php /usr/local/bin/composer dump-autoload --optimize --no-dev --classmap-authoritative
+VOLUME /data
 
 CMD ["php-fpm"]
-
-EXPOSE 9000

@@ -77,7 +77,6 @@ class Search
                 sprintf(Message::COUNT_HITS, $response['hits']['total']['value']),
                 $table
             );
-
         } catch (ClientResponseException | ServerResponseException $e) {
             return new ResultSearch(false, $e->getMessage());
         }

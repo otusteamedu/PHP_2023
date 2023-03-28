@@ -92,8 +92,9 @@ class Init
                 return new ResultInit(false, sprintf(Message::FAILED_BULK_INDEX, $this->indexName));
             }
         } catch (ClientResponseException | ServerResponseException | MissingParameterException $e) {
-            return new ResultInit(false, sprintf(
-                Message::FAILED_BULK_INDEX, $this->indexName) . ': ' .$e->getMessage()
+            return new ResultInit(
+                false,
+                sprintf(Message::FAILED_BULK_INDEX, $this->indexName) . ': ' . $e->getMessage()
             );
         }
 

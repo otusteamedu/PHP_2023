@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  php:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php
+    image: '${DOCKER_PREFIX}/php'
+    container_name: '${DOCKER_PREFIX}-php'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,33 @@
+upstream php-fpm {
+	server php-fpm-01:9000;
+	server php-fpm-02:9000;
+}
+
+server {
+    listen 80;
+    server_name application.local;
+
+    root /var/www/application.local/public;
+
+    index index.php;
+
+    location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        access_log off;
+        expires max;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    # и наконец правило обращения к php-fpm
+    location ~* .php$ {
+		try_files $uri = 404;
+		fastcgi_split_path_info ^(.+.php)(/.+)$;
+		fastcgi_pass php-fpm;
+		fastcgi_index index.php;
+		fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+		fastcgi_param NGINX_INSTANCE ${NGINX_INSTANCE};
+		include fastcgi_params;
+    }
+}

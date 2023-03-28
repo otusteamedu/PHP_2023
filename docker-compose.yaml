@@ -1,0 +1,76 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: docker/nginx-balancer
+    image: '${DOCKER_PREFIX}/nginx-balancer'
+    container_name: '${DOCKER_PREFIX}-nginx-balancer'
+    ports:
+      - '${NGNIX_BALANCER_PORT}:80'
+    networks:
+      - hw05-network
+
+  nginx-01:
+    build:
+      context: docker/nginx
+    image: '${DOCKER_PREFIX}/nginx-01'
+    container_name: '${DOCKER_PREFIX}-nginx-01'
+    environment:
+      NGINX_INSTANCE: "01"
+    volumes:
+      - ./app:/var/www/application.local
+    networks:
+      - hw05-network
+  nginx-02:
+    build:
+      context: docker/nginx
+    image: '${DOCKER_PREFIX}/nginx-02'
+    container_name: '${DOCKER_PREFIX}-nginx-02'
+    environment:
+      NGINX_INSTANCE: "02"
+    volumes:
+      - ./app:/var/www/application.local
+    networks:
+      - hw05-network
+
+  php-fpm-01:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker/php-fpm
+    image: '${DOCKER_PREFIX}/php-fpm-01'
+    container_name: '${DOCKER_PREFIX}_php-fpm-01'
+    environment:
+      PHP_FPM_INSTANCE: "01"
+    volumes:
+      - ./app:/var/www/application.local
+    networks:
+      - hw05-network
+  php-fpm-02:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker/php-fpm
+    image: '${DOCKER_PREFIX}/php-fpm-02'
+    container_name: '${DOCKER_PREFIX}_php-fpm-02'
+    environment:
+      PHP_FPM_INSTANCE: "02"
+    volumes:
+      - ./app:/var/www/application.local
+    networks:
+      - hw05-network
+
+  memcached:
+    build:
+      context: docker/memcached
+    image: "${DOCKER_PREFIX}/memcached"
+    container_name: "${DOCKER_PREFIX}_memcached"
+    networks:
+      - hw05-network
+
+networks:
+  hw05-network:
+    driver: bridge

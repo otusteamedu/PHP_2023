@@ -1,0 +1,12 @@
+{
+    "name": "aporivaev/hw06",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aporivaev\\Hw06\\": "src/"
+        }
+    },
+    "require": {
+		 "ext-json": "*"
+	 }
+}

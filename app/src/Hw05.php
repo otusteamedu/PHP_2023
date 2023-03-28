@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace Aporivaev\Hw05;
 
-class Hw05 {
-    public function isPost(): bool {
+class Hw05
+{
+    public function isPost(): bool
+    {
         return $_SERVER['REQUEST_METHOD'] === 'POST';
     }
-	public function historyGet(): array
-	{
-		return $_SESSION['history'] ?? [];
-	}
+    public function historyGet(): array
+    {
+        return $_SESSION['history'] ?? [];
+    }
     public function historyAdd($string): void
     {
         $history = $_SESSION['history'] ?? [];
@@ -30,11 +32,12 @@ class Hw05 {
             ];
     }
 
-    public function validate(bool $output = true): bool {
+    public function validate(bool $output = true): bool
+    {
         $string = $_POST['string'] ?? '';
 
         $result = $this->parseString($string);
-        $this->historyAdd($string .' - '. ($result ? 'ok' : 'err'));
+        $this->historyAdd($string . ' - ' . ($result ? 'ok' : 'err'));
 
         if ($output) {
             http_response_code($result ? 200 : 400);
@@ -55,12 +58,10 @@ class Hw05 {
         for ($i = 0; $i < strlen($string); $i++) {
             if ($string[$i] === $charOpen) {
                 $count++;
-            } else {
-                if ($string[$i] === $charClose) {
+            } elseif ($string[$i] === $charClose) {
                     $count--;
-                } else {
-                    return false;
-                }
+            } else {
+                return false;
             }
 
             if ($count < 0) {
@@ -69,5 +70,4 @@ class Hw05 {
         }
         return $count === 0;
     }
-
 }

@@ -1,0 +1,10 @@
+{
+    "name": "aporivaev/hw05",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aporivaev\\Hw05\\": "src/"
+        }
+    },
+    "require": {}
+}

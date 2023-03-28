@@ -19,7 +19,7 @@ services:
     environment:
       NGINX_INSTANCE: "01"
     volumes:
-      - ./app/src:/var/www/application.local
+      - ./app:/var/www/application.local
     networks:
       - hw05-network
   nginx-02:
@@ -30,30 +30,36 @@ services:
     environment:
       NGINX_INSTANCE: "02"
     volumes:
-      - ./app/src:/var/www/application.local
+      - ./app:/var/www/application.local
     networks:
       - hw05-network
 
   php-fpm-01:
     build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
       context: docker/php-fpm
     image: '${DOCKER_PREFIX}/php-fpm-01'
     container_name: '${DOCKER_PREFIX}_php-fpm-01'
     environment:
       PHP_FPM_INSTANCE: "01"
     volumes:
-      - ./app/src:/var/www/application.local
+      - ./app:/var/www/application.local
     networks:
       - hw05-network
   php-fpm-02:
     build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
       context: docker/php-fpm
     image: '${DOCKER_PREFIX}/php-fpm-02'
     container_name: '${DOCKER_PREFIX}_php-fpm-02'
     environment:
       PHP_FPM_INSTANCE: "02"
     volumes:
-      - ./app/src:/var/www/application.local
+      - ./app:/var/www/application.local
     networks:
       - hw05-network
 

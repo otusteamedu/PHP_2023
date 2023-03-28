@@ -13,12 +13,12 @@ services:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
       - elasticsearch:/usr/share/elasticsearch/data:Z
     ports:
-      - 9200:9200
+      - ${ELASTIC_HOST_PORT}:${ELASTIC_PORT}
       - 9300:9300
     environment:
       node.name: elasticsearch
       ES_JAVA_OPTS: -Xms512m -Xmx512m
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD:-}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
       discovery.type: single-node
     deploy:
       resources:
@@ -35,11 +35,14 @@ services:
     image: otus/php
     container_name: otus-php
     environment:
-      PHP_IDE_CONFIG: serverName=Docker
-      XDEBUG_SESSION: 1
+      ELASTIC_USER: ${ELASTIC_USER}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ELASTIC_PORT: ${ELASTIC_PORT}
+      ELASTIC_BULK: ${ELASTIC_BULK}
+      RETURN_SIZE: ${RETURN_SIZE}
+      INDEX_NAME: ${INDEX_NAME}
     volumes:
       - ./project:/data/application
-      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
     networks:
       - otus-network
     depends_on:

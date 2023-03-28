@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
 	libmcrypt-dev \
     zip \
     unzip \
+    locales \
     git \
     curl \
     && pecl install xdebug \
@@ -16,6 +17,15 @@ RUN apt-get update && apt-get install -y \
     && deluser www-data \
     && groupadd --gid 1000 www-data \
     && useradd --gid 1000 www-data
+
+RUN sed -i -e \
+  's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen \
+   && locale-gen
+
+ENV LANG ru_RU.UTF-8
+ENV LANGUAGE ru_RU:ru
+ENV LC_LANG ru_RU.UTF-8
+ENV LC_ALL ru_RU.UTF-8
 
 WORKDIR /data/application
 

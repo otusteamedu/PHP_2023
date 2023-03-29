@@ -3,20 +3,23 @@ declare(strict_types=1);
 
 namespace Validators;
 
+use Exception;
+
 class RequestValidator
 {
+    /**
+     * @throws Exception
+     */
     public static function validateRequest(): void
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            http_response_code(405);
-            exit('Method not allowed');
+            throw new Exception('Method not allowed', 405);
         }
 
         $input = json_decode(file_get_contents('php://input'), true);
 
         if (!isset($input['emails']) || !is_array($input['emails'])) {
-            http_response_code(400);
-            exit('Invalid input');
+            throw new Exception('Invalid input', 400);
         }
     }
 }

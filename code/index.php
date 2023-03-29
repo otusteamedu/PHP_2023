@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-require_once 'autoload.php';
+require 'vendor/autoload.php';
 
 use Controllers\EmailValidationController;
 use Services\EmailValidationService;
@@ -13,7 +13,9 @@ try {
 
     $service = new EmailValidationService(new EmailValidator());
     $controller = new EmailValidationController($service);
-    $controller->validateEmails();
+    $result = $controller->validateEmails();
+    header('Content-Type: application/json');
+    echo json_encode(['result' => $result], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 } catch (Exception $e) {
     http_response_code($e->getCode());
     echo json_encode(['error' => $e->getMessage()], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

@@ -1,0 +1,17 @@
+{
+    "name": "root/mysite.local",
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/",
+            "Services\\": "Services/",
+            "Validators\\": "Validators/"
+        }
+    },
+    "authors": [
+        {
+            "name": "graywolfy"
+        }
+    ],
+    "require": {}
+}

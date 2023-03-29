@@ -1,3 +1,7 @@
-# PHP_2023
+# HW09
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Запуск
+1. Запуск контейнеров: `docker-compose up -d`
+1. Установка зависимостей: `docker-compose exec php composer install`
+1. Запуск сервера: `docker-compose exec php php ./public/index.php server`
+1. Запуск клиента: `docker-compose exec php php ./public/index.php client`

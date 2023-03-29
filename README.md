@@ -1,3 +1,11 @@
-# PHP_2023
+# PHP_2023 - HW11 (Elasticsearch & PHP)
+Console app for fulltext search using the Elasticsearch
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+![elasticsearch_console_app.png](public%2Felasticsearch_console_app.png)
+
+## How to run:
+1. Clone this repo
+2. Create `.env` from `.env.example` and configure Elasticsearch password, paths to data and mappings
+3. Run `make install`
+4. Run `make` and waiting for Elasticsearch start
+5. Run `bin/console --help` for getting instructions

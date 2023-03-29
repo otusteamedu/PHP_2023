@@ -1,0 +1,22 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Twent\BookShop\Commands\FindCommand;
+
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->safeLoad();
+
+$application = new Application('Elasticsearch books finder', '0.0.1');
+
+$application->addCommands([
+    $command = new FindCommand(),
+]);
+
+$application->setDefaultCommand($command->getName());
+
+$application->run();

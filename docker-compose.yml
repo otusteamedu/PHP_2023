@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  elasticsearch:
+    image: rapidfort/elasticsearch:8.6.2
+    env_file:
+      - .env
+    volumes:
+      - elastic_data:/bitnami/elasticsearch
+    ports:
+      - '9200:9200'
+
+volumes:
+  elastic_data:

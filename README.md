@@ -5,7 +5,7 @@ Console app for fulltext search using the Elasticsearch
 
 ## How to run:
 1. Clone this repo
-2. Create `.env` from `.env.example` and configure Elasticsearch password
+2. Create `.env` from `.env.example` and configure Elasticsearch password, paths to data and mappings
 3. Run `make install`
 4. Run `make` and waiting for Elasticsearch start
 5. Run `bin/console --help` for getting instructions

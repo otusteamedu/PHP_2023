@@ -25,53 +25,29 @@
   },
   "mappings": {
     "properties": {
+      "sku": {
+        "type": "text"
+      },
+      "title": {
+        "type": "text",
+        "analyzer": "my_russian"
+      },
       "category": {
         "type": "text",
-        "analyzer": "my_russian",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
+        "analyzer": "my_russian"
       },
       "price": {
         "type": "long"
-      },
-      "sku": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
       },
       "stock": {
         "type": "nested",
         "properties": {
           "shop": {
             "type": "text",
-            "analyzer": "my_russian",
-            "fields": {
-              "keyword": {
-                "type": "keyword",
-                "ignore_above": 256
-              }
-            }
+            "analyzer": "my_russian"
           },
           "stock": {
             "type": "long"
-          }
-        }
-      },
-      "title": {
-        "type": "text",
-        "analyzer": "my_russian",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
           }
         }
       }

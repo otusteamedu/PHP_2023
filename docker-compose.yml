@@ -1,0 +1,60 @@
+version: "3.9"
+
+services:
+  web-server:
+    container_name: web-server
+    image: webdevops/php-nginx-dev:8.1-alpine
+    env_file:
+      - .env.master
+    volumes:
+      - ./:/app
+#      - redis-socket:/run/redis
+    ports:
+      - '80:80'
+    depends_on:
+      - redis-master
+      - redis-replica
+    networks:
+      otus-network:
+
+  redis-master:
+    container_name: redis-master
+    image: rapidfort/redis:7.0-debian-11
+    env_file:
+      - .env.master
+    volumes:
+#      - /path/to/certs:/opt/bitnami/redis/certs
+#      - .docker/users.acl:/opt/bitnami/redis/mounted-etc/users.acl
+      - redis-data:/bitnami/redis/data
+#      - redis-socket:/bitnami/redis/socket
+    ports:
+      - '7000:7000'
+    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+#    configs:
+#      - source: redis_config
+#        target: /opt/bitnami/redis/mounted-etc/overrides.conf
+    networks:
+      otus-network:
+
+  redis-replica:
+    image: rapidfort/redis:7.0-debian-11
+    env_file:
+      - .env.replica
+    command: /opt/bitnami/scripts/redis/run.sh --maxmemory 100mb
+    depends_on:
+      - redis-master
+    deploy:
+      replicas: 2
+    networks:
+      otus-network:
+
+volumes:
+  redis-data:
+#  redis-socket:
+
+#configs:
+#  redis_config:
+#    file: .docker/redis-overrides.conf
+
+networks:
+  otus-network:

@@ -1,0 +1,12 @@
+/.idea/
+/.code/
+
+.env.master
+.env.replica
+
+/tests/coverage.xml
+/.phpunit.cache/
+
+/vendor/
+composer.lock
+/cache/

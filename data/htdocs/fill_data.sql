@@ -101,11 +101,6 @@ INSERT INTO users(id, name, last_name, password, email, avatar) VALUES (2, 'Vyac
 INSERT INTO users(id, name, last_name, password, email, avatar) VALUES (3, 'Vyacheslav', 'Shevchenko', '123456', 'myemail3@vyacheslav.kz', null);
 INSERT INTO users(id, name, last_name, password, email, avatar) VALUES (4, 'Vyacheslav', 'Shevchenko', '123456', 'myemail4@vyacheslav.kz', null);
 
-INSERT INTO tickets_sessions(id, name, price, session_id) VALUES
-    (1, 'Взрослый', 2000, 1),
-    (2, 'Детский', 500, 1),
-    (3, 'Студенческий', 1000, 1);
-
 INSERT INTO tickets(id, session_id, seat_id, customer_id, sale_price) VALUES
     (1, 1, 1, 1, 2000),
     (2, 1, 2, 2, 500),
@@ -115,3 +110,9 @@ INSERT INTO tickets(id, session_id, seat_id, customer_id, sale_price) VALUES
     (6, 2, 19, 3, 500),
     (7, 2, 20, 4, 500),
     (8, 4, 20, 4, 1800);
+
+INSERT INTO discounts_types(id, name) VALUES (1, 'fix_price');
+INSERT INTO discounts_types(id, name) VALUES (2, 'percent');
+
+INSERT INTO discounts(id, name, discount_type_id,  value) VALUES (1, 'Детские билеты', 1, 1000);
+INSERT INTO discounts(id, name, discount_type_id, value) VALUES (2, 'Студенческие билеты', 2, 50);

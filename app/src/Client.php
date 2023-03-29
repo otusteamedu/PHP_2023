@@ -6,7 +6,7 @@ namespace Aporivaev\Hw09;
 
 class Client extends AppSocket
 {
-    private ?string $name;
+    public ?string $name;
     private int $nameIndexLen = 5;
 
 
@@ -14,17 +14,16 @@ class Client extends AppSocket
     public function __construct(string $fileName, string $name = null)
     {
         parent::__construct($fileName);
-        $this->name = $name;
+        $this->name = !empty($name) ? $name :
+            ('Client_' . bin2hex(random_bytes($this->nameIndexLen)));
 
-        if (empty($this->name)) {
-            $this->name = 'Client_' . bin2hex(random_bytes($this->nameIndexLen));
-        }
-        $this->clientConnect($this->name);
     }
 
     /** @throws /Exception */
     public function run()
     {
+        $this->clientConnect($this->name);
+
         $end = false;
         $inBuffer = '';
         while (!$end) {

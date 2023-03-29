@@ -10,19 +10,21 @@ use Socket;
 
 class Server extends AppSocket
 {
+    public ?string $name;
     private ?Socket $clientSocket = null;
     private ?string $clientName = null;
 
-    /** @throws AppException */
-    public function __construct(string $fileName)
+    public function __construct(string $fileName, string $name = null)
     {
         parent::__construct($fileName);
-        $this->serverListen();
+        $this->name = !empty($name) ? $name : 'Server';
     }
 
     /** @throws Exception */
     public function run(): void
     {
+        $this->serverListen();
+
         $end = false;
         $inBuffer = '';
         while (!$end) {

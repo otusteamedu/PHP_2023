@@ -1,0 +1,19 @@
+{
+    "name": "root/mysite.local",
+    "autoload": {
+        "psr-4": {
+            "Controllers\\": "Controllers/",
+            "Models\\": "Models/",
+            "Services\\": "Services/",
+            "Validators\\": "Validators/"
+        }
+    },
+    "authors": [
+        {
+            "name": "graywolfy"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}

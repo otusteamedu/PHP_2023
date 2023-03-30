@@ -57,7 +57,7 @@ class App
         global $argv, $argc;
         $index = 0;
         $opt = getopt('c:', [], $index);
-        if (!empty($opt['c']))  {
+        if (!empty($opt['c'])) {
             $this->configFile = $opt['c'];
         }
 
@@ -74,7 +74,8 @@ class App
             $this->config_name = $argv[$index + 1];
         }
     }
-    private function parseConfig(): void {
+    private function parseConfig(): void
+    {
         $config = parse_ini_file($this->configFile, true);
         if (is_array($config) && count($config) > 0) {
             switch ($this->mode) {
@@ -100,5 +101,4 @@ class App
         echo "\tclient\t\t Start the client\n";
         echo "USERNAME\t\t Client name (optional)\n";
     }
-
 }

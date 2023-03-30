@@ -55,7 +55,8 @@ class Server extends AppSocket
         }
     }
 
-    private function newClient(Socket|false $connection): void {
+    private function newClient(Socket | false $connection): void
+    {
         if ($connection !== false) {
             socket_set_nonblock($connection);
             do {
@@ -66,21 +67,24 @@ class Server extends AppSocket
             echo "New connection: {$this->clientName}\n";
         }
     }
-    private function closeClient(): void {
+    private function closeClient(): void
+    {
         echo "Disconnection: {$this->clientName}\n";
         $this->close($this->clientSocket);
         $this->clientSocket = null;
     }
 
     /** @throws AppException */
-    private function sendMessageClient(string $message): void {
+    private function sendMessageClient(string $message): void
+    {
         if ($this->clientSocket !== null) {
-            $this->write( $message, $this->clientSocket);
+            $this->write($message, $this->clientSocket);
         } else {
             echo "No client connection\n";
         }
     }
-    private function sendEchoClient(string $message): void {
+    private function sendEchoClient(string $message): void
+    {
         echo "{$this->clientName}: $message\n";
 
         $response = "Received " . strlen($message) . " bytes";

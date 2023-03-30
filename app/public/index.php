@@ -14,6 +14,6 @@ try {
     $app->run();
 } catch (AppException $e) {
     echo "App error. ", $e, "\n";
-} catch (Exception|Error $e) {
+} catch (Exception | Error $e) {
     echo "Oops! Something went wrong\n";
 }

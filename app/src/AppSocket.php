@@ -23,7 +23,8 @@ class AppSocket
     }
 
     /** @throws AppException */
-    private function unlinkFile(): void {
+    private function unlinkFile(): void
+    {
         if (file_exists($this->fileName)) {
             if (!unlink($this->fileName)) {
                 throw new AppException('Error, socket already in use');
@@ -31,7 +32,8 @@ class AppSocket
         }
     }
     /** @throws AppException */
-    private function create(): void {
+    private function create(): void
+    {
         try {
             $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
         } catch (Error $e) {
@@ -62,7 +64,8 @@ class AppSocket
         socket_set_nonblock($this->socket);
     }
     /** @throws AppException */
-    protected function write(string $string, ?Socket $dest = null): void {
+    protected function write(string $string, ?Socket $dest = null): void
+    {
         if ($dest === null) {
             $dest = $this->socket;
         }
@@ -70,13 +73,15 @@ class AppSocket
             throw $this->createException('Error write socket');
         }
     }
-    protected function read(?Socket $from = null): bool|string {
+    protected function read(?Socket $from = null): bool | string
+    {
         if ($from === null) {
             $from = $this->socket;
         }
         return socket_read($from, $this->bufferLength);
     }
-    protected function close(?Socket $socket = null): void {
+    protected function close(?Socket $socket = null): void
+    {
         if ($socket === null) {
             $socket = $this->socket;
         }
@@ -84,7 +89,8 @@ class AppSocket
     }
 
     /** @throws AppException */
-    protected function serverListen(): void {
+    protected function serverListen(): void
+    {
         try {
             $this->unlinkFile();
             $this->create();
@@ -95,7 +101,8 @@ class AppSocket
         }
     }
     /** @throws AppException */
-    protected function clientConnect(string $name): void {
+    protected function clientConnect(string $name): void
+    {
         $this->create();
         $this->connect();
         $this->write($name);

@@ -16,7 +16,6 @@ class Client extends AppSocket
         parent::__construct($fileName);
         $this->name = !empty($name) ? $name :
             ('Client_' . bin2hex(random_bytes($this->nameIndexLen)));
-
     }
 
     /** @throws /Exception */
@@ -36,7 +35,6 @@ class Client extends AppSocket
             if ($input = $this->read()) {
                 echo "Server: $input\n";
             }
-
         }
     }
 }

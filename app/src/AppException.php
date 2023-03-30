@@ -9,7 +9,7 @@ use Throwable;
 
 class AppException extends Exception
 {
-    private ? string $info = null;
+    private ?string $info = null;
     public function __construct(string $message, int $code = 0, ?string $info = null, Throwable $previous = null)
     {
         parent::__construct($message, $code, $previous);

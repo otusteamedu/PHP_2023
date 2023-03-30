@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Aporivaev\Hw09;
 
-
 use Exception;
 use Socket;
 

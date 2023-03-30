@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Validators;
@@ -7,7 +8,6 @@ use Models\Email;
 
 class EmailValidator implements EmailValidatorInterface
 {
-
     public function validate(array $emails): array
     {
         $result = [];

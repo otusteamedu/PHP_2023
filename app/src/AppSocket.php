@@ -10,7 +10,7 @@ use Socket;
 
 class AppSocket
 {
-    protected string $fileName = '/tmp/server.sock';
+    protected string $fileName;
     protected ?Socket $socket = null;
     protected int $socketBacklog = 10;
     protected int $bufferLength = 1000;

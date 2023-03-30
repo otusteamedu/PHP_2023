@@ -15,6 +15,41 @@ services:
       - ./app:/var/www/app
     networks:
       - app-network
+  server:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php
+    image: '${DOCKER_PREFIX}/php'
+    container_name: '${DOCKER_PREFIX}-server'
+    volumes:
+      - ./app:/var/www/app
+      - socket:/tmp/socket
+    networks:
+      - app-network
+  client:
+    depends_on:
+      - server
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php
+    image: '${DOCKER_PREFIX}/php'
+    container_name: '${DOCKER_PREFIX}-client'
+    restart: unless-stopped
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./app:/var/www/app
+      - socket:/tmp/socket
+    networks:
+      - app-network
+volumes:
+  socket:
 networks:
   app-network:
     driver: bridge

@@ -12,7 +12,7 @@ class App
     const MODE_SERVER = 10;
     const MODE_CLIENT = 20;
 
-    const CONFIG_DEFAULT_SOCKET = '/tmp/socket';
+    const CONFIG_DEFAULT_SOCKET = '/tmp/socket/server';
 
     private int $mode = self::MODE_UNKNOWN;
     private int $nameRandLen = 5;

@@ -8,7 +8,7 @@ class App
 {
     public static function validateEmails(): string
     {
-        return json_encode(EmailValidator::validation(self::inputParams()), JSON_UNESCAPED_UNICODE) ."\n";
+        return json_encode(EmailValidator::validation(self::inputParams()), JSON_UNESCAPED_UNICODE) . "\n";
     }
 
     private static function inputParams(): array
@@ -24,5 +24,4 @@ class App
         return [ 'email@email.email', 'email@email.com', 'email@example.com', 'email.email', 'email+1@example.com',
             'email-1@example.com', 'email=1@example.com', 'email\1@example.com', 'email*1@example.com'];
     }
-
 }

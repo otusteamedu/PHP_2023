@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Aporivaev\Hw06;
 
-class Hw06
+class EmailValidator
 {
     /**
      * @param array $list email
      * @return array<string, bool>
      */
-    public static function emailValidation(array $list = []): array
+    public static function validation(array $list = []): array
     {
         $result = [];
         foreach ($list as $item) {

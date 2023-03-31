@@ -3,7 +3,6 @@
 namespace App\Client;
 
 use App\Socket\SocketInterface;
-use PHP_CodeSniffer\Generators\Generator;
 use Traversable;
 
 class Client

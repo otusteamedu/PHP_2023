@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Socket;
@@ -7,7 +8,6 @@ use Socket;
 
 class SocketService implements SocketInterface
 {
-
     public function create(int $domain, int $type, int $protocol = 0): Socket
     {
         $socket = socket_create($domain, $type, $protocol);
@@ -27,7 +27,7 @@ class SocketService implements SocketInterface
 
     public function write(Socket $socket, string $data, ?int $length = null): false|int
     {
-        return socket_write($socket, $data , $length);
+        return socket_write($socket, $data, $length);
     }
 
     public function read(Socket $socket, int $length, int $mode = PHP_BINARY_READ): false|string

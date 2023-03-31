@@ -1,2 +1,6 @@
 /.idea
 /.env
+/tmp
+/docker
+/vendor
+composer.lock

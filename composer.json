@@ -1,0 +1,13 @@
+{
+    "name": "aporivaev/hw04",
+    "description": "HW-04",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aporivaev\\Hw04\\": "src/"
+        }
+    },
+    "require": {
+        "bay13/hw-04": "1.*"
+    }
+}

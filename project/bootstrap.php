@@ -10,4 +10,3 @@ $config = Config::getInstance()
     ->setDbPassword($_ENV['DB_PASSWORD'])
     ->setDbPort($_ENV['DB_PORT'])
     ->setDbName($_ENV['DB_NAME']);
-

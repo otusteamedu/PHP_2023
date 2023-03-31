@@ -36,7 +36,7 @@ class EventFind
             $priorityEvent = $this->getPriorityEvent($eventsFiltered);
 
             if (!$priorityEvent) {
-                return new ResultFind(false,Message::EMPTY_EVENT);
+                return new ResultFind(false, Message::EMPTY_EVENT);
             }
 
             $this->storage->delete($priorityEvent->getEventId());
@@ -50,7 +50,7 @@ class EventFind
     private function getEventsByConditions(FindParams $findParams, Collection $events): Collection
     {
         return $events->stream()->filter(
-            static function (Event $event) use($findParams): bool {
+            static function (Event $event) use ($findParams): bool {
                 $result = array_diff($event->getConditions(), $findParams->getParams());
                 return count($result) < 1;
             }

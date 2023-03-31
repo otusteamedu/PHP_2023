@@ -47,7 +47,7 @@ class StoragePsql implements StorageInterface
         $sql = "SELECT event_id, params, event FROM " . self::TABLE_NAME . " WHERE";
 
         foreach ($eventParams as $param) {
-            $sql .= " (params LIKE '%". $param ."%') OR";
+            $sql .= " (params LIKE '%" . $param . "%') OR";
         }
 
         $sql = rtrim($sql, 'OR');

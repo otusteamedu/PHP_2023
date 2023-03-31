@@ -13,12 +13,11 @@ class App
 
     private static function inputParams(): array
     {
-        global $argv, $argc;
+        $argv = $_SERVER['argv'] ?? [];
+        $argc = count($argv);
 
-        if (isset($argc) && isset($argv) && is_array($argv)) {
-            if ($argc > 1) {
-                return array_slice($argv, 1);
-            }
+        if (is_array($argv) && $argc > 1) {
+            return array_slice($argv, 1);
         }
 
         return [ 'email@email.email', 'email@email.com', 'email@example.com', 'email.email', 'email+1@example.com',

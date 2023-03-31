@@ -2,44 +2,38 @@
 
 namespace App\Server;
 
+use App\Socket\SocketInterface;
+use Traversable;
+
 class Server
 {
-    public function __construct(private readonly string $socketPath)
+    public function __construct(private readonly string $socketPath, private readonly SocketInterface $service)
     {
     }
 
-    public function start(): void
+    public function start(): Traversable
     {
         if (file_exists($this->socketPath)) {
             unlink($this->socketPath);
         }
 
-        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
-        if (!$socket) {
-            throw new \RuntimeException('Could not create socket');
-        }
+        $socket = $this->service->create(AF_UNIX, SOCK_STREAM);
+        $this->service->bind($socket, $this->socketPath);
+        $this->service->listen($socket);
 
-        if (!socket_bind($socket, $this->socketPath)) {
-            throw new \RuntimeException('Could not bind socket to path');
-        }
-
-        if (!socket_listen($socket)) {
-            throw new \RuntimeException('Could not listen on socket');
-        }
-
-        $client = socket_accept($socket);
+        $client = $this->service->accept($socket);
         while (true) {
-            $message = socket_read($client, 4096);
-            echo $message . PHP_EOL;
+            $message = $this->service->read($client, 4096);
+            yield $message . PHP_EOL;
 
             $response = 'Received ' . strlen($message) . ' bytes';
-            socket_write($client, $response);
+            $this->service->write($client, $response);
             if (trim($message) === 'shutdown') {
                 break;
             }
         }
 
-        socket_close($client);
-        socket_close($socket);
+        $this->service->close($client);
+        $this->service->close($socket);
     }
 }

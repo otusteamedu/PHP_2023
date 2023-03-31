@@ -4,6 +4,7 @@ namespace App;
 
 use App\Server\Server;
 use App\Client\Client;
+use App\Socket\SocketService;
 
 class App
 {
@@ -23,12 +24,16 @@ class App
 
         switch ($command) {
             case 'server':
-                $server = new Server($socketPath);
-                $server->start();
+                $server = new Server($socketPath, new SocketService());
+                foreach ($server->start() as $message) {
+                    echo $message;
+                }
                 break;
             case 'client':
-                $client = new Client($socketPath);
-                $client->start();
+                $client = new Client($socketPath, new SocketService());
+                foreach ($client->start() as $message) {
+                    echo $message;
+                }
                 break;
             default:
                 throw new \InvalidArgumentException('Invalid command provided');

@@ -3,6 +3,7 @@
 namespace App\Server;
 
 use App\Socket\SocketInterface;
+use Generator;
 use Traversable;
 
 class Server
@@ -11,7 +12,7 @@ class Server
     {
     }
 
-    public function start(): Traversable
+    public function start(): Generator
     {
         if (file_exists($this->socketPath)) {
             unlink($this->socketPath);

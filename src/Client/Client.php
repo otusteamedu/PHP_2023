@@ -3,6 +3,7 @@
 namespace App\Client;
 
 use App\Socket\SocketInterface;
+use Generator;
 use Traversable;
 
 class Client
@@ -11,7 +12,7 @@ class Client
     {
     }
 
-    public function start(): Traversable
+    public function start(): Generator
     {
         $socket = $this->service->create(AF_UNIX, SOCK_STREAM);
         $this->service->connect($socket, $this->socketPath);

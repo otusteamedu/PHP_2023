@@ -95,11 +95,11 @@ class App
     }
     private function showHelp(): void
     {
-        echo "Usage: index.php OPTIONS [USERNAME]\n\n";
-        echo "OPTIONS:\n";
-        echo "\t-c filename\t Ini config\n";
-        echo "\tserver\t\t Start the server\n";
-        echo "\tclient\t\t Start the client\n";
-        echo "USERNAME\t\t Client name (optional)\n";
+        echo "Usage: index.php OPTIONS [USERNAME]\n\n"
+            . "OPTIONS:\n"
+            . "\t-c filename\t Ini config\n"
+            . "\tserver\t\t Start the server\n"
+            . "\tclient\t\t Start the client\n"
+            . "USERNAME\t\t Client name (optional)\n";
     }
 }

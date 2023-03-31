@@ -33,7 +33,7 @@ class App
     /**
      * @throws Exception
      */
-    public function run()
+    public function run(): void
     {
         switch ($this->mode) {
             case self::MODE_SERVER:
@@ -52,9 +52,10 @@ class App
         echo "Exit\n";
     }
 
-    private function parseArg()
+    private function parseArg(): void
     {
-        global $argv, $argc;
+        $argv = $_SERVER['argv'] ?? [];
+
         $index = 0;
         $opt = getopt('c:', [], $index);
         if (!empty($opt['c'])) {

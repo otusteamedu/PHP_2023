@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  server:
+    build: .
+    command: php app.php server
+    volumes:
+      - .:/app
+      - socket-data:/socket
+
+  client:
+    build: .
+    command: php app.php client
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - socket-data:/socket
+
+volumes:
+  socket-data:

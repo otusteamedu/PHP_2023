@@ -6,7 +6,7 @@
 <!-- check all files in the app directory, feel free to add more files with:
 <file>FOLDER NAME</file>
 -->
-<file>app</file>
+<file>src</file>
 
 <!-- exclude our migrations directory from the violation check-->
 <exclude-pattern>*/migrations/*</exclude-pattern>

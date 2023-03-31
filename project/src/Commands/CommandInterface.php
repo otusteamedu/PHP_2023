@@ -6,5 +6,5 @@ namespace Vp\App\Commands;
 
 interface CommandInterface
 {
-    public function run(?array $argv): void;
+    public function run(array $argv): void;
 }

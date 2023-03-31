@@ -16,12 +16,11 @@ class App
         $this->commandProcessor = $commandProcessor;
     }
 
+    /**
+     * @throws Exception
+     */
     public function run(array $argv): void
     {
-        try {
-            $this->commandProcessor->run($argv);
-        } catch (Exception $e) {
-            fwrite(STDOUT, "Error: " . $e->getMessage() . PHP_EOL);
-        }
+        $this->commandProcessor->run($argv);
     }
 }

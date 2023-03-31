@@ -15,10 +15,10 @@ class CommandHelp implements CommandInterface
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function run(?array $argv): void
+    public function run(array $argv): void
     {
         $help = Container::getInstance()->get(Help::class);
         $result = $help->work();
-        $result->print();
+        fwrite(STDOUT, $result . PHP_EOL);
     }
 }

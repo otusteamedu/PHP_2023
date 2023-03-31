@@ -4,24 +4,26 @@ declare(strict_types=1);
 
 namespace Vp\App\Result;
 
-use LucidFrame\Console\ConsoleTable;
-
 class ResultSearch
 {
     private bool $success;
     private ?string $message;
-    private ?ConsoleTable $result;
+    private ?array $result;
 
-    public function __construct(bool $success, ?string $message = null, ?ConsoleTable $result = null)
+    public function __construct(bool $success, ?string $message = null, ?array $result = null)
     {
         $this->success = $success;
         $this->message = $message;
         $this->result = $result;
     }
 
-    public function print(): void
+    public function getResult(): ?array
     {
-        fwrite(STDOUT, $this->message . PHP_EOL);
-        $this->result->display();
+        return $this->result;
+    }
+
+    public function __toString()
+    {
+        return $this->message;
     }
 }

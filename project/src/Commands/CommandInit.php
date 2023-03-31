@@ -15,10 +15,10 @@ class CommandInit implements CommandInterface
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function run(?array $argv): void
+    public function run(array $argv): void
     {
         $init = Container::getInstance()->get(Init::class);
         $result = $init->work();
-        $result->print();
+        fwrite(STDOUT, $result . PHP_EOL);
     }
 }

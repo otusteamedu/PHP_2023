@@ -20,5 +20,5 @@ try {
     $app = new App(new CommandProcessor());
     $app->run($_SERVER['argv']);
 } catch (Exception $e) {
-    fwrite(STDOUT, "Error: " . $e->getMessage() . PHP_EOL);
+    fwrite(STDERR, "Error: " . $e->getMessage() . PHP_EOL);
 }

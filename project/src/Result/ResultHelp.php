@@ -13,8 +13,8 @@ class ResultHelp
         $this->message = $message;
     }
 
-    public function print(): void
+    public function __toString()
     {
-        fwrite(STDOUT, $this->message . PHP_EOL);
+        return $this->message;
     }
 }

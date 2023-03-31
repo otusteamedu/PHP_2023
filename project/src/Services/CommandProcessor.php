@@ -5,9 +5,7 @@ declare(strict_types=1);
 namespace Vp\App\Services;
 
 use Exception;
-use Vp\App\Commands\CommandInterface;
 use Vp\App\Exceptions\CommandNotFound;
-use Vp\App\Exceptions\CommandNotObject;
 
 class CommandProcessor
 {
@@ -20,11 +18,6 @@ class CommandProcessor
     {
         $command = $this->getCommandNameFromArgv($argv);
         $commandObj = $this->createCommand($command);
-
-        if (!$commandObj instanceof CommandInterface) {
-            throw new CommandNotObject("Command '" . $command . "' is not an object.");
-        }
-
         $commandObj->run($argv);
     }
 

@@ -23,4 +23,6 @@ interface SocketInterface
     public function accept(Socket $socket): false|Socket;
 
     public function close(Socket $socket): void;
+
+    public function shutdown(string $message): bool;
 }

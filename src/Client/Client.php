@@ -20,8 +20,10 @@ class Client
             $message = fgets(STDIN);
             $this->service->write($socket, $message);
             $response = $this->service->read($socket, 4096);
+
             yield $response . PHP_EOL;
-            if (trim($message) === 'shutdown') {
+
+            if ($this->service->shutdown($message)) {
                 break;
             }
         }

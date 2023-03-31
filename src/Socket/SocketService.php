@@ -58,4 +58,9 @@ class SocketService implements SocketInterface
     {
         socket_close($socket);
     }
+
+    public function shutdown(string $message): bool
+    {
+        return trim($message) === 'shutdown';
+    }
 }

@@ -28,7 +28,8 @@ class Server
 
             $response = 'Received ' . strlen($message) . ' bytes';
             $this->service->write($client, $response);
-            if (trim($message) === 'shutdown') {
+
+            if ($this->service->shutdown($message)) {
                 break;
             }
         }

@@ -18,14 +18,15 @@ final class EventController
 
     public function index(Request $request): Response
     {
-        return (new JsonResponse(['message' => 'server works...']))/*->setTtl(60)*/;
+        return (new JsonResponse(['message' => 'Server works...']))
+            ->setTtl(60);
     }
 
     public function create(Request $request): Response
     {
         $event = $this->eventManager->create($request);
 
-        return new JsonResponse($event);
+        return new JsonResponse($event, 201);
     }
 
     public function show(Request $request, int $id): Response

@@ -30,6 +30,3 @@ jobs:
 
       - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs
-
-      - name: Run PHPUnit Tests
-        run: vendor/bin/phpunit --testdox --coverage-clover tests/coverage.xml

@@ -10,7 +10,9 @@ use Symfony\Component\HttpKernel\EventListener;
 use Symfony\Component\Routing;
 use Symfony\Component\EventDispatcher;
 use Twent\Hw12\App;
+use Twent\Hw12\Controllers\EventController;
 use Twent\Hw12\ErrorHandler;
+use Twent\Hw12\Services\EventManager;
 
 $container = new ContainerBuilder();
 
@@ -46,5 +48,13 @@ $container->register('app', App::class)
         new Reference('request_stack'),
         new Reference('argument_resolver'),
     ]);
+
+/**
+ * Custom containers register
+ */
+//$container->register('event_manager', EventManager::class);
+//
+//$container->register('event_controller', EventController::class)
+//    ->setArguments([new Reference('event_manager')]);
 
 return $container;

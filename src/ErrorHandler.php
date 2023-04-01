@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Twent\Hw12;
 
 use Symfony\Component\ErrorHandler\Exception\FlattenException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ErrorHandler
@@ -13,6 +14,6 @@ final class ErrorHandler
     {
         $msg = "Ошибка: {$exception->getMessage()}";
 
-        return new Response($msg, $exception->getStatusCode());
+        return new JsonResponse(['error' => $msg], $exception->getStatusCode());
     }
 }

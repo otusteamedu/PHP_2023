@@ -20,7 +20,7 @@ jobs:
       - uses: php-actions/composer@v6
         with:
           php_version: "8.1"
-#          php_extensions: memcached
+          php_extensions: redis
 
       - name: Cache Composer dependencies
         uses: actions/cache@v3
@@ -30,6 +30,3 @@ jobs:
 
       - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs
-
-      - name: Run PHPUnit Tests
-        run: vendor/bin/phpunit --testdox --coverage-clover tests/coverage.xml

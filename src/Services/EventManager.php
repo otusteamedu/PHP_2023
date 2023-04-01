@@ -8,7 +8,9 @@ use CuyZ\Valinor\Mapper\MappingError;
 use CuyZ\Valinor\Mapper\Source\JsonSource;
 use CuyZ\Valinor\Mapper\Tree\Message\Messages;
 use CuyZ\Valinor\MapperBuilder;
+use InvalidArgumentException;
 use Redis;
+use RedisException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twent\Hw12\DTO\Conditions;
@@ -19,22 +21,30 @@ class EventManager implements EventManagerContract
 {
     protected Redis $connect;
 
+    /**
+     * @throws RedisException
+     */
     public function __construct()
     {
         $this->connect = $this->initConnect();
     }
 
+    /**
+     * @throws RedisException
+     */
     private function initConnect(): Redis
     {
         $redis = new Redis();
         $redis->pconnect($_ENV['REDIS_MASTER_HOST'], (int) $_ENV['REDIS_PORT_NUMBER']);
         $redis->auth($_ENV['REDIS_PASSWORD']);
         $redis->setOption(Redis::OPT_SCAN, Redis::SCAN_RETRY);
-        //$redis->flushDB();
 
         return $redis;
     }
 
+    /**
+     * @throws RedisException
+     */
     public function create(Request $request): ?array
     {
         $data = $request->getContent();
@@ -44,12 +54,18 @@ class EventManager implements EventManagerContract
         return $this->save($event);
     }
 
-    public function get(int $id): Event
+    /**
+     * @throws RedisException
+     */
+    public function get(int $id): array
     {
         return $this->findById($id);
     }
 
-    public function findByConditions(Request $request)
+    /**
+     * @throws RedisException
+     */
+    public function findByConditions(Request $request): ?array
     {
         $data = $request->getContent();
 
@@ -59,24 +75,24 @@ class EventManager implements EventManagerContract
 
         $keys = $this->connect->keys('conditions*');
 
+        $ids = [];
+
+        // Search events ids contains conditions
         foreach ($keys as $key) {
             $rows = $this->connect->hGetAll($key);
 
             if ($queryArray === $rows) {
                 $eventId = explode(':', $key)[2];
 
-                return $this->findById(intval($eventId));
+                $ids[] = $eventId;
             }
         }
-        // Кол-во элементов в множестве
-        //dump($this->connect->)
-        //dump($this->connect->zCard('priority'));
-        // Место элемента в множестве
-        //dump($this->connect->zRank('priority', 'event:1'));
-        //$item = $this->connect->zRange('priority', 0, 10, true);
-        //$key = array_flip($key);
-        //dump(array_search($event->priority, $item));
-        //dump($this->>connect->zCount('events', '1', '10'));
+
+        if (! $ids) {
+            throw new NotFoundHttpException('Событие не найдено!');
+        }
+
+        return $this->findEventWithMaxPriority($ids);
     }
 
     private function validate(JsonSource $data, string $class): ?object
@@ -99,14 +115,17 @@ class EventManager implements EventManagerContract
             $messages = Messages::flattenFromNode($error->node());
 
             foreach ($messages->errors() as $message) {
-                $message = $message->withBody("Field {node_path} {original_message}<br>");
-                echo $message;
+                $message = $message->withBody("Field {node_path} {original_message}");
+                throw new InvalidArgumentException((string) $message);
             }
         }
 
         return $object ?? null;
     }
 
+    /**
+     * @throws RedisException
+     */
     private function save(?Event $event): ?array
     {
         $eventData = toArray($event);
@@ -122,31 +141,71 @@ class EventManager implements EventManagerContract
 
         $this->connect->hMSet("conditions:event:{$nextIndex}", $eventData['conditions']);
 
-        $this->connect->zAdd('priority', ['NX'], $event->priority, "event:{$nextIndex}");
+        $this->connect->zAdd('priority', $event->priority, "event:{$nextIndex}");
 
         return $eventData;
-        // all keys for events
-        //dump($this->connect->keys('event*'));
-        // get data for event 1
-        //dump($this->connect->hGetAll('event:1'));
-        //dump($this->connect->hGetAll('conditions:event:1'));
     }
 
-    public function findById(int $id): array
+    /**
+     * @throws RedisException
+     */
+    public function findById($id): ?array
     {
-        $iterator = null;
-        $priority = $this->connect->zScan("priority", $iterator, "event:{$id}", 1);
-        if ($priority) {
-            $priority = intval($priority["event:{$id}"]);
-        }
-
-        $conditions = $this->connect->hGetAll("conditions:event:{$id}");
-        $data = $this->connect->hGetAll("event:{$id}");
+        $priority = $this->getPriority($id);
+        $conditions = $this->getConditions($id);
+        $data = $this->getEventData($id);
 
         if (!$priority || ! $conditions || ! $data) {
             throw new NotFoundHttpException('Событие не найдено!');
         }
 
         return compact('priority', 'conditions', 'data');
+    }
+
+    /**
+     * @throws RedisException
+     */
+    private function findEventWithMaxPriority(array $ids): ?array
+    {
+        $priorities = [];
+
+        foreach ($ids as $id) {
+            $priority = $this->getPriority($id);
+            $priorities[$id] = $priority;
+        }
+
+        $maxPriority = max($priorities);
+        $priorities = array_flip($priorities);
+
+        $eventId = $priorities[$maxPriority];
+
+        return $this->findById($eventId);
+    }
+
+    /**
+     * @throws RedisException
+     */
+    private function getPriority($id): ?int
+    {
+        $iterator = null;
+        $priority = $this->connect->zScan("priority", $iterator, "event:{$id}", 1);
+
+        return $priority ? intval($priority["event:{$id}"]) : null;
+    }
+
+    /**
+     * @throws RedisException
+     */
+    private function getConditions(int $id): ?array
+    {
+        return $this->connect->hGetAll("conditions:event:{$id}");
+    }
+
+    /**
+     * @throws RedisException
+     */
+    private function getEventData(int $id): ?array
+    {
+        return $this->connect->hGetAll("event:{$id}");
     }
 }

@@ -1,5 +1,5 @@
 ### Find most priority event by conditions
-POST http://localhost/event/find-by-conditions
+GET http://localhost/event/find-by-conditions
 Content-Type: application/json
 
 {

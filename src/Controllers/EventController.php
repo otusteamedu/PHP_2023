@@ -7,16 +7,38 @@ namespace Twent\Hw12\Controllers;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twent\Hw12\Services\EventManager;
 
 final class EventController
 {
-    public function index(Request $request): Response
-    {
-        return (new JsonResponse(['data' => 'data']))/*->setTtl(60)*/;
+    public function __construct(
+        private readonly EventManager $eventManager = new EventManager(),
+    ) {
     }
 
-    public function show(Request $request, string $id): Response
+    public function index(Request $request): Response
     {
-        return (new JsonResponse(['id' => $id, 'title' => "Event {$id}"]));
+        return (new JsonResponse(['message' => 'server works...']))/*->setTtl(60)*/;
+    }
+
+    public function create(Request $request): Response
+    {
+        $event = $this->eventManager->create($request);
+
+        return new JsonResponse($event);
+    }
+
+    public function show(Request $request, int $id): Response
+    {
+        $event = $this->eventManager->findById($id);
+
+        return new JsonResponse($event);
+    }
+
+    public function findByConditions(Request $request): Response
+    {
+        $event = $this->eventManager->findByConditions($request);
+
+        return new JsonResponse($event);
     }
 }

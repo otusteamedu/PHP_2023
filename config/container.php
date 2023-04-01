@@ -12,34 +12,34 @@ use Symfony\Component\EventDispatcher;
 use Twent\Hw12\App;
 use Twent\Hw12\ErrorHandler;
 
-$sc = new ContainerBuilder();
+$container = new ContainerBuilder();
 
-$sc->register('context', Routing\RequestContext::class);
+$container->register('context', Routing\RequestContext::class);
 
-$sc->register('matcher', Routing\Matcher\UrlMatcher::class)
+$container->register('matcher', Routing\Matcher\UrlMatcher::class)
     ->setArguments([$routes, new Reference('context')]);
 
-$sc->register('request_stack', HttpFoundation\RequestStack::class);
+$container->register('request_stack', HttpFoundation\RequestStack::class);
 
-$sc->register('controller_resolver', Controller\ControllerResolver::class);
+$container->register('controller_resolver', Controller\ControllerResolver::class);
 
-$sc->register('argument_resolver', Controller\ArgumentResolver::class);
+$container->register('argument_resolver', Controller\ArgumentResolver::class);
 
-$sc->register('listener.router', EventListener\RouterListener::class)
+$container->register('listener.router', EventListener\RouterListener::class)
     ->setArguments([new Reference('matcher'), new Reference('request_stack')]);
 
-$sc->register('listener.response', EventListener\ResponseListener::class)
+$container->register('listener.response', EventListener\ResponseListener::class)
     ->setArguments(['%charset%']);
 
-$sc->register('listener.exception', EventListener\ErrorListener::class)
+$container->register('listener.exception', EventListener\ErrorListener::class)
     ->setArguments([ErrorHandler::class]);
 
-$sc->register('dispatcher', EventDispatcher\EventDispatcher::class)
+$container->register('dispatcher', EventDispatcher\EventDispatcher::class)
     ->addMethodCall('addSubscriber', [new Reference('listener.router')])
     ->addMethodCall('addSubscriber', [new Reference('listener.response')])
     ->addMethodCall('addSubscriber', [new Reference('listener.exception')]);
 
-$sc->register('app', App::class)
+$container->register('app', App::class)
     ->setArguments([
         new Reference('dispatcher'),
         new Reference('controller_resolver'),
@@ -47,4 +47,4 @@ $sc->register('app', App::class)
         new Reference('argument_resolver'),
     ]);
 
-return $sc;
+return $container;

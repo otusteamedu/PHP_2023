@@ -1,0 +1,3 @@
+### Find most priority event by conditions
+GET http://localhost/event/1
+Content-Type: application/json

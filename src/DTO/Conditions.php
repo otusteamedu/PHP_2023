@@ -13,4 +13,9 @@ final class Conditions
         private readonly ?string $param3 = ''
     ) {
     }
+
+    public function __get(string $name)
+    {
+        return $this->{$name};
+    }
 }

@@ -1,0 +1,25 @@
+{
+    "name": "vp/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Vp\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vladimir Pavlenko"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.6",
+        "php-di/php-di": "^7.0",
+        "phplucidframe/console-table": "^1.2",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

@@ -1,0 +1,50 @@
+version: '3.7'
+
+services:
+
+  elasticsearch:
+    build:
+      context: ./elasticsearch
+      args:
+        ELASTIC_VERSION: ${ELASTIC_VERSION}
+    image: otus/es
+    container_name: otus-es
+    volumes:
+      - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro,Z
+      - elasticsearch:/usr/share/elasticsearch/data:Z
+    ports:
+      - ${ELASTIC_HOST_PORT}:${ELASTIC_PORT}
+      - 9300:9300
+    environment:
+      node.name: elasticsearch
+      ES_JAVA_OPTS: -Xms512m -Xmx512m
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      discovery.type: single-node
+    deploy:
+      resources:
+        limits:
+          memory: 4GB
+    networks:
+      - otus-network
+    restart: unless-stopped
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus-php
+    volumes:
+      - ./project:/data/application
+      - ./.env:/data/application/.env
+    networks:
+      - otus-network
+    depends_on:
+      - elasticsearch
+
+networks:
+  otus-network:
+    driver: bridge
+
+volumes:
+  elasticsearch:

@@ -49,9 +49,11 @@ class EventManager implements EventManagerContract
     {
         $data = $request->getContent();
 
-        $event = $this->validate(new JsonSource($data), Event::class);
+        $this->validate(new JsonSource($data), Event::class);
 
-        return $this->save($event);
+        $data = json_decode($data, true);
+
+        return $this->save($data);
     }
 
     /**
@@ -126,10 +128,8 @@ class EventManager implements EventManagerContract
     /**
      * @throws RedisException
      */
-    private function save(?Event $event): ?array
+    private function save(?array $event): ?array
     {
-        $eventData = toArray($event);
-
         $nextIndex = 1;
         $count = count($this->connect->keys('event*'));
 
@@ -137,13 +137,13 @@ class EventManager implements EventManagerContract
             $nextIndex = $count + 1;
         }
 
-        $this->connect->hMSet("event:{$nextIndex}", $eventData['data']);
+        $this->connect->hMSet("event:{$nextIndex}", $event['data']);
 
-        $this->connect->hMSet("conditions:event:{$nextIndex}", $eventData['conditions']);
+        $this->connect->hMSet("conditions:event:{$nextIndex}", $event['conditions']);
 
-        $this->connect->zAdd('priority', $event->priority, "event:{$nextIndex}");
+        $this->connect->zAdd('priority', $event['priority'], "event:{$nextIndex}");
 
-        return $eventData;
+        return $event;
     }
 
     /**

@@ -12,10 +12,7 @@
     "autoload": {
         "psr-4": {
             "Twent\\Hw12\\": "src/"
-        },
-        "files": [
-            "src/Utils/helpers.php"
-        ]
+        }
     },
     "autoload-dev": {
         "psr-4": {

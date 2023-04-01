@@ -8,6 +8,9 @@ use Vp\App\Services\CommandProcessor;
 
 require_once('vendor/autoload.php');
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 $config = Config::getInstance()
     ->setUser($_ENV['ELASTIC_USER'])
     ->setPassword($_ENV['ELASTIC_PASSWORD'])

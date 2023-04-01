@@ -34,15 +34,9 @@ services:
       dockerfile: Dockerfile
     image: otus/php
     container_name: otus-php
-    environment:
-      ELASTIC_USER: ${ELASTIC_USER}
-      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      ELASTIC_PORT: ${ELASTIC_PORT}
-      ELASTIC_BULK: ${ELASTIC_BULK}
-      RETURN_SIZE: ${RETURN_SIZE}
-      INDEX_NAME: ${INDEX_NAME}
     volumes:
       - ./project:/data/application
+      - ./.env:/data/application/.env
     networks:
       - otus-network
     depends_on:

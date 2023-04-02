@@ -8,13 +8,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twent\Hw12\Services\Contracts\EventManagerContract;
-use Twent\Hw12\Services\EventManager;
 
-final class EventController
+final class EventController extends BaseController
 {
-    public function __construct(
-        private readonly EventManagerContract $eventManager = new EventManager(),
-    ) {
+    private EventManagerContract $eventManager;
+
+    public function __construct()
+    {
+        $this->eventManager = $this->getContainer()->get('event_manager');
     }
 
     public function index(Request $request): Response

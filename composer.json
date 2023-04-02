@@ -26,7 +26,8 @@
         "symfony/http-foundation": "^6.2",
         "symfony/routing": "^6.2",
         "symfony/http-kernel": "^6.2",
-        "symfony/dependency-injection": "^6.2"
+        "symfony/dependency-injection": "^6.2",
+        "symfony/config": "^6.2"
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2",

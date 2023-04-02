@@ -8,11 +8,13 @@ use Symfony\Component\HttpKernel;
 use Symfony\Component\Routing;
 use Symfony\Component\EventDispatcher;
 use Twent\Hw12\App;
-use Twent\Hw12\Controllers\EventController;
 use Twent\Hw12\ErrorHandler;
 use Twent\Hw12\Services\EventManager;
 
-$container = new DependencyInjection\ContainerBuilder();
+/**
+ * @var $container DependencyInjection\ContainerBuilder
+ */
+$routes = include $container->getParameter('routes');
 
 $container->register('context', Routing\RequestContext::class);
 
@@ -63,9 +65,4 @@ $container->register('cached_app', HttpKernel\HttpCache\HttpCache::class)
 /**
  * Custom containers register
  */
-//$container->setDefinition('event_manager', new DependencyInjection\Definition(EventManager::class));
-//
-//$container->register('event_controller', EventController::class)
-//    ->setArguments([new DependencyInjection\Reference('event_manager')]);
-
-return $container;
+$container->register('event_manager', EventManager::class);

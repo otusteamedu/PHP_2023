@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
+use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpCache\Esi;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\Store;
+use Twent\Hw12\DI\Container;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -17,12 +17,15 @@ $dotenv->load(
     __DIR__ . '/../.env.replica'
 );
 
-$routes = include_once __DIR__ . '/../routes/api.php';
-$container = include_once __DIR__ . '/../config/container.php';
+$container = Container::getInstance();
 
 $container->setParameter('debug', true);
 $container->setParameter('charset', 'UTF-8');
+$container->setParameter('routes', __DIR__ . '/../routes/api.php');
 $container->setParameter('cache_dir', __DIR__ . '/../cache');
+
+$loader = new PhpFileLoader($container, new FileLocator(__DIR__ . '/../config'));
+$loader->load('container.php');
 
 $request = Request::createFromGlobals();
 

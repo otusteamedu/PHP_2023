@@ -87,7 +87,7 @@ INSERT INTO
     (
         SELECT
             gs.id as id,
-            random_string(16) as name,
+            'film_' || random_string(16) as name,
             null as description,
             random_between(0, 10) as kp,
             round(random_between(60, 240)) as duration,

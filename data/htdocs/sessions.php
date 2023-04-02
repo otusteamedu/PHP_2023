@@ -45,10 +45,10 @@ while (true) {
         $r .= $sql;
         pg_query($dbconn, $sql);
 
-        $seatsCount = rand(10, 60);
+        $seatsCount = rand(6, 16);
         $arSeats = [];
         while($seatsCount > count($arSeats)) {
-            $arSeats[] = rand(1, 60);
+            $arSeats[] = rand(1, 16);
             $arSeats = array_unique($arSeats);
         }
 

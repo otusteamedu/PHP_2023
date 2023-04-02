@@ -1,3 +1,11 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Сборка и запуск контейнера
+```shell
+docker-compose build && \
+docker-compose up -d
+```
+
+## Описание
+- /data/htdocs/DDL.sql - создаёт все таблицы, виды;
+- /data/htdocs/fill_data.sql - заполняет данные;

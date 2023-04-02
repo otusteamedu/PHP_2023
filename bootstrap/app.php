@@ -22,12 +22,11 @@ $container = include_once __DIR__ . '/../config/container.php';
 
 $container->setParameter('debug', true);
 $container->setParameter('charset', 'UTF-8');
+$container->setParameter('cache_dir', __DIR__ . '/../cache');
 
 $request = Request::createFromGlobals();
 
-$app = $container->get('app');
-
-$app = new HttpCache($app, new Store(__DIR__ . '/../cache'), new Esi(), ['debug' => true]);
+$app = $container->get('cached_app');
 
 $response = $app->handle($request);
 

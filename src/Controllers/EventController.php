@@ -7,12 +7,13 @@ namespace Twent\Hw12\Controllers;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twent\Hw12\Services\Contracts\EventManagerContract;
 use Twent\Hw12\Services\EventManager;
 
 final class EventController
 {
     public function __construct(
-        private readonly EventManager $eventManager = new EventManager(),
+        private readonly EventManagerContract $eventManager = new EventManager(),
     ) {
     }
 

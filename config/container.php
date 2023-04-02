@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection;
 use Symfony\Component\HttpFoundation;
-use Symfony\Component\HttpKernel\Controller;
-use Symfony\Component\HttpKernel\EventListener;
+use Symfony\Component\HttpKernel;
 use Symfony\Component\Routing;
 use Symfony\Component\EventDispatcher;
 use Twent\Hw12\App;
@@ -14,47 +12,60 @@ use Twent\Hw12\Controllers\EventController;
 use Twent\Hw12\ErrorHandler;
 use Twent\Hw12\Services\EventManager;
 
-$container = new ContainerBuilder();
+$container = new DependencyInjection\ContainerBuilder();
 
 $container->register('context', Routing\RequestContext::class);
 
 $container->register('matcher', Routing\Matcher\UrlMatcher::class)
-    ->setArguments([$routes, new Reference('context')]);
+    ->setArguments([$routes, new DependencyInjection\Reference('context')]);
 
 $container->register('request_stack', HttpFoundation\RequestStack::class);
 
-$container->register('controller_resolver', Controller\ControllerResolver::class);
+$container->register('controller_resolver', HttpKernel\Controller\ControllerResolver::class);
 
-$container->register('argument_resolver', Controller\ArgumentResolver::class);
+$container->register('argument_resolver', HttpKernel\Controller\ArgumentResolver::class);
 
-$container->register('listener.router', EventListener\RouterListener::class)
-    ->setArguments([new Reference('matcher'), new Reference('request_stack')]);
+$container->register('listener.router', HttpKernel\EventListener\RouterListener::class)
+    ->setArguments([new DependencyInjection\Reference('matcher'), new DependencyInjection\Reference('request_stack')]);
 
-$container->register('listener.response', EventListener\ResponseListener::class)
+$container->register('listener.response', HttpKernel\EventListener\ResponseListener::class)
     ->setArguments(['%charset%']);
 
-$container->register('listener.exception', EventListener\ErrorListener::class)
+$container->register('listener.exception', HttpKernel\EventListener\ErrorListener::class)
     ->setArguments([ErrorHandler::class]);
 
 $container->register('dispatcher', EventDispatcher\EventDispatcher::class)
-    ->addMethodCall('addSubscriber', [new Reference('listener.router')])
-    ->addMethodCall('addSubscriber', [new Reference('listener.response')])
-    ->addMethodCall('addSubscriber', [new Reference('listener.exception')]);
+    ->addMethodCall('addSubscriber', [new DependencyInjection\Reference('listener.router')])
+    ->addMethodCall('addSubscriber', [new DependencyInjection\Reference('listener.response')])
+    ->addMethodCall('addSubscriber', [new DependencyInjection\Reference('listener.exception')]);
 
 $container->register('app', App::class)
     ->setArguments([
-        new Reference('dispatcher'),
-        new Reference('controller_resolver'),
-        new Reference('request_stack'),
-        new Reference('argument_resolver'),
+        new DependencyInjection\Reference('dispatcher'),
+        new DependencyInjection\Reference('controller_resolver'),
+        new DependencyInjection\Reference('request_stack'),
+        new DependencyInjection\Reference('argument_resolver'),
+    ]);
+
+$container->register('cache_store', HttpKernel\HttpCache\Store::class)
+    ->setArguments(['%cache_dir%']);
+
+$container->register('esi', HttpKernel\HttpCache\Esi::class);
+
+$container->register('cached_app', HttpKernel\HttpCache\HttpCache::class)
+    ->setArguments([
+        new DependencyInjection\Reference('app'),
+        new DependencyInjection\Reference('cache_store'),
+        new DependencyInjection\Reference('esi'),
+        ['debug' => '%debug%'],
     ]);
 
 /**
  * Custom containers register
  */
-//$container->register('event_manager', EventManager::class);
+//$container->setDefinition('event_manager', new DependencyInjection\Definition(EventManager::class));
 //
 //$container->register('event_controller', EventController::class)
-//    ->setArguments([new Reference('event_manager')]);
+//    ->setArguments([new DependencyInjection\Reference('event_manager')]);
 
 return $container;

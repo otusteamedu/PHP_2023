@@ -59,14 +59,6 @@ class EventManager implements EventManagerContract
     /**
      * @throws RedisException
      */
-    public function get(int $id): array
-    {
-        return $this->findById($id);
-    }
-
-    /**
-     * @throws RedisException
-     */
     public function findByConditions(Request $request): ?array
     {
         $data = $request->getContent();
@@ -109,10 +101,7 @@ class EventManager implements EventManagerContract
                     DATE_ATOM
                 )
                 ->mapper()
-                ->map(
-                    $class,
-                    $data
-                );
+                ->map($class, $data);
         } catch (MappingError $error) {
             $messages = Messages::flattenFromNode($error->node());
 
@@ -149,7 +138,7 @@ class EventManager implements EventManagerContract
     /**
      * @throws RedisException
      */
-    public function findById($id): ?array
+    public function findById(int $id): ?array
     {
         $priority = $this->getPriority($id);
         $conditions = $this->getConditions($id);
@@ -185,7 +174,7 @@ class EventManager implements EventManagerContract
     /**
      * @throws RedisException
      */
-    private function getPriority($id): ?int
+    private function getPriority(int $id): ?int
     {
         $iterator = null;
         $priority = $this->connect->zScan("priority", $iterator, "event:{$id}", 1);

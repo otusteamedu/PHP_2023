@@ -12,8 +12,18 @@ DROP TABLE IF EXISTS attributes_types;
 
 DROP TABLE IF EXISTS films_genres;
 DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS tickets;
+DROP TABLE IF EXISTS tickets_types;
+DROP TABLE IF EXISTS seats;
+DROP TABLE IF EXISTS sessions_tickets;
+DROP TABLE IF EXISTS sessions;
+DROP TABLE IF EXISTS halls;
 DROP TABLE IF EXISTS films;
+DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS files;
+
+DROP TABLE IF EXISTS discounts;
+DROP TABLE IF EXISTS discounts_types;
 
 CREATE TABLE "files"
 (
@@ -23,6 +33,21 @@ CREATE TABLE "files"
     "path"         varchar            not null,
     "size"         int                not null,
     "type"         varchar            not null
+);
+
+CREATE TABLE IF NOT EXISTS "halls"
+(
+    "id"   serial unique not null,
+    "name" varchar
+);
+
+CREATE TABLE "seats"
+(
+    "id"           serial primary key not null,
+    "row_number"   int                not null,
+    "place_number" int                not null,
+    "hall_id"      int REFERENCES halls (id) ON DELETE CASCADE,
+    UNIQUE (hall_id, row_number, place_number)
 );
 
 CREATE TABLE "genres"
@@ -49,6 +74,60 @@ CREATE TABLE "films_genres"
     "genre_id" int not null REFERENCES genres (id) ON DELETE CASCADE
 );
 
+CREATE TABLE "users"
+(
+    "id"        serial primary key not null,
+    "name"      varchar            not null,
+    "last_name" varchar            not null,
+    "password"  varchar            not null,
+    "email"     varchar            not null UNIQUE,
+    "avatar"    int                null REFERENCES files (id) ON DELETE SET NULL
+);
+
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+CREATE TABLE IF NOT EXISTS "sessions"
+(
+    "id"          serial primary key not null,
+    "date"        date, -- для отчёта по прибыльности за период
+    "during_time" tsrange,
+    "film_id"     integer            not null REFERENCES films ("id") ON DELETE CASCADE,
+    "hall_id"     int                not null REFERENCES halls ("id") ON DELETE CASCADE,
+    CONSTRAINT hall_usage EXCLUDE USING GIST(hall_id WITH =, during_time WITH &&)
+);
+
+CREATE TABLE IF NOT EXISTS "tickets"
+(
+    "id"          serial primary key NOT null,
+    "session_id"  int                NOT null REFERENCES sessions ("id") ON DELETE CASCADE,
+    "seat_id"     int                NOT null REFERENCES seats ("id") ON DELETE SET NULL,
+    "customer_id" int                NOT NULL REFERENCES users (id) ON DELETE CASCADE,
+    "sale_price"  int,
+    UNIQUE (session_id, seat_id),    -- на одном сеансе не могут быть заняты два одинаковых места
+    UNIQUE (session_id, customer_id) --на одном сеансе не может находится один пользователь два раза
+);
+
+/**********************************************************************************/
+/*                                  Discounts                                     */
+/**********************************************************************************/
+CREATE TABLE IF NOT EXISTS "discounts_types"
+(
+    "id"   serial primary key NOT null,
+    "name" varchar            not null
+);
+
+
+CREATE TABLE IF NOT EXISTS "discounts"
+(
+    "id"               serial primary key             NOT null,
+    "name"             varchar                        not null,
+    "discount_type_id" int REFERENCES discounts_types not null,
+    "value"            int                            not null
+);
+
+
+/**********************************************************************************/
+/*                                  Attributes                                    */
+/**********************************************************************************/
 CREATE TABLE IF NOT EXISTS "attributes_types"
 (
     "id"         smallserial primary key not null,
@@ -171,4 +250,49 @@ FROM attributes_values av
          LEFT JOIN films f on av.film_id = f.id
          LEFT JOIN attributes a on av.attribute_id = a.id
          LEFT JOIN attributes_types at on at.id = a.type_id
-WHERE a.group_id = 4
+WHERE a.group_id = 4;
+
+
+
+/**********************************************************************************************/
+/*                                      FUNCTIONS                                             */
+/**********************************************************************************************/
+CREATE OR REPLACE FUNCTION random_between(low INT ,high INT)
+    RETURNS INT AS
+$$
+BEGIN
+    RETURN round((random() * (high-low) + low)::NUMERIC, 1);
+END;
+$$ language 'plpgsql' STRICT;
+
+Create or replace function random_string(length integer) returns text as
+$$
+declare
+    chars text[] := '{0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z,a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z}';
+    result text := '';
+    i integer := 0;
+begin
+    if length < 0 then
+        raise exception 'Given length cannot be less than 0';
+    end if;
+    for i in 1..length loop
+            result := result || chars[1+random()*(array_length(chars, 1)-1)];
+        end loop;
+    return result;
+end;
+$$ language plpgsql;
+
+CREATE OR REPLACE FUNCTION random_ts_between(f timestamptz, t timestamptz) RETURNS timestamptz AS
+$$
+BEGIN
+    RETURN to_timestamp(random_between(EXTRACT(EPOCH FROM f)::INT, EXTRACT(EPOCH FROM t)::INT));
+END;
+$$ language 'plpgsql' STRICT;
+
+
+CREATE OR REPLACE FUNCTION random_date_between(f DATE, t DATE) RETURNS DATE AS
+$$
+BEGIN
+    RETURN to_char(to_timestamp(random_between(EXTRACT(EPOCH FROM f)::INT, EXTRACT(EPOCH FROM t)::INT)), 'YYYY-MM-DD')::DATE;
+END;
+$$ language 'plpgsql' STRICT;

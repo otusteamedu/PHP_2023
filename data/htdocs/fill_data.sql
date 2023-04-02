@@ -1,17 +1,119 @@
+/**********************************************************************************/
+/*                                  TABLES                                        */
+/**********************************************************************************/
+INSERT INTO halls("id", "name")
+VALUES (1, 'Красный зал'),
+       (2, 'Желтый зал'),
+       (3, 'Желтый зал'),
+       (4, 'Зеленый зал');
+
+INSERT INTO seats("hall_id", "row_number", "place_number")
+VALUES
+    (1, 1, 1),
+    (1, 1, 2),
+    (1, 1, 3),
+    (1, 1, 4),
+    (1, 2, 1),
+    (1, 2, 2),
+    (1, 2, 3),
+    (1, 2, 4),
+    (1, 3, 1),
+    (1, 3, 2),
+    (1, 3, 3),
+    (1, 3, 4),
+    (1, 4, 1),
+    (1, 4, 2),
+    (1, 4, 3),
+    (1, 4, 4),
+
+    (2, 1, 1),
+    (2, 1, 2),
+    (2, 1, 3),
+    (2, 1, 4),
+    (2, 2, 1),
+    (2, 2, 2),
+    (2, 2, 3),
+    (2, 2, 4),
+    (2, 3, 1),
+    (2, 3, 2),
+    (2, 3, 3),
+    (2, 3, 4),
+    (2, 4, 1),
+    (2, 4, 2),
+    (2, 4, 3),
+    (2, 4, 4),
+
+    (3, 1, 1),
+    (3, 1, 2),
+    (3, 1, 3),
+    (3, 1, 4),
+    (3, 2, 1),
+    (3, 2, 2),
+    (3, 2, 3),
+    (3, 2, 4),
+    (3, 3, 1),
+    (3, 3, 2),
+    (3, 3, 3),
+    (3, 3, 4),
+    (3, 4, 1),
+    (3, 4, 2),
+    (3, 4, 3),
+    (3, 4, 4),
+
+    (4, 1, 1),
+    (4, 1, 2),
+    (4, 1, 3),
+    (4, 1, 4),
+    (4, 2, 1),
+    (4, 2, 2),
+    (4, 2, 3),
+    (4, 2, 4),
+    (4, 3, 1),
+    (4, 3, 2),
+    (4, 3, 3),
+    (4, 3, 4),
+    (4, 4, 1),
+    (4, 4, 2),
+    (4, 4, 3),
+    (4, 4, 4);
+
 INSERT INTO genres(id, name) VALUES (1, 'Драма');
 INSERT INTO genres(id, name) VALUES (2, 'Криминал');
 INSERT INTO genres(id, name) VALUES (3, 'Ужас');
 INSERT INTO genres(id, name) VALUES (4, 'Триллер');
 
-INSERT INTO films(id, name, description, kp_rating, duration, release_date, cover_id) VALUES (1, 'Славные парни', null, 7.5, 120, '2000-01-01', null);
-INSERT INTO films(id, name, description, kp_rating, duration, release_date, cover_id) VALUES (2, 'Ганибал', null, 7.5, 100, '2002-01-01', null);
-INSERT INTO films(id, name, description, kp_rating, duration, release_date, cover_id) VALUES (3, 'Чужие', null, 8, 130, '1998-01-01', null);
+INSERT INTO
+    films(id, name, description, kp_rating, duration, release_date, cover_id)
+    (
+        SELECT
+            gs.id as id,
+            random_string(16) as name,
+            null as description,
+            random_between(0, 10) as kp,
+            round(random_between(60, 240)) as duration,
+            random_date_between('1990-01-01'::DATE, '2023-01-01'::DATE) as release_date,
+            null as cover
+        FROM generate_series(1,100) as gs(id)
+    );
 
-INSERT INTO films_genres(film_id, genre_id) VALUES (1, 1);
-INSERT INTO films_genres(film_id, genre_id) VALUES (1, 2);
-INSERT INTO films_genres(film_id, genre_id) VALUES (2, 3);
-INSERT INTO films_genres(film_id, genre_id) VALUES (2, 4);
-INSERT INTO films_genres(film_id, genre_id) VALUES (3, 2);
+INSERT INTO films_genres(id, film_id, genre_id)
+    SELECT
+       gs.id,
+       random_between((SELECT MIN(id) FROM films), (SELECT MAX(id) FROM films)),
+       random_between((SELECT MIN(id) FROM genres), (SELECT MAX(id) FROM genres))
+    FROM generate_series(1,300) as gs(id);
+
+
+INSERT INTO users(id, name, last_name, password, email, avatar) (SELECT gs.id, random_string(16), random_string(16), random_string(16), random_string(16) || '@' || random_string(16) || '.com', null FROM generate_series(1,1000) as gs(id));
+
+/**********************************************************************************/
+/*                                  Discounts                                     */
+/**********************************************************************************/
+INSERT INTO discounts_types(id, name) VALUES (1, 'fix_price');
+INSERT INTO discounts_types(id, name) VALUES (2, 'percent');
+
+INSERT INTO discounts(id, name, discount_type_id,  value) VALUES (1, 'Детские билеты', 1, 1000);
+INSERT INTO discounts(id, name, discount_type_id, value) VALUES (2, 'Студенческие билеты', 2, 50);
 
 /**********************************************************************************/
 /*                                  Attributes                                    */

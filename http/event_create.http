@@ -1,0 +1,17 @@
+### Create event
+POST http://localhost/event/create
+Content-Type: application/json
+
+{
+  "priority": 10,
+  "conditions": {
+    "param1": "Value1",
+    "param2": "Value2",
+    "param3": "Value3"
+  },
+  "data": {
+    "title": "Event 1",
+    "date": "2023-03-15 12:10:10",
+    "description": "Event description 1"
+  }
+}

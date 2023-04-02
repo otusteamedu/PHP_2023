@@ -1,0 +1,9 @@
+### Find most priority event by conditions
+GET http://localhost/event/find-by-conditions
+Content-Type: application/json
+
+{
+  "param1": "Value1",
+  "param2": "Value2",
+  "param3": "Value3"
+}

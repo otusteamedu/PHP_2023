@@ -1,0 +1,14 @@
+{
+    "name": "aporivaev/hw09",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aporivaev\\Hw09\\": "src/"
+        }
+    },
+    "require": {
+		 "ext-sockets": "*",
+		 "php": ">=8.0",
+		 "ext-mbstring": "*"
+	 }
+}

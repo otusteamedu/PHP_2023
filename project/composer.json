@@ -15,6 +15,7 @@
         "php-di/php-di": "^7.0",
         "phplucidframe/console-table": "^1.2",
         "vlucas/phpdotenv": "^5.5",
-        "worksolutions/php-collections": "^1.1"
+        "worksolutions/php-collections": "^1.1",
+      "ext-pdo": "*"
     }
 }

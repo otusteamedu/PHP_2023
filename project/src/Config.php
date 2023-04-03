@@ -9,7 +9,6 @@ use Exception;
 final class Config
 {
     private static ?Config $instance = null;
-    private string $storageType;
     private string $dbUser;
     private string $dbPassword;
     private string $dbPort;
@@ -22,12 +21,6 @@ final class Config
         }
 
         return self::$instance;
-    }
-
-    public function setStorageType(string $storageType): Config
-    {
-        $this->storageType = $storageType;
-        return $this;
     }
 
     public function setDbUser(string $dbUser): Config
@@ -52,11 +45,6 @@ final class Config
     {
         $this->dbName = $dbName;
         return $this;
-    }
-
-    public function getStorageType(): string
-    {
-        return $this->storageType;
     }
 
     public function getDbUser(): string

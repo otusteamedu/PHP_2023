@@ -1,14 +1,19 @@
 SELECT
-    m.movie_id,
-    m.title,
-    SUM(s.ticket_price) AS total_revenue
+    Movies.id AS movie_id,
+    Movies.movie_title,
+    SUM(Tickets.actual_price) AS total_revenue
 FROM
-    Tickets t
-        JOIN Screenings s ON t.screening_id = s.screening_id
-        JOIN Movies m ON s.movie_id = m.movie_id
+    Movies
+        JOIN
+    Screenings
+    ON
+            Movies.id = Screenings.movie_id
+        JOIN
+    Tickets
+    ON
+            Screenings.id = Tickets.screening_id
 GROUP BY
-    m.movie_id,
-    m.title
+    Movies.id, Movies.movie_title
 ORDER BY
     total_revenue DESC
     LIMIT 1;

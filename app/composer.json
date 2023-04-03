@@ -1,0 +1,20 @@
+{
+    "name": "imitronov/hw7",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw7\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan Mitronov",
+            "email": "imitronov@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "8.*",
+        "ext-sockets": "*",
+        "php-di/php-di": "^7.0"
+    }
+}

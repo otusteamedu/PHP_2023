@@ -1,0 +1,25 @@
+version: '3.8'
+
+x-php:
+  &xphp
+  build:
+    context: ./
+    dockerfile: docker/php/Dockerfile
+
+services:
+  client:
+    <<: *xphp
+    restart: unless-stopped
+    container_name: client_socket
+    volumes:
+      - hw7_sockets:/var/www/app/var/socket
+
+  server:
+    <<: *xphp
+    restart: unless-stopped
+    container_name: server_socket
+    volumes:
+      - hw7_sockets:/var/www/app/var/socket
+
+volumes:
+  hw7_sockets:

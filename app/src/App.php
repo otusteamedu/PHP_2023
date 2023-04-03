@@ -23,7 +23,9 @@ class App
 
     public function __construct()
     {
+        set_time_limit(0);
         mb_internal_encoding('UTF-8');
+
         $this->parseArg();
         if (!empty($this->configFile)) {
             $this->parseConfig();

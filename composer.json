@@ -1,0 +1,24 @@
+{
+  "name": "twent/design-patterns-usage",
+  "description": "Design patterns usage",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Twent\\Test\\": "src/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
+  "authors": [
+    {
+      "name": "twent",
+      "email": "i@twent.ru"
+    }
+  ],
+  "require": {
+    "php": ">=8.1",
+    "twent/design-patterns": "0.*"
+  },
+  "license": "GPL-3.0-only"
+}

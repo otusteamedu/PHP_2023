@@ -1,3 +1,3 @@
-# PHP_2023
+# PHP_2023 HW3 - Composer
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Lesson for learning package creating, usage, auto-loading etc.

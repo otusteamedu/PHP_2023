@@ -1,0 +1,18 @@
+{
+    "name": "imitronov/hw3",
+    "type": "project",
+    "require": {
+        "imitronov/cbrf-currency-rate": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan Mitronov",
+            "email": "imitronov@gmail.com"
+        }
+    ]
+}

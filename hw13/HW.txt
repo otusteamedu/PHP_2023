@@ -1,0 +1,151 @@
+    
+    
+1. Выбор всех фильмов на сегодня
+SELECT DISTINCT
+	"public.movie"."title"
+FROM 
+	"public.sessions"
+LEFT JOIN
+	"public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+WHERE
+	"public.sessions"."session_date" = CURRENT_DATE-7;
+	
+img1 - без индекса на поле "session_date" таблицы "public.sessions" (13 152 записи)
+img2 - с таким индексом (CREATE INDEX "i_date" ON "public.sessions" ("session_date");)
+	
+	
+
+2. Подсчёт проданных билетов за неделю
+SELECT 
+	COUNT("public.order_list"."ticket_id")
+FROM 
+	"public.order_list"
+LEFT JOIN
+	"public.orders" ON "public.orders"."id" = "public.order_list"."order_id"
+WHERE	
+	"public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE;
+	
+img3 - без индекса на поле "order_datetime" таблицы "public.orders" (10 000 записей)
+img4 - с таким индексом (CREATE INDEX "i_datetime" ON "public.orders" ("order_datetime");)
+	
+	
+	
+3. Формирование афиши (фильмы, которые показывают сегодня)
+SELECT
+	"public.movie"."title",
+	"public.movie"."duration",	
+	"public.movie"."description" as "genre",
+	"public.age_limit"."name" as "age_limit", 	
+	"public.hall"."name" as "hall",
+	"public.hall_session"."session_time"
+FROM 
+	"public.sessions"
+LEFT JOIN
+	"public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+LEFT JOIN 
+	"public.hall_session" ON "public.hall_session"."id" = "public.sessions"."hall_session_id"
+LEFT JOIN 
+	"public.hall" ON "public.hall_session"."hall_id" = "public.hall"."id"
+LEFT JOIN 
+	"public.age_limit" ON "public.movie"."age_limit_id" = "public.age_limit"."id"
+WHERE
+	"public.sessions"."session_date" = CURRENT_DATE
+ORDER BY 
+	"public.hall_session"."session_time";
+	
+img5 - без индекса на поле "session_date" таблицы "public.sessions" (13 152 записи)
+img6 - с таким индексом (CREATE INDEX "i_date" ON "public.sessions" ("session_date");)
+
+
+
+4. Поиск 3 самых прибыльных фильмов за неделю
+SELECT 
+	SUM("public.order_list"."price") as "total",
+	"public.movie"."title"
+FROM 
+	"public.orders"
+RIGHT JOIN 
+	"public.order_list" ON "public.order_list"."order_id" = "public.orders"."id"
+LEFT JOIN 
+	"public.ticket" ON "public.ticket"."id" = "public.order_list"."ticket_id"
+LEFT JOIN 
+	"public.sessions" ON "public.ticket"."session_id" = "public.sessions"."id"
+LEFT JOIN 
+	"public.movie" ON "public.sessions"."movie_id" = "public.movie"."id"
+WHERE	
+	"public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE
+GROUP BY 
+	"public.movie"."title"
+ORDER BY 
+	"total" DESC 
+LIMIT 3;
+
+img7 - без индекса на поле "order_datetime" таблицы "public.orders" (10 000 записей)
+img8 - с таким индексом (CREATE INDEX "i_datetime" ON "public.orders" ("order_datetime");)
+
+
+5. Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+SELECT 
+	"public.seat"."row_num",
+	"public.seat"."seat_num",
+	"public.hall"."name" as "hall_name",
+	CASE WHEN "public.order_list"."order_id" IS NOT NULL THEN 'sold' ELSE 'vacant' END as "state"
+FROM 
+	"public.seat"
+LEFT JOIN 
+	"public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN 
+	"public.order_list" ON "public.order_list"."ticket_id" = "public.ticket"."id"
+LEFT JOIN 
+	"public.hall" ON "public.hall"."id" = "public.seat"."hall_id"
+WHERE
+	"public.ticket"."session_id" = 1
+ORDER BY 
+	"hall_name", "public.seat"."row_num", "public.seat"."seat_num";
+	
+img9 - без индекса на поле "session_id" таблицы "public.ticket" (17 097 600 записей)
+img10 - с таким индексом (CREATE INDEX "i_ticket_session" ON "public.ticket" ("session_id");)
+
+
+6. Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
+SELECT 
+	MIN("public.price_level"."price") AS "min",
+	MAX("public.price_level"."price") AS "max",
+	"public.currency"."sign"
+FROM 
+	"public.seat"
+LEFT JOIN 
+	"public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN
+	"public.price_level" ON "public.seat"."price_level_id" = "public.price_level"."id"
+LEFT JOIN 
+	"public.currency" ON "public.price_level"."currency_id" = "public.currency"."id"
+WHERE
+	"public.ticket"."session_id" = 1
+GROUP BY
+	"public.currency"."sign";
+	
+img11 - без индекса на поле "session_id" таблицы "public.ticket" (17 097 600 записей)
+img12 - с таким индексом (CREATE INDEX "i_ticket_session" ON "public.ticket" ("session_id");)
+
+
+==============================================================================
+
+Объекты БД
+
+"public.hall" - 2 записи
+"public.seat" - 
+"public.price_level" - 3 записи
+"public.currency"  - 1 запись
+"public.age_limit" - 4 записи
+"public.movie" - 3 записи
+"public.hall_session" - 12 записей
+"public.sessions" - 13 152 записи
+"public.customer" - 3 записи
+"public.ticket" - 17 097 600 записей
+"public.orders" - 10 000 записей
+"public.order_list"
+"public.attribute_type"
+"public.data_type"
+"public.attribute"
+"public.movie_attribute"

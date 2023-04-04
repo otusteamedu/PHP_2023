@@ -7,7 +7,7 @@ namespace Vp\App\Commands;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Vp\App\Services\Container;
-use Vp\App\Services\Init;
+use Vp\App\Storage\Init;
 
 class CommandInit implements CommandInterface
 {

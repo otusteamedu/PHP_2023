@@ -20,16 +20,16 @@ usage: php app.php [help] [init] [list] [get [{id}] ] [add [{login}] [{email}] ]
 Commands:
         help    Show this message
         init    Database initialization
-        list    Mass getting information from a user table
-        get     Get user by id
+        find    Get user by id or mass getting information from a user table
         add     Add user command
 Additional arguments:
         id      User id
         login   User login
         email   User email
 Example:
-        php app.php get 4
-        php app.php add ivan ivan@test.ru
+        php app.php find
+        php app.php find 4
+        php app.php add username name@domain.ru
 ';
     }
 }

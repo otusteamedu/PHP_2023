@@ -20,6 +20,9 @@ services:
       dockerfile: Dockerfile
     image: otus/php
     container_name: otus-php
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      XDEBUG_SESSION: 1
     volumes:
       - ./project:/data/application
       - ./.env:/data/application/.env

@@ -171,7 +171,6 @@ abstract class BaseModel
                     return $model;
                 }
             )->getCollection();
-
         } catch (Exception $e) {
             throw new FindEntityFailed(Message::FAILED_READ_ENTITY . ': ' . $e->getMessage());
         }

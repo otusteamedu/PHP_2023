@@ -29,7 +29,7 @@ class Init
 
         try {
             $this->fillData();
-        } catch (AddEntityFailed|FindEntityFailed $e) {
+        } catch (AddEntityFailed | FindEntityFailed $e) {
             return new ResultInit(false, $e->getMessage());
         }
 

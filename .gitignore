@@ -1,0 +1,9 @@
+/.idea/
+/.code/
+
+/vendor/
+composer.lock
+
+.env
+
+/database/sqlite.db

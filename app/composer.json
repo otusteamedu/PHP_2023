@@ -1,0 +1,14 @@
+{
+  "name": "imitronov/hw1",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "predis/predis": "^2.1",
+    "symfony/dotenv": "^6.2"
+  }
+}

@@ -3,7 +3,7 @@ SELECT
     m.title AS movie,
     t.attribute_type,
     a.attribute,
-    COALESCE(v.text_value, v.boolean_value::TEXT, v.date_value::TEXT, v.float_value::TEXT) AS value
+    COALESCE(v.text_value, v.boolean_value::TEXT, v.date_value::TEXT, v.float_value::TEXT, v.int_value::TEXT) AS value
 FROM
     movies m
 JOIN

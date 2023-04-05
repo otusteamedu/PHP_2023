@@ -377,6 +377,67 @@ LIMIT 20000;
 
 
 
+INSERT INTO "public.data_type" ("name") 
+VALUES 
+('text'),
+('boolean'),
+('time'),
+('datetime'),
+('integer'),
+('numeric');
+
+INSERT INTO "public.attribute_type" ("name") 
+VALUES 
+('promo'),
+('info'),
+('task');
+
+INSERT INTO "public.attribute" ("data_type_id", "type_id", "name") 
+VALUES 
+(1,1,'рецензии'),
+(2,1,'премия Oscar'),
+(2,1,'премия «Ника»'),
+(2,1,'премия Golden Globes'),
+(2,1,'премия BAFTA'),
+(2,1,'премия Cèsar'),
+(2,1,'премия «Золотой Орел»'),
+(2,1,'премия Goya'),
+(2,1,'премия Emmy'),
+(2,1,'Каннский кинофестиваль'),
+(2,1,'Берлинский кинофестиваль'),
+(2,1,'Венецианский кинофестиваль'),
+(2,1,'ММКФ'),
+(2,1,'«Кинотавр»'),
+(4,3,'мировая премьера'),
+(4,3,'премьера в РФ'),
+(4,3,'начало продажи билетов'),
+(4,3,'запуск рекламной кампании'),
+(6,2,'рейтинг IMDb');
+
+
+INSERT INTO "public.movie_attribute" (
+	"movie_id", 
+	"attribute_id", 
+	"attribute_value_text", 
+	"attribute_value_bool", 
+	"attribute_value_time", 
+	"attribute_value_datetime", 
+	"attribute_value_int",
+	"attribute_value_num"
+) 
+VALUES 
+(1,1,'Хороший фильм!',NULL,NULL,NULL,NULL,NULL),
+(1,1,'Так себе...',NULL,NULL,NULL,NULL,NULL),
+(1,2,NULL,true,NULL,NULL,NULL,NULL),
+(1,4,NULL,true,NULL,NULL,NULL,NULL),
+(1,5,NULL,true,NULL,NULL,NULL,NULL),
+(1,15,NULL,NULL,NULL,'2021-09-03 00:00:00+00',NULL,NULL),
+(1,16,NULL,NULL,NULL,'2021-09-16 00:00:00+00',NULL,NULL),
+(1,19,NULL,NULL,NULL,NULL,NULL,8.00),
+(1,17,NULL,NULL,NULL,'2021-09-06 00:00:00+00',NULL,NULL),
+(1,18,NULL,NULL,NULL,'2021-08-16 00:00:00+00',NULL,NULL);
+
+
 
 
 

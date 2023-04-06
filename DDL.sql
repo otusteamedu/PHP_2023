@@ -27,7 +27,7 @@ CREATE TABLE movie
     id         serial PRIMARY KEY,
     name       varchar(255) NOT NULL,
     start_date date         NOT NULL,
-    duration   int NOT NULL DEFAULT '0',
+    duration   int          NOT NULL DEFAULT '0',
     PRIMARY KEY (id)
 );
 
@@ -35,8 +35,8 @@ CREATE TABLE movie
 CREATE TABLE session
 (
     id       serial PRIMARY KEY,
-    hall_id  int NOT NULL,
-    movie_id int NOT NULL,
+    hall_id  int       NOT NULL,
+    movie_id int       NOT NULL,
     time     timestamp NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_session_hall FOREIGN KEY (hall_id) REFERENCES hall (id) ON DELETE CASCADE ON UPDATE CASCADE,
@@ -49,10 +49,19 @@ CREATE TABLE session_price
     id         serial PRIMARY KEY,
     session_id int NOT NULL,
     place_id   int NOT NULL,
-    price      int NOT NULL,
+    price_id   int NOT NULL,
     PRIMARY KEY (id),
     CONSTRAINT FK_session_price_session FOREIGN KEY (session_id) REFERENCES session (id) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT FK_session_price_place FOREIGN KEY (place_id) REFERENCES place (id) ON DELETE CASCADE ON UPDATE CASCADE
+    CONSTRAINT FK_session_price_place FOREIGN KEY (place_id) REFERENCES place (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    CONSTRAINT FK_session_price_value FOREIGN KEY (price_id) REFERENCES price (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+/* Цены */
+CREATE TABLE price
+(
+    id    serial PRIMARY KEY,
+    value int NOT NULL,
+    PRIMARY KEY (id)
 );
 
 /* Клиенты */
@@ -63,7 +72,7 @@ CREATE TABLE client
     surname  varchar(255) NULL,
     lastname varchar(255) NULL,
     email    varchar(255) NOT NULL,
-    phone    int NOT NULL,
+    phone    int          NOT NULL,
     PRIMARY KEY (id)
 );
 

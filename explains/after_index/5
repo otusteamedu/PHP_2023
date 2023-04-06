@@ -1,0 +1,19 @@
+mysql> EXPLAIN SELECT s.id AS seat_id, s.seat_number, s.seat_row,
+    -> CASE
+    -> WHEN t.id IS NOT NULL THEN 'occupied'
+    -> ELSE 'free'
+    -> END AS status
+    -> FROM seats s
+    -> LEFT JOIN tickets t ON s.id = t.seat_id AND t.screening_id = 1
+    -> JOIN halls h ON s.hall_id = h.id
+    -> JOIN screenings sc ON h.id = sc.hall_id
+    -> WHERE sc.id = 1;
++----+-------------+-------+------------+-------+----------------------------------------------+---------------------+---------+-----------------+------+----------+-----------------------+
+| id | select_type | table | partitions | type  | possible_keys                                | key                 | key_len | ref             | rows | filtered | Extra                 |
++----+-------------+-------+------------+-------+----------------------------------------------+---------------------+---------+-----------------+------+----------+-----------------------+
+|  1 | SIMPLE      | sc    | NULL       | const | PRIMARY,hall_id                              | PRIMARY             | 4       | const           |    1 |   100.00 | NULL                  |
+|  1 | SIMPLE      | h     | NULL       | const | PRIMARY                                      | PRIMARY             | 4       | const           |    1 |   100.00 | Using index           |
+|  1 | SIMPLE      | s     | NULL       | ref   | idx_seats_hall_id                            | idx_seats_hall_id   | 5       | const           |  300 |   100.00 | Using index condition |
+|  1 | SIMPLE      | t     | NULL       | ref   | idx_tickets_screening_id,idx_tickets_seat_id | idx_tickets_seat_id | 5       | mydatabase.s.id |    9 |   100.00 | Using where           |
++----+-------------+-------+------------+-------+----------------------------------------------+---------------------+---------+-----------------+------+----------+-----------------------+
+4 rows in set, 1 warning (0.00 sec)

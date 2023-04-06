@@ -1,0 +1,16 @@
+mysql> EXPLAIN SELECT m.id, m.title, SUM(t.actual_price) AS total_revenue
+    -> FROM movies m
+    -> JOIN screenings s ON m.id = s.movie_id
+    -> JOIN tickets t ON s.id = t.screening_id
+    -> WHERE t.sold_at >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+    -> GROUP BY m.id, m.title
+    -> ORDER BY total_revenue DESC
+    -> LIMIT 3;
++----+-------------+-------+------------+--------+------------------+---------+---------+---------------------------+------+----------+----------------------------------------------+
+| id | select_type | table | partitions | type   | possible_keys    | key     | key_len | ref                       | rows | filtered | Extra                                        |
++----+-------------+-------+------------+--------+------------------+---------+---------+---------------------------+------+----------+----------------------------------------------+
+|  1 | SIMPLE      | t     | NULL       | ALL    | screening_id     | NULL    | NULL    | NULL                      |    1 |   100.00 | Using where; Using temporary; Using filesort |
+|  1 | SIMPLE      | s     | NULL       | eq_ref | PRIMARY,movie_id | PRIMARY | 4       | mydatabase.t.screening_id |    1 |   100.00 | Using where                                  |
+|  1 | SIMPLE      | m     | NULL       | eq_ref | PRIMARY          | PRIMARY | 4       | mydatabase.s.movie_id     |    1 |   100.00 | NULL                                         |
++----+-------------+-------+------------+--------+------------------+---------+---------+---------------------------+------+----------+----------------------------------------------+
+3 rows in set, 1 warning (0.01 sec)

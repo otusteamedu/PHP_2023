@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# обрабатываем входную строку
-input=$1
-input=${input//,/.} # заменяем запятую на точку для корректного чтения дробных чисел
-
-if ! [[ "$input" =~ ^[0-9\.\+\-]*$ ]]; then
-  echo "Error: Invalid input"
-  exit 1
+if [ $# -ne 2 ]; then
+    echo "Пожалуйста введите 2 аргумента"
+    exit 1
 fi
 
-# сложение чисел
-result=$(echo "$input" | bc -l)
+regexp='^[0-9\.\+\-]*$'
+if ! [[ $1 =~ $regexp ]] || ! [[ $2 =~ $regexp ]]; then
+    echo "Не правильный ввод одного из аргументов"
+    exit 1
+fi
 
-echo "$result"
+echo "$1 $2" | awk '{print $1 + $2}'

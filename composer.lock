@@ -1,0 +1,46 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d6a390fb1afbea76442ecf71701bbb71",
+    "packages": [
+        {
+            "name": "progerwolf/phparrayelementscount",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/progerWolf/phparrayelementscount.git",
+                "reference": "8392649f7c3735b3d837d6919c4e5e7aec7a1b1f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/progerWolf/phparrayelementscount/zipball/8392649f7c3735b3d837d6919c4e5e7aec7a1b1f",
+                "reference": "8392649f7c3735b3d837d6919c4e5e7aec7a1b1f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ProgerWolf\\PhpArrayElementsCount\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/progerWolf/phparrayelementscount/issues",
+                "source": "https://github.com/progerWolf/phparrayelementscount/tree/v1.0.0"
+            },
+            "time": "2023-04-06T06:57:54+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

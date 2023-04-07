@@ -37,6 +37,7 @@ CREATE TABLE attribute
     PRIMARY KEY (id),
     CONSTRAINT FK_attribute_type_attribute FOREIGN KEY (attribute_type_id) REFERENCES attribute_type (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE INDEX IX_attribute_type_attribute ON attribute (attribute_type_id);
 
 /* Значения типов атрибутов */
 CREATE TABLE movie_attribute_value
@@ -52,4 +53,5 @@ CREATE TABLE movie_attribute_value
     PRIMARY KEY (id),
     CONSTRAINT FK_movie_attribute_value_attribute FOREIGN KEY (attribute_id) REFERENCES attribute (id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+CREATE INDEX IX_movie_attribute_value_attribute ON movie_attribute_value (attribute_id);
 

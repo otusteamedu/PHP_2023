@@ -336,13 +336,23 @@ do $$
 DECLARE
     sess INTEGER;
 begin   
-    FOR sess IN (select "id" from "public.sessions") LOOP
+    FOR sess IN (select "id" from "public.sessions" where "hall_session_id" < 7) LOOP
  
 	INSERT INTO "public.ticket" ("session_id","seat_id") 
 	select
 		sess,
 		gs.d
-	from generate_series(1, 1300) as gs(d);
+	from generate_series(1, 900) as gs(d);
+
+    end loop;
+    
+    FOR sess IN (select "id" from "public.sessions" where "hall_session_id" > 6) LOOP
+ 
+	INSERT INTO "public.ticket" ("session_id","seat_id") 
+	select
+		sess,
+		gs.d
+	from generate_series(901, 1300) as gs(d);
 
     end loop;
 end; $$

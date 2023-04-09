@@ -1,0 +1,455 @@
+
+1.
+
+cinema=# EXPLAIN SELECT DISTINCT
+        "public.movie"."title"
+FROM 
+        "public.sessions"
+LEFT JOIN
+        "public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+WHERE
+        "public.sessions"."session_date" = CURRENT_DATE-7;
+                                               QUERY PLAN                                                
+---------------------------------------------------------------------------------------------------------
+ Unique  (cost=321.27..321.60 rows=66 width=516)
+   ->  Sort  (cost=321.27..321.44 rows=66 width=516)
+         Sort Key: "public.movie".title
+         ->  Nested Loop Left Join  (cost=0.15..319.28 rows=66 width=516)
+               ->  Seq Scan on "public.sessions"  (cost=0.00..314.16 rows=66 width=4)
+                     Filter: (session_date = (CURRENT_DATE - 7))
+               ->  Memoize  (cost=0.15..0.90 rows=1 width=520)
+                     Cache Key: "public.sessions".movie_id
+                     Cache Mode: logical
+                     ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.89 rows=1 width=520)
+                           Index Cond: (id = "public.sessions".movie_id)
+
+cinema=# CREATE INDEX "i_date" ON "public.sessions" ("session_date");
+
+cinema=# EXPLAIN SELECT DISTINCT
+        "public.movie"."title"
+FROM 
+        "public.sessions"
+LEFT JOIN
+        "public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+WHERE
+        "public.sessions"."session_date" = CURRENT_DATE-7;
+                                            QUERY PLAN                                             
+---------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=94.38..95.04 rows=66 width=516)
+   Group Key: "public.movie".title
+   ->  Nested Loop Left Join  (cost=4.96..94.22 rows=66 width=516)
+         ->  Bitmap Heap Scan on "public.sessions"  (cost=4.80..89.10 rows=66 width=4)
+               Recheck Cond: (session_date = (CURRENT_DATE - 7))
+               ->  Bitmap Index Scan on i_date  (cost=0.00..4.79 rows=66 width=0)
+                     Index Cond: (session_date = (CURRENT_DATE - 7))
+         ->  Memoize  (cost=0.15..0.90 rows=1 width=520)
+               Cache Key: "public.sessions".movie_id
+               Cache Mode: logical
+               ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.89 rows=1 width=520)
+                     Index Cond: (id = "public.sessions".movie_id)
+                     
+                     
+2.
+
+cinema=# EXPLAIN SELECT 
+        COUNT("public.order_list"."ticket_id")
+FROM 
+        "public.order_list"
+LEFT JOIN
+        "public.orders" ON "public.orders"."id" = "public.order_list"."order_id"
+WHERE   
+        "public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE;
+                                                QUERY PLAN                                                
+----------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=284.35..284.36 rows=1 width=8)
+   ->  Nested Loop  (cost=0.29..284.34 rows=2 width=4)
+         ->  Seq Scan on "public.orders"  (cost=0.00..280.00 rows=1 width=4)
+               Filter: ((order_datetime <= CURRENT_DATE) AND (order_datetime >= (CURRENT_DATE - 6)))
+         ->  Index Only Scan using order_list_pk on "public.order_list"  (cost=0.29..4.32 rows=2 width=8)
+               Index Cond: (order_id = "public.orders".id)
+
+cinema=# CREATE INDEX "i_datetime" ON "public.orders" ("order_datetime");
+
+cinema=# EXPLAIN SELECT 
+        COUNT("public.order_list"."ticket_id")
+FROM 
+        "public.order_list"
+LEFT JOIN
+        "public.orders" ON "public.orders"."id" = "public.order_list"."order_id"
+WHERE   
+        "public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE;
+                                                QUERY PLAN                                                
+----------------------------------------------------------------------------------------------------------
+ Aggregate  (cost=12.66..12.67 rows=1 width=8)
+   ->  Nested Loop  (cost=0.58..12.65 rows=2 width=4)
+         ->  Index Scan using i_datetime on "public.orders"  (cost=0.29..8.31 rows=1 width=4)
+               Index Cond: ((order_datetime >= (CURRENT_DATE - 6)) AND (order_datetime <= CURRENT_DATE))
+         ->  Index Only Scan using order_list_pk on "public.order_list"  (cost=0.29..4.32 rows=2 width=8)
+               Index Cond: (order_id = "public.orders".id)
+
+
+3.
+
+cinema=# EXPLAIN SELECT                                              
+        "public.movie"."title",
+        "public.movie"."duration",      
+        "public.movie"."description" as "genre",
+        "public.age_limit"."name" as "age_limit",       
+        "public.hall"."name" as "hall",
+        "public.hall_session"."session_time"
+FROM 
+        "public.sessions"
+LEFT JOIN
+        "public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+LEFT JOIN 
+        "public.hall_session" ON "public.hall_session"."id" = "public.sessions"."hall_session_id"
+LEFT JOIN 
+        "public.hall" ON "public.hall_session"."hall_id" = "public.hall"."id"
+LEFT JOIN 
+        "public.age_limit" ON "public.movie"."age_limit_id" = "public.age_limit"."id"
+WHERE
+        "public.sessions"."session_date" = CURRENT_DATE
+ORDER BY 
+        "public.hall_session"."session_time";
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=327.45..327.61 rows=66 width=1600)
+   Sort Key: "public.hall_session".session_time
+   ->  Hash Left Join  (cost=13.61..325.45 rows=66 width=1600)
+         Hash Cond: ("public.movie".age_limit_id = "public.age_limit".id)
+         ->  Nested Loop Left Join  (cost=0.46..312.13 rows=66 width=1088)
+               ->  Nested Loop Left Join  (cost=0.32..299.54 rows=66 width=576)
+                     ->  Nested Loop Left Join  (cost=0.15..286.40 rows=66 width=564)
+                           ->  Seq Scan on "public.sessions"  (cost=0.00..281.28 rows=66 width=8)
+                                 Filter: (session_date = CURRENT_DATE)
+                           ->  Memoize  (cost=0.15..0.90 rows=1 width=564)
+                                 Cache Key: "public.sessions".movie_id
+                                 Cache Mode: logical
+                                 ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.89 rows=1 width=564)
+                                       Index Cond: (id = "public.sessions".movie_id)
+                     ->  Memoize  (cost=0.16..0.91 rows=1 width=20)
+                           Cache Key: "public.sessions".hall_session_id
+                           Cache Mode: logical
+                           ->  Index Scan using hall_session_pk on "public.hall_session"  (cost=0.15..0.90 rows=1 width=20)
+                                 Index Cond: (id = "public.sessions".hall_session_id)
+               ->  Index Scan using hall_pk on "public.hall"  (cost=0.14..0.19 rows=1 width=520)
+                     Index Cond: (id = "public.hall_session".hall_id)
+         ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+               ->  Seq Scan on "public.age_limit"  (cost=0.00..11.40 rows=140 width=520)
+
+
+cinema=# CREATE INDEX "i_date" ON "public.sessions" ("session_date");
+
+cinema=# EXPLAIN SELECT
+        "public.movie"."title",
+        "public.movie"."duration",      
+        "public.movie"."description" as "genre",
+        "public.age_limit"."name" as "age_limit",       
+        "public.hall"."name" as "hall",
+        "public.hall_session"."session_time"
+FROM 
+        "public.sessions"
+LEFT JOIN
+        "public.movie" ON "public.movie"."id" = "public.sessions"."movie_id"
+LEFT JOIN 
+        "public.hall_session" ON "public.hall_session"."id" = "public.sessions"."hall_session_id"
+LEFT JOIN 
+        "public.hall" ON "public.hall_session"."hall_id" = "public.hall"."id"
+LEFT JOIN 
+        "public.age_limit" ON "public.movie"."age_limit_id" = "public.age_limit"."id"
+WHERE
+        "public.sessions"."session_date" = CURRENT_DATE
+ORDER BY 
+        "public.hall_session"."session_time";
+                                                         QUERY PLAN                                                         
+----------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=135.10..135.27 rows=66 width=1600)
+   Sort Key: "public.hall_session".session_time
+   ->  Hash Left Join  (cost=18.41..133.11 rows=66 width=1600)
+         Hash Cond: ("public.movie".age_limit_id = "public.age_limit".id)
+         ->  Nested Loop Left Join  (cost=5.26..119.79 rows=66 width=1088)
+               ->  Nested Loop Left Join  (cost=5.12..107.20 rows=66 width=576)
+                     ->  Nested Loop Left Join  (cost=4.95..94.05 rows=66 width=564)
+                           ->  Bitmap Heap Scan on "public.sessions"  (cost=4.80..88.94 rows=66 width=8)
+                                 Recheck Cond: (session_date = CURRENT_DATE)
+                                 ->  Bitmap Index Scan on i_date  (cost=0.00..4.78 rows=66 width=0)
+                                       Index Cond: (session_date = CURRENT_DATE)
+                           ->  Memoize  (cost=0.15..0.90 rows=1 width=564)
+                                 Cache Key: "public.sessions".movie_id
+                                 Cache Mode: logical
+                                 ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.89 rows=1 width=564)
+                                       Index Cond: (id = "public.sessions".movie_id)
+                     ->  Memoize  (cost=0.16..0.91 rows=1 width=20)
+                           Cache Key: "public.sessions".hall_session_id
+                           Cache Mode: logical
+                           ->  Index Scan using hall_session_pk on "public.hall_session"  (cost=0.15..0.90 rows=1 width=20)
+                                 Index Cond: (id = "public.sessions".hall_session_id)
+               ->  Index Scan using hall_pk on "public.hall"  (cost=0.14..0.19 rows=1 width=520)
+                     Index Cond: (id = "public.hall_session".hall_id)
+         ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+               ->  Seq Scan on "public.age_limit"  (cost=0.00..11.40 rows=140 width=520)
+
+
+4.
+
+cinema=# EXPLAIN SELECT 
+        SUM("public.order_list"."price") as "total",
+        "public.movie"."title"
+FROM 
+        "public.orders"
+RIGHT JOIN 
+        "public.order_list" ON "public.order_list"."order_id" = "public.orders"."id"
+LEFT JOIN 
+        "public.ticket" ON "public.ticket"."id" = "public.order_list"."ticket_id"
+LEFT JOIN 
+        "public.sessions" ON "public.ticket"."session_id" = "public.sessions"."id"
+LEFT JOIN 
+        "public.movie" ON "public.sessions"."movie_id" = "public.movie"."id"
+WHERE   
+        "public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE
+GROUP BY 
+        "public.movie"."title"
+ORDER BY 
+        "total" DESC 
+LIMIT 3;
+                                                               QUERY PLAN                                                                
+-----------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=307.25..307.26 rows=2 width=524)
+   ->  Sort  (cost=307.25..307.26 rows=2 width=524)
+         Sort Key: (sum("public.order_list".price)) DESC
+         ->  GroupAggregate  (cost=307.21..307.24 rows=2 width=524)
+               Group Key: "public.movie".title
+               ->  Sort  (cost=307.21..307.21 rows=2 width=520)
+                     Sort Key: "public.movie".title
+                     ->  Nested Loop Left Join  (cost=5.17..307.20 rows=2 width=520)
+                           ->  Nested Loop Left Join  (cost=5.03..306.86 rows=2 width=8)
+                                 ->  Nested Loop Left Join  (cost=4.74..306.26 rows=2 width=8)
+                                       ->  Nested Loop  (cost=4.30..291.54 rows=2 width=8)
+                                             ->  Seq Scan on "public.orders"  (cost=0.00..280.00 rows=1 width=4)
+                                                   Filter: ((order_datetime <= CURRENT_DATE) AND (order_datetime >= (CURRENT_DATE - 6)))
+                                             ->  Bitmap Heap Scan on "public.order_list"  (cost=4.30..11.52 rows=2 width=12)
+                                                   Recheck Cond: (order_id = "public.orders".id)
+                                                   ->  Bitmap Index Scan on order_list_pk  (cost=0.00..4.30 rows=2 width=0)
+                                                         Index Cond: (order_id = "public.orders".id)
+                                       ->  Index Scan using ticket_pk on "public.ticket"  (cost=0.44..7.36 rows=1 width=8)
+                                             Index Cond: (id = "public.order_list".ticket_id)
+                                 ->  Index Scan using sessions_pk on "public.sessions"  (cost=0.29..0.30 rows=1 width=8)
+                                       Index Cond: (id = "public.ticket".session_id)
+                           ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.17 rows=1 width=520)
+                                 Index Cond: (id = "public.sessions".movie_id)
+
+cinema=# CREATE INDEX "i_datetime" ON "public.orders" ("order_datetime");
+
+cinema=# EXPLAIN SELECT                                                  
+        SUM("public.order_list"."price") as "total",
+        "public.movie"."title"
+FROM 
+        "public.orders"
+RIGHT JOIN 
+        "public.order_list" ON "public.order_list"."order_id" = "public.orders"."id"
+LEFT JOIN 
+        "public.ticket" ON "public.ticket"."id" = "public.order_list"."ticket_id"
+LEFT JOIN 
+        "public.sessions" ON "public.ticket"."session_id" = "public.sessions"."id"
+LEFT JOIN 
+        "public.movie" ON "public.sessions"."movie_id" = "public.movie"."id"
+WHERE   
+        "public.orders"."order_datetime" BETWEEN CURRENT_DATE-6 AND CURRENT_DATE
+GROUP BY 
+        "public.movie"."title"
+ORDER BY 
+        "total" DESC 
+LIMIT 3;
+                                                                 QUERY PLAN                                                                  
+---------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=35.56..35.57 rows=2 width=524)
+   ->  Sort  (cost=35.56..35.57 rows=2 width=524)
+         Sort Key: (sum("public.order_list".price)) DESC
+         ->  GroupAggregate  (cost=35.52..35.55 rows=2 width=524)
+               Group Key: "public.movie".title
+               ->  Sort  (cost=35.52..35.52 rows=2 width=520)
+                     Sort Key: "public.movie".title
+                     ->  Nested Loop Left Join  (cost=5.46..35.51 rows=2 width=520)
+                           ->  Nested Loop Left Join  (cost=5.32..35.18 rows=2 width=8)
+                                 ->  Nested Loop Left Join  (cost=5.03..34.57 rows=2 width=8)
+                                       ->  Nested Loop  (cost=4.60..19.85 rows=2 width=8)
+                                             ->  Index Scan using i_datetime on "public.orders"  (cost=0.29..8.31 rows=1 width=4)
+                                                   Index Cond: ((order_datetime >= (CURRENT_DATE - 6)) AND (order_datetime <= CURRENT_DATE))
+                                             ->  Bitmap Heap Scan on "public.order_list"  (cost=4.30..11.52 rows=2 width=12)
+                                                   Recheck Cond: (order_id = "public.orders".id)
+                                                   ->  Bitmap Index Scan on order_list_pk  (cost=0.00..4.30 rows=2 width=0)
+                                                         Index Cond: (order_id = "public.orders".id)
+                                       ->  Index Scan using ticket_pk on "public.ticket"  (cost=0.44..7.36 rows=1 width=8)
+                                             Index Cond: (id = "public.order_list".ticket_id)
+                                 ->  Index Scan using sessions_pk on "public.sessions"  (cost=0.29..0.30 rows=1 width=8)
+                                       Index Cond: (id = "public.ticket".session_id)
+                           ->  Index Scan using movie_pk on "public.movie"  (cost=0.14..0.17 rows=1 width=520)
+                                 Index Cond: (id = "public.sessions".movie_id)
+
+
+5.
+
+cinema=# EXPLAIN SELECT 
+        "public.seat"."row_num",
+        "public.seat"."seat_num",
+        "public.hall"."name" as "hall_name",
+        CASE WHEN "public.order_list"."order_id" IS NOT NULL THEN 'sold' ELSE 'vacant' END as "state"
+FROM 
+        "public.seat"
+LEFT JOIN 
+        "public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN 
+        "public.order_list" ON "public.order_list"."ticket_id" = "public.ticket"."id"
+LEFT JOIN 
+        "public.hall" ON "public.hall"."id" = "public.seat"."hall_id"
+WHERE
+        "public.ticket"."session_id" = 1
+ORDER BY 
+        "hall_name", "public.seat"."row_num", "public.seat"."seat_num";
+                                                 QUERY PLAN                                                  
+-------------------------------------------------------------------------------------------------------------
+ Gather Merge  (cost=183114.00..183255.64 rows=1214 width=556)
+   Workers Planned: 2
+   ->  Sort  (cost=182113.98..182115.50 rows=607 width=556)
+         Sort Key: "public.hall".name, "public.seat".row_num, "public.seat".seat_num
+         ->  Hash Left Join  (cost=610.40..182085.92 rows=607 width=556)
+               Hash Cond: ("public.seat".hall_id = "public.hall".id)
+               ->  Hash Left Join  (cost=597.25..182071.13 rows=607 width=16)
+                     Hash Cond: ("public.ticket".id = "public.order_list".ticket_id)
+                     ->  Hash Join  (cost=38.25..181509.84 rows=607 width=16)
+                           Hash Cond: ("public.ticket".seat_id = "public.seat".id)
+                           ->  Parallel Seq Scan on "public.ticket"  (cost=0.00..181470.00 rows=607 width=8)
+                                 Filter: (session_id = 1)
+                           ->  Hash  (cost=22.00..22.00 rows=1300 width=16)
+                                 ->  Seq Scan on "public.seat"  (cost=0.00..22.00 rows=1300 width=16)
+                     ->  Hash  (cost=309.00..309.00 rows=20000 width=8)
+                           ->  Seq Scan on "public.order_list"  (cost=0.00..309.00 rows=20000 width=8)
+               ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+                     ->  Seq Scan on "public.hall"  (cost=0.00..11.40 rows=140 width=520)
+ JIT:
+   Functions: 29
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+
+cinema=# CREATE INDEX "i_ticket_session" ON "public.ticket" ("session_id");
+
+cinema=# EXPLAIN SELECT                                                    
+        "public.seat"."row_num",
+        "public.seat"."seat_num",
+        "public.hall"."name" as "hall_name",
+        CASE WHEN "public.order_list"."order_id" IS NOT NULL THEN 'sold' ELSE 'vacant' END as "state"
+FROM 
+        "public.seat"
+LEFT JOIN 
+        "public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN 
+        "public.order_list" ON "public.order_list"."ticket_id" = "public.ticket"."id"
+LEFT JOIN 
+        "public.hall" ON "public.hall"."id" = "public.seat"."hall_id"
+WHERE
+        "public.ticket"."session_id" = 1
+ORDER BY 
+        "hall_name", "public.seat"."row_num", "public.seat"."seat_num";
+                                                        QUERY PLAN                                                        
+--------------------------------------------------------------------------------------------------------------------------
+ Sort  (cost=560.28..563.92 rows=1456 width=556)
+   Sort Key: "public.hall".name, "public.seat".row_num, "public.seat".seat_num
+   ->  Hash Left Join  (cost=114.52..483.78 rows=1456 width=556)
+         Hash Cond: ("public.seat".hall_id = "public.hall".id)
+         ->  Hash Join  (cost=101.37..466.70 rows=1456 width=16)
+               Hash Cond: ("public.ticket".seat_id = "public.seat".id)
+               ->  Hash Right Join  (cost=63.12..424.62 rows=1456 width=8)
+                     Hash Cond: ("public.order_list".ticket_id = "public.ticket".id)
+                     ->  Seq Scan on "public.order_list"  (cost=0.00..309.00 rows=20000 width=8)
+                     ->  Hash  (cost=44.92..44.92 rows=1456 width=8)
+                           ->  Index Scan using i_ticket_session on "public.ticket"  (cost=0.44..44.92 rows=1456 width=8)
+                                 Index Cond: (session_id = 1)
+               ->  Hash  (cost=22.00..22.00 rows=1300 width=16)
+                     ->  Seq Scan on "public.seat"  (cost=0.00..22.00 rows=1300 width=16)
+         ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+               ->  Seq Scan on "public.hall"  (cost=0.00..11.40 rows=140 width=520)
+
+
+6.
+
+cinema=# EXPLAIN SELECT 
+        MIN("public.price_level"."price") AS "min",
+        MAX("public.price_level"."price") AS "max",
+        "public.currency"."sign"
+FROM 
+        "public.seat"
+LEFT JOIN 
+        "public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN
+        "public.price_level" ON "public.seat"."price_level_id" = "public.price_level"."id"
+LEFT JOIN 
+        "public.currency" ON "public.price_level"."currency_id" = "public.currency"."id"
+WHERE
+        "public.ticket"."session_id" = 1
+GROUP BY
+        "public.currency"."sign";
+                                                       QUERY PLAN                                                        
+-------------------------------------------------------------------------------------------------------------------------
+ Finalize GroupAggregate  (cost=182565.93..182590.61 rows=70 width=524)
+   Group Key: "public.currency".sign
+   ->  Gather Merge  (cost=182565.93..182588.86 rows=140 width=524)
+         Workers Planned: 2
+         ->  Partial GroupAggregate  (cost=181565.90..181572.67 rows=70 width=524)
+               Group Key: "public.currency".sign
+               ->  Sort  (cost=181565.90..181567.42 rows=607 width=520)
+                     Sort Key: "public.currency".sign
+                     ->  Hash Left Join  (cost=62.97..181537.84 rows=607 width=520)
+                           Hash Cond: ("public.price_level".currency_id = "public.currency".id)
+                           ->  Hash Left Join  (cost=51.40..181524.63 rows=607 width=8)
+                                 Hash Cond: ("public.seat".price_level_id = "public.price_level".id)
+                                 ->  Hash Join  (cost=38.25..181509.84 rows=607 width=4)
+                                       Hash Cond: ("public.ticket".seat_id = "public.seat".id)
+                                       ->  Parallel Seq Scan on "public.ticket"  (cost=0.00..181470.00 rows=607 width=4)
+                                             Filter: (session_id = 1)
+                                       ->  Hash  (cost=22.00..22.00 rows=1300 width=8)
+                                             ->  Seq Scan on "public.seat"  (cost=0.00..22.00 rows=1300 width=8)
+                                 ->  Hash  (cost=11.40..11.40 rows=140 width=12)
+                                       ->  Seq Scan on "public.price_level"  (cost=0.00..11.40 rows=140 width=12)
+                           ->  Hash  (cost=10.70..10.70 rows=70 width=520)
+                                 ->  Seq Scan on "public.currency"  (cost=0.00..10.70 rows=70 width=520)
+ JIT:
+   Functions: 36
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+
+
+cinema=# CREATE INDEX "i_ticket_session" ON "public.ticket" ("session_id");
+
+cinema=# EXPLAIN SELECT 
+        MIN("public.price_level"."price") AS "min",
+        MAX("public.price_level"."price") AS "max",
+        "public.currency"."sign"
+FROM 
+        "public.seat"
+LEFT JOIN 
+        "public.ticket" ON "public.seat"."id" = "public.ticket"."seat_id"
+LEFT JOIN
+        "public.price_level" ON "public.seat"."price_level_id" = "public.price_level"."id"
+LEFT JOIN 
+        "public.currency" ON "public.price_level"."currency_id" = "public.currency"."id"
+WHERE
+        "public.ticket"."session_id" = 1
+GROUP BY
+        "public.currency"."sign";
+                                                     QUERY PLAN                                                     
+--------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=130.51..131.21 rows=70 width=524)
+   Group Key: "public.currency".sign
+   ->  Hash Left Join  (cost=63.41..119.59 rows=1456 width=520)
+         Hash Cond: ("public.price_level".currency_id = "public.currency".id)
+         ->  Hash Left Join  (cost=51.84..104.08 rows=1456 width=8)
+               Hash Cond: ("public.seat".price_level_id = "public.price_level".id)
+               ->  Hash Join  (cost=38.69..87.00 rows=1456 width=4)
+                     Hash Cond: ("public.ticket".seat_id = "public.seat".id)
+                     ->  Index Scan using i_ticket_session on "public.ticket"  (cost=0.44..44.92 rows=1456 width=4)
+                           Index Cond: (session_id = 1)
+                     ->  Hash  (cost=22.00..22.00 rows=1300 width=8)
+                           ->  Seq Scan on "public.seat"  (cost=0.00..22.00 rows=1300 width=8)
+               ->  Hash  (cost=11.40..11.40 rows=140 width=12)
+                     ->  Seq Scan on "public.price_level"  (cost=0.00..11.40 rows=140 width=12)
+         ->  Hash  (cost=10.70..10.70 rows=70 width=520)
+               ->  Seq Scan on "public.currency"  (cost=0.00..10.70 rows=70 width=520)
+

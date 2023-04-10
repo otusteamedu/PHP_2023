@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: otus-9-db
+    image: postgres:14-alpine3.17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: 'otus'
+      POSTGRES_PASSWORD: 'secret'
+      POSTGRES_DB: 'otus'
+    ports:
+      - 5111:5432

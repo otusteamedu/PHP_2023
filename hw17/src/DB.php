@@ -2,7 +2,9 @@
 
 namespace Builov\Cinema;
 
-use PDO;class DB
+use PDO;
+
+class DB
 {
     private static $host = DB_HOST;
     private static $db = DB_NAME;

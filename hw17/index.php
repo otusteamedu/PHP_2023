@@ -49,10 +49,8 @@ if (isset($_GET['action'])) {
             break;
     }
 } else {
-
     /** вывод карты зала */
     $session_id = 40;
     $map = Seat::getSeatsMap($session_id);
     require_once('./src/tmpl/hall_map.php');
-
 }

@@ -9,12 +9,12 @@
     }
 </style>
 
-<?php foreach ($map as $hall => $rows): ?>
+<?php foreach ($map as $hall => $rows) : ?>
     <h1><?= $hall ?></h1>
     <table>
-    <?php foreach ($rows as $row => $seats): ?>
+    <?php foreach ($rows as $row => $seats) : ?>
         <tr>
-        <?php foreach ($seats as $seat => $state): ?>
+        <?php foreach ($seats as $seat => $state) : ?>
             <td>
                 <div><?= $row ?>-<?= $seat ?><br><?= $state ?></div>
             </td>

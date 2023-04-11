@@ -194,7 +194,6 @@ class Seat
 
         $data = [];
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-
             $data[$row["hall_name"]][$row["row_num"]][$row["seat_num"]] = $row["state"];
         }
 

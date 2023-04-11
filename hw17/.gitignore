@@ -2,3 +2,4 @@ docker
 vendor
 .idea
 composer.lock
+config.php

@@ -43,9 +43,9 @@ CREATE INDEX IX_attribute_type_attribute ON attribute (attribute_type_id);
 CREATE TABLE movie_attribute_value
 (
     id             serial PRIMARY KEY,
-    attribute_id   int          NOT NULL,
-    movie_id       int          NOT NULL,
-    value_text     varchar(255) NOT NULL,
+    attribute_id   int NOT NULL,
+    movie_id       int NOT NULL,
+    value_text     text                           DEFAULT NULL,
     value_integer  int                            DEFAULT NULL,
     value_boolean  boolean                        DEFAULT NULL,
     value_float    NUMERIC                        DEFAULT NULL,

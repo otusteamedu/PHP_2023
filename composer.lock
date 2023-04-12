@@ -1,0 +1,52 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e47a84413d9cf09730ae5a6024846e65",
+    "packages": [
+        {
+            "name": "yakovgulyuta/otus-composer-package",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YakovGulyuta/otus-composer-package.git",
+                "reference": "109efc0d12ff839fcedccf28a1a5092245887604"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YakovGulyuta/otus-composer-package/zipball/109efc0d12ff839fcedccf28a1a5092245887604",
+                "reference": "109efc0d12ff839fcedccf28a1a5092245887604",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yakovgulyuta\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "yakov-gulyuta",
+                    "email": "yakovgulyuta@yandex.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/YakovGulyuta/otus-composer-package/issues",
+                "source": "https://github.com/YakovGulyuta/otus-composer-package/tree/v1.0.3"
+            },
+            "time": "2023-04-12T19:20:32+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

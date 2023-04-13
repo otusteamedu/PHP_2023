@@ -54,7 +54,7 @@ class Seat
      */
     public function create($hall_id, $row_number, $seat_number, $price_level_id): int
     {
-        self::db_connect();
+        self::dbConnect();
 
         $this->set($hall_id, $row_number, $seat_number, $price_level_id);
 
@@ -76,7 +76,7 @@ class Seat
      */
     public function load($id): bool
     {
-        self::db_connect();
+        self::dbConnect();
 
         $query = 'SELECT "id", "hall_id", "row_num", "seat_num", "price_level_id" FROM "public.seat" WHERE "id" = ?';
 
@@ -116,7 +116,7 @@ class Seat
     public function save(): int
     {
         if (isset($this->id)) {
-            self::db_connect();
+            self::dbConnect();
 
             $query = 'UPDATE "public.seat" SET "hall_id"=?, "row_num"=?, "seat_num"=?, "price_level_id"=? WHERE "id" = ?  RETURNING "id"';
 
@@ -137,7 +137,7 @@ class Seat
      */
     public function delete($id): mixed
     {
-        self::db_connect();
+        self::dbConnect();
 
         $query = 'DELETE FROM "public.ticket" WHERE "seat_id" = ? RETURNING "id"';
 
@@ -180,7 +180,7 @@ class Seat
      */
     public static function getSeatsMap($session_id)
     {
-        self::db_connect();
+        self::dbConnect();
 
         $query = 'SELECT
                         "public.seat"."row_num",
@@ -211,7 +211,7 @@ class Seat
         return $data;
     }
 
-    private static function db_connect(): void
+    private static function dbConnect(): void
     {
         try {
             DB::connect();

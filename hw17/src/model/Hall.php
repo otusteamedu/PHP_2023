@@ -12,7 +12,7 @@ class Hall
 
     public function get($id): Hall
     {
-        self::db_connect();
+        self::dbConnect();
 
         $query = 'SELECT
                         "public.hall"."id",
@@ -38,7 +38,7 @@ class Hall
         return $this->name;
     }
 
-    private static function db_connect(): void
+    private static function dbConnect(): void
     {
         try {
             DB::connect();

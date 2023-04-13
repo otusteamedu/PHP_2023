@@ -15,7 +15,7 @@ class Price
 
     public function get($id): Price
     {
-        self::db_connect();
+        self::dbConnect();
 
         $query = 'SELECT
                         "public.price_level"."id" as "price_level_id",
@@ -49,7 +49,7 @@ class Price
         return $this->price_value . ' ' . $this->currency_sign;
     }
 
-    private static function db_connect(): void
+    private static function dbConnect(): void
     {
         try {
             DB::connect();

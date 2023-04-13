@@ -1,0 +1,15 @@
+{
+  "listeners": {
+    "*:80": {
+      "application": "php_app"
+    }
+  },
+
+  "applications": {
+    "php_app": {
+      "type": "php",
+      "root": "/var/www/app",
+      "script": "index.php"
+    }
+  }
+}

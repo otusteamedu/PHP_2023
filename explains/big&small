@@ -1,0 +1,62 @@
+mysql> SELECT CONCAT(table_schema, '.', table_name) AS `Table`, CONCAT(ROUND(table_rows / 1000000, 2), 'M') AS `Rows`,
+    -> CONCAT(ROUND(data_length / ( 1024 * 1024 * 1024 ), 2), 'G') AS `Data`,
+    -> CONCAT(ROUND(index_length / ( 1024 * 1024 * 1024 ), 2), 'G') AS `Index`,
+    -> CONCAT(ROUND(( data_length + index_length ) / ( 1024 * 1024 * 1024 ), 2), 'G') AS `Total`
+    -> FROM information_schema.TABLES
+    -> ORDER BY data_length + index_length DESC
+    -> LIMIT 15;
++----------------------------------------+-------+-------+-------+-------+
+| Table                                  | Rows  | Data  | Index | Total |
++----------------------------------------+-------+-------+-------+-------+
+| mydatabase.seats                       | 3.98M | 0.14G | 0.09G | 0.23G |
+| mydatabase.tickets                     | 0.92M | 0.04G | 0.05G | 0.09G |
+| mydatabase.customers                   | 1.08M | 0.08G | 0.00G | 0.08G |
+| mydatabase.screenings                  | 1.00M | 0.04G | 0.04G | 0.08G |
+| mydatabase.halls                       | 1.00M | 0.05G | 0.02G | 0.07G |
+| mydatabase.movies                      | 0.99M | 0.07G | 0.00G | 0.07G |
+| mydatabase.cinemas                     | 1.00M | 0.04G | 0.00G | 0.04G |
+| mydatabase.movie_actors                | 0.00M | 0.00G | 0.00G | 0.00G |
+| mydatabase.movie_directors             | 0.00M | 0.00G | 0.00G | 0.00G |
+| mydatabase.directors                   | 0.00M | 0.00G | 0.00G | 0.00G |
+| mydatabase.actors                      | 0.00M | 0.00G | 0.00G | 0.00G |
+| information_schema.CHECK_CONSTRAINTS   | 0.00M | 0.00G | 0.00G | 0.00G |
+| information_schema.COLUMNS             | 0.00M | 0.00G | 0.00G | 0.00G |
+| information_schema.COLUMNS_EXTENSIONS  | 0.00M | 0.00G | 0.00G | 0.00G |
+| information_schema.INNODB_FOREIGN_COLS | 0.00M | 0.00G | 0.00G | 0.00G |
++----------------------------------------+-------+-------+-------+-------+
+15 rows in set (0.03 sec)
+
+mysql> SELECT COUNT(*) AS `Index Usage`, CONCAT(table_schema, '.', table_name) AS `Table`, index_name
+    -> FROM INFORMATION_SCHEMA.STATISTICS
+    -> WHERE table_schema NOT IN ('mysql', 'information_schema', 'performance_schema')
+    -> GROUP BY CONCAT(table_schema, '.', table_name), index_name
+    -> ORDER BY `Index Usage` DESC
+    -> LIMIT 5;
++-------------+----------------------------+-------------------+
+| Index Usage | Table                      | INDEX_NAME        |
++-------------+----------------------------+-------------------+
+|           2 | mydatabase.movie_directors | PRIMARY           |
+|           2 | mydatabase.movie_actors    | PRIMARY           |
+|           1 | mydatabase.seats           | idx_seats_hall_id |
+|           1 | mydatabase.cinemas         | PRIMARY           |
+|           1 | mydatabase.directors       | PRIMARY           |
++-------------+----------------------------+-------------------+
+5 rows in set (0.01 sec)
+
+mysql> SELECT COUNT(*) AS `Index Usage`, CONCAT(table_schema, '.', table_name) AS `Table`, index_name
+    -> FROM INFORMATION_SCHEMA.STATISTICS
+    -> WHERE table_schema NOT IN ('mysql', 'information_schema', 'performance_schema')
+    -> GROUP BY CONCAT(table_schema, '.', table_name), index_name
+    -> ORDER BY `Index Usage` ASC
+    -> LIMIT 5;
++-------------+----------------------+------------+
+| Index Usage | Table                | INDEX_NAME |
++-------------+----------------------+------------+
+|           1 | mydatabase.actors    | PRIMARY    |
+|           1 | mydatabase.cinemas   | PRIMARY    |
+|           1 | mydatabase.directors | PRIMARY    |
+|           1 | mydatabase.halls     | PRIMARY    |
+|           1 | mydatabase.halls     | cinema_id  |
++-------------+----------------------+------------+
+5 rows in set (0.00 sec)
+

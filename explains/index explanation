@@ -1,0 +1,19 @@
+screenings(movie_id): Этот индекс поможет ускорить операции JOIN и фильтрацию WHERE, связанные с столбцом movie_id.
+
+screenings(start_time): Этот индекс улучшит производительность запросов, которые фильтруют показы по дате.
+
+tickets(screening_id): Как внешний ключ, индекс на этом столбце ускорит операции JOIN и фильтрацию WHERE, связанные с конкретными показами.
+
+tickets(seat_id): Этот индекс внешнего ключа поможет оптимизировать запросы, связанные с заполненностью мест и продажей билетов.
+
+tickets(sold_at): Этот индекс ускорит запросы, которые вычисляют продажи билетов в конкретном диапазоне дат, например за последнюю неделю.
+
+seats(hall_id): Этот индекс на внешнем ключе улучшит производительность при фильтрации мест по залам, к которым они относятся.
+
+
+CREATE INDEX idx_screenings_movie_id ON screenings(movie_id);
+CREATE INDEX idx_screenings_start_time ON screenings(start_time);
+CREATE INDEX idx_tickets_screening_id ON tickets(screening_id);
+CREATE INDEX idx_tickets_seat_id ON tickets(seat_id);
+CREATE INDEX idx_tickets_sold_at ON tickets(sold_at);
+CREATE INDEX idx_seats_hall_id ON seats(hall_id);

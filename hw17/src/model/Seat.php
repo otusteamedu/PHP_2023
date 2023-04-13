@@ -4,6 +4,7 @@ namespace Builov\Cinema\model;
 
 use Builov\Cinema\DB;
 use PDO;
+use PDOException;
 
 class Seat
 {
@@ -53,6 +54,8 @@ class Seat
      */
     public function create($hall_id, $row_number, $seat_number, $price_level_id): int
     {
+        self::db_connect();
+
         $this->set($hall_id, $row_number, $seat_number, $price_level_id);
 
         $query = 'INSERT INTO "public.seat" ("hall_id", "row_num", "seat_num", "price_level_id") values (?,?,?,?) RETURNING "id"';
@@ -73,6 +76,8 @@ class Seat
      */
     public function load($id): bool
     {
+        self::db_connect();
+
         $query = 'SELECT "id", "hall_id", "row_num", "seat_num", "price_level_id" FROM "public.seat" WHERE "id" = ?';
 
         $stmt = DB::$conn->prepare($query);
@@ -111,6 +116,8 @@ class Seat
     public function save(): int
     {
         if (isset($this->id)) {
+            self::db_connect();
+
             $query = 'UPDATE "public.seat" SET "hall_id"=?, "row_num"=?, "seat_num"=?, "price_level_id"=? WHERE "id" = ?  RETURNING "id"';
 
             $stmt = DB::$conn->prepare($query);
@@ -130,6 +137,8 @@ class Seat
      */
     public function delete($id): mixed
     {
+        self::db_connect();
+
         $query = 'DELETE FROM "public.ticket" WHERE "seat_id" = ? RETURNING "id"';
 
         $stmt = DB::$conn->prepare($query);
@@ -171,6 +180,8 @@ class Seat
      */
     public static function getSeatsMap($session_id)
     {
+        self::db_connect();
+
         $query = 'SELECT
                         "public.seat"."row_num",
                         "public.seat"."seat_num",
@@ -198,5 +209,14 @@ class Seat
         }
 
         return $data;
+    }
+
+    private static function db_connect(): void
+    {
+        try {
+            DB::connect();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

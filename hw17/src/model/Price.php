@@ -3,6 +3,7 @@
 namespace Builov\Cinema\model;
 
 use Builov\Cinema\DB;
+use PDOException;
 
 class Price
 {
@@ -14,6 +15,8 @@ class Price
 
     public function get($id): Price
     {
+        self::db_connect();
+
         $query = 'SELECT
                         "public.price_level"."id" as "price_level_id",
                         "public.price_level"."name" as "price_level_name",
@@ -44,5 +47,14 @@ class Price
     public function __toString()
     {
         return $this->price_value . ' ' . $this->currency_sign;
+    }
+
+    private static function db_connect(): void
+    {
+        try {
+            DB::connect();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

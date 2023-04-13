@@ -3,6 +3,7 @@
 namespace Builov\Cinema\model;
 
 use Builov\Cinema\DB;
+use PDOException;
 
 class Hall
 {
@@ -11,6 +12,8 @@ class Hall
 
     public function get($id): Hall
     {
+        self::db_connect();
+
         $query = 'SELECT
                         "public.hall"."id",
                         "public.hall"."name"
@@ -33,5 +36,14 @@ class Hall
     public function __toString()
     {
         return $this->name;
+    }
+
+    private static function db_connect(): void
+    {
+        try {
+            DB::connect();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
     }
 }

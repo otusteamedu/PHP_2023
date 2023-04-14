@@ -118,7 +118,6 @@ class Seat
     public function save(): int
     {
         if (isset($this->id)) {
-
             $new_values = [];
             foreach ($this->init as $property => $value) {
                 if ($this->init[$property] !== $this->$property) {

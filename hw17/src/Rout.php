@@ -26,7 +26,7 @@ class Rout
         }
 
         if (class_exists($controller) && method_exists($controller, $action)) {
-            $controller = new $controller;
+            $controller = new $controller();
             if (isset($args)) {
                 $controller->$action(implode(",", $args));
             } else {

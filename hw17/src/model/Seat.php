@@ -10,11 +10,12 @@ class Seat
 {
     private int $id;
     private int $hall_id;
-    private int $row_number;
-    private int $seat_number;
+    private int $row_num;
+    private int $seat_num;
     private int $price_level_id;
     private Hall $hall;
     private Price $price;
+    private array $init;
 
     /**
      * @param $property
@@ -47,21 +48,21 @@ class Seat
 
     /**
      * @param $hall_id
-     * @param $row_number
-     * @param $seat_number
+     * @param $row_num
+     * @param $seat_num
      * @param $price_level_id
      * @return int
      */
-    public function create($hall_id, $row_number, $seat_number, $price_level_id): int
+    public function create($hall_id, $row_num, $seat_num, $price_level_id): int
     {
         self::dbConnect();
 
-        $this->set($hall_id, $row_number, $seat_number, $price_level_id);
+        $this->set($hall_id, $row_num, $seat_num, $price_level_id);
 
         $query = 'INSERT INTO "public.seat" ("hall_id", "row_num", "seat_num", "price_level_id") values (?,?,?,?) RETURNING "id"';
 
         $stmt = DB::$conn->prepare($query);
-        $stmt->execute([$this->hall_id, $this->row_number, $this->seat_number, $this->price_level_id]);
+        $stmt->execute([$this->hall_id, $this->row_num, $this->seat_num, $this->price_level_id]);
 
         if ($res = $stmt->fetch()) {
             return $res['id'];
@@ -83,11 +84,12 @@ class Seat
         $stmt = DB::$conn->prepare($query);
         $stmt->execute([$id]);
 
-        if ($res = $stmt->fetch()) {
+        if ($res = $stmt->fetch(PDO::FETCH_ASSOC)) {
+            $this->init = $res;
             $this->id = $res['id'];
             $this->hall_id = $res['hall_id'];
-            $this->row_number = $res['row_num'];
-            $this->seat_number = $res['seat_num'];
+            $this->row_num = $res['row_num'];
+            $this->seat_num = $res['seat_num'];
             $this->price_level_id = $res['price_level_id'];
             return true;
         } else {
@@ -97,16 +99,16 @@ class Seat
 
     /**
      * @param $hall_id
-     * @param $row_number
-     * @param $seat_number
+     * @param $row_num
+     * @param $seat_num
      * @param $price_level_id
      * @return void
      */
-    private function set($hall_id, $row_number, $seat_number, $price_level_id): void
+    private function set($hall_id, $row_num, $seat_num, $price_level_id): void
     {
         $this->hall_id = $hall_id;
-        $this->row_number = $row_number;
-        $this->seat_number = $seat_number;
+        $this->row_num = $row_num;
+        $this->seat_num = $seat_num;
         $this->price_level_id = $price_level_id;
     }
 
@@ -116,12 +118,33 @@ class Seat
     public function save(): int
     {
         if (isset($this->id)) {
+
+            $new_values = [];
+            foreach ($this->init as $property => $value) {
+                if ($this->init[$property] !== $this->$property) {
+                    $new_values[$property] = $this->$property;
+                }
+            }
+
+            if (!count($new_values)) {
+                echo 'Изменений нет.';
+                return false;
+            }
+
             self::dbConnect();
 
-            $query = 'UPDATE "public.seat" SET "hall_id"=?, "row_num"=?, "seat_num"=?, "price_level_id"=? WHERE "id" = ?  RETURNING "id"';
+            $fields = [];
+            $values = [];
+            foreach ($new_values as $property => $value) {
+                $fields[] = '"' . $property . '"=?';
+                $values[] = $this->$property;
+            }
+
+            $query = 'UPDATE "public.seat" SET ' . implode(", ", $fields) . ' WHERE "id" = ?  RETURNING "id"';
 
             $stmt = DB::$conn->prepare($query);
-            $stmt->execute([$this->hall_id, $this->row_number, $this->seat_number, $this->price_level_id, $this->id]);
+            $values[] = $this->id;
+            $stmt->execute($values);
 
             if ($res = $stmt->fetch()) {
                 return $res['id'];

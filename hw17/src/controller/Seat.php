@@ -36,8 +36,9 @@ class Seat
     {
         $seat = new \Builov\Cinema\model\Seat();
 
-        if ($seat->load(1314)) {
-            $seat->seat_number = 33;
+        if ($seat->load(1310)) {
+            $seat->hall_id = 2;
+            $seat->row_num = 31;
             echo $seat->save();
         } else {
             echo 'Не найдено.';

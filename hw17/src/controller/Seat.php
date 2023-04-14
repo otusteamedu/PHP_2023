@@ -54,11 +54,8 @@ class Seat
     {
         $seat = new \Builov\Cinema\model\Seat();
 
-        if ($deleted_id = $seat->delete($id)) {
-            echo $deleted_id;
-        } else {
-            echo 'Не найдено.';
-        }
+        $seat->load($id);
+        echo $seat->delete();
     }
 
     /**

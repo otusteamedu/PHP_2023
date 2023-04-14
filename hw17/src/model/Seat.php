@@ -155,22 +155,21 @@ class Seat
     }
 
     /**
-     * @param $id
      * @return mixed
      */
-    public function delete($id): mixed
+    public function delete(): mixed
     {
         self::dbConnect();
 
         $query = 'DELETE FROM "public.ticket" WHERE "seat_id" = ? RETURNING "id"';
 
         $stmt = DB::$conn->prepare($query);
-        $stmt->execute([$id]);
+        $stmt->execute([$this->id]);
 
         $query = 'DELETE FROM "public.seat" WHERE "id" = ? RETURNING "id"';
 
         $stmt = DB::$conn->prepare($query);
-        $stmt->execute([$id]);
+        $stmt->execute([$this->id]);
 
         if ($res = $stmt->fetch()) {
             return $res['id'];

@@ -73,17 +73,17 @@ services:
     networks:
       - app-network
 
-#  postgres:
-#    image: postgres:latest
-#    container_name: postgres
-#    env_file:
-#      - '.env'
-#    volumes:
-#      - ./db/postgres:/var/lib/postgresql/data:ro
-#    ports:
-#      - "15580:5432"
-#    networks:
-#      - app-network
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    env_file:
+      - '.env'
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data:rw
+    ports:
+      - "15580:5432"
+    networks:
+      - app-network
 
   memcached:
     container_name: memcached

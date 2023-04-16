@@ -5,6 +5,7 @@ emptyValidate($string);
 bracketsValidate($string);
 
 http_response_code(200);
+
 echo 'Все хорошо';
 function bracketsValidate(string $string): void
 {

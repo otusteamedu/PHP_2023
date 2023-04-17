@@ -1,6 +1,5 @@
 <?php
 
-
 function run(): void
 {
     $post = getPost();

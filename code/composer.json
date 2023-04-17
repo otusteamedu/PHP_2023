@@ -1,0 +1,15 @@
+{
+    "name": "yakovgulyuta/hw4",
+    "type": "project",
+    "autoload": {
+        "files": [
+            "request.php", "validator.php", "app.php"]
+    },
+    "authors": [
+        {
+            "name": "yakov-home",
+            "email": "yakovgulyuta@yandex.ru"
+        }
+    ],
+    "require": {}
+}

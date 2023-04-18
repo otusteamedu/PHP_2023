@@ -1,4 +1,5 @@
 <?php
+
 function stringify(): void
 {
     $post = getPost();

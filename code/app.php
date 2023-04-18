@@ -4,4 +4,3 @@ function run(): void
 {
     stringify();
 }
-

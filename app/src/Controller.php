@@ -4,7 +4,6 @@ namespace Yakovgulyuta\Hw5;
 
 class Controller
 {
-
     private Request $request;
     private EmailValidator $validator;
 

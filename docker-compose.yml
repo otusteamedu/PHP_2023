@@ -1,0 +1,41 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  nginx_service:
+    build:
+      dockerfile: docker/nginx/Dockerfile
+      context: .
+    volumes:
+      - ./app:/var/www
+      - ./logs/nginx:/var/log/nginx
+      - ./docker/sock:/sock:rw
+    container_name: nginx_service
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+  fpm_service:
+    build:
+      dockerfile: docker/fpm/Dockerfile
+      context: .
+    volumes:
+      - ./app:/var/www
+      - ./docker/sock:/sock:rw
+      - ./docker/fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    container_name: fpm_service
+    networks:
+      - app-network
+
+
+  memcached_service:
+    image: memcached:latest
+    container_name: memcached_service
+    hostname: memcached_service
+    networks:
+      - app-network
+    ports:
+      - "11211:11211"

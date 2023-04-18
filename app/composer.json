@@ -1,0 +1,17 @@
+{
+    "name": "yakovgulyuta/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yakovgulyuta\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Yakov"
+        }
+    ],
+    "require": {
+      "php": ">= 7.4"
+    }
+}

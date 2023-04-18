@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "files": [
-            "request.php", "validator.php", "app.php"]
+            "request.php", "validator.php", "app.php", "controller.php"]
     },
     "authors": [
         {

@@ -20,5 +20,4 @@ class Controller
         http_response_code($validate['code']);
         echo $validate['message'];
     }
-
 }

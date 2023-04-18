@@ -9,5 +9,4 @@ class App
         $controller = new Controller();
         $controller->validateEmails();
     }
-
 }

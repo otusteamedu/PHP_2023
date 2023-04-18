@@ -8,5 +8,4 @@ class Request
     {
         return $_POST;
     }
-
 }

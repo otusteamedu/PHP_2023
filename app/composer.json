@@ -13,5 +13,13 @@
     ],
     "require": {
       "php": ">= 7.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "require-dev": {
+        "consistence/coding-standard": "^3.10"
     }
 }

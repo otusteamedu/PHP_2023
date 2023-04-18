@@ -22,7 +22,6 @@ class EmailValidator
             if (!$checkMx) {
                 return ['message' => 'Email Mx not valid: ' . $email, 'code' => 400];
             }
-
         }
         return ['message' => 'Is valid', 'code' => 200];
     }

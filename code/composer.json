@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "files": [
-            "request.php", "validator.php", "app.php", "controller.php"]
+            "response.php", "validator.php", "app.php", "controller.php"]
     },
     "authors": [
         {
@@ -11,5 +11,12 @@
             "email": "yakovgulyuta@yandex.ru"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "consistence/coding-standard": "^3.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
 }

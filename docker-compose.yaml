@@ -1,0 +1,99 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx-balancer:
+    build:
+      context: nginx-balancer
+      dockerfile: Dockerfile
+    image: balance/nginx-balancer
+    container_name: nginx-balancer
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+  nginx-one:
+    build:
+      context: nginx-one
+      dockerfile: Dockerfile
+    image: balance/nginx-one
+    container_name: nginx-one
+    # проброс портов
+    ports:
+      - "8081:8081"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx-two:
+    build:
+      context: nginx-two
+      dockerfile: Dockerfile
+    image: balance/nginx-two
+    container_name: nginx-two
+    # проброс портов
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: fpm-one
+      dockerfile: Dockerfile
+    image: balance/php-one # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: fpm-two
+      dockerfile: Dockerfile
+    image: balance/php-two # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    env_file:
+      - '.env'
+    volumes:
+      - ./db/postgres:/var/lib/postgresql/data:rw
+    ports:
+      - "15580:5432"
+    networks:
+      - app-network
+
+  memcached:
+    container_name: memcached
+    image: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

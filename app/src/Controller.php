@@ -2,22 +2,24 @@
 
 namespace Yakovgulyuta\Hw5;
 
+use PHP_CodeSniffer\Reporter;
+
 class Controller
 {
-    private Request $request;
+    private Response $response;
     private EmailValidator $validator;
 
     public function __construct()
     {
-        $this->request = new Request();
+        $this->response = new Response();
         $this->validator = new EmailValidator();
     }
 
     public function validateEmails(): void
     {
-        $post = $this->request->getPost();
+        $post = $_POST;
         $validate = $this->validator->validate($post['emails'] ?? '');
-        http_response_code($validate['code']);
-        echo $validate['message'];
+
+        $this->response->sendResponse($validate['code'], $validate['message']);
     }
 }

@@ -4,7 +4,6 @@ namespace Yakovgulyuta\Hw6;
 
 class Solution
 {
-
     /**
      * @param ListNode $list1
      * @param ListNode $list2

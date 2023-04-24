@@ -1,12 +1,15 @@
 <?php
 
-class Solution {
+namespace leetcode17;
 
+class Solution
+{
     /**
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations($digits) {
+    public function letterCombinations($digits)
+    {
         $map = [
             2 => ['a','b','c'],
             3 => ['d','e','f'],
@@ -18,11 +21,13 @@ class Solution {
             9 => ['w','x','y','z']
         ];
 
-        if ($digits == '') return [];
+        if ($digits == '') {
+            return [];
+        }
 
         $result = $map[$digits[0]];
 
-        for ($i=1; $i < strlen($digits); $i++) {
+        for ($i = 1; $i < strlen($digits); $i++) {
             $tmp = [];
             foreach ($map[$digits[$i]] as $part2) {
                 foreach ($result as $part1) {

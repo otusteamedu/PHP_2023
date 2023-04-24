@@ -1,5 +1,8 @@
 <?php
 
+namespace leetcode141;
+
+/**
 class ListNode {
     public $val = 0;
     public $next = null;
@@ -8,13 +11,15 @@ class ListNode {
         $this->val = $val;
     }
 }
+ */
 
-class Solution {
+class Solution
+{
     /**
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head)
+    public function hasCycle($head)
     {
         $hash = [];
         while ($head !== null) {

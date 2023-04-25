@@ -1,13 +1,16 @@
 {
+    "name": "vp/app",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "Console\\Commands\\": "Console/Commands",
-            "Console\\Result\\": "Console/Result",
-            "Exceptions\\": "Exceptions",
-            "Models\\": "Models",
-            "Services\\": "Services"
+            "Vp\\App\\": "src/"
         }
     },
+    "authors": [
+        {
+            "name": "Vladimir Pavlenko"
+        }
+    ],
     "require": {
         "illuminate/database": "^9.41",
         "phplucidframe/console-table": "^1.2",

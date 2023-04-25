@@ -23,10 +23,10 @@ class Solution
     {
         $hash = [];
         while ($head !== null) {
-            if (in_array(spl_object_id($head), $hash)) {
+            if (isset($hash[spl_object_id($head)])) {
                 return true;
             }
-            $hash[] = spl_object_id($head);
+            $hash[spl_object_id($head)] = 1;
             $head = $head->next;
         }
 

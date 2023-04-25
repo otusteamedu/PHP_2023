@@ -2,16 +2,18 @@
 
 declare(strict_types=1);
 
-use DI\DependencyException;
-use DI\NotFoundException;
-use Vp\App\Application\UseCase\Container;
+use Vp\App\Application\Contract\AppInterface;
 
 include "bootstrap.php";
+$diConfig = require_once 'di-config.php';
 
 try {
-    $container = Container::getInstance();
-    $command = $container->get('Vp\App\Application\UseCase\Command');
-    $command->run($_SERVER['argv']);
-} catch (DependencyException|NotFoundException $e) {
-    echo $e->getMessage();
+    $containerBuilder = new DI\ContainerBuilder();
+    $containerBuilder->addDefinitions($diConfig);
+    $container = $containerBuilder->build();
+
+    $app = $container->get(AppInterface::class);
+    $app->run($container, $_SERVER['argv']);
+} catch (Exception $e) {
+    fwrite(STDOUT, "Error: " . $e->getMessage() . PHP_EOL);
 }

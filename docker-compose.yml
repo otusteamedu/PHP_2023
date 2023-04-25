@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+    sk_php:
+        build:
+            context: ./php
+            dockerfile: Dockerfile
+
+        image: "sk-app-image"
+        container_name: "sk-app"
+        environment:
+            PHP_IDE_CONFIG: serverName=Docker
+            XDEBUG_SESSION: 1
+
+        volumes:
+            - ./project:/var/www/html
+            - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+            - ./php/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+            - ./php/php.ini:/usr/local/etc/php/php.ini
+
+        networks:
+            - sknet
+
+    sk_db:
+        image: mysql:8.0.29
+        container_name: "sk-mysql"
+        ports:
+            - "3307:3306"
+        environment:
+            MYSQL_DATABASE: balance
+            MYSQL_USER: sk-mysql
+            MYSQL_PASSWORD: sk-mysql
+            MYSQL_ROOT_PASSWORD: example
+        expose:
+            - "3306"
+        volumes:
+            - ./mysql/my.cnf:/etc/mysql/my.cnf
+            - ./mysql-data:/var/lib/mysql
+        networks:
+            - sknet
+
+networks:
+    sknet:
+        driver: bridge

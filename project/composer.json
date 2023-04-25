@@ -1,0 +1,16 @@
+{
+    "autoload": {
+        "psr-4": {
+            "Console\\Commands\\": "Console/Commands",
+            "Console\\Result\\": "Console/Result",
+            "Exceptions\\": "Exceptions",
+            "Models\\": "Models",
+            "Services\\": "Services"
+        }
+    },
+    "require": {
+        "illuminate/database": "^9.41",
+        "phplucidframe/console-table": "^1.2",
+        "php-di/php-di": "6.*"
+    }
+}

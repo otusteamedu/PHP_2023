@@ -1,5 +1,7 @@
 /.idea
 /db-data
+/mysql-data
 /vendor
+/project/vendor
 
 .env

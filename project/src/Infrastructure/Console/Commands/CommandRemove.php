@@ -18,7 +18,6 @@ class CommandRemove implements CommandInterface
     public function run(string $object): void
     {
         $result = $this->removeData->remove((int)$object);
-
-        echo $result->getMessage();
+        fwrite(STDOUT, $result . PHP_EOL);
     }
 }

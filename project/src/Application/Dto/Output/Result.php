@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Infrastructure\Console\Result;
+namespace Vp\App\Application\Dto\Output;
 
 class Result
 {
@@ -20,7 +20,7 @@ class Result
         return $this->success;
     }
 
-    public function getMessage(): string
+    public function __toString()
     {
         return $this->message;
     }

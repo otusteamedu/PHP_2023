@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Vp\App\Infrastructure\Console\Commands;
 
+use Illuminate\Database\Eloquent\Collection;
+use LucidFrame\Console\ConsoleTable;
 use Vp\App\Application\Contract\ListDataInterface;
+use Vp\App\Domain\Model\Employee;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
 class CommandList implements CommandInterface
@@ -24,10 +27,30 @@ class CommandList implements CommandInterface
         switch ($object) {
             case 'employee':
                 $result = $this->listData->list($object);
-                $result->show();
+                $table = $this->createConsoleTable($result->getResult());
+                $table->display();
                 break;
             default:
-                echo 'The object name is incorrect' . PHP_EOL;
+                fwrite(STDOUT, 'The object name is incorrect' . PHP_EOL);
         }
+    }
+
+    private function createConsoleTable(Collection $employees): ConsoleTable
+    {
+        $table = new ConsoleTable();
+        $table->addHeader('№');
+        $table->addHeader('Name');
+
+        $listNumber = 0;
+
+        /** @var Employee $employee */
+        foreach ($employees as $employee) {
+            $listNumber++;
+            $table->addRow();
+            $table->addColumn($listNumber);
+            $table->addColumn($employee->name);
+        }
+
+        return $table;
     }
 }

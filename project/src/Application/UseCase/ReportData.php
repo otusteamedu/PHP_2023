@@ -6,10 +6,8 @@ namespace Vp\App\Application\UseCase;
 
 use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Connection;
-use Illuminate\Support\Collection;
-use LucidFrame\Console\ConsoleTable;
 use Vp\App\Application\Contract\ReportDataInterface;
-use Vp\App\Infrastructure\Console\Result\ResultList;
+use Vp\App\Application\Dto\Output\ResultReport;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
 class ReportData implements ReportDataInterface
@@ -19,7 +17,7 @@ class ReportData implements ReportDataInterface
     /**
      * @throws MethodNotFound
      */
-    public function report(string $context): ResultList
+    public function report(string $context): ResultReport
     {
         $methodName = __FUNCTION__ . ucfirst($context);
 
@@ -28,13 +26,10 @@ class ReportData implements ReportDataInterface
         }
 
         $this->db = Manager::connection();
-
-        $result = $this->{$methodName}();
-
-        return new ResultList($result);
+        return $this->{$methodName}();
     }
 
-    private function reportTop5longTasks(): ConsoleTable
+    private function reportTop5longTasks(): ResultReport
     {
         $items = $this->db->table('timesheets')
             ->select($this->db->raw('SUM(ROUND((UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(start_time)) / 3600)) AS spent_hours'), 'tasks.title')
@@ -44,10 +39,10 @@ class ReportData implements ReportDataInterface
             ->take(5)
             ->get();
 
-        return $this->createResult($items, 'spent_hours', 'title');
+        return new ResultReport($items, 'spent_hours', 'title');
     }
 
-    private function reportTop5costTasks(): ConsoleTable
+    private function reportTop5costTasks(): ResultReport
     {
         $items = $this->db->table('timesheets')
             ->select(
@@ -60,10 +55,10 @@ class ReportData implements ReportDataInterface
             ->take(5)
             ->get();
 
-        return $this->createResult($items, 'total_cost', 'title');
+        return new ResultReport($items, 'total_cost', 'title');
     }
 
-    private function reportTop5employees(): ConsoleTable
+    private function reportTop5employees(): ResultReport
     {
         $items = $this->db->table('timesheets')
             ->select($this->db->raw('SUM(ROUND((UNIX_TIMESTAMP(end_time) - UNIX_TIMESTAMP(start_time)) / 3600)) AS total_hours'), 'employees.name')
@@ -73,21 +68,6 @@ class ReportData implements ReportDataInterface
             ->take(5)
             ->get();
 
-        return $this->createResult($items, 'total_hours', 'name');
-    }
-
-    private function createResult(Collection $items, $aggregateField, $joinedField): ConsoleTable
-    {
-        $table = new ConsoleTable();
-        $table->addHeader($aggregateField);
-        $table->addHeader($joinedField);
-
-        foreach ($items as $item) {
-            $table->addRow();
-            $table->addColumn($item->{$aggregateField});
-            $table->addColumn($item->{$joinedField});
-        }
-
-        return $table;
+        return new ResultReport($items, 'total_hours', 'name');
     }
 }

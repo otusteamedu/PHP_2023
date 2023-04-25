@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Vp\App\Infrastructure\Console\Commands;
 
+use Illuminate\Support\Collection;
+use LucidFrame\Console\ConsoleTable;
 use Vp\App\Application\Contract\ReportDataInterface;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
@@ -25,10 +27,26 @@ class CommandReport implements CommandInterface
             case 'top5costTasks':
             case 'top5employees':
                 $result = $this->reportData->report($object);
-                $result->show();
+                $table = $this->createConsoleTable($result->getResult(), $result->getAggregateField(), $result->getJoinedField());
+                $table->display();
                 break;
             default:
-                echo 'The object name is incorrect' . PHP_EOL;
+                fwrite(STDOUT, 'The object name is incorrect' . PHP_EOL);
         }
+    }
+
+    private function createConsoleTable(Collection $items, $aggregateField, $joinedField): ConsoleTable
+    {
+        $table = new ConsoleTable();
+        $table->addHeader($aggregateField);
+        $table->addHeader($joinedField);
+
+        foreach ($items as $item) {
+            $table->addRow();
+            $table->addColumn($item->{$aggregateField});
+            $table->addColumn($item->{$joinedField});
+        }
+
+        return $table;
     }
 }

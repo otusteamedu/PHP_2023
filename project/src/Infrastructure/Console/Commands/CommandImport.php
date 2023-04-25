@@ -28,6 +28,6 @@ class CommandImport implements CommandInterface
             default => $this->importData->importDefault(),
         };
 
-        echo $result->getMessage();
+        fwrite(STDOUT, $result . PHP_EOL);
     }
 }

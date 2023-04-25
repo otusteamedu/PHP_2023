@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\UseCase;
 
-use LucidFrame\Console\ConsoleTable;
+use Illuminate\Database\Eloquent\Collection;
 use Vp\App\Application\Contract\ListDataInterface;
+use Vp\App\Application\Dto\Output\ResultList;
 use Vp\App\Domain\Model\Employee;
-use Vp\App\Infrastructure\Console\Result\ResultList;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
 class ListData implements ListDataInterface
@@ -28,24 +28,8 @@ class ListData implements ListDataInterface
         return new ResultList($result);
     }
 
-    private function listEmployee(): ConsoleTable
+    private function listEmployee(): Collection
     {
-        $employees = Employee::all();
-
-        $table = new ConsoleTable();
-        $table->addHeader('№');
-        $table->addHeader('Name');
-
-        $listNumber = 0;
-
-        /** @var Employee $employee */
-        foreach ($employees as $employee) {
-            $listNumber++;
-            $table->addRow();
-            $table->addColumn($listNumber);
-            $table->addColumn($employee->name);
-        }
-
-        return $table;
+        return Employee::all();
     }
 }

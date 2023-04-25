@@ -7,9 +7,9 @@ namespace Vp\App\Application\UseCase;
 use Exception;
 use Illuminate\Database\Capsule\Manager;
 use Vp\App\Application\Contract\RemoveDataInterface;
+use Vp\App\Application\Dto\Output\Result;
 use Vp\App\Domain\Model\Task;
 use Vp\App\Domain\Model\Timesheet;
-use Vp\App\Infrastructure\Console\Result\Result;
 
 class RemoveData implements RemoveDataInterface
 {

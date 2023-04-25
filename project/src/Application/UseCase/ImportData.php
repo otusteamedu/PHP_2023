@@ -6,11 +6,11 @@ namespace Vp\App\Application\UseCase;
 
 use Throwable;
 use Vp\App\Application\Contract\ImportDataInterface;
+use Vp\App\Application\Dto\Output\Result;
 use Vp\App\Domain\Model\Employee;
 use Vp\App\Domain\Model\Position;
 use Vp\App\Domain\Model\Task;
 use Vp\App\Domain\Model\Timesheet;
-use Vp\App\Infrastructure\Console\Result\Result;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
 class ImportData implements ImportDataInterface
@@ -118,7 +118,6 @@ class ImportData implements ImportDataInterface
             $this->errors[$number] = $throwable->getMessage();
             return false;
         }
-
     }
 
     public function importDefault(): Result
@@ -174,10 +173,8 @@ class ImportData implements ImportDataInterface
         $task->title = $title;
 
         try {
-
             $task->saveOrFail();
             return $task;
-
         } catch (Throwable) {
             return false;
         }

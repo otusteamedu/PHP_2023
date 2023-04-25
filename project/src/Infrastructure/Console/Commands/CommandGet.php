@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Vp\App\Infrastructure\Console\Commands;
 
-use DI\DependencyException;
-use DI\NotFoundException;
-use Vp\App\Application\UseCase\Container;
+use Vp\App\Application\Contract\GetDataInterface;
 
 class CommandGet implements CommandInterface
 {
-    /**
-     * @throws DependencyException
-     * @throws NotFoundException
-     */
+    private GetDataInterface $getData;
+
+    public function __construct(GetDataInterface $getData)
+    {
+        $this->getData = $getData;
+    }
+
     public function run(string $object): void
     {
-        $getData = Container::getInstance()->get('Vp\App\Application\UseCase\GetData');
-        $result = $getData->get($object);
+        $result = $this->getData->get($object);
 
         if ($result->isSuccess()) {
             $result->show();

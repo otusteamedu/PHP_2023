@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Vp\App\Application\UseCase;
 
 use LucidFrame\Console\ConsoleTable;
+use Vp\App\Application\Contract\ListDataInterface;
 use Vp\App\Domain\Model\Employee;
 use Vp\App\Infrastructure\Console\Result\ResultList;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
-class ListData
+class ListData implements ListDataInterface
 {
     /**
      * @throws MethodNotFound

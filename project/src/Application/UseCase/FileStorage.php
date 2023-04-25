@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\UseCase;
 
-class FileStorage
+use Vp\App\Application\Contract\FileStorageInterface;
+
+class FileStorage implements FileStorageInterface
 {
     private string $dir;
 

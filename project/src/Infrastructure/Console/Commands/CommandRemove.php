@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Vp\App\Infrastructure\Console\Commands;
 
-use DI\DependencyException;
-use DI\NotFoundException;
-use Vp\App\Application\UseCase\Container;
+use Vp\App\Application\Contract\RemoveDataInterface;
 
 class CommandRemove implements CommandInterface
 {
-    /**
-     * @throws DependencyException
-     * @throws NotFoundException
-     */
+    private RemoveDataInterface $removeData;
+
+    public function __construct(RemoveDataInterface $removeData)
+    {
+        $this->removeData = $removeData;
+    }
+
     public function run(string $object): void
     {
-        $removeData = Container::getInstance()->get('Vp\App\Application\UseCase\RemoveData');
-        $result = $removeData->remove((int)$object);
+        $result = $this->removeData->remove((int)$object);
 
         echo $result->getMessage();
     }

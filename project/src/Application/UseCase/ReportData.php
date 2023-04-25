@@ -8,10 +8,11 @@ use Illuminate\Database\Capsule\Manager;
 use Illuminate\Database\Connection;
 use Illuminate\Support\Collection;
 use LucidFrame\Console\ConsoleTable;
+use Vp\App\Application\Contract\ReportDataInterface;
 use Vp\App\Infrastructure\Console\Result\ResultList;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
-class ReportData
+class ReportData implements ReportDataInterface
 {
     private Connection $db;
 

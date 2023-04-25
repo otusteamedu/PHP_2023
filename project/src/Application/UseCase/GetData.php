@@ -6,11 +6,12 @@ namespace Vp\App\Application\UseCase;
 
 use Illuminate\Database\Eloquent\Collection;
 use LucidFrame\Console\ConsoleTable;
+use Vp\App\Application\Contract\GetDataInterface;
 use Vp\App\Domain\Model\Employee;
 use Vp\App\Domain\Model\Timesheet;
 use Vp\App\Infrastructure\Console\Result\ResultGet;
 
-class GetData
+class GetData implements GetDataInterface
 {
     public function get(string $employeeName): ResultGet
     {

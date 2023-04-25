@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Vp\App\Application\UseCase;
 
 use Throwable;
+use Vp\App\Application\Contract\ImportDataInterface;
 use Vp\App\Domain\Model\Employee;
 use Vp\App\Domain\Model\Position;
 use Vp\App\Domain\Model\Task;
@@ -12,7 +13,7 @@ use Vp\App\Domain\Model\Timesheet;
 use Vp\App\Infrastructure\Console\Result\Result;
 use Vp\App\Infrastructure\Exception\MethodNotFound;
 
-class ImportData
+class ImportData implements ImportDataInterface
 {
     private FileStorage $fileStorage;
 

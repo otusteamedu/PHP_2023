@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: application/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:data/application.local
+    networks:
+      - app-network

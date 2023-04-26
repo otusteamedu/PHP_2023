@@ -1,0 +1,6 @@
+/db_restore
+vendor/
+
+.env
+.idea
+.vscode

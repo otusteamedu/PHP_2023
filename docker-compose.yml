@@ -3,13 +3,27 @@ version: '3'
 services:
   nginx:
     build:
-      context: ./nginx
+      context: docker/nginx
       dockerfile: Dockerfile
     image: application/nginx
-    container_name: application/nginx
+    container_name: application-nginx
     ports:
       - "80:80"
     volumes:
-      - ./src:data/application.local
+      - ./src:/data/application.local
     networks:
       - app-network
+  app:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application-php
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

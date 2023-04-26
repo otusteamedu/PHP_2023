@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  nginx:
+    build: ./nginx
+    image: testapp-nginx-image
+    container_name: testapp-nginx
+    networks:
+      - default
+    ports:
+      - "80:80"
+    volumes:
+      - ./..:/data/project
+    depends_on:
+      - app
+  app:
+    build: ./php
+    image: testapp-php-image
+    container_name: testapp-php
+    volumes:
+      - ./..:/data/project
+    networks:
+      - default
+  db:
+    image: "mysql:8.0.33"
+    container_name: testapp-db
+    ports:
+      - "33060:3306"
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    env_file:
+      - ./../.env
+    networks:
+      - default
+  redis:
+    build: ./redis
+    image: testapp-redis-image
+    container_name: testapp-redis
+    networks:
+      - default
+  memcached:
+    build: ./memcached
+    image: testapp-memcached-image
+    container_name: testapp-memcached
+    networks:
+      - default
+
+networks:
+  default:

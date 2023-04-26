@@ -1,0 +1,6 @@
+/vendor/
+/.idea
+/docker/mysql/data/*
+!/docker/mysql/data/.gitkeep
+.env
+/.php-cs-fixer.cache

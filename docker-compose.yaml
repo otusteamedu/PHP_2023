@@ -1,0 +1,81 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/application.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+       - ./code:/data/application.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер MySQL, без Dockerfile, порты пробросил, чтобы извне подключиться к БД через DBeaver 
+  mysql:
+    image: mysql:8.0
+    restart: always
+    command: --max-allowed-packet=3002505856
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_USER_PASSWORD: ${DB_USER_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+  #Контейнер с Redis
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: myapp/redis # имя будущего образа
+    container_name: redis # имя контейнера после запуска
+    volumes:
+       - ./redis/data:/root/redis
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с Memcached
+  memcached:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: memcached # имя будущего образа
+    container_name: memcached # имя контейнера после запуска
+    volumes:
+      - ./memcached/data:/root/memcached
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

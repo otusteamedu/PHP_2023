@@ -1,0 +1,85 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с mysql
+  mysql:
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: ${MYSQL_USER_LOGIN}
+      # You can use whatever password you like
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    expose:
+      # Opens port 3306 on the container
+      - '3306'
+      # Where our data will be persisted
+    # Если нет секции build, то система будет искать образ в репозиториях
+    image: mysql
+    container_name: mysql # имя контейнера после запуска
+    volumes:
+       - ./mysqldata:/var/lib/mysql
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+
+  #Контейнер с redis
+  redis:
+    image: redis # имя будущего образа
+    container_name: redis # имя контейнера после запуска
+    expose:
+      # Opens port 6379 on the container
+      - '6379'
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с memcached
+  memcached:
+    image: memcached # имя будущего образа
+    container_name: memcached # имя контейнера после запуска
+    expose:
+      # Opens port 11211 on the container
+      - '11211'
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

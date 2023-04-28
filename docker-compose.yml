@@ -11,6 +11,7 @@ services:
       - "80:80"
     volumes:
       - ./src:/data/application.local
+      - socket:/var/run/d-socket
     networks:
       - app-network
   app:
@@ -21,6 +22,7 @@ services:
     container_name: application-php
     volumes:
       - ./src:/data/application.local
+      - socket:/var/run/d-socket
     networks:
       - app-network
   postgresql:
@@ -35,6 +37,9 @@ services:
       - app-network
     volumes:
       - ./storage/postgresql:/var/lib/postgresql
+
+volumes:
+  socket:
 
 networks:
   app-network:

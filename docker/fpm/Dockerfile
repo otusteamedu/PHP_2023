@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
     && pecl install -o -f redis \
     && docker-php-ext-enable redis
 
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 

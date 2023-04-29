@@ -37,6 +37,15 @@ services:
       - app-network
     volumes:
       - ./storage/postgresql:/var/lib/postgresql
+  memcached:
+    build:
+      context: docker/memcached
+      dockerfile: Dockerfile
+    image: application/memcached
+    container_name: application-memcached
+    networks:
+      - app-network
+
 
 volumes:
   socket:

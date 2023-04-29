@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
 	libpq-dev \
     && docker-php-ext-install -j$(nproc) iconv mbstring pdo pdo_pgsql pgsql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd
+    && docker-php-ext-install -j$(nproc) gd \
+    && pecl install memcached && \
+    docker-php-ext-enable memcached
 
 COPY zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini

@@ -1,0 +1,131 @@
+1. ANALYSE movies;
+   EXPLAIN SELECT m.name
+   FROM movies m
+   INNER JOIN schedules s on m.id = s.movie_id
+   WHERE s.datetime >= date_trunc('day', now() at time zone 'Europe/Moscow')
+       AND s.datetime <= now();
+
+Nested Loop  (cost=14.55..4231.25 rows=581 width=26)
+  ->  Bitmap Heap Scan on schedules s  (cost=14.26..755.14 rows=581 width=8)
+"        Recheck Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+        ->  Bitmap Index Scan on schedules_datetime_index  (cost=0.00..14.11 rows=581 width=0)
+"              Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+  ->  Index Scan using movies_pkey on movies m  (cost=0.29..5.98 rows=1 width=34)
+        Index Cond: (id = s.movie_id)
+
+// ===============================
+
+2. ANALYSE tickets;
+   EXPLAIN SELECT count(created_at)
+   FROM tickets
+   WHERE created_at >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
+     AND created_at <= now();
+
+Finalize Aggregate  (cost=186931.80..186931.81 rows=1 width=8)
+  ->  Gather  (cost=186931.58..186931.79 rows=2 width=8)
+        Workers Planned: 2
+        ->  Partial Aggregate  (cost=185931.58..185931.59 rows=1 width=8)
+              ->  Parallel Index Only Scan using tickets_created_at_index on tickets  (cost=0.45..175514.93 rows=4166661 width=8)
+"                    Index Cond: ((created_at >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))) AND (created_at <= now()))"
+JIT:
+  Functions: 5
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+
+// ===============================
+
+3. ANALYSE movies;
+   EXPLAIN SELECT movies.*, string_agg(g.name, ',') as genger
+   FROM movies
+   INNER JOIN schedules s on movies.id = s.movie_id
+   LEFT JOIN movie_genres mg on movies.id = mg.movie_id
+   LEFT JOIN genres g on g.id = mg.genre_id
+   WHERE s.datetime >= date_trunc('day', now() at time zone 'Europe/Moscow')
+     AND s.datetime <= now()
+   GROUP BY movies.id;
+
+GroupAggregate  (cost=4469.04..4480.66 rows=581 width=374)
+  Group Key: movies.id
+  ->  Sort  (cost=4469.04..4470.49 rows=581 width=374)
+        Sort Key: movies.id
+        ->  Nested Loop Left Join  (cost=15.01..4442.36 rows=581 width=374)
+              ->  Nested Loop Left Join  (cost=14.84..4426.14 rows=581 width=350)
+                    ->  Nested Loop  (cost=14.55..4231.25 rows=581 width=342)
+                          ->  Bitmap Heap Scan on schedules s  (cost=14.26..755.14 rows=581 width=8)
+"                                Recheck Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+                                ->  Bitmap Index Scan on schedules_datetime_index  (cost=0.00..14.11 rows=581 width=0)
+"                                      Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+                          ->  Index Scan using movies_pkey on movies  (cost=0.29..5.98 rows=1 width=342)
+                                Index Cond: (id = s.movie_id)
+                    ->  Index Only Scan using movie_genres_pkey on movie_genres mg  (cost=0.29..0.33 rows=1 width=16)
+                          Index Cond: (movie_id = movies.id)
+              ->  Memoize  (cost=0.16..0.18 rows=1 width=40)
+                    Cache Key: mg.genre_id
+                    Cache Mode: logical
+                    ->  Index Scan using genres_pkey on genres g  (cost=0.15..0.17 rows=1 width=40)
+                          Index Cond: (id = mg.genre_id)
+
+// ===============================
+
+4. ANALYSE tickets;
+   EXPLAIN SELECT m.id, m.name, sum(amount) as amount
+   FROM tickets
+   INNER JOIN movies m on m.id = tickets.movie_id
+   WHERE datetime >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
+     AND datetime <= now()
+   GROUP BY m.id, m.name
+   ORDER BY amount DESC
+   LIMIT 3;
+
+Limit  (cost=277411.00..277411.00 rows=3 width=66)
+  ->  Sort  (cost=277411.00..277661.00 rows=100000 width=66)
+        Sort Key: (sum(tickets.amount)) DESC
+        ->  Finalize GroupAggregate  (cost=247018.68..276118.52 rows=100000 width=66)
+              Group Key: m.id
+              ->  Gather Merge  (cost=247018.68..273368.52 rows=200000 width=66)
+                    Workers Planned: 2
+                    ->  Partial GroupAggregate  (cost=246018.65..249283.53 rows=100000 width=66)
+                          Group Key: m.id
+                          ->  Sort  (cost=246018.65..246690.28 rows=268650 width=39)
+                                Sort Key: m.id
+                                ->  Parallel Hash Join  (cost=5699.50..214446.15 rows=268650 width=39)
+                                      Hash Cond: (tickets.movie_id = m.id)
+                                      ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=268650 width=13)
+"                                            Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
+                                      ->  Parallel Hash  (cost=5178.67..5178.67 rows=41667 width=34)
+                                            ->  Parallel Seq Scan on movies m  (cost=0.00..5178.67 rows=41667 width=34)
+JIT:
+  Functions: 22
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+
+// ===============================
+
+5. ANALYSE places;
+   EXPLAIN SELECT places.*, case when t.id IS NOT NULL then true else false end as booked
+   FROM places
+   INNER JOIN schedules s on places.cinema_hall_id = s.cinema_hall_id
+   LEFT JOIN tickets t on places.id = t.place_id and s.movie_id = t.movie_id
+   WHERE s.id = 9;
+
+Nested Loop Left Join  (cost=0.88..232563.51 rows=200 width=33)
+  Join Filter: (s.movie_id = t.movie_id)
+  ->  Nested Loop  (cost=0.44..22.96 rows=200 width=40)
+        ->  Index Scan using schedules_pkey on schedules s  (cost=0.29..8.31 rows=1 width=16)
+              Index Cond: (id = 9)
+        ->  Index Scan using places_cinema_hall_id_index on places  (cost=0.15..12.65 rows=200 width=32)
+              Index Cond: (cinema_hall_id = s.cinema_hall_id)
+  ->  Index Scan using tickets_place_id_index on tickets t  (cost=0.43..954.37 rows=16667 width=24)
+        Index Cond: (place_id = places.id)
+JIT:
+  Functions: 13
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+
+// ===============================
+
+6. ANALYSE schedule_prices;
+   EXPLAIN SELECT min(sp.price) as min_price, max(sp.price) as max_price
+   FROM schedule_prices sp
+   WHERE sp.schedule_id = 9;
+
+Aggregate  (cost=11.90..11.91 rows=1 width=64)
+  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.89 rows=2 width=5)
+        Index Cond: (schedule_id = 9)

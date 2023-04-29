@@ -45,10 +45,23 @@ services:
     container_name: application-memcached
     networks:
       - app-network
+  redis:
+    build:
+      context: docker/redis
+      dockerfile: Dockerfile
+    image: application/redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
+    networks:
+      - app-network
 
 
 volumes:
   socket:
+  cache:
 
 networks:
   app-network:

@@ -6,6 +6,7 @@ namespace Tests\Unit;
 
 use Exception;
 use Tests\TestCase;
+use Twent\BracketsValidator\Exceptions\EmptyString;
 use Twent\BracketsValidator\Validator;
 
 final class ValidatorTest extends TestCase
@@ -41,7 +42,6 @@ final class ValidatorTest extends TestCase
 
     public function testValidatorWorksWithRightData(): void
     {
-
         $rightInputs = [
             '__()',
             '      ((()()()()))((((()()()))(()()()(((()))))))',

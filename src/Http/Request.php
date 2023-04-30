@@ -6,7 +6,7 @@ namespace Twent\BracketsValidator\Http;
 
 final class Request
 {
-    public function __get($key): ?string
+    public function __get(string $key): ?string
     {
         if ($this->isGet() && isset($_GET[$key])) {
             return trim(htmlspecialchars($_GET[$key]));

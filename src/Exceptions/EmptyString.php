@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Twent\BracketsValidator\Exceptions;
 
-final class EmptyStringException extends \Exception
+final class EmptyString extends \Exception
 {
+    /**
+     * @var $code
+     * @var string $message
+     */
     protected $code = 400;
     protected $message = 'Строка пуста!';
 }

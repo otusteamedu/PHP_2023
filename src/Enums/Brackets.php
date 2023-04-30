@@ -10,6 +10,9 @@ enum Brackets: string
     case Curly = '{';
     case Square = '[';
 
+    /**
+     * @return array<string>
+     */
     public static function match(): array
     {
         return [

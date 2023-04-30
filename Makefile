@@ -11,6 +11,9 @@ start:
 stop:
 	docker compose stop
 
+analyse:
+	vendor/bin/phpinsights --fix -n
+
 format:
 	vendor/bin/phpcs && vendor/bin/phpcbf
 

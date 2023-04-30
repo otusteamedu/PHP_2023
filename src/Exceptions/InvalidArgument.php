@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace Twent\BracketsValidator\Exceptions;
 
-final class InvalidArgumentException extends \InvalidArgumentException
+final class InvalidArgument extends \InvalidArgumentException
 {
+    /**
+     * @var $code
+     * @var string $message
+     */
     protected $code = 400;
     protected $message = 'Строка не валидна!';
 }

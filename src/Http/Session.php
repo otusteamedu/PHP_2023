@@ -13,11 +13,6 @@ final class Session
         }
     }
 
-    private function destroy(): void
-    {
-        session_destroy();
-    }
-
     public static function set(string $key, string $value): void
     {
         $_SESSION[$key] = $value;
@@ -31,5 +26,10 @@ final class Session
     public static function remove(string $key): void
     {
         unset($_SESSION[$key]);
+    }
+
+    private function destroy(): void
+    {
+        session_destroy();
     }
 }

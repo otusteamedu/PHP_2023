@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Twent\BracketsValidator\Http;
+namespace Twent\BracketsValidator\Infrastructure\Http;
 
-final class Response
+use Twent\BracketsValidator\Infrastructure\Contract\ResponseEmitterContract;
+
+final class ResponseEmitter implements ResponseEmitterContract
 {
     public function __construct(
         public string $body,
@@ -14,7 +16,7 @@ final class Response
 
     public static function make(string $body, int $code = 200): string
     {
-        return (new Response($body, $code))->emit();
+        return (new ResponseEmitter($body, $code))->emit();
     }
 
     public function emit(): string

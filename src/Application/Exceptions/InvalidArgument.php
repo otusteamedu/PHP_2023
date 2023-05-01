@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twent\BracketsValidator\Exceptions;
+namespace Twent\BracketsValidator\Application\Exceptions;
 
 final class InvalidArgument extends \InvalidArgumentException
 {

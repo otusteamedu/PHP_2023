@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use Twent\BracketsValidator\App;
+use Twent\BracketsValidator\Kernel;
 
-App::make();
+$app = new Kernel();
+
+$app->run();
 
 require __DIR__ . '/../resources/partials/footer.php';

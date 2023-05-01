@@ -1,0 +1,85 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+       - "phpsocket:/var/run"
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+       - ./code:/data/mysite.local
+       - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+       - "phpsocket:/var/run"
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+  
+  #Контейнер с mysql
+  mysql:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    image: myapp/mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: mariadb
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    networks:
+      - app-network
+  
+  #Контейнер с redis
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: myapp/redis
+    command: ["sh", "-c", "exec redis-server --requirepass \"${REDIS_PASSWORD}\""]
+    container_name: redis
+    networks:
+      - app-network
+
+  #Контейнер с memcached
+  memcached:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: myapp/memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+    phpsocket:

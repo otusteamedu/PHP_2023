@@ -1,0 +1,8 @@
+.idea
+.code
+.editorconfig
+.phpunit.cache
+coverage.xml
+vendor
+docker/logs/**
+.env

@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Twent\BracketsValidator\Http;
+namespace Twent\BracketsValidator\Infrastructure\Http;
 
-final class Session
+use Twent\BracketsValidator\Infrastructure\Contract\SessionContract;
+
+final class Session implements SessionContract
 {
     public function __construct()
     {

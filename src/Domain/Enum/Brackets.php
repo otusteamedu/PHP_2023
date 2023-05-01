@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Twent\BracketsValidator\Enums;
+namespace Twent\BracketsValidator\Domain\Enum;
 
 enum Brackets: string
 {

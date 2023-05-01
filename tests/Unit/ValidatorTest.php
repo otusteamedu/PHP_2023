@@ -6,8 +6,9 @@ namespace Tests\Unit;
 
 use Exception;
 use Tests\TestCase;
-use Twent\BracketsValidator\Exceptions\EmptyString;
-use Twent\BracketsValidator\Validator;
+use Twent\BracketsValidator\Application\Exceptions\EmptyString;
+use Twent\BracketsValidator\Domain\Validator;
+use Twent\BracketsValidator\Domain\ValueObject\InputString;
 
 final class ValidatorTest extends TestCase
 {
@@ -34,12 +35,15 @@ final class ValidatorTest extends TestCase
 
         foreach ($wrongInputs as $wrongInput) {
             $this->assertThrowsException(
-                fn() => Validator::run($wrongInput),
+                fn() => (new Validator())->run(new InputString($wrongInput)),
                 Exception::class
             );
         }
     }
 
+    /**
+     * @throws EmptyString
+     */
     public function testValidatorWorksWithRightData(): void
     {
         $rightInputs = [
@@ -51,7 +55,7 @@ final class ValidatorTest extends TestCase
         ];
 
         foreach ($rightInputs as $rightInput) {
-            $this->assertTrue(Validator::run($rightInput));
+            $this->assertTrue((new Validator())->run(new InputString($rightInput)));
         }
     }
 }

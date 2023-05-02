@@ -6,7 +6,7 @@ RUN  --mount=type=bind,from=mlocati/php-extension-installer:2.1,source=/usr/bin/
       install-php-extensions opcache zip bcmath xdebug && \
      apk del --no-cache  ${PHPIZE_DEPS} ${BUILD_DEPENDS}
 
-COPY .docker/php/config/dev.ini /usr/local/etc/php/conf.d/
+COPY .docker/php/config/dev.ini ${PHP_INI_DIR}/conf.d/docker-php-ext-xdebug.ini
 
 WORKDIR /var/www
 

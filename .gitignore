@@ -1,0 +1,4 @@
+/database
+/code/vendor
+.env
+.idea

@@ -12,9 +12,11 @@ services:
     volumes:
       - .:/src
       - ./docker/sock:/sock:rw
-      - ./docker/cli/zz-docker.conf:/usr/local/etc/php-cli.d/zz-docker.conf
+      - ./docker/cli/zz-docker.conf:/socket
     container_name: php_server
     command: php index.php server
+#    stdin_open: true
+#    tty: true
     networks:
       - app-network
   php_client:
@@ -24,9 +26,11 @@ services:
     volumes:
       - .:/src
       - ./docker/sock:/sock:rw
-      - ./docker/cli/zz-docker.conf:/usr/local/etc/php-cli.d/zz-docker.conf
+      - ./docker/cli/zz-docker.conf:/socket
     container_name: php_client
     command: php index.php client
+#    stdin_open: true
+#    tty: true
     networks:
       - app-network
 

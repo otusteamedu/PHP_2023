@@ -19,7 +19,7 @@ try {
     echo "<span style = 'color:red'>{$error}</span><br>";
 }
 try {
-    $memcached = new Memcached;
+    $memcached = new Memcached();
     $memcached->addServer("memcached", 11211);
     $response = $memcached->get("successful");
     if (! $response) {
@@ -33,14 +33,14 @@ try {
 }
 try {
     $pdo = new PDO(
-        'mysql:host='   
-            . $_ENV['MYSQL_HOST'] 
-                . ';dbname=' . $_ENV['MYSQL_DATABASE'] 
+        'mysql:host='
+            . $_ENV['MYSQL_HOST']
+                . ';dbname=' . $_ENV['MYSQL_DATABASE']
                     . ';port=' . $_ENV['MYSQL_PORT'],
         $_ENV['MYSQL_USER'],
         $_ENV['MYSQL_PASSWORD']
     );
-    foreach($pdo->query('show tables;') as $row) {
+    foreach ($pdo->query('show tables;') as $row) {
         print_r($row);
     }
 } catch (PDOException $e) {

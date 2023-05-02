@@ -1,0 +1,32 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  php_server:
+    build:
+      dockerfile: docker/cli/Dockerfile
+      context: .
+    volumes:
+      - .:/src
+      - ./docker/sock:/sock:rw
+      - ./docker/cli/zz-docker.conf:/usr/local/etc/php-cli.d/zz-docker.conf
+    container_name: php_server
+    command: php index.php server
+    networks:
+      - app-network
+  php_client:
+    build:
+      dockerfile: docker/cli/Dockerfile
+      context: .
+    volumes:
+      - .:/src
+      - ./docker/sock:/sock:rw
+      - ./docker/cli/zz-docker.conf:/usr/local/etc/php-cli.d/zz-docker.conf
+    container_name: php_client
+    command: php index.php client
+    networks:
+      - app-network
+

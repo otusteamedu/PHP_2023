@@ -43,17 +43,16 @@ services:
       - app-network
   
   #Контейнер с mysql
-  mysql:
+  mariadb:
     build:
       context: ./mariadb
       dockerfile: Dockerfile
     image: myapp/mariadb
-    command: --default-authentication-plugin=mysql_native_password
     container_name: mariadb
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./mariadb/mysql:/var/lib/mysql
+      - ./mariadb/db:/var/lib/mysql
     networks:
       - app-network
   
@@ -85,3 +84,5 @@ networks:
 
 volumes:
     phpsocket:
+    #mariadb:
+      #driver: local  

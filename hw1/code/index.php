@@ -38,10 +38,9 @@ try {
         $_ENV['MYSQL_USER'],
         $_ENV['MYSQL_PASSWORD']
     );
-    foreach ($pdo->query('show tables;') as $row) {
-        print_r($row);
-    }
+    echo "<span style = 'color:green'>Successful connection to MariaDB!</span><br>";
 } catch (PDOException $e) {
-    echo $e->getMessage();
+    $error = $e->getMessage();
+    echo "<span style = 'color:red'>{$error}</span><br>";
 }
 phpinfo();

@@ -1,4 +1,5 @@
 <?php
+
 echo "Привет, Otus!<br>" . date("Y-m-d H:i:s") . "<br><br>";
 echo "Что-то еще Тест Тест TEST <br>";
 $redis = new Redis();
@@ -8,7 +9,7 @@ try {
     $redis->publish(
         'redis',
         json_encode([
-        'test' => 'success'
+            'test' => 'success'
         ])
     );
     $redis->close();
@@ -17,7 +18,6 @@ try {
     $error = $e->getMessage();
     echo "<span style = 'color:red'>{$error}</span><br>";
 }
-
 try {
     $memcached = new Memcached;
     $memcached->addServer("memcached", 11211);
@@ -31,7 +31,6 @@ try {
     $error = $e->getMessage();
     echo "<span style = 'color:red'>{$error}</span><br>";
 }
-
 try {
     $pdo = new PDO(
         'mysql:host='   

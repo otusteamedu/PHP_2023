@@ -31,19 +31,17 @@ try {
     $error = $e->getMessage();
     echo "<span style = 'color:red'>{$error}</span><br>";
 }
-try {
+//try {
     $pdo = new PDO(
-        'mysql:host='
-            . $_ENV['MYSQL_HOST']
-                . ';dbname=' . $_ENV['MYSQL_DATABASE']
-                    . ';port=' . $_ENV['MYSQL_PORT'],
+        'mysql:host=' . $_ENV['MYSQL_HOST']
+            . ';dbname=' . $_ENV['MYSQL_DATABASE'],
         $_ENV['MYSQL_USER'],
         $_ENV['MYSQL_PASSWORD']
     );
     foreach ($pdo->query('show tables;') as $row) {
         print_r($row);
     }
-} catch (PDOException $e) {
-    echo $e->getMessage();
-}
+//} catch (PDOException $e) {
+//    echo $e->getMessage();
+//}
 phpinfo();

@@ -50,8 +50,10 @@ services:
     image: myapp/mariadb
     command: --default-authentication-plugin=mysql_native_password
     container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     volumes:
-      - /var/lib/mysql:/var/lib/mysql
+      - ./mariadb/mysql:/var/lib/mysql
     networks:
       - app-network
   

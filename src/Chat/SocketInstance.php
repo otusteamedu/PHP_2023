@@ -2,21 +2,66 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
-abstract class SocketInstance implements Start
+use Socket;
+
+class SocketInstance
 {
-    protected \Socket $instance;
-    protected array $config;
 
-    public function __construct()
+    private string $socketPath = '/socket/chat.sock';
+
+    private Socket $socket;
+
+    private function __construct(?\Socket $socket = null)
     {
-        $this->instance = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if (is_null($socket)) {
+            $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        }
+        $this->socket = $socket;
     }
 
-    protected function write()
+    public static function create(): self
     {
+        return new self();
     }
 
-    protected function read()
+
+    public function accept(): SocketInstance
     {
+        $socket = socket_accept($this->socket);
+        return new self($socket);
+    }
+
+
+    public function bind(): void
+    {
+        socket_bind($this->socket, $this->socketPath);
+    }
+
+
+    public function connect(): void
+    {
+        socket_connect($this->socket, $this->socketPath);
+    }
+
+
+    public function listen(int $backlog): void
+    {
+        socket_listen($this->socket, $backlog);
+    }
+
+    public function read(): string
+    {
+        return socket_read($this->socket, 4096);
+    }
+
+    public function write(string $message): int
+    {
+        return socket_write($this->socket, $message, strlen($message));
+    }
+
+
+    public function close(): void
+    {
+        socket_close($this->socket);
     }
 }

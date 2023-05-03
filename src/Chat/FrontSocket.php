@@ -2,14 +2,20 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
-class FrontSocket extends SocketInstance
+class FrontSocket  implements Start
 {
 
     public function start(): \Generator
     {
+
+        $instance = SocketInstance::create();
+        $instance->connect();
+
         while (true) {
-            yield __METHOD__ . PHP_EOL;
-            sleep(5);
+            $message = fgets(STDIN);
+            $instance->write($message);
+            $response = $instance->read();
+            yield $response . PHP_EOL;
         }
     }
 }

@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Yakovgulyuta\\Hw7\\": "src/"
+            "Yakovgulyuta\\Hw7\\": ""
         }
     },
     "authors": [

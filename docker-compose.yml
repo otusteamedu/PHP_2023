@@ -6,31 +6,25 @@ networks:
 
 services:
   php_server:
+    image: hw7/server
     build:
       dockerfile: docker/cli/Dockerfile
       context: .
     volumes:
-      - .:/src
-      - ./docker/sock:/sock:rw
-      - ./docker/cli/zz-docker.conf:/socket
+      - ./src:/src
+      - ./docker/cli/sock:/socket:rw
     container_name: php_server
-    command: php index.php server
-#    stdin_open: true
-#    tty: true
     networks:
       - app-network
   php_client:
+    image: hw7/client
     build:
       dockerfile: docker/cli/Dockerfile
       context: .
     volumes:
-      - .:/src
-      - ./docker/sock:/sock:rw
-      - ./docker/cli/zz-docker.conf:/socket
+      - ./src:/src
+      - ./docker/cli/sock:/socket:rw
     container_name: php_client
-    command: php index.php client
-#    stdin_open: true
-#    tty: true
     networks:
       - app-network
 

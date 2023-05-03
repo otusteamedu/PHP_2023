@@ -4,4 +4,4 @@ RUN docker-php-ext-install sockets
 
 WORKDIR /src
 
-CMD ["php", "index.php"]
+CMD ["tail", "-f", "/dev/null"]

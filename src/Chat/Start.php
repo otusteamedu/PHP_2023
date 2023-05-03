@@ -2,6 +2,7 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
+
 interface Start
 {
 

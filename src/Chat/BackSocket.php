@@ -2,14 +2,23 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
-class BackSocket extends SocketInstance
+
+class BackSocket  implements Start
 {
 
     public function start(): \Generator
     {
+
+        $instance = SocketInstance::create();
+
+        $instance->bind();
+        $instance->listen(5);
+
+        $socket = $instance->accept();
         while (true) {
-            yield __METHOD__ . PHP_EOL;
-            sleep(5);
+            $message = $socket->read();
+            yield $message . PHP_EOL;
+            $socket->write( "Received " . strlen($message) . " bytes");
         }
     }
 }

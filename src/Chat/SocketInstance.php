@@ -6,7 +6,6 @@ use Socket;
 
 class SocketInstance
 {
-
     private string $socketPath = '/socket/chat.sock';
 
     private Socket $socket;

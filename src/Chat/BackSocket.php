@@ -4,7 +4,6 @@ namespace Yakovgulyuta\Hw7\Chat;
 
 class BackSocket implements Start
 {
-
     public function start(): \Generator
     {
 

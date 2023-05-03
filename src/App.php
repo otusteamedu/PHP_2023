@@ -9,7 +9,6 @@ use Yakovgulyuta\Hw7\Chat\Start;
 
 class App
 {
-
     /**
      * @var Start[] $runners
      */

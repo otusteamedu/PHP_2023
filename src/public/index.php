@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__. "/../vendor/autoload.php";
+require_once __DIR__ . "/../vendor/autoload.php";
 
 $dotenv = Dotenv\Dotenv::createImmutable('/var/www/html');
 $dotenv->load();
@@ -43,5 +43,5 @@ try {
     $redis->connect($_ENV['REDIS_HOST'], $_ENV['REDIS_PORT']);
     echo "Redis connect successfully <br />";
 } catch (RedisException $e) {
-    echo "Redis connection failed: " . $e->getMessage()."<br />";
+    echo "Redis connection failed: " . $e->getMessage() . "<br />";
 }

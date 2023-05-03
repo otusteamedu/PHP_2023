@@ -1,0 +1,6 @@
+docker-conf/db-data
+.env
+vendor
+composer.json
+composer.lock
+.idea

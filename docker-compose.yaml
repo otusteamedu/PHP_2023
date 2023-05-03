@@ -3,7 +3,7 @@ version: '3'
 services:
   nginx:
     build:
-      context: ./docker-data/nginx
+      context: ./docker-conf/nginx
       dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver
@@ -16,7 +16,7 @@ services:
 
   app:
     build:
-      context: ./docker-data/fpm
+      context: ./docker-conf/fpm
       dockerfile: Dockerfile
     image: myapp/php
     container_name: app
@@ -38,7 +38,7 @@ services:
   db:
     image: postgres:latest
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}

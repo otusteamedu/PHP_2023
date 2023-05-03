@@ -1,0 +1,30 @@
+version: '3.8'
+
+networks:
+  app-network:
+    driver: bridge
+
+services:
+  php_server:
+    image: hw7/server
+    build:
+      dockerfile: docker/cli/Dockerfile
+      context: .
+    volumes:
+      - ./src:/src
+      - ./docker/cli/sock:/socket:rw
+    container_name: php_server
+    networks:
+      - app-network
+  php_client:
+    image: hw7/client
+    build:
+      dockerfile: docker/cli/Dockerfile
+      context: .
+    volumes:
+      - ./src:/src
+      - ./docker/cli/sock:/socket:rw
+    container_name: php_client
+    networks:
+      - app-network
+

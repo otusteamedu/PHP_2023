@@ -1,3 +1,13 @@
-# PHP_2023
+## Поднимаем контейнеры
+```
+docker-compose up -d
+```
+## Запуск сервера
+```
+docker exec -it php_server php index.php server
+```
+## Запуск Клиента
+```
+docker exec -it php_client php index.php client
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus

@@ -2,7 +2,7 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
-class FrontSocket  implements Start
+class FrontSocket implements Start
 {
 
     public function start(): \Generator

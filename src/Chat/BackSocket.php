@@ -2,8 +2,7 @@
 
 namespace Yakovgulyuta\Hw7\Chat;
 
-
-class BackSocket  implements Start
+class BackSocket implements Start
 {
 
     public function start(): \Generator
@@ -18,7 +17,7 @@ class BackSocket  implements Start
         while (true) {
             $message = $socket->read();
             yield $message . PHP_EOL;
-            $socket->write( "Received " . strlen($message) . " bytes");
+            $socket->write("Received " . strlen($message) . " bytes");
         }
     }
 }

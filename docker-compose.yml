@@ -1,0 +1,62 @@
+version: '3.9'
+
+services:
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  php:
+    container_name: php
+    build:
+      context: ./_docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+      - ./_docker/php/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+      - app-network
+
+  mysql:
+    container_name: mysql
+    image: mysql:8.0
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ./data/db/mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

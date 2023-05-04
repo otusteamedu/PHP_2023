@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "8000:8000"
+    volumes:
+       - ./code:/data/mysite.local
+       - "phpsocket:/var/run"
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php 
+    container_name: app 
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+       - ./code:/data/mysite.local
+       - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+       - "phpsocket:/var/run"
+    networks:
+      - app-network
+  
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    image: myapp/mariadb
+    container_name: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./mariadb/db:/var/lib/mysql
+    networks:
+      - app-network
+  
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: myapp/redis
+    command: ["sh", "-c", "exec redis-server --requirepass \"${REDIS_PASSWORD}\""]
+    container_name: redis
+    networks:
+      - app-network
+
+  memcached:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: myapp/memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+    phpsocket:

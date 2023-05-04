@@ -47,12 +47,12 @@ services:
     ports:
       - 3306:3306
     environment:
-      MYSQL_DATABASE: otus
-      MYSQL_USER: otus
-      MYSQL_PASSWORD: test
-      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - ./db:/var/lib/mysql
+      - otus_db:/var/lib/mysql
 
   #контейнер с Memcached
   memcached:
@@ -73,3 +73,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  otus_db:
+    external: true

@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+      - php-fpm-socket:/sockets/php-fpm
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: docker/php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    volumes:
+      - ./src:/var/www/html
+      - php-fpm-socket:/sockets/php-fpm
+    networks:
+      - app-network
+
+  mysql:
+    build:
+      context: docker/mysql
+    image: library/mysql:8.0.33
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./docker/mysql/data/:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+
+  redis:
+    image: library/redis:7.0-alpine
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  php-fpm-socket:

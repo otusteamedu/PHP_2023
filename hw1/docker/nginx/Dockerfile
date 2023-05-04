@@ -1,0 +1,9 @@
+FROM nginx:latest
+
+COPY application.local.conf /etc/nginx/conf.d/application.local.conf
+
+VOLUME /sockets/php-fpm
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]

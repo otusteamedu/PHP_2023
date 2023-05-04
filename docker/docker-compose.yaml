@@ -1,0 +1,91 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+#контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: ${CONTAINER_NAME}_nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+#Контейнер с php и приложением
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: ${CONTAINER_NAME}_app
+    environment:
+      COMPOSER_ALLOW_SUPERUSER: 1
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+#Контейнер с mysql
+  mysql:
+    image: mysql:latest
+    container_name: ${CONTAINER_NAME}_mysql # имя контейнера после запуска
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      - ./mysql/data/lib/:/var/lib/mysql
+      - ./mysql/data/log/:/var/log/mysql
+    networks:
+      - app-network
+#Контейнер с postgres
+  postgres:
+    image: postgres:alpine
+    container_name: ${CONTAINER_NAME}_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    networks:
+      - app-network
+#Контейнер с redis
+  redis:
+    image: redis:alpine
+    container_name: ${CONTAINER_NAME}_redis
+    networks:
+      - app-network
+#Контейнер с memcached
+  memcached:
+    image: memcached:alpine
+    container_name: ${CONTAINER_NAME}_memcached
+    networks:
+      - app-network
+#Контейнер с adminer
+  adminer:
+    image: adminer
+    container_name: ${CONTAINER_NAME}_adminer # имя контейнера после запуска
+    environment:
+      ADMINER_DEFAULT_DB_DRIVER: mysql
+      ADMINER_DEFAULT_DB_HOST: mysql
+      ADMINER_DEFAULT_DB_NAME: ${DB_NAME}
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: tables-filter tinymce
+    ports:
+      - "8008:8080"
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

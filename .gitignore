@@ -1,3 +1,4 @@
 .vscode
-hw1/.env
-hw1/mariadb/db/.env
+hw1/
+hw1/mariadb/db/
+.env

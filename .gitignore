@@ -1,0 +1,4 @@
+.env
+/docker/mysql/data/
+/docker/postgres/data/
+/docker/code/vendor/

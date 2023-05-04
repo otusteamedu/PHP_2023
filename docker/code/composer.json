@@ -1,0 +1,21 @@
+{
+  "name": "vendor_name/code",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+	{
+	  "name": "00dim",
+	  "email": "email@example.com"
+	}
+  ],
+  "require": {
+	"php": "^8.2",
+	"slim/slim": "^4"
+  },
+  "autoload": {
+	"psr-4": {
+	  "APP\\": "APP/"
+	}
+  }
+}

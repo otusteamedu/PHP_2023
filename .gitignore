@@ -1,0 +1,4 @@
+.vscode
+hw1/
+hw1/mariadb/db/
+.env

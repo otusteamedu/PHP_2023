@@ -1,0 +1,13 @@
+id user city phone
+1 test Moscow 478965
+2 test2 Saint-P 789541
+3 test3 Tver 789621
+4 test4 Milan 478965
+5 test5 Moscow 982348
+6 test6 Milan 452148
+7 test7 Saint-P 458794
+8 test8 Milan 487569
+9 test9 Saint-P 452147
+10 test10 Saint-P 741236
+11 test11 Samara 412365
+

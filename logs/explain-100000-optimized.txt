@@ -5,31 +5,27 @@
    WHERE s.datetime >= date_trunc('day', now() at time zone 'Europe/Moscow')
        AND s.datetime <= now();
 
-Nested Loop  (cost=14.55..4231.25 rows=581 width=26)
-  ->  Bitmap Heap Scan on schedules s  (cost=14.26..755.14 rows=581 width=8)
-"        Recheck Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
-        ->  Bitmap Index Scan on schedules_datetime_index  (cost=0.00..14.11 rows=581 width=0)
-"              Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
-  ->  Index Scan using movies_pkey on movies m  (cost=0.29..5.98 rows=1 width=34)
+Nested Loop  (cost=0.59..16.63 rows=1 width=26)
+  ->  Index Scan using schedules_datetime_index on schedules s  (cost=0.30..8.32 rows=1 width=8)
+"        Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+  ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.31 rows=1 width=34)
         Index Cond: (id = s.movie_id)
 
 // ===============================
 
-2. ANALYSE tickets;
-   EXPLAIN SELECT count(created_at)
-   FROM tickets
-   WHERE created_at >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-     AND created_at <= now();
+2. ANALYSE film_box_office;
+   EXPLAIN SELECT sum(tickets_count)
+   FROM film_box_office
+   WHERE day >= '2023-04-20' AND day <= '2023-04-27';
 
-Finalize Aggregate  (cost=186931.80..186931.81 rows=1 width=8)
-  ->  Gather  (cost=186931.58..186931.79 rows=2 width=8)
+Finalize Aggregate  (cost=60353.27..60353.28 rows=1 width=8)
+  ->  Gather  (cost=60353.05..60353.26 rows=2 width=8)
         Workers Planned: 2
-        ->  Partial Aggregate  (cost=185931.58..185931.59 rows=1 width=8)
-              ->  Parallel Index Only Scan using tickets_created_at_index on tickets  (cost=0.45..175514.93 rows=4166661 width=8)
-"                    Index Cond: ((created_at >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))) AND (created_at <= now()))"
-JIT:
-  Functions: 5
-"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+        ->  Partial Aggregate  (cost=59353.05..59353.06 rows=1 width=8)
+              ->  Parallel Bitmap Heap Scan on film_box_office  (cost=6075.19..58889.36 rows=185478 width=4)
+                    Recheck Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
+                    ->  Bitmap Index Scan on film_box_office_day_index  (cost=0.00..5963.90 rows=445147 width=0)
+                          Index Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
 
 // ===============================
 
@@ -43,58 +39,49 @@ JIT:
      AND s.datetime <= now()
    GROUP BY movies.id;
 
-GroupAggregate  (cost=4469.04..4480.66 rows=581 width=374)
+GroupAggregate  (cost=17.15..17.17 rows=1 width=374)
   Group Key: movies.id
-  ->  Sort  (cost=4469.04..4470.49 rows=581 width=374)
+  ->  Sort  (cost=17.15..17.15 rows=1 width=374)
         Sort Key: movies.id
-        ->  Nested Loop Left Join  (cost=15.01..4442.36 rows=581 width=374)
-              ->  Nested Loop Left Join  (cost=14.84..4426.14 rows=581 width=350)
-                    ->  Nested Loop  (cost=14.55..4231.25 rows=581 width=342)
-                          ->  Bitmap Heap Scan on schedules s  (cost=14.26..755.14 rows=581 width=8)
-"                                Recheck Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
-                                ->  Bitmap Index Scan on schedules_datetime_index  (cost=0.00..14.11 rows=581 width=0)
-"                                      Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
-                          ->  Index Scan using movies_pkey on movies  (cost=0.29..5.98 rows=1 width=342)
+        ->  Nested Loop Left Join  (cost=1.04..17.14 rows=1 width=374)
+              ->  Nested Loop Left Join  (cost=0.89..16.97 rows=1 width=350)
+                    ->  Nested Loop  (cost=0.59..16.63 rows=1 width=342)
+                          ->  Index Scan using schedules_datetime_index on schedules s  (cost=0.30..8.32 rows=1 width=8)
+"                                Index Cond: ((datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))) AND (datetime <= now()))"
+                          ->  Index Scan using movies_pkey on movies  (cost=0.29..8.31 rows=1 width=342)
                                 Index Cond: (id = s.movie_id)
                     ->  Index Only Scan using movie_genres_pkey on movie_genres mg  (cost=0.29..0.33 rows=1 width=16)
                           Index Cond: (movie_id = movies.id)
-              ->  Memoize  (cost=0.16..0.18 rows=1 width=40)
-                    Cache Key: mg.genre_id
-                    Cache Mode: logical
-                    ->  Index Scan using genres_pkey on genres g  (cost=0.15..0.17 rows=1 width=40)
-                          Index Cond: (id = mg.genre_id)
+              ->  Index Scan using genres_pkey on genres g  (cost=0.15..0.17 rows=1 width=40)
+                    Index Cond: (id = mg.genre_id)
 
 // ===============================
 
-4. ANALYSE tickets;
-   EXPLAIN SELECT m.id, m.name, sum(amount) as amount
-   FROM tickets
-   INNER JOIN movies m on m.id = tickets.movie_id
-   WHERE datetime >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-     AND datetime <= now()
-   GROUP BY m.id, m.name
+4. ANALYSE film_box_office;
+   EXPLAIN SELECT movie_id, m.name, sum(amount) as amount
+   FROM film_box_office fbo
+   INNER JOIN movies m on m.id = fbo.movie_id
+   WHERE day >= '2023-04-20' AND day <= '2023-04-27'
+   GROUP BY movie_id, m.name
    ORDER BY amount DESC
    LIMIT 3;
 
-Limit  (cost=277411.00..277411.00 rows=3 width=66)
-  ->  Sort  (cost=277411.00..277661.00 rows=100000 width=66)
-        Sort Key: (sum(tickets.amount)) DESC
-        ->  Finalize GroupAggregate  (cost=247018.68..276118.52 rows=100000 width=66)
-              Group Key: m.id
-              ->  Gather Merge  (cost=247018.68..273368.52 rows=200000 width=66)
-                    Workers Planned: 2
-                    ->  Partial GroupAggregate  (cost=246018.65..249283.53 rows=100000 width=66)
-                          Group Key: m.id
-                          ->  Sort  (cost=246018.65..246690.28 rows=268650 width=39)
-                                Sort Key: m.id
-                                ->  Parallel Hash Join  (cost=5699.50..214446.15 rows=268650 width=39)
-                                      Hash Cond: (tickets.movie_id = m.id)
-                                      ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=268650 width=13)
-"                                            Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
-                                      ->  Parallel Hash  (cost=5178.67..5178.67 rows=41667 width=34)
-                                            ->  Parallel Seq Scan on movies m  (cost=0.00..5178.67 rows=41667 width=34)
+Limit  (cost=137242.48..137242.49 rows=3 width=66)
+  ->  Sort  (cost=137242.48..138384.81 rows=456933 width=66)
+        Sort Key: (sum(fbo.amount)) DESC
+        ->  HashAggregate  (cost=118485.47..131336.71 rows=456933 width=66)
+"              Group Key: fbo.movie_id, m.name"
+              Planned Partitions: 64
+              ->  Hash Join  (cost=14030.00..77361.50 rows=456933 width=39)
+                    Hash Cond: (fbo.movie_id = m.id)
+                    ->  Bitmap Heap Scan on film_box_office fbo  (cost=6236.00..63121.99 rows=456933 width=13)
+                          Recheck Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
+                          ->  Bitmap Index Scan on film_box_office_day_index  (cost=0.00..6121.76 rows=456933 width=0)
+                                Index Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
+                    ->  Hash  (cost=5762.00..5762.00 rows=100000 width=34)
+                          ->  Seq Scan on movies m  (cost=0.00..5762.00 rows=100000 width=34)
 JIT:
-  Functions: 22
+  Functions: 15
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 
 // ===============================
@@ -106,18 +93,18 @@ JIT:
    LEFT JOIN tickets t on places.id = t.place_id and s.movie_id = t.movie_id
    WHERE s.id = 9;
 
-Nested Loop Left Join  (cost=0.88..232563.51 rows=200 width=33)
-  Join Filter: (s.movie_id = t.movie_id)
+Nested Loop Left Join  (cost=0.89..1613.24 rows=200 width=33)
+  Join Filter: (places.id = t.place_id)
   ->  Nested Loop  (cost=0.44..22.96 rows=200 width=40)
         ->  Index Scan using schedules_pkey on schedules s  (cost=0.29..8.31 rows=1 width=16)
               Index Cond: (id = 9)
         ->  Index Scan using places_cinema_hall_id_index on places  (cost=0.15..12.65 rows=200 width=32)
               Index Cond: (cinema_hall_id = s.cinema_hall_id)
-  ->  Index Scan using tickets_place_id_index on tickets t  (cost=0.43..954.37 rows=16667 width=24)
-        Index Cond: (place_id = places.id)
-JIT:
-  Functions: 13
-"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+  ->  Memoize  (cost=0.45..433.79 rows=241 width=24)
+        Cache Key: s.movie_id
+        Cache Mode: logical
+        ->  Index Scan using tickets_movie_id_and_place_id_index on tickets t  (cost=0.43..433.78 rows=241 width=24)
+              Index Cond: (movie_id = s.movie_id)
 
 // ===============================
 
@@ -126,6 +113,6 @@ JIT:
    FROM schedule_prices sp
    WHERE sp.schedule_id = 9;
 
-Aggregate  (cost=11.90..11.91 rows=1 width=64)
-  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.89 rows=2 width=5)
+Aggregate  (cost=11.91..11.92 rows=1 width=64)
+  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.90 rows=2 width=5)
         Index Cond: (schedule_id = 9)

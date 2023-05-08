@@ -35,7 +35,7 @@ begin
            p.id,
            random_date('2023-01-01 00:00:00', '2023-05-01 00:00:00'),
            CASE WHEN p.place_type_id = 1 THEN 350 ELSE 500 END,
-           now()
+           random_date('2023-01-01 00:00:00', '2023-05-01 00:00:00')
     FROM places p
     INNER JOIN schedules s on p.cinema_hall_id = s.cinema_hall_id
     WHERE s.movie_id = movieId

@@ -55,7 +55,7 @@ ANALYSE places;
 EXPLAIN SELECT places.*, case when t.id IS NOT NULL then true else false end as booked
 FROM places
 INNER JOIN schedules s on places.cinema_hall_id = s.cinema_hall_id
-LEFT JOIN tickets t on places.id = t.place_id and s.movie_id = t.movie_id
+LEFT JOIN tickets t on s.movie_id = t.movie_id and places.id = t.place_id
 WHERE s.id = 9;
 
 /*

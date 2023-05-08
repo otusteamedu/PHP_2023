@@ -5,10 +5,10 @@
    WHERE s.datetime >= date_trunc('day', now() at time zone 'Europe/Moscow')
        AND s.datetime <= now();
 
-Nested Loop  (cost=0.29..6651.15 rows=565 width=26)
-  ->  Seq Scan on schedules s  (cost=0.00..3236.00 rows=565 width=8)
+Nested Loop  (cost=0.29..3244.31 rows=1 width=26)
+  ->  Seq Scan on schedules s  (cost=0.00..3236.00 rows=1 width=8)
 "        Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))))"
-  ->  Index Scan using movies_pkey on movies m  (cost=0.29..6.04 rows=1 width=34)
+  ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.31 rows=1 width=34)
         Index Cond: (id = s.movie_id)
 
 // ===============================
@@ -19,14 +19,13 @@ Nested Loop  (cost=0.29..6651.15 rows=565 width=26)
    WHERE created_at >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
      AND created_at <= now();
 
-Finalize Aggregate  (cost=219458.29..219458.30 rows=1 width=8)
-  ->  Gather  (cost=219458.07..219458.28 rows=2 width=8)
+Aggregate  (cost=209041.29..209041.30 rows=1 width=8)
+  ->  Gather  (cost=1000.00..209041.28 rows=1 width=8)
         Workers Planned: 2
-        ->  Partial Aggregate  (cost=218458.07..218458.08 rows=1 width=8)
-              ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=4166669 width=8)
-"                    Filter: ((created_at <= now()) AND (created_at >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
+        ->  Parallel Seq Scan on tickets  (cost=0.00..208041.18 rows=1 width=8)
+"              Filter: ((created_at <= now()) AND (created_at >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
 JIT:
-  Functions: 7
+  Functions: 6
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 
 // ===============================
@@ -41,24 +40,21 @@ JIT:
      AND s.datetime <= now()
    GROUP BY movies.id;
 
-GroupAggregate  (cost=6882.32..6893.62 rows=565 width=374)
+GroupAggregate  (cost=3244.83..3244.85 rows=1 width=374)
   Group Key: movies.id
-  ->  Sort  (cost=6882.32..6883.73 rows=565 width=374)
+  ->  Sort  (cost=3244.83..3244.83 rows=1 width=374)
         Sort Key: movies.id
-        ->  Nested Loop Left Join  (cost=0.75..6856.50 rows=565 width=374)
-              ->  Nested Loop Left Join  (cost=0.58..6840.67 rows=565 width=350)
-                    ->  Nested Loop  (cost=0.29..6651.15 rows=565 width=342)
-                          ->  Seq Scan on schedules s  (cost=0.00..3236.00 rows=565 width=8)
+        ->  Nested Loop Left Join  (cost=0.74..3244.82 rows=1 width=374)
+              ->  Nested Loop Left Join  (cost=0.58..3244.65 rows=1 width=350)
+                    ->  Nested Loop  (cost=0.29..3244.31 rows=1 width=342)
+                          ->  Seq Scan on schedules s  (cost=0.00..3236.00 rows=1 width=8)
 "                                Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, (now() AT TIME ZONE 'Europe/Moscow'::text))))"
-                          ->  Index Scan using movies_pkey on movies  (cost=0.29..6.04 rows=1 width=342)
+                          ->  Index Scan using movies_pkey on movies  (cost=0.29..8.31 rows=1 width=342)
                                 Index Cond: (id = s.movie_id)
                     ->  Index Only Scan using movie_genres_pkey on movie_genres mg  (cost=0.29..0.33 rows=1 width=16)
                           Index Cond: (movie_id = movies.id)
-              ->  Memoize  (cost=0.16..0.18 rows=1 width=40)
-                    Cache Key: mg.genre_id
-                    Cache Mode: logical
-                    ->  Index Scan using genres_pkey on genres g  (cost=0.15..0.17 rows=1 width=40)
-                          Index Cond: (id = mg.genre_id)
+              ->  Index Scan using genres_pkey on genres g  (cost=0.15..0.17 rows=1 width=40)
+                    Index Cond: (id = mg.genre_id)
 
 // ===============================
 
@@ -72,25 +68,22 @@ GroupAggregate  (cost=6882.32..6893.62 rows=565 width=374)
    ORDER BY amount DESC
    LIMIT 3;
 
-Limit  (cost=277119.76..277119.76 rows=3 width=66)
-  ->  Sort  (cost=277119.76..277369.76 rows=100000 width=66)
+Limit  (cost=209049.85..209049.86 rows=1 width=66)
+  ->  Sort  (cost=209049.85..209049.86 rows=1 width=66)
         Sort Key: (sum(tickets.amount)) DESC
-        ->  Finalize GroupAggregate  (cost=246743.61..275827.28 rows=100000 width=66)
+        ->  GroupAggregate  (cost=209049.82..209049.84 rows=1 width=66)
               Group Key: m.id
-              ->  Gather Merge  (cost=246743.61..273077.28 rows=200000 width=66)
-                    Workers Planned: 2
-                    ->  Partial GroupAggregate  (cost=245743.58..248992.29 rows=100000 width=66)
-                          Group Key: m.id
-                          ->  Sort  (cost=245743.58..246409.82 rows=266494 width=39)
-                                Sort Key: m.id
-                                ->  Parallel Hash Join  (cost=5699.50..214440.49 rows=266494 width=39)
-                                      Hash Cond: (tickets.movie_id = m.id)
-                                      ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=266494 width=13)
-"                                            Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
-                                      ->  Parallel Hash  (cost=5178.67..5178.67 rows=41667 width=34)
-                                            ->  Parallel Seq Scan on movies m  (cost=0.00..5178.67 rows=41667 width=34)
+              ->  Sort  (cost=209049.82..209049.83 rows=1 width=39)
+                    Sort Key: m.id
+                    ->  Nested Loop  (cost=1000.29..209049.81 rows=1 width=39)
+                          ->  Gather  (cost=1000.00..209041.50 rows=1 width=13)
+                                Workers Planned: 2
+                                ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=1 width=13)
+"                                      Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
+                          ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.31 rows=1 width=34)
+                                Index Cond: (id = tickets.movie_id)
 JIT:
-  Functions: 22
+  Functions: 14
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 
 // ===============================
@@ -103,7 +96,7 @@ JIT:
    WHERE s.id = 9;
 
 Hash Right Join  (cost=26.12..268484.56 rows=200 width=33)
-  Hash Cond: ((t.place_id = places.id) AND (t.movie_id = s.movie_id))
+  Hash Cond: ((t.movie_id = s.movie_id) AND (t.place_id = places.id))
   ->  Seq Scan on tickets t  (cost=0.00..193458.06 rows=10000006 width=24)
   ->  Hash  (cost=23.12..23.12 rows=200 width=40)
         ->  Hash Join  (cost=8.32..23.12 rows=200 width=40)
@@ -123,6 +116,6 @@ JIT:
    FROM schedule_prices sp
    WHERE sp.schedule_id = 9;
 
-Aggregate  (cost=11.90..11.91 rows=1 width=64)
-  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.89 rows=2 width=5)
+Aggregate  (cost=11.88..11.89 rows=1 width=64)
+  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.87 rows=2 width=5)
         Index Cond: (schedule_id = 9)

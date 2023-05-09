@@ -19,7 +19,10 @@ class CommandTree implements CommandInterface
     public function run(): void
     {
         $result = $this->treeData->work();
-        print_r($result->getResult());
-//        fwrite(STDOUT, $result . PHP_EOL);
+        $tree = $result->getResult();
+
+        foreach ($tree as $item) {
+            fwrite(STDOUT, $item . PHP_EOL);
+        }
     }
 }

@@ -2,18 +2,21 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Domain\Model;
+namespace Vp\App\Application\Iterator;
 
-class NodeList implements \Iterator
+use Vp\App\Domain\Model\Contract\TreeLandPlotInterface;
+
+class ChildList implements \Iterator
 {
 
     private array $nodes = [];
     private int $currentIndex = 0;
 
-    public function addNode(Node $node): void
+    public function addNode(TreeLandPlotInterface $node): void
     {
         array_unshift($this->nodes, $node);
     }
+
     public function current(): mixed
     {
         return $this->nodes[$this->currentIndex];

@@ -18,7 +18,6 @@ use Vp\App\Infrastructure\Console\Contract\CommandProcessorInterface;
 use Vp\App\Infrastructure\DataBase\Contract\DatabaseInterface;
 use Vp\App\Infrastructure\DataBase\Database;
 
-
 return [
     AppInterface::class => DI\create(App::class)
         ->constructor(DI\get(CommandProcessorInterface::class)),

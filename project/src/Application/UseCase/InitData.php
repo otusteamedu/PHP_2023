@@ -131,7 +131,7 @@ class InitData implements InitDataInterface
     private function fillLandPlotTableForTree(): void
     {
         $level = [];
-        $level[1][0] = $this->sqlLandPlotTableForTreeInsert(NULL, "Участок 1");
+        $level[1][0] = $this->sqlLandPlotTableForTreeInsert(null, "Участок 1");
         $level[2][0] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 1.1");
         $level[2][1] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 1.2");
         $level[2][2] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 1.3");
@@ -144,7 +144,7 @@ class InitData implements InitDataInterface
         $level[3][5] = $this->sqlLandPlotTableForTreeInsert($level[2][3], "Участок 1.4.2");
 
         $level = [];
-        $level[1][0] = $this->sqlLandPlotTableForTreeInsert(NULL, "Участок 2");
+        $level[1][0] = $this->sqlLandPlotTableForTreeInsert(null, "Участок 2");
         $level[2][0] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 2.1");
         $level[2][1] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 2.2");
         $level[2][2] = $this->sqlLandPlotTableForTreeInsert($level[1][0], "Участок 2.3");
@@ -156,8 +156,8 @@ class InitData implements InitDataInterface
         $level[3][4] = $this->sqlLandPlotTableForTreeInsert($level[2][3], "Участок 2.4.1");
         $level[3][5] = $this->sqlLandPlotTableForTreeInsert($level[2][3], "Участок 2.4.2");
 
-        $this->sqlLandPlotTableForTreeInsert(NULL, "Участок 3");
-        $this->sqlLandPlotTableForTreeInsert(NULL, "Участок 4");
+        $this->sqlLandPlotTableForTreeInsert(null, "Участок 3");
+        $this->sqlLandPlotTableForTreeInsert(null, "Участок 4");
     }
 
     private function sqlLandPlotTableForTreeInsert(?string $parentId, string $name): bool|string
@@ -167,7 +167,7 @@ class InitData implements InitDataInterface
         $sql = 'INSERT INTO tree_land_plots (name, parent_id, type) VALUES(:name, :parent_id, :type)';
         $stmt = $this->conn->prepare($sql);
         $stmt->bindValue(':name', $name);
-        $stmt->bindValue(':parent_id', ($parentId === NULL) ? NULL : (int)$parentId);
+        $stmt->bindValue(':parent_id', ($parentId === null) ? null : (int)$parentId);
         $stmt->bindValue(':type', $types[$randKey]);
         $stmt->execute();
         return $this->conn->lastInsertId();

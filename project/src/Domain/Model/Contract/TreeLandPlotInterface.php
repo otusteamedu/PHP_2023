@@ -13,6 +13,4 @@ interface TreeLandPlotInterface
     public function getName(): string;
 
     public function getParentId(): ?int;
-
-
 }

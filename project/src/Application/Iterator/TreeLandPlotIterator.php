@@ -25,7 +25,7 @@ class TreeLandPlotIterator implements \Iterator
             $startVertex = array_shift($stack);
 
             if (!in_array($startVertex, $visited, true)) {
-                $result[] = $this->getItem($startVertex);;
+                $result[] = $this->getItem($startVertex);
                 $visited[] = $startVertex;
             }
 

@@ -7,7 +7,6 @@ namespace Vp\App\Infrastructure\Console;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
-
 use Vp\App\Infrastructure\Console\Contract\CommandInterface;
 use Vp\App\Infrastructure\Console\Contract\CommandProcessorInterface;
 use DI\Container;
@@ -38,11 +37,11 @@ class CommandProcessor implements CommandProcessorInterface
         try {
             $commandObj = $container->get($command);
         } catch (DependencyException | NotFoundException $e) {
-            throw new CommandNotFound("Command '" . $command ."' does not exist.");
+            throw new CommandNotFound("Command '" . $command . "' does not exist.");
         }
 
         if (!$commandObj instanceof CommandInterface) {
-            throw new CommandNotObject("Command '" . $command ."' is not an object.");
+            throw new CommandNotObject("Command '" . $command . "' is not an object.");
         }
 
         $commandObj->run();

@@ -25,9 +25,7 @@ class TreeLandPlotIterator implements \Iterator
             $startVertex = array_shift($stack);
 
             if (!in_array($startVertex, $visited, true)) {
-                $item['name'] = $startVertex->getName();
-                $item['level'] = $startVertex->getLevel();
-                $result[] = $item;
+                $result[] = $this->getItem($startVertex);;
                 $visited[] = $startVertex;
             }
 
@@ -66,5 +64,12 @@ class TreeLandPlotIterator implements \Iterator
     public function rewind(): void
     {
         $this->currentIndex = 0;
+    }
+
+    private function getItem(TreeLandPlotInterface $startVertex): array
+    {
+        $item['name'] = $startVertex->getName();
+        $item['level'] = $startVertex->getLevel();
+        return $item;
     }
 }

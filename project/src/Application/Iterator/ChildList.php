@@ -8,7 +8,6 @@ use Vp\App\Domain\Model\Contract\TreeLandPlotInterface;
 
 class ChildList implements \Iterator
 {
-
     private array $nodes = [];
     private int $currentIndex = 0;
 

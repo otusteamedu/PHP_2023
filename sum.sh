@@ -10,4 +10,4 @@ then
       exit 1
 fi
 
-echo "$x + $y" | bc -l
+echo "$y $x" | awk '{ printf "%.2f", $1 + $2 }'

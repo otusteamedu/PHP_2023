@@ -22,8 +22,8 @@ class TreeData implements TreeDataInterface
     public function __construct(
         DatabaseInterface $database,
         LandPlotFactoryBuilderInterface $landPlotFactoryBuilder,
-        TreeLandPlotBuilderInterface $treeLandPlotBuilder)
-    {
+        TreeLandPlotBuilderInterface $treeLandPlotBuilder
+    ) {
         $this->conn = $database->getConnection();
         $this->landPlotFactoryBuilder = $landPlotFactoryBuilder;
         $this->treeLandPlotBuilder = $treeLandPlotBuilder;

@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+
+  postgres:
+    image: postgres
+    container_name: otus-postgres
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+    networks:
+      - otus-network
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus-php
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      XDEBUG_SESSION: 1
+    volumes:
+      - ./project:/data/application
+      - ./.env:/data/application/.env
+      - ./php/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge

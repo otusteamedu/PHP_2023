@@ -22,7 +22,7 @@ class CommandTree implements CommandInterface
         $tree = $result->getResult();
 
         foreach ($tree as $item) {
-            fwrite(STDOUT, $item . PHP_EOL);
+            fwrite(STDOUT, str_repeat('-', $item['level']) . $item['name'] . PHP_EOL);
         }
     }
 }

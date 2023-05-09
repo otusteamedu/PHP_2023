@@ -25,11 +25,15 @@ class TreeLandPlotIterator implements \Iterator
             $startVertex = array_shift($stack);
 
             if (!in_array($startVertex, $visited, true)) {
-                $result[] = $startVertex->getName();
+                $item['name'] = $startVertex->getName();
+                $item['level'] = $startVertex->getLevel();
+                $result[] = $item;
                 $visited[] = $startVertex;
             }
 
             foreach ($startVertex->children as $child) {
+                $currentLevel = $startVertex->getLevel();
+                $child->setLevel(++$currentLevel);
                 if (!in_array($child, $visited, true)) {
                     array_unshift($stack, $child);
                 }

@@ -12,7 +12,7 @@ abstract class TreeLandPlotAbstract implements TreeLandPlotInterface
     private string $name;
     private int $id;
     private ?int $parentId;
-    private int $level = 1;
+    private int $level = 0;
     public ChildList $children;
 
     public function __construct(string $name, int $id = 0, int $parentId = null)
@@ -23,16 +23,10 @@ abstract class TreeLandPlotAbstract implements TreeLandPlotInterface
         $this->children = new ChildList();
     }
 
-    public function setLevel(int $level): static
+    public function setLevel(int $level): void
     {
         $this->level = $level;
-        return $this;
     }
-
-//    public function setChildren(NodeList $children): void
-//    {
-//        $this->children = $children;
-//    }
 
     public function getId(): int
     {

@@ -1,8 +1,12 @@
 <?php
 
+namespace app;
+
+use Exception;
+
 class EmptyBracketSequenceException extends Exception
 {
-    function __construct()
+    public function __construct()
     {
         $this->message = "Пустая скобочная последовательность";
     }

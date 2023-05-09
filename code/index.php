@@ -3,6 +3,9 @@
 require_once "BracketChecker.php";
 require_once "EmptyBracketSequenceException.php";
 
+use app\BracketChecker;
+use app\EmptyBracketSequenceException;
+
 $string = $_REQUEST['string'] ?? null;
 $bracketChecker = new BracketChecker();
 

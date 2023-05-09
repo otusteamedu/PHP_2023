@@ -3,10 +3,14 @@
 declare(strict_types=1);
 
 use Vp\App\Application\App;
+use Vp\App\Application\Builder\Contract\TreeLandPlotBuilderInterface;
+use Vp\App\Application\Builder\TreeLandPlotBuilder;
 use Vp\App\Application\Contract\AppInterface;
 use Vp\App\Application\Contract\HelpDataInterface;
 use Vp\App\Application\Contract\InitDataInterface;
 use Vp\App\Application\Contract\TreeDataInterface;
+use Vp\App\Application\FactoryBuilder\Contract\LandPlotFactoryBuilderInterface;
+use Vp\App\Application\FactoryBuilder\LandPlotFactoryBuilder;
 use Vp\App\Application\UseCase\HelpData;
 use Vp\App\Application\UseCase\InitData;
 use Vp\App\Application\UseCase\TreeData;
@@ -26,6 +30,9 @@ return [
     DatabaseInterface::class => DI\create(Database::class)
         ->constructor($_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $_ENV['DB_PORT'], $_ENV['DB_NAME']),
 
+    LandPlotFactoryBuilderInterface::class => DI\create(LandPlotFactoryBuilder::class),
+    TreeLandPlotBuilderInterface::class => DI\create(TreeLandPlotBuilder::class),
+
     'help' => DI\create(CommandHelp::class)
         ->constructor(DI\get(HelpDataInterface::class)),
     'init' => DI\create(CommandInit::class)
@@ -37,5 +44,9 @@ return [
     InitDataInterface::class => DI\create(InitData::class)
         ->constructor(DI\get(DatabaseInterface::class)),
     TreeDataInterface::class => DI\create(TreeData::class)
-        ->constructor(DI\get(DatabaseInterface::class)),
+        ->constructor(
+            DI\get(DatabaseInterface::class),
+            DI\get(LandPlotFactoryBuilderInterface::class),
+            DI\get(TreeLandPlotBuilderInterface::class)
+        ),
 ];

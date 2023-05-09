@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Vp\App\Application\UseCase;
 
 use PDO;
-use Vp\App\Application\Builder\TreeLandPlotBuilder;
+use Vp\App\Application\Builder\Contract\TreeLandPlotBuilderInterface;
 use Vp\App\Application\Contract\TreeDataInterface;
 use Vp\App\Application\Dto\Output\ResultTree;
-use Vp\App\Application\FactoryBuilder\LandPlotFactoryBuilder;
+use Vp\App\Application\FactoryBuilder\Contract\LandPlotFactoryBuilderInterface;
 use Vp\App\Application\Iterator\TreeLandPlotIterator;
 use Vp\App\Application\Message;
 use Vp\App\Infrastructure\DataBase\Contract\DatabaseInterface;
@@ -16,31 +16,39 @@ use Vp\App\Infrastructure\DataBase\Contract\DatabaseInterface;
 class TreeData implements TreeDataInterface
 {
     private \PDO $conn;
+    private LandPlotFactoryBuilderInterface $landPlotFactoryBuilder;
+    private TreeLandPlotBuilderInterface $treeLandPlotBuilder;
 
-    public function __construct(DatabaseInterface $database)
+    public function __construct(
+        DatabaseInterface $database,
+        LandPlotFactoryBuilderInterface $landPlotFactoryBuilder,
+        TreeLandPlotBuilderInterface $treeLandPlotBuilder)
     {
         $this->conn = $database->getConnection();
+        $this->landPlotFactoryBuilder = $landPlotFactoryBuilder;
+        $this->treeLandPlotBuilder = $treeLandPlotBuilder;
     }
 
     public function work(): ResultTree
     {
-        $landPlotFactory = LandPlotFactoryBuilder::getInstance();
-        $treeLandPlotBuilder = new TreeLandPlotBuilder();
-
+        $landPlotFactory = $this->landPlotFactoryBuilder::getInstance();
         $rootNode = $landPlotFactory->createTreeLandPlot('root');
-        $treeLandPlotBuilder->addNode($rootNode);
+        $this->treeLandPlotBuilder->addNode($rootNode);
 
-        $sql = 'SELECT * FROM tree_land_plots';
-
-        foreach ($this->conn->query($sql, PDO::FETCH_ASSOC) as $row) {
-            $landPlotFactory = LandPlotFactoryBuilder::getInstance($row['type']);
+        foreach ($this->conn->query($this->getSql(), PDO::FETCH_ASSOC) as $row) {
+            $landPlotFactory = $this->landPlotFactoryBuilder::getInstance($row['type']);
             $node = $landPlotFactory->createTreeLandPlot($row['name'], $row['id'], $row['parent_id']);
-            $treeLandPlotBuilder->addNode($node);
+            $this->treeLandPlotBuilder->addNode($node);
         }
 
-        $root = $treeLandPlotBuilder->build();
+        $root = $this->treeLandPlotBuilder->build();
         $tree = new TreeLandPlotIterator($root);
 
         return new ResultTree($tree, Message::SUCCESS_CREATE_DATA);
+    }
+
+    private function getSql(): string
+    {
+        return 'SELECT * FROM tree_land_plots';
     }
 }

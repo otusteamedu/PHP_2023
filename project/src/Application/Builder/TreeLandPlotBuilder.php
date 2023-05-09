@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\Builder;
 
+use Vp\App\Application\Builder\Contract\TreeLandPlotBuilderInterface;
 use Vp\App\Domain\Model\Contract\TreeLandPlotInterface;
 
-class TreeLandPlotBuilder
+class TreeLandPlotBuilder implements TreeLandPlotBuilderInterface
 {
     private array $nodes = [];
 

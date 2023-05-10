@@ -11,9 +11,13 @@ use Vp\App\Application\Contract\InitDataInterface;
 use Vp\App\Application\Contract\TreeDataInterface;
 use Vp\App\Application\FactoryBuilder\Contract\LandPlotFactoryBuilderInterface;
 use Vp\App\Application\FactoryBuilder\LandPlotFactoryBuilder;
+use Vp\App\Application\Handler\LengthResultHandler;
+use Vp\App\Application\Handler\XssResultHandler;
 use Vp\App\Application\UseCase\HelpData;
 use Vp\App\Application\UseCase\InitData;
 use Vp\App\Application\UseCase\TreeData;
+use Vp\App\Application\Validator\Contract\ValidatorInterface;
+use Vp\App\Application\Validator\Validator;
 use Vp\App\Infrastructure\Console\CommandProcessor;
 use Vp\App\Infrastructure\Console\Commands\CommandHelp;
 use Vp\App\Infrastructure\Console\Commands\CommandInit;
@@ -40,6 +44,9 @@ return [
     'tree' => DI\create(CommandTree::class)
         ->constructor(DI\get(TreeDataInterface::class)),
 
+    ValidatorInterface::class => DI\create(Validator::class)
+        ->constructor((new LengthResultHandler())->setNext(new XssResultHandler())),
+
     HelpDataInterface::class => DI\create(HelpData::class),
     InitDataInterface::class => DI\create(InitData::class)
         ->constructor(DI\get(DatabaseInterface::class)),
@@ -47,6 +54,7 @@ return [
         ->constructor(
             DI\get(DatabaseInterface::class),
             DI\get(LandPlotFactoryBuilderInterface::class),
-            DI\get(TreeLandPlotBuilderInterface::class)
+            DI\get(TreeLandPlotBuilderInterface::class),
+            DI\get(ValidatorInterface::class),
         ),
 ];

@@ -10,21 +10,20 @@ class BracketChecker
             throw new EmptyBracketSequenceException();
         }
 
-        $openBracketCounter = 0;
-        $closeBracketCounter = 0;
+        $bracketCounter = 0;
 
         for ($i = 0; $i < strlen($brackets); $i++) {
             if ($brackets[$i] == '(') {
-                $openBracketCounter++;
+                $bracketCounter++;
             }
             elseif ($brackets[$i] == ')') {
-                $closeBracketCounter++;
-                if ($closeBracketCounter > $openBracketCounter) {
+                $bracketCounter--;
+                if($bracketCounter < 0) {
                     return false;
                 }
             }
         }
 
-        return $openBracketCounter == $closeBracketCounter;
+        return $bracketCounter == 0;
     }
 }

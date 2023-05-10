@@ -10,8 +10,6 @@ $bracketChecker = new BracketChecker();
 
 try {
     $bracketChecker->check();
-}
-catch (EmptyBracketSequenceException $e)
-{
+} catch (EmptyBracketSequenceException $e) {
     echo $e->getMessage();
 }

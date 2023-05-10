@@ -17,8 +17,7 @@ class BracketChecker
         for ($i = 0; $i < strlen($brackets); $i++) {
             if ($brackets[$i] == '(') {
                 $bracketCounter++;
-            }
-            elseif ($brackets[$i] == ')') {
+            } elseif ($brackets[$i] == ')') {
                 $bracketCounter--;
                 if ($bracketCounter < 0) {
                     break;
@@ -28,8 +27,7 @@ class BracketChecker
 
         if ($bracketCounter == 0) {
             echo 'Правильная скобочная последовательность';
-        }
-        else {
+        } else {
             http_response_code(400);
             echo 'Неправильная скобочная последовательность';
         }

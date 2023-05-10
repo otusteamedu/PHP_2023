@@ -10,7 +10,7 @@ use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Exception;
 use Imitronov\Hw11\Application\Repository\ProductRepository;
-use Imitronov\Hw11\Infrastructure\Command\SearchProductsCommand;
+use Imitronov\Hw11\Infrastructure\Command\SearchBooksCommand;
 use Imitronov\Hw11\Infrastructure\Command\ImportProductsToElasticCommand;
 use Imitronov\Hw11\Infrastructure\Component\Transformer\ProductTransformer;
 use Imitronov\Hw11\Infrastructure\Repository\EsProductRepository;
@@ -49,7 +49,7 @@ final class App
         ]);
         $this->container = $containerBuilder->build();
         $this->console = new Application();
-        $this->console->add($this->container->get(SearchProductsCommand::class));
+        $this->console->add($this->container->get(SearchBooksCommand::class));
         $this->console->add($this->container->get(ImportProductsToElasticCommand::class));
     }
 

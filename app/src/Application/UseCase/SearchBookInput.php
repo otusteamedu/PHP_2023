@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw11\Application\UseCase;
 
-interface SearchProductInput
+interface SearchBookInput
 {
     public function getTitle(): string;
 

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw11\Infrastructure\Command;
 
-use Imitronov\Hw11\Application\UseCase\SearchProduct;
+use Imitronov\Hw11\Application\UseCase\SearchBook;
 use Imitronov\Hw11\Domain\Entity\Product;
 use Imitronov\Hw11\Domain\Exception\ExternalServerException;
 use Imitronov\Hw11\Domain\ValueObject\Stock;
-use Imitronov\Hw11\Infrastructure\Cli\CliSearchProductInput;
+use Imitronov\Hw11\Infrastructure\Cli\CliSearchBookInput;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
@@ -17,18 +17,18 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-#[AsCommand(name: 'app:products:search')]
-final class SearchProductsCommand extends Command
+#[AsCommand(name: 'app:books:search')]
+final class SearchBooksCommand extends Command
 {
     public function __construct(
-        private readonly SearchProduct $searchProduct,
+        private readonly SearchBook $searchProduct,
     ) {
         parent::__construct();
     }
 
     protected function configure(): void
     {
-        $this->setDescription('Поиск товара по названию, категории и цене.');
+        $this->setDescription('Поиск книги по названию, категории и цене.');
         $this->addOption('title', 't', InputOption::VALUE_REQUIRED, 'Искомое название.');
         $this->addOption('category', 'c', InputOption::VALUE_OPTIONAL, 'Искомая категория.');
         $this->addOption('price', 'p', InputOption::VALUE_OPTIONAL, 'Цена.');
@@ -39,7 +39,7 @@ final class SearchProductsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $searchProductInput = new CliSearchProductInput(
+        $searchProductInput = new CliSearchBookInput(
             $input->getOption('title'),
             $input->getOption('category'),
             $input->getOption('price'),

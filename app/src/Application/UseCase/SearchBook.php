@@ -8,7 +8,7 @@ use Imitronov\Hw11\Application\Repository\ProductRepository;
 use Imitronov\Hw11\Domain\Entity\Product;
 use Imitronov\Hw11\Domain\Exception\ExternalServerException;
 
-final class SearchProduct
+final class SearchBook
 {
     public function __construct(
         private readonly ProductRepository $productRepository,
@@ -19,7 +19,7 @@ final class SearchProduct
      * @return Product[]
      * @throws ExternalServerException
      */
-    public function handle(SearchProductInput $input): array
+    public function handle(SearchBookInput $input): array
     {
         return $this->productRepository->allByTitleAndCategoryAndPriceInStock(
             $input->getTitle(),

@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Imitronov\Hw11\Infrastructure\Cli;
 
-use Imitronov\Hw11\Application\UseCase\SearchProductInput;
+use Imitronov\Hw11\Application\UseCase\SearchBookInput;
 
-final class CliSearchProductInput implements SearchProductInput
+final class CliSearchBookInput implements SearchBookInput
 {
     public function __construct(
         private readonly string $title,

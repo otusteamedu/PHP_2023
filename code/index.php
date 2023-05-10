@@ -15,5 +15,3 @@ catch (EmptyBracketSequenceException $e)
 {
     echo $e->getMessage();
 }
-
-?>

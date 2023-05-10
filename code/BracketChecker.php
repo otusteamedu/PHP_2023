@@ -20,7 +20,7 @@ class BracketChecker
             }
             elseif ($brackets[$i] == ')') {
                 $bracketCounter--;
-                if($bracketCounter < 0) {
+                if ($bracketCounter < 0) {
                     break;
                 }
             }

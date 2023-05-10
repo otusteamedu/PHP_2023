@@ -84,9 +84,9 @@ CREATE TABLE "tickets" (
     "id" BIGINT NOT NULL,
     "movie_id" BIGINT NOT NULL,
     "place_id" BIGINT NOT NULL,
-    "datetime" TIMESTAMP NOT NULL,
+    "datetime" INTEGER NOT NULL,
     "amount" NUMERIC(10,2) NOT NULL,
-    "created_at" TIMESTAMP NOT NULL,
+    "created_at" INTEGER NOT NULL,
     PRIMARY KEY ("id")
 );
 

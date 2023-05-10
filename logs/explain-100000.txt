@@ -16,16 +16,16 @@ Nested Loop  (cost=0.29..3244.31 rows=1 width=26)
 2. ANALYSE tickets;
    EXPLAIN SELECT count(created_at)
    FROM tickets
-   WHERE created_at >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-     AND created_at <= now();
+   WHERE created_at >= 1681948800 AND created_at <= 1682553600;
 
-Aggregate  (cost=209041.29..209041.30 rows=1 width=8)
-  ->  Gather  (cost=1000.00..209041.28 rows=1 width=8)
+Finalize Aggregate  (cost=146837.14..146837.15 rows=1 width=8)
+  ->  Gather  (cost=146836.92..146837.14 rows=2 width=8)
         Workers Planned: 2
-        ->  Parallel Seq Scan on tickets  (cost=0.00..208041.18 rows=1 width=8)
-"              Filter: ((created_at <= now()) AND (created_at >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
+        ->  Partial Aggregate  (cost=145836.92..145836.93 rows=1 width=8)
+              ->  Parallel Seq Scan on tickets  (cost=0.00..145833.11 rows=1525 width=4)
+                    Filter: ((created_at >= 1681948800) AND (created_at <= 1682553600))
 JIT:
-  Functions: 6
+  Functions: 7
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 
 // ===============================
@@ -62,28 +62,29 @@ GroupAggregate  (cost=3244.83..3244.85 rows=1 width=374)
    EXPLAIN SELECT m.id, m.name, sum(amount) as amount
    FROM tickets
    INNER JOIN movies m on m.id = tickets.movie_id
-   WHERE datetime >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-     AND datetime <= now()
+   WHERE datetime >= 1681948800 AND datetime <= 1682553600
    GROUP BY m.id, m.name
    ORDER BY amount DESC
    LIMIT 3;
 
-Limit  (cost=209049.85..209049.86 rows=1 width=66)
-  ->  Sort  (cost=209049.85..209049.86 rows=1 width=66)
+Limit  (cost=153163.90..153163.91 rows=3 width=66)
+  ->  Sort  (cost=153163.90..153173.95 rows=4019 width=66)
         Sort Key: (sum(tickets.amount)) DESC
-        ->  GroupAggregate  (cost=209049.82..209049.84 rows=1 width=66)
+        ->  Finalize GroupAggregate  (cost=152616.42..153111.96 rows=4019 width=66)
               Group Key: m.id
-              ->  Sort  (cost=209049.82..209049.83 rows=1 width=39)
-                    Sort Key: m.id
-                    ->  Nested Loop  (cost=1000.29..209049.81 rows=1 width=39)
-                          ->  Gather  (cost=1000.00..209041.50 rows=1 width=13)
-                                Workers Planned: 2
-                                ->  Parallel Seq Scan on tickets  (cost=0.00..208041.40 rows=1 width=13)
-"                                      Filter: ((datetime <= now()) AND (datetime >= date_trunc('day'::text, ((now() AT TIME ZONE 'Europe/Moscow'::text) - '7 days'::interval))))"
-                          ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.31 rows=1 width=34)
-                                Index Cond: (id = tickets.movie_id)
+              ->  Gather Merge  (cost=152616.42..153036.60 rows=3350 width=66)
+                    Workers Planned: 2
+                    ->  Partial GroupAggregate  (cost=151616.40..151649.90 rows=1675 width=66)
+                          Group Key: m.id
+                          ->  Sort  (cost=151616.40..151620.59 rows=1675 width=39)
+                                Sort Key: m.id
+                                ->  Nested Loop  (cost=0.29..151526.70 rows=1675 width=39)
+                                      ->  Parallel Seq Scan on tickets  (cost=0.00..145834.50 rows=1675 width=13)
+                                            Filter: ((datetime >= 1681948800) AND (datetime <= 1682553600))
+                                      ->  Index Scan using movies_pkey on movies m  (cost=0.29..3.40 rows=1 width=34)
+                                            Index Cond: (id = tickets.movie_id)
 JIT:
-  Functions: 14
+  Functions: 16
 "  Options: Inlining false, Optimization false, Expressions true, Deforming true"
 
 // ===============================
@@ -95,9 +96,9 @@ JIT:
    LEFT JOIN tickets t on places.id = t.place_id and s.movie_id = t.movie_id
    WHERE s.id = 9;
 
-Hash Right Join  (cost=26.12..268484.56 rows=200 width=33)
+Hash Right Join  (cost=26.12..258361.85 rows=200 width=33)
   Hash Cond: ((t.movie_id = s.movie_id) AND (t.place_id = places.id))
-  ->  Seq Scan on tickets t  (cost=0.00..193458.06 rows=10000006 width=24)
+  ->  Seq Scan on tickets t  (cost=0.00..183334.80 rows=10000080 width=24)
   ->  Hash  (cost=23.12..23.12 rows=200 width=40)
         ->  Hash Join  (cost=8.32..23.12 rows=200 width=40)
               Hash Cond: (places.cinema_hall_id = s.cinema_hall_id)
@@ -116,6 +117,6 @@ JIT:
    FROM schedule_prices sp
    WHERE sp.schedule_id = 9;
 
-Aggregate  (cost=11.88..11.89 rows=1 width=64)
-  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.87 rows=2 width=5)
+Aggregate  (cost=11.91..11.92 rows=1 width=64)
+  ->  Index Scan using schedule_prices_pkey on schedule_prices sp  (cost=0.42..11.90 rows=2 width=5)
         Index Cond: (schedule_id = 9)

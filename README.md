@@ -1,8 +1,7 @@
 #### Размеры таблиц при заполненных 100 000 фильмов и 10 000 000 проданных билетов
 | Table                  | Size       |
 |------------------------|------------|
-| tickets                | 730 MB     |
-| film_box_office        | 391 MB     |
+| tickets                | 651 MB     |
 | movie_attribute_values | 85 MB      |
 | movies                 | 37 MB      |
 | schedule_prices        | 10192 kB   |
@@ -18,8 +17,7 @@
 #### Размеры индексов при заполненных 100 000 фильмов и 10 000 000 проданных билетов
 | Table                  | Size    |
 |------------------------|---------|
-| tickets                | 515 MB  |
-| film_box_office        | 191 MB  |
+| tickets                | 934 MB  |
 | movie_attribute_values | 17 MB   |
 | schedule_prices        | 9248 kB |
 | schedules              | 4416 kB |
@@ -34,6 +32,7 @@
 
 #### Наиболее часто используемые индексы:
 - schedules_datetime_index
-- film_box_office_day_index
+- tickets_created_at_index
+- tickets_datetime_index
 - places_cinema_hall_id_index
 - tickets_movie_id_and_place_id_index

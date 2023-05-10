@@ -16,8 +16,7 @@ WHERE s.datetime >= date_trunc('day', now() at time zone 'Europe/Moscow')
 ANALYSE tickets;
 EXPLAIN SELECT count(created_at)
 FROM tickets
-WHERE created_at >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-  AND created_at <= now();
+WHERE created_at >= 1681948800 AND created_at <= 1682553600;
 
 /**
   3. Формирование афиши (фильмы, которые показывают сегодня).
@@ -41,8 +40,7 @@ ANALYSE tickets;
 EXPLAIN SELECT m.id, m.name, sum(amount) as amount
 FROM tickets
 INNER JOIN movies m on m.id = tickets.movie_id
-WHERE datetime >= date_trunc('day', (now() at time zone 'Europe/Moscow' - interval '1 week'))
-  AND datetime <= now()
+WHERE datetime >= 1681948800 AND datetime <= 1682553600
 GROUP BY m.id, m.name
 ORDER BY amount DESC
 LIMIT 3;

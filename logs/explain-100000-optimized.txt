@@ -13,19 +13,14 @@ Nested Loop  (cost=0.59..16.63 rows=1 width=26)
 
 // ===============================
 
-2. ANALYSE film_box_office;
-   EXPLAIN SELECT sum(tickets_count)
-   FROM film_box_office
-   WHERE day >= '2023-04-20' AND day <= '2023-04-27';
+2. ANALYSE tickets;
+   EXPLAIN SELECT count(created_at)
+   FROM tickets
+   WHERE created_at >= 1681948800 AND created_at <= 1682553600;
 
-Finalize Aggregate  (cost=60353.27..60353.28 rows=1 width=8)
-  ->  Gather  (cost=60353.05..60353.26 rows=2 width=8)
-        Workers Planned: 2
-        ->  Partial Aggregate  (cost=59353.05..59353.06 rows=1 width=8)
-              ->  Parallel Bitmap Heap Scan on film_box_office  (cost=6075.19..58889.36 rows=185478 width=4)
-                    Recheck Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
-                    ->  Bitmap Index Scan on film_box_office_day_index  (cost=0.00..5963.90 rows=445147 width=0)
-                          Index Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
+Aggregate  (cost=116.15..116.16 rows=1 width=8)
+  ->  Index Only Scan using tickets_created_at_index on tickets  (cost=0.43..107.74 rows=3365 width=4)
+        Index Cond: ((created_at >= 1681948800) AND (created_at <= 1682553600))
 
 // ===============================
 
@@ -57,32 +52,33 @@ GroupAggregate  (cost=17.15..17.17 rows=1 width=374)
 
 // ===============================
 
-4. ANALYSE film_box_office;
-   EXPLAIN SELECT movie_id, m.name, sum(amount) as amount
-   FROM film_box_office fbo
-   INNER JOIN movies m on m.id = fbo.movie_id
-   WHERE day >= '2023-04-20' AND day <= '2023-04-27'
-   GROUP BY movie_id, m.name
+4. ANALYSE tickets;
+   EXPLAIN SELECT m.id, m.name, sum(amount) as amount
+   FROM tickets
+   INNER JOIN movies m on m.id = tickets.movie_id
+   WHERE datetime >= 1681948800 AND datetime <= 1682553600
+   GROUP BY m.id, m.name
    ORDER BY amount DESC
    LIMIT 3;
 
-Limit  (cost=137242.48..137242.49 rows=3 width=66)
-  ->  Sort  (cost=137242.48..138384.81 rows=456933 width=66)
-        Sort Key: (sum(fbo.amount)) DESC
-        ->  HashAggregate  (cost=118485.47..131336.71 rows=456933 width=66)
-"              Group Key: fbo.movie_id, m.name"
-              Planned Partitions: 64
-              ->  Hash Join  (cost=14030.00..77361.50 rows=456933 width=39)
-                    Hash Cond: (fbo.movie_id = m.id)
-                    ->  Bitmap Heap Scan on film_box_office fbo  (cost=6236.00..63121.99 rows=456933 width=13)
-                          Recheck Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
-                          ->  Bitmap Index Scan on film_box_office_day_index  (cost=0.00..6121.76 rows=456933 width=0)
-                                Index Cond: ((day >= '2023-04-20'::date) AND (day <= '2023-04-27'::date))
-                    ->  Hash  (cost=5762.00..5762.00 rows=100000 width=34)
-                          ->  Seq Scan on movies m  (cost=0.00..5762.00 rows=100000 width=34)
-JIT:
-  Functions: 15
-"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+Limit  (cost=20275.73..20275.74 rows=3 width=66)
+  ->  Sort  (cost=20275.73..20285.59 rows=3943 width=66)
+        Sort Key: (sum(tickets.amount)) DESC
+        ->  Finalize GroupAggregate  (cost=19738.69..20224.77 rows=3943 width=66)
+              Group Key: m.id
+              ->  Gather Merge  (cost=19738.69..20150.84 rows=3286 width=66)
+                    Workers Planned: 2
+                    ->  Partial GroupAggregate  (cost=18738.67..18771.53 rows=1643 width=66)
+                          Group Key: m.id
+                          ->  Sort  (cost=18738.67..18742.77 rows=1643 width=39)
+                                Sort Key: m.id
+                                ->  Nested Loop  (cost=85.14..18650.91 rows=1643 width=39)
+                                      ->  Parallel Bitmap Heap Scan on tickets  (cost=84.85..13032.99 rows=1643 width=13)
+                                            Recheck Cond: ((datetime >= 1681948800) AND (datetime <= 1682553600))
+                                            ->  Bitmap Index Scan on tickets_datetime_index  (cost=0.00..83.87 rows=3943 width=0)
+                                                  Index Cond: ((datetime >= 1681948800) AND (datetime <= 1682553600))
+                                      ->  Index Scan using movies_pkey on movies m  (cost=0.29..3.42 rows=1 width=34)
+                                            Index Cond: (id = tickets.movie_id)
 
 // ===============================
 
@@ -93,17 +89,17 @@ JIT:
    LEFT JOIN tickets t on places.id = t.place_id and s.movie_id = t.movie_id
    WHERE s.id = 9;
 
-Nested Loop Left Join  (cost=0.89..1613.24 rows=200 width=33)
+Nested Loop Left Join  (cost=0.89..1494.69 rows=200 width=33)
   Join Filter: (places.id = t.place_id)
   ->  Nested Loop  (cost=0.44..22.96 rows=200 width=40)
         ->  Index Scan using schedules_pkey on schedules s  (cost=0.29..8.31 rows=1 width=16)
               Index Cond: (id = 9)
         ->  Index Scan using places_cinema_hall_id_index on places  (cost=0.15..12.65 rows=200 width=32)
               Index Cond: (cinema_hall_id = s.cinema_hall_id)
-  ->  Memoize  (cost=0.45..433.79 rows=241 width=24)
+  ->  Memoize  (cost=0.45..401.41 rows=223 width=24)
         Cache Key: s.movie_id
         Cache Mode: logical
-        ->  Index Scan using tickets_movie_id_and_place_id_index on tickets t  (cost=0.43..433.78 rows=241 width=24)
+        ->  Index Scan using tickets_movie_id_and_place_id_index on tickets t  (cost=0.43..401.40 rows=223 width=24)
               Index Cond: (movie_id = s.movie_id)
 
 // ===============================

@@ -4,8 +4,10 @@ namespace app;
 
 class BracketChecker
 {
-    public function check($brackets): bool
+    public function check(): void
     {
+        $brackets = $_REQUEST['string'] ?? null;
+
         if ($brackets == null) {
             throw new EmptyBracketSequenceException();
         }
@@ -19,11 +21,17 @@ class BracketChecker
             elseif ($brackets[$i] == ')') {
                 $bracketCounter--;
                 if($bracketCounter < 0) {
-                    return false;
+                    break;
                 }
             }
         }
 
-        return $bracketCounter == 0;
+        if ($bracketCounter == 0) {
+            echo 'Правильная скобочная последовательность';
+        }
+        else {
+            http_response_code(400);
+            echo 'Неправильная скобочная последовательность';
+        }
     }
 }

@@ -1,0 +1,26 @@
+{
+    "name": "imitronov/hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan Mitronov",
+            "email": "imitronov@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/console": "^6.2",
+        "php-di/php-di": "^7.0",
+        "elasticsearch/elasticsearch": "^8.7",
+        "symfony/dotenv": "^6.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

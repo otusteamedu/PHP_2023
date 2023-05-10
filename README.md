@@ -1,3 +1,11 @@
-# PHP_2023
+#### Импорт данных в ElasticSearch
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+```shell
+docker exec -it imitronov_hw11_app bin/console app:products:import:elastic /var/www/app/storage/books.json
+```
+
+#### Поиск товаров
+
+```shell
+docker exec -it imitronov_hw11_app bin/console app:books:search -t "рыцОри" -c "Исторический роман" -p 2000
+```

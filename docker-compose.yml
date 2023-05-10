@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  elastic:
+    image: elasticsearch:8.7.0
+    restart: unless-stopped
+    container_name: imitronov_hw11_es
+    environment:
+      - node.name=elastic
+      - discovery.type=single-node
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - xpack.security.enabled=true
+    networks:
+      - default
+
+  app:
+    build:
+      context: ./
+      dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
+    container_name: imitronov_hw11_app
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - default
+
+networks:
+  default:

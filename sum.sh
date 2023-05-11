@@ -1,5 +1,12 @@
 #!/bin/bash
 
+if ! command -v bc &> /dev/null
+then
+    echo "установка bc. Введите пароль"
+    sudo apt-get update
+    sudo apt-get install bc
+fi
+
 if [ $# -ne 2 ]
 then
     echo "Введите два числа"

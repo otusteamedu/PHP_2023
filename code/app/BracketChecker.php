@@ -38,4 +38,3 @@ class BracketChecker
         return $response;
     }
 }
-

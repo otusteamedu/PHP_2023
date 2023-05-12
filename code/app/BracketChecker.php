@@ -2,9 +2,11 @@
 
 namespace app;
 
+require_once "../app/Response.php";
+
 class BracketChecker
 {
-    public function check(): void
+    public function check(): Response
     {
         $brackets = $_REQUEST['string'] ?? null;
 
@@ -26,10 +28,14 @@ class BracketChecker
         }
 
         if ($bracketCounter == 0) {
-            echo 'Правильная скобочная последовательность';
+            $content = 'Правильная скобочная последовательность';
+            $response = new Response($content);
         } else {
-            http_response_code(400);
-            echo 'Неправильная скобочная последовательность';
+            $status = 400;
+            $content = 'Неправильная скобочная последовательность';
+            $response = new Response($content, $status);
         }
+        return $response;
     }
 }
+

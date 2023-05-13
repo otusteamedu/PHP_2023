@@ -2,7 +2,7 @@
 
 namespace app;
 
-Class EmailChecker
+class EmailChecker
 {
     public function process(string $filepath): void
     {
@@ -43,6 +43,4 @@ Class EmailChecker
 
         return true;
     }
-
-
 }

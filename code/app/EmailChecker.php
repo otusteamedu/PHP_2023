@@ -12,8 +12,7 @@ class EmailChecker
             while (($email = fgets($handle)) !== false) {
                 if ($this->validateEmail($email)) {
                     $status = 'OK';
-                }
-                else {
+                } else {
                     $status = 'WRONG';
                 }
                 echo $email . ' - ' . $status . '<br>';

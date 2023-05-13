@@ -5,7 +5,6 @@ services:
     build:
       context: docker/nginx
       dockerfile: Dockerfile
-    image: nginx
     ports:
       - "80:80"
     volumes:
@@ -18,7 +17,6 @@ services:
     build:
       context: docker/php-fpm
       dockerfile: Dockerfile
-    image: php-fpm
     volumes:
       - ./src:/var/www/html
       - php-fpm-socket:/sockets/php-fpm

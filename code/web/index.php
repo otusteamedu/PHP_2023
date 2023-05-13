@@ -5,12 +5,13 @@ require_once "../app/EmptyBracketSequenceException.php";
 
 use app\BracketChecker;
 use app\EmptyBracketSequenceException;
-
+use app\Response;
 
 try {
     $bracketChecker = new BracketChecker();
     $response = $bracketChecker->check();
-    $response->provideResponse();
 } catch (EmptyBracketSequenceException $e) {
-    echo $e->getMessage();
+    $response = $e->getResponse();
 }
+
+$response->provideResponse();

@@ -6,7 +6,7 @@ require_once "../app/Response.php";
 
 class BracketChecker
 {
-    public function check(): Response
+    public function check(): void
     {
         $brackets = $_REQUEST['string'] ?? null;
 
@@ -35,6 +35,6 @@ class BracketChecker
             $content = 'Неправильная скобочная последовательность';
             $response = new Response($content, $status);
         }
-        return $response;
+        $response->provideResponse();
     }
 }

@@ -8,5 +8,5 @@ $check = new EmailChecker();
 $result = $check->process('emails.txt');
 
 foreach ($result as $email => $status) {
-    echo $email. ' - '. $status. '<br>';
+    echo $email . ' - ' . $status . '<br>';
 }

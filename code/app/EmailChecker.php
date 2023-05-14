@@ -4,22 +4,21 @@ namespace app;
 
 class EmailChecker
 {
-    public function process(string $filepath): void
+    public function process(string $filepath): array
     {
-
+        $result = [];
         $handle = fopen($filepath, "r");
         if ($handle) {
             while (($email = fgets($handle)) !== false) {
                 if ($this->validateEmail($email)) {
-                    $status = 'OK';
+                    $result[$email] = 'OK';
                 } else {
-                    $status = 'WRONG';
+                    $result[$email] = 'WRONG';
                 }
-                echo $email . ' - ' . $status . '<br>';
             }
-
             fclose($handle);
         }
+        return $result;
     }
 
     public function validateEmail(string $email): bool

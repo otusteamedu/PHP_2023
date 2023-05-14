@@ -5,4 +5,8 @@ require "../app/EmailChecker.php";
 use app\EmailChecker;
 
 $check = new EmailChecker();
-$check->process('emails.txt');
+$result = $check->process('emails.txt');
+
+foreach ($result as $email => $status) {
+    echo $email. ' - '. $status. '<br>';
+}

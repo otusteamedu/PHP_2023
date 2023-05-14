@@ -12,7 +12,7 @@ class EmptyBracketSequenceException extends Exception
     {
         $this->code = 400;
         $this->message = "Пустая скобочная последовательность";
-        $this->response = new Response($this->code, $this->message);
+        $this->response = new Response($this->message, $this->code);
     }
 
     public function getResponse(): Response

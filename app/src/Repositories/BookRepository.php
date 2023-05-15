@@ -39,61 +39,107 @@ class BookRepository {
 
     public function searchBooks(array $params): array
     {
-        $searchParams = [
-            'index' => $this->index,
-            'body' => [
+        $textFields = ['title', 'category'];
+        $numericFields = ['price'];
+        $numericObjectFields = ['stock.stock']; // New array for numeric fields that are nested inside an object
+        $should = [];
+
+        foreach ($params as $field => $value) {
+            if (empty($value)) {
+                continue;
+            }
+
+            if (in_array($field, $textFields)) {
+                // Use fuzzy match for text fields
+                $should[] = [
+                    'match' => [
+                        $field => [
+                            'query'     => $value,
+                            'fuzziness' => 'AUTO',
+                        ]
+                    ]
+                ];
+            } elseif (in_array($field, $numericFields)) {
+                if (is_array($value)) {
+                    $range = [];
+
+                    if (isset($value['gte'])) {
+                        $range['gte'] = $value['gte'];
+                    }
+
+                    if (isset($value['lte'])) {
+                        $range['lte'] = $value['lte'];
+                    }
+
+                    $should[] = [
+                        'range' => [
+                            $field => $range
+                        ]
+                    ];
+                } else {
+                    // If $value is not an array, use a match query
+                    $should[] = [
+                        'match' => [
+                            $field => $value
+                        ]
+                    ];
+                }
+            } elseif (in_array($field, $numericObjectFields)) { // New condition block for numeric fields that are nested inside an object
+                if (is_array($value)) {
+                    $range = [];
+
+                    if (isset($value['gte'])) {
+                        $range['gte'] = $value['gte'];
+                    }
+
+                    if (isset($value['lte'])) {
+                        $range['lte'] = $value['lte'];
+                    }
+
+                    $should[] = [
+                        'range' => [
+                            $field => $range
+                        ]
+                    ];
+                }
+            }
+        }
+
+
+        if (empty($should)) {
+            return [];
+        }
+
+        $params = [
+            'index' => 'books',
+            'body'  => [
                 'query' => [
                     'bool' => [
-                        'must' => [
-                            'multi_match' => [
-                                'query' => $params['query'],
-                                'fields' => ['title^3', 'category'],
-                                'fuzziness' => 'AUTO',
-                            ],
-                        ],
-                        'filter' => [],
-                    ],
-                ],
-            ],
+                        'should' => $should,
+                        'minimum_should_match' => 1
+                    ]
+                ]
+            ]
         ];
 
-        if (!empty($params['category'])) {
-            $searchParams['body']['query']['bool']['filter'][] = [
-                'term' => [
-                    'category.keyword' => $params['category'],
-                ],
-            ];
-        }
-
-        if (!empty($params['max_price'])) {
-            $searchParams['body']['query']['bool']['filter'][] = [
-                'range' => [
-                    'price' => [
-                        'lte' => $params['max_price'],
-                    ],
-                ],
-            ];
-        }
-
-        $searchParams['body']['query']['bool']['filter'][] = [
-            'range' => [
-                'stock' => [
-                    'gte' => 1,
-                ],
-            ],
-        ];
-
-        $response = $this->client->search($searchParams);
+        $response = $this->client->search($params);
 
         $books = [];
         foreach ($response['hits']['hits'] as $hit) {
             $source = $hit['_source'];
+
+            // Flatten stock array into a string
+            $stockString = '';
+            foreach ($source['stock'] as $stockItem) {
+                $stockString .= sprintf("%s: %d; ", $stockItem['shop'], $stockItem['stock']);
+            }
+
             $books[] = new Book(
                 $hit['_id'],
                 $source['title'],
                 $source['category'],
                 $source['price'],
-                $source['stock']
+                rtrim($stockString, '; ')
             );
         }
 

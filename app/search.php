@@ -8,11 +8,15 @@ require_once 'vendor/autoload.php';
 require_once 'config.php';
 
 
-$opts = getopt("q:c:m:");
+$opts = getopt("", ["q:", "c:", "mp:", "minp:", "mins:", "ms:"]);
+
 $params = [
     'query' => $opts['q'] ?? '',
     'category' => $opts['c'] ?? '',
-    'max_price' => isset($opts['m']) ?? '',
+    'mp' => $opts['mp'] ?? '',
+    'minp' => $opts['minp'] ?? '',
+    'mins' => $opts['mins'] ?? '',
+    'ms' => $opts['ms'] ?? '',
 ];
 
 $searchService = new BookSearchService();

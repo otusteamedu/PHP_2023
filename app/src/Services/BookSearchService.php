@@ -14,10 +14,25 @@ class BookSearchService {
 
     public function search(array $params): array {
         $searchParams = [
-            'query' => $params['query'],
-            'category' => $params['category'],
-            'max_price' => $params['max_price'],
+            'title' => $params['query'] ?? '',
+            'category' => $params['category'] ?? '',
         ];
+
+        if (isset($params['mp'])) {
+            $searchParams['price']['lte'] = $params['mp'];
+        }
+
+        if (isset($params['minp'])) {
+            $searchParams['price']['gte'] = $params['minp'];
+        }
+
+        if (isset($params['ms'])) {
+            $searchParams['stock']['lte'] = $params['ms'];
+        }
+
+        if (isset($params['mins'])) {
+            $searchParams['stock']['gte'] = $params['mins'];
+        }
 
         return $this->repository->searchBooks($searchParams);
     }

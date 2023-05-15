@@ -14,5 +14,16 @@ if ! [[ $1 =~ $re ]] || ! [[ $2 =~ $re ]]; then
 fi
 
 # Выполняем сложение чисел и выводим результат
-result=$(echo "$1 + $2" | bc)
+if [ -x "$(command -v bc)" ];
+  then
+  # если в системе установлен bc
+      result=$(echo "$1 + $2" | bc)
+elif [ -x "$(command -v awk)" ];
+  then
+  # если нет, проверяем наличие awk
+      result=$(awk "BEGIN {print $1+$2; exit}")
+else
+  # если нету ничего из этого
+      result=$(($1+$2))
+fi
 echo "Сумма: $result"

@@ -20,10 +20,6 @@ if [[ ! $DIG2 =~ ^[0-9.-]+$ ]]; then
   exit 1
 fi
 
-BC_INSTALLED=$(dpkg -l bc)
-if [ -z $BC_INSTALLED ]; then
-  apt-get install -y bc
-fi
+SUM=$(echo "$DIG1 $DIG2" | awk "BEGIN{ print $1 + $2 }")
 
-SUM=$(echo "$DIG1 + $DIG2" | bc)
 echo "Sum = $SUM"

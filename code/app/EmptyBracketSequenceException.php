@@ -15,8 +15,8 @@ class EmptyBracketSequenceException extends Exception
         $this->response = new Response($this->message, $this->code);
     }
 
-    public function getResponse(): Response
+    public function getResponse(): void
     {
-        return $this->response;
+        $this->response->provideResponse();
     }
 }

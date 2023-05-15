@@ -11,6 +11,5 @@ try {
     $bracketChecker = new BracketChecker();
     $bracketChecker->check();
 } catch (EmptyBracketSequenceException $e) {
-    $response = $e->getResponse();
-    $response->provideResponse();
+    $e->getResponse();
 }

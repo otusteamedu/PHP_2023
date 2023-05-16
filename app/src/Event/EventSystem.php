@@ -1,8 +1,8 @@
 <?php
 
-namespace app\Event;
+namespace App\Event;
 
-use app\Storage\Storage;
+use App\Storage\Storage;
 
 class EventSystem
 {

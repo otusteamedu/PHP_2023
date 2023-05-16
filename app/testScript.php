@@ -1,7 +1,7 @@
 <?php
 
-use app\Event\EventSystem;
-use app\Storage\RedisStorage;
+use App\Event\EventSystem;
+use App\Storage\RedisStorage;
 
 $eventSystem = new EventSystem(new RedisStorage());
 

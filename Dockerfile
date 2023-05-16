@@ -5,9 +5,14 @@ RUN pecl install redis \
     && docker-php-ext-enable redis
 
 # Install composer
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /var/www/html
+WORKDIR /app
 
-# Copy your application's source files into the container
-COPY . /var/www/html
+COPY ./app/composer.json ./
+
+RUN composer install --no-scripts --no-autoloader --no-dev
+
+COPY ./app ./
+
+RUN composer dump-autoload --optimize

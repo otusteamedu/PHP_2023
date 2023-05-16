@@ -3,7 +3,7 @@
 use App\Event\EventSystem;
 use App\Storage\RedisStorage;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $eventSystem = new EventSystem(new RedisStorage());
 
@@ -29,4 +29,4 @@ $eventSystem->addEvent(
 // Получение события
 $event = $eventSystem->getEvent(['param1' => 1, 'param2' => 2]);
 
-echo $event;
+echo $event . PHP_EOL;

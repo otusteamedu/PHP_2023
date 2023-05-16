@@ -2,7 +2,7 @@
 
 use App\Event\EventSystem;
 use App\Storage\RedisStorage;
-var_dump(123);die;
+
 $eventSystem = new EventSystem(new RedisStorage());
 
 // Добавление событий

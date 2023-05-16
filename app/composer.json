@@ -1,7 +1,5 @@
 {
-    "name": "graywolfy/php_2023",
-    "type": "project",
-    "license": "MIT",
+    "name": "graywolfy/app",
     "autoload": {
         "psr-4": {
             "App\\": "src/"
@@ -13,5 +11,10 @@
             "email": "sergeypopov23@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
 }

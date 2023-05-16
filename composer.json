@@ -4,7 +4,7 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Graywolfy\\Php2023\\": "app/"
+            "App\\": "src/"
         }
     },
     "authors": [

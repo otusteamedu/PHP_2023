@@ -1,0 +1,19 @@
+{
+    "name": "girevik1/substr-composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "PHP_2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artur",
+            "email": "se6@rep.earth"
+        }
+    ],
+    "require": {
+        "girevik1/substr-composer-package": "^1.0"
+    }
+}
+

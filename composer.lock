@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "25b89ab37023759bab9d6ab7ba902103",
+    "packages": [
+        {
+            "name": "girevik1/substr-composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Girevik1/substr-composer-package.git",
+                "reference": "bd74df9dadb3c8beade8104bdfdcc9a17fce2707"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Girevik1/substr-composer-package/zipball/bd74df9dadb3c8beade8104bdfdcc9a17fce2707",
+                "reference": "bd74df9dadb3c8beade8104bdfdcc9a17fce2707",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Girevik1\\SubstrComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Artur",
+                    "email": "se6@rep.earth"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Girevik1/substr-composer-package/issues",
+                "source": "https://github.com/Girevik1/substr-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-05-17T10:06:24+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

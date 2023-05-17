@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Nikitaglobal\hw3
+namespace Nikitaglobal\hw3;
 /**
  * Class Hello
  */

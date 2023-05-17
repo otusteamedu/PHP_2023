@@ -1,0 +1,19 @@
+{
+    "name": "nikitaglobal/hw3",
+    "description": "For test assignment",
+    "type": "project",
+    "license": "GPL",
+    "autoload": {
+        "psr-4": {
+            "Nikitaglobal\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Nikita Menshutin",
+            "email": "packagist@nikita.global"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

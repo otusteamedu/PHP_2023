@@ -11,7 +11,7 @@ class Hello
     /**
      * Hello constructor.
      */
-    function __construct()
+    public function __construct()
     {
         echo "Hello World!";
     }

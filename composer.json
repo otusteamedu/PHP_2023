@@ -1,0 +1,19 @@
+{
+    "name": "iosh/php_prof",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Iosh\\PhpProf\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Окушко Никита",
+            "email": "ioa.sh99@gmail.com"
+        }
+    ],
+    "require": {
+        "php" : ">=7.4",
+        "iosh/weather-otus-test": "^1.0"
+    }
+}

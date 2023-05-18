@@ -1,0 +1,66 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx/app
+    container_name: webserver
+    ports:
+      - "$NGINX_EXTERNAL_PORT:80"
+    volumes:
+      - ./srv:/srv/app
+    networks:
+      - app-networks
+
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php/app
+    container_name: php
+    volumes:
+      - ./srv:/srv/app
+    networks:
+      - app-networks
+
+  mysql:
+    platform: linux/x86_64
+    image: mysql:8.0
+    container_name: mysql
+    ports:
+      - "$MYSQL_EXTERNAL_PORT:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "$MYSQL_ROOT_PASSWORD"
+      MYSQL_USER: "$MYSQL_USER"
+      MYSQL_USER_PASSWORD: "$MYSQL_USER_PASSWORD"
+      MYSQL_DATABASE: "$MYSQL_DATABSE"
+    volumes:
+      - ./mysql/volumes:/var/lib/mysql
+    networks:
+      - app-networks
+
+  redis:
+    image: "redis:alpine"
+    command: redis-server --requirepass pass
+    container_name: redis
+    volumes:
+      - ./redis/redis-data:/var/lib/redis
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      REDIS_REPLICATION_MODE: "master"
+    networks:
+      - app-networks
+
+  memcached:
+    image: 'memcached:latest'
+    container_name: memcached
+    volumes:
+      - './memcached/volumes:/root/memcached'
+    networks:
+      - app-networks
+
+networks:
+  app-networks:
+    driver: bridge

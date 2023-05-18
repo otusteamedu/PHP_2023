@@ -1,0 +1,5 @@
+mysql
+memcached
+redis
+.env
+.DS_STORE

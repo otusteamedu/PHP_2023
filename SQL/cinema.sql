@@ -1,4 +1,4 @@
-create table film
+create table cinema
 (
     id   integer      not null
         primary key,

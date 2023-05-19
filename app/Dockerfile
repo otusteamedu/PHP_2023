@@ -9,7 +9,7 @@ RUN mkdir /data && \
     curl -sS https://getcomposer.org/installer | php -- \
     --install-dir=/usr/bin --filename=composer && \
     apt-get update -y &&  \
-    apt-get -y install gcc make autoconf libc-dev pkg-config libzip-dev zip unzip 7z &&  \
+    apt-get -y install gcc make autoconf libc-dev pkg-config libzip-dev zip unzip &&  \
     apt-get install -y --no-install-recommends \
 	git
 

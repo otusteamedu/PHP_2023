@@ -1,0 +1,56 @@
+{
+  "_readme": [
+    "This file locks the dependencies of your project to a known state",
+    "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+    "This file is @generated automatically"
+  ],
+  "content-hash": "579867dced83c9d9be6174048a7301d2",
+  "packages": [
+    {
+      "name": "lujewwy/capitalizer",
+      "version": "v1.0.1",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/lujewwy/capitalizer.git",
+        "reference": "203b952fbc7a63dcf70b7838c56aaa6c9f676a73"
+      },
+      "dist": {
+        "type": "zip",
+        "url": "https://api.github.com/repos/lujewwy/capitalizer/zipball/203b952fbc7a63dcf70b7838c56aaa6c9f676a73",
+        "reference": "203b952fbc7a63dcf70b7838c56aaa6c9f676a73",
+        "shasum": ""
+      },
+      "require": {
+        "ext-ctype": "*",
+        "php": ">=7.4"
+      },
+      "type": "library",
+      "autoload": {
+        "psr-4": {
+          "Lujewwy\\Capitalizer\\": "src/"
+        }
+      },
+      "notification-url": "https://packagist.org/downloads/",
+      "authors": [
+        {
+          "name": "AlexeyShashkov",
+          "email": "lucky.jew@gmail.com"
+        }
+      ],
+      "support": {
+        "issues": "https://github.com/lujewwy/capitalizer/issues",
+        "source": "https://github.com/lujewwy/capitalizer/tree/v1.0.1"
+      },
+      "time": "2023-05-19T17:23:11+00:00"
+    }
+  ],
+  "packages-dev": [],
+  "aliases": [],
+  "minimum-stability": "stable",
+  "stability-flags": [],
+  "prefer-stable": false,
+  "prefer-lowest": false,
+  "platform": [],
+  "platform-dev": [],
+  "plugin-api-version": "2.3.0"
+}

@@ -1,0 +1,19 @@
+{
+    "name": "iosh/mysite",
+    "type": "project",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Iosh\\Mysite\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "iosh"
+        }
+    ],
+    "require": {
+        "php" : ">=7.4",
+        "ext-mbstring": "*"
+    }
+}

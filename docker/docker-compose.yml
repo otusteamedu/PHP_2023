@@ -1,0 +1,70 @@
+version: '3'
+
+networks:
+  public:
+    driver: bridge
+  private:
+
+services:
+  app1:
+    build: ./fpm
+    image: hw4-php-image
+    container_name: app1
+    volumes:
+      - ./..:/var/www/mysite.local
+    networks:
+      - private
+  app2:
+    build: ./fpm
+    image: hw4-php-image
+    container_name: app2
+    volumes:
+      - ./..:/var/www/mysite.local
+    networks:
+      - private
+  app3:
+    build: ./fpm
+    image: hw4-php-image
+    container_name: app3
+    volumes:
+      - ./..:/var/www/mysite.local
+    networks:
+      - private
+  memcached:
+    image: memcached:1.6.19
+    container_name: hw4-memcached
+    networks:
+      - private
+  nginx-master:
+    image: 'hw4-test-nginx-master'
+    build: ./nginx_lomaster
+    ports:
+      - 80:80
+    networks:
+      - public
+      - private
+    container_name: nginx-lomaster
+  nginx-slave1:
+    image: 'hw4-test-nginx-slave'
+    build: ./nginx_slaves_to_armok
+    networks:
+      - private
+    container_name: nginx-slave1
+    volumes:
+      - ./../:/var/www/mysite.local
+  nginx-slave2:
+    image: 'hw4-test-nginx-slave'
+    build: ./nginx_slaves_to_armok
+    networks:
+      - private
+    container_name: nginx-slave2
+    volumes:
+      - ./../:/var/www/mysite.local
+  nginx-slave3:
+    image: 'hw4-test-nginx-slave'
+    build: ./nginx_slaves_to_armok
+    networks:
+      - private
+    container_name: nginx-slave3
+    volumes:
+      - ./../:/var/www/mysite.local

@@ -9,5 +9,6 @@ fi
 if ! [[ $SECOND_ARGUMENT =~ $REGEX ]] ;
 then echo "error: Not a number $SECOND_ARGUMENT"; exit 1
 fi
-SUM=$(echo "$FIRST_ARGUMENT + $SECOND_ARGUMENT" | bc)
+SUM=$(awk "BEGIN { printf \"%f\", $FIRST_ARGUMENT + $SECOND_ARGUMENT }")
+# SUM=$(echo "$FIRST_ARGUMENT + $SECOND_ARGUMENT" | bc)
 echo "Sum: $SUM"

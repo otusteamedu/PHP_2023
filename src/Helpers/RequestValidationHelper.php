@@ -13,18 +13,14 @@ class RequestValidationHelper
         if ($postRequestBody === []) {
             throw new Exception('Запрос пустой!');
         }
-
         foreach ($postRequestBody as $key => $param) {
-
             $c = 0;
             for ($i = 0; $i < strlen($param); $i++) {
-
                 if ($param[$i] == '(') {
                     $c++;
                 } else if ($param[$i] == ')') {
                     $c--;
                 }
-
                 if ($c < 0) {
                     throw new Exception('Лишние скобки!');
                 }

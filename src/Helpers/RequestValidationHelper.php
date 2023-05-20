@@ -18,12 +18,16 @@ class RequestValidationHelper
 
             $c = 0;
             for ($i = 0; $i < strlen($param); $i++) {
-                if ($param[$i] == '(')
+
+                if ($param[$i] == '(') {
                     $c++;
-                else if ($param[$i] == ')')
+                } else if ($param[$i] == ')') {
                     $c--;
-                if ($c < 0)
+                }
+
+                if ($c < 0) {
                     throw new Exception('Лишние скобки!');
+                }
             }
             if ($c == 0) {
                 return 'Кол-во открытых и закрытых скобок корректно!';

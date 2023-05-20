@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "97a91b7f899f9c7d429d86090c351c26",
+    "packages": [
+        {
+            "name": "vyacheslavlebedev/palindrome-counter",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/prizman2000/palindrome-counter.git",
+                "reference": "302f477b1ed16ea20832a3321af8c54ab0951981"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/prizman2000/palindrome-counter/zipball/302f477b1ed16ea20832a3321af8c54ab0951981",
+                "reference": "302f477b1ed16ea20832a3321af8c54ab0951981",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "VyacheslavLebedev\\PalindromeCounter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Lebedev.vr",
+                    "email": "prizman201@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/prizman2000/palindrome-counter/issues",
+                "source": "https://github.com/prizman2000/palindrome-counter/tree/v1.0.1"
+            },
+            "time": "2023-05-20T20:01:00+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

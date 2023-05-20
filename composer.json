@@ -1,0 +1,15 @@
+{
+  "name": "ilyukdimitry/otus-homework",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "00dim",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "ilyukdim/otus-composer-package": "^1.0"
+  }
+}

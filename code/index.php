@@ -16,7 +16,7 @@ try {
     } else {
         throw new \Exception("Неверно расположены скобочки в строке");
     }
-} catch(\Exception $obThrownException) {
+} catch (\Exception $obThrownException) {
     http_response_code(400);
     echo $obThrownException->getMessage();
 }
@@ -30,8 +30,7 @@ function isParenthesesCorrectlyPlaced($sVerificateValue)
     for ($i = 0; $i < $iVerificateValueLength; $i++) {
         if (mb_substr($sVerificateValue, $i, 1) == "(") {
             $iOpenedParenthesesCount++;
-        }
-        else if (mb_substr($sVerificateValue, $i, 1) == ")") {
+        } else if (mb_substr($sVerificateValue, $i, 1) == ")") {
             $iOpenedParenthesesCount--;
         }
 

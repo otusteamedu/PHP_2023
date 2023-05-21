@@ -1,0 +1,91 @@
+version: '3'
+
+services:
+
+  app1:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./:/var/www/mysite.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./:/var/www/mysite.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./:/var/www/mysite.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:1.6.20-alpine
+    container_name: memcached
+    networks:
+      - app-network
+
+  web-master:
+    image: 'web-master'
+    build:
+      context: ./docker/web-master
+      dockerfile: Dockerfile
+    ports:
+      - 80:80
+    networks:
+      - app-network
+    container_name: web-master
+
+  web-slave1:
+    image: 'web-slave'
+    build:
+      context: ./docker/web-slave
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    container_name: web-slave1
+    volumes:
+      - ./:/var/www/mysite.local
+
+  web-slave2:
+    image: 'web-slave'
+    build:
+      context: ./docker/web-slave
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    container_name: web-slave2
+    volumes:
+      - ./:/var/www/mysite.local
+
+  web-slave3:
+    image: 'web-slave'
+    build:
+      context: ./docker/web-slave
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+    container_name: web-slave3
+    volumes:
+      - ./:/var/www/mysite.local
+
+
+networks:
+  app-network:
+    driver: bridge

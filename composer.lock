@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "db9ea366199ec103a28d0df460563fc1",
+    "packages": [
+        {
+            "name": "yuzyuk-roman/reverse",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Roma-zy/YuzyukRomanRevers.git",
+                "reference": "0fc48ac30ab9341f67271f6abb8c1df1928ad3be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanRevers/zipball/0fc48ac30ab9341f67271f6abb8c1df1928ad3be",
+                "reference": "0fc48ac30ab9341f67271f6abb8c1df1928ad3be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "YuzyukRoman\\Reverse\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Roman Yuzyuk",
+                    "email": "romanyuzyukfront@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Roma-zy/YuzyukRomanRevers/issues",
+                "source": "https://github.com/Roma-zy/YuzyukRomanRevers/tree/v1.0.1"
+            },
+            "time": "2023-05-20T19:49:20+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.2.0"
+}

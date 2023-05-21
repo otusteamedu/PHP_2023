@@ -1,3 +1,21 @@
-# PHP_2023
+# Процессор строк
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Краткое описание пакета.
+
+## Требования
+
+- PHP 7.4
+
+## Установка
+
+```bash
+$ composer require dmitrykirillov/otus-composer-package
+```
+
+## Использование
+
+```php
+<?php
+$processor = new StringProcessor();
+echo $processor->getLength('my string'); // 9  
+```

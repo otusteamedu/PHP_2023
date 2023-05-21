@@ -1,0 +1,204 @@
+1:C 21 May 2023 16:51:43.577 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:51:43.589 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:51:43.599 # Configuration loaded
+1:M 21 May 2023 16:51:43.607 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:51:43.625 # Server initialized
+1:M 21 May 2023 16:51:43.629 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:51:43.646 * Creating AOF base file appendonly.aof.1.base.aof on server start
+1:M 21 May 2023 16:51:43.671 * Creating AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:51:43.675 * Ready to accept connections
+1:signal-handler (1684687947) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 16:52:28.013 # User requested shutdown...
+1:M 21 May 2023 16:52:28.018 * Calling fsync() on the AOF file.
+1:M 21 May 2023 16:52:28.023 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 16:52:28.036 * DB saved on disk
+1:M 21 May 2023 16:52:28.041 * Removing the pid file.
+1:M 21 May 2023 16:52:28.045 # Redis is now ready to exit, bye bye...
+1:C 21 May 2023 16:52:38.328 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:52:38.341 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:52:38.353 # Configuration loaded
+1:M 21 May 2023 16:52:38.367 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:52:38.394 # Server initialized
+1:M 21 May 2023 16:52:38.406 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:52:38.449 * DB loaded from append only file: 0.011 seconds
+1:M 21 May 2023 16:52:38.475 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:52:38.485 * Ready to accept connections
+1:signal-handler (1684688003) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 16:53:24.038 # User requested shutdown...
+1:M 21 May 2023 16:53:24.043 * Calling fsync() on the AOF file.
+1:M 21 May 2023 16:53:24.050 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 16:53:24.067 * DB saved on disk
+1:M 21 May 2023 16:53:24.071 * Removing the pid file.
+1:M 21 May 2023 16:53:24.076 # Redis is now ready to exit, bye bye...
+1:C 21 May 2023 16:53:33.206 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:53:33.212 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:53:33.217 # Configuration loaded
+1:M 21 May 2023 16:53:33.224 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:53:33.236 # Server initialized
+1:M 21 May 2023 16:53:33.241 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:53:33.265 * DB loaded from append only file: 0.006 seconds
+1:M 21 May 2023 16:53:33.277 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:53:33.282 * Ready to accept connections
+1:signal-handler (1684688087) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 16:54:47.209 # User requested shutdown...
+1:M 21 May 2023 16:54:47.217 * Calling fsync() on the AOF file.
+1:M 21 May 2023 16:54:47.228 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 16:54:47.257 * DB saved on disk
+1:M 21 May 2023 16:54:47.267 * Removing the pid file.
+1:M 21 May 2023 16:54:47.274 # Redis is now ready to exit, bye bye...
+1:C 21 May 2023 16:55:08.984 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:55:08.991 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:55:08.996 # Configuration loaded
+1:M 21 May 2023 16:55:09.001 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:55:09.017 # Server initialized
+1:M 21 May 2023 16:55:09.023 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:55:09.056 * DB loaded from append only file: 0.009 seconds
+1:M 21 May 2023 16:55:09.078 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:55:09.083 * Ready to accept connections
+1:signal-handler (1684688151) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 16:55:51.523 # User requested shutdown...
+1:M 21 May 2023 16:55:51.530 * Calling fsync() on the AOF file.
+1:M 21 May 2023 16:55:51.538 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 16:55:51.559 * DB saved on disk
+1:M 21 May 2023 16:55:51.562 * Removing the pid file.
+1:M 21 May 2023 16:55:51.566 # Redis is now ready to exit, bye bye...
+1:C 21 May 2023 16:58:36.847 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:58:36.851 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:58:36.856 # Configuration loaded
+1:M 21 May 2023 16:58:36.861 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:58:36.870 # Server initialized
+1:M 21 May 2023 16:58:36.875 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:58:36.895 * DB loaded from append only file: 0.005 seconds
+1:M 21 May 2023 16:58:36.904 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:58:36.909 * Ready to accept connections
+1:signal-handler (1684688351) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 16:59:11.821 # User requested shutdown...
+1:M 21 May 2023 16:59:11.825 * Calling fsync() on the AOF file.
+1:M 21 May 2023 16:59:11.831 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 16:59:11.848 * DB saved on disk
+1:M 21 May 2023 16:59:11.852 * Removing the pid file.
+1:M 21 May 2023 16:59:11.855 # Redis is now ready to exit, bye bye...
+1:C 21 May 2023 16:59:20.409 # oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+1:C 21 May 2023 16:59:20.413 # Redis version=7.0.11, bits=64, commit=00000000, modified=0, pid=1, just started
+1:C 21 May 2023 16:59:20.418 # Configuration loaded
+1:M 21 May 2023 16:59:20.422 * monotonic clock: POSIX clock_gettime
+                _._                                                  
+           _.-``__ ''-._                                             
+      _.-``    `.  `_.  ''-._           Redis 7.0.11 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._                                  
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 1
+  `-._    `-._  `-./  _.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |           https://redis.io       
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+ |`-._`-._    `-.__.-'    _.-'_.-'|                                  
+ |    `-._`-._        _.-'_.-'    |                                  
+  `-._    `-._`-.__.-'_.-'    _.-'                                   
+      `-._    `-.__.-'    _.-'                                       
+          `-._        _.-'                                           
+              `-.__.-'                                               
+
+1:M 21 May 2023 16:59:20.434 # Server initialized
+1:M 21 May 2023 16:59:20.438 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+1:M 21 May 2023 16:59:20.457 * DB loaded from append only file: 0.005 seconds
+1:M 21 May 2023 16:59:20.467 * Opening AOF incr file appendonly.aof.1.incr.aof on server start
+1:M 21 May 2023 16:59:20.472 * Ready to accept connections
+1:signal-handler (1684688428) Received SIGTERM scheduling shutdown...
+1:M 21 May 2023 17:00:28.696 # User requested shutdown...
+1:M 21 May 2023 17:00:28.699 * Calling fsync() on the AOF file.
+1:M 21 May 2023 17:00:28.704 * Saving the final RDB snapshot before exiting.
+1:M 21 May 2023 17:00:28.724 * DB saved on disk
+1:M 21 May 2023 17:00:28.729 * Removing the pid file.
+1:M 21 May 2023 17:00:28.735 # Redis is now ready to exit, bye bye...

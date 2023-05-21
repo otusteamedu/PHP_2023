@@ -61,8 +61,6 @@ services:
       dockerfile: Dockerfile
     image: dz1/memcached
     container_name: memcached
-    volumes:
-      - ./code:/data/mysite.local
     networks:
       - app-network
 

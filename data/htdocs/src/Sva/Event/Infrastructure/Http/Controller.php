@@ -2,6 +2,7 @@
 
 namespace Sva\Event\Infrastructure\Http;
 
+use Pecee\SimpleRouter\SimpleRouter;
 use Sva\Common\App\App;
 use Sva\Event\Domain\Event;
 use Sva\Event\Domain\EventRepositoryInterface;
@@ -17,7 +18,7 @@ class Controller
         $this->repository = App::getInstance()->getContainer()->make(EventRepositoryInterface::class);
     }
 
-    public function get(): string
+    public function get(): void
     {
         $request = Router::request();
         $arInput = ($request->getUrl()->getParams()) ?: [];
@@ -29,10 +30,10 @@ class Controller
             $arResult[] = $presenter->present($event);
         }
 
-        return json_encode($arResult);
+        SimpleRouter::response()->json($arResult);
     }
 
-    public function post(): string
+    public function post(): void
     {
         $bSuccess = false;
         $result = [
@@ -69,25 +70,25 @@ class Controller
         $result['success'] = $bSuccess;
         $result['errors'] = $arErrors;
 
-        return json_encode($result);
+        SimpleRouter::response()->json($result);
     }
 
-    public function search(): string
+    public function search(): void
     {
         $request = Router::request();
         $arInput = ($request->getUrl()->getParams()) ?: [];
         $arEvents = $this->repository->search($arInput);
 
-        return json_encode($arEvents);
+        SimpleRouter::response()->json($arEvents);
     }
 
-    public function clear(): string
+    public function clear(): void
     {
         $result = [
             'errors' => [],
             'success' => $this->repository->clear()
         ];
 
-        return json_encode($result);
+        SimpleRouter::response()->json($result);
     }
 }

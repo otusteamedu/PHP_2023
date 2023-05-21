@@ -6,6 +6,7 @@ namespace Girevik1\WebSerBalancer\Application;
 
 use Exception;
 use Girevik1\WebSerBalancer\Helpers\RequestValidationHelper;
+use Girevik1\WebSerBalancer\Helpers\ResponseFormation;
 
 class ApplicationMain
 {
@@ -20,17 +21,10 @@ class ApplicationMain
 
     public function execute()
     {
-        $responseCode = 200;
-        $textResponse = '';
-
         try {
-            $textResponse = RequestValidationHelper::checkBrackets($this->newRequest);
+            return ResponseFormation::makeResponse(RequestValidationHelper::checkBrackets($this->newRequest), 204);
         } catch (Exception $e) {
-            $responseCode = 400;
-            $textResponse = $e->getMessage();
+            return ResponseFormation::makeResponse($e->getMessage(), 400);
         }
-
-        http_response_code($responseCode);
-        echo $textResponse;
     }
 }

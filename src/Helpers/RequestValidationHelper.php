@@ -8,7 +8,7 @@ use Exception;
 
 class RequestValidationHelper
 {
-    public static function checkBrackets(array $postRequestBody): string
+    public static function checkBrackets(array $postRequestBody): bool
     {
         if ($postRequestBody === []) {
             throw new Exception('Запрос пустой!');
@@ -16,18 +16,17 @@ class RequestValidationHelper
         foreach ($postRequestBody as $key => $param) {
             $c = 0;
             for ($i = 0; $i < strlen($param); $i++) {
-                if ($param[$i] == '(') {
+                if ($param[$i] === '(') {
                     $c++;
-                } else if ($param[$i] == ')') {
+                } else if ($param[$i] === ')') {
                     $c--;
                 }
                 if ($c < 0) {
-                    throw new Exception('Лишние скобки!');
+                    throw new Exception('Скобоки не корректны!');
                 }
             }
-            if ($c == 0) {
-                return 'Кол-во открытых и закрытых скобок корректно!';
-            }
+
+            return $c === 0;
         }
     }
 }

@@ -1,30 +1,22 @@
 <?php
 
-try
-{
-    if(!isset($_POST["string"]))
-    {
+try {
+    if (!isset($_POST["string"])) {
         throw new \Exception("Не передана строка для проверки");
     }
 
     $sInputString = $_POST["string"];
 
-    if(empty($sInputString))
-    {
+    if (empty($sInputString)) {
         throw new \Exception("Передана пустая строка");
     }
 
-    if(isParenthesesCorrectlyPlaced($sInputString))
-    {
+    if (isParenthesesCorrectlyPlaced($sInputString)) {
         echo "Все ок";
-    }
-    else
-    {
+    } else {
         throw new \Exception("Неверно расположены скобочки в строке");
     }
-}
-catch(\Exception $obThrownException)
-{
+} catch(\Exception $obThrownException) {
     http_response_code(400);
     echo $obThrownException->getMessage();
 }
@@ -35,19 +27,15 @@ function isParenthesesCorrectlyPlaced($sVerificateValue)
     $iOpenedParenthesesCount = 0;
     $iVerificateValueLength = mb_strlen($sVerificateValue);
 
-    for($i = 0; $i < $iVerificateValueLength; $i++)
-    {
-        if(mb_substr($sVerificateValue, $i, 1) == "(")
-        {
+    for ($i = 0; $i < $iVerificateValueLength; $i++) {
+        if (mb_substr($sVerificateValue, $i, 1) == "(") {
             $iOpenedParenthesesCount++;
         }
-        else if(mb_substr($sVerificateValue, $i, 1) == ")")
-        {
+        else if (mb_substr($sVerificateValue, $i, 1) == ")") {
             $iOpenedParenthesesCount--;
         }
 
-        if($iOpenedParenthesesCount < 0)
-        {
+        if ($iOpenedParenthesesCount < 0) {
             return false;
         }
     }

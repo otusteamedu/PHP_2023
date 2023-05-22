@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  nginx_service:
+  nginx_service_otus:
     build:
       dockerfile: docker/nginx/Dockerfile
       context: .
@@ -18,7 +18,7 @@ services:
       - "80:80"
     networks:
       - app-network
-  fpm_service:
+  fpm_service_otus:
     build:
       dockerfile: docker/fpm/Dockerfile
       context: .
@@ -26,6 +26,18 @@ services:
       - ./app:/var/www
       - ./docker/sock:/sock:rw
       - ./docker/fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-    container_name: fpm_service
+    container_name: fpm_service_otus
+    networks:
+      - app-network
+
+  postgres_otus:
+    image: postgres:latest
+    container_name: postgres_otus_hw_
+    ports:
+      - "15580:5432"
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: test
     networks:
       - app-network

@@ -1,5 +1,5 @@
 up: docker-up
-build: build
+build: up-build
 stop: docker-stop
 down: down
 ps: docker-ps
@@ -8,7 +8,7 @@ ps: docker-ps
 docker-up:
 	docker-compose up -d
 
-build:
+up-build:
 	docker-compose up --build -d
 
 docker-ps:

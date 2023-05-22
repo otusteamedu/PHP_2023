@@ -1,0 +1,18 @@
+{
+  "name": "jasfayz/bracket-checker",
+  "type": "library",
+  "autoload": {
+    "psr-4": {
+      "JasFayz\\BracketChecker\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "jasfayz",
+      "email": "jasfayz@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4"
+  }
+}

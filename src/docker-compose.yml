@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx-main/Dockerfile
+    restart: always
+    container_name: b_nginx
+    depends_on:
+      - nginx1
+      - nginx2
+    networks:
+      - my_network
+    ports:
+      - ${NGINX_PORT:-80}:80
+
+  nginx1:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: always
+    container_name: b_nginx1
+    depends_on:
+      - app1
+    networks:
+      - my_network
+    volumes:
+      - php_fpm_socket1:/var/run
+
+  nginx2:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: always
+    container_name: b_nginx2
+    depends_on:
+      - app2
+    networks:
+      - my_network
+    volumes:
+      - php_fpm_socket2:/var/run
+
+  app1:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    restart: always
+    container_name: app1
+    entrypoint: /entrypoint.sh
+    depends_on:
+      - memcached
+    networks:
+      - my_network
+    volumes:
+      - php_fpm_socket1:/var/run
+      - ./src:/var/www/app
+
+  app2:
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    restart: always
+    container_name: app2
+    entrypoint: /entrypoint.sh
+    depends_on:
+      - memcached
+    networks:
+      - my_network
+    volumes:
+      - php_fpm_socket2:/var/run
+
+  memcached:
+    image: memcached:1.6.18-alpine3.17
+    command: ["memcached"]
+    restart: always
+    container_name: memcached
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
+
+volumes:
+  php_fpm_socket1:
+  php_fpm_socket2:

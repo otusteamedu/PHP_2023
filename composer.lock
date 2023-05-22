@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "yuzyuk-roman/reverse",
-            "version": "v1.0.1",
+            "version": "v1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roma-zy/YuzyukRomanRevers.git",
-                "reference": "0fc48ac30ab9341f67271f6abb8c1df1928ad3be"
+                "reference": "9c428d3c384c7e516a4025b4addd754bcc07416c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanRevers/zipball/0fc48ac30ab9341f67271f6abb8c1df1928ad3be",
-                "reference": "0fc48ac30ab9341f67271f6abb8c1df1928ad3be",
+                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanRevers/zipball/9c428d3c384c7e516a4025b4addd754bcc07416c",
+                "reference": "9c428d3c384c7e516a4025b4addd754bcc07416c",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Roma-zy/YuzyukRomanRevers/issues",
-                "source": "https://github.com/Roma-zy/YuzyukRomanRevers/tree/v1.0.1"
+                "source": "https://github.com/Roma-zy/YuzyukRomanRevers/tree/v1.0.2"
             },
-            "time": "2023-05-20T19:49:20+00:00"
+            "time": "2023-05-22T14:59:41+00:00"
         }
     ],
     "packages-dev": [],

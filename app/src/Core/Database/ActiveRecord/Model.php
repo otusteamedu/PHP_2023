@@ -44,7 +44,6 @@ abstract class Model
         $string = '';
         foreach ($fields as $name => $value) {
             $data[':' . $name] = $value;
-
         }
         foreach (array_keys($data) as $val) {
             $string .= trim($val, ':') . ' = ' . $val . ', ';
@@ -104,5 +103,4 @@ abstract class Model
     {
         return $this->id;
     }
-
 }

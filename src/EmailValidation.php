@@ -31,7 +31,7 @@ class EmailValidation
     }
     private function checkReg(string $email): bool
     {
-        return (preg_match("~([a-zA-Z0-9!#$%&'*+-/=?^_`{|}])@([a-zA-Z0-9-]).([a-zA-Z0-9]{2,4})~", $email)) ? true : false; 
+        return (preg_match("~([a-zA-Z0-9!#$%&'*+-/=?^_`{|}])@([a-zA-Z0-9-]).([a-zA-Z0-9]{2,4})~", $email)) ? true : false;
     }
     private function checkMX(string $email): bool
     {

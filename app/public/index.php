@@ -2,7 +2,7 @@
 
 use Yakovgulyuta\Hw13\App;
 
-require_once ('../vendor/autoload.php');
+require_once('../vendor/autoload.php');
 
 
 try {

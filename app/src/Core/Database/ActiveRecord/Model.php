@@ -32,7 +32,6 @@ abstract class Model
         $db->execute($sql, $data);
 
         return $db->lastId();
-
     }
 
     public function update(int $id)
@@ -57,7 +56,6 @@ abstract class Model
         $db = new Db();
 
         return $db->query($sql, $data, static::class)[0];
-
     }
 
     public static function delete(int $id): bool

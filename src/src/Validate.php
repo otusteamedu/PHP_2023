@@ -6,25 +6,31 @@ namespace nikitaglobal;
 
 class Validate
 {
-    public function __construct(string $string)
+    public function __construct()
     {
+        $string = $_POST['string'] ?? '';
         $this->checkString($string) ? http_response_code(200) : http_response_code(400);
     }
     public function checkString(string $inputString): bool
     {
+        if ('' === $inputString) {
+            echo 'Empty string';
+            return false;
+        }
 
-    // Проверяем на корректность количества открытых и закрытых скобок
-        $openCount = 0;
-        $closeCount = 0;
+        $bracketsCount = 0;
 
         for ($i = 0; $i < strlen($inputString); $i++) {
             if ($inputString[$i] == '(') {
-                $openCount++;
+                $bracketsCount++;
             } elseif ($inputString[$i] == ')') {
-                $closeCount++;
+                $bracketsCount--;
+            }
+            if ($bracketsCount < 0) {
+                return false;
             }
         }
 
-        return $openCount === $closeCount;
+        return 0 === $bracketsCount;
     }
 }

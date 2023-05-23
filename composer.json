@@ -1,0 +1,19 @@
+{
+    "name": "ayagudin/capital-letters-package",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Ayagudin\\CapitalLettersPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "AlekseiYagudin",
+            "email": "nautilus644@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ext-mbstring": "*"
+    }
+}

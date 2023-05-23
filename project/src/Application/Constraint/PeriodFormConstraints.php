@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Validators\Constraints;
+namespace Vp\App\Application\Constraint;
 
 use Symfony\Component\Validator\Constraints as Assert;
 

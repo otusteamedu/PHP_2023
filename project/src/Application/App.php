@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Vp\App;
+namespace Vp\App\Application;
 
 use Silex\Application;
 use Symfony\Component\Validator\Validation;
+use Vp\App\Application\Constraint\PeriodFormConstraints;
+use Vp\App\Application\Validator\Validator;
 use Vp\App\Services\Preparer;
 use Vp\App\Services\Verifier;
-use Vp\App\Validators\Constraints\PeriodFormConstraints;
-use Vp\App\Validators\Constraints\EmailsFormConstraints;
-use Vp\App\Validators\Constraints\FileFormConstraints;
-use Vp\App\Validators\Validator;
 
 class App
 {

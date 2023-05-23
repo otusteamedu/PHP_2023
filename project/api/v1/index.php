@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-use Vp\App\App;
+
+use Vp\App\Application\App;
 
 require "../../vendor/autoload.php";
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Controllers;
+namespace Vp\App\Infrastructure\Controllers;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;

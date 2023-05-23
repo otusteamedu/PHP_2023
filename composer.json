@@ -1,0 +1,18 @@
+{
+    "name": "iosh/email_validator",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Iosh\\EmailValidator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Окушко Никита",
+            "email": "ioa.sh99@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    }
+}

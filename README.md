@@ -6,7 +6,7 @@
 ## Установка
 
 ```bash
-$ composer require dmitrykirillov/otus-composer-package
+$ composer require pankratov/hw3
 ```
 
 ## Использование

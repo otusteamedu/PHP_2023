@@ -1,0 +1,12 @@
+{
+    "name": "alishertashmatov/otus",
+    "authors": [
+        {
+            "name": "Alisher Tashmatov",
+            "email": "pirojok167@gmail.com"
+        }
+    ],
+    "require": {
+        "wollkey/otus-package": "^1.0"
+    }
+}

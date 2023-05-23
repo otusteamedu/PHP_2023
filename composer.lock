@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "fe15ce23bb25be8bb999f0286c7931dc",
+    "packages": [
+        {
+            "name": "wollkey/otus-package",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/wollkey/otus-package.git",
+                "reference": "96a19c6256093776b20b6e12908fa05081353e8c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/wollkey/otus-package/zipball/96a19c6256093776b20b6e12908fa05081353e8c",
+                "reference": "96a19c6256093776b20b6e12908fa05081353e8c",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/Adder.php"
+                ],
+                "psr-4": {
+                    "Wollkey\\OtusPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alisher Tashmatov",
+                    "email": "pirojok167@gmail.com"
+                }
+            ],
+            "description": "Simple package for otus homework",
+            "support": {
+                "issues": "https://github.com/wollkey/otus-package/issues",
+                "source": "https://github.com/wollkey/otus-package/tree/1.0.0"
+            },
+            "time": "2023-05-23T17:26:43+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

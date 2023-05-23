@@ -14,7 +14,7 @@ class App
             }
 
             $sInputString = $_POST["string"];
-        
+
             if (empty($sInputString)) {
                 throw new \Exception("Передана пустая строка");
             }

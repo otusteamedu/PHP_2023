@@ -1,0 +1,18 @@
+{
+    "name": "bocukom/email_validation",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Bocukom\\EmailValidation\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denis",
+            "email": "denis_mesnyankin@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    }
+}

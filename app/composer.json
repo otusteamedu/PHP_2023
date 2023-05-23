@@ -1,0 +1,28 @@
+{
+    "name": "yakovgulyuta/hw13",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yakovgulyuta\\Hw13\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "yakovgulyuta",
+            "email": "yakovgulyuta@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "league/config": "^1.2"
+    },
+    "require-dev": {
+        "kint-php/kint": "^5.0",
+        "spryker/code-sniffer": "^0.17.18"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

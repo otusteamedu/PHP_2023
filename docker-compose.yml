@@ -32,7 +32,7 @@ services:
 
   postgres_otus:
     image: postgres:latest
-    container_name: postgres_otus_hw_
+    container_name: postgres_otus_hw_13
     ports:
       - "15580:5432"
     environment:

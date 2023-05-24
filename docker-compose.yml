@@ -52,6 +52,8 @@ services:
       dockerfile: Dockerfile
     working_dir: /var/www
     container_name: php-8.2-app1
+    depends_on:
+      - memcached-hw4
     volumes:
       - ./site:/var/www/hw4/
       - ./php-8-workspace/logs/app:/var/log/
@@ -64,9 +66,19 @@ services:
       dockerfile: Dockerfile
     working_dir: /var/www
     container_name: php-8.2-app2
+    depends_on:
+      - memcached-hw4
     volumes:
       - ./site:/var/www/hw4/
       - ./php-8-workspace/logs/app2:/var/log/
+    networks:
+      - app-local
+
+  memcached-hw4:
+    image: memcached
+    container_name: memcached-hw4
+    ports:
+      - "${MEMCACHED_PORT}:11211"
     networks:
       - app-local
 

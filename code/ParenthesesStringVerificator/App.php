@@ -6,7 +6,7 @@ namespace ParenthesesStringVerificator;
 
 class App
 {
-    public function run() :string
+    public function run(): string
     {
         if (!isset($_POST["string"])) {
             throw new \Exception("Не передана строка для проверки");

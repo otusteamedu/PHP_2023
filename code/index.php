@@ -4,5 +4,10 @@ include "ParenthesesStringVerificator/autoload.php";
 
 use ParenthesesStringVerificator\App;
 
-$obApp = new ParenthesesStringVerificator\App();
-$obApp->run();
+try {
+    $obApp = new App();
+    echo $obApp->run();
+} catch (\Exception $obThrownException) {
+    http_response_code(400);
+    echo $obThrownException->getMessage();
+}

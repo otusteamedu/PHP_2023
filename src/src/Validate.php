@@ -6,16 +6,15 @@ namespace nikitaglobal;
 
 class Validate
 {
+    private $result = false;
     public function __construct()
     {
-        $string = $_POST['string'] ?? '';
-        $this->checkString($string) ? http_response_code(200) : http_response_code(400);
     }
-    public function checkString(string $inputString): bool
+    public function checkString(): Validate
     {
+        $inputString = $_POST['string'] ?? '';
         if ('' === $inputString) {
-            echo 'Empty string';
-            return false;
+            return $this;
         }
 
         $bracketsCount = 0;
@@ -27,10 +26,16 @@ class Validate
                 $bracketsCount--;
             }
             if ($bracketsCount < 0) {
-                return false;
+                return $this;
             }
         }
+        0 === $bracketsCount ? $this->result = true : $this->result = false;
+        return $this;
+    }
 
-        return 0 === $bracketsCount;
+    public function generateResponse()
+    {
+        $this->result ? http_response_code(200) : http_response_code(400);
+        exit();
     }
 }

@@ -1,28 +1,60 @@
 version: '3'
 
 services:
-  nginx:
+  nginx_main:
     build:
-      context: docker/nginx
+      context: docker/nginx_main
       dockerfile: Dockerfile
-    image: application/nginx
-    container_name: application-nginx
+    image: application/nginx_main
+    container_name: application-nginx-main
     ports:
       - "80:80"
     volumes:
       - ./src:/data/application.local
-      - socket:/var/run/d-socket
     networks:
       - app-network
-  app:
+  nginx_1:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: application-nginx-1
+    ports:
+      - "81:80"
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+  nginx_2:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: application-nginx-2
+    ports:
+      - "82:80"
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+  app_1:
     build:
       context: docker/fpm
       dockerfile: Dockerfile
     image: application/php
-    container_name: application-php
+    container_name: application-php-1
     volumes:
       - ./src:/data/application.local
-      - socket:/var/run/d-socket
+    networks:
+      - app-network
+  app_2:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application-php-2
+    volumes:
+      - ./src:/data/application.local
     networks:
       - app-network
   postgresql:
@@ -60,7 +92,6 @@ services:
 
 
 volumes:
-  socket:
   cache:
 
 networks:

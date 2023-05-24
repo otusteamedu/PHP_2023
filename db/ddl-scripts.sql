@@ -96,6 +96,7 @@ create table Tickets
         primary key,
     session_id int not null,
     price_id   int not null,
+    sale_datetime datetime not null,
     constraint Tickets_Seats_null_fk
         foreign key (price_id) references Seats (id),
     constraint Tickets_Sessions_null_fk

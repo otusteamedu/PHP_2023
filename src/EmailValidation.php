@@ -22,14 +22,16 @@ class EmailValidation
     {
         $result = [];
         foreach ($this->emailList as $email) {
-            $isEmailReg = (is_string($email)) ? $this->checkReg($email) : false;
+            $isEmailRegexp = (is_string($email)) ? $this->checkRegexp($email) : false;
             $isEmailMX = (is_string($email)) ? $this->checkMX($email) : false;
-            $isEmailTotal = ($isEmailReg && $isEmailMX) ? true : false;
-            $result[$email] = ['isValid' => $isEmailTotal];
+            $result[$email] = [
+                'isEmailRegexp' => $isEmailRegexp,
+                'isEmailMX' => $isEmailMX
+            ];
         }
         return $result;
     }
-    private function checkReg(string $email): bool
+    private function checkRegexp(string $email): bool
     {
         return (preg_match("~([a-zA-Z0-9!#$%&'*+-/=?^_`{|}])@([a-zA-Z0-9-]).([a-zA-Z0-9]{2,4})~", $email)) ? true : false;
     }

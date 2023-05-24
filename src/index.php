@@ -1,4 +1,5 @@
 <?php
+
 function sendResponse($status, $message): void
 {
     http_response_code($status);

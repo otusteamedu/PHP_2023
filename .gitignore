@@ -6,6 +6,7 @@
 /redis/data/**
 !/redis/data/.gitkeep
 /nginx/logs/**
+/php-8-workspace/logs/**
 
 # Файлы сайта
 /site/**

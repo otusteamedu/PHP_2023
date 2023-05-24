@@ -2,77 +2,71 @@ version: '3'
 
 services:
 
-  nginx:
+  nginx-balancer:
     image: nginx:stable-alpine
-    container_name: nginx-application-local
+    container_name: nginx-balancer
     ports:
       - "${NGINX_PORT}:80"
     volumes:
-      - ./site:/var/www/application.local/
-      - ./nginx/config:/etc/nginx/conf.d
-      - ./nginx/logs:/var/log/nginx/
+      - ./nginx/balancer/config:/etc/nginx/conf.d
+      - ./nginx/balancer/logs:/var/log/nginx/
     depends_on:
-      - php-8.2
-      - mysql-5.7
-      - redis
-      - memcached
+      - nginx-hw4-server1
+      - nginx-hw4-server2
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
     networks:
       - app-local
 
-  redis:
-    image: redis:latest
-    ports:
-      - "${REDIS_PORT}:6379"
-    container_name: redis-application-local
+  nginx-hw4-server1:
+    image: nginx:stable-alpine
+    container_name: nginx-hw4-server1
     volumes:
-      - ./redis/data:/var/lib/redis
-      - ./redis/config:/usr/local/etc/redis/redis.conf
+      - ./site:/var/www/hw4/
+      - ./nginx/hw4/config:/etc/nginx/conf.d
+      - ./nginx/hw4/logs:/var/log/nginx/
+    depends_on:
+      - php-8.2-app1
     environment:
       TZ: ${WORKSPACE_TIMEZONE}
     networks:
       - app-local
 
-  mysql-5.7:
-    image: mysql:5.7
-    container_name: mysql-5.7-application-local
-    restart: unless-stopped
+  nginx-hw4-server2:
+    image: nginx:stable-alpine
+    container_name: nginx-hw4-server2
     volumes:
-      - ./mysql/5.7/data/:/var/lib/mysql
-      - ./mysql/5.7/config:/etc/mysql/conf.d
-      - ./mysql/5.7/logs:/var/log/mysql/
-      - ./mysql/5.7/dump:/dump
-    ports:
-      - "${MYSQL_PORT}:3306"
-    security_opt:
-      - seccomp:unconfined
+      - ./site:/var/www/hw4/
+      - ./nginx/hw4-2/config:/etc/nginx/conf.d
+      - ./nginx/hw4-2/logs:/var/log/nginx/
+    depends_on:
+      - php-8.2-app2
     environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: ${WORKSPACE_TIMEZONE}
     networks:
       - app-local
 
-  php-8.2:
+  php-8.2-app1:
     build:
       context: ./php-8-workspace
       dockerfile: Dockerfile
     working_dir: /var/www
-    container_name: php-8.2-application-local
+    container_name: php-8.2-app1
     volumes:
-      - ./site:/var/www/application.local/
-      - ./php-8-workspace/logs:/var/log/
-    ports:
-      - "${PHP_8_2_PORT}:9000"
+      - ./site:/var/www/hw4/
+      - ./php-8-workspace/logs/app:/var/log/
     networks:
       - app-local
 
-  memcached:
-    image: memcached
-    container_name: memcached-application-local
-    ports:
-      - "${MEMCACHED_PORT}:11211"
+  php-8.2-app2:
+    build:
+      context: ./php-8-workspace
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-8.2-app2
+    volumes:
+      - ./site:/var/www/hw4/
+      - ./php-8-workspace/logs/app2:/var/log/
     networks:
       - app-local
 

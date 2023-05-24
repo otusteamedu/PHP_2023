@@ -1,4 +1,7 @@
 <?php
+
+namespace YakovGulyuta\hw14;
+
 class Solution
 {
     /**

@@ -7,7 +7,7 @@ namespace Vp\App\Infrastructure\Controllers;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Vp\App\Services\Verifier;
+use Vp\App\Application\Dto\Output\ResultSend;
 
 class Statement
 {
@@ -21,17 +21,22 @@ class Statement
         if (!$validator->isValid()) {
             return JsonResponse::create(['error' => $validator->getErrors()]);
         }
-//
-//        $emails = $app['services.preparer']->fromEmail($postData['email']);
-//
-//        return $this->verification($app['services.verifier'], $emails);
-        return JsonResponse::create(['result' => '563']);
+
+        $taskParams = $this->getTaskParams($postData);
+
+        /** @var ResultSend $result */
+        $result = $app['bank.statement.period']->createTask(json_encode($taskParams));
+
+        return JsonResponse::create(['result' => $result->getMessage()]);
     }
 
-    private function verification(Verifier $verifier, $emails): JsonResponse
+    private function getTaskParams(array $postData): array
     {
-        $verifier->verification($emails);
-
-        return JsonResponse::create(['result' => $verifier->getResult()]);
+        $taskParams = [
+            'email' => $postData['email'],
+            'dateStart' => $postData['dateStart'],
+            'dateEnd' => $postData['dateEnd'],
+        ];
+        return $taskParams;
     }
 }

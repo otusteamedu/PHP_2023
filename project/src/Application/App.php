@@ -6,9 +6,10 @@ namespace Vp\App\Application;
 
 use Silex\Application;
 use Symfony\Component\Validator\Validation;
+use Vp\App\Application\Builder\RabbitSenderBuilder;
 use Vp\App\Application\Constraint\PeriodFormConstraints;
+use Vp\App\Application\UseCase\BankStatementPeriod;
 use Vp\App\Application\Validator\Validator;
-use Vp\App\Services\Preparer;
 use Vp\App\Services\Verifier;
 
 class App
@@ -16,7 +17,7 @@ class App
     private array $routes;
     private Application $app;
 
-    public function __construct($routes, $silexApp)
+    public function __construct($routes, $silexApp, $env)
     {
         $this->routes = $routes;
         $this->app = $silexApp;
@@ -24,7 +25,7 @@ class App
         $this->initSilex();
 
         $this->registerConstraints();
-        $this->registerServices();
+        $this->registerServices($env);
         $this->registerRoutes();
     }
 
@@ -40,7 +41,7 @@ class App
         };
     }
 
-    private function registerServices(): void
+    private function registerServices(array $env): void
     {
         $this->app['services.verifier'] = function () {
             return new Verifier();
@@ -50,8 +51,16 @@ class App
             return new Validator(Validation::createValidator());
         };
 
-        $this->app['services.preparer'] = function () {
-            return new Preparer();
+        $senderBuilder = new RabbitSenderBuilder();
+        $senderBuilder
+            ->setHost($env['RBMQ_HOST'])
+            ->setPort($env['RBMQ_PORT'])
+            ->setUser($env['RBMQ_USER'])
+            ->setPassword($env['RBMQ_PASSWORD'])
+        ;
+
+        $this->app['bank.statement.period'] = function () use ($senderBuilder) {
+            return new BankStatementPeriod($senderBuilder->build());
         };
     }
 

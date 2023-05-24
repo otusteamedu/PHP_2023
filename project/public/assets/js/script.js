@@ -70,7 +70,7 @@ const renderResult = (result) => {
 
     const item = document.createElement('div');
     item.classList.add('text-success');
-    item.textContent = `Ваш запрос в очереди под номером - ${result}`;
+    item.textContent = result;
     fragment.appendChild(item);
 
     resultContainer.appendChild(fragment);

@@ -26,11 +26,34 @@ services:
       dockerfile: Dockerfile
     image: otus/php
     container_name: otus-php
+    environment:
+      PHP_IDE_CONFIG: serverName=Docker
+      XDEBUG_SESSION: 1
     volumes:
       - ./project:/data/application.local
+      - ./.env:/data/application.local/.env
       - ./php-fpm/www.conf:/usr/local/etc/php-fpm.d/www.conf
       - ./php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - socket:/socket
+    networks:
+      - otus-network
+
+  rabbitmq:
+    build:
+      context: ./rabbitmq
+      dockerfile: Dockerfile
+    image: otus/rabbitmq
+    container_name: otus-rabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:15672" ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
     networks:
       - otus-network
 

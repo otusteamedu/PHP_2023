@@ -27,6 +27,7 @@ RUN apt-get update && apt-get install -y \
     \
     && chown -R www-data:www-data /socket
 
+RUN docker-php-ext-install sockets
 WORKDIR /data
 
 RUN chown -R www-data:www-data /data

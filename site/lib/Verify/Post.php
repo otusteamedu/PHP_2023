@@ -6,7 +6,6 @@ namespace App\Verify;
 
 class Post
 {
-
     const RESPONSE_200 = 'Все в порядке, скобки на месте';
     const RESPONSE_400 = 'Что-то не так со скобками';
     const RESPONSE_400_EMPTY = 'Пустая строка';
@@ -73,5 +72,4 @@ class Post
         $this->string = $string;
         return $this;
     }
-
 }

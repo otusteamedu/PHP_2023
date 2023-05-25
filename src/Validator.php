@@ -4,44 +4,41 @@ declare(strict_types=1);
 
 namespace Iosh\EmailValidator;
 
-class Validator
+trait Validator
 {
-    const EMAIL_REGEX = '[\w-\.]+@([\w-]+\.)+[\w-]{2,4}';
-
-    public static function validateText(string $text): array
+    /**
+     * @param string $text
+     * @return Email[]
+     */
+    public static function extractFromText(string $text): array
     {
         $result = [];
         foreach (static::findByRegex($text) as $email) {
-            if (static::checkMx($email)) {
-                $result[] = $email;
-            }
+            $result[] = new static($email);
         }
         return $result;
     }
 
-    public static function validateSingle(string $email): bool
+    private function validate(): bool
     {
-        return static::checkRegex($email) && static::checkMx($email);
+        return $this->checkRegex() && $this->checkMx();
     }
 
-    private function __construct(string $email)
+
+    private function checkRegex(): bool
     {
+        return preg_match('/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/', $this->email);
     }
 
-    private static function findByRegex($text)
-    {
-        preg_match('/' . static::EMAIL_REGEX . '/', $text, $result);
-        return $result;
-    }
-
-    private static function checkRegex($email): bool
-    {
-        return preg_match('/^' . static::EMAIL_REGEX . '$/', $email);
-    }
-
-    private static function checkMx(string $email)
+    private function checkMx(): bool
     {
         $dummy = [];
-        return getmxrr(explode('@', $email)[1], $dummy);
+        return getmxrr(explode('@', $this->email)[1], $dummy);
+    }
+
+    private static function findByRegex($text): array
+    {
+        preg_match('/[\w-.]+@([\w-]+\.)+[\w-]{2,4}/', $text, $result);
+        return $result;
     }
 }

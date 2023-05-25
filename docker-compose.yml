@@ -10,7 +10,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./src:/data/application.local
+      - ./public:/data/application.local
     networks:
       - app-network
   nginx_1:
@@ -22,7 +22,7 @@ services:
     ports:
       - "81:80"
     volumes:
-      - ./src:/data/application.local
+      - ./public:/data/application.local
     networks:
       - app-network
   nginx_2:
@@ -34,7 +34,7 @@ services:
     ports:
       - "82:80"
     volumes:
-      - ./src:/data/application.local
+      - ./public:/data/application.local
     networks:
       - app-network
   app_1:
@@ -44,7 +44,7 @@ services:
     image: application/php
     container_name: application-php-1
     volumes:
-      - ./src:/data/application.local
+      - ./public:/data/application.local
     networks:
       - app-network
   app_2:
@@ -54,7 +54,7 @@ services:
     image: application/php
     container_name: application-php-2
     volumes:
-      - ./src:/data/application.local
+      - ./public:/data/application.local
     networks:
       - app-network
   postgresql:

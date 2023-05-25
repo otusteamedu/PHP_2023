@@ -1,3 +1,17 @@
-# PHP_2023
+# ДЗ 5
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Принимает в запросе json с массивом строк email_list
+
+## Пример json
+`{
+"email_list": [
+"test",
+"test@test.ru",
+"esaul@mail.ru",
+"esaul@yandex.ru",
+"test@otus.ru",
+"",
+"981380974",
+"iadufgiusdgf@sakjdhkadf.sdj"
+]
+}`

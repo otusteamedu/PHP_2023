@@ -8,5 +8,4 @@ use YakovGulyuta\Hw15\Application\Dto\CreateCinemaResponse;
 interface CreateCinemaInterface
 {
     public function handle(CreateCinemaRequest $createCinemaRequest): CreateCinemaResponse;
-
 }

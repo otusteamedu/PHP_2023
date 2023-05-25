@@ -8,21 +8,17 @@ use YakovGulyuta\Hw15\Application\Dto\UpdateCinemaRequest;
 use YakovGulyuta\Hw15\Application\Dto\UpdateCinemaResponse;
 use YakovGulyuta\Hw15\Domain\Contract\CinemaRepositoryInterface;
 use YakovGulyuta\Hw15\Domain\Exception\EntityNotFoundException;
-use YakovGulyuta\Hw15\Domain\Model\Cinema;
 
 class UpdateCinemaCase implements UpdateCinemaInterface
 {
-
     private CinemaRepositoryInterface $cinemaRepository;
-
 
     public function handle(UpdateCinemaRequest $createCinemaRequest): UpdateCinemaResponse
     {
         try {
-
             $cinemaRepository = $this->cinemaRepository;
 
-            /**@var Cinema $cinema */
+            /**@var \YakovGulyuta\Hw15\Domain\Model\Cinema $cinema */
             $cinema = $cinemaRepository->findOne($createCinemaRequest->cinema_id);
 
             if ($cinema === null) {
@@ -35,15 +31,16 @@ class UpdateCinemaCase implements UpdateCinemaInterface
 
             $response = new UpdateCinemaResponse(
                 200,
-                'Cinema Updated'
+                'Cinema Updated',
             );
         } catch (Throwable $e) {
             $response = new UpdateCinemaResponse(
                 $e->getCode(),
                 null,
-                $e->getMessage()
+                $e->getMessage(),
             );
         }
+
         return $response;
     }
 }

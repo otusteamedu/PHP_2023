@@ -15,5 +15,4 @@ class UpdateCinemaRequest
         $this->name = $name;
         $this->cinema_id = $cinema_id;
     }
-
 }

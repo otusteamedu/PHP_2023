@@ -6,5 +6,4 @@ use YakovGulyuta\Hw15\Domain\Contract\CinemaRepositoryInterface;
 
 class CinemaRepository extends AbstractRepository implements CinemaRepositoryInterface
 {
-
 }

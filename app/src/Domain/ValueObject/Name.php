@@ -4,7 +4,6 @@ namespace YakovGulyuta\Hw15\Domain\ValueObject;
 
 class Name
 {
-
     private string $name;
 
     public function __construct(string $name)

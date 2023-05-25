@@ -9,16 +9,18 @@ use YakovGulyuta\Hw15\Domain\ValueObject\Name;
 
 class CreateCinemaCommand
 {
-
     private CreateCinemaInterface $createCinema;
 
+    /**
+     * @return void
+     */
     public function execute(string $name)
     {
         // получаем данные, мапим в Дто, валидируем, передаем в Кейс Создания
 
         try {
             $dto = new CreateCinemaRequest(
-                new Name($name)
+                new Name($name),
             );
             $this->createCinema->handle($dto);
             echo 1;
@@ -28,6 +30,5 @@ class CreateCinemaCommand
             // ошибку в логи
             exit;
         }
-
     }
 }

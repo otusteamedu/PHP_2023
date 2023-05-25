@@ -28,7 +28,7 @@ function isStringValid(string $string): bool
 }
 
 [$httpCode, $responseText] = match (true) {
-    !array_key_exists('string', $_POST) => [404, 'string param is required'],
+    !array_key_exists('string', $_POST) => [400, 'string param is required'],
     isStringValid($_POST['string']) => [200, 'You are good!'],
     default => [400, 'Incorrect string'],
 };

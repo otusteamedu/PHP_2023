@@ -1,3 +1,14 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# otus-emails-checkers
+
+### Проверка email из формы.
+
+## Требования
+- PHP 8.1
+
+## Использование
+```bash
+$ cd balancer;
+$ docker-compose up;
+```

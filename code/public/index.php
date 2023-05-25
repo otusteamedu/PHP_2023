@@ -1,8 +1,8 @@
 <?php
 
-include "ParenthesesStringVerificator/autoload.php";
+include __DIR__ . "/../vendor/autoload.php";
 
-use ParenthesesStringVerificator\App;
+use VKorabelnikov\Hw4\Application\App;
 
 try {
     $obApp = new App();

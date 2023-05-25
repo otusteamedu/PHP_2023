@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace ParenthesesStringVerificator;
+namespace VKorabelnikov\Hw4\ParenthesesStringVerificator;
 
 class Verificator
 {

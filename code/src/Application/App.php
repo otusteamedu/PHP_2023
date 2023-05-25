@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace ParenthesesStringVerificator;
+namespace VKorabelnikov\Hw4\Application;
+
+use VKorabelnikov\Hw4\ParenthesesStringVerificator\Verificator;
 
 class App
 {

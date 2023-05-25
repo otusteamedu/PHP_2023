@@ -16,22 +16,15 @@ class Post
     const STATUS_400 = 400;
     const STATUS_405 = 405;
 
-    private array $server;
-    private array $post;
     private string $string;
 
-    public function __construct(
-        array $server,
-        array $post
-    )
+    public function __construct()
     {
-        if ($server['REQUEST_METHOD'] !== 'POST') {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
             throw new \Exception(self::RESPONSE_405, self::STATUS_405);
         }
 
-        $this->server = $server;
-        $this->post = $post;
-        $this->string = $post['string'];
+        $this->string = $_POST['string'];
     }
 
     public function checkString(): string
@@ -59,43 +52,8 @@ class Post
             throw new \Exception(self::RESPONSE_400, self::STATUS_400);
         }
 
+        http_response_code(self::STATUS_200);
         return self::RESPONSE_200;
-    }
-
-    /**
-     * @return array
-     */
-    public function getServer(): array
-    {
-        return $this->server;
-    }
-
-    /**
-     * @param array $server
-     * @return Post
-     */
-    public function setServer(array $server): Post
-    {
-        $this->server = $server;
-        return $this;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPost(): array
-    {
-        return $this->post;
-    }
-
-    /**
-     * @param array $post
-     * @return Post
-     */
-    public function setPost(array $post): Post
-    {
-        $this->post = $post;
-        return $this;
     }
 
     /**

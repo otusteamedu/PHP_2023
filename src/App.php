@@ -8,7 +8,6 @@ use Dmitryesaulenko\Php2023\Email;
 
 class App
 {
-
     public function exec(): void
     {
         try {
@@ -19,5 +18,4 @@ class App
             echo $e->getMessage();
         }
     }
-
 }

@@ -2,27 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Application\Producer;
+namespace Vp\App\Application\RabbitMq;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Vp\App\Application\Builder\Contract\RabbitSenderBuilderInterface;
 use Vp\App\Application\Dto\Output\ResultSend;
-use Vp\App\Application\Producer\Contract\SenderInterface;
+use Vp\App\Application\RabbitMq\Contract\AmqpConnectionInterface;
+use Vp\App\Application\RabbitMq\Contract\SenderInterface;
 
 class RabbitSender implements SenderInterface
 {
-    private string $host;
-    private string $port;
-    private string $user;
-    private string $password;
+    private const PENDING_TIME = 2;
 
-    public function __construct(RabbitSenderBuilderInterface $builder)
+    private AMQPStreamConnection $connection;
+
+    public function __construct(AmqpConnectionInterface $connection)
     {
-        $this->host = $builder->getHost();
-        $this->port = $builder->getPort();
-        $this->user = $builder->getUser();
-        $this->password = $builder->getPassword();
+        $this->connection = $connection->getConnection();
     }
 
     public function send(string $queueName, string $message): ResultSend
@@ -32,14 +28,13 @@ class RabbitSender implements SenderInterface
         );
 
         try {
-            $connection = new AMQPStreamConnection($this->host, $this->port, $this->user, $this->password);
-            $channel = $connection->channel();
+            $channel = $this->connection->channel();
             $channel->confirm_select();
             $channel->queue_declare($queueName, false, true, false, false);
             $channel->basic_publish($msg, '', $queueName);
-            $channel->wait_for_pending_acks(2.000);
+            $channel->wait_for_pending_acks(self::PENDING_TIME);
             $channel->close();
-            $connection->close();
+            $this->connection->close();
             return new ResultSend(true, 'Job added to the queue');
         } catch (\Exception $e) {
             return new ResultSend(false, 'An error occurred while adding a job to the queue, contact the application administrator');

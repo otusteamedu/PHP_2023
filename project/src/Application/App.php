@@ -6,8 +6,9 @@ namespace Vp\App\Application;
 
 use Silex\Application;
 use Symfony\Component\Validator\Validation;
-use Vp\App\Application\Builder\RabbitSenderBuilder;
+use Vp\App\Application\Builder\AmqpConnectionBuilder;
 use Vp\App\Application\Constraint\PeriodFormConstraints;
+use Vp\App\Application\RabbitMq\RabbitSender;
 use Vp\App\Application\UseCase\BankStatementPeriod;
 use Vp\App\Application\Validator\Validator;
 use Vp\App\Services\Verifier;
@@ -51,16 +52,16 @@ class App
             return new Validator(Validation::createValidator());
         };
 
-        $senderBuilder = new RabbitSenderBuilder();
-        $senderBuilder
+        $amqpConnectionBuilder = new AmqpConnectionBuilder();
+        $amqpConnectionBuilder
             ->setHost($env['RBMQ_HOST'])
             ->setPort($env['RBMQ_PORT'])
             ->setUser($env['RBMQ_USER'])
             ->setPassword($env['RBMQ_PASSWORD'])
         ;
 
-        $this->app['bank.statement.period'] = function () use ($senderBuilder) {
-            return new BankStatementPeriod($senderBuilder->build());
+        $this->app['bank.statement.period'] = function () use ($amqpConnectionBuilder) {
+            return new BankStatementPeriod(new RabbitSender($amqpConnectionBuilder->build()));
         };
     }
 

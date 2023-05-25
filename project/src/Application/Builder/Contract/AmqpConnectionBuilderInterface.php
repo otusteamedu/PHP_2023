@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\Builder\Contract;
 
-use Vp\App\Application\Consumer\Contract\RabbitReceiverInterface;
+use Vp\App\Application\RabbitMq\Contract\AmqpConnectionInterface;
 
-interface RabbitReceiverBuilderInterface
+interface AmqpConnectionBuilderInterface
 {
-    public function build(): RabbitReceiverInterface;
+    public function build(): AmqpConnectionInterface;
     public function getHost(): string;
     public function getPort(): string;
     public function getUser(): string;

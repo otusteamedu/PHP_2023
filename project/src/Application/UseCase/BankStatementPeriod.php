@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Vp\App\Application\UseCase;
 
 use Vp\App\Application\Dto\Output\ResultSend;
-use Vp\App\Application\Producer\Contract\SenderInterface;
+use Vp\App\Application\RabbitMq\Contract\SenderInterface;
 
 class BankStatementPeriod
 {

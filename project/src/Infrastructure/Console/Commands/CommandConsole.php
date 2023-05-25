@@ -18,7 +18,6 @@ class CommandConsole implements CommandInterface
 
     public function run(): void
     {
-        $result = $this->consoleData->work();
-        fwrite(STDOUT, $result . PHP_EOL);
+        $this->consoleData->work();
     }
 }

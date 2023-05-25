@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\Builder;
 
-use Vp\App\Application\Builder\Contract\RabbitReceiverBuilderInterface;
-use Vp\App\Application\Consumer\RabbitReceiver;
+use Vp\App\Application\Builder\Contract\AmqpConnectionBuilderInterface;
+use Vp\App\Application\RabbitMq\Contract\AmqpConnectionInterface;
+use Vp\App\Application\RabbitMq\AmqpConnection;
 
-
-class RabbitReceiverBuilder implements RabbitReceiverBuilderInterface
+class AmqpConnectionBuilder implements AmqpConnectionBuilderInterface
 {
     private string $host;
     private string $port;
@@ -59,8 +59,8 @@ class RabbitReceiverBuilder implements RabbitReceiverBuilderInterface
         return $this->password;
     }
 
-    public function build(): RabbitReceiver
+    public function build(): AmqpConnectionInterface
     {
-        return new RabbitReceiver($this);
+        return new AmqpConnection($this);
     }
 }

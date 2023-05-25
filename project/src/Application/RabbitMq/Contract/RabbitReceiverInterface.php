@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Application\Consumer\Contract;
+namespace Vp\App\Application\RabbitMq\Contract;
 
 use Vp\App\Application\Contract\DataProcessInterface;
 

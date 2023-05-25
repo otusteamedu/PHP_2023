@@ -1,11 +1,9 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Validation;
 
-use \Ilyukdim\OtusCheckers\Checkers;
-use \Ilyukdim\OtusCheckers\Types\Brackets;
-
+use Ilyukdim\OtusCheckers\Checkers;
+use Ilyukdim\OtusCheckers\Types\Brackets;
 
 class Bracket implements Validation
 {

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IilyukDmitryi\App;
 
 use IilyukDmitryi\App\Controllers\AppController;
@@ -15,7 +14,6 @@ class App
         $statistic = new StatisticSession();
         $appController->setStatisticEngine($statistic);
         $appController->checkStringPost();
-
         session_write_close();
     }
 }

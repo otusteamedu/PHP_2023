@@ -1,3 +1,14 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# otus-checkers
+
+### Проверка баланса круглых скобок в строке, посланной методом POST в параметре string
+
+## Требования
+- PHP 8.1
+
+## Использование
+```bash
+$ cd balancer;
+$ docker-compose up;
+```

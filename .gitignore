@@ -5,11 +5,14 @@
 /mysql/*/logs/**
 /redis/data/**
 !/redis/data/.gitkeep
-/nginx/logs/**
+/nginx/*/logs/**
 /php-8-workspace/logs/**
 
 # Файлы сайта
-/site/**
+/site/vendor/*
+/site/composer.lock
+/site/*.sh
+/site/*.txt
 
 # Другие файлы
 .idea/

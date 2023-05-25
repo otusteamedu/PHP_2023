@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+
+  nginx-balancer:
+    image: nginx:stable-alpine
+    container_name: nginx-balancer
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./nginx/balancer/config:/etc/nginx/conf.d
+      - ./nginx/balancer/logs:/var/log/nginx/
+    depends_on:
+      - nginx-hw4-server1
+      - nginx-hw4-server2
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+    networks:
+      - app-local
+
+  nginx-hw4-server1:
+    image: nginx:stable-alpine
+    container_name: nginx-hw4-server1
+    volumes:
+      - ./site:/var/www/hw4/
+      - ./nginx/hw4/config:/etc/nginx/conf.d
+      - ./nginx/hw4/logs:/var/log/nginx/
+    depends_on:
+      - php-8.2-app1
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+    networks:
+      - app-local
+
+  nginx-hw4-server2:
+    image: nginx:stable-alpine
+    container_name: nginx-hw4-server2
+    volumes:
+      - ./site:/var/www/hw4/
+      - ./nginx/hw4-2/config:/etc/nginx/conf.d
+      - ./nginx/hw4-2/logs:/var/log/nginx/
+    depends_on:
+      - php-8.2-app2
+    environment:
+      TZ: ${WORKSPACE_TIMEZONE}
+    networks:
+      - app-local
+
+  php-8.2-app1:
+    build:
+      context: ./php-8-workspace
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-8.2-app1
+    depends_on:
+      - memcached-hw4
+    volumes:
+      - ./site:/var/www/hw4/
+      - ./php-8-workspace/logs/app:/var/log/
+    networks:
+      - app-local
+
+  php-8.2-app2:
+    build:
+      context: ./php-8-workspace
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-8.2-app2
+    depends_on:
+      - memcached-hw4
+    volumes:
+      - ./site:/var/www/hw4/
+      - ./php-8-workspace/logs/app2:/var/log/
+    networks:
+      - app-local
+
+  memcached-hw4:
+    image: memcached
+    container_name: memcached-hw4
+    ports:
+      - "${MEMCACHED_PORT}:11211"
+    networks:
+      - app-local
+
+networks:
+  app-local:
+    driver: bridge

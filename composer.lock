@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "wollkey/otus-package",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wollkey/otus-package.git",
-                "reference": "96a19c6256093776b20b6e12908fa05081353e8c"
+                "reference": "0a0556eead47138a8cc7f3ee9eb53b232afc0565"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wollkey/otus-package/zipball/96a19c6256093776b20b6e12908fa05081353e8c",
-                "reference": "96a19c6256093776b20b6e12908fa05081353e8c",
+                "url": "https://api.github.com/repos/wollkey/otus-package/zipball/0a0556eead47138a8cc7f3ee9eb53b232afc0565",
+                "reference": "0a0556eead47138a8cc7f3ee9eb53b232afc0565",
                 "shasum": ""
             },
             "require": {
-                "php": "8.2"
+                "php": ">=7.4"
             },
             "type": "library",
             "autoload": {
@@ -42,9 +42,9 @@
             "description": "Simple package for otus homework",
             "support": {
                 "issues": "https://github.com/wollkey/otus-package/issues",
-                "source": "https://github.com/wollkey/otus-package/tree/1.0.0"
+                "source": "https://github.com/wollkey/otus-package/tree/1.0.1"
             },
-            "time": "2023-05-23T17:26:43+00:00"
+            "time": "2023-05-25T12:51:41+00:00"
         }
     ],
     "packages-dev": [],

@@ -2,6 +2,9 @@
 
 Краткое описание пакета.
 
+## Требования
+
+- PHP 7.0.0
 
 ## Установка
 
@@ -14,5 +17,5 @@ $ composer require pankratov/hw3
 ```php
 <?php
 $processor = new StringProcessor();
-echo $processor->getLength('my string'); // 9  
+echo $processor->getLength('my string'); 
 ```

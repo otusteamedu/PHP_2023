@@ -11,7 +11,7 @@ class App
     private string $successMessage;
     private string $errorMessage;
 
-    function __construct(string $field, string $successMessage, string $errorMessage)
+    private function __construct(string $field, string $successMessage, string $errorMessage)
     {
         $this->field = $field;
         $this->successMessage = $successMessage;
@@ -32,7 +32,7 @@ class App
             return;
         }
 
-        if(!$this->isValid($post[$this->field])) {
+        if (!$this->isValid($post[$this->field])) {
             Response::sendResponse(400, $this->errorMessage);
             return;
         }

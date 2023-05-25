@@ -23,7 +23,8 @@ class RabbitSender implements SenderInterface
 
     public function send(string $queueName, string $message): ResultSend
     {
-        $msg = new AMQPMessage($message,
+        $msg = new AMQPMessage(
+            $message,
             ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]
         );
 

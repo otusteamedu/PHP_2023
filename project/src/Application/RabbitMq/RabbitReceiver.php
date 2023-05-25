@@ -27,7 +27,7 @@ class RabbitReceiver implements RabbitReceiverInterface
         $channel->queue_declare($queueName, false, true, false, false);
         $channel->basic_qos(0, 1, false);
         $channel->basic_consume($queueName, '', false, false, false, false, [$dataProcess, $method]);
-        while(count($channel->callbacks)) {
+        while (count($channel->callbacks)) {
             $channel->wait();
         }
         $channel->close();

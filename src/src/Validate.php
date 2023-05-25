@@ -10,11 +10,29 @@ class Validate
     public function __construct()
     {
     }
-    public function checkString(): Validate
+
+    public function validate(): void
+    {
+        if (empty($_POST) || 1 !== count($_POST)) {
+            $this->generateResponse(400);
+            return;
+        }
+        if (isset($_POST['string'])) {
+            $this->checkString();
+        } elseif (isset($_POST['email'])) {
+            $this->checkEmails();
+        } else {
+            $this->generateResponse(400);
+        }
+        return;
+    }
+
+    public function checkString(): void
     {
         $inputString = $_POST['string'] ?? '';
         if ('' === $inputString) {
-            return $this;
+            $this->generateResponse(400);
+            return;
         }
 
         $bracketsCount = 0;
@@ -26,11 +44,11 @@ class Validate
                 $bracketsCount--;
             }
             if ($bracketsCount < 0) {
-                return $this;
+                $this->generateResponse(400);
             }
         }
-        0 === $bracketsCount ? $this->result = true : $this->result = false;
-        return $this;
+        0 === $bracketsCount ? $this->generateResponse(200) : $this->generateResponse(400);
+        return;
     }
 
     public function checkEmails(): Validate
@@ -65,9 +83,9 @@ class Validate
         return !!filter_var($inputEmail, FILTER_VALIDATE_EMAIL) && checkdnsrr(explode('@', $inputEmail)[1], 'MX');
     }
 
-    public function generateResponse()
+    public function generateResponse($code = 200): void
     {
-        $this->result ? http_response_code(200) : http_response_code(400);
-        exit();
+        http_response_code($code);
+        return;
     }
 }

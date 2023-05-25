@@ -1,0 +1,16 @@
+{
+    "name": "pankratov/hw3",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Pankratov\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DPankratov",
+            "email": "Pankratov2010@rambler.ru"
+        }
+    ],
+    "require": {}
+}

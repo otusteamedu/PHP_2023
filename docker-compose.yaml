@@ -1,0 +1,75 @@
+version: '3.9'
+
+services:
+    nginx_entry_point:
+        container_name: otus_nginx_entry_point
+        image: nginx:latest
+        depends_on:
+            - nginx_backend_1
+        ports:
+            - "80:80"
+        volumes:
+            - ./.docker/nginx/config/entry_point.conf:/etc/nginx/conf.d/default.conf
+
+    nginx_backend_1:
+        container_name: otus_nginx_backend_1
+        image: nginx:latest
+        depends_on:
+            - php_1
+            - php_2
+            - php_3
+        expose:
+            - 80
+        volumes:
+            - ./.docker/nginx/config/server.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www
+
+    nginx_backend_2:
+        container_name: otus_nginx_backend_2
+        image: nginx:latest
+        depends_on:
+            - php_1
+            - php_2
+            - php_3
+        expose:
+            - 80
+        volumes:
+            - ./.docker/nginx/config/server.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www
+
+    php_1:
+        container_name: otus_php_1
+        build:
+            dockerfile: .docker/php/Dockerfile
+            context: ./
+        restart: always
+        depends_on:
+            - memcached
+        volumes:
+            - ./:/var/www
+
+    php_2:
+        container_name: otus_php_2
+        build:
+            dockerfile: .docker/php/Dockerfile
+            context: ./
+        restart: always
+        depends_on:
+            - memcached
+        volumes:
+            - ./:/var/www
+
+    php_3:
+        container_name: otus_php_3
+        build:
+            dockerfile: .docker/php/Dockerfile
+            context: ./
+        restart: always
+        depends_on:
+            - memcached
+        volumes:
+            - ./:/var/www
+
+    memcached:
+        container_name: otus_memcached
+        image: bitnami/memcached:latest

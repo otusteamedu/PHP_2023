@@ -1,0 +1,24 @@
+{
+    "name": "yakov-gulyuta/hw15",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "YakovGulyuta\\Hw15\\": "/src"
+        }
+    },
+    "authors": [
+        {
+            "name": "yakovgulyuta",
+            "email": "yakovgulyuta@yandex.ru"
+        }
+    ],
+    "require-dev": {
+        "spryker/code-sniffer": "^0.17.18",
+        "kint-php/kint": "^5.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    }
+}

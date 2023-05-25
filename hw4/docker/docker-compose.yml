@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    networks:
+      - public
+      - app-network
+
+  nginx-web-server1:
+    build:
+      context: ./nginx-web-server
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/html
+    networks:
+      - app-network
+
+  nginx-web-server2:
+    build:
+      context: ./nginx-web-server
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/html
+    networks:
+      - app-network
+
+  php-fpm1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/html
+    networks:
+      - app-network
+
+  php-fpm2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/html
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  public:
+    driver: bridge
+  app-network:

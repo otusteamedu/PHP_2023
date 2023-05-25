@@ -25,7 +25,6 @@ class RabbitSender implements SenderInterface
         $this->password = $builder->getPassword();
     }
 
-
     public function send(string $queueName, string $message): ResultSend
     {
         $msg = new AMQPMessage($message,

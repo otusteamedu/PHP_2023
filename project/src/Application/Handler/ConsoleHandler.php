@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Vp\App\Application\Handler;
 
 use PhpAmqpLib\Message\AMQPMessage;
+use Vp\App\Application\Contract\OutputInterface;
 use Vp\App\Application\Handler\Contract\ConsoleHandlerInterface;
 use Vp\App\Application\UseCase\Contract\StatementGeneratorInterface;
-use Vp\App\Infrastructure\Console\Contract\OutputInterface;
 
 class ConsoleHandler implements ConsoleHandlerInterface
 {

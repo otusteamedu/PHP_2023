@@ -17,17 +17,17 @@ class HelpData implements HelpDataInterface
     private function getMessage(): string
     {
         return '
-usage: php app.php [help] [console] [smtp]
+usage: php app.php [help] [console] [email]
 
 Commands:
         help        Show this message
         console     Read queue to console
-        smtp        Send queue by email
+        email        Send queue by email
 
 Example:
         php app.php help
         php app.php console
-        php app.php smtp
+        php app.php email
 ';
     }
 }

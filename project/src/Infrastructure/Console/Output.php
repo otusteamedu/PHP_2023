@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vp\App\Infrastructure\Console;
 
-use Vp\App\Infrastructure\Console\Contract\OutputInterface;
+use Vp\App\Application\Contract\OutputInterface;
 
 class Output implements OutputInterface
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Vp\App\Infrastructure\Console\Contract;
+namespace Vp\App\Application\Contract;
 
 interface OutputInterface
 {

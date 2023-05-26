@@ -11,11 +11,9 @@ class App
     public function exec(): void
     {
         try {
-            header('Content-Type: application/json; charset=utf-8');
-            echo Email::verify();
+            Response::success(Email::verify());
         } catch (\Exception $e) {
-            http_response_code($e->getCode());
-            echo $e->getMessage();
+            Response::error($e);
         }
     }
 }

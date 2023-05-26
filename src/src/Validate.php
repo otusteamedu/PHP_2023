@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace nikitaglobal;
 
+use nikitaglobal\Responses as Responses;
+
 class Validate
 {
     private $result = true;
@@ -14,7 +16,7 @@ class Validate
     public function validate(): void
     {
         if (empty($_POST) || 1 !== count($_POST)) {
-            $this->generateResponse(400);
+            Responses::error();
             return;
         }
         if (isset($_POST['string'])) {
@@ -22,7 +24,7 @@ class Validate
         } elseif (isset($_POST['email'])) {
             $this->checkEmails();
         } else {
-            $this->generateResponse(400);
+            Responses::error();
         }
         return;
     }
@@ -31,7 +33,7 @@ class Validate
     {
         $inputString = $_POST['string'] ?? '';
         if ('' === $inputString) {
-            $this->generateResponse(400);
+            Responses::error();
             return;
         }
 
@@ -44,27 +46,30 @@ class Validate
                 $bracketsCount--;
             }
             if ($bracketsCount < 0) {
-                $this->generateResponse(400);
+                Responses::error();
+                return;
             }
         }
-        0 === $bracketsCount ? $this->generateResponse(200) : $this->generateResponse(400);
+
+        0 === $bracketsCount ? Responses::success() : Responses::error();
         return;
     }
 
-    public function checkEmails(): Validate
+    public function checkEmails(): void
     {
         $inputEmails = $_POST['email'] ?? '';
         if ('' === $inputEmails) {
-            return $this;
+            Responses::error();
+            return;
         }
         $emails = explode(',', $inputEmails);
         foreach ($emails as $email) {
             if (false === $this->checkEmail($email) || false === $this->checkEmailMx($email)) {
-                $this->result = false;
-                return $this;
+                Responses::error();
+                return;
             }
         }
-        return $this;
+        Responses::success();
     }
 
     public function checkEmail(string $inputEmail = ''): bool
@@ -80,12 +85,6 @@ class Validate
         if ('' === $inputEmail) {
             return false;
         }
-        return !!filter_var($inputEmail, FILTER_VALIDATE_EMAIL) && checkdnsrr(explode('@', $inputEmail)[1], 'MX');
-    }
-
-    public function generateResponse($code = 200): void
-    {
-        http_response_code($code);
-        return;
+        return checkdnsrr(explode('@', $inputEmail)[1], 'MX');
     }
 }

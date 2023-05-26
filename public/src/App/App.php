@@ -11,7 +11,7 @@ class App
     private string $successMessage;
     private string $errorMessage;
 
-    private function __construct(string $field, string $successMessage, string $errorMessage)
+    public function __construct(string $field, string $successMessage, string $errorMessage)
     {
         $this->field = $field;
         $this->successMessage = $successMessage;
@@ -47,20 +47,20 @@ class App
 
     private function isValid(string $string): bool
     {
-        $open = [];
+        $counter = 0;
         for ($i = 0; $i < strlen($string); $i++) {
             if ($string[$i] === '(') {
-                $open[] = $i;
+                $counter++;
             }
             if ($string[$i] === ')') {
-                if (empty($open)) {
+                if (!boolval($counter)) {
                     return false;
                 }
-                array_pop($open);
+                $counter--;
             }
         }
 
-        return empty($open);
+        return !boolval($counter);
     }
 
     private function isStringEmpty(string $string): bool

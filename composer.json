@@ -1,0 +1,20 @@
+{
+    "name": "tilhom/test-my-package",
+    "description": "test my package for otus hw",
+    "type": "project",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "Tilhom\\TestMyPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "ITeshaboyev",
+            "email": "1qadam@mail.ru"
+        }
+    ],
+    "require": {
+        "tilhom/my-package": "^1.0"
+    }
+}

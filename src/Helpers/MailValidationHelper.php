@@ -8,13 +8,11 @@ use Exception;
 
 class MailValidationHelper
 {
-    public static function checkEmailList(array $request): array
+    public static function checkEmailList(): array
     {
-        isset($request['emails']) &&
-            $request['emails'] !== '' ?: throw new Exception('Запрос пустой!');
-        $request = json_decode($request['emails'], true);
-        gettype($request) === 'array' ||
-            gettype($request) === 'object' ?: throw new Exception('Не правильный формат списка!');
+        if (!isset($_POST['emails']) || isset($_POST['emails']) && $_POST['emails'] === '') throw new Exception('Запрос пустой!');
+        $request = json_decode($_POST['emails'], true);
+        if (gettype($request) !== 'array' || gettype($request) !== 'object') throw new Exception('Не правильный формат списка!');
         $validMails = [];
         foreach ($request as $email) {
             if (!self::checkInRegExp($email)) {

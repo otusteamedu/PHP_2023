@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "vyacheslavlebedev/palindrome-counter",
-            "version": "v1.0.1",
+            "version": "v1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/prizman2000/palindrome-counter.git",
-                "reference": "302f477b1ed16ea20832a3321af8c54ab0951981"
+                "reference": "8cef30b6df764fe90e6abca8ec21e50189f2d45d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/prizman2000/palindrome-counter/zipball/302f477b1ed16ea20832a3321af8c54ab0951981",
-                "reference": "302f477b1ed16ea20832a3321af8c54ab0951981",
+                "url": "https://api.github.com/repos/prizman2000/palindrome-counter/zipball/8cef30b6df764fe90e6abca8ec21e50189f2d45d",
+                "reference": "8cef30b6df764fe90e6abca8ec21e50189f2d45d",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/prizman2000/palindrome-counter/issues",
-                "source": "https://github.com/prizman2000/palindrome-counter/tree/v1.0.1"
+                "source": "https://github.com/prizman2000/palindrome-counter/tree/v1.1.0"
             },
-            "time": "2023-05-20T20:01:00+00:00"
+            "time": "2023-05-26T17:27:50+00:00"
         }
     ],
     "packages-dev": [],

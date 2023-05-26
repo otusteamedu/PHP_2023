@@ -10,9 +10,13 @@ class MailValidationHelper
 {
     public static function checkEmailList(): array
     {
-        if (!isset($_POST['emails']) || isset($_POST['emails']) && $_POST['emails'] === '') throw new Exception('Запрос пустой!');
+        if (!isset($_POST['emails']) || isset($_POST['emails']) && $_POST['emails'] === '') {
+            throw new Exception('Запрос пустой!');
+        }
         $request = json_decode($_POST['emails'], true);
-        if (gettype($request) !== 'array' || gettype($request) !== 'object') throw new Exception('Не правильный формат списка!');
+        if (gettype($request) !== 'array' || gettype($request) !== 'object') {
+            throw new Exception('Не правильный формат списка!');
+        }
         $validMails = [];
         foreach ($request as $email) {
             if (!self::checkInRegExp($email)) {

@@ -1,0 +1,21 @@
+{
+  "name": "vendor_name/code",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "00dim",
+      "email": "email@example.com"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "ilyukdim/otus-checkers": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "IilyukDmitryi\\App\\": "App/"
+    }
+  }
+}

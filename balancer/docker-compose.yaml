@@ -1,0 +1,103 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx-slave1:
+    build:
+      context: ./nginx-slave
+      dockerfile: Dockerfile
+    image: balance/nginx-slave
+    container_name: nginx-slave1
+    environment:
+      NGINX_NUM: "1"
+    # проброс портов
+    #ports:
+    #  - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx-slave2:
+      build:
+        context: ./nginx-slave
+        dockerfile: Dockerfile
+      image: balance/nginx-slave
+      container_name: nginx-slave2
+      environment:
+        NGINX_NUM: "2"
+      # проброс портов
+      #ports:
+      #  - "80:80"
+      volumes:
+        - ./code:/data/mysite.local
+      networks:
+        - app-network
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    environment:
+      APP_NUM: "app1"
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    environment:
+      APP_NUM: "app2"
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./code:/app
+    entrypoint:
+      - composer
+      - install
+    depends_on:
+      - app2
+      - app1
+
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    image: balance/nginx-balancer
+    container_name: nginx-balancer
+    # проброс портов
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  #Контейнер с memcached
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

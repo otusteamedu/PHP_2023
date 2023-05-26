@@ -6,8 +6,6 @@ error_reporting(E_ERROR);
 
 use Vp\App\Application\Contract\AppInterface;
 
-require_once "vendor/autoload.php";
-require_once "constant.php";
 require_once "bootstrap.php";
 $diConfig = require_once "di-config.php";
 

@@ -1,0 +1,18 @@
+{
+    "name": "dmitryesaulenko/php2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dmitryesaulenko\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "D.Esaulenko",
+            "email": "esaul.work@mail.ru"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.2"
+    }
+}

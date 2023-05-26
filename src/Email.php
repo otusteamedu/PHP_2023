@@ -9,45 +9,44 @@ class Email
     const TYPE_MX = 'MX';
     const EMAILS_KEY = 'email_list';
 
-    /**
-     * Проверяет список Email:
-     * 1. По регулярному выражению
-     * 2. MX запись DNS
-     *
-     * @return string
-     * @throws \JsonException
-     */
-    public static function verify(): string
+    protected array $emailList;
+
+    public function __construct()
     {
-        $emailList = static::makeListFromInput();
-        if (!$emailList) {
+        $this->emailList = $this->makeListFromInput();
+
+        if (!$this->emailList) {
             throw new \Exception(
                 Response::ERROR_EMPTY_REQUEST,
                 Response::EMPTY_REQUEST_STATUS
             );
         }
+    }
 
-        $response = [];
-        foreach ($emailList as $email) {
-            $response[$email]['result'] = false;
+    public function verify(): string
+    {
+        $this->checkList();
+        return json_encode($this->emailList, JSON_THROW_ON_ERROR);
+    }
 
-            if (!self::checkRegExp($email)) {
-                $response[$email]['errors'][] = Response::ERROR_REGEXP;
+    protected function checkList(): void
+    {
+        foreach ($this->emailList as $email => &$res) {
+            $res['result'] = false;
+            if (!$this->checkRegExp((string)$email)) {
+                $res['errors'][] = Response::ERROR_REGEXP;
                 continue;
             }
 
-            if (!self::checkDns($email)) {
-                $response[$email]['errors'][] = Response::ERROR_DNS;
+            if (!$this->checkDns((string)$email)) {
+                $res['errors'][] = Response::ERROR_DNS;
             }
 
-            if (!$response[$email]['errors']) {
-                $response[$email]['result'] = true;
+            if (!$res['errors']) {
+                $res['result'] = true;
             }
-
-            unset($item);
         }
-
-        return json_encode([self::EMAILS_KEY => $response], JSON_THROW_ON_ERROR);
+        unset($res);
     }
 
     /**
@@ -55,7 +54,7 @@ class Email
      *
      * @return array
      */
-    protected static function makeListFromInput(): array
+    protected function makeListFromInput(): array
     {
         if ($json = file_get_contents('php://input')) {
             $data = json_decode($json, true);
@@ -63,20 +62,24 @@ class Email
                 $data
                 && $data[self::EMAILS_KEY]
             ) {
-                return $data[self::EMAILS_KEY];
+                $emailList = [];
+                foreach ($data[self::EMAILS_KEY] as $email) {
+                    $emailList[$email] = [];
+                }
+                return $emailList;
             }
         }
 
         return [];
     }
 
-    protected static function checkRegExp(string $email): bool
+    protected function checkRegExp(string $email): bool
     {
         $regExp = '/^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-0-9A-Za-z]{1,}\.){1,2}[-A-Za-z]{2,})$/u';
         return preg_match($regExp, $email) === 1;
     }
 
-    protected static function checkDns(string $email): bool
+    protected function checkDns(string $email): bool
     {
         return checkdnsrr(explode('@', $email)[1] ?: '', self::TYPE_MX);
     }

@@ -11,7 +11,7 @@ class App
     public function exec(): void
     {
         try {
-            Response::success(Email::verify());
+            Response::success((new Email)->verify());
         } catch (\Exception $e) {
             Response::error($e);
         }

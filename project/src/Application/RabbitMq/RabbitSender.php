@@ -6,7 +6,7 @@ namespace Vp\App\Application\RabbitMq;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-use Vp\App\Application\Dto\Output\ResultSend;
+use Vp\App\Application\Dto\Output\Result;
 use Vp\App\Application\RabbitMq\Contract\AmqpConnectionInterface;
 use Vp\App\Application\RabbitMq\Contract\SenderInterface;
 
@@ -21,7 +21,7 @@ class RabbitSender implements SenderInterface
         $this->connection = $connection->getConnection();
     }
 
-    public function send(string $queueName, string $message): ResultSend
+    public function send(string $queueName, string $message): Result
     {
         $msg = new AMQPMessage(
             $message,
@@ -36,9 +36,9 @@ class RabbitSender implements SenderInterface
             $channel->wait_for_pending_acks(self::PENDING_TIME);
             $channel->close();
             $this->connection->close();
-            return new ResultSend(true, 'Job added to the queue');
+            return new Result(true, 'Job added to the queue');
         } catch (\Exception $e) {
-            return new ResultSend(false, 'An error occurred while adding a job to the queue, contact the application administrator');
+            return new Result(false, 'An error occurred while adding a job to the queue, contact the application administrator');
         }
     }
 }

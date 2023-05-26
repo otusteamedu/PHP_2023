@@ -9,7 +9,7 @@ use Vp\App\Application\Contract\MailerInterface;
 use Vp\App\Application\Handler\Contract\EmailHandlerInterface;
 use Vp\App\Application\UseCase\Contract\StatementGeneratorInterface;
 
-class EmailHandler implements EmailHandlerInterface
+class BankStatementEmailHandler implements EmailHandlerInterface
 {
     private StatementGeneratorInterface $generator;
     private MailerInterface $mailer;

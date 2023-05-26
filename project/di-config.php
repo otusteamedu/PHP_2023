@@ -10,10 +10,10 @@ use Vp\App\Application\Contract\EmailDataInterface;
 use Vp\App\Application\Contract\HelpDataInterface;
 use Vp\App\Application\Contract\MailerInterface;
 use Vp\App\Application\Contract\OutputInterface;
-use Vp\App\Application\Handler\ConsoleHandler;
+use Vp\App\Application\Handler\BankStatementConsoleHandler;
 use Vp\App\Application\Handler\Contract\ConsoleHandlerInterface;
 use Vp\App\Application\Handler\Contract\EmailHandlerInterface;
-use Vp\App\Application\Handler\EmailHandler;
+use Vp\App\Application\Handler\BankStatementEmailHandler;
 use Vp\App\Application\RabbitMq\Contract\RabbitReceiverInterface;
 use Vp\App\Application\RabbitMq\RabbitReceiver;
 use Vp\App\Application\UseCase\ConsoleDataProcess;
@@ -49,13 +49,13 @@ return [
             DI\get(SmtpMailerInterface::class)
         ),
 
-    ConsoleHandlerInterface::class => DI\create(ConsoleHandler::class)
+    ConsoleHandlerInterface::class => DI\create(BankStatementConsoleHandler::class)
         ->constructor(
             DI\get(StatementGeneratorInterface::class),
             DI\get(OutputInterface::class),
         ),
 
-    EmailHandlerInterface::class => DI\create(EmailHandler::class)
+    EmailHandlerInterface::class => DI\create(BankStatementEmailHandler::class)
         ->constructor(
             DI\get(StatementGeneratorInterface::class),
             DI\get(MailerInterface::class),

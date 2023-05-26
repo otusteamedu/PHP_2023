@@ -9,7 +9,7 @@ use Vp\App\Application\Contract\OutputInterface;
 use Vp\App\Application\Handler\Contract\ConsoleHandlerInterface;
 use Vp\App\Application\UseCase\Contract\StatementGeneratorInterface;
 
-class ConsoleHandler implements ConsoleHandlerInterface
+class BankStatementConsoleHandler implements ConsoleHandlerInterface
 {
     private StatementGeneratorInterface $generator;
     private OutputInterface $output;

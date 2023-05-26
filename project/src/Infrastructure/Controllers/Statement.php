@@ -7,7 +7,7 @@ namespace Vp\App\Infrastructure\Controllers;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Vp\App\Application\Dto\Output\ResultSend;
+use Vp\App\Application\Dto\Output\Result;
 
 class Statement
 {
@@ -24,7 +24,7 @@ class Statement
 
         $taskParams = $this->getTaskParams($postData);
 
-        /** @var ResultSend $result */
+        /** @var Result $result */
         $result = $app['bank.statement.period']->createTask(json_encode($taskParams));
 
         return JsonResponse::create(['result' => $result->getMessage()]);

@@ -19,6 +19,6 @@ class CommandHelp implements CommandInterface
     public function run(): void
     {
         $result = $this->helpData->help();
-        fwrite(STDOUT, $result . PHP_EOL);
+        fwrite(STDOUT, $result->getMessage() . PHP_EOL);
     }
 }

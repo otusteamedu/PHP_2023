@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\Dto\Output;
 
-class ResultSend
+class Result
 {
     private bool $success;
     private string $message;
@@ -21,11 +21,6 @@ class ResultSend
     }
 
     public function getMessage(): string
-    {
-        return $this->message;
-    }
-
-    public function __toString()
     {
         return $this->message;
     }

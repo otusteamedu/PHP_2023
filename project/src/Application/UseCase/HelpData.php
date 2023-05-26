@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Vp\App\Application\UseCase;
 
 use Vp\App\Application\Contract\HelpDataInterface;
-use Vp\App\Application\Dto\Output\ResultHelp;
+use Vp\App\Application\Dto\Output\Result;
 
 class HelpData implements HelpDataInterface
 {
-    public function help(): ResultHelp
+    public function help(): Result
     {
-        return new ResultHelp(true, $this->getMessage());
+        return new Result(true, $this->getMessage());
     }
 
     private function getMessage(): string

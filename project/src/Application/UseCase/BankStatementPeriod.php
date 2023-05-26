@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\UseCase;
 
-use Vp\App\Application\Dto\Output\ResultSend;
+use Vp\App\Application\Dto\Output\Result;
 use Vp\App\Application\RabbitMq\Contract\SenderInterface;
 
 class BankStatementPeriod
@@ -16,7 +16,7 @@ class BankStatementPeriod
         $this->sender = $sender;
     }
 
-    public function createTask($message): ResultSend
+    public function createTask($message): Result
     {
         return $this->sender->send(QUEUE_BANK_STATEMENT_PERIOD, $message);
     }

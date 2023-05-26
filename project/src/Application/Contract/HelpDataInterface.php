@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Vp\App\Application\Contract;
 
-use Vp\App\Application\Dto\Output\ResultHelp;
+use Vp\App\Application\Dto\Output\Result;
 
 interface HelpDataInterface
 {
-    public function help(): ResultHelp;
+    public function help(): Result;
 }

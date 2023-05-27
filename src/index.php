@@ -2,37 +2,17 @@
 
 declare(strict_types=1);
 
-function isStringValid(string $string): bool
-{
-    if (empty($string)) {
-        return false;
-    }
+require_once __DIR__ . '/../vendor/autoload.php';
 
-    $stack = [];
+use Otus\App\RequestHandler;
+use Otus\App\StringValidator;
 
-    foreach (str_split($string) as $char) {
-        if ($char === '(') {
-            $stack[] = $char;
-        } elseif ($char === ')') {
-            $lastChar = array_pop($stack);
+$requestHandler = new RequestHandler(
+    new StringValidator(),
+);
 
-            if ($lastChar !== '(') {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
+$response = $requestHandler->handle();
 
-    return empty($stack);
-}
+http_response_code($response->getHttpCode());
 
-[$httpCode, $responseText] = match (true) {
-    !array_key_exists('string', $_POST) => [400, 'string param is required'],
-    isStringValid($_POST['string']) => [200, 'You are good!'],
-    default => [400, 'Incorrect string'],
-};
-
-http_response_code($httpCode);
-
-echo $responseText;
+echo $response->getHttpContent();

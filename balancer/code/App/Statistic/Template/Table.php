@@ -60,8 +60,7 @@
     </thead>
     <tbody>
     <?php
-    foreach ($arrHosts as $host) {
-        ?>
+    foreach ($arrHosts as $host) { ?>
         <tr>
             <td><?= $host ?></td>
             <?php
@@ -78,7 +77,7 @@
                 echo '</td>';
             } ?>
         </tr>
-        <?
+        <?php
     }
     ?>
     </tbody>

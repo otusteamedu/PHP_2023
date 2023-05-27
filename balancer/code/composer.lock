@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ac91c5234129804b385029b8eb6e825e",
+    "packages": [
+        {
+            "name": "ilyukdim/otus-checkers",
+            "version": "v1.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ilyukdim/otus-checkers.git",
+                "reference": "7e6814918485c12869a82504b02e3964d62f1c16"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ilyukdim/otus-checkers/zipball/7e6814918485c12869a82504b02e3964d62f1c16",
+                "reference": "7e6814918485c12869a82504b02e3964d62f1c16",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ilyukdim\\OtusCheckers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "ilyukdim",
+                    "email": "ilyukdim@ilyukdim.example"
+                }
+            ],
+            "description": "string checking",
+            "support": {
+                "issues": "https://github.com/ilyukdim/otus-checkers/issues",
+                "source": "https://github.com/ilyukdim/otus-checkers/tree/v1.3"
+            },
+            "time": "2023-05-26T10:14:38+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.1"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

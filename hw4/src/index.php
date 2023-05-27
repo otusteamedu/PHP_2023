@@ -4,7 +4,7 @@ require_once './app/validator.php';
 require_once './app/view.php';
 
 if ($_REQUEST) {
-    $validator = new Validator($_POST);
+    $validator = new \app\Validator($_POST);
     $response = $validator->validate('string');
 
     header($response['header_status']);

@@ -1,5 +1,7 @@
 <?php
 
+namespace app;
+
 class Validator
 {
     private array $postArray;

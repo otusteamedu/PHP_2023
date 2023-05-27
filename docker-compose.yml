@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./docker/nginx-balancer
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/otus
+    container_name: ${PROJECT_NAME}-nginx-balancer
+    networks:
+      - public
+      - internal
+    ports:
+      - "80:80"
+
+  nginx-1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/otus
+    container_name: ${PROJECT_NAME}-nginx-1
+    networks:
+      - internal
+
+  nginx-2:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/otus
+    container_name: ${PROJECT_NAME}-nginx-2
+    networks:
+      - internal
+
+  php-fpm-1:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/otus
+    container_name: ${PROJECT_NAME}-php-fpm-1
+    networks:
+      - internal
+
+  php-fpm-2:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/var/www/otus
+    container_name: ${PROJECT_NAME}-php-fpm-2
+    networks:
+      - internal
+
+  memcached:
+    image: memcached:latest
+    container_name: ${PROJECT_NAME}-memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - internal
+
+networks:
+  public:
+    driver: bridge
+  internal:
+    driver: bridge

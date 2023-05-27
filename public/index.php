@@ -4,7 +4,15 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use YuzyukRoman\App\App;
+use YuzyukRoman\Verification\Email\Email;
 
-$app = new App('string', 'Everything is OK', 'Everything is BAD');
-$app->start();
+$arrEmails = [
+    'test@test.test',
+    'romantyzyukfront@gamil.com',
+    'roman.yuzyuk@lenvendo.ru',
+];
+
+$verificationEmails = new Email();
+
+$verificationEmails->setEmails($arrEmails);
+print_r($verificationEmails->verifyEmails());

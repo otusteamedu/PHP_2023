@@ -4,8 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bc0e53af4b622bd0f036672de60ce400",
-    "packages": [],
+    "content-hash": "d15193eea55cff2a0855821a6cc1b209",
+    "packages": [
+        {
+            "name": "yuzyuk-roman/verification",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Roma-zy/YuzyukRomanEmailVerification.git",
+                "reference": "b9585fc83900d189c057a90f443d9e4417744644"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanEmailVerification/zipball/b9585fc83900d189c057a90f443d9e4417744644",
+                "reference": "b9585fc83900d189c057a90f443d9e4417744644",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "YuzyukRoman\\Verification\\Email\\": "src/Verification/Email"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Roman Yuzyuk",
+                    "email": "romanyuzyukfront@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Roma-zy/YuzyukRomanEmailVerification/issues",
+                "source": "https://github.com/Roma-zy/YuzyukRomanEmailVerification/tree/v1.0.0"
+            },
+            "time": "2023-05-27T10:58:02+00:00"
+        }
+    ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
@@ -14,5 +51,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

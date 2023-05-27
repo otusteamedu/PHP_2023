@@ -1,20 +1,13 @@
 {
-    "name": "yuzyuk-roman/hw4",
+    "name": "yuzyuk-roman/hw5",
     "type": "project",
-    "autoload": {
-        "psr-4": {
-            "YuzyukRoman\\Http\\": [
-                "src/Http/Request",
-                "src/Http/Response"
-            ],
-            "YuzyukRoman\\App\\": "src/App/"
-        }
-    },
     "authors": [
         {
             "name": "Roman.Yuzyuk",
             "email": "roman.yuzyuk@lenvendo.ru"
         }
     ],
-    "require": {}
+    "require": {
+        "yuzyuk-roman/verification": "^1.0"
+    }
 }

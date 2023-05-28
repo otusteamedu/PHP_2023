@@ -43,7 +43,6 @@ class BracketsController extends AppController
                 json_encode(['success' => 'Строка из скобок валидна']),
                 ['Content-Type: application/json', 'HTTP/1.1 200 OK']
             );
-
         } catch (Exception $exception) {
             $this->response(
                 json_encode(['error' => $exception->getMessage()]),

@@ -22,7 +22,7 @@ class Verificator
     public function checkEmailsByRegexp()
     {
         foreach ($this->arEmailAddressesList as $sEmailAddress) {
-            if (preg_match("/^[^@.]+\@[^@]+\.[^@]+$/", $sEmailAddress) !== 1 ) {
+            if (preg_match("/^[^@.]+\@[^@]+\.[^@]+$/", $sEmailAddress) !== 1) {
                 throw new \Exception("Найден невалидный email: " . $sEmailAddress);
             }
         }
@@ -32,7 +32,7 @@ class Verificator
     {
         foreach ($this->arEmailAddressesList as $sEmailAddress) {
             $sEmailDomain = $this->getDomainFromEmailAddress($sEmailAddress);
-            
+
             if (!$this->isDomainExisis($sEmailDomain)) {
                 //Проверка не пройдена - нормальные mx-записи не обнаружены
                 throw new \Exception("Не найдено MX записи для домена: $sEmailDomain");
@@ -40,18 +40,18 @@ class Verificator
         }
     }
 
-    protected function getDomainFromEmailAddress(string $sEmailAddress) :string
+    protected function getDomainFromEmailAddress(string $sEmailAddress): string
     {
         return mb_substr(mb_strrchr($sEmailAddress, "@"), 1);
     }
 
-    protected function isDomainExisis(string $sEmailDomain) :bool
+    protected function isDomainExisis(string $sEmailDomain): bool
     {
         $bMxRecordsSearchRes = getmxrr($sEmailDomain, $arMxRecords, $arMxWeights);
         return !$this->mxNotFoundCondition($bMxRecordsSearchRes, $arMxRecords);
     }
 
-    protected function mxNotFoundCondition(bool $bMxRecordsSearchRes, array $arMxRecords) :bool
+    protected function mxNotFoundCondition(bool $bMxRecordsSearchRes, array $arMxRecords): bool
     {
         return (
             ($bMxRecordsSearchRes === false)

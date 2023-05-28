@@ -2,25 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Otus\App;
+namespace Otus\App\Parenthesis;
 
-final class StringValidator
+use Otus\App\Validator\ValidatorInterface;
+
+final class ParenthesisValidator implements ValidatorInterface
 {
-    public function isParenthesisValid(string $string): bool
+    public function validate(string $string): bool
     {
         if (empty($string)) {
             return false;
         }
 
-        $stack = [];
+        $counter = 0;
 
         foreach (str_split($string) as $char) {
             if ($char === '(') {
-                $stack[] = $char;
+                $counter++;
             } elseif ($char === ')') {
-                $lastChar = array_pop($stack);
+                $counter--;
 
-                if ($lastChar !== '(') {
+                if ($counter < 0) {
                     return false;
                 }
             } else {
@@ -28,6 +30,6 @@ final class StringValidator
             }
         }
 
-        return empty($stack);
+        return $counter === 0;
     }
 }

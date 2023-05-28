@@ -2,17 +2,13 @@
 
 declare(strict_types=1);
 
+use Otus\App\Core\App;
+use Otus\App\Parenthesis\ParenthesisValidator;
+use Otus\App\Parenthesis\RequestHandler;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Otus\App\RequestHandler;
-use Otus\App\StringValidator;
-
-$requestHandler = new RequestHandler(
-    new StringValidator(),
+$kernel = new App(
+    new RequestHandler(new ParenthesisValidator()),
 );
-
-$response = $requestHandler->handle();
-
-http_response_code($response->getHttpCode());
-
-echo $response->getHttpContent();
+$kernel->run();

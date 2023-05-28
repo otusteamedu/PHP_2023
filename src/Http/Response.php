@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Otus\App;
+namespace Otus\App\Http;
 
 final readonly class Response
 {

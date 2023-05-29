@@ -35,6 +35,7 @@ create or replace table Attribute_values
     bool_value   tinyint(1) null,
     column_name  int        null,
     date_value   date       null,
+    int_value    int        null,
     float_value  float      null,
     constraint Attribute_values_Attributes_null_fk
         foreign key (attribute_id) references Attributes (id),

@@ -8,7 +8,6 @@ use Art\Php2023\Phrases;
 
 /**
  * Class for sending outgoing messages
- * 
  */
 class Client
 {
@@ -19,20 +18,16 @@ class Client
 
         while (true) {
             $message = readline(Phrases::get('enter_message'));
-
             if ($message === '') {
                 Phrases::show('empty_text');
                 continue;
             }
-
             $socket->write($message);
-
             if ($message === $socket->exitCommand) {
                 Phrases::show('client_finish_chat');
                 $socket->close();
                 break;
             }
-
             Phrases::show('server_response', ['{text}' => $socket->read()]);
         }
     }

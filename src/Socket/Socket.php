@@ -8,7 +8,6 @@ use Socket as PhpSocket;
 
 /**
  * Class for working with unix sockets
- * 
  */
 class Socket
 {

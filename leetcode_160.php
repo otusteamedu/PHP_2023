@@ -4,13 +4,10 @@ declare(strict_types=1);
 
 namespace Vp;
 
-class Solution {
-    /**
-     * @param ListNode $headA
-     * @param ListNode $headB
-     * @return ListNode
-     */
-    function getIntersectionNode($headA, $headB) {
+class Solution
+{
+    public function getIntersectionNode(ListNode $headA, ListNode $headB): int|ListNode
+    {
         $hash = [];
         while ($headA != null) {
             $objectId = spl_object_hash($headA);

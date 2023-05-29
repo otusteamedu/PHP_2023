@@ -1,0 +1,17 @@
+{
+    "name": "art/php_2023",
+    "description": "hw",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Art\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artur",
+            "email": "se6@rep.earth"
+        }
+    ],
+    "require": {}
+}

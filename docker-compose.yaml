@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  app-server:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    image: php-server
+    container_name: app-server
+    volumes:
+      - ./:/console-chat
+      - ./sock:/sock
+    networks:
+      - app-network
+
+  app-client:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    image: php-client
+    container_name: app-client
+    depends_on:
+      - app-server
+    volumes:
+      - ./:/console-chat
+      - ./sock:/sock
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

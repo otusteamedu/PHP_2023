@@ -4,24 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d15193eea55cff2a0855821a6cc1b209",
+    "content-hash": "5d1a8cc29cb6836a77ad62eb262b2cc4",
     "packages": [
         {
             "name": "yuzyuk-roman/verification",
-            "version": "v1.0.0",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Roma-zy/YuzyukRomanEmailVerification.git",
-                "reference": "b9585fc83900d189c057a90f443d9e4417744644"
+                "reference": "249fc8f029e172e79fbeb32668ed1734d460ec13"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanEmailVerification/zipball/b9585fc83900d189c057a90f443d9e4417744644",
-                "reference": "b9585fc83900d189c057a90f443d9e4417744644",
+                "url": "https://api.github.com/repos/Roma-zy/YuzyukRomanEmailVerification/zipball/249fc8f029e172e79fbeb32668ed1734d460ec13",
+                "reference": "249fc8f029e172e79fbeb32668ed1734d460ec13",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.0"
+                "php": ">=7.4"
             },
             "type": "library",
             "autoload": {
@@ -38,9 +38,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Roma-zy/YuzyukRomanEmailVerification/issues",
-                "source": "https://github.com/Roma-zy/YuzyukRomanEmailVerification/tree/v1.0.0"
+                "source": "https://github.com/Roma-zy/YuzyukRomanEmailVerification/tree/v2.0.0"
             },
-            "time": "2023-05-27T10:58:02+00:00"
+            "time": "2023-05-30T19:23:36+00:00"
         }
     ],
     "packages-dev": [],

@@ -8,6 +8,6 @@
         }
     ],
     "require": {
-        "yuzyuk-roman/verification": "^1.0"
+        "yuzyuk-roman/verification": "^2.0"
     }
 }

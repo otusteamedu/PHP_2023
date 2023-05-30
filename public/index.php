@@ -7,6 +7,8 @@ require __DIR__ . '/vendor/autoload.php';
 use YuzyukRoman\Verification\Email\Email;
 
 $arrEmails = [
+    ["test"],
+    123,
     'test@test.test',
     'romantyzyukfront@gamil.com',
     'roman.yuzyuk@lenvendo.ru',

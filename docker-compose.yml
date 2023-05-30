@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  nginx_main:
+    build:
+      context: docker/nginx_main
+      dockerfile: Dockerfile
+    image: application/nginx_main
+    container_name: application-nginx-main
+    ports:
+      - "80:80"
+    volumes:
+      - ./public:/data/application.local
+    networks:
+      - app-network
+  nginx_1:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: application-nginx-1
+    ports:
+      - "81:80"
+    volumes:
+      - ./public:/data/application.local
+    networks:
+      - app-network
+  nginx_2:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: application/nginx
+    container_name: application-nginx-2
+    ports:
+      - "82:80"
+    volumes:
+      - ./public:/data/application.local
+    networks:
+      - app-network
+  app_1:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application-php-1
+    volumes:
+      - ./public:/data/application.local
+    networks:
+      - app-network
+  app_2:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application-php-2
+    volumes:
+      - ./public:/data/application.local
+    networks:
+      - app-network
+  postgresql:
+    image: postgres
+    hostname: "${DB_HOST_NAME}"
+    restart: always
+    container_name: application-postgresql
+    environment:
+      POSTGRES_USER: "${DB_USER_NAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD}"
+    networks:
+      - app-network
+    volumes:
+      - ./storage/postgresql:/var/lib/postgresql
+  memcached:
+    build:
+      context: docker/memcached
+      dockerfile: Dockerfile
+    image: application/memcached
+    container_name: application-memcached
+    networks:
+      - app-network
+  redis:
+    build:
+      context: docker/redis
+      dockerfile: Dockerfile
+    image: application/redis
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes:
+      - cache:/data
+    networks:
+      - app-network
+
+
+volumes:
+  cache:
+
+networks:
+  app-network:
+    driver: bridge

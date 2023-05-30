@@ -1,0 +1,13 @@
+{
+    "name": "yuzyuk-roman/hw5",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Roman.Yuzyuk",
+            "email": "roman.yuzyuk@lenvendo.ru"
+        }
+    ],
+    "require": {
+        "yuzyuk-roman/verification": "^2.0"
+    }
+}

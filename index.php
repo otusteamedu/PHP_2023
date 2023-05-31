@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Sekaiichi\SuperApp\Actions\SearchProductAction;
 
-require __DIR__.'/vendor/autoload.php';
+require __DIR__ . '/vendor/autoload.php';
 
 $searchProduct = new SearchProductAction();
 
@@ -13,5 +13,6 @@ try {
 
     return ['message' => 'success', 'code' => 200, 'response' => $getData];
 } catch (JsonException $e) {
+
     return ['message' => $e->getMessage(), 'code' => 500, 'response' => []];
 }

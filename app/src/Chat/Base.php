@@ -9,7 +9,7 @@ use DmitryEsaulenko\Hw6\Config;
 
 abstract class Base
 {
-    protected const MESSAGE_LENGTH = 1500;
+    protected const MESSAGE_LENGTH = 4096;
 
     protected Config $config;
 
@@ -28,8 +28,8 @@ abstract class Base
         }
     }
 
-    protected function getServerAddress(): string
+    protected function getUnixSocket(): string
     {
-        return $this->config->get(Constants::SERVER_ADDRESS) ?? '';
+        return $this->config->get(Constants::UNIX_SOCKET) ?? '';
     }
 }

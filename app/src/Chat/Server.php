@@ -8,27 +8,27 @@ class Server extends Base
 {
     public function run()
     {
-        $socket = stream_socket_server(
-            $this->getServerAddress(),
-            $errno,
-            $errstr
-        );
+        $unix = $this->getUnixSocket();
+        unlink($unix);
 
-        if (!$socket) {
-            http_response_code($errno);
-            throw new \Exception($errstr);
+        $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if (socket_bind($socket, $unix) === false) {
+            throw new \Exception(socket_strerror(socket_last_error()));
+        }
+
+        if (!socket_listen($socket)) {
+            throw new \Exception(socket_strerror(socket_last_error()));
         }
 
         while (true) {
-            while ($conn = stream_socket_accept($socket)) {
-                $data = fread($conn, static::MESSAGE_LENGTH);
-                $answer = $this->getAnswer($data);
-                fwrite(STDOUT, $data);
-                fwrite($conn, $answer . PHP_EOL);
-                fclose($conn);
-                unset($data);
-                unset($answer);
-            }
+            $conn = socket_accept($socket);
+            $data = socket_read($conn, static::MESSAGE_LENGTH);
+            $answer = $this->getAnswer($data);
+            fwrite(STDOUT, $data);
+            socket_write($conn, $answer . PHP_EOL);
+            socket_close($conn);
+            unset($data);
+            unset($answer);
         }
     }
 

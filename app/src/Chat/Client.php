@@ -6,32 +6,29 @@ namespace DmitryEsaulenko\Hw6\Chat;
 
 class Client extends Base
 {
-    const TIMEOUT = 5;
-
     public function run()
     {
+        $unix = $this->getUnixSocket();
+
         while (($line = fgets(STDIN)) !== false) {
-            $fp = stream_socket_client(
-                $this->getServerAddress(),
-                $errno,
-                $errstr,
-                self::TIMEOUT
-            );
 
-            if (!$fp) {
-                http_response_code($errno);
-                throw new \Exception($errstr);
+            $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+            if (!$socket) {
+                throw new \Exception(socket_strerror(socket_last_error()));
             }
 
-            fwrite($fp, $line);
-            while (!feof($fp)) {
-                $data = fgets($fp, static::MESSAGE_LENGTH);
-                if (!$data) {
-                    continue;
-                }
-                fwrite(STDOUT, $data);
+            $connect = socket_connect($socket, $unix);
+            if (!$connect) {
+                throw new \Exception(socket_strerror(socket_last_error()));
             }
-            fclose($fp);
+
+            socket_write($socket, $line);
+            $data = socket_read($socket, static::MESSAGE_LENGTH);
+            if (!$data) {
+                continue;
+            }
+            fwrite(STDOUT, $data);
+            socket_close($socket);
         }
     }
 }

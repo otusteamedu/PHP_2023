@@ -12,6 +12,7 @@ services:
       - ./app:/var/www/hw6-client/
       - ./client:/var/www/hw6-client/config/
       - ./php/client/logs:/var/log/
+      - ./socket:/tmp/socket
     networks:
       app-hw6:
         ipv4_address: 10.10.1.3
@@ -26,6 +27,7 @@ services:
       - ./app:/var/www/hw6-server/
       - ./server:/var/www/hw6-server/config/
       - ./php/server/logs:/var/log/
+      - ./socket:/tmp/socket
     networks:
       app-hw6:
         ipv4_address: 10.10.1.2

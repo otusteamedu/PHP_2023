@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+
+  php-hw6-client:
+    build:
+      context: ./php/client
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw6-client
+    volumes:
+      - ./app:/var/www/hw6-client/
+      - ./client:/var/www/hw6-client/config/
+      - ./php/client/logs:/var/log/
+      - ./socket:/tmp/socket
+    networks:
+      app-hw6:
+        ipv4_address: 10.10.1.3
+
+  php-hw6-server:
+    build:
+      context: ./php/server
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw6-server
+    volumes:
+      - ./app:/var/www/hw6-server/
+      - ./server:/var/www/hw6-server/config/
+      - ./php/server/logs:/var/log/
+      - ./socket:/tmp/socket
+    networks:
+      app-hw6:
+        ipv4_address: 10.10.1.2
+
+networks:
+  app-hw6:
+    driver: bridge
+    ipam:
+      config:
+          - subnet: 10.10.1.1/24

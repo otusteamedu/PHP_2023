@@ -11,7 +11,6 @@ class Client extends Base
         $unix = $this->getUnixSocket();
 
         while (($line = fgets(STDIN)) !== false) {
-
             $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
             if (!$socket) {
                 throw new \Exception(socket_strerror(socket_last_error()));

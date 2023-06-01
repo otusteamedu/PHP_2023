@@ -9,12 +9,8 @@ require __DIR__ . '/vendor/autoload.php';
 $searchProduct = new SearchProductAction();
 
 try {
-    $getData = json_decode($searchProduct('fefe'), true, 512, JSON_THROW_ON_ERROR);
-
-    return ['message' => 'success', 'code' => 200, 'response' => $getData];
-
+    $products = $searchProduct('iphone');
+    var_dump($products);
 } catch (JsonException $e) {
-
-    return ['message' => $e->getMessage(), 'code' => 500, 'response' => []];
-
+    echo $e->getMessage();
 }

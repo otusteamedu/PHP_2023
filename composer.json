@@ -1,0 +1,48 @@
+{
+    "name": "sekaiichi/super_app",
+    "description": "SuperApp Package",
+    "keywords": [
+        "SuperApp"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mehrubon",
+            "email": "husaynov888@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4",
+        "ext-json": "*",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.17",
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sekaiichi\\SuperApp\\": "src/"
+        }
+    },
+    "scripts": {
+        "fix": [
+            "@php ./vendor/bin/php-cs-fixer fix ."
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sekaiichi\\SuperApp\\Tests\\": "tests/"
+        }
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

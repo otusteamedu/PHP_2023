@@ -1,3 +1,20 @@
-# PHP_2023
+## Требования
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+- PHP 7.4 или выше
+
+## Установка
+
+```bash
+$ composer require sekaiichi/super_app
+```
+
+## Использование
+
+```php
+<?php
+$searchProduct = new SearchProductAction();
+$products = $searchProduct('iphone'); 
+foreach ($products as $product) {
+    echo $product['name'];
+}
+```

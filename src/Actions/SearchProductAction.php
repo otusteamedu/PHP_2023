@@ -17,9 +17,6 @@ class SearchProductAction
         $data = curl_exec($ch);
         curl_close($ch);
 
-
-
-
         return json_decode($data, true, 512, JSON_THROW_ON_ERROR);
     }
 }

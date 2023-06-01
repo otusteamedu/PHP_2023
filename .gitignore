@@ -4,3 +4,4 @@ data
 docker-compose.yml
 _docker
 vendor
+.php-cs-fixer.cache

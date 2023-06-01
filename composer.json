@@ -24,6 +24,11 @@
             "Sekaiichi\\SuperApp\\": "src/"
         }
     },
+    "scripts": {
+        "fix": [
+            "@php ./vendor/bin/php-cs-fixer fix ."
+        ]
+    },
     "autoload-dev": {
         "psr-4": {
             "Sekaiichi\\SuperApp\\Tests\\": "tests/"

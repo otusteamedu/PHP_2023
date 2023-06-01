@@ -23,7 +23,7 @@ function verificationEmail(array $arEmail)
             getmxrr($matches[0][1], $hosts);
             $mxHost = $hosts[0] ?? "не найдена";
             $strResult .= "MX запись для домена {$matches[0][1]}: " . $mxHost;
-        } else { 
+        } else {
             $strResult .= "{$email} не валидно";
         }
     }

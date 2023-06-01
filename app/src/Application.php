@@ -15,7 +15,7 @@ class Application
 
         if ((isset($uri[1]) && $uri[1] !== 'brackets') || !isset($uri[2])) {
             header("HTTP/1.1 404 Not Found");
-            exit();
+            return;
         }
 
         $bracketsController = new BracketsController();

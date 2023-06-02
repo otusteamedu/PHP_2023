@@ -2,7 +2,7 @@
 
 namespace AShashkov\ConsoleSocketChat;
 
-use \Exception;
+use Exception;
 
 class App
 {

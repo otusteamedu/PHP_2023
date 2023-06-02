@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AShashkov\ConsoleSocketChat;
 
-use \Exception;
+use Exception;
 
 class Socket
 {
@@ -17,10 +17,10 @@ class Socket
 
     public function __construct()
     {
-        $this->init_config();
+        $this->initConfig();
     }
 
-    private function init_config(): void
+    private function initConfig(): void
     {
         if (file_exists(__DIR__ . '/config/socket.ini')) {
             $configSettings = parse_ini_file(__DIR__ . '/config/socket.ini');

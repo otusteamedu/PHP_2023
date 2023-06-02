@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+
+  mysql-hw7:
+    image: mysql:5.7
+    container_name: mysql-hw7
+    volumes:
+      - ./mysql/data/:/var/lib/mysql
+      - ./mysql/config:/etc/mysql/conf.d
+      - ./mysql/logs:/var/log/mysql/
+      - ./mysql/dump:/dump
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - "${MYSQL_PORT}:3306"
+    environment:
+      MYSQL_DATABASE: hw7
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+    networks:
+      - hw7
+
+networks:
+  hw7:
+    driver: bridge

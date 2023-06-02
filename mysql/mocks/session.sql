@@ -1,0 +1,10 @@
+insert into `session` VALUES(null, 1, 1, null, null);
+insert into `session` VALUES(null, 1, 2, null, null);
+insert into `session` VALUES(null, 1, 3, null, null);
+insert into `session` VALUES(null, 1, 2, null, null);
+insert into `session` VALUES(null, 1, 3, null, null);
+insert into `session` VALUES(null, 2, 2, null, null);
+insert into `session` VALUES(null, 2, 1, null, null);
+insert into `session` VALUES(null, 2, 1, null, null);
+insert into `session` VALUES(null, 2, 2, null, null);
+insert into `session` VALUES(null, 2, 4, null, null);

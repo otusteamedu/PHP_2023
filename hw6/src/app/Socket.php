@@ -32,7 +32,7 @@ class Socket
             $this->file = $configSettings['file'];
         }
         if (isset($configSettings['size']) && ! empty($configSettings['size'])) {
-            $this->size = $configSettings['size'];
+            $this->size = (int) $configSettings['size'];
         }
         if (! isset($this->file) || ! isset($this->size)) {
             throw new Exception('Config param is missing for socket file path or message size.');

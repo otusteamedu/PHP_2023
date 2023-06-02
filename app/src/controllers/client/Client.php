@@ -11,6 +11,13 @@ use nikitaglobal\Phrases;
  */
 class Client
 {
+    /**
+     * Send message to server
+     *
+     * @param Socket $socket
+     *
+     * @return void
+     */
     public function sendMessage($socket): void
     {
         $socket->connect();

@@ -11,6 +11,9 @@ use nikitaglobal\Phrases;
  */
 class Server
 {
+    /**
+     * Listen socket
+     */
     public function listen($socket): void
     {
         $socket->bind();

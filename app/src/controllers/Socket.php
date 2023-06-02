@@ -19,6 +19,11 @@ class Socket
 
     public string $exitCommand = 'exit';
 
+    /**
+     * Constructor
+     *
+     * @param array $configs
+     */
     public function __construct(array $configs)
     {
         if (!$configs['path'] || !$configs['max_bytes']) {
@@ -29,6 +34,13 @@ class Socket
         $this->maxBytes   = $configs['max_bytes'];
     }
 
+    /**
+     * Create socket
+     *
+     * @param bool $removeSocketFile
+     *
+     * @return mixed
+     */
     public function create(bool $removeSocketFile = false): bool|PhpSocket
     {
         if ($removeSocketFile && file_exists($this->socketFile)) {
@@ -42,6 +54,11 @@ class Socket
         throw new \RuntimeException('Error: Socket did not created.');
     }
 
+    /**
+     * Bind socket
+     *
+     * @return void
+     */
     public function bind()
     {
         if (!socket_bind($this->socket, $this->socketFile)) {
@@ -49,6 +66,11 @@ class Socket
         }
     }
 
+    /**
+     * Listen socket
+     *
+     * @return void
+     */
     public function listen()
     {
         if (!socket_listen($this->socket, 5)) {
@@ -56,6 +78,11 @@ class Socket
         }
     }
 
+    /**
+     * Connect to socket
+     *
+     * @return void
+     */
     public function connect()
     {
         if (!socket_connect($this->socket, $this->socketFile)) {
@@ -63,6 +90,11 @@ class Socket
         }
     }
 
+    /**
+     * Accept connection to socket
+     *
+     * @return mixed
+     */
     public function accept()
     {
         if ($socket = socket_accept($this->socket)) {
@@ -72,6 +104,14 @@ class Socket
         throw new \RuntimeException('Error: Cannot accept connection to socket.');
     }
 
+    /**
+     * Write to socket
+     *
+     * @param string $message
+     * @param mixed $socket
+     *
+     * @return void
+     */
     public function write($message, $socket = null)
     {
         $socket = $socket ?: $this->socket;
@@ -81,12 +121,26 @@ class Socket
         }
     }
 
+    /**
+     * Read from socket
+     *
+     * @param mixed $socket
+     *
+     * @return string
+     */
     public function read($socket = null)
     {
         $socket = $socket ?: $this->socket;
         return socket_read($socket, (int) $this->maxBytes);
     }
 
+    /**
+     * Receive message from socket
+     *
+     * @param mixed $socket
+     *
+     * @return array
+     */
     public function receive($socket): array
     {
         $buffer = '';
@@ -99,6 +153,13 @@ class Socket
         throw new \RuntimeException('Error: Message could not be read');
     }
 
+    /**
+     * Close socket
+     *
+     * @param mixed $socket
+     *
+     * @return void
+     */
     public function close($socket = null): void
     {
         $socket = $socket ?: $this->socket;

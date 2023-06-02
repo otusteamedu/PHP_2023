@@ -9,7 +9,6 @@ use nikitaglobal\controllers\server\Server as Server;
 use nikitaglobal\controllers\client\Socket as SocketClient;
 use nikitaglobal\controllers\server\Socket as SocketServer;
 
-
 class App
 {
     protected SocketServer|SocketClient $socket;
@@ -33,16 +32,16 @@ class App
             throw new \RuntimeException('Need pass an argument (server/client).');
         }
         switch ($type) {
-        case 'server':
-            $this->socket = new SocketServer($this->configs['socket']);
-            $this->socket->create();
-            $this->server->listen($this->socket);
-            break;
-        case 'client':
-            $this->socket = new SocketClient($this->configs['socket']);
-            $this->socket->create();
-            $this->client->sendMessage($this->socket);
-            break;
+            case 'server':
+                $this->socket = new SocketServer($this->configs['socket']);
+                $this->socket->create();
+                $this->server->listen($this->socket);
+                break;
+            case 'client':
+                $this->socket = new SocketClient($this->configs['socket']);
+                $this->socket->create();
+                $this->client->sendMessage($this->socket);
+                break;
         }
     }
 }

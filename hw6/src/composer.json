@@ -1,0 +1,19 @@
+{
+  "name": "ashashkov/console-socket-chat",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "AShashkov\\ConsoleSocketChat\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "AlexeyShashkov"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}

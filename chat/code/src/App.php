@@ -2,7 +2,6 @@
 
 namespace IilyukDmitryi\App;
 
-use IilyukDmitryi\App\BehaviorProvider\BehaviorProvider;
 use IilyukDmitryi\App\Config;
 use IilyukDmitryi\App\Workers\Workers;
 use InvalidArgumentException;

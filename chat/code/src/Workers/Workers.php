@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Workers;
 
 interface Workers

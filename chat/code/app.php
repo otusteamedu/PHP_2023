@@ -12,6 +12,5 @@ try {
     $app = new App\App($configProvider);
     $app->run();
 } catch (Exception $e) {
-    echo 'Exception '.$e->getMessage();
+    echo 'Exception ' . $e->getMessage();
 }
-

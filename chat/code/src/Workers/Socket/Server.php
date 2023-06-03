@@ -78,4 +78,3 @@ class Server extends Socket
         $this->closeSocket();
     }
 }
-

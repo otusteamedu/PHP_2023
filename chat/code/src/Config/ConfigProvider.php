@@ -10,4 +10,3 @@ interface ConfigProvider
 
     public function getNameClassBehaviorProvider(): string;
 }
-

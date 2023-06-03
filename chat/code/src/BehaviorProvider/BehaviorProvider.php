@@ -8,4 +8,3 @@ interface BehaviorProvider
 
     public function isClient(): bool;
 }
-

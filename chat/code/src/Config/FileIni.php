@@ -41,4 +41,3 @@ class FileIni implements ConfigProvider
         return $this->config['behavior_provider'];
     }
 }
-

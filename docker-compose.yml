@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+  nginx-main:
+    build:
+      context: docker/nginx-main
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www/app
+    container_name: ${COMPOSE_PROJECT_NAME}-nginx-main
+    networks:
+      - public
+      - internal
+    ports:
+      - "80:80"
+
+  nginx-slave-1:
+    build:
+      context: docker/nginx-slave
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www/app
+    container_name: ${COMPOSE_PROJECT_NAME}-nginx-slave-1
+    networks:
+      - internal
+
+  nginx-slave-2:
+    build:
+      context: docker/nginx-slave
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www/app
+    container_name: ${COMPOSE_PROJECT_NAME}-nginx-slave-2
+    networks:
+      - internal
+
+  php-fpm-1:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www/app
+    container_name: ${COMPOSE_PROJECT_NAME}-php-fpm-1
+    networks:
+      - internal
+
+  php-fpm-2:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www/app
+    container_name: ${COMPOSE_PROJECT_NAME}-php-fpm-2
+    networks:
+      - internal
+
+  memcached:
+    image: memcached:latest
+    container_name: ${COMPOSE_PROJECT_NAME}-memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - internal
+
+networks:
+  public:
+    driver: bridge
+  internal:
+    driver: bridge

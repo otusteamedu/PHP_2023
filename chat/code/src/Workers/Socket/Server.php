@@ -12,8 +12,7 @@ class Server extends Socket
     public function run(): void
     {
         $this->serverTurnOn();
-        echo '---=== Server running ===---' . PHP_EOL;
-         $this->listenSocket();
+        $this->listenSocket();
     }
 
     protected function serverTurnOn(): void
@@ -60,6 +59,7 @@ class Server extends Socket
      */
     private function listenSocket(): void
     {
+        echo '---=== Server running ===---' . PHP_EOL;
         while (true) {
             $messageClient = $this->getRemoteMessage();
             echo 'I have received that : ' . $messageClient . PHP_EOL;

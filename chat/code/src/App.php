@@ -11,8 +11,11 @@ class App
     private Config\ConfigProvider $configProvider;
     private Workers $worker;
 
-    public function __construct(Config\ConfigProvider $configProvider)
+    public function __construct(?Config\ConfigProvider $configProvider = null)
     {
+        if (is_null($configProvider)) {
+            $configProvider = new Config\FileIni();
+        }
         $this->configProvider = $configProvider;
     }
 

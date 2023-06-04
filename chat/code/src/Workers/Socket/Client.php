@@ -9,7 +9,6 @@ class Client extends Socket
     public function run(): void
     {
         $this->serverTurnOn();
-        echo '---=== Client running ===---' . PHP_EOL;
         $this->listenStdin();
     }
 
@@ -37,6 +36,7 @@ class Client extends Socket
      */
     private function listenStdin(): void
     {
+        echo '---=== Client running ===---' . PHP_EOL;
         while (true) {
             $messageCli = $this->getMessageFromCli();
             $this->sendMessage($messageCli);

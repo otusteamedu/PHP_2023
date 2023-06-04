@@ -1,5 +1,7 @@
 <?php
 
+namespace Models;
+
 use Models\Movie;
 
 class ObjectWatcher
@@ -32,11 +34,10 @@ class ObjectWatcher
         $instance = self::instance();
         $key = "{$className}.$id";
 
-        if(isset($instance->all[$key])) {
+        if (isset($instance->all[$key])) {
             return $instance->all[$key];
         }
 
         return null;
     }
-
 }

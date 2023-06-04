@@ -21,7 +21,7 @@ $pdo = new PDO($dsn, $user, $pass, $opt);
 /**
  * Паттерн Active Record
  */
-$terminator2 = Movie::getById($pdo,3);
+$terminator2 = Movie::getById($pdo, 3);
 echo '<pre>';
 var_dump($terminator2->getDescription());
 echo '</pre>';

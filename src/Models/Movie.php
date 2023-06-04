@@ -2,12 +2,14 @@
 
 namespace Models;
 
-use MoviesCollection;
+use Models\MoviesCollection;
+use Models\ObjectWatcher;
+
 require 'MoviesCollection.php';
 require 'ObjectWatcher.php';
 
-class Movie {
-
+class Movie
+{
     private \PDO $pdo;
     private int $id;
     private string $name;
@@ -99,7 +101,7 @@ class Movie {
         }
 
         // если нет объекта - берем из БД
-        $selectStmt = $pdo->prepare(self::$selectQuery.' where id = ?');
+        $selectStmt = $pdo->prepare(self::$selectQuery . ' where id = ?');
         $selectStmt->setFetchMode(\PDO::FETCH_ASSOC);
         $selectStmt->execute([$id]);
         $result = $selectStmt->fetch();
@@ -162,23 +164,22 @@ class Movie {
      * Identity Map methods
      */
 
-    private static function getFromMap($id) {
-        return \ObjectWatcher::exists(Movie::class, $id);
+    private static function getFromMap($id)
+    {
+        return ObjectWatcher::exists(Movie::class, $id);
     }
 
-    private function addToMap() {
-        \ObjectWatcher::add($this);
+    private function addToMap()
+    {
+        ObjectWatcher::add($this);
     }
 
     // some Active Record methods ...
     public function getGenre(): string
     {
-
     }
 
     public function getActors(): array
     {
-
     }
-
 }

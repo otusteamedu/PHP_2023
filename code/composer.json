@@ -1,0 +1,16 @@
+{
+    "name": "ayagudin/brackers-valid",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ayagudin\\BrackersValid\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ayagudin",
+            "email": "nautilus644@gmail.com"
+        }
+    ],
+    "require": {}
+}

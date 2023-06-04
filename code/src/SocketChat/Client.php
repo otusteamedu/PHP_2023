@@ -9,8 +9,8 @@ class Client extends ChatEntity
     public function run()
     {
         ob_implicit_flush();
-        
-        $sFileName = "/data/mysite.local/public/ClientToServer.sock";
+
+        $sFileName = $this->getUnixSocketFilePath();
 
         if (($obSocket = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
             $this->throwSocketException($obSocket, "socket_create");
@@ -21,12 +21,12 @@ class Client extends ChatEntity
         }
 
         while ($sInputMessage = trim(fgets(STDIN))) {
-            if(socket_write($obSocket, $sInputMessage, strlen($sInputMessage)) === false) {
+            if (socket_write($obSocket, $sInputMessage, strlen($sInputMessage)) === false) {
                 $this->throwSocketException($obSocket, "socket_write");
             }
 
             $sMessage = socket_read($obSocket, 2048);
-            if($sMessage !== false) {
+            if ($sMessage !== false) {
                 echo $sMessage . "\n";
             } else {
                 $this->throwSocketException($obSocket, "socket_read");

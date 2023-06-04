@@ -10,10 +10,9 @@ class Server extends ChatEntity
     {
         ob_implicit_flush();
 
-        $sFileName = "/data/mysite.local/public/ClientToServer.sock";
+        $sFileName = $this->getUnixSocketFilePath();
 
-        if(file_exists($sFileName))
-        {
+        if (file_exists($sFileName)) {
             unlink($sFileName);
         }
 
@@ -42,7 +41,7 @@ class Server extends ChatEntity
                 echo $sClientMessage . "\n";
 
                 $sAnswerToClient = "Received " . strlen($sClientMessage) . " bytes";
-                if(socket_write($obMessageSocket, $sAnswerToClient, strlen($sAnswerToClient)) === false) {
+                if (socket_write($obMessageSocket, $sAnswerToClient, strlen($sAnswerToClient)) === false) {
                     $this->throwSocketException($obMessageSocket, "socket_write");
                 }
             } while (true);

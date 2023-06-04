@@ -1,0 +1,14 @@
+### Order create
+POST http://application.local/api/v1/orders
+Content-Type: application/json
+X-API-KEY: TQAyjOeA2YL7H1hCBLxh9XCkJv1i3AiRwrOSmVJPTJ8H4iLic9FDm0uzK4VNyXsy
+
+{
+  "productId": 2563,
+  "quantity": 2
+}
+
+### Order status
+GET http://application.local/api/v1/orders/14
+Content-Type: application/json
+X-API-KEY: TQAyjOeA2YL7H1hCBLxh9XCkJv1i3AiRwrOSmVJPTJ8H4iLic9FDm0uzK4VNyXsy

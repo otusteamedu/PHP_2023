@@ -1,0 +1,110 @@
+openapi: 3.0.3
+info:
+  title: App Api
+  description: App Api
+  version: 1.0.0
+servers:
+  - url: 'http://application.local/api/v1'
+tags:
+  - name: order
+paths:
+  /orders:
+    post:
+      tags:
+        - order
+      summary: Order create
+      description: The client sends data to create an order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderData'
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderResponse'
+        401:
+          description: Unauthorized
+          content:
+            { }
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - ApiKeyAuth: [ ]
+  /orders/{id}:
+    get:
+      tags:
+        - order
+      summary: Order status
+      description: The client requests order status
+      parameters:
+        - name: id
+          in: path
+          description: Order ID
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStatusResponse'
+        401:
+          description: Unauthorized
+          content:
+            { }
+        400:
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      security:
+        - ApiKeyAuth: [ ]
+components:
+  schemas:
+    OrderData:
+      type: object
+      properties:
+        productId:
+          type: integer
+          required: true
+          example: 1252
+        quantity:
+          type: integer
+          required: true
+          example: 2
+    OrderResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 9
+    OrderStatusResponse:
+      type: object
+      properties:
+        orderId:
+          type: integer
+          example: 9
+        status:
+          type: string
+          example: Создан
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: This value should be of type integer.
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: X-API-KEY
+      in: header

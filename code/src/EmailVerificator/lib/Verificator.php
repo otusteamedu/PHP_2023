@@ -19,7 +19,7 @@ class Verificator
         $this->arEmailAddressesList = $arEmailAddressesList;
     }
 
-    public function checkEmailsByRegexp()
+    public function checkEmailsByRegexp(): void
     {
         foreach ($this->arEmailAddressesList as $sEmailAddress) {
             if (preg_match("/^[^@.]+\@[^@]+\.[^@]+$/", $sEmailAddress) !== 1) {
@@ -28,7 +28,7 @@ class Verificator
         }
     }
 
-    public function checkEmailsByMxRecord()
+    public function checkEmailsByMxRecord(): void
     {
         foreach ($this->arEmailAddressesList as $sEmailAddress) {
             $sEmailDomain = $this->getDomainFromEmailAddress($sEmailAddress);
@@ -48,21 +48,25 @@ class Verificator
     protected function isDomainExisis(string $sEmailDomain): bool
     {
         $bMxRecordsSearchRes = getmxrr($sEmailDomain, $arMxRecords, $arMxWeights);
-        return !$this->mxNotFoundCondition($bMxRecordsSearchRes, $arMxRecords);
+        return $this->mxFoundCondition($bMxRecordsSearchRes, $arMxRecords);
     }
 
-    protected function mxNotFoundCondition(bool $bMxRecordsSearchRes, array $arMxRecords): bool
+    protected function mxFoundCondition(bool $bMxRecordsSearchRes, array $arMxRecords): bool
     {
-        return (
-            ($bMxRecordsSearchRes === false)
-            || (count($arMxRecords) == 0)
-            || (
-                    (count($arMxRecords) == 1)
-                    && (
-                        ($arMxRecords[0] == null)
-                        || ($arMxRecords[0] == "0.0.0.0")
-                    )
-                )
-        );
+        if ($bMxRecordsSearchRes === false) {
+            return false;
+        } else if (count($arMxRecords) == 0) {
+            return false;
+        } else if (
+            (count($arMxRecords) >= 1)
+            && (
+                ($arMxRecords[0] == null)
+                || ($arMxRecords[0] == "0.0.0.0")
+            )
+        ) {
+            return false;
+        }
+
+        return true;
     }
 }

@@ -8,7 +8,7 @@ use VKorabelnikov\Hw5\EmailVerificator\lib\Verificator;
 
 class Application
 {
-    public function run()
+    public function run(): string
     {
         $sEmailsArrayPostParamName = "emailsArray";
 
@@ -20,10 +20,10 @@ class Application
             throw new \Exception("Параметр emailsArray должен быть массивом");
         }
 
-        $arInputEmails = $_POST[$sEmailsArrayPostParamName];
-
-        $obVerificator = new Verificator($arInputEmails);
+        $obVerificator = new Verificator($_POST[$sEmailsArrayPostParamName]);
         $obVerificator->checkEmailsByRegexp();
         $obVerificator->checkEmailsByMxRecord();
+
+        return "Все email адреса корректны.";
     }
 }

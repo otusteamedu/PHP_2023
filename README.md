@@ -1,3 +1,7 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+# Ищем самый популярный фильм
+
+## 1. Выполняем SQL из файла DDL.sql
+## 2. Заполняем таблицы данными из файла seeder.sql
+## 3. Ищем фильм используя searchPopularMovie.sql

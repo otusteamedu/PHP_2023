@@ -32,7 +32,7 @@ class VerificationData
                 }
             } else {
                 $arEmails[$key] = [
-                    $email, 
+                    $email,
                     [
                         'STATUS' => 'ERROR',
                         'RESULT' => 'Не корретно указана почта. Не найдены спецсимволы @ или .'

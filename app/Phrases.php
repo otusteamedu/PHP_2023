@@ -65,7 +65,7 @@ class Phrases
 
         switch ($action) {
             case 'show':
-                echo $phrase;
+                yield $phrase . PHP_EOL;
                 break;
             case 'get':
                 return $phrase;

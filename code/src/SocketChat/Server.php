@@ -6,7 +6,7 @@ namespace VKorabelnikov\Hw6\SocketChat;
 
 class Server extends ChatEntity
 {
-    public function run()
+    public function run(): void
     {
         ob_implicit_flush();
 

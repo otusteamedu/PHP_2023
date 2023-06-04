@@ -9,7 +9,7 @@ use VKorabelnikov\Hw6\SocketChat\Client;
 
 class Application
 {
-    public function run()
+    public function run(): void
     {
         if ($_SERVER['argv'][1] == "server") {
             $obServer = new Server();

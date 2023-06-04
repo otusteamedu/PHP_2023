@@ -1,0 +1,23 @@
+{
+    "name": "vp/app",
+    "type": "project",
+    "require": {
+        "silex/silex": "~2.0",
+        "symfony/validator": "~5.4.0",
+        "php-amqplib/php-amqplib": "~3.1",
+        "vlucas/phpdotenv": "^5.5",
+        "php-di/php-di": "6.*",
+        "worksolutions/php-collections": "^1.1",
+        "ext-pdo": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Vp\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vladimir Pavlenko"
+        }
+    ]
+}

@@ -21,7 +21,7 @@ class PhoneDigests
      */
     public static function letterCombinations(string $digits): array
     {
-        if(strlen($digits) <= 0) {
+        if (strlen($digits) <= 0) {
             return [];
         }
 
@@ -29,8 +29,7 @@ class PhoneDigests
         $result = [''];
 
         foreach ($digits as $key => $digit) {
-
-            if($digit < 2 || $digit > 9) {
+            if ($digit < 2 || $digit > 9) {
                 continue;
             }
 

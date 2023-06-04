@@ -2,7 +2,7 @@
 
 include __DIR__ . "/../vendor/autoload.php";
 
-use \VKorabelnikov\Hw5\EmailVerificator\Application;
+use VKorabelnikov\Hw5\EmailVerificator\Application;
 
 try {
     $app = new Application();

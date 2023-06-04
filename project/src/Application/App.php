@@ -55,8 +55,8 @@ class App
 
         $this->app['config'] = function () use ($config) {
             return new Config(
-                $config['apiKeyName'] ?? null,
-                    $config['token'] ?? null
+            $config['apiKeyName'] ?? null,
+                $config['token'] ?? null
             );
         };
     }

@@ -36,7 +36,7 @@ return [
                 ->setPort($_ENV['DB_PORT'])
                 ->setHost($_ENV['DB_HOST'])
                 ->setName($_ENV['DB_NAME'])
-            ),
+        ),
 
     CommandProcessorInterface::class => DI\create(CommandProcessor::class),
 

@@ -31,7 +31,6 @@ class OrderHandler implements OrderHandlerInterface
             $order->status_id = $this->getRandomStatusId();
             $order->save();
         } catch (FindEntityFailed | AddEntityFailed $e) {
-
         }
     }
 

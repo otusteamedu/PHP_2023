@@ -1,3 +1,19 @@
-# PHP_2023
+## Запуск
+```shell
+docker-compose up -d
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Запуск
+Выполнение команд внутри контейнера app
+```shell
+php public/index.php 
+```
+
+## Описание
+data/htdocs/src/Sva/Common/App/LinkedListUtils.php - тут непосредственно алгоритм
+
+- Создаем два указателя на списки;
+- Первый указатель смещаем на 1;
+- Второй указатель смещаем на 2;
+- Сравниваем указатели. Как только указатель 1 равен указателю 2 считаем что зацикленность присутствует;
+- Если указатель 2 достиг конца списка, то зацикленности нет.

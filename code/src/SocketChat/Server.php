@@ -4,50 +4,52 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw6\SocketChat;
 
-class Server
+class Server extends ChatEntity
 {
     public function run()
     {
-        error_reporting(E_ALL);
         ob_implicit_flush();
 
-        $sClientIpAddress = gethostbyname('client');
-        $iClientPort = 10000;
+        $sFileName = "/data/mysite.local/public/ClientToServer.sock";
 
-        if (($obSocket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP)) === false) {
-            throw new \Exception("Не удалось выполнить socket_create(): причина: " . socket_strerror(socket_last_error()) . "\n");
+        if(file_exists($sFileName))
+        {
+            unlink($sFileName);
         }
 
-        if (socket_bind($obSocket, $sClientIpAddress, $iClientPort) === false) {
-            throw new \Exception("Не удалось выполнить socket_bind(): причина: " . socket_strerror(socket_last_error($obSocket)) . "\n");
+        if (($obSocket = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
+            $this->throwSocketException($obSocket, "socket_create");
         }
 
-        if (socket_listen($obSocket, 5) === false) {
-            throw new \Exception("Не удалось выполнить socket_listen(): причина: " . socket_strerror(socket_last_error($obSocket)) . "\n");
+        if (socket_bind($obSocket, $sFileName) === false) {
+            $this->throwSocketException($obSocket, "socket_bind");
+        }
+
+        if (socket_listen($obSocket) === false) {
+            $this->throwSocketException($obSocket, "socket_listen");
         }
 
         do {
-            echo "before call socket_accept()  \n\n";
             if (($obMessageSocket = socket_accept($obSocket)) === false) {
-                throw new \Exception("Не удалось выполнить socket_accept(): причина: " . socket_strerror(socket_last_error($obSocket)) . "\n");
-                break;
+                $this->throwSocketException($obSocket, "socket_accept");
             }
-            echo "after call socket_accept()\n\n";
 
             do {
-                if (false === ($sClientMessage = socket_read($obMessageSocket, 2048, PHP_NORMAL_READ))) {
-                    throw new \Exception("Не удалось выполнить socket_read(): причина: " . socket_strerror(socket_last_error($obMessageSocket)) . "\n");
-                    break 2;
+                if (($sClientMessage = socket_read($obMessageSocket, 2048)) === false) {
+                    $this->throwSocketException($obMessageSocket, "socket_read");
                 }
 
-                echo $sClientMessage;
+                echo $sClientMessage . "\n";
 
                 $sAnswerToClient = "Received " . strlen($sClientMessage) . " bytes";
-
-                socket_write($obMessageSocket, $sAnswerToClient, strlen($sAnswerToClient));
+                if(socket_write($obMessageSocket, $sAnswerToClient, strlen($sAnswerToClient)) === false) {
+                    $this->throwSocketException($obMessageSocket, "socket_write");
+                }
             } while (true);
             socket_close($obMessageSocket);
         } while (true);
         socket_close($obSocket);
+
+        unlink($sFileName);
     }
 }

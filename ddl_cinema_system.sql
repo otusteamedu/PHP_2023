@@ -1,4 +1,3 @@
-DROP TABLE IF EXISTS films;
 CREATE TABLE films (
                        "id" serial PRIMARY KEY,
                        "title" varchar(255) NOT NULL,
@@ -22,14 +21,27 @@ CREATE TABLE halls (
                        "places_count" smallint not null
 );
 
+DROP TABLE IF EXISTS type_place;
+CREATE TABLE type_place (
+                        "id" serial PRIMARY KEY,
+                         "name" varchar(60) NOT NULL
+);
+
+DROP TABLE IF EXISTS cashiers;
+CREATE TABLE cashiers (
+                         "id" serial PRIMARY KEY,
+                         "full_name" varchar(60) NOT NULL
+);
+
 DROP TABLE IF EXISTS places;
 CREATE TABLE places (
                         "id" serial PRIMARY KEY,
-                        "column" Smallint NOT NULL,
+                        "row" Smallint NOT NULL,
                         "position" Smallint NOT NULL,
                         "hall_id" integer NOT NULL,
+                        "type_place_id" integer NOT NULL,
                         FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
-                        UNIQUE ("column", "position", "hall_id")
+                        FOREIGN KEY (type_place_id) REFERENCES type_place(id) ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS sessions;
@@ -43,16 +55,26 @@ CREATE TABLE sessions (
                           FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS prices;
+CREATE TABLE prices (
+                         "id" serial PRIMARY KEY,
+                         "place_id" integer NOT NULL,
+                         "session_id" integer NOT NULL,
+                         "price" integer NOT NULL,
+                         FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+                         FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE
+);
+
 DROP TABLE IF EXISTS tickets;
 CREATE TABLE tickets (
                          "id" serial PRIMARY KEY,
-                         "session_id" integer NOT NULL,
-                         "place_id" integer NOT NULL,
                          "client_id" integer NOT NULL,
+                         "session_id" integer NOT NULL,
+                         "cashier_id" integer NOT NULL,
                          "buyed_at" timestamp NOT NULL,
-                         "price" numeric NOT NULL,
+                         "place_id" numeric NOT NULL,
                          FOREIGN KEY (session_id) REFERENCES sessions(id) ON DELETE CASCADE,
+                         FOREIGN KEY (cashier_id) REFERENCES cashiers(id) ON DELETE CASCADE,
                          FOREIGN KEY (client_id) REFERENCES clients(id) ON DELETE CASCADE,
-                         FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE,
-                         UNIQUE ("session_id", "place_id")
+                         FOREIGN KEY (place_id) REFERENCES places(id) ON DELETE CASCADE
 );

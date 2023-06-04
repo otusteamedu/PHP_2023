@@ -31,6 +31,15 @@ CREATE TABLE Screenings (
   FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
 );
 
+CREATE TABLE Prices (
+  price_id INT PRIMARY KEY,
+  hall_id INT,
+  movie_id INT,
+  price DECIMAL(10,2),
+  FOREIGN KEY (hall_id) REFERENCES Halls(hall_id),
+  FOREIGN KEY (movie_id) REFERENCES Movies(movie_id)
+);
+
 CREATE TABLE Tickets (
   ticket_id INT PRIMARY KEY,
   screening_id INT,

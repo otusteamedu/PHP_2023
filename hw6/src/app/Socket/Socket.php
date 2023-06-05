@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AShashkov\ConsoleSocketChat;
+namespace AShashkov\ConsoleSocketChat\Socket;
 
 use Exception;
 
@@ -15,15 +15,18 @@ class Socket
     /** @var resource */
     private $socket;
 
+    private string $appPath;
+
     public function __construct()
     {
+        $this->appPath = realpath(dirname(__DIR__));
         $this->initConfig();
     }
 
     private function initConfig(): void
     {
-        if (file_exists(__DIR__ . '/config/socket.ini')) {
-            $configSettings = parse_ini_file(__DIR__ . '/config/socket.ini');
+        if (file_exists($this->appPath . '/config/socket.ini')) {
+            $configSettings = parse_ini_file($this->appPath . '/config/socket.ini');
         } else {
             throw new Exception('Config file for Sockets is missing or non-readable');
         }

@@ -2,6 +2,8 @@
 
 namespace AShashkov\ConsoleSocketChat;
 
+use AShashkov\ConsoleSocketChat\Socket\ClientSocket;
+use AShashkov\ConsoleSocketChat\Socket\ServerSocket;
 use Exception;
 
 class App
@@ -14,36 +16,12 @@ class App
 
         switch ($_SERVER['argv'][1]) {
             case 'server':
-                $serverSocket = new Socket();
-                $serverSocket->create(true);
-                $serverSocket->bind();
-                $serverSocket->listen();
-
-                echo 'Awaiting for client message...' . PHP_EOL;
-
-                $client = $serverSocket->accept();
-
-                while (true) {
-                    $message = $serverSocket->receive($client);
-                    if (! is_null($message['message'])) {
-                        echo $message['message'] . PHP_EOL;
-
-                        $serverSocket->write($message['length'], $client);
-                    }
-                }
+                $serverSocket = new ServerSocket();
+                $serverSocket->consoleChat();
                 break;
             case 'client':
-                $clientSocket = new Socket();
-                $clientSocket->create();
-                $clientSocket->connect();
-
-                while (true) {
-                    echo 'Type message and press Return key: ';
-                    $message = readline();
-                    $clientSocket->write($message);
-
-                    echo 'The server received ' . $clientSocket->read() . ' bytes.' . PHP_EOL;
-                }
+                $clientSocket = new ClientSocket();
+                $clientSocket->consoleChat();
                 break;
         }
     }

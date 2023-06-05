@@ -21,18 +21,20 @@ $pdo = new PDO($dsn, $user, $pass, $opt);
 /**
  * Паттерн Active Record
  */
-$terminator2 = Movie::getById($pdo, 3);
-echo '<pre>';
-var_dump($terminator2->getDescription());
-echo '</pre>';
 
 $predator = new Movie($pdo);
-$predator->setName('Хищник');
-$predator->setDescription('ugly mf');
-$predator->setYear(1987);
-$predator->setMovieType(1);
-$predator->insert();
+$predator->insert([
+    'name' => 'Хищник 2',
+    'description' => 'uglier mf',
+    'year' => 1992,
+    'movie_type' => 2
+]);
 
+$terminator2 = Movie::getById($pdo, 3);
+$terminator2->update([
+    'description' => 'Арнольд Шварценеггер',
+    'movie_type' => 2
+]);
 
 /**
  * Массовое получение информации

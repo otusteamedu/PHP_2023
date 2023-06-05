@@ -26,16 +26,8 @@ class Movie
     public function __construct(\PDO $pdo)
     {
         $this->pdo = $pdo;
-
-        $this->insertStmt = $pdo->prepare(
-            "insert into Movies (name, description, year, movie_type) values (?, ?, ?, ?)"
-        );
-        $this->updateStmt = $pdo->prepare(
-            "update Movies set name = ?, description = ?, year = ?, movie_type = ? where id = ?"
-        );
         $this->deleteStmt = $pdo->prepare("delete from Movies where id = ?");
     }
-
 
     public function getId(): int
     {
@@ -112,6 +104,7 @@ class Movie
             ->setDescription($result['description'])
             ->setYear($result['year'])
             ->setMovieType($result['movie_type']);
+        $movie->pdo = $pdo;
         $movie->addToMap();
         return $movie;
     }
@@ -127,30 +120,36 @@ class Movie
         return  $movies;
     }
 
-    public function insert(): bool
+    public function insert(array $fields): bool
     {
-        $result = $this->insertStmt->execute([
-            $this->name,
-            $this->description,
-            $this->year,
-            $this->movieType,
-        ]);
+        $fieldsList = implode(',', array_keys($fields));
+        $placeholders = ':' . implode(',:', array_keys($fields));
+        $insertStmt = $this->pdo->prepare(
+            "insert into Movies ({$fieldsList}) values ({$placeholders})"
+        );
+
+        $result = $insertStmt->execute($fields);
         $this->id = $this->pdo->lastInsertId();
         //$this->addToMap();
         return $result;
     }
 
-    public function update(): bool
+    public function update(array $fields): Movie
     {
-        $result = $this->updateStmt->execute([
-            $this->name,
-            $this->description,
-            $this->year,
-            $this->movieType,
-            $this->id
-        ]);
+        $queryString = '';
+        foreach ($fields as $key => $value) {
+            $queryString .= " {$key} = :{$key},";
+        }
+        $queryString = trim($queryString, ',');
+        $queryString .= ' where id = :id';
+
+        $updateStmt = $this->pdo->prepare(
+            "update Movies set" . $queryString
+        );
+        $fields['id'] = $this->id;
+        $result = $updateStmt->execute($fields);
         //$this->addToMap();
-        return $result;
+        return $this;
     }
 
     public function delete(): bool

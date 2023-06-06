@@ -1,3 +1,8 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Проверка строки.
+
+## Использование
+```bash
+docker-compose up -d;
+```

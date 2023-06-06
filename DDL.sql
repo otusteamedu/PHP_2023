@@ -2,33 +2,36 @@ CREATE TABLE `movies` (
                           `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                           `title` VARCHAR(255) NOT NULL,
                           `description` TEXT,
-                          `duration` INT NOT NULL
+                          `duration` INT NOT NULL,
+                          `price` NUMERIC(10, 2) NOT NULL
 );
 
 CREATE TABLE `halls` (
                          `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-                         `name` VARCHAR(255) NOT NULL
+                         `name` VARCHAR(255) NOT NULL,
+                         `koef` FLOAT NOT NULL
 );
 
 CREATE TABLE `places` (
                           `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                           `halls_id` BIGINT NOT NULL,
                           `row` INT NOT NULL,
-                          `place` INT NOT NULL
+                          `place` INT NOT NULL,
+                          `koef` FLOAT NOT NULL
 );
 
 CREATE TABLE `session` (
                            `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                            `datetime` timestamp NOT NULL,
                            `movie_id` BIGINT NOT NULL,
-                           `hall_id` BIGINT NOT NULL
+                           `hall_id` BIGINT NOT NULL,
+                           `koef` FLOAT NOT NULL
 );
 
 CREATE TABLE `tickets` (
                            `id` BIGINT PRIMARY KEY NOT NULL AUTO_INCREMENT,
                            `place_id` BIGINT NOT NULL,
-                           `session_id` BIGINT NOT NULL,
-                           `price` NUMERIC(10, 2) NOT NULL
+                           `session_id` BIGINT NOT NULL
 );
 
 CREATE TABLE `orders` (

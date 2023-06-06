@@ -109,9 +109,13 @@ class Socket
         return socket_read($this->socket, $this->size);
     }
 
-    protected function initSocket(): void {}
+    protected function initSocket(): void
+    {
+        //
+    }
 
-    protected function processChat(): Generator {
+    protected function processChat(): Generator
+    {
         yield;
     }
 }

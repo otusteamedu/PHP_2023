@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./docker/nginx-balancer
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/otus
+    networks:
+      - public
+      - internal
+    ports:
+      - "80:80"
+
+  nginx-1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/otus
+    networks:
+      - internal
+
+  nginx-2:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/otus
+    networks:
+      - internal
+
+  php-fpm-1:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/otus
+    networks:
+      - internal
+
+  php-fpm-2:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/otus
+    networks:
+      - internal
+
+  database:
+        container_name: otus_database
+        image: postgres:15.2
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            PGDATA: /var/lib/postgresql/data
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        volumes:
+            - /tmp/db:/var/lib/postgresql/data
+        networks:
+          - internal
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - internal
+
+networks:
+  public:
+    driver: bridge
+  internal:
+    driver: bridge

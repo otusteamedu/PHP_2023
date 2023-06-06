@@ -1,0 +1,16 @@
+{
+    "name": "dpankratov/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dpankratov\\Hw4\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pankratov2010",
+            "email": "112240192+pankratov2010@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}

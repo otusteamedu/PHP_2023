@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AShashkov\ConsoleSocketChat\Socket;
 
 use Exception;
+use Generator;
 
 class Socket
 {
@@ -21,6 +22,14 @@ class Socket
     {
         $this->appPath = realpath(dirname(__DIR__));
         $this->initConfig();
+    }
+
+    public function consoleChat(): void
+    {
+        $this->initSocket();
+        foreach ($this->processChat() as $chatMessage) {
+            echo $chatMessage;
+        }
     }
 
     private function initConfig(): void
@@ -42,7 +51,7 @@ class Socket
         }
     }
 
-    public function create(bool $fresh = false): void
+    protected function create(bool $fresh = false): void
     {
         if ($fresh && file_exists($this->file)) {
             unlink($this->file);
@@ -51,17 +60,17 @@ class Socket
         $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
     }
 
-    public function connect(): void
+    protected function connect(): void
     {
         socket_connect($this->socket, $this->file);
     }
 
-    public function bind(): void
+    protected function bind(): void
     {
         socket_bind($this->socket, $this->file);
     }
 
-    public function listen(): void
+    protected function listen(): void
     {
         socket_listen($this->socket, 5);
     }
@@ -69,7 +78,7 @@ class Socket
     /**
      * @return false|resource
      */
-    public function accept()
+    protected function accept()
     {
         return socket_accept($this->socket);
     }
@@ -77,7 +86,7 @@ class Socket
     /**
      * @param resource $socket
      */
-    public function receive($socket): array
+    protected function receive($socket): array
     {
         $length = socket_recv($socket, $message, $this->size, 0);
 
@@ -88,15 +97,21 @@ class Socket
      * @param string $message
      * @param null|resource $socket
      */
-    public function write(string $message, $socket = null)
+    protected function write(string $message, $socket = null)
     {
         $socket = $socket ?? $this->socket;
 
         socket_write($socket, $message, strlen($message));
     }
 
-    public function read(): false|string
+    protected function read(): false|string
     {
         return socket_read($this->socket, $this->size);
+    }
+
+    protected function initSocket(): void {}
+
+    protected function processChat(): Generator {
+        yield;
     }
 }

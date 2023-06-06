@@ -2,27 +2,27 @@
 
 namespace AShashkov\ConsoleSocketChat\Socket;
 
+use Generator;
+
 class ServerSocket extends Socket
 {
-    public function consoleChat()
+    protected function processChat(): Generator
     {
-        $this->initSocket();
-
-        echo 'Awaiting for client message...' . PHP_EOL;
+        yield 'Awaiting for client message...' . PHP_EOL;
 
         $client = $this->accept();
 
         while (true) {
             $message = $this->receive($client);
             if (! is_null($message['message'])) {
-                echo $message['message'] . PHP_EOL;
+                yield $message['message'] . PHP_EOL;
 
                 $this->write($message['length'], $client);
             }
         }
     }
 
-    private function initSocket()
+    protected function initSocket(): void
     {
         $this->create(true);
         $this->bind();

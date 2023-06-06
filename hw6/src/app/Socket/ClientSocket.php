@@ -2,22 +2,22 @@
 
 namespace AShashkov\ConsoleSocketChat\Socket;
 
+use Generator;
+
 class ClientSocket extends Socket
 {
-    public function consoleChat()
+    protected function processChat(): Generator
     {
-        $this->initSocket();
-
         while (true) {
-            echo 'Type message and press Return key: ';
+            yield 'Type message and press Return key: ';
             $message = readline();
             $this->write($message);
 
-            echo 'The server received ' . $this->read() . ' bytes.' . PHP_EOL;
+            yield 'The server received ' . $this->read() . ' bytes.' . PHP_EOL;
         }
     }
 
-    private function initSocket()
+    protected function initSocket(): void
     {
         $this->create();
         $this->connect();

@@ -24,14 +24,12 @@ class StringValidation
         for ($i = 0; $i < strlen($str); $i++) {
             if ($str[$i] === '(') {
                 $counter1++;
-            }
-            else $counter2++;
+            } else $counter2++;
         }
 
         if ($counter1 > $counter2) {
             throw new Exception("Открывающих скобок больше, чем закрывающих!");
-        }
-        else if ($counter2 > $counter1) {
+        } else if ($counter2 > $counter1) {
             throw new Exception("Закрывающих скобок больше, чем открывающих!");
         }
 

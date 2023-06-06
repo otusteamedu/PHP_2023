@@ -1,3 +1,11 @@
-# PHP_2023
+## Запуск конейтнеров
+```shell
+docker-compose up -d
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Проверка наличия петли в списке
+```shell
+# Выполнение команд внутри контейнера app
+php public/index.php 
+```
+

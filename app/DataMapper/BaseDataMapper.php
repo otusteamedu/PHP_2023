@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataMapper;
 
-use DatabaseAdapterInterface;
-use PDO;
+use App\Interfaces\DatabaseAdapterInterface;
 
 abstract class BaseDataMapper
 {

@@ -1,5 +1,12 @@
 <?php
+
 declare(strict_types=1);
+
+namespace App\Adapters;
+
+use PDO;
+use Generator;
+use App\Interfaces\DatabaseAdapterInterface;
 
 class MySQLAdapter implements DatabaseAdapterInterface
 {

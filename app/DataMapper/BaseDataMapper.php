@@ -1,16 +1,18 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\DataMapper;
 
+use DatabaseAdapterInterface;
 use PDO;
 
-class BaseDataMapper {
-    public function __construct(protected PDO $pdo) {}
+abstract class BaseDataMapper
+{
+    protected DatabaseAdapterInterface $database;
 
-    protected function fetchAll($sql, $params = []) {
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function __construct(DatabaseAdapterInterface $database)
+    {
+        $this->database = $database;
     }
 }

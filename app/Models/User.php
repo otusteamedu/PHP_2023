@@ -1,63 +1,59 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Models;
 
-class User {
-    private $id;
-    private $name;
-    private $email;
-
-    public function __construct($id, $name, $email) {
-        $this->id = $id;
-        $this->name = $name;
-        $this->email = $email;
+class User
+{
+    public function __construct(private int $id, private string $name, private string $email)
+    {
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
-    public function setName($name): void
+    public function setName(string $name): void
     {
         $this->name = $name;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      */
-    public function setEmail($email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }

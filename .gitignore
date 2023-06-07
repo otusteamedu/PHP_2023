@@ -1,0 +1,8 @@
+.idea
+.env
+data
+src/vendor
+vendor
+.php-cs-fixer.cache
+docker-compose.yml
+_docker

@@ -3,6 +3,7 @@ create table if not exists cinema.film
     id   int auto_increment
     primary key,
     name text not null
+    price   int
 );
 
 create table if not exists cinema.room
@@ -16,7 +17,6 @@ create table if not exists cinema.seat
     number  int null,
     room_id int null,
     id      int auto_increment,
-    price   int
     primary key
 );
 

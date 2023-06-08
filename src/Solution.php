@@ -6,14 +6,6 @@ namespace DEsaulenko\Hw8;
 
 /**
  * Решение задачи https://leetcode.com/problems/product-of-array-except-self/
- *
- * Первый проход делаем - ищем произведение ненулевых элементов и считаем количество нулевых элементов
- * Второй проход - формируем результат
- *
- * Могут быть ситуации:
- * * Нулей нет, тогда просто делим на текущий элемент
- * * один ноль: тогда у нас все, кроме текущего нулевого элемента, будут нули
- * * два и более нулей - весь реузьтат будет забит нулями
  */
 class Solution
 {
@@ -21,39 +13,25 @@ class Solution
      * @param Integer[] $nums
      * @return Integer[]
      */
-    public function productExceptSelf($nums)
+    public function productExceptSelf(array $nums): array
     {
         $result = [];
 
-        $countZero = 0;
-        $productFirst = 0;
+        $length = count($nums);
 
-        foreach ($nums as $num) {
-            if ($num === 0) {
-                $countZero++;
-            } else {
-                if ($productFirst === 0) {
-                    $productFirst = $num;
-                } else {
-                    $productFirst *= $num;
-                }
-            }
+        $prefix = [];
+        $suffix = [];
+
+        for ($i = 0; $i < $length; $i++) {
+            $prefixElement = $i <= 0 ? 1 : $prefix[$i - 1] * $nums[$i - 1];
+            $prefix[$i] = $prefixElement;
+
+            $suffixElement = $i <= 0 ? 1 : $suffix[$i - 1] * $nums[$length - $i];
+            $suffix[$i] = $suffixElement;
         }
 
-        foreach ($nums as $num) {
-            $product = 0;
-            if (
-                $countZero === 1
-                && $num === 0
-            ) {
-                $product = $productFirst;
-            }
-
-            if ($countZero === 0) {
-                $product = $productFirst / $num;
-            }
-
-            $result[] = $product;
+        for ($i = 0; $i < $length; $i++) {
+            $result[$i] = $prefix[$i] * $suffix[$length - $i - 1];
         }
 
         return $result;
@@ -62,6 +40,8 @@ class Solution
     public function runTests()
     {
         $rows = [
+            [2,7,6,4,3],
+            [2,3,4],
             [1,2,3,4], //тест из задачи
             [-1,1,0,-3,3], // тест из задачи
             [0,1,0,-3,3],

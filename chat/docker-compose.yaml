@@ -1,0 +1,49 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+
+#Контейнер с php и приложением
+  chat_server_app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: chat_server_app
+    volumes:
+       - ./code:/data
+       - ./socket:/socket
+    #command: composer install --no-plugins --no-scripts
+    networks:
+      - app-network
+
+  chat_client_app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: chat_client_app
+    volumes:
+      - ./code:/data
+      - ./socket:/socket
+    #command: composer install --no-plugins --no-scripts
+    networks:
+      - app-network
+    depends_on:
+      - chat_server_app
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./code:/app
+    entrypoint:
+      - composer
+      - dump-autoload
+    depends_on:
+      - chat_client_app
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

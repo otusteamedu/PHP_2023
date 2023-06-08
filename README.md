@@ -1,3 +1,7 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+#### Для запуска сервера необходимо выполнить команду
+    php app.php server
+
+#### Для запуска клиента необходимо выполнить команду
+    php app.php client

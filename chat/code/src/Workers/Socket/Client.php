@@ -9,7 +9,11 @@ class Client extends Socket
     public function run(): void
     {
         $this->serverTurnOn();
-        $this->listenStdin();
+        $listenGen = $this->listenStdin();
+        while ($mess = $listenGen->current()) {
+            echo $mess;
+            $listenGen->next();
+        }
     }
 
     /**
@@ -34,22 +38,22 @@ class Client extends Socket
     /**
      * @throws Exception
      */
-    private function listenStdin(): void
+    private function listenStdin()
     {
-        echo '---=== Client running ===---' . PHP_EOL;
+        yield '---=== Client running ===---' . PHP_EOL;
         while (true) {
             $messageCli = $this->getMessageFromCli();
             $this->sendMessage($messageCli);
             $messageServer = $this->getRemoteMessage();
             if ($this->isMessageDelivered($messageServer, $messageCli)) {
-                echo "Message delivered! Write new message!" . PHP_EOL;
+                yield "Message delivered! Write new message!" . PHP_EOL;
                 if ($this->isExitMessage($messageCli)) {
-                    echo "---=== Client turn off ===---- " . PHP_EOL;
+                    yield "---=== Client turn off ===---- " . PHP_EOL;
                     $this->serverTurnOff();
-                    return;
+                    yield;
                 }
             } else {
-                echo "Message not delivered,  send message = '" . $messageCli . "', server received ='" . $messageServer . "' " . PHP_EOL;
+                yield "Message not delivered,  send message = '" . $messageCli . "', server received ='" . $messageServer . "' " . PHP_EOL;
             }
         }
     }

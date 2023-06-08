@@ -1,3 +1,7 @@
-# PHP_2023
+# hw8
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Решение задачи 
+https://leetcode.com/problems/product-of-array-except-self/
+
+Сложность решаемой задачи O(n) т.к. мы за один проход перебираем массив чисел и формируем вспомогательные массивы
+

@@ -1,0 +1,16 @@
+{
+    "name": "desaulenko/hw8",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "DEsaulenko\\Hw8\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "D.Esaulenko",
+            "email": "esaul.work@mail.ru"
+        }
+    ],
+    "require": {}
+}

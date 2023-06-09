@@ -1,0 +1,21 @@
+{
+    "name": "amirniyaz/php_2023",
+    "type": "project",
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Amirniyaz\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MambetniyazovAmir",
+            "email": "mr.amirniyaz@mail.ru"
+        }
+    ],
+
+    "require": {
+        "dmitrykirillov/otus-composer-package": "dev-master",
+        "amirniyaz/otus-composer-package": "dev-master"
+    }
+}

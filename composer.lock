@@ -1,0 +1,95 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "161c4594eb97fe27297389a96e74ac6b",
+    "packages": [
+        {
+            "name": "amirniyaz/otus-composer-package",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MambetniyazovAmir/otus-composer-package.git",
+                "reference": "2606bf428448feb0f338404c3fd200cce2c1cd2e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MambetniyazovAmir/otus-composer-package/zipball/2606bf428448feb0f338404c3fd200cce2c1cd2e",
+                "reference": "2606bf428448feb0f338404c3fd200cce2c1cd2e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Amirniyaz\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "MambetniyazovAmir",
+                    "email": "mr.amirniyaz@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/MambetniyazovAmir/otus-composer-package/issues",
+                "source": "https://github.com/MambetniyazovAmir/otus-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-05-28T11:52:28+00:00"
+        },
+        {
+            "name": "dmitrykirillov/otus-composer-package",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DmitryKirillov/otus-composer-package.git",
+                "reference": "a5b0d2ebf1f441cdec2649851b948dee19875d9b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DmitryKirillov/otus-composer-package/zipball/a5b0d2ebf1f441cdec2649851b948dee19875d9b",
+                "reference": "a5b0d2ebf1f441cdec2649851b948dee19875d9b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DmitryKirillov\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "DmitryKirillov",
+                    "email": "esteps.kirillov@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/DmitryKirillov/otus-composer-package/issues",
+                "source": "https://github.com/DmitryKirillov/otus-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-05-16T18:29:44+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "dmitrykirillov/otus-composer-package": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

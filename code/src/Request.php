@@ -33,7 +33,4 @@ class Request
         return true;
     }
 
-
-
-
 }

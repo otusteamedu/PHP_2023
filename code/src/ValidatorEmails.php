@@ -14,9 +14,9 @@ class ValidatorEmails
         $this->emails = $request;
     }
 
-    public function getResult(): array
+    public function getResult(): string
     {
-        return $this->validation();
+        return print_r($this->validation(), true);
     }
     private function validation(): array
     {
@@ -24,13 +24,16 @@ class ValidatorEmails
         $emailsArr = $this->emails;
 
         foreach ($emailsArr as $arItem) {
-            $result[] = ['Email' => $arItem, 'Валидность (Regexp)' => $this->isValidRegexp($arItem), 'Валидность (MX)' => $this->isValidMx($arItem)];
+            $result[] = [
+                'Email' => $arItem, 'Валидность (Regexp)' => $this->isValidRegexp($arItem),
+                'Валидность (MX)' => $this->isValidMx($arItem)
+            ];
         }
 
         return $result;
     }
 
-    private function isValidRegexp($email): string {
+    private function isValidRegexp(string $email): string {
         if (preg_match("/^([a-z0-9_-]+\.)*[a-z0-9_-]+@[a-z0-9_-]+(\.[a-z0-9_-]+)*\.[a-z]{2,6}$/i", $email)) {
            return $this->setStatusCode('success');
         } else {
@@ -38,7 +41,7 @@ class ValidatorEmails
         }
     }
 
-    private function isValidMx($email, $record = 'MX'): string {
+    private function isValidMx(string $email, string $record = 'MX'): string {
         $domain = substr(strrchr($email, "@"), 1);
 
         if(!checkdnsrr($domain, $record)) {

@@ -1,10 +1,13 @@
 <?php
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
+require 'BracketsValidator.php';
 
-echo "Что-то еще<br>";
+$app = new BracketsValidator($_POST);
 
-echo $_SERVER['SERVER_ADDR'];
-
-
-phpinfo();
+if ($app->validate()) {
+    http_response_code(200);
+    echo '';
+} else {
+    http_response_code(400);
+    echo '';
+}

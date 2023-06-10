@@ -18,16 +18,11 @@ function pivotInteger(int $n): int
         return -1;
     }
 
+    $sum1ToN = $n*($n + 1)/2;
     for ($i = 2; $i < $n; $i++) {
-        $firstSum = 0;
-        for ($j = 1; $j <= $i; $j++) {
-            $firstSum += $j;
-        }
+        $firstSum = $i*($i + 1)/2;
 
-        $secondSum = 0;
-        for ($j = $i; $j <= $n; $j++) {
-            $secondSum += $j;
-        }
+        $secondSum = $sum1ToN - $firstSum + $i;
 
         if ($firstSum == $secondSum) {
             return $i;

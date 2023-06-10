@@ -40,7 +40,7 @@ create table if not exists cinema.ticket
     id      int auto_increment
     primary key,
     session int   not null,
-    seat    int   null,
+    seat_id int   null,
     constraint ticket_seat_id_fk
     foreign key (seat) references cinema.seat (id),
     constraint ticket_session_id_fk

@@ -1,0 +1,7 @@
+{
+    "name": "igalimov/test-projject",
+    "type": "project",
+    "require": {
+        "igalimov/otus-hw-package": "^1.0"
+    }
+}

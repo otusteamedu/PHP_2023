@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3ab53a532b37a42a927ec568a6ea7f2b",
+    "packages": [
+        {
+            "name": "igalimov/otus-hw-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/igalimov325123/otus-hw-package.git",
+                "reference": "c1aa8680a17f545ecdd429a1cfc17ab4b6b42faf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/igalimov325123/otus-hw-package/zipball/c1aa8680a17f545ecdd429a1cfc17ab4b6b42faf",
+                "reference": "c1aa8680a17f545ecdd429a1cfc17ab4b6b42faf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Igalimov\\OtusHwPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "y"
+                }
+            ],
+            "description": "A package for simple mathematical calculations",
+            "support": {
+                "issues": "https://github.com/igalimov325123/otus-hw-package/issues",
+                "source": "https://github.com/igalimov325123/otus-hw-package/tree/v1.0.1"
+            },
+            "time": "2023-06-11T18:26:25+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

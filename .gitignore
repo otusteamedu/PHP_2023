@@ -1,1 +1,5 @@
 .idea
+socket
+vendor
+
+phpcs.xml

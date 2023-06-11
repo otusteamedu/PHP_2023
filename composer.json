@@ -1,0 +1,20 @@
+{
+  "name": "yuzyuk_roman/hw6",
+  "description": "",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src"
+    }
+  },
+  "authors": [
+    {
+      "name": "Roman.Yuzyuk",
+      "email": "romanyuzyukfront@gmail.com"
+    }
+  ],
+  "require": {
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}

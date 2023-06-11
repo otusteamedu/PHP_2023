@@ -9,7 +9,9 @@ use App\Transport\Socket\SocketInterface;
 class CLI
 {
     private SocketInterface $transport;
-    public function __construct(SocketInterface $transport) {
+
+    public function __construct(SocketInterface $transport)
+    {
         $this->transport = $transport;
     }
 

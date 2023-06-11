@@ -58,7 +58,7 @@ class Socket implements SocketInterface
 
     public function send(SocketNative $socket, string $message, int $length = null): int|false
     {
-        return socket_write($socket,  $message,  $length);
+        return socket_write($socket, $message, $length);
     }
 
     public function read(): string

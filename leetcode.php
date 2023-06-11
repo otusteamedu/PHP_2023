@@ -8,7 +8,7 @@ class Solution
      * Given a positive integer n, find the pivot integer x such that:
      * The sum of all elements between 1 and x inclusively equals the sum of all elements between x and n inclusively.
      * Return the pivot integer x. If no such integer exists, return -1. It is guaranteed that there will be at most one pivot index for the given input.
-     * The estimated complexity of this algorithm is O(n^2), where n is the length of the $nums array.
+     * The estimated complexity of this algorithm is O(n), where n is the length of the $nums array.
      *
      * @param int $n
      * @return int
@@ -41,7 +41,7 @@ class Solution
      * leftSum[i] is the sum of elements to the left of the index i in the array nums. If there is no such element, leftSum[i] = 0.
      * rightSum[i] is the sum of elements to the right of the index i in the array nums. If there is no such element, rightSum[i] = 0.
      * Return the array answer.
-     * The estimated complexity of this algorithm is O(n^2), where n is the length of the $nums array.
+     * The estimated complexity of this algorithm is O(n), where n is the length of the $nums array.
      *
      * @param array $nums
      * @return array

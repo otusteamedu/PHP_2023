@@ -1,14 +1,10 @@
 <?php
 declare(strict_types=1);
 
-use Nautilus\Validator\Controllers;
-use Nautilus\Validator\Request;
+use Nautilus\Validator\App;
 
 require_once 'vendor/autoload.php';
 
-$emails = ['test@mail.ri', 'test@mail.ru', 'test@ya.ru'];
-
-$request = new Request($emails);
-$controller = new Controllers($request->getRequest());
-$validator = $controller->getValidatorEmail();
-echo $validator->getResult();
+$_POST['emails'] = ['22222@ya', 'test@mail.ru', 'rrrrr@mail.', 'test2@google.com'];
+$app = new App();
+$app->run();

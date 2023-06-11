@@ -7,7 +7,9 @@ use App\Transport\Socket\SocketInterface;
 class Server
 {
     private SocketInterface $transport;
-    public function __construct(SocketInterface $transport) {
+
+    public function __construct(SocketInterface $transport)
+    {
         $this->transport = $transport;
     }
 
@@ -21,7 +23,7 @@ class Server
         while (true) {
             $res = $this->transport->recv($connect);
 
-            if($res) {
+            if ($res) {
                 $this->transport->send($connect, "Reverse message: " . strrev($res));
             }
         }

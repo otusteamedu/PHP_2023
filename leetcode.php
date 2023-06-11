@@ -57,7 +57,6 @@ class Solution
         for ($i = 1; $i < $n; $i++) {
             $leftSum[$i] = $leftSum[$i - 1] + $nums[$i - 1];
             $rightSum[$n - $i - 1] = $rightSum[$n - $i] + $nums[$n - $i];
-            print_r([$leftSum, $rightSum]);
         }
 
     // Calculate answer

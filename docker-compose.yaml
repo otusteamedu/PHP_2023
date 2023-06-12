@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  nginx_balanced_1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw4_1_balancer/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+  app_fpm_1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw4_1_balancer/php
+    container_name: app_fpm_1
+    volumes:
+       - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+  app_fpm_2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw4_1_balancer/php
+    container_name: app_fpm_2
+    volumes:
+      - ./code:/var/www/mysite.local
+    networks:
+      - app-network
+
+  app_repcached:
+    build:
+      context: ./repcached
+      dockerfile: Dockerfile
+    image: hw4_1_balancer/repcached
+    container_name: app_repcached
+    ports:
+        - "11211:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

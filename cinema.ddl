@@ -15,6 +15,7 @@ create table if not exists cinema.room
 create table if not exists cinema.seat
 (
     number  int null,
+    line    int null,
     room_id int null,
     id      int auto_increment,
     primary key

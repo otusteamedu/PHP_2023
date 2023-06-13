@@ -6,8 +6,9 @@ namespace Otus\App;
 
 class HTMLStatic
 {
-    static public function mainPage() {
-        echo 
+    public static function mainPage()
+    {
+        echo
             '<html>
                 <head></head>
                 <body>
@@ -18,7 +19,8 @@ class HTMLStatic
                 </body>
             </html>';
     }
-    static public function correctPage() {
+    public static function correctPage()
+    {
         echo
             '<html>
                 <head></head>

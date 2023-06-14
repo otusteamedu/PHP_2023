@@ -14,8 +14,9 @@ class View
     private $pathToTemplates = 'src/templates';
     public function __construct($contentFile)
     {
-        if (! file_exists("{$this->pathToTemplates}/{$contentFile}"))
+        if (! file_exists("{$this->pathToTemplates}/{$contentFile}")) {
             throw new Exception("File {$this->pathToTemplates}/{$contentFile} not exists");
+        }
         $this->contentFile = $contentFile;
     }
     public function renderHTML()

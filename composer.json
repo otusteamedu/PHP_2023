@@ -1,0 +1,13 @@
+{
+    "name": "alishertashmatov/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.1",
+        "ext-sockets": "*"
+    }
+}

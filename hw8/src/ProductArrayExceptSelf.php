@@ -1,5 +1,7 @@
 <?php
 
+namespace ProductArrayExceptSelf;
+
 /**
  * Given an integer array 'nums', return an array 'answer' such that
  * answer[i] is equal to the product of all the elements of 'nums' except nums[i].
@@ -31,9 +33,10 @@ class Solution
      * @param Integer[] $nums
      * @return Integer[]
      */
-    function productExceptSelf($nums) {
+    public function productExceptSelf($nums)
+    {
         $prefix = [];
-        for($i = 0; $i < count($nums) - 1; $i++) {
+        for ($i = 0; $i < count($nums) - 1; $i++) {
             if ($i == 0) {
                 $prefix[$i + 1] = $nums[$i];
             } else {
@@ -42,7 +45,7 @@ class Solution
         }
 
         $suffix = [];
-        for($i = count($nums) - 1; $i >= 0; $i--) {
+        for ($i = count($nums) - 1; $i >= 0; $i--) {
             if ($i == count($nums) - 1) {
                 $suffix[$i - 1] = $nums[$i];
             } else {
@@ -51,12 +54,12 @@ class Solution
         }
 
         $answer = [];
-        for($i = 0; $i < count($nums); $i++) {
+        for ($i = 0; $i < count($nums); $i++) {
             if (isset($prefix[$i]) && isset($suffix[$i])) {
                 $answer[$i] = $prefix[$i] * $suffix[$i];
-            } elseif(isset($prefix[$i])) {
+            } elseif (isset($prefix[$i])) {
                 $answer[$i] = $prefix[$i];
-            } elseif(isset($suffix[$i])) {
+            } elseif (isset($suffix[$i])) {
                 $answer[$i] = $suffix[$i];
             }
         }

@@ -1,5 +1,7 @@
 <?php
 
+namespace LeftRightDifference;
+
 /**
  * Given a 0-indexed integer array 'nums', find a 0-indexed integer array 'answer' where:
  * - answer.length == nums.length.
@@ -39,15 +41,15 @@ class Solution
      * @param Integer[] $nums
      * @return Integer[]
      */
-    function leftRightDifference($nums)
+    public function leftRightDifference($nums)
     {
         $answer = [];
 
-        foreach($nums as $index => $value) {
+        foreach ($nums as $index => $value) {
             $leftSum = 0;
             $rightSum = 0;
 
-            foreach($nums as $i => $v) {
+            foreach ($nums as $i => $v) {
                 if ($i < $index) {
                     $leftSum += $v;
                 }

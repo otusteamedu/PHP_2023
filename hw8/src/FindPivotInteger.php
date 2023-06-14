@@ -1,5 +1,7 @@
 <?php
 
+namespace FindPivotInteger;
+
 /**
  * Given a positive integer n, find the pivot integer x such that:
  *
@@ -36,19 +38,20 @@ class Solution
      * @param Integer $n
      * @return Integer
      */
-    function pivotInteger($n) {
+    public function pivotInteger($n)
+    {
         $sum_n_asc = 0;
         $asc_sum_array = [];
-        for($i = 1; $i <= $n; $i++) {
+        for ($i = 1; $i <= $n; $i++) {
             $sum_n_asc += $i;
             $asc_sum_array[$i] = $sum_n_asc;
         }
 
         $sum_n_desc = 0;
-        for($i = $n; $i > 0; $i--) {
+        for ($i = $n; $i > 0; $i--) {
             $sum_n_desc += $i;
 
-            foreach($asc_sum_array as $index => $sum) {
+            foreach ($asc_sum_array as $index => $sum) {
                 if ($sum_n_desc == $sum && $i == $index) {
                     return $index;
                 }

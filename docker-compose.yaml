@@ -1,0 +1,73 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  balancer:
+    image: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - app-network
+  #контейнер с Nginx
+  webserver1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    #image: balance/nginx1
+    container_name: webserver1
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  webserver2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    #image: balance/nginx2
+    container_name: webserver2
+    # проброс портов
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: php1 # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: php2 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    networks:
+      - app-network
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

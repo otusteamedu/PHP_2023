@@ -8,18 +8,16 @@ use Exception;
 
 class Validation
 {
+    private $methods = ['bracket', 'empty'];
     public function check(string $input): void
     {
-        $methods = get_class_methods($this);
-        array_shift($methods);
-        foreach ($methods as $method) {
+        foreach ($this->methods as $method) {
             if ($this->$method($input)) {
                 http_response_code(400);
                 throw new Exception("{$method} error");
             }
         }
         http_response_code(200);
-        HTMLStatic::correctPage();
     }
     public function bracket(string $input): bool
     {

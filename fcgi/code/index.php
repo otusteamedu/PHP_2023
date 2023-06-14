@@ -7,4 +7,4 @@ require __DIR__ . '/vendor/autoload.php';
 use Otus\App\Application;
 
 $app = new Application();
-$app->run();
+echo $app->run();

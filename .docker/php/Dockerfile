@@ -11,4 +11,3 @@ WORKDIR /var/www
 FROM default as server
 
 CMD ["/usr/local/bin/php", "server/index.php"]
-

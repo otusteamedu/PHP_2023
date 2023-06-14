@@ -22,9 +22,9 @@ final class App
 
     private function resolveChat(): ChatInterface
     {
-        $application = $_SERVER['argv'][1] ?? null;
+        $chat = $_SERVER['argv'][1] ?? null;
 
-        return match ($application) {
+        return match ($chat) {
             'server' => new Server(new Finder(), new SocketConfiguration(), new SocketManager()),
             'client' => new Client(new SocketConfiguration(), new SocketManager()),
             default => throw new \InvalidArgumentException('Such a type of chat is not supported'),

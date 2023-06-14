@@ -9,5 +9,5 @@ use Otus\App\App;
 try {
     $app = new App();
     $app->run();
-} catch(Exception $e){
+} catch (\Throwable $e) {
 }

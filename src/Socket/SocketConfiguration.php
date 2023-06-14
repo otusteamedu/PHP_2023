@@ -8,8 +8,8 @@ final readonly class SocketConfiguration
 {
     private array $configs;
 
-    public function __construct(
-    ) {
+    public function __construct()
+    {
         $configs = parse_ini_file($_SERVER['PWD'] . '/config.ini');
 
         if ($configs === false) {

@@ -38,8 +38,17 @@ DROP TABLE IF EXISTS `halls`;
 CREATE TABLE `halls` (
     `id` INT NOT NULL AUTO_INCREMENT, 
     `name` VARCHAR(50),
-    `places` INT,
     PRIMARY KEY (`id`)
+);
+
+DROP TABLE IF EXISTS `hall_rows`;
+CREATE TABLE `hall_rows` (
+    `id` INT NOT NULL AUTO_INCREMENT, 
+    `row` INT,
+    `places` INT,
+    `hall_id` INT,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`)
 );
 
 DROP TABLE IF EXISTS `sessions`;
@@ -62,6 +71,7 @@ CREATE TABLE `tickets` (
     `place` INT,
     `row` INT,
     `status` ENUM('not_paid', 'paid', 'canceled') DEFAULT 'not_paid',
+    `final_price` DECIMAL(10,2),
     PRIMARY KEY (`id`),
     FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`),
     FOREIGN KEY (`client_id`) REFERENCES `clients` (`id`)

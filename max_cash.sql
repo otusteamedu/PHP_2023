@@ -1,6 +1,6 @@
 SELECT 
     films.name AS film_name, 
-    SUM(films.price) AS cash 
+    SUM(tickets.final_price) AS cash 
 FROM tickets AS tickets 
 LEFT JOIN sessions AS sessions 
     ON sessions.id = tickets.session_id 

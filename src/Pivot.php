@@ -6,7 +6,8 @@ namespace Otus\Pivot;
 
 class Pivot
 {
-    public function pivotInteger($n) {
+    public function pivotInteger($n)
+    {
         $array = range(1, $n);
         $length = count($array) - 1;
         $begin = 0;
@@ -22,10 +23,11 @@ class Pivot
             if ($end - $begin == 1) {
                 return -1;
             }
-            if ($leftSum > $rightSum)
+            if ($leftSum > $rightSum) {
                 $end = $purportedPivot;
-            else
+            } else {
                 $begin = $purportedPivot;
+            }
             $array = range($begin, $end);
             $length = count($array) - 1;
         }

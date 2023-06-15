@@ -1,0 +1,16 @@
+{
+    "name": "otus/pivot",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Pivot\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denis",
+            "email": "denis_mesnyankin@mail.ru"
+        }
+    ],
+    "require": {}
+}

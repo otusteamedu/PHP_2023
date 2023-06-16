@@ -2,8 +2,10 @@
 
 namespace MyApp;
 
-class Validate {
-    public function validateString($string) {
+class Validate 
+{
+    public function validateString($string) 
+    {
         // Проверяем непустоту строки
         $this->validateNotEmpty($string);
 
@@ -11,13 +13,15 @@ class Validate {
         $this->validateBrackets($string);
     }
 
-    private function validateNotEmpty($string) {
+    private function validateNotEmpty($string) 
+    {
         if (empty($string)) {
             throw new \Exception('Строка скобок пуста.');
         }
     }
 
-    private function validateBrackets($string) {
+    private function validateBrackets($string) 
+    {
         $openCount = 0;
         $closeCount = 0;
 

@@ -2,9 +2,10 @@
 
 namespace MyApp;
 
-use MyApp\Validate;
+require_once 'Validate.php';
 
-class App {
+class App 
+{
     public function run() {
         $validate = new Validate();
 

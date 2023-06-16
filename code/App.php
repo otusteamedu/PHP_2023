@@ -4,9 +4,10 @@ namespace MyApp;
 
 require_once 'Validate.php';
 
-class App 
+class App
 {
-    public function run() {
+    public function run()
+    {
         $validate = new Validate();
 
         // Получаем значение POST-параметра 'string'

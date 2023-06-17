@@ -4,11 +4,11 @@ VALUES
     ('Зал 2', 100, 'Малый зал'),
     ('Зал 3', 50, 'VIP зал');
 
-INSERT INTO hall_schema (rows, seats, hall_id)
+INSERT INTO hall_row (seats, hall_id)
 VALUES
-    (15, 30, (SELECT id FROM hall WHERE name = 'Зал 1')),
-    (10, 12, (SELECT id FROM hall WHERE name = 'Зал 2')),
-    (10, 10, (SELECT id FROM hall WHERE name = 'Зал 3'));
+    (30, (SELECT id FROM hall WHERE name = 'Зал 1')),
+    (12, (SELECT id FROM hall WHERE name = 'Зал 2')),
+    (10, (SELECT id FROM hall WHERE name = 'Зал 3'));
 
 INSERT INTO movie (name, director, genre, duration)
 VALUES

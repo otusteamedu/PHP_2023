@@ -6,10 +6,9 @@ CREATE TABLE IF NOT EXISTS hall
     description TEXT
 );
 
-CREATE TABLE IF NOT EXISTS hall_schema
+CREATE TABLE IF NOT EXISTS hall_row
 (
     id SERIAL PRIMARY KEY,
-    rows SMALLINT NOT NULL,
     seats SMALLINT NOT NULL,
     hall_id SERIAL REFERENCES hall (id)
 );

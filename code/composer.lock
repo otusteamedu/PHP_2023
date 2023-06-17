@@ -1,0 +1,46 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9e73bd7d59c83ed85a915b978c360336",
+    "packages": [
+        {
+            "name": "vladimirsannikov/bracketchecker",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Megashark404/bracket-checker.git",
+                "reference": "3d6696110e894b7666305f4f28a21d465bb733a2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Megashark404/bracket-checker/zipball/3d6696110e894b7666305f4f28a21d465bb733a2",
+                "reference": "3d6696110e894b7666305f4f28a21d465bb733a2",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vladimirsannikov\\Bracketchecker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/Megashark404/bracket-checker/issues",
+                "source": "https://github.com/Megashark404/bracket-checker/tree/v1.0.1"
+            },
+            "time": "2023-06-17T20:30:36+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

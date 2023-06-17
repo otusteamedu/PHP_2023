@@ -2,8 +2,16 @@ CREATE TABLE IF NOT EXISTS hall
 (
     id SERIAL PRIMARY KEY,
     name CHARACTER VARYING(255) NOT NULL,
-    capacity SMALLINT NOT NULL ,
+    capacity SMALLINT NOT NULL,
     description TEXT
+);
+
+CREATE TABLE IF NOT EXISTS hall_schema
+(
+    id SERIAL PRIMARY KEY,
+    rows SMALLINT NOT NULL,
+    seats SMALLINT NOT NULL,
+    hall_id SERIAL REFERENCES hall (id)
 );
 
 CREATE TABLE IF NOT EXISTS movie
@@ -15,7 +23,7 @@ CREATE TABLE IF NOT EXISTS movie
     duration SMALLINT
 );
 
-CREATE TABLE IF NOT EXISTS session
+CREATE TABLE IF NOT EXISTS showtime
 (
     id SERIAL PRIMARY KEY,
     hall_id SERIAL REFERENCES hall (id),
@@ -37,7 +45,9 @@ CREATE TABLE IF NOT EXISTS customer
 CREATE TABLE IF NOT EXISTS ticket
 (
     id SERIAL PRIMARY KEY,
-    session_id SERIAL REFERENCES session (id),
+    showtime_id SERIAL REFERENCES showtime (id),
     customer_id SERIAL REFERENCES customer (id),
-    seat SMALLINT
+    row SMALLINT,
+    seat SMALLINT,
+    price DECIMAL(8, 2)
 );

@@ -9,22 +9,22 @@ class App
 {
     private BracketService $bracketService;
 
-    public function __construct(BracketService $bracketService){
+    public function __construct(BracketService $bracketService)
+    {
         $this->bracketService = $bracketService;
     }
 
-    public function run(){
+    public function run()
+    {
         $s = '(())';
-        try{
+        try {
             $result = $this->bracketService->check($s);
             if ($result) {
                 echo 'Правильная скобочная последовательность';
-            }
-            else {
+            } else {
                 echo 'Неправильная скобочная последовательность';
             }
-        }
-        catch (EmptyBracketSequenceException $e) {
+        } catch (EmptyBracketSequenceException $e) {
             echo $e->getMessage();
         }
     }

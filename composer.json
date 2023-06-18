@@ -1,0 +1,18 @@
+{
+    "name": "klobkovsky/hw3-project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "KLobkovsky\\Hw3Project\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kirill.lobkovsky",
+            "email": "kiphirrr@gmail.com"
+        }
+    ],
+    "require": {
+        "klobkovsky/hw3-package": "^1.0"
+    }
+}

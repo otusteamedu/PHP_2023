@@ -5,7 +5,9 @@ namespace MyApp;
 use MyApp\Validate;
 
 class App {
-    public function run() {
+
+    public function run()
+    {
         $validate = new Validate();
 
         // Получаем значение POST-параметра 'string'
@@ -25,7 +27,8 @@ class App {
         }
     }
 
-    private function sendHttpResponse($statusCode, $response) {
+    private function sendHttpResponse($statusCode, $response)
+    {
         // Устанавливаем HTTP-статус и заголовки ответа
         http_response_code($statusCode);
         header('Content-Type: text/plain');

@@ -4,7 +4,8 @@ namespace MyApp;
 
 use MyApp\Validate;
 
-class App {
+class App
+{
 
     public function run()
     {

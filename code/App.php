@@ -6,7 +6,7 @@ use MyApp\Validate;
 
 class App
 {
-   public function run()
+    public function run()
     {
         $validate = new Validate();
 

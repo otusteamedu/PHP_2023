@@ -14,18 +14,14 @@ class App
         $this->bracketService = $bracketService;
     }
 
-    public function run()
+    public function run(string $brackets)
     {
-        $s = '(())';
         try {
-            $result = $this->bracketService->check($s);
-            if ($result) {
-                echo 'Правильная скобочная последовательность';
-            } else {
-                echo 'Неправильная скобочная последовательность';
-            }
+            $result = $this->bracketService->check($brackets);
+            return $result;
         } catch (EmptyBracketSequenceException $e) {
             echo $e->getMessage();
         }
+        return false;
     }
 }

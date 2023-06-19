@@ -1,0 +1,13 @@
+{
+    "name": "otus/homework3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Homework3\\": "src/"
+        }
+    },
+    "require": {
+        "vladimirsannikov/bracketchecker": "^1.0"
+    }
+}
+

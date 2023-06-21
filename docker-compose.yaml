@@ -1,96 +1,60 @@
-# версия синтаксиса
 version: '3'
 
-# в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #контейнер с Nginx
   nginx-balancer:
     build:
-      context: ./nginx
+      context: ./nginx-balancer
       dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx-balancer
-    # проброс портов
     ports:
       - "80:80"
-    volumes:
-       - ./code:/data/mysite.local
     networks:
+      - public
       - app-network
 
-  #контейнер с Nginx
-  nginx1:
+  nginx-web-server1:
     build:
-      context: ./nginx
+      context: ./nginx-web-server
       dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx1
-     # проброс портов
-    ports:
-      - "8080:80"
     volumes:
-       - ./code:/data/mysite.local
+      - ./code:/var/www/html
     networks:
       - app-network
 
-  #контейнер с Nginx
-  nginx2:
+  nginx-web-server2:
     build:
-      context: ./nginx
+      context: ./nginx-web-server
       dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx2
-     # проброс портов
-    ports:
-      - "8081:80"
     volumes:
-       - ./code:/data/mysite.local
+      - ./code:/var/www/html
     networks:
       - app-network
 
-  #Контейнер с PHP-FPM, назовём его app
-  app1:
-    # Если нет секции build, то система будет искать образ в репозиториях
+  php-fpm1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: balance/php # имя будущего образа
-    container_name: app1 # имя контейнера после запуска
     volumes:
-       - ./code:/data/mysite.local
-    # мы можем создать для контейнеров внутреннюю сеть
+      - ./code:/var/www/html
     networks:
       - app-network
 
-  #Контейнер с PHP-FPM, назовём его app
-  app2:
-    # Если нет секции build, то система будет искать образ в репозиториях
+  php-fpm2:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: balance/php # имя будущего образа
-    container_name: app2 # имя контейнера после запуска
     volumes:
-      - ./code:/data/mysite.local
-    # мы можем создать для контейнеров внутреннюю сеть
+      - ./code:/var/www/html
     networks:
       - app-network
 
-   #Контейнер с MySql
-  mysql:
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
-    image: myapp/mysql
-    container_name: mysql
-    environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
-    volumes:
-      - ../code/mysql:/var/lib/mysql
+  memcached:
+    image: memcached
+    ports:
+      - "11211:11211"
     networks:
       - app-network
 
-#Docker Networks
 networks:
-  app-network:
+  public:
     driver: bridge
+  app-network:

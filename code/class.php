@@ -45,17 +45,18 @@ class EmailVerifier
         return $arEmails;
     }
 
-    function pregMatchAll($re, $email, &$matches)
+    public function pregMatchAll($re, $email, &$matches)
     {
         preg_match_all($re, $email, $matches, PREG_SET_ORDER);
     }
 
-    function getMxRr($matches, &$hosts)
+    public function getMxRr($matches, &$hosts)
     {
         getmxrr($matches[0][1], $hosts);
     }
 
-    function emptyMatches($matches){
+    public function emptyMatches($matches)
+    {
         return empty($matches);
     }
 }

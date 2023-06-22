@@ -25,6 +25,7 @@ CREATE TABLE values (
   string_value TEXT,
   boolean_value BOOLEAN,
   date_value DATE,
+  int_value INT,
   float_value FLOAT,
   FOREIGN KEY (attribute_id) REFERENCES attributes (id),
   FOREIGN KEY (movie_id) REFERENCES movies (id),

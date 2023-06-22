@@ -2,9 +2,9 @@ version: "3"
 
 services:
 
-  mysql-hw7:
+  mysql-hw9:
     image: mysql:5.7
-    container_name: mysql-hw7
+    container_name: mysql-hw9
     volumes:
       - ./mysql/data/:/var/lib/mysql
       - ./mysql/config:/etc/mysql/conf.d
@@ -14,11 +14,11 @@ services:
     ports:
       - "${MYSQL_PORT}:3306"
     environment:
-      MYSQL_DATABASE: hw7
+      MYSQL_DATABASE: hw9
       MYSQL_ALLOW_EMPTY_PASSWORD: true
     networks:
-      - hw7
+      - hw9
 
 networks:
-  hw7:
+  hw9:
     driver: bridge

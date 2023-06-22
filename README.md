@@ -1,3 +1,6 @@
-# PHP_2023
+# HW9
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+0. Схема есть в 2 видах:
+   1. scheme.drawio
+   2. scheme.jpg
+1. Запускаем mysql/install.sql

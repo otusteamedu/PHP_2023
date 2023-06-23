@@ -5,10 +5,10 @@ SELECT m.name AS movie_name,
     a_t.name AS attribute_type,
     a.name AS attribute,
     "v".v_date AS value_date
-FROM ((("tbl_values" "v"
-    LEFT JOIN tbl_movies m ON ((m.id = "v".movie_id)))
-    LEFT JOIN tbl_attributes a ON ((a.id = "v".attribute_id)))
-    LEFT JOIN tbl_attribute_types a_t ON ((a_t.id = a.attribute_type_id)))
+FROM ((("_values" "v"
+    LEFT JOIN movies m ON ((m.id = "v".movie_id)))
+    LEFT JOIN attributes a ON ((a.id = "v".attribute_id)))
+    LEFT JOIN attribute_types a_t ON ((a_t.id = a.attribute_type_id)))
 WHERE (((a_t.name)::text = 'service_dates'::text) AND ("v".v_date = CURRENT_DATE));
 
 -- View for tasks relevant after 20 days
@@ -18,10 +18,10 @@ SELECT m.name AS movie_name,
     a_t.name AS attribute_type,
     a.name AS attribute_name,
     "v".v_date AS value_date
-FROM ((("tbl_values" "v"
-    LEFT JOIN tbl_movies m ON ((m.id = "v".movie_id)))
-    LEFT JOIN tbl_attributes a ON ((a.id = "v".attribute_id)))
-    LEFT JOIN tbl_attribute_types a_t ON ((a_t.id = a.attribute_type_id)))
+FROM ((("_values" "v"
+    LEFT JOIN movies m ON ((m.id = "v".movie_id)))
+    LEFT JOIN attributes a ON ((a.id = "v".attribute_id)))
+    LEFT JOIN attribute_types a_t ON ((a_t.id = a.attribute_type_id)))
 WHERE (((a_t.name)::text = 'service_dates'::text) AND ("v".v_date > (CURRENT_DATE + 20)));
 
 -- View for marketing
@@ -32,7 +32,7 @@ SELECT m.name AS movie_name,
     "v".v_text,
     "v".v_bool,
     "v".v_date
-FROM ((("tbl_values" "v"
-    LEFT JOIN tbl_movies m ON ((m.id = "v".movie_id)))
-    LEFT JOIN tbl_attributes a ON ((a.id = "v".attribute_id)))
-    LEFT JOIN tbl_attribute_types a_t ON ((a_t.id = a.attribute_type_id)));
+FROM ((("_values" "v"
+    LEFT JOIN movies m ON ((m.id = "v".movie_id)))
+    LEFT JOIN attributes a ON ((a.id = "v".attribute_id)))
+    LEFT JOIN attribute_types a_t ON ((a_t.id = a.attribute_type_id)));

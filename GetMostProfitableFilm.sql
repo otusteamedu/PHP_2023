@@ -1,6 +1,9 @@
+
 SELECT
-	Films.id AS MostProfitableFilmId,
-	Films.cost*(SELECT COUNT(*) FROM Sessions WHERE Sessions.filmId=Films.id) AS MostProfitableFilmCost
-FROM Films, Sessions
+	SUM(soldTickets.cost) MostProfitableFilmCost,
+	Films.id
+FROM soldTickets, Films, Sessions
+WHERE soldTickets.sessionId=Sessions.id AND Sessions.filmId=Films.id
+GROUP BY Films.id
 ORDER BY MostProfitableFilmCost desc
 LIMIT 1;

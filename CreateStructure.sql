@@ -1,38 +1,44 @@
+
 CREATE DATABASE cinema;
 USE cinema;
 
-CREATE TABLE Halls (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
-    seatsNumber INT,
-    PRIMARY KEY (`id`)
-);
-
-CREATE TABLE Films (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    name VARCHAR(255),
-    cost INT,
-    duration TIME,
+CREATE TABLE `Films` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `duration` time NOT NULL,
+    `cost` decimal(20,6) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
 
-CREATE TABLE Sessions (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    hallId INT,
-    filmId INT,
-    beginTime DATETIME,
-    PRIMARY KEY (`id`),
-    FOREIGN KEY (hallId)  REFERENCES Halls (Id),
-    FOREIGN KEY (filmId)  REFERENCES Films (Id)
+CREATE TABLE `Halls` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `seatsCountInRow` int(11) NOT NULL,
+    `rowsCount` int(11) NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 
-CREATE TABLE soldTickets (
-    id INT(11) NOT NULL AUTO_INCREMENT,
-    sessionId INT,
-    seatNumber INT,
-    clientFio VARCHAR(255),
+CREATE TABLE `Sessions` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `hallId` int(11) NOT NULL,
+    `filmId` int(11) NOT NULL,
+    `beginTime` datetime NOT NULL,
+    `costCoeff` decimal(20,6) NOT NULL DEFAULT 1.000000,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (sessionId)  REFERENCES Sessions (Id)
+    FOREIGN KEY (`hallId`) REFERENCES `Halls` (`id`),
+    FOREIGN KEY (`filmId`) REFERENCES `Films` (`id`)
+);
+
+
+CREATE TABLE `soldTickets` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `sessionId` int(11) NOT NULL,
+    `seatNumber` int(11) NOT NULL,
+    `rowNumber` int(11) NOT NULL,
+    `clientFio` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+    `cost` decimal(20,6) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`sessionId`) REFERENCES `Sessions` (`id`)
 );

@@ -4,7 +4,7 @@ services:
   nginx:
     build:
       context: ./nginx
-      dockerfile: Dockerfile
+      dockerfile: Balancer.Dockerfile
     image: nginx/app
     container_name: webserver
     ports:
@@ -14,12 +14,45 @@ services:
     networks:
       - app-networks
 
-  php:
+  app1:
+    build:
+      context: ./nginx
+      dockerfile: App1.Dockerfile
+    image: nginx/app
+    container_name: app1
+    volumes:
+      - ./srv:/srv/app
+    networks:
+      - app-networks
+
+  app2:
+    build:
+      context: ./nginx
+      dockerfile: App2.Dockerfile
+    image: nginx/app
+    container_name: app2
+    volumes:
+      - ./srv:/srv/app
+    networks:
+      - app-networks
+
+  php1:
     build:
       context: ./php
       dockerfile: Dockerfile
     image: php/app
-    container_name: php
+    container_name: php1
+    volumes:
+      - ./srv:/srv/app
+    networks:
+      - app-networks
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php/app
+    container_name: php2
     volumes:
       - ./srv:/srv/app
     networks:

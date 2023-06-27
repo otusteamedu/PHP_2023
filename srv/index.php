@@ -15,5 +15,8 @@
 //     echo 'Запрос невыполнен. Ошибка валидации';
 // }
 
-
 echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
+echo "<br>";
+echo "IP  " . $_SERVER['SERVER_ADDR'];
+
+phpinfo();

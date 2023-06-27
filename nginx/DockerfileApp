@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY ./conf/app1.local.conf /etc/nginx/conf.d/app1.local.conf
+COPY ./conf/app.local.conf /etc/nginx/conf.d/app.local.conf
 
 WORKDIR /srv/app
 VOLUME /srv/app

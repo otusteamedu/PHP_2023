@@ -1,0 +1,16 @@
+{
+    "name": "klobkovsky/hw-6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "KLobkovsky\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kirill.lobkovsky",
+            "email": "kiphirrr@gmail.com"
+        }
+    ],
+    "require": {}
+}

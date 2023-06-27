@@ -1,3 +1,9 @@
-# PHP_2023
+# Решение алгоритмических задач
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Цель:
+Решить задачу https://leetcode.com/problems/merge-two-sorted-lists/ на слияние двух списков
+
+## Решение: 
+index.php
+
+Вычислительная сло:qжность: O(n)

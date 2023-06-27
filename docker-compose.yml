@@ -58,6 +58,14 @@ services:
     networks:
       - app-networks
 
+  memcached:
+    image: 'memcached:latest'
+    container_name: memcached
+    volumes:
+      - './memcached/volumes:/root/memcached'
+    networks:
+      - app-networks
+
 networks:
   app-networks:
     driver: bridge

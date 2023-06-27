@@ -25,11 +25,15 @@ CREATE TABLE `movies_attributes` (
     `id` INT NOT NULL AUTO_INCREMENT,
     `movie_id` INT NOT NULL,
     `attribute_id` INT NOT NULL,
-    `attribute_value_number` FLOAT NULL,
+    `attribute_value_int` INT NULL,
+    `attribute_value_float` FLOAT NULL,
+    `attribute_value_boolean` TINYINT(1) NULL,
     `attribute_value_date` DATE NULL,
     `attribute_value_text` TEXT NULL,
     `not_null_constrain` int(1) GENERATED ALWAYS AS (COALESCE (
-        IF(`attribute_value_number` IS NULL or `attribute_value_number` = '', NULL, 1),
+        IF(`attribute_value_int` IS NULL or `attribute_value_int` = '', NULL, 1),
+        IF(`attribute_value_float` IS NULL or `attribute_value_float` = '', NULL, 1),
+        IF(`attribute_value_boolean` IS NULL or `attribute_value_boolean` = '', NULL, 1),
         IF(`attribute_value_date` IS NULL or `attribute_value_date` = '', NULL, 1),
         IF(`attribute_value_text` IS NULL or `attribute_value_text` = '', NULL, 1)
     )) VIRTUAL NOT NULL,
@@ -45,7 +49,9 @@ CREATE VIEW `data_for_marketing_dpt` AS
 SELECT `m`.`title` AS `movie_title`,
 `at`.`name` AS `attribute_type`,
 `a`.`name` AS `attribute_name`,
-`ma`.`attribute_value_number` AS `attribute_value_number`,
+`ma`.`attribute_value_int` AS `attribute_value_int`,
+`ma`.`attribute_value_float` AS `attribute_value_float`,
+`ma`.`attribute_value_boolean` AS `attribute_value_boolean`,
 `ma`.`attribute_value_date` AS `attribute_value_date`,
 `ma`.`attribute_value_text` AS `attribute_value_text`
 FROM `movies_attributes` `ma`

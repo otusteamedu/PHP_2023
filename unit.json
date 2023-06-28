@@ -1,0 +1,25 @@
+{
+  "listeners": {
+    "*:8000": {
+      "pass": "applications/laravel-app"
+    }
+  },
+
+  "applications": {
+    "laravel-app": {
+      "type": "php",
+      "processes": 4,
+      "root": "/var/www/html/public",
+      "script": "index.php",
+      "user": "www-data",
+      "group": "www-data",
+      "options": {
+        "file": "/usr/local/etc/php/conf.d/php.ini"
+      },
+      "environment": {
+        "APP_ENV": "development",
+        "APP_DEBUG": "true"
+      }
+    }
+  }
+}

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace TemplateMethod;
+
 abstract class AbstractClass
 {
     // The template method defines the skeleton of an algorithm.
@@ -34,47 +36,11 @@ abstract class AbstractClass
 
     protected abstract function requiredOperation2(): void;
 
-    protected function hook1(): void { }
-
-    protected function hook2(): void { }
-}
-
-class ConcreteClass1 extends AbstractClass
-{
-    protected function requiredOperation1(): void
-    {
-        echo "ConcreteClass1 says: Implemented Operation1\n";
-    }
-
-    protected function requiredOperation2(): void
-    {
-        echo "ConcreteClass1 says: Implemented Operation2\n";
-    }
-}
-
-class ConcreteClass2 extends AbstractClass
-{
-    protected function requiredOperation1(): void
-    {
-        echo "ConcreteClass2 says: Implemented Operation1\n";
-    }
-
-    protected function requiredOperation2(): void
-    {
-        echo "ConcreteClass2 says: Implemented Operation2\n";
-    }
-
     protected function hook1(): void
     {
-        echo "ConcreteClass2 says: Overridden Hook1\n";
+    }
+
+    protected function hook2(): void
+    {
     }
 }
-
-function clientCode(AbstractClass $class)
-{
-    $class->templateMethod();
-}
-
-clientCode(new ConcreteClass1);
-echo "\n";
-clientCode(new ConcreteClass2);

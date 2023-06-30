@@ -1,11 +1,13 @@
 <?php
 declare(strict_types=1);
 
-use Iterator\NumberSquaredIterator;
+use Iterator\NumberCollection;
 
-$numbers = new ArrayObject([1, 2, 3, 4, 5]);
-$iterator = new NumberSquaredIterator($numbers->getIterator());
+$numberCollection = new NumberCollection();
+$numberCollection->addItem(1);
+$numberCollection->addItem(2);
+$numberCollection->addItem(3);
 
-foreach ($iterator as $number) {
+foreach ($numberCollection->getIterator() as $number) {
     echo $number . "\n";
 }

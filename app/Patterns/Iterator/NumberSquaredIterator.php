@@ -3,53 +3,48 @@ declare(strict_types=1);
 
 namespace Iterator;
 
-use Exception;
 use Iterator;
+use ReturnTypeWillChange;
 
 class NumberSquaredIterator implements Iterator
 {
-    private Iterator $iterator;
 
-    public function __construct(Iterator $iterator)
+    private NumberCollection $collection;
+
+    private int $position = 0;
+
+    public function __construct($collection)
     {
-        $this->iterator = $iterator;
+        $this->collection = $collection;
     }
 
-    public function current()
-    {
-        $current = $this->iterator->current();
-        if (is_numeric($current)) {
-            return $current * $current;
-        } else {
-            throw new Exception('Non-numeric value encountered in NumberSquaredIterator');
-        }
-    }
-
-    public function next()
-    {
-        $this->iterator->next();
-    }
-
-    public function key()
-    {
-        return $this->iterator->key();
-    }
-
-    public function valid()
-    {
-        return $this->iterator->valid();
-    }
-
+    #[ReturnTypeWillChange]
     public function rewind()
     {
-        $this->iterator->rewind();
+        $this->position = 0;
     }
 
-    /**
-     * @param Iterator $iterator
-     */
-    public function setIterator(Iterator $iterator): void
+    #[ReturnTypeWillChange]
+    public function current()
     {
-        $this->iterator = $iterator;
+        return $this->collection->getItems()[$this->position] ** 2;
+    }
+
+    #[ReturnTypeWillChange]
+    public function key()
+    {
+        return $this->position;
+    }
+
+    #[ReturnTypeWillChange]
+    public function next()
+    {
+        $this->position = $this->position + 1;
+    }
+
+    #[ReturnTypeWillChange]
+    public function valid()
+    {
+        return isset($this->collection->getItems()[$this->position]);
     }
 }

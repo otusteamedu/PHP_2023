@@ -1,0 +1,35 @@
+version: '3.7'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    networks:
+      - laravel_network
+
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: laravel
+      POSTGRES_USER: laravel
+      POSTGRES_PASSWORD: secret
+    volumes:
+      - dbdata:/var/lib/postgresql/data
+    networks:
+      - laravel_network
+
+volumes:
+  dbdata:
+
+networks:
+  laravel_network:
+    driver: bridge

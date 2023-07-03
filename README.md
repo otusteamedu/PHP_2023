@@ -1,3 +1,18 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Home work 10 
+<br>
+
+>1. Сначала создаем функции, для помощи генерации данных - функции файл functions.sql<br>
+> 2. Создаем таблицы из файла ddl_cinema_system.sql<br>
+> 3. Заполняем таблицы данными из файла 10_000_generate_data.sql или 10_000_000_generate_data.sql
+> 
+<br>
+
+---
+
+<br>
+
+### Отсортированный список (15 значений)<br>
+ Самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
+![15_big_size_tables_indexes](img/hw10.png)

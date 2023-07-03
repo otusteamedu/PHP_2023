@@ -87,8 +87,9 @@ CREATE TABLE sessions (
                           "hall_id" integer NOT NULL,
                           "film_id" integer NOT NULL,
                           "price_id" integer NOT NULL,
-                          "day" day NOT NULL,
                           "time" time NOT NULL,
+                          "day" day NOT NULL,
+                          "year" smallint NOT NULL,
                           FOREIGN KEY (price_id) REFERENCES prices(id) ON DELETE CASCADE,
                           FOREIGN KEY (hall_id) REFERENCES halls(id) ON DELETE CASCADE,
                           FOREIGN KEY (film_id) REFERENCES films(id) ON DELETE CASCADE

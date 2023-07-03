@@ -69,6 +69,16 @@ END;
 $$ language plpgsql STRICT;
 
 
+CREATE OR REPLACE FUNCTION rand_schedule_year() RETURNS smallint AS
+$$
+DECLARE
+    schedule text[] := array['2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+BEGIN
+   RETURN (schedule::integer[])[ceil(random()*array_length(schedule::integer[], 1))];
+END;
+$$ language plpgsql STRICT;
+
+
 CREATE OR REPLACE FUNCTION rand_schedule_time() RETURNS time AS
 $$
 DECLARE

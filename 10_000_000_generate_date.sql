@@ -1,5 +1,4 @@
--- генератор на 10000 записей
-
+-- генератор на 10000000 записей
 
 -- Films
 insert into films(
@@ -13,7 +12,7 @@ select
     rand_date_time('2000-01-01', '2022-12-31'),
     rand_between(90, 320)
 from
-    generate_series(1, 10000) as gs(id);
+    generate_series(1, 100000) as gs(id);
 
 
 -- Places  
@@ -55,7 +54,7 @@ INSERT INTO sessions ("id", "hall_id", "film_id", "price_id", "time", "day", "ye
         rand_schedule_time(),
         rand_schedule_day(),
         rand_schedule_year()
-    from generate_series(1, 10000) as gs(id);
+    from generate_series(1, 100000) as gs(id);
 
 
 -- Tickets
@@ -67,4 +66,4 @@ INSERT INTO tickets ("id", "client_id", "session_id", "cashier_id", "buyed_at", 
         rand_between(1, 4),
         rand_date_time('2021-01-01', '2023-06-30'),
         rand_between(1, 100)
-    from generate_series(1, 10000) as gs(id);
+    from generate_series(1, 10000000) as gs(id);

@@ -1,0 +1,48 @@
+Hash Join  (cost=11.12..42.67 rows=6 width=1592)
+  Hash Cond: (s.movie_id = movie.id)
+  ->  Seq Scan on showtime s  (cost=0.00..31.53 rows=6 width=38)
+        Filter: (date(start_time) = CURRENT_DATE)
+  ->  Hash  (cost=10.50..10.50 rows=50 width=1554)
+        ->  Seq Scan on movie  (cost=0.00..10.50 rows=50 width=1554)
+
+Seq Scan on ticket  (cost=0.00..180.00 rows=583 width=30)
+  Filter: ((sale_date <= CURRENT_DATE) AND (sale_date >= (CURRENT_DATE - '6 days'::interval)))
+
+GroupAggregate  (cost=11.23..11.25 rows=1 width=548)
+  Group Key: m.name
+  ->  Sort  (cost=11.23..11.24 rows=1 width=524)
+        Sort Key: m.name
+        ->  Nested Loop  (cost=0.14..11.22 rows=1 width=524)
+              ->  Seq Scan on showtime s  (cost=0.00..2.75 rows=1 width=12)
+                    Filter: (date(start_time) = CURRENT_DATE)
+              ->  Index Scan using movie_pkey on movie m  (cost=0.14..8.16 rows=1 width=520)
+                    Index Cond: (id = s.movie_id)
+
+Limit  (cost=138.04..138.05 rows=3 width=548)
+  ->  Sort  (cost=138.04..138.17 rows=50 width=548)
+        Sort Key: (sum(t.price)) DESC
+        ->  HashAggregate  (cost=136.77..137.40 rows=50 width=548)
+              Group Key: m.name
+              ->  Hash Join  (cost=14.89..136.47 rows=60 width=522)
+                    Hash Cond: (s.movie_id = m.id)
+                    ->  Hash Join  (cost=3.76..125.18 rows=60 width=10)
+                          Hash Cond: (t.showtime_id = s.id)
+                          ->  Seq Scan on ticket t  (cost=0.00..105.00 rows=6000 width=10)
+
+GroupAggregate  (cost=157.23..157.45 rows=11 width=38)
+  Group Key: hr.id
+  ->  Sort  (cost=157.23..157.26 rows=11 width=8)
+        Sort Key: hr.id
+        ->  Hash Right Join  (cost=36.89..157.04 rows=11 width=8)
+"              Hash Cond: (t.""row"" = hr.id)"
+              ->  Seq Scan on ticket t  (cost=0.00..120.00 rows=59 width=4)
+                    Filter: (showtime_id = 2)
+              ->  Hash  (cost=36.75..36.75 rows=11 width=6)
+                    ->  Seq Scan on hall_row hr  (cost=0.00..36.75 rows=11 width=6)
+
+Aggregate  (cost=123.14..123.15 rows=1 width=64)
+  ->  Nested Loop  (cost=0.00..122.84 rows=59 width=6)
+        ->  Seq Scan on showtime s  (cost=0.00..2.25 rows=1 width=4)
+              Filter: (id = 2)
+        ->  Seq Scan on ticket t  (cost=0.00..120.00 rows=59 width=10)
+              Filter: (showtime_id = 2)

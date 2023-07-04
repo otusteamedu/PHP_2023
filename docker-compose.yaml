@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+    database:
+        container_name: otus_database
+        image: postgres:15.3-alpine3.18
+        restart: always
+        ports:
+            - "5432:5432"
+        environment:
+            PGDATA: /var/lib/postgresql/data
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        command:
+            - "postgres"
+            - "-c"
+            - "random_page_cost=1.1"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+
+volumes:
+    postgres_data:
+        driver:
+            local

@@ -1,0 +1,59 @@
+Merge Join  (cost=48.67..49.50 rows=9 width=9)
+  Merge Cond: (movie.id = s.movie_id)
+  ->  Index Scan using movie_pkey on movie  (cost=0.15..9.95 rows=300 width=13)
+  ->  Sort  (cost=48.52..48.54 rows=9 width=4)
+        Sort Key: s.movie_id
+        ->  Seq Scan on showtime s  (cost=0.00..48.38 rows=9 width=4)
+              Filter: (date(start_time) = CURRENT_DATE)
+
+Bitmap Heap Scan on ticket  (cost=272.82..17976.03 rows=20457 width=4)
+  Recheck Cond: ((sale_date >= (CURRENT_DATE - '6 days'::interval)) AND (sale_date <= CURRENT_DATE))
+  ->  Bitmap Index Scan on idx_ticket_sale_date  (cost=0.00..267.71 rows=20457 width=0)
+        Index Cond: ((sale_date >= (CURRENT_DATE - '6 days'::interval)) AND (sale_date <= CURRENT_DATE))
+
+GroupAggregate  (cost=49.65..49.83 rows=9 width=41)
+  Group Key: m.name
+  ->  Sort  (cost=49.65..49.67 rows=9 width=17)
+        Sort Key: m.name
+        ->  Merge Join  (cost=48.67..49.50 rows=9 width=17)
+              Merge Cond: (m.id = s.movie_id)
+              ->  Index Scan using movie_pkey on movie m  (cost=0.15..9.95 rows=300 width=13)
+              ->  Sort  (cost=48.52..48.54 rows=9 width=12)
+                    Sort Key: s.movie_id
+                    ->  Seq Scan on showtime s  (cost=0.00..48.38 rows=9 width=12)
+                          Filter: (date(start_time) = CURRENT_DATE)
+
+Limit  (cost=76837.92..76837.92 rows=3 width=41)
+  ->  Sort  (cost=76837.92..76838.67 rows=300 width=41)
+        Sort Key: (sum(t.price)) DESC
+        ->  Finalize GroupAggregate  (cost=76755.78..76834.04 rows=300 width=41)
+              Group Key: m.name
+              ->  Gather Merge  (cost=76755.78..76825.79 rows=600 width=41)
+                    Workers Planned: 2
+                    ->  Sort  (cost=75755.76..75756.51 rows=300 width=41)
+                          Sort Key: m.name
+                          ->  Partial HashAggregate  (cost=75739.67..75743.42 rows=300 width=41)
+                                Group Key: m.name
+                                ->  Hash Join  (cost=76.74..75678.96 rows=12142 width=15)
+                                      Hash Cond: (s.movie_id = m.id)
+                                      ->  Hash Join  (cost=66.99..75636.89 rows=12142 width=10)
+                                            Hash Cond: (t.showtime_id = s.id)
+                                            ->  Parallel Seq Scan on ticket t  (cost=0.00..69003.33 rows=2495833 width=10)
+                                            ->  Hash  (cost=66.88..66.88 rows=9 width=8)
+                                                  ->  Seq Scan on showtime s  (cost=0.00..66.88 rows=9 width=8)
+                                                        Filter: ((date(start_time) <= CURRENT_DATE) AND (date(start_time) >= (CURRENT_DATE - '6 days'::interval)))
+                                      ->  Hash  (cost=6.00..6.00 rows=300 width=13)
+                                            ->  Seq Scan on movie m  (cost=0.00..6.00 rows=300 width=13)
+
+
+HashAggregate  (cost=82895.65..82896.03 rows=30 width=38)
+  Group Key: hr.id
+  ->  Hash Right Join  (cost=1002.50..82789.50 rows=21231 width=8)
+"        Hash Cond: (t.""row"" = hr.id)"
+        ->  Gather  (cost=1000.00..82611.93 rows=63693 width=4)
+              Workers Planned: 2
+              ->  Parallel Seq Scan on ticket t  (cost=0.00..75242.62 rows=26539 width=4)
+                    Filter: (showtime_id = 2)
+        ->  Hash  (cost=2.12..2.12 rows=30 width=6)
+              ->  Seq Scan on hall_row hr  (cost=0.00..2.12 rows=30 width=6)
+                    Filter: (hall_id = 3)

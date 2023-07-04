@@ -270,3 +270,67 @@ CREATE INDEX idx_ticket_sales_movie_id_sale_date ON ticket_sales (movie_id, sale
 -- (10 rows)
 
 -- Вывод: индексы на таблицах ticket_sales и hall_schema ускоряют запрос, но не настолько, чтобы сделать его быстрее, чем вариант с CTE.
+
+
+-- отсортированный список (15 значений) самых больших по размеру объектов БД (таблицы, включая индексы, сами индексы)
+SELECT nspname || '.' || relname AS object_name, pg_size_pretty(pg_total_relation_size(C.oid)) AS total_size
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+WHERE nspname = current_schema()
+  AND relkind IN ('r', 'i')
+ORDER BY pg_total_relation_size(C.oid) DESC
+LIMIT 15;
+--                 object_name                 | total_size 
+--------------------------------------------+------------
+--  public.values                              | 2070 MB
+--  public.ticket_sales                        | 1027 MB
+--  public.attribute_types                     | 789 MB
+--  public.unique_start_time_per_hall          | 731 MB
+--  public.attributes                          | 712 MB
+--  public.movies                              | 711 MB
+--  public.unique_start_time_movie             | 394 MB
+--  public.movies_pkey                         | 214 MB
+--  public.attributes_pkey                     | 214 MB
+--  public.attribute_types_pkey                | 214 MB
+--  public.values_pkey                         | 214 MB
+--  public.ticket_sales_pkey                   | 214 MB
+--  public.idx_ticket_sales_movie_id_sale_date | 202 MB
+--  public.idx_ticket_sales_movie_id           | 188 MB
+--  public.hall_schema                         | 208 kB
+-- (15 rows)
+
+-- отсортированные списки (по 5 значений) самых часто и редко используемых индексов
+
+-- часто используемые индексы
+SELECT relname AS index_name, pg_stat_user_indexes.idx_scan AS total_scans
+FROM pg_stat_user_indexes
+JOIN pg_index ON pg_index.indexrelid = pg_stat_user_indexes.indexrelid
+ORDER BY pg_stat_user_indexes.idx_scan DESC
+LIMIT 5;
+
+--   index_name    | total_scans 
+-----------------+-------------
+-- movies          |    20000010
+-- attributes      |    10000008
+-- attribute_types |    10000002
+-- hall_schema     |    10000001
+-- values          |    10000001
+-- (5 rows)
+
+-- Самые редко используемые индексы (Топ-5):
+
+SELECT relname AS index_name, pg_stat_user_indexes.idx_scan AS total_scans
+FROM pg_stat_user_indexes
+JOIN pg_index ON pg_index.indexrelid = pg_stat_user_indexes.indexrelid
+ORDER BY pg_stat_user_indexes.idx_scan ASC
+LIMIT 5;
+
+--   index_name  | total_scans 
+--------------+-------------
+-- ticket_sales |           0
+-- ticket_sales |           0
+-- values       |           0
+-- attributes   |           1
+-- values       |           1
+-- (5 rows)
+

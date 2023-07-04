@@ -27,21 +27,38 @@ WHERE sale_date >= CURRENT_DATE - INTERVAL '1 week';
 --  Execution Time: 3.982 ms
 -- (6 rows)
 
-EXPLAIN ANALYZE SELECT m.title, ts.sale_date
-FROM movies m
-JOIN ticket_sales ts ON m.id = ts.movie_id
-WHERE ts.sale_date = CURRENT_DATE;
---                                                    QUERY PLAN
------------------------------------------------------------------------------------------------------------------
--- Nested Loop  (cost=0.29..213.30 rows=1 width=14) (actual time=1.460..1.461 rows=0 loops=1)
---    ->  Seq Scan on ticket_sales ts  (cost=0.00..205.00 rows=1 width=8) (actual time=1.459..1.460 rows=0 loops=1)
---          Filter: (sale_date = CURRENT_DATE)
---          Rows Removed by Filter: 10000
---    ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.30 rows=1 width=14) (never executed)
---          Index Cond: (id = ts.movie_id)
---  Planning Time: 0.255 ms
---  Execution Time: 1.486 ms
--- (8 rows)
+EXPLAIN ANALYZE SELECT movies.title, values.date_value AS start_time
+FROM movies
+JOIN "values" ON "values".movie_id = movies.id
+JOIN attributes ON attributes.id = "values".attribute_id
+JOIN attribute_types ON attribute_types.id = "values".attribute_type_id
+WHERE attributes.name = 'Время начала'
+  AND attribute_types.name = 'Дата/Время'
+  AND "values".date_value::date = CURRENT_DATE;
+
+--                                                                      QUERY PLAN                                                                      
+--- ----------------------------------------------------------------------------------------------------------------------------------------------------
+--  Nested Loop  (cost=4.74..224.98 rows=1 width=14) (actual time=1.242..1.244 rows=0 loops=1)
+--    ->  Nested Loop  (cost=4.45..208.65 rows=1 width=18) (actual time=1.241..1.243 rows=0 loops=1)
+--          ->  Nested Loop  (cost=4.17..200.35 rows=1 width=12) (actual time=1.241..1.242 rows=0 loops=1)
+--                ->  Seq Scan on attributes  (cost=0.00..189.01 rows=1 width=4) (actual time=0.010..1.179 rows=1 loops=1)
+--                      Filter: (name = 'Время начала'::text)
+--                      Rows Removed by Filter: 10000
+--                ->  Bitmap Heap Scan on "values"  (cost=4.17..11.33 rows=1 width=16) (actual time=0.059..0.060 rows=0 loops=1)
+--                      Recheck Cond: (attribute_id = attributes.id)
+--                      Filter: (date_value = CURRENT_DATE)
+--                      Rows Removed by Filter: 4
+--                      Heap Blocks: exact=4
+--                      ->  Bitmap Index Scan on unique_start_time_per_hall  (cost=0.00..4.17 rows=2 width=0) (actual time=0.036..0.036 rows=4 loops=1)
+--                            Index Cond: (attribute_id = attributes.id)
+--          ->  Index Scan using movies_pkey on movies  (cost=0.29..8.30 rows=1 width=14) (never executed)
+--                Index Cond: (id = "values".movie_id)
+--    ->  Index Scan using attribute_types_pkey on attribute_types  (cost=0.29..8.30 rows=1 width=4) (never executed)
+--          Index Cond: (id = "values".attribute_type_id)
+--          Filter: (name = 'Дата/Время'::text)
+--  Planning Time: 1.343 ms
+--  Execution Time: 1.411 ms
+-- (20 rows)
 
 EXPLAIN ANALYZE SELECT m.title, SUM(ts.quantity) AS total_tickets_sold
 FROM movies m

@@ -25,7 +25,7 @@ CREATE TABLE attribute_types (
 );
 
 -- Create table "values"
-CREATE TABLE values (
+CREATE TABLE "values" (
   id SERIAL PRIMARY KEY,
   attribute_id INT NOT NULL,
   movie_id INT NOT NULL,
@@ -57,10 +57,17 @@ CREATE TABLE hall_schema (
   CONSTRAINT unique_seat_number_row_number UNIQUE (seat_number, row_number)
 );
 
+-- Add the btree_gist extension
+CREATE EXTENSION IF NOT EXISTS btree_gist;
+
 INSERT INTO attributes (name) VALUES ('Время начала');
 
 INSERT INTO attribute_types (name) VALUES ('Дата/Время');
 
-ALTER TABLE values ADD CONSTRAINT unique_start_time_attribute_type
-  UNIQUE (attribute_id, attribute_type_id)
+ALTER TABLE "values" ADD CONSTRAINT unique_start_time_movie
+  UNIQUE (attribute_id, attribute_type_id, movie_id)
+  DEFERRABLE INITIALLY DEFERRED;
+
+ALTER TABLE "values" ADD CONSTRAINT unique_start_time_per_hall
+  EXCLUDE USING gist (attribute_id WITH =, attribute_type_id WITH =, daterange(date_value, date_value, '[]') WITH &&, movie_id WITH <>)
   DEFERRABLE INITIALLY DEFERRED;

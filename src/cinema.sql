@@ -29,6 +29,8 @@ CREATE TABLE value
     text_value TEXT,
     boolean_value BOOLEAN,
     date_value DATE,
+    integer_value INT,
+    decimal_value DECIMAL(10, 2),
     FOREIGN KEY (movie_id) REFERENCES movie (id),
     FOREIGN KEY (attribute_id) REFERENCES attribute (id)
 );

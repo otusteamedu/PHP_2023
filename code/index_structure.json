@@ -1,0 +1,46 @@
+{
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "integer"
+            },
+            "description": {
+                "type": "keyword"
+            },
+            "date_create": {
+                "type": "text"
+            },
+            "channel_url": {
+                "type": "text"
+            },
+            "total_views": {
+                "type": "text"
+            },
+            "total_subscribers": {
+                "type": "text"
+            },
+            "videos_list": {
+                "type": "nested",
+                "properties": {
+                    "name": {
+                        "type": "integer"
+                    },
+                    "description": {
+                        "type": "keyword"
+                    },
+                    "date_create": {
+                        "type": "text"
+                    },
+                    "video_url": {
+                        "type": "text"
+                    },
+                    "total_views":   { "type": "text"  },
+                    "duration":   { "type": "text"  },
+                    "comments_count":   { "type": "text"  },
+                    "likes_count":   { "type": "text"  },
+                    "dislikes_count":   { "type": "text"  }
+                }
+            }
+        }
+    }
+  }

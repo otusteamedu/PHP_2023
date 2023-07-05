@@ -13,9 +13,7 @@ CREATE TABLE `Films` (
 
 CREATE TABLE `Halls` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-    `seatsCountInRow` int(11) NOT NULL,
-    `rowsCount` int(11) NOT NULL,
+    `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
     PRIMARY KEY (`id`)
 );
 
@@ -41,4 +39,13 @@ CREATE TABLE `soldTickets` (
     `cost` decimal(20,6) NOT NULL,
     PRIMARY KEY (`id`),
     FOREIGN KEY (`sessionId`) REFERENCES `Sessions` (`id`)
+);
+
+CREATE TABLE `hallRows` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `hallId` int(11) NOT NULL,
+    `rowNumber` int(11) NOT NULL,
+    `seatsNumberInRow` int(11) NOT NULL,
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (`hallId`) REFERENCES `Halls` (`id`),
 );

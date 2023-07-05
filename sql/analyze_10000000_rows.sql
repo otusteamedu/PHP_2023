@@ -61,8 +61,43 @@ CREATE INDEX idx_ticket_sales_sale_date ON ticket_sales (sale_date);
 -- Execution Time: 0.154 ms
 -- (7 rows)
 
+-- Вывод: индексирование незначительно замедляет запрос
 
--- Вывод: индексирование ускоряет запрос в 3 раза
+CREATE INDEX idx_ticket_sales_date_quantity ON ticket_sales (sale_date, quantity);
+
+--                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Aggregate  (cost=31.28..31.29 rows=1 width=8) (actual time=0.017..0.018 rows=1 loops=1)
+--   ->  Bitmap Heap Scan on ticket_sales  (cost=8.94..29.74 rows=617 width=4) (actual time=0.013..0.014 rows=0 loops=1)
+--         Recheck Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+--         ->  Bitmap Index Scan on idx_ticket_sales_date_quantity  (cost=0.00..8.79 rows=617 width=0) (actual time=0.010..0.010 rows=0 loops=1)
+--               Index Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 0.537 ms
+-- Execution Time: 0.129 ms
+-- (7 rows)
+
+-- Вывод: индексирование незначительно ускоряет запрос
+
+CREATE MATERIALIZED VIEW ticket_sales_weekly_summary AS
+SELECT sale_date, COUNT(*) AS total_tickets_sold
+FROM ticket_sales
+WHERE sale_date >= CURRENT_DATE - INTERVAL '1 week'
+GROUP BY sale_date;
+
+--                                                                  QUERY PLAN                                                                   
+-----------------------------------------------------------------------------------------------------------------------------------------------
+-- Aggregate  (cost=31.28..31.29 rows=1 width=8) (actual time=0.017..0.018 rows=1 loops=1)
+--   ->  Bitmap Heap Scan on ticket_sales  (cost=8.94..29.74 rows=617 width=4) (actual time=0.014..0.014 rows=0 loops=1)
+--         Recheck Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+--         ->  Bitmap Index Scan on idx_ticket_sales_date_quantity  (cost=0.00..8.79 rows=617 width=0) (actual time=0.012..0.012 rows=0 loops=1)
+--               Index Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 0.132 ms
+-- Execution Time: 0.133 ms
+-- (7 rows)
+
+-- Вывод: аггрегирование незначительно замедляет запрос
+
+-- Общий вывод: изменения в произоводительности от приведенных выше мер незначительны, смысла в них нет
 
 EXPLAIN ANALYZE SELECT movies.title, values.date_value AS start_time
 FROM movies

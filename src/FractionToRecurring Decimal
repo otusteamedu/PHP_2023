@@ -1,0 +1,22 @@
+class Solution:
+    def fractionToDecimal(self, numerator: int, denominator: int) -> str:
+        if numerator % denominator == 0:
+            return str(numerator // denominator)
+
+        p, q = map(abs, (numerator, denominator))
+        sign = '-' if numerator * denominator < 0 else ''
+        head, rem = divmod(p, q)
+        tail, seen = [], {}
+
+        while rem != 0:
+            # meet a known remainder, so we reach the end of the repeating part
+            if rem in seen:
+                tail.insert(seen[rem], '(')
+                tail.append(')')
+                break
+
+            seen[rem] = len(tail)
+            digit, rem = divmod(rem * 10, q)
+            tail.append(str(digit))
+
+        return sign + str(head) + '.' + ''.join(tail)

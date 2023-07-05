@@ -35,41 +35,32 @@ CREATE INDEX idx_ticket_sales_sale_date ON ticket_sales (sale_date);
 
 -- Вывод: индексирование ускоряет запрос в 2.5 раза
 
-EXPLAIN ANALYZE SELECT COUNT(*) AS total_tickets_sold
+EXPLAIN ANALYZE SELECT COUNT(id) AS total_tickets_sold
 FROM ticket_sales
 WHERE sale_date >= CURRENT_DATE - INTERVAL '1 week';
---                                                                     QUERY PLAN                                                                     
-------------------------------------------------------------------------------------------------------------------------------------------------------
--- Finalize Aggregate  (cost=133346.40..133346.41 rows=1 width=8) (actual time=504.319..508.054 rows=1 loops=1)
---   ->  Gather  (cost=133346.19..133346.40 rows=2 width=8) (actual time=504.131..508.036 rows=3 loops=1)
---         Workers Planned: 2
---         Workers Launched: 2
---         ->  Partial Aggregate  (cost=132346.19..132346.20 rows=1 width=8) (actual time=490.147..490.149 rows=1 loops=3)
---               ->  Parallel Seq Scan on ticket_sales  (cost=0.00..127097.61 rows=2099430 width=0) (actual time=4.244..432.453 rows=1668060 loops=3)
---                     Filter: (sale_date >= (CURRENT_DATE - '7 days'::interval))
---                     Rows Removed by Filter: 1668606
--- Planning Time: 0.395 ms
--- JIT:
---   Functions: 14
---   Options: Inlining false, Optimization false, Expressions true, Deforming true
---   Timing: Generation 3.531 ms, Inlining 0.000 ms, Optimization 0.498 ms, Emission 12.244 ms, Total 16.274 ms
--- Execution Time: 509.015 ms
--- (14 rows)
+
+--                                                  QUERY PLAN                                                   
+-- ---------------------------------------------------------------------------------------------------------------
+-- Aggregate  (cost=43.92..43.93 rows=1 width=8) (actual time=0.017..0.020 rows=1 loops=1)
+--   ->  Seq Scan on ticket_sales  (cost=0.00..42.38 rows=617 width=4) (actual time=0.007..0.008 rows=0 loops=1)
+--         Filter: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 1.159 ms
+-- Execution Time: 0.134 ms
+-- (5 rows)
+
 
 CREATE INDEX idx_ticket_sales_sale_date ON ticket_sales (sale_date);
---                                                                                         QUERY PLAN                                                                                        
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
--- Finalize Aggregate  (cost=80056.22..80056.23 rows=1 width=8) (actual time=162.069..164.732 rows=1 loops=1)
---   ->  Gather  (cost=80056.00..80056.21 rows=2 width=8) (actual time=161.975..164.726 rows=3 loops=1)
---         Workers Planned: 2
---         Workers Launched: 2
---         ->  Partial Aggregate  (cost=79056.00..79056.01 rows=1 width=8) (actual time=142.224..142.225 rows=1 loops=3)
---               ->  Parallel Index Only Scan using idx_ticket_sales_sale_date on ticket_sales  (cost=0.44..73938.99 rows=2046805 width=0) (actual time=0.091..85.863 rows=1665934 loops=3)
---                     Index Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
---                     Heap Fetches: 0
--- Planning Time: 0.416 ms
--- Execution Time: 164.790 ms
--- (10 rows)
+--                                                                QUERY PLAN                                                                 
+-------------------------------------------------------------------------------------------------------------------------------------------
+-- Aggregate  (cost=31.28..31.29 rows=1 width=8) (actual time=0.049..0.050 rows=1 loops=1)
+--   ->  Bitmap Heap Scan on ticket_sales  (cost=8.94..29.74 rows=617 width=4) (actual time=0.046..0.046 rows=0 loops=1)
+--         Recheck Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+--         ->  Bitmap Index Scan on idx_ticket_sales_sale_date  (cost=0.00..8.79 rows=617 width=0) (actual time=0.042..0.042 rows=0 loops=1)
+--               Index Cond: (sale_date >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 0.424 ms
+-- Execution Time: 0.154 ms
+-- (7 rows)
+
 
 -- Вывод: индексирование ускоряет запрос в 3 раза
 

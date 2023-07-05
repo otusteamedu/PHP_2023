@@ -148,7 +148,32 @@ QUERY PLAN
     Index Cond: (id = basket_item.orders_id)
     Filter: pay
 ```
-### После добавления индекса по полю orders.pay и tickets.session_id и basket_item.tickets_id сиутацию не изменили
+### После добавления индекса по полю orders.pay и tickets.session_id и basket_item.tickets_id сиутацию не изменили.
+Изменил структуру таблицы orders, добавил в нее даты покупку
+```sql  
+    SELECT count(basket_item.tickets_id)
+    FROM orders
+    RIGHT JOIN basket_item
+    ON orders.id =basket_item.orders_id
+    WHERE orders.date_pay<(now()::date) AND orders.date_pay>((now()::date)-8) AND orders.pay = true
+```
+
+```sql  
+    QUERY PLAN
+    Finalize Aggregate (cost=19715.99..19716.00 rows=1 width=8)
+    -> Gather (cost=19715.77..19715.98 rows=2 width=8)
+    Workers Planned: 2
+    -> Partial Aggregate (cost=18715.77..18715.78 rows=1 width=8)
+    -> Nested Loop (cost=107.71..18710.11 rows=2266 width=8)
+    -> Parallel Bitmap Heap Scan on orders (cost=107.29..7541.22 rows=2266 width=8)
+    Recheck Cond: ((date_pay < (now())::date) AND (date_pay > ((now())::date - 8)))
+    Filter: pay
+    -> Bitmap Index Scan on orders_date_pay (cost=0.00..105.93 rows=7749 width=0)
+    Index Cond: ((date_pay < (now())::date) AND (date_pay > ((now())::date - 8)))
+    -> Index Scan using basket_item_orders_id on basket_item (cost=0.42..4.90 rows=3 width=16)
+    Index Cond: (orders_id = orders.id) 
+```
+
 
 ---
 # Формирование афиши (фильмы, которые показывают сегодня)

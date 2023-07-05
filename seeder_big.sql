@@ -22,10 +22,13 @@ WHERE session.hall_id = places.halls_id
   AND RANDOM() < 0.5 LIMIT 1000000;
 
 
-INSERT INTO orders (pay)
-SELECT TRUE AS pay
-FROM tickets
-WHERE RANDOM() < 0.9;
+TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
+INSERT INTO orders (pay,date_pay)
+SELECT TRUE AS pay, (session.datetime::date +  round(-15+RANDOM()*14) * interval '1 day') AS date_pay
+FROM tickets LEFT JOIN session
+ ON tickets.session_id = session.id
+
+
 
 UPDATE orders
 SET pay = false

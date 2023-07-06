@@ -4,12 +4,12 @@ namespace App;
 
 class Validator
 {
-public function checkString(): string
+    public function checkString(): string
     {
         $inputString = $_POST['string'] ?? '';
 
         if ($inputString === '') {
-           return $this->response(400, 'String is empty');
+            return $this->response(400, 'String is empty');
         }
 
         $bracketsCount = 0;

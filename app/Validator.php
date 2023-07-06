@@ -1,5 +1,7 @@
 <?php
 
+namespace App;
+
 class Validator
 {
 public function checkString(): string

@@ -1,0 +1,23 @@
+{
+    "name": "alishertashmatov/otus_elastic",
+    "authors": [
+        {
+            "name": "Alisher Tashmatov",
+            "email": "pirojok167@gmail.com"
+        }
+    ],
+    "require": {
+        "PHP": "^8.2",
+        "elasticsearch/elasticsearch": "^8.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

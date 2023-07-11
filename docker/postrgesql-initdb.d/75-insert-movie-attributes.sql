@@ -14,7 +14,7 @@ INSERT INTO public.movie_attributes (id,"name",type_id,parent_id) VALUES
                                                                       ('57a1197f-5c58-46ef-8299-544de68e3bdf','Важные даты',NULL,NULL),
                                                                       ('3f2d56c0-dd07-4f0a-963a-39bdaea3b411','Мировая премьера','64966228-bc4b-4216-b123-d10b6fa9fee1','57a1197f-5c58-46ef-8299-544de68e3bdf'),
                                                                       ('86ff5d2c-7f23-4244-aa21-a2e45c9efd34','Премьера в РФ','64966228-bc4b-4216-b123-d10b6fa9fee1','57a1197f-5c58-46ef-8299-544de68e3bdf'),
-                                                                      ('bc7190e4-2c9e-42e8-ab8f-c3aedb384aac','Рецензии',NULL,NULL);
+                                                                      ('bc7190e4-2c9e-42e8-ab8f-c3aedb384aac','Рецензии',NULL,NULL),
                                                                       ('5df94c81-0320-415c-b48d-be0a79a6453f','Критиков','47649fe0-5ab1-4843-950d-08a45b3ef42a','bc7190e4-2c9e-42e8-ab8f-c3aedb384aac'),
                                                                       ('f377ab20-ac36-42b7-8822-695375f63db2','Неизвестной киноакадемии','47649fe0-5ab1-4843-950d-08a45b3ef42a','bc7190e4-2c9e-42e8-ab8f-c3aedb384aac');
 

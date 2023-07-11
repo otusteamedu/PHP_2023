@@ -14,4 +14,12 @@ $emails = [
 
 $emailValidation = new EmailValidation();
 
-Response::stringResponse($emailValidation($emails));
+$validEmails = $emailValidation($emails)['validEmails'];
+$invalidEmails = $emailValidation($emails)['invalidEmails'];
+
+$response = <<<RESPONSE
+    <h1>ValidEmails: $validEmails</h1>
+    <h1>InvalidEmails: $invalidEmails</h1>
+RESPONSE;
+
+return $response;

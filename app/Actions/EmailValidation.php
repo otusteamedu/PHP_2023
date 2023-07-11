@@ -8,19 +8,23 @@ use Generator;
 
 class EmailValidation
 {
-    public function __invoke(array $emailList): string
+    public function __invoke(array $emailList): array
     {
+        $validEmails = [];
+        $invalidEmails = [];
         $emails = $this->validateArray($emailList);
-
         foreach ($emails as $email) {
             $emailRule = (new EmailRule())->passes($email);
             $mxRule = (new MXRule())->passes($email);
             if ($emailRule || $mxRule) {
-                return "Email $email is not valid" . PHP_EOL;
+                $invalidEmails = $email;
+                continue;
             }
+
+            $validEmails[] = $email;
         }
 
-        return 'All emails are valid' . PHP_EOL;
+        return ['validEmails' => $validEmails, 'invalidEmails' => $invalidEmails];
     }
 
     private function validateArray(array $emailList): Generator

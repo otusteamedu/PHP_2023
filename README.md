@@ -9,10 +9,17 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 # SQL
 1. `docker/postrgesql-initdb.d` - запускаются при создании БД
    1. `10-create-table.sql` - создание таблиц
-   1. `90-insert-hall.sql` - заполнение залов
-   1. `91-insert-movie.sql` - заполнение фильмов
-   1. `92-insert-seat.sql` - заполнение посадочных мест для залов
-   1. `93-insert-sessions.sql` - заполнение сеансов
-   1. `94-insert-ticket.sql` - заполнение билетов для сеансов
-1. `sql`
-   1. `select.sql` - нахождения самого прибыльного фильма
+   1. `11-create-table.sql` - создание таблиц атрибутов
+   1. `70-insert-hall.sql` - заполнение залов
+   1. `71-insert-movie.sql` - заполнение фильмов
+   1. `72-insert-seat.sql` - заполнение посадочных мест для залов
+   1. `73-insert-sessions.sql` - заполнение сеансов
+   1. `74-insert-ticket.sql` - заполнение билетов для сеансов
+   1. `75-insert-movie-attributes.sql` - заполнение атрибутов 
+   1. `76-insert-movies-attributes-value.sql` - заполнение значений атрибутов
+   1. `80-create_view_marketing.sql` - создание view маркетинга
+   1. `81-create_view_service.sql` - создание view служебных дат
+
+# VIEW
+1. `SELECT * FROM public.marketing;` - view маркетинга
+1. `SELECT * FROM public.service;` - view служебных дат

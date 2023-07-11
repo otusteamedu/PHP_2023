@@ -1,0 +1,23 @@
+{
+    "name": "imitronov/hw12",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Imitronov\\Hw12\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ivan Mitronov",
+            "email": "imitronov@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-redis": "*",
+        "php": ">=8.1",
+        "php-di/php-di": "^7.0",
+        "bramus/router": "^1.6",
+        "symfony/validator": "^6.2",
+        "symfony/dotenv": "^6.3"
+    }
+}

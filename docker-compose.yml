@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    restart: unless-stopped
+    container_name: imitronov_hw12_nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - app
+    volumes:
+      - php_fpm_socket:/var/run
+    networks:
+      - default
+
+  app:
+    build:
+      context: ./
+      dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
+    container_name: imitronov_hw12_app
+    volumes:
+      - ./app:/var/www/app
+      - php_fpm_socket:/var/run
+    networks:
+      - default
+
+  redis:
+    image: redis:6.2-alpine3.18
+    restart: unless-stopped
+    container_name: imitronov_hw12_redis
+    networks:
+      - default
+    ports:
+      - 6379:6379
+
+networks:
+  default:
+
+volumes:
+  php_fpm_socket:

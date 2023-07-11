@@ -1,0 +1,17 @@
+{
+    "name": "v-korabelnikov/hw12",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VKorabelnikov\\Hw12\\": "src/"
+        }
+    },
+    "require": {
+        "predis/predis": "^2.2"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

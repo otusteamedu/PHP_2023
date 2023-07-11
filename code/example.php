@@ -48,6 +48,6 @@ try {
     );
 
     var_dump($event);
-} catch(\Exception $e) {
+} catch (\Exception $e) {
     echo $e->getMessage();
 }

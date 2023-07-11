@@ -11,7 +11,7 @@ class Application
 {
     public function getStorage(string $sStorageName): EventsStorage
     {
-        if($sStorageName == "redis") {
+        if ($sStorageName == "redis") {
             return new RedisEventsStorage($this->getRedisConnectionSettings());
         }
 

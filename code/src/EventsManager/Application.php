@@ -11,11 +11,10 @@ class Application
 {
     public function getStorage(string $sStorageName): EventsStorage
     {
-        if($sStorageName == "redis")
-        {
+        if($sStorageName == "redis") {
             return new RedisEventsStorage($this->getRedisConnectionSettings());
         }
-        
+
         throw new \Exception("Storage type not supported yet!");
     }
 
@@ -51,7 +50,7 @@ class Application
         } else {
             throw new \Exception("Не задан путь к файлу Unix сокета в config.ini");
         }
-        
+
         return $arRedisSettings;
     }
 }

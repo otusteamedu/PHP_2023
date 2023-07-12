@@ -1,0 +1,19 @@
+{
+    "name": "luba/test-app",
+    "type": "project",
+    "require-dev": {
+        "lubovvasileva/otus-composer-package": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Luba\\TestApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lubov",
+            "email": "luba-vas251099@mail.ru"
+        }
+    ],
+    "require": {}
+}

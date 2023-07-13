@@ -27,15 +27,18 @@ SELECT
 	attr_types.name as attr_type_name,
 	attributes.name as attr_name,
     CASE
-           WHEN attr_types.value_column_name = 'value_text' THEN values.value_text
-           WHEN attr_types.value_column_name = 'value_bool' THEN values.value_bool::text
-           WHEN attr_types.value_column_name = 'value_date' THEN values.value_date::text
-		   WHEN attr_types.value_column_name = 'value_date_tz' THEN values.value_date_tz::text
-           END value
+		WHEN attr_types.value_column_name = 'value_text' THEN values.value_text
+		WHEN attr_types.value_column_name = 'value_bool' THEN values.value_bool::text
+		WHEN attr_types.value_column_name = 'value_date' THEN values.value_date::text
+		WHEN attr_types.value_column_name = 'value_date_tz' THEN values.value_date_tz::text
+		WHEN attr_types.value_column_name = 'value_int' THEN values.value_int::text
+		WHEN attr_types.value_column_name = 'value_double' THEN values.value_double::text
+		WHEN attr_types.value_column_name = 'value_decimal' THEN values.value_decimal::text
+	END value
 FROM films, attributes, values, attr_types
 WHERE
 	attributes.attr_type_id=attr_types.id
-	AND
+AND
 	values.film_id=films.id
-	AND
+AND
 	values.attr_id=attributes.id

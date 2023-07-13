@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Sort  (cost=164.18..164.21 rows=12 width=150)</td></tr>
+<tr><td>  Sort Key: s.start_date</td></tr>
+<tr><td>  -&gt;  Hash Join  (cost=116.33..163.96 rows=12 width=150)</td></tr>
+<tr><td>        Hash Cond: (s.movie_id = m.id)</td></tr>
+<tr><td>        -&gt;  Hash Join  (cost=113.08..160.68 rows=12 width=138)</td></tr>
+<tr><td>              Hash Cond: (s.cinema_hall_id = ch.id)</td></tr>
+<tr><td>              -&gt;  Hash Join  (cost=91.15..138.72 rows=12 width=24)</td></tr>
+<tr><td>                    Hash Cond: (smp.session_id = s.id)</td></tr>
+<tr><td>                    -&gt;  Seq Scan on session_movie_price smp  (cost=0.00..41.00 rows=2500 width=12)</td></tr>
+<tr><td>                    -&gt;  Hash  (cost=91.00..91.00 rows=12 width=20)</td></tr>
+<tr><td>                          -&gt;  Seq Scan on session s  (cost=0.00..91.00 rows=12 width=20)</td></tr>
+<tr><td>                                Filter: ((date(start_date) &lt; (CURRENT_DATE + &#39;3 days&#39;::interval)) AND (date(start_date) &gt; (CURRENT_DATE - &#39;3 days&#39;::interval)))</td></tr>
+<tr><td>              -&gt;  Hash  (cost=15.30..15.30 rows=530 width=122)</td></tr>
+<tr><td>                    -&gt;  Seq Scan on cinema_hall ch  (cost=0.00..15.30 rows=530 width=122)</td></tr>
+<tr><td>        -&gt;  Hash  (cost=2.00..2.00 rows=100 width=20)</td></tr>
+<tr><td>              -&gt;  Seq Scan on movie m  (cost=0.00..2.00 rows=100 width=20)</td></tr>
+</table>
+</body>
+</html>

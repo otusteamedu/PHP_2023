@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Sort  (cost=468.84..481.14 rows=4922 width=8)</td></tr>
+<tr><td>  Sort Key: id DESC</td></tr>
+<tr><td>  -&gt;  Index Only Scan using ticket_price_session_id_id_index on ticket  (cost=0.43..167.00 rows=4922 width=8)</td></tr>
+<tr><td>        Index Cond: (price = ANY (&#39;{350,500}&#39;::double precision[]))</td></tr>
+</table>
+</body>
+</html>

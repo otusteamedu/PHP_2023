@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Limit  (cost=0.43..0.54 rows=3 width=8)</td></tr>
+<tr><td>  -&gt;  Index Only Scan Backward using ticket_price_session_id_id_index on ticket  (cost=0.43..33743.23 rows=952940 width=8)</td></tr>
+<tr><td>        Index Cond: ((price &gt; &#39;500&#39;::double precision) AND (price &lt; &#39;1000&#39;::double precision))</td></tr>
+</table>
+</body>
+</html>

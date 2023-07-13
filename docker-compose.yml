@@ -1,24 +1,21 @@
-version: "3"
+version: "3.8"
 
 services:
 
-  mysql-hw9:
-    image: mysql:5.7
-    container_name: mysql-hw9
+  postgres-hw10:
+    image: postgres:14.8
+    container_name: postgres-hw10
     volumes:
-      - ./mysql/data/:/var/lib/mysql
-      - ./mysql/config:/etc/mysql/conf.d
-      - ./mysql/logs:/var/log/mysql/
-      - ./mysql/dump:/dump
-    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+      - ./db/data/:/var/lib/postgresql/data
     ports:
-      - "${MYSQL_PORT}:3306"
+      - "${DB_PORT}:5432"
     environment:
-      MYSQL_DATABASE: hw9
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     networks:
-      - hw9
+      - hw10
 
 networks:
-  hw9:
+  hw10:
     driver: bridge

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Gather Merge  (cost=30086.70..30565.30 rows=4102 width=8)</td></tr>
+<tr><td>  Workers Planned: 2</td></tr>
+<tr><td>  -&gt;  Sort  (cost=29086.68..29091.81 rows=2051 width=8)</td></tr>
+<tr><td>        Sort Key: id DESC</td></tr>
+<tr><td>        -&gt;  Parallel Seq Scan on ticket  (cost=0.00..28973.85 rows=2051 width=8)</td></tr>
+<tr><td>              Filter: (price = ANY (&#39;{350,500}&#39;::double precision[]))</td></tr>
+</table>
+</body>
+</html>

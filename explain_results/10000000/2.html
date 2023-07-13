@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Limit  (cost=37712.55..37712.90 rows=3 width=8)</td></tr>
+<tr><td>  -&gt;  Gather Merge  (cost=37712.55..130365.88 rows=794116 width=8)</td></tr>
+<tr><td>        Workers Planned: 2</td></tr>
+<tr><td>        -&gt;  Sort  (cost=36712.53..37705.17 rows=397058 width=8)</td></tr>
+<tr><td>              Sort Key: price DESC</td></tr>
+<tr><td>              -&gt;  Parallel Seq Scan on ticket  (cost=0.00..31580.62 rows=397058 width=8)</td></tr>
+<tr><td>                    Filter: ((price &gt; &#39;500&#39;::double precision) AND (price &lt; &#39;1000&#39;::double precision))</td></tr>
+</table>
+</body>
+</html>

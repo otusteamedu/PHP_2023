@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Limit  (cost=9124.86..9124.88 rows=5 width=24)</td></tr>
+<tr><td>  -&gt;  Sort  (cost=9124.86..9125.36 rows=200 width=24)</td></tr>
+<tr><td>        Sort Key: (sum(t.price)) DESC</td></tr>
+<tr><td>        -&gt;  HashAggregate  (cost=9119.54..9121.54 rows=200 width=24)</td></tr>
+<tr><td>              Group Key: m.name</td></tr>
+<tr><td>              -&gt;  Hash Join  (cost=101.10..9100.35 rows=3839 width=24)</td></tr>
+<tr><td>                    Hash Cond: (t.movie_id = m.id)</td></tr>
+<tr><td>                    -&gt;  Bitmap Heap Scan on ticket t  (cost=94.60..9083.56 rows=3839 width=12)</td></tr>
+<tr><td>                          Recheck Cond: (price = ANY (&#39;{501,999}&#39;::double precision[]))</td></tr>
+<tr><td>                          -&gt;  Bitmap Index Scan on ticket_price_session_id_id_index  (cost=0.00..93.64 rows=3839 width=0)</td></tr>
+<tr><td>                                Index Cond: (price = ANY (&#39;{501,999}&#39;::double precision[]))</td></tr>
+<tr><td>                    -&gt;  Hash  (cost=4.00..4.00 rows=200 width=20)</td></tr>
+<tr><td>                          -&gt;  Seq Scan on movie m  (cost=0.00..4.00 rows=200 width=20)</td></tr>
+</table>
+</body>
+</html>

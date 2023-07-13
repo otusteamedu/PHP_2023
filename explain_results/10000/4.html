@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title></title>
+<meta charset="UTF-8">
+</head>
+<body>
+<table border="1" style="border-collapse:collapse">
+<tr><th>QUERY PLAN</th></tr>
+<tr><td>Limit  (cost=167.17..167.18 rows=5 width=32)</td></tr>
+<tr><td>  -&gt;  Sort  (cost=167.17..169.59 rows=967 width=32)</td></tr>
+<tr><td>        Sort Key: (sum(t.price)) DESC</td></tr>
+<tr><td>        -&gt;  HashAggregate  (cost=141.44..151.11 rows=967 width=32)</td></tr>
+<tr><td>              Group Key: m.name, t.price</td></tr>
+<tr><td>              -&gt;  Hash Join  (cost=75.50..134.19 rows=967 width=24)</td></tr>
+<tr><td>                    Hash Cond: (s.movie_id = m.id)</td></tr>
+<tr><td>                    -&gt;  Hash Join  (cost=72.25..128.29 rows=967 width=12)</td></tr>
+<tr><td>                          Hash Cond: (t.session_id = s.id)</td></tr>
+<tr><td>                          -&gt;  Seq Scan on ticket t  (cost=0.00..53.50 rows=967 width=12)</td></tr>
+<tr><td>                                Filter: ((price &gt; &#39;500&#39;::double precision) AND (price &lt; &#39;1000&#39;::double precision))</td></tr>
+<tr><td>                          -&gt;  Hash  (cost=41.00..41.00 rows=2500 width=8)</td></tr>
+<tr><td>                                -&gt;  Seq Scan on session s  (cost=0.00..41.00 rows=2500 width=8)</td></tr>
+<tr><td>                    -&gt;  Hash  (cost=2.00..2.00 rows=100 width=20)</td></tr>
+<tr><td>                          -&gt;  Seq Scan on movie m  (cost=0.00..2.00 rows=100 width=20)</td></tr>
+</table>
+</body>
+</html>

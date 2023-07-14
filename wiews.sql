@@ -32,7 +32,7 @@ SELECT
 		WHEN attr_types.value_column_name = 'value_date' THEN values.value_date::text
 		WHEN attr_types.value_column_name = 'value_date_tz' THEN values.value_date_tz::text
 		WHEN attr_types.value_column_name = 'value_int' THEN values.value_int::text
-		WHEN attr_types.value_column_name = 'value_double' THEN values.value_double::text
+		WHEN attr_types.value_column_name = 'value_decimal' THEN values.value_decimal::text
 	END value
 FROM films, attributes, values, attr_types
 WHERE

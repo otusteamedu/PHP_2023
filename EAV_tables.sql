@@ -32,7 +32,7 @@ CREATE TABLE values (
 	value_date date,
 	value_date_tz timestamptz,
     value_int integer,
-    value_double double precision,
+    value_decimal decimal(20,6),
 	FOREIGN KEY (attr_id) REFERENCES attributes (id),
 	FOREIGN KEY (film_id) REFERENCES films (id)
 );

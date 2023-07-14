@@ -4,16 +4,39 @@ namespace App\Models;
 
 use Elasticsearch\Client;
 
+/**
+ * Class VideoModel
+ * 
+ * @package App\Models
+ */
 class VideoModel
 {
+    /**
+     * @var Client
+     */
     private $esClient;
+    /**
+     * @var string
+     */
     private $index = 'videos';
 
+    /**
+     * VideoModel constructor.
+     * 
+     * @param Client $esClient
+     */
     public function __construct(Client $esClient)
     {
         $this->esClient = $esClient;
     }
 
+    /**
+     * Add a video
+     * 
+     * @param array $videoData
+     * 
+     * @return string
+     */
     public function addVideo($videoData)
     {
         $params = [
@@ -26,6 +49,13 @@ class VideoModel
         return $response['result'];
     }
 
+    /**
+     * Delete a video.
+     * 
+     * @param int $videoId
+     * 
+     * @return string
+     */
     public function deleteVideo($videoId)
     {
         $params = [

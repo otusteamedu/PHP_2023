@@ -4,11 +4,21 @@ namespace App\Controllers;
 
 use App\Models\ChannelModel;
 use App\Models\VideoModel;
-use Elasticsearch\Client;
 
+/**
+ * Class StatisticsController
+ * 
+ * @package App\Controllers
+ */
 class StatisticsController
 {
+    /**
+     * @var ChannelModel
+     */
     private $channelModel;
+    /**
+     * @var VideoModel
+     */
     private $videoModel;
 
     public function __construct(ChannelModel $channelModel, VideoModel $videoModel)
@@ -17,6 +27,13 @@ class StatisticsController
         $this->videoModel = $videoModel;
     }
 
+    /**
+     * Get total likes and dislikes for a channel
+     * 
+     * @param int $channelId
+     * 
+     * @return array
+     */
     public function getTotalLikesAndDislikesForChannel($channelId)
     {
         $channelData = $this->channelModel->getChannelData($channelId);
@@ -37,6 +54,13 @@ class StatisticsController
         ];
     }
 
+    /**
+     * Get top N channels by likes to dislikes ratio
+     * 
+     * @param mixed $n
+     * 
+     * @return mixed
+     */
     public function getTopChannelsByLikesToDislikesRatio($n)
     {
         $channelsData = $this->channelModel->getAllChannelsData();

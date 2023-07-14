@@ -29,6 +29,7 @@ Table "seat" {
   "number" varchar(5) [not null]
   "row" varchar(5) [not null]
   "active" bool [not null, default: true]
+  "type_id" uuid
 
 Indexes {
   active [type: btree, name: "seat_active_idx"]
@@ -65,8 +66,29 @@ Indexes {
 }
 }
 
+Table "seat_type" {
+  "id" uuid [pk, not null, default: `uuid_generate_v4()`]
+  "name" varchar
+}
+
+Table "price_catalog" {
+  "id" uuid [pk, not null, default: `uuid_generate_v4()`]
+  "session_id" uuid
+  "seat_type_id" uuid
+  "price" "numeric(10, 2)" [not null, default: 0.0]
+
+Indexes {
+  seat_type_id [type: btree, name: "price_catalog_seat_type_id_idx"]
+  session_id [type: btree, name: "price_catalog_session_id_idx"]
+}
+}
+
+
 Ref: seat.hall_id > hall.id
 Ref: session.hall_id > hall.id
 Ref: session.movie_id > movie.id
 Ref: ticket.session_id > session.id
 Ref: ticket.seat_id > seat.id
+Ref: seat.type_id > seat_type.id
+Ref: price_catalog.session_id > session.id
+Ref: price_catalog.seat_type_id > seat_type.id

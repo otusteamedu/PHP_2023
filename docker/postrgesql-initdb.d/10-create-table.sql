@@ -30,6 +30,7 @@ CREATE TABLE public.seat (
                              "number" varchar(5) NOT NULL,
                              "row" varchar(5) NOT NULL,
                              active bool NOT NULL DEFAULT true,
+                             type_id uuid NULL,
                              CONSTRAINT seat_pk PRIMARY KEY (id)
 );
 CREATE INDEX seat_active_idx ON public.seat USING btree (active);
@@ -62,3 +63,21 @@ CREATE INDEX ticket_seat_id_idx ON public.ticket USING btree (seat_id);
 CREATE INDEX ticket_session_id_idx ON public.ticket USING btree (session_id);
 CREATE INDEX ticket_status_idx ON public.ticket USING btree (status);
 COMMENT ON COLUMN public.ticket.status IS '0-доступен, 1-продан,2-забронирован,10-не доступен';
+
+
+CREATE TABLE public.seat_type (
+                                  id uuid NOT NULL DEFAULT uuid_generate_v4(),
+                                  "name" varchar NULL,
+                                  CONSTRAINT seat_type_pk PRIMARY KEY (id)
+);
+
+
+CREATE TABLE public.price_catalog (
+                                      id uuid NOT NULL DEFAULT uuid_generate_v4(),
+                                      session_id uuid NULL,
+                                      seat_type_id uuid NULL,
+                                      price numeric(10, 2) NOT NULL DEFAULT 0.0,
+                                      CONSTRAINT price_catalog_pk PRIMARY KEY (id)
+);
+CREATE INDEX price_catalog_seat_type_id_idx ON public.price_catalog USING btree (seat_type_id);
+CREATE INDEX price_catalog_session_id_idx ON public.price_catalog USING btree (session_id);

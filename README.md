@@ -11,8 +11,10 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
    1. `10-create-table.sql` - создание таблиц
    1. `90-insert-hall.sql` - заполнение залов
    1. `91-insert-movie.sql` - заполнение фильмов
+   1. `91-insert-seat-type.sql` - заполнение типов мест
    1. `92-insert-seat.sql` - заполнение посадочных мест для залов
    1. `93-insert-sessions.sql` - заполнение сеансов
-   1. `94-insert-ticket.sql` - заполнение билетов для сеансов
+   1. `94-insert-price-catalog.sql` - заполнение справочника цен (привязка к сеансу и типу места)
+   1. `98-insert-ticket.sql` - заполнение билетов для сеансов (price - цена продажи, status = 1 - продан)
 1. `sql`
    1. `select.sql` - нахождения самого прибыльного фильма

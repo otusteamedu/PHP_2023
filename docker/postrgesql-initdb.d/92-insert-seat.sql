@@ -5,6 +5,7 @@ do
 $$
     declare
         hall_r record;
+        type_r record;
         row_count int;
         number_count int;
         cnt int;
@@ -21,7 +22,9 @@ $$
             cnt := 0;
             FOR i IN 1..row_count loop
                 FOR k IN 1..number_count LOOP
-                    INSERT INTO public.seat (hall_id, "number", "row") VALUES(hall_r.id, k, i);
+
+                    select id into type_r from seat_type order by random() limit 1;
+                    INSERT INTO public.seat (hall_id, "number", "row", type_id) VALUES(hall_r.id, k, i, type_r.id);
                     cnt:= cnt + 1;
                     if cnt >= hall_r.seat::int then
                         exit;

@@ -8,5 +8,5 @@ interface StorageInterface
 {
     public function add(array $param): void;
     public function get(array $param): ?array;
-    public function clear() : void;
+    public function clear(): void;
 }

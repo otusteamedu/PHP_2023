@@ -4,16 +4,16 @@ namespace App\Views;
 
 /**
  * Class StatisticsView
- * 
+ *
  * @package App\Views
  */
 class StatisticsView
 {
     /**
      * Render total likes and dislikes for a channel
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return void
      */
     public function renderTotalLikesAndDislikesForChannel($data)
@@ -29,9 +29,9 @@ class StatisticsView
 
     /**
      * Render top N channels by likes to dislikes ratio
-     * 
+     *
      * @param array $channelsData
-     * 
+     *
      * @return void
      */
     public function renderTopChannelsByLikesToDislikesRatio($channelsData)

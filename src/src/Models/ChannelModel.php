@@ -6,7 +6,7 @@ use Elasticsearch\Client;
 
 /**
  * Class ChannelModel
- * 
+ *
  * @package App\Models
  */
 class ChannelModel
@@ -22,7 +22,7 @@ class ChannelModel
 
     /**
      * ChannelModel constructor.
-     * 
+     *
      * @param Client $esClient
      */
     public function __construct(Client $esClient)
@@ -32,9 +32,9 @@ class ChannelModel
 
     /**
      * Add a channel
-     * 
+     *
      * @param array $channelData
-     * 
+     *
      * @return string
      */
     public function addChannel($channelData)
@@ -51,9 +51,9 @@ class ChannelModel
 
     /**
      * Delete a channel
-     * 
+     *
      * @param int $channelId
-     * 
+     *
      * @return string
      */
     public function deleteChannel($channelId)

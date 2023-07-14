@@ -7,7 +7,7 @@ use App\Models\VideoModel;
 
 /**
  * Class StatisticsController
- * 
+ *
  * @package App\Controllers
  */
 class StatisticsController
@@ -29,9 +29,9 @@ class StatisticsController
 
     /**
      * Get total likes and dislikes for a channel
-     * 
+     *
      * @param int $channelId
-     * 
+     *
      * @return array
      */
     public function getTotalLikesAndDislikesForChannel($channelId)
@@ -56,9 +56,9 @@ class StatisticsController
 
     /**
      * Get top N channels by likes to dislikes ratio
-     * 
+     *
      * @param mixed $n
-     * 
+     *
      * @return mixed
      */
     public function getTopChannelsByLikesToDislikesRatio($n)

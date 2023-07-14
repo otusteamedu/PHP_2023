@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    app:
+        build:
+            context: ./app
+            dockerfile: Dockerfile
+        image: myapp/app
+        container_name: app
+        volumes:
+            - ./data/htdocs:/data/mysite.local
+            - ./data/log/php:/var/log/php
+            - ./data/phpsocket:/var/run
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Root\App;
 
 class TableRowDto
@@ -10,5 +12,4 @@ class TableRowDto
     public ?string $category = null;
     public ?int $price = null;
     public array $stock = [];
-
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Root\App;
 
 use Elastic\Elasticsearch\Client;
@@ -233,8 +235,11 @@ class Elastic
     {
         $ret = [];
 
-        if (!property_exists($response, 'hits') || !($response->hits instanceof stdClass) ||
-            !property_exists($response->hits, 'hits') || !is_array($response->hits->hits)) {
+        if (
+            !property_exists($response, 'hits')
+            || !($response->hits instanceof stdClass)
+            || !property_exists($response->hits, 'hits')
+            || !is_array($response->hits->hits)) {
             throw new AppException('Search - unknown response');
         }
         if (!empty($response->hits->hits)) {

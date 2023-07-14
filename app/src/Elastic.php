@@ -239,13 +239,17 @@ class Elastic
             !property_exists($response, 'hits')
             || !($response->hits instanceof stdClass)
             || !property_exists($response->hits, 'hits')
-            || !is_array($response->hits->hits)) {
+            || !is_array($response->hits->hits)
+        ) {
             throw new AppException('Search - unknown response');
         }
         if (!empty($response->hits->hits)) {
             foreach ($response->hits->hits as $item) {
-                if (!property_exists($item, '_source') || !($item->_source instanceof stdClass) ||
-                    !property_exists($item, '_score')) {
+                if (
+                    !property_exists($item, '_source')
+                    || !($item->_source instanceof stdClass)
+                    || !property_exists($item, '_score')
+                ) {
                     throw new AppException('Search - unknown response element');
                 }
                 $row = new TableRowDto();

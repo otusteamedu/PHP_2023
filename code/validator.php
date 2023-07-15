@@ -10,8 +10,8 @@ class Validator
     private string $headerResponse;
     private string $responseMessage;
 
-    const STATUS_OK = 'HTTP/1.1 200 OK';
-    const STATUS_BAD_REQUEST = 'HTTP/1.1 400 Bad Request';
+    const STATUS_OK = '200';
+    const STATUS_BAD_REQUEST = '400';
     const POST_PARAM_IS_MISSING = 'Parameter "string" is missing.';
     const POST_PARAM_IS_EMPTY = 'Parameter "string" is empty.';
     const POST_PARAM_VALUE_IS_NOT_VALID = 'Incorrect string - braces are not paired.';
@@ -60,7 +60,7 @@ class Validator
 
     private function bracesArePaired()
     {
-        if (strlen($this->removePairedBraces()) === 0) {
+        if ($this->removePairedBraces()) {
             $this->prepareResponse(self::STATUS_OK, self::POST_PARAM_VALUE_IS_CORRECT);
             return true;
         }
@@ -71,18 +71,19 @@ class Validator
 
     private function removePairedBraces()
     {
-        $justBracesString = '';
+        $countLeftBraces = 0;
+        $result = true;
         foreach (str_split($this->string) as $symbol) {
-            if (in_array($symbol, ['(', ')'])) {
-                $justBracesString .= $symbol;
+            if (in_array($symbol, ['('])) {
+                $countLeftBraces++;
             }
         }
-
-        while (strpos($justBracesString, '()') !== false) {
-            $justBracesString = str_replace('()', '', $justBracesString);
+        
+        if ($countLeftBraces != substr_count($this->string, ')')) {
+            $result = false;
         }
 
-        return $justBracesString;
+        return $result;
     }
 
     private function prepareResponse(string $headerStatus, string $responseMessage)

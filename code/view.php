@@ -1,5 +1,5 @@
 <?php
-
+global $view;
 $view = <<<HTMLVIEW
 <html lang="en">
 <head>

@@ -1,10 +1,12 @@
 <?php
 
-require_once './validator.php';
-require_once './view.php';
+require_once './vendor/autoload.php';
 
-if ($_REQUEST) {
-    $validator = new \app\Validator($_POST);
+use \app\Validator;
+
+if ($_POST) {
+    $request = $_POST;
+    $validator = new \app\Validator($request);
     $response = $validator->validate('string');
 
     header($response['header_status']);

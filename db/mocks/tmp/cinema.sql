@@ -1,0 +1,1 @@
+insert into cinema (name) values ('Кинотеатр 1');

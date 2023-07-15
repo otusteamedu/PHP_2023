@@ -1,0 +1,36 @@
+# Выполнение запроса
+explain
+select session_id
+from ticket
+where price in (350, 500)
+order by id desc;
+
+
+# На 10000 текстовых записях в БД
+# Общее количество попугаев 48
+QUERY PLAN
+Sort  (cost=47.98..48.04 rows=25 width=8)
+    Sort Key: id DESC
+        ->  Seq Scan on ticket  (cost=0.00..47.40 rows=25 width=8)
+            Filter: (price = ANY ('{350,500}'::double precision[]))
+
+
+# На 10000000 текстовых записях в БД
+# Общее количество попугаев 30565
+QUERY PLAN
+Gather Merge  (cost=30086.70..30565.30 rows=4102 width=8)
+    Workers Planned: 2
+        ->  Sort  (cost=29086.68..29091.81 rows=2051 width=8)
+            Sort Key: id DESC
+        ->  Parallel Seq Scan on ticket  (cost=0.00..28973.85 rows=2051 width=8)
+            Filter: (price = ANY ('{350,500}'::double precision[]))
+
+
+# После оптимизации
+# Добавлен составной индекс ticket_price_session_id_id_index
+# Общее количество попугаев 481, уменьшилось в 63 раза
+QUERY PLAN
+Sort  (cost=468.84..481.14 rows=4922 width=8)
+    Sort Key: id DESC
+    ->  Index Only Scan using ticket_price_session_id_id_index on ticket  (cost=0.43..167.00 rows=4922 width=8)
+        Index Cond: (price = ANY ('{350,500}'::double precision[]))

@@ -1,0 +1,115 @@
+
+
+
+Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+
+
+#################   Исходный запрос:  #################
+
+SELECT
+	hall_rows.row_number row_number,
+	hall_rows.seats_number_in_row seats_number,
+	array_agg(sold_tickets.seat_number) occupied_seats_list
+FROM
+	sold_tickets
+INNER JOIN
+	sessions
+ON
+	sold_tickets.session_id=sessions.id
+AND
+	sessions.id=1
+RIGHT JOIN
+	hall_rows
+ON
+	hall_rows.row_number=sold_tickets.row_number
+AND
+	sessions.hall_id=hall_rows.hall_id
+GROUP BY
+	hall_rows.row_number,
+	hall_rows.seats_number_in_row
+ORDER BY
+	hall_rows.row_number;
+
+
+
+
+#################    План запроса при 10 000 записей:  #################
+
+
+Sort  (cost=608.35..610.85 rows=1001 width=40)
+   Sort Key: hall_rows.row_number
+   ->  HashAggregate  (cost=545.95..558.46 rows=1001 width=40)
+         Group Key: hall_rows.row_number, hall_rows.seats_number_in_row
+         ->  Hash Left Join  (cost=215.55..470.84 rows=10014 width=12)
+               Hash Cond: ((hall_rows.row_number = sold_tickets.row_number) AND (hall_rows.hall_id = sessions.hall_id))
+               ->  Seq Scan on hall_rows  (cost=0.00..155.14 rows=10014 width=12)
+               ->  Hash  (cost=215.52..215.52 rows=2 width=12)
+                     ->  Nested Loop  (cost=0.29..215.52 rows=2 width=12)
+                           ->  Index Scan using sessions_pkey on sessions  (cost=0.29..8.30 rows=1 width=8)
+                                 Index Cond: (id = 1)
+                           ->  Seq Scan on sold_tickets  (cost=0.00..207.20 rows=2 width=12)
+                                 Filter: (session_id = 1)
+(13 строк)
+
+
+#################    План запроса при 10 000 000 записей:  #################
+
+
+
+
+
+ Sort  (cost=1153463.58..1153470.09 rows=2601 width=40)
+   Sort Key: hall_rows.row_number
+   ->  HashAggregate  (cost=1055530.67..1153316.04 rows=2601 width=40)
+         Group Key: hall_rows.row_number, hall_rows.seats_number_in_row
+         Planned Partitions: 4
+         ->  Hash Left Join  (cost=134940.30..389247.17 rows=10009893 width=12)
+               Hash Cond: ((hall_rows.row_number = sold_tickets.row_number) AND (hall_rows.hall_id = sessions.hall_id))
+               ->  Seq Scan on hall_rows  (cost=0.00..154207.93 rows=10009893 width=12)
+               ->  Hash  (cost=134940.27..134940.27 rows=2 width=12)
+                     ->  Gather  (cost=1000.43..134940.27 rows=2 width=12)
+                           Workers Planned: 2
+                           ->  Nested Loop  (cost=0.43..133940.07 rows=1 width=12)
+                                 ->  Parallel Seq Scan on sold_tickets  (cost=0.00..133931.60 rows=1 width=12)
+                                       Filter: (session_id = 1)
+                                 ->  Index Scan using sessions_pkey on sessions  (cost=0.43..8.45 rows=1 width=8)
+                                       Index Cond: (id = 1)
+(16 строк)
+
+
+
+
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+
+
+#################  Созданы индексы  #################
+CREATE INDEX idx_hall_rows_row_number_seats_number_in_row ON hall_rows (row_number, seats_number_in_row);
+
+CREATE INDEX idx_sold_tickets_session_id ON sold_tickets (session_id);
+
+
+
+
+#################  План запроса после оптимизации:  #################
+
+
+GroupAggregate  (cost=21.39..508077.61 rows=2601 width=40)
+   Group Key: hall_rows.row_number, hall_rows.seats_number_in_row
+   ->  Merge Left Join  (cost=21.39..432969.99 rows=10010014 width=12)
+         Merge Cond: (hall_rows.row_number = sold_tickets.row_number)
+         Join Filter: (sessions.hall_id = hall_rows.hall_id)
+         ->  Index Scan using idx_hall_rows_row_number_seats_number_in_row on hall_rows  (cost=0.43..400991.10 rows=10010014 width=12)
+         ->  Sort  (cost=20.95..20.96 rows=2 width=12)
+               Sort Key: sold_tickets.row_number
+               ->  Nested Loop  (cost=0.87..20.94 rows=2 width=12)
+                     ->  Index Scan using sessions_pkey on sessions  (cost=0.43..8.45 rows=1 width=8)
+                           Index Cond: (id = 1)
+                     ->  Index Scan using idx_sold_tickets_session_id on sold_tickets  (cost=0.43..12.47 rows=2 width=12)
+                           Index Cond: (session_id = 1)
+(13 строк)
+

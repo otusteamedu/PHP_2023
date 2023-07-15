@@ -1,0 +1,85 @@
+
+Выбор всех фильмов на сегодня
+
+
+#################  Исходный запрос:  #################
+
+SELECT
+    films.name as film_name
+FROM
+    films
+INNER JOIN sessions
+ON
+    films.id=sessions.film_id
+AND
+    sessions.begin_time::date=CURRENT_DATE
+ORDER BY sessions.begin_time ASC;
+
+
+#################  План запроса при 10 000 записей:  #################
+
+Sort  (cost=554.73..554.85 rows=50 width=44)
+   Sort Key: sessions.begin_time
+   ->  Nested Loop  (cost=0.29..553.32 rows=50 width=44)
+         ->  Seq Scan on sessions  (cost=0.00..258.19 rows=50 width=12)
+               Filter: ((begin_time)::date = CURRENT_DATE)
+         ->  Index Scan using films_pkey on films  (cost=0.29..5.90 rows=1 width=40)
+               Index Cond: (id = sessions.film_id)
+(7 строк)
+
+
+#################  План запроса при 10 000 000 записей:  #################
+
+
+ Gather Merge  (cost=275997.07..280863.11 rows=41706 width=44)
+   Workers Planned: 2
+   ->  Sort  (cost=274997.05..275049.18 rows=20853 width=44)
+         Sort Key: sessions.begin_time
+         ->  Nested Loop  (cost=0.43..273501.06 rows=20853 width=44)
+               ->  Parallel Seq Scan on sessions  (cost=0.00..151666.87 rows=20853 width=12)
+                     Filter: ((begin_time)::date = CURRENT_DATE)
+               ->  Index Scan using films_pkey on films  (cost=0.43..5.84 rows=1 width=40)
+                     Index Cond: (id = sessions.film_id)
+(9 строк)
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+#################  Создан интекс  #################
+CREATE INDEX idx_sessions_begin_time ON sessions(begin_time);
+
+#################  Исправлен запрос чтобы использовался новый созданный индекс:  #################
+
+EXPLAIN SELECT
+    films.name as film_name
+FROM
+    films
+INNER JOIN sessions
+ON
+    films.id=sessions.film_id
+AND
+    sessions.begin_time>CURRENT_DATE::timestamptz
+ORDER BY sessions.begin_time ASC;
+
+
+#################  План запроса после оптимизации:  #################
+
+Gather Merge  (cost=89271.29..90814.20 rows=13224 width=44)
+   Workers Planned: 2
+   ->  Sort  (cost=88271.27..88287.80 rows=6612 width=44)
+         Sort Key: sessions.begin_time
+         ->  Nested Loop  (cost=299.86..87851.71 rows=6612 width=44)
+               ->  Parallel Bitmap Heap Scan on sessions  (cost=299.42..39567.01 rows=6612 width=12)
+                     Recheck Cond: (begin_time > (CURRENT_DATE)::timestamp with time zone)
+                     ->  Bitmap Index Scan on idx_sessions_begin_time  (cost=0.00..295.46 rows=15869 width=0)
+                           Index Cond: (begin_time > (CURRENT_DATE)::timestamp with time zone)
+               ->  Index Scan using films_pkey on films  (cost=0.43..7.30 rows=1 width=40)
+                     Index Cond: (id = sessions.film_id)
+(11 строк)
+
+
+
+
+

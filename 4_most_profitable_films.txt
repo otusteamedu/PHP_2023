@@ -1,0 +1,118 @@
+
+
+Поиск 3 самых прибыльных фильмов за неделю
+
+
+#################   Исходный запрос:  #################
+
+SELECT
+	films.name as film_name,
+	sum(sold_tickets.cost) as film_profitability
+FROM
+	films, sold_tickets, sessions
+WHERE
+	films.id=sessions.film_id
+AND
+	sessions.id=sold_tickets.session_id
+AND
+	(sessions.begin_time BETWEEN  (CURRENT_DATE - INTERVAL '7 days') AND CURRENT_DATE)
+GROUP BY films.name
+ORDER BY film_profitability DESC
+LIMIT 3;
+
+
+
+#################    План запроса при 10 000 записей:  #################
+
+
+
+Limit  (cost=617.48..617.48 rows=3 width=68)
+   ->  Sort  (cost=617.48..617.51 rows=13 width=68)
+         Sort Key: (sum(sold_tickets.cost)) DESC
+         ->  GroupAggregate  (cost=617.05..617.31 rows=13 width=68)
+               Group Key: films.name
+               ->  Sort  (cost=617.05..617.08 rows=13 width=44)
+                     Sort Key: films.name
+                     ->  Nested Loop  (cost=308.70..616.81 rows=13 width=44)
+                           ->  Hash Join  (cost=308.41..516.87 rows=13 width=12)
+                                 Hash Cond: (sold_tickets.session_id = sessions.id)
+                                 ->  Seq Scan on sold_tickets  (cost=0.00..182.16 rows=10016 width=12)
+                                 ->  Hash  (cost=308.25..308.25 rows=13 width=8)
+                                       ->  Seq Scan on sessions  (cost=0.00..308.25 rows=13 width=8)
+                                             Filter: ((begin_time <= CURRENT_DATE) AND (begin_time >= (CURRENT_DATE - '7 days'::interval)))
+                           ->  Index Scan using films_pkey on films  (cost=0.29..7.69 rows=1 width=40)
+                                 Index Cond: (id = sessions.film_id)
+(16 строк)
+
+
+
+
+#################    План запроса при 10 000 000 записей:  #################
+
+
+
+
+Limit  (cost=307981.83..307981.83 rows=1 width=68)
+   ->  Sort  (cost=307981.83..307981.83 rows=1 width=68)
+         Sort Key: (sum(sold_tickets.cost)) DESC
+         ->  GroupAggregate  (cost=307981.80..307981.82 rows=1 width=68)
+               Group Key: films.name
+               ->  Sort  (cost=307981.80..307981.80 rows=1 width=44)
+                     Sort Key: films.name
+                     ->  Nested Loop  (cost=173520.71..307981.79 rows=1 width=44)
+                           ->  Gather  (cost=173520.28..307973.33 rows=1 width=12)
+                                 Workers Planned: 2
+                                 ->  Parallel Hash Join  (cost=172520.28..306973.23 rows=1 width=12)
+                                       Hash Cond: (sold_tickets.session_id = sessions.id)
+                                       ->  Parallel Seq Scan on sold_tickets  (cost=0.00..123504.48 rows=4170848 width=12)
+                                       ->  Parallel Hash  (cost=172520.26..172520.26 rows=1 width=8)
+                                             ->  Parallel Seq Scan on sessions  (cost=0.00..172520.26 rows=1 width=8)
+                                                   Filter: ((begin_time <= CURRENT_DATE) AND (begin_time >= (CURRENT_DATE - '7 days'::interv
+al)))
+                           ->  Index Scan using films_pkey on films  (cost=0.43..8.45 rows=1 width=40)
+                                 Index Cond: (id = sessions.film_id)
+(18 строк)
+
+
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+
+
+#################  Созданы индексы  #################
+CREATE INDEX idx_sold_tickets_session_id ON sold_tickets (session_id);
+
+CREATE INDEX idx_sessions_begin_time ON sessions(begin_time);
+
+
+
+
+#################  План запроса после оптимизации:  #################
+
+ Limit  (cost=118433.50..118433.51 rows=3 width=68)
+   ->  Sort  (cost=118433.50..118461.27 rows=11109 width=68)
+         Sort Key: (sum(sold_tickets.cost)) DESC
+         ->  Finalize GroupAggregate  (cost=116920.44..118289.92 rows=11109 width=68)
+               Group Key: films.name
+               ->  Gather Merge  (cost=116920.44..118081.62 rows=9258 width=68)
+                     Workers Planned: 2
+                     ->  Partial GroupAggregate  (cost=115920.41..116012.99 rows=4629 width=68)
+                           Group Key: films.name
+                           ->  Sort  (cost=115920.41..115931.98 rows=4629 width=44)
+                                 Sort Key: films.name
+                                 ->  Nested Loop  (cost=239.18..115638.59 rows=4629 width=44)
+                                       ->  Nested Loop  (cost=238.74..65721.18 rows=4629 width=40)
+                                             ->  Parallel Bitmap Heap Scan on sessions  (cost=238.31..30544.77 rows=4629 width=8)
+                                                   Recheck Cond: ((begin_time >= (CURRENT_DATE - '7 days'::interval)) AND (begin_time <= CUR
+RENT_DATE))
+                                                   ->  Bitmap Index Scan on idx_sessions_begin_time  (cost=0.00..235.53 rows=11109 width=0)
+                                                         Index Cond: ((begin_time >= (CURRENT_DATE - '7 days'::interval)) AND (begin_time <=
+ CURRENT_DATE))
+                                             ->  Index Scan using films_pkey on films  (cost=0.43..7.60 rows=1 width=40)
+                                                   Index Cond: (id = sessions.film_id)
+                                       ->  Index Scan using idx_sold_tickets_session_id on sold_tickets  (cost=0.43..10.76 rows=2 width=12)
+                                             Index Cond: (session_id = sessions.id)
+(21 строка)

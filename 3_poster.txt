@@ -1,0 +1,92 @@
+
+
+
+
+Формирование афиши (фильмы, которые показывают сегодня)
+
+#################   Исходный запрос:  #################
+
+SELECT
+	films.name as film_name,
+	sessions.begin_time as film_show_time
+FROM
+	films
+INNER JOIN
+	sessions
+ON
+	films.id=sessions.film_id
+AND
+	sessions.begin_time::date=CURRENT_DATE::date;
+
+
+#################    План запроса при 10 000 записей:  #################
+
+
+Nested Loop  (cost=0.29..553.32 rows=50 width=44)
+   ->  Seq Scan on sessions  (cost=0.00..258.19 rows=50 width=12)
+         Filter: ((begin_time)::date = CURRENT_DATE)
+   ->  Index Scan using films_pkey on films  (cost=0.29..5.90 rows=1 width=40)
+         Index Cond: (id = sessions.film_id)
+(5 строк)
+
+
+#################    План запроса при 10 000 000 записей:  #################
+
+
+
+Gather  (cost=1000.43..279505.86 rows=50048 width=44)
+   Workers Planned: 2
+   ->  Nested Loop  (cost=0.43..273501.06 rows=20853 width=44)
+         ->  Parallel Seq Scan on sessions  (cost=0.00..151666.87 rows=20853 width=12)
+               Filter: ((begin_time)::date = CURRENT_DATE)
+         ->  Index Scan using films_pkey on films  (cost=0.43..5.84 rows=1 width=40)
+               Index Cond: (id = sessions.film_id)
+(7 строк)
+
+
+
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+#################  Создан интекс  #################
+CREATE INDEX idx_sessions_begin_time ON sessions(begin_time);
+
+
+#################  Переписал запрос:  #################
+
+EXPLAIN SELECT
+    films.name as film_name,
+    sessions.begin_time as film_show_time
+FROM
+    films
+INNER JOIN
+    sessions
+ON
+    films.id=sessions.film_id
+AND
+    sessions.begin_time>CURRENT_DATE::timestamptz;
+
+
+#################  План запроса после оптимизации:  #################
+
+
+Gather  (cost=1299.86..90438.61 rows=15869 width=44)
+   Workers Planned: 2
+   ->  Nested Loop  (cost=299.86..87851.71 rows=6612 width=44)
+         ->  Parallel Bitmap Heap Scan on sessions  (cost=299.42..39567.01 rows=6612 width=12)
+               Recheck Cond: (begin_time > (CURRENT_DATE)::timestamp with time zone)
+               ->  Bitmap Index Scan on idx_sessions_begin_time  (cost=0.00..295.46 rows=15869 width=0)
+                     Index Cond: (begin_time > (CURRENT_DATE)::timestamp with time zone)
+         ->  Index Scan using films_pkey on films  (cost=0.43..7.30 rows=1 width=40)
+               Index Cond: (id = sessions.film_id)
+(9 строк)
+
+
+
+
+
+
+

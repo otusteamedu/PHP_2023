@@ -2,7 +2,7 @@
 
 require_once './vendor/autoload.php';
 
-use \app\Validator;
+use app\Validator;
 
 if ($_POST) {
     $request = $_POST;

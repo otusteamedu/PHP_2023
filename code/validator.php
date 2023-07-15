@@ -78,7 +78,7 @@ class Validator
                 $countLeftBraces++;
             }
         }
-        
+
         if ($countLeftBraces != substr_count($this->string, ')')) {
             $result = false;
         }

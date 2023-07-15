@@ -1,0 +1,84 @@
+
+
+
+Подсчёт проданных билетов за неделю
+
+#################   Исходный запрос:  #################
+
+SELECT
+	count(*) as sold_tickets_count
+FROM
+	sold_tickets
+INNER JOIN
+	sessions
+ON
+	sold_tickets.session_id=sessions.id
+AND
+	(sessions.begin_time BETWEEN  (CURRENT_DATE - INTERVAL '7 days') AND CURRENT_DATE);
+
+
+ 
+#################    План запроса при 10 000 записей:  #################
+
+
+Aggregate  (cost=516.91..516.92 rows=1 width=8)
+   ->  Hash Join  (cost=308.41..516.87 rows=13 width=0)
+         Hash Cond: (sold_tickets.session_id = sessions.id)
+         ->  Seq Scan on sold_tickets  (cost=0.00..182.16 rows=10016 width=4)
+         ->  Hash  (cost=308.25..308.25 rows=13 width=4)
+               ->  Seq Scan on sessions  (cost=0.00..308.25 rows=13 width=4)
+                     Filter: ((begin_time <= CURRENT_DATE) AND (begin_time >= (CURRENT_DATE - '7 d
+ays'::interval)))
+(7 строк)
+
+
+#################   План запроса при 10 000 000 записей:  #################
+
+
+
+Aggregate  (cost=307973.34..307973.35 rows=1 width=8)
+   ->  Gather  (cost=173520.28..307973.33 rows=1 width=0)
+         Workers Planned: 2
+         ->  Parallel Hash Join  (cost=172520.28..306973.23 rows=1 width=0)
+               Hash Cond: (sold_tickets.session_id = sessions.id)
+               ->  Parallel Seq Scan on sold_tickets  (cost=0.00..123504.48 rows=4170848 width=4)
+               ->  Parallel Hash  (cost=172520.26..172520.26 rows=1 width=4)
+                     ->  Parallel Seq Scan on sessions  (cost=0.00..172520.26 rows=1 width=4)
+                           Filter: ((begin_time <= CURRENT_DATE) AND (begin_time >= (CURRENT_DATE - '7 days'::interval)))
+(9 строк)
+
+
+
+
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+
+#################  Созданы индексы  #################
+CREATE INDEX idx_sold_tickets_session_id ON sold_tickets (session_id);
+
+CREATE INDEX idx_sessions_begin_time ON sessions(begin_time);
+
+
+#################  План запроса после оптимизации:  #################
+
+
+Finalize Aggregate  (cost=48870.58..48870.59 rows=1 width=8)
+   ->  Gather  (cost=48870.37..48870.58 rows=2 width=8)
+         Workers Planned: 2
+         ->  Partial Aggregate  (cost=47870.37..47870.38 rows=1 width=8)
+               ->  Nested Loop  (cost=238.74..47858.80 rows=4629 width=0)
+                     ->  Parallel Bitmap Heap Scan on sessions  (cost=238.31..30544.77 rows=4629 width=4)
+                           Recheck Cond: ((begin_time >= (CURRENT_DATE - '7 days'::interval)) AND (begin_time <= CURRENT_DATE))
+                           ->  Bitmap Index Scan on idx_sessions_begin_time  (cost=0.00..235.53 rows=11109 width=0)
+                                 Index Cond: ((begin_time >= (CURRENT_DATE - '7 days'::interval)) AND (begin_time <= CURRENT_DATE))
+                     ->  Index Only Scan using idx_sold_tickets_session_id on sold_tickets  (cost=0.43..3.72 rows=2 width=4)
+                           Index Cond: (session_id = sessions.id)
+(11 строк)
+
+
+
+

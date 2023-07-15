@@ -1,0 +1,64 @@
+
+
+
+
+Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
+
+
+
+#################   Исходный запрос:  #################
+
+
+SELECT
+	MIN(cost) as min_cost,
+	MAX(cost) as max_cost
+FROM
+	sold_tickets
+WHERE
+	session_id=3;
+
+
+
+#################    План запроса при 10 000 записей:  #################
+
+
+ Aggregate  (cost=207.21..207.22 rows=1 width=64)
+   ->  Seq Scan on sold_tickets  (cost=0.00..207.20 rows=2 width=8)
+         Filter: (session_id = 3)
+(3 строки)
+
+
+#################    План запроса при 10 000 000 записей:  #################
+
+
+
+Aggregate  (cost=134931.81..134931.82 rows=1 width=64)
+   ->  Gather  (cost=1000.00..134931.80 rows=2 width=8)
+         Workers Planned: 2
+         ->  Parallel Seq Scan on sold_tickets  (cost=0.00..133931.60 rows=1 width=8)
+               Filter: (session_id = 3)
+(5 строк)
+
+
+
+
+
+#####################################################
+#################    Оптимизация    #################
+#####################################################
+
+
+#################  Создан индекс  #################
+CREATE INDEX idx_sold_tickets_session_id ON sold_tickets (session_id);
+
+
+
+
+
+#################  План запроса после оптимизации:  #################
+
+Aggregate  (cost=12.48..12.49 rows=1 width=64)
+   ->  Index Scan using idx_sold_tickets_session_id on sold_tickets  (cost=0.43..12.47 rows=2 width=8)
+         Index Cond: (session_id = 3)
+(3 строки)
+

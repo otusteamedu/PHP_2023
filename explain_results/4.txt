@@ -1,0 +1,77 @@
+# Выполнение запроса
+explain select m.name, sum(t.price) as total
+from ticket as t
+join movie m on m.id = t.movie_id
+where t.price in (501, 999)
+group by m.name
+order by total desc
+limit 5;
+
+
+# На 10000 текстовых записях в БД
+# Общее количество попугаев 167
+QUERY PLAN
+Limit  (cost=167.17..167.18 rows=5 width=32)
+  ->  Sort  (cost=167.17..169.59 rows=967 width=32)
+        Sort Key: (sum(t.price)) DESC
+        ->  HashAggregate  (cost=141.44..151.11 rows=967 width=32)
+              Group Key: m.name, t.price
+              ->  Hash Join  (cost=75.50..134.19 rows=967 width=24)
+                    Hash Cond: (s.movie_id = m.id)
+                    ->  Hash Join  (cost=72.25..128.29 rows=967 width=12)
+                          Hash Cond: (t.session_id = s.id)
+                          ->  Seq Scan on ticket t  (cost=0.00..53.50 rows=967 width=12)
+                                Filter: ((price > '500'::double precision) AND (price '1000'::double precision))
+                          ->  Hash  (cost=41.00..41.00 rows=2500 width=8)
+                                ->  Seq Scan on session s  (cost=0.00..41.00 rows=2500 width=8)
+                    ->  Hash  (cost=2.00..2.00 rows=100 width=20)
+                          ->  Seq Scan on movie m  (cost=0.00..2.00 rows=100 width=20)
+
+
+# На 10000000 текстовых записях в БД
+# Общее количество попугаев 205107
+QUERY PLAN
+    Limit  (cost=205107.75..205107.77 rows=5 width=32)
+      ->  Sort  (cost=205107.75..205758.25 rows=260200 width=32)
+            Sort Key: (sum(t.price)) DESC
+            ->  Finalize GroupAggregate  (cost=127641.27..200785.92 rows=260200 width=32)
+                  Group Key: m.name, t.price
+                  ->  Gather Merge  (cost=127641.27..194280.92 rows=520400 width=32)
+                        Workers Planned: 2
+                        ->  Partial GroupAggregate  (cost=126641.25..133213.83 rows=260200 width=32)
+                              Group Key: m.name, t.price
+                              ->  Sort  (cost=126641.25..127633.89 rows=397058 width=24)
+                                    Sort Key: m.name, t.price
+                                    ->  Hash Join  (cost=38489.35..81572.36 rows=397058 width=24)
+                                          Hash Cond: (s.movie_id = m.id)
+                                          ->  Parallel Hash Join  (cost=38482.85..80501.50 rows=397058 width=12)
+                                                Hash Cond: (s.id = t.session_id)
+                                                ->  Parallel Seq Scan on session s  (cost=0.00..26367.08 rows=1042708 width=8)
+                                                ->  Parallel Hash  (cost=31580.62..31580.62 rows=397058 width=12)
+                                                      ->  Parallel Seq Scan on ticket t  (cost=0.00..31580.62 rows=397058 width=12)
+                                                            Filter: ((price > '500'::double precision) AND (price < '1000'::double precision))
+                                          ->  Hash  (cost=4.00..4.00 rows=200 width=20)
+                                                ->  Seq Scan on movie m  (cost=0.00..4.00 rows=200 width=20)
+    JIT:
+      Functions: 29
+      Options: Inlining false, Optimization false, Expressions true, Deforming true
+
+
+# После оптимизации
+# Добавлен составной индекс price + session_id + id, с сортировкой по цене
+# в ticket добавлено поле movie_id для исключения лишнего join
+# Общее количество попугаев 9124, уменьшилось в 22.5 раза
+QUERY PLAN
+    Limit  (cost=9124.86..9124.88 rows=5 width=24)
+      ->  Sort  (cost=9124.86..9125.36 rows=200 width=24)
+            Sort Key: (sum(t.price)) DESC
+            ->  HashAggregate  (cost=9119.54..9121.54 rows=200 width=24)
+                  Group Key: m.name
+                  ->  Hash Join  (cost=101.10..9100.35 rows=3839 width=24)
+                        Hash Cond: (t.movie_id = m.id)
+                        ->  Bitmap Heap Scan on ticket t  (cost=94.60..9083.56 rows=3839 width=12)
+                              Recheck Cond: (price = ANY ('{501,999}'::double precision[]))
+                              ->  Bitmap Index Scan on ticket_price_session_id_id_index  (cost=0.00..93.64 rows=3839 width=0)
+                                    Index Cond: (price = ANY ('{501,999}'::double precision[]))
+                        ->  Hash  (cost=4.00..4.00 rows=200 width=20)
+                              ->  Seq Scan on movie m  (cost=0.00..4.00 rows=200 width=20)

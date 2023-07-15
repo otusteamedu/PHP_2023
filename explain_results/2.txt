@@ -1,0 +1,41 @@
+# Выполнение запроса
+explain select price
+from ticket
+where price > 500
+and price < 1000
+order by price desc
+limit 3;
+
+
+# На 10000 текстовых записях в БД
+# Общее количество попугаев 66
+QUERY PLAN
+Limit  (cost=66.00..66.01 rows=3 width=8)
+  ->  Sort  (cost=66.00..68.42 rows=967 width=8)
+        Sort Key: price DESC
+        ->  Seq Scan on ticket  (cost=0.00..53.50 rows=967 width=8)
+              Filter: ((price > '500'::double precision) AND (price < '1000'::double precision))
+
+
+# На 10000000 текстовых записях в БД
+# Общее количество попугаев 37712
+QUERY PLAN
+    Limit  (cost=37712.55..37712.90 rows=3 width=8)
+      ->  Gather Merge  (cost=37712.55..130365.88 rows=794116 width=8)
+            Workers Planned: 2
+            ->  Sort  (cost=36712.53..37705.17 rows=397058 width=8)
+                  Sort Key: price DESC
+                  ->  Parallel Seq Scan on ticket  (cost=0.00..31580.62 rows=397058 width=8)
+                        Filter: ((price > '500'::double precision) AND (price < '1000'::double precision))
+
+
+
+# После оптимизации
+# 1. Добавлен составной индекс ticket_price_session_id_id_index с сортировкой по цене по возрастанию
+# 2. Изменено условие выборки: убран > and <, сделано на интервале in ()
+# Общее количество попугаев 0.54, уменьшилось в 70000 раз
+QUERY PLAN
+    Limit  (cost=0.43..0.54 rows=3 width=8)
+      ->  Index Only Scan Backward using ticket_price_session_id_id_index on ticket  (cost=0.43..33743.23 rows=952940 width=8)
+            Index Cond: ((price > '500'::double precision) AND (price < '1000'::double precision))
+

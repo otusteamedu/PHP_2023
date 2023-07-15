@@ -1,0 +1,27 @@
+# Выполнение запроса
+explain select id, status
+from session_place
+where status > 0
+
+
+# На 10000 текстовых записях в БД
+# Общее количество попугаев 45
+QUERY PLAN
+Seq Scan on session_place  (cost=0.00..45.25 rows=1233 width=14)
+  Filter: (status > 0)
+
+
+# На 10000000 текстовых записях в БД
+# Общее количество попугаев 44809
+QUERY PLAN
+    Seq Scan on session_place  (cost=0.00..44809.25 rows=1240990 width=14)
+      Filter: (status > 0)
+
+
+# После оптимизации
+# Добавлен составной индекс status + id, сортировка status по убыванию
+# Общее количество попугаев 35337, уменьшилось в 1.2 раза
+# Тут не особо помогла оптимизация через индексы, но, при сортировке по status записи будут хотя бы упорядоченными
+QUERY PLAN
+    Index Only Scan using session_place_status_id_index on session_place  (cost=0.43..35337.75 rows=1240990 width=6)
+        Index Cond: (status > 0)

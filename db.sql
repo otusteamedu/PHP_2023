@@ -46,3 +46,13 @@ CREATE TABLE tickets (
   FOREIGN KEY (showtime_id) REFERENCES showtimes(showtime_id),
   FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
 );
+
+SELECT 
+  movies.title,
+  SUM(tickets.price) AS total_revenue
+FROM movies
+JOIN showtimes ON movies.movie_id = showtimes.movie_id
+JOIN tickets ON showtimes.showtime_id = tickets.showtime_id
+GROUP BY movies.title
+ORDER BY total_revenue DESC
+LIMIT 1;

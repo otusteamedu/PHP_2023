@@ -1,37 +1,14 @@
-
-<p>Суммарное кол-во лайков и дизлайков для канала по всем его видео</p>
-
-<form>
-    <p>Название канала</p>
-    <input type="text"></input>
-    <input type="submit"></input>
-</form>
-
-<hr hoshade>
-
-<p>Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</p>
-
-<form>
-    <p>Введите число</p>
-    <input type="text"></input>
-    <input type="submit"></input>
-</form>
-
-
 <?php
+
+declare(strict_types=1);
+
 require __DIR__ . "/../vendor/autoload.php";
 
-use Elastic\Elasticsearch\ClientBuilder;
+use VKorabelnikov\Hw11\YoutubeChannelAnalyzer\ChannelStatistics;
 
-// $test = file_get_contents('https://elastic:test@elasticsearch:9200');//gethostbyname("elasticsearch");
-// var_dump($test);
+$ob = new ChannelStatistics();
 
+var_dump($ob->getBestChannelsList(2));
 
-$client = ClientBuilder::create()
-->setHosts(['https://es01:9200']) // https!
-->setBasicAuthentication('elastic', '1xb=dOa*Rj0goqD_jWZv') // Пароль
- ->setCABundle('/data/mysite.local/http_ca.crt') // Сертификат
-->build();
-
-var_dump($client->info());
+var_dump($ob->getChannelLikesAndDislikeCount("2"));
 

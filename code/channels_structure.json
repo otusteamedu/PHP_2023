@@ -1,0 +1,21 @@
+{
+    "mappings": {
+        "properties": {
+            "name": {
+                "type": "text"
+            },
+            "description" : {
+                "type": "text"
+            },
+            "likes_count": {
+                "type": "integer"
+            },
+            "dislikes_count": {
+                "type": "integer"
+            },
+            "total_views": {
+                "type": "integer"
+            }
+        }
+    }
+  }

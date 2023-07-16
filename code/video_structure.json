@@ -1,0 +1,21 @@
+{
+    "mappings": {
+        "properties": {
+            "channel_id": {
+                "type": "keyword"
+            },
+            "name": {
+                "type": "text"
+            },
+            "description": {
+                "type": "text"
+            },
+            "likes_count": {
+                "type": "integer"
+            },
+            "dislikes_count": {
+                "type": "integer"
+            }
+        }
+    }
+  }

@@ -2,13 +2,15 @@
 
 declare(strict_types=1);
 
-class Solution {
+namespace app;
 
+class Solution
+{
     /**
      * @param Integer[] $nums
      * @return Integer[]
      */
-    function productExceptSelf(array $nums): array
+    public function productExceptSelf(array $nums): array
     {
         $length = count($nums);
         $resultArray = array_fill(0, $length, 1);

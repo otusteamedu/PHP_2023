@@ -1,14 +1,15 @@
 create database cinema;
 create schema public;
 
-create table hall
+create table if not exists public.hall
 (
-    id           serial
+    id            serial
         constraint hall_pk
             primary key,
-    name         varchar(64) not null,
-    seats_number integer     not null,
-    class        varchar(32) not null
+    name          varchar(64) not null,
+    class         varchar(32) not null,
+    total_columns integer     not null,
+    total_rows    integer     not null
 );
 
 create table film
@@ -44,13 +45,15 @@ create table session
     price   integer not null
 );
 
-create table ticket
+create table public.ticket
 (
     session_id integer not null
         constraint ticket_session_id_fk
-            references session,
+            references public.session,
     client_id  integer not null
         constraint ticket_client_id_fk
-            references client
+            references public.client,
+    cost       integer not null,
+    row        integer not null,
+    "column"   integer not null
 );
-

@@ -187,7 +187,6 @@ class App
                 } else {
                     return "{$value}";
                 }
-
             });
 
         echo $table->toString() . PHP_EOL;

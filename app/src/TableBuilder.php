@@ -171,6 +171,5 @@ class TableBuilder
         }
 
         return implode('', $lines);
-
     }
 }

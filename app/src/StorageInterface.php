@@ -6,13 +6,13 @@ namespace Root\App;
 
 interface StorageInterface
 {
-    function createIndex(string $mapping): void;
-    function bulk(string $data): void;
-    function exists(): bool;
+    public function createIndex(string $mapping): void;
+    public function bulk(string $data): void;
+    public function exists(): bool;
 
     /**
      * @param array $params
      * @return TableRowDto[]
      */
-    function find(array $params): array;
+    public function find(array $params): array;
 }

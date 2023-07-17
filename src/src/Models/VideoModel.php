@@ -83,4 +83,60 @@ class VideoModel
     {
         return $this->index;
     }
+
+    /**
+     * Get total likes for a channel.
+     *
+     * @param int $channelId
+     *
+     * @return mixed
+     */
+    public function getTotalLikes(int $channelId)
+    {
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'query' => [
+                    'term' => ['channel_id' => $channelId],
+                ],
+                'aggs' => [
+                    'total_likes' => [
+                        'sum' => ['field' => 'likes'],
+                    ],
+                ],
+            ],
+        ];
+
+        $response = $this->esClient->search($params);
+
+        return $response['aggregations']['total_likes']['value'] ?? 0;
+    }
+
+    /**
+     * Get total dislikes for a channel.
+     *
+     * @param int $channelId
+     *
+     * @return mixed
+     */
+    public function getTotalDislikes(int $channelId)
+    {
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'query' => [
+                    'term' => ['channel_id' => $channelId],
+                ],
+                'aggs' => [
+                    'total_dislikes' => [
+                        'sum' => ['field' => 'dislikes'],
+                    ],
+                ],
+            ],
+        ];
+
+        $response = $this->esClient->search($params);
+
+        return $response['aggregations']['total_dislikes']['value'] ?? 0;
+    }
 }

@@ -83,4 +83,53 @@ class ChannelModel
     {
         return $this->index;
     }
+
+    public function topChannels($n)
+    {
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'size' => 0,
+                'aggs' => [
+                    'top_channels' => [
+                        'terms' => [
+                            'field' => 'channel_id',
+                            'size' => $n,
+                            'order' => [
+                                'total_likes' => 'desc'
+                            ]
+                        ],
+                        'aggs' => [
+                            'total_likes' => [
+                                'sum' => [
+                                    'field' => 'likes'
+                                ]
+                            ],
+                            'total_dislikes' => [
+                                'sum' => [
+                                    'field' => 'dislikes'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $this->esClient->search($params);
+
+        $topChannels = [];
+        foreach ($response['aggregations']['top_channels']['buckets'] as $bucket) {
+            $channelId = $bucket['key'];
+            $totalLikes = $bucket['total_likes']['value'];
+            $totalDislikes = $bucket['total_dislikes']['value'];
+
+            $topChannels[] = [
+                'channel_id' => $channelId,
+                'total_likes' => $totalLikes,
+                'total_dislikes' => $totalDislikes,
+            ];
+        }
+        return $topChannels;
+    }
 }

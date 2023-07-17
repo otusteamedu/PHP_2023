@@ -167,101 +167,29 @@ class App
 
     private function tablePrint(array $data): void
     {
-        $columnTitle = [
+        $table = new TableBuilder();
+        $table->setTitle([
             'score' => 'Score', 'sku' => 'SKU', 'title' => 'Title', 'category' => 'Category', 'price' => 'Price',
             'stock' => 'Stock'
-        ];
-        $columnWidth = [];
-        $this->tableCalcWidth($columnTitle, $data, $columnWidth);
-
-        echo $this->tableBuildRow($columnWidth, true);
-        echo $this->tableBuildRow(
-            $columnWidth,
-            false,
-            $columnTitle['score'],
-            $columnTitle['sku'],
-            $columnTitle['title'],
-            $columnTitle['category'],
-            $columnTitle['price'],
-            $columnTitle['stock']
-        );
-        echo $this->tableBuildRow($columnWidth, true);
-
-        if (!empty($data)) {
-            /** @var TableRowDto $row */
-            foreach ($data as $row) {
-                $stock = [];
-                if (!empty($row->stock)) {
-                    /** @var StockDto $stockRow */
-                    foreach ($row->stock as $stockRow) {
-                        $stock[] = "{$stockRow->shop} - {$stockRow->stock}";
+        ])
+            ->setData($data)
+            ->setColumnCallback(5, function ($value) {
+                if (is_array($value) && !empty($value)) {
+                    $ret = [];
+                    foreach ($value as $row) {
+                        if ($row instanceof StockDto) {
+                            $ret[] = "{$row->shop} - {$row->stock}";
+                        }
                     }
+                    return $ret;
+                } else if ($value instanceof StockDto) {
+                    return "{$value->shop} - {$value->stock}";
                 } else {
-                    $stock[] = '';
+                    return "{$value}";
                 }
 
-                echo $this->tableBuildRow(
-                    $columnWidth,
-                    false,
-                    $row->score,
-                    $row->sku,
-                    $row->title,
-                    $row->category,
-                    $row->price,
-                    $stock[0]
-                );
-                if (count($stock) > 1) {
-                    for ($i = 1; $i < count($stock); $i++) {
-                        echo $this->tableBuildRow($columnWidth, false, '', '', '', '', '', $stock[$i]);
-                    }
-                }
-            }
-        }
-        echo $this->tableBuildRow($columnWidth, true);
-        echo PHP_EOL;
-    }
+            });
 
-    private function tableCalcWidth(array $title, array $data, array &$width): void
-    {
-        foreach ($title as $str) {
-            $width[] = mb_strlen($str);
-        }
-
-        if (!empty($data)) {
-            /** @var TableRowDto $row */
-            foreach ($data as $row) {
-                $width[0] = max($width[0], mb_strlen("{$row->score}"));
-                $width[1] = max($width[1], mb_strlen($row->sku));
-                $width[2] = max($width[2], mb_strlen($row->title));
-                $width[3] = max($width[3], mb_strlen($row->category));
-                $width[4] = max($width[4], mb_strlen("{$row->price}"));
-
-                if (!empty($row->stock)) {
-                    /** @var StockDto $stockRow */
-                    foreach ($row->stock as $stockRow) {
-                        $str = "{$stockRow->shop} - $stockRow->stock";
-                        $width[5] = max($width[5], mb_strlen($str));
-                    }
-                }
-            }
-        }
-    }
-    private function tableBuildRow(array $width, bool $line = false, ...$values): string
-    {
-        $space = $line ? '-' : ' ';
-        $delim = $line ? '+' : '|';
-        $columnPadding = 1;
-        $index = 0;
-
-        $str = $delim;
-
-        foreach ($width as $value) {
-            $strText = str_repeat($space, $columnPadding) . ($values[$index] ?? '');
-            $str .= $strText . str_repeat($space, $value + $columnPadding + $columnPadding - mb_strlen($strText));
-            $str .= $delim;
-            $index++;
-        }
-        $str .= PHP_EOL;
-        return $str;
+        echo $table->toString() . PHP_EOL;
     }
 }

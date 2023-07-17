@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  elastic:
+    image: elasticsearch:8.6.0
+    container_name: "${DOCKER_PREFIX}_elasticsearch"
+    environment:
+      - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
+      - "discovery.type=single-node"
+      - "xpack.security.enabled=false"
+    ports:
+      - "9200:9200"
+    networks:
+      - hw14-network
+  php:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php
+    image: '${DOCKER_PREFIX}/php'
+    container_name: '${DOCKER_PREFIX}-php'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw14-network
+volumes:
+  socket:
+networks:
+  hw14-network:
+    driver: bridge

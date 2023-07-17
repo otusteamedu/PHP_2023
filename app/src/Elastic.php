@@ -13,7 +13,7 @@ use Exception;
 use Psr\Log\LoggerInterface;
 use stdClass;
 
-class Elastic
+class Elastic implements StorageInterface
 {
     private ?string $host;
     private ?string $index;

@@ -26,7 +26,7 @@ class App
 
     private array $params = [];
 
-    private ?Elastic $elastic = null;
+    private ?StorageInterface $elastic = null;
     private ?Logger $logger;
 
     /**

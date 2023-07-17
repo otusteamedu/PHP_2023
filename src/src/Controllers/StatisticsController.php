@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-use App\Models\ChannelModel;
-use App\Models\VideoModel;
+use Elasticsearch\Client;
+use App\Models\ChannelModel as ChannelModel;
+use App\Models\VideoModel as VideoModel;
 
 /**
  * Class StatisticsController
@@ -13,6 +14,10 @@ use App\Models\VideoModel;
 class StatisticsController
 {
     /**
+     * @var Client
+     */
+    private $esClient;
+    /**
      * @var ChannelModel
      */
     private $channelModel;
@@ -21,57 +26,148 @@ class StatisticsController
      */
     private $videoModel;
 
-    public function __construct(ChannelModel $channelModel, VideoModel $videoModel)
+    /**
+     * StatisticsController constructor.
+     *
+     * @param Client $esClient
+     */
+    public function __construct(Client $esClient)
     {
-        $this->channelModel = $channelModel;
-        $this->videoModel = $videoModel;
+        $this->esClient = $esClient;
+        //$this->channelModel = new ChannelModel($esClient);
+        //$this->videoModel = new VideoModel($esClient);
     }
 
     /**
      * Get total likes and dislikes for a channel
      *
-     * @param int $channelId
+     * @param mixed $vars
      *
      * @return array
      */
-    public function getTotalLikesAndDislikesForChannel($channelId)
+    public function showStatistics($vars)
     {
-        $channelData = $this->channelModel->getChannelData($channelId);
-        $videosData = $this->videoModel->getVideosDataForChannel($channelId);
+        $channelId = $vars['channelId'];
 
-        $totalLikes = 0;
-        $totalDislikes = 0;
-
-        foreach ($videosData as $videoData) {
-            $totalLikes += $videoData['likes'];
-            $totalDislikes += $videoData['dislikes'];
-        }
+        $totalLikes = $this->getTotalLikes($channelId);
+        $totalDislikes = $this->getTotalDislikes($channelId);
 
         return [
-            'channel' => $channelData,
-            'likes' => $totalLikes,
-            'dislikes' => $totalDislikes,
+            'channel_id' => $channelId,
+            'total_likes' => $totalLikes,
+            'total_dislikes' => $totalDislikes,
         ];
     }
 
     /**
      * Get top N channels by likes to dislikes ratio
      *
-     * @param mixed $n
+     * @param int $channelId
      *
-     * @return mixed
+     * @return array
      */
-    public function getTopChannelsByLikesToDislikesRatio($n)
+    private function getTotalLikes($channelId)
     {
-        $channelsData = $this->channelModel->getAllChannelsData();
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'query' => [
+                    'term' => ['channel_id' => $channelId],
+                ],
+                'aggs' => [
+                    'total_likes' => [
+                        'sum' => ['field' => 'likes'],
+                    ],
+                ],
+            ],
+        ];
 
-        usort($channelsData, function ($a, $b) {
-            $likesToDislikesRatioA = $a['likes'] / ($a['likes'] + $a['dislikes']);
-            $likesToDislikesRatioB = $b['likes'] / ($b['likes'] + $b['dislikes']);
+        $response = $this->esClient->search($params);
 
-            return $likesToDislikesRatioB <=> $likesToDislikesRatioA;
-        });
+        return $response['aggregations']['total_likes']['value'] ?? 0;
+    }
 
-        return array_slice($channelsData, 0, $n);
+    /**
+     * Get total dislikes for a channel
+     *
+     * @param int $channelId
+     *
+     * @return array
+     */
+    private function getTotalDislikes($channelId)
+    {
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'query' => [
+                    'term' => ['channel_id' => $channelId],
+                ],
+                'aggs' => [
+                    'total_dislikes' => [
+                        'sum' => ['field' => 'dislikes'],
+                    ],
+                ],
+            ],
+        ];
+
+        $response = $this->esClient->search($params);
+
+        return $response['aggregations']['total_dislikes']['value'] ?? 0;
+    }
+    /**
+     * Get top channels by likes to dislikes ratio
+     *
+     * @param array $vars
+     *
+     * @return array
+     */
+    public function topChannels($vars)
+    {
+        $n = $vars['n'];
+        $params = [
+            'index' => 'videos',
+            'body' => [
+                'size' => 0,
+                'aggs' => [
+                    'top_channels' => [
+                        'terms' => [
+                            'field' => 'channel_id',
+                            'size' => $n,
+                            'order' => [
+                                'total_likes' => 'desc'
+                            ]
+                        ],
+                        'aggs' => [
+                            'total_likes' => [
+                                'sum' => [
+                                    'field' => 'likes'
+                                ]
+                            ],
+                            'total_dislikes' => [
+                                'sum' => [
+                                    'field' => 'dislikes'
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $this->esClient->search($params);
+
+        $topChannels = [];
+        foreach ($response['aggregations']['top_channels']['buckets'] as $bucket) {
+            $channelId = $bucket['key'];
+            $totalLikes = $bucket['total_likes']['value'];
+            $totalDislikes = $bucket['total_dislikes']['value'];
+
+            $topChannels[] = [
+                'channel_id' => $channelId,
+                'total_likes' => $totalLikes,
+                'total_dislikes' => $totalDislikes,
+            ];
+        }
+        return $topChannels;
     }
 }

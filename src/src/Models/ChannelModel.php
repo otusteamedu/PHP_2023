@@ -73,4 +73,14 @@ class ChannelModel
 
         return $response['result'];
     }
+
+    /**
+     * Get the index name.
+     *
+     * @return string
+     */
+    public function getIndex()
+    {
+        return $this->index;
+    }
 }

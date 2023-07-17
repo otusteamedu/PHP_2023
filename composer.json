@@ -1,0 +1,7 @@
+{
+    "require": {
+        "nyholm/psr7": "^1.8",
+        "laminas/laminas-diactoros": "^3.0",
+        "slim/psr7": "^1.6"
+    }
+}

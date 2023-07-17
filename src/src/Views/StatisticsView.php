@@ -10,38 +10,66 @@ namespace App\Views;
 class StatisticsView
 {
     /**
-     * Render total likes and dislikes for a channel
+ * Show statistics for a channel (total likes and dislikes)
+ *
+ * @param array $vars
+ *
+ * @return string
+ */
+/**
+ * Display statistics for a channel
+ *
+ * @param array $data
+ */
+    public function showStatistics($data)
+    {
+        $channelId = $data['channel_id'];
+        $totalLikes = $data['total_likes'];
+        $totalDislikes = $data['total_dislikes'];
+
+        echo "<strong>Statistics for Channel {$channelId}:</strong><br>";
+        echo "Total Likes: {$totalLikes}<br>";
+        echo "Total Dislikes: {$totalDislikes}<br>";
+    }
+
+    /**
+     * Display top N channels by likes to dislikes ratio
      *
      * @param array $data
      *
      * @return void
      */
-    public function renderTotalLikesAndDislikesForChannel($data)
+    public function topChannels($data)
     {
-        $channelData = $data['channel'];
-        $likes = $data['likes'];
-        $dislikes = $data['dislikes'];
-
-        echo "Channel: {$channelData['channel_name']}\n";
-        echo "Total Likes: {$likes}\n";
-        echo "Total Dislikes: {$dislikes}\n";
+        $count = 0;
+        foreach ($data as $channel) {
+            $count++;
+            echo "<strong># {$count}.</strong> ";
+            $this->showStatistics($channel);
+        }
     }
 
     /**
-     * Render top N channels by likes to dislikes ratio
+     * Generate a string with the total dislikes for a channel
      *
-     * @param array $channelsData
+     * @param int $totalLikes
      *
-     * @return void
+     * @return string
      */
-    public function renderTopChannelsByLikesToDislikesRatio($channelsData)
+    public function getTotalDislikes($totalDislikes)
     {
-        echo "Top Channels by Likes to Dislikes Ratio:\n";
-        foreach ($channelsData as $channelData) {
-            echo "Channel: {$channelData['channel_name']}\n";
-            echo "Likes: {$channelData['likes']}\n";
-            echo "Dislikes: {$channelData['dislikes']}\n";
-            echo "\n";
-        }
+        return "Total Dislikes: {$totalDislikes}";
+    }
+
+/**
+ * Generate a string with the total likes for a channel
+ *
+ * @param int $totalLikes
+ *
+ * @return string
+ */
+    public function getTotalLikes($totalLikes)
+    {
+        return "Total Likes: {$totalLikes}";
     }
 }

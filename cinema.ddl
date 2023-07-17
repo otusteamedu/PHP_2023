@@ -1,15 +1,21 @@
 create database cinema;
-create schema public;
 
-create table if not exists public.hall
+create table hall
 (
     id            serial
         constraint hall_pk
             primary key,
     name          varchar(64) not null,
-    class         varchar(32) not null,
-    total_columns integer     not null,
-    total_rows    integer     not null
+    class         varchar(32) not null
+);
+
+create table scheme
+(
+    hall_id  integer not null
+        constraint scheme_hall_id_fk
+            references public.hall,
+    row      integer not null,
+    "column" integer not null
 );
 
 create table film
@@ -45,7 +51,7 @@ create table session
     price   integer not null
 );
 
-create table public.ticket
+create table ticket
 (
     session_id integer not null
         constraint ticket_session_id_fk

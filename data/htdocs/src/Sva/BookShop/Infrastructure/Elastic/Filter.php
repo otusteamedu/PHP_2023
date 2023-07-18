@@ -13,7 +13,7 @@ class Filter
 
     public function addRange($field, $type, $value, $nestedPath = null): void
     {
-        if($nestedPath) {
+        if ($nestedPath) {
             $item['nested']['path'] = $field;
             $item['nested']['query']['bool']['filter'] = [
                 'range' => [

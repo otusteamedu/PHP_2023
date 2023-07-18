@@ -1,12 +1,11 @@
 <?php
+
 namespace Sva\BookShop\Infrastructure\Elastic;
 
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
-use Sva\BookShop\Domain\SearchQuery;
 use Sva\Common\App\App;
 use Sva\Common\Infrastructure\ElasticConnection;
-use function DI\value;
 
 class Index
 {
@@ -28,7 +27,7 @@ class Index
         try {
             $index = $this->connection->getConnection()->indices()->get(['index' => self::INDEX_NAME]);
         } catch (\Exception $e) {
-            if($e->getCode() == 404) {
+            if ($e->getCode() == 404) {
                 $r = $this->connection->getConnection()->indices()->create([
                     'index' => self::INDEX_NAME,
                     'body' => [
@@ -116,7 +115,7 @@ class Index
                 'body' => $content
             ]);
 
-            if($r) {
+            if ($r) {
                 echo "Data loaded\n";
             } else {
                 echo "Data not loaded\n";
@@ -137,7 +136,7 @@ class Index
         ];
         $arFilter = $filter->get();
 
-        if(!empty($arFilter)) {
+        if (!empty($arFilter)) {
             $arParams['body'] = $arFilter;
         }
 

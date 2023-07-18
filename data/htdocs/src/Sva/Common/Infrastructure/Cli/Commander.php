@@ -8,7 +8,7 @@ class Commander
 
     public function start(array $args = []): void
     {
-        if(isset($args[1])) {
+        if (isset($args[1])) {
             $action = $args[1];
             if (array_key_exists($action, $this->commands)) {
                 $arArgs = [];
@@ -26,7 +26,7 @@ class Commander
 
     public function loadCommands(string $path): bool
     {
-        if(file_exists($path)) {
+        if (file_exists($path)) {
             $this->commands = include $path;
         } else {
             return false;

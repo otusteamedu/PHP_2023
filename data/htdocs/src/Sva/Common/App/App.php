@@ -3,9 +3,9 @@
 namespace Sva\Common\App;
 
 use Exception;
+use Pecee\SimpleRouter\Router;
 use Psr\Container\ContainerInterface;
 use Sva\Common\Infrastructure\Cli\Commander;
-use Sva\Common\Infrastructure\Http\Router;
 use Sva\Singleton;
 
 class App
@@ -15,17 +15,20 @@ class App
     private Router $router;
     private ContainerInterface $container;
     /**
-     * @var null
+     * @var Commander
      */
     private Commander $commander;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         $this->createContainer();
         $this->createCommander();
     }
 
-    public function start(array $args = [])
+    public function start(array $args = []): void
     {
         $this->commander->start($args);
     }

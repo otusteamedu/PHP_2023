@@ -1,16 +1,14 @@
-# версия синтаксиса
+
 version: '3'
 
-# в этом блоке мы описываем контейнеры, которые будут запускаться
+
 services:
-  #контейнер с Nginx
   hw11-nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
     image: hw11/nginx
     container_name: hw11-nginx
-    # проброс портов
     ports:
       - "80:80"
     volumes:
@@ -18,25 +16,21 @@ services:
     networks:
       - app-network
 
-  #Контейнер с PHP-FPM, назовём его app
+  
   hw11-fpm:
-    # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: hw11/php # имя будущего образа
-    container_name: hw11-fpm # имя контейнера после запуска
+    image: hw11/php
+    container_name: hw11-fpm
     volumes:
        - ./code:/data/mysite.local
-    # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
 
   hw11-elasticsearch:
     image: elasticsearch:8.8.1
-    # image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
     container_name: hw11-elasticsearch
-    #command: elasticsearch -Des.network.host=0.0.0.0
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -46,12 +40,11 @@ services:
       - discovery.type=single-node
       - xpack.security.enabled=false
       - xpack.security.enrollment.enabled=false
-      # - ELASTIC_PASSWORD=test
     networks:
       - app-network
 
 
-#Docker Networks
+
 networks:
   app-network:
     driver: bridge

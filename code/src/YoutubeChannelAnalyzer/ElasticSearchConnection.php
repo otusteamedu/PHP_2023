@@ -15,27 +15,70 @@ class ElasticSearchConnection {
         ->build();
     }
 
-    public function searchDocument(array $arQueryParams) {
-        return $this->elasticConnection->search($arQueryParams)->asArray();
+    public function searchDocument(string $indexName, array $arQueryParams): array
+    {
+        return $this->elasticConnection->search(
+            [
+                'index' => $indexName,
+                'body'  => $arQueryParams
+            ]
+        )->asArray();
     }
 
-    public function addDocument() {
-
+    public function addDocument(string $indexName, string $docId, array $docParams): void
+    {
+        $this->elasticConnection->index(
+            [
+                'index' => $indexName,
+                'id'    => $docId,
+                'body'  => $docParams
+            ]
+        );
     }
 
-    public function updateDocument() {
-
+    public function updateDocument(string $indexName, string $docId, array $docParams): void
+    {
+        $this->elasticConnection->update(
+            [
+                'index' => $indexName,
+                'id'    => $docId,
+                'body'  => [
+                    'doc' => $docParams
+                ]
+            ]
+        );
     }
 
-    public function deleteDocument() {
-
+    public function deleteDocument(string $indexName, string $docId): void
+    {
+        $this->elasticConnection->delete(
+            [
+                'index' => $indexName,
+                'id'  => $docId
+            ]
+        );
     }
 
-    public function addIndex() {
-
+    public function createIndex(string $indexName, array $mappings): void
+    {
+        $this->elasticConnection->indices()->create(
+            [
+                'index' => $indexName,
+                'body' => [
+                    'mappings' => [
+                        'properties' => $mappings,
+                    ]
+                ]
+            ]
+        );
     }
 
-    public function deleteIndex() {
-
+    public function deleteIndex(string $indexName): void
+    {
+        $this->elasticConnection->indices()->delete(
+            [
+                'index' => $indexName
+            ]
+        );
     }
 }

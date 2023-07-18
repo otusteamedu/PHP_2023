@@ -11,6 +11,9 @@ create table hall
 
 create table scheme
 (
+    id            serial
+        constraint hall_pk
+            primary key,
     hall_id  integer not null
         constraint scheme_hall_id_fk
             references public.hall,

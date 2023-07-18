@@ -62,7 +62,7 @@ class ChannelStatistics
             ]
         );
 
-        
+
         return $result['hits'];
     }
 }

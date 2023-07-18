@@ -1,0 +1,17 @@
+{
+    "name": "alishertashmatov/otus",
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alisher Tashmatov",
+            "email": "pirojok167@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*"
+    }
+}

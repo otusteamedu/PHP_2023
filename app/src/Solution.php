@@ -11,11 +11,12 @@ class Solution
      * @param ListNode|null $head
      * @return Boolean
      */
-    public function hasCycle(?ListNode $head): bool {
+    public function hasCycle(?ListNode $head): bool
+    {
         $elements = [];
 
         while ($head != null) {
-            if ($this->hasCycle_search($elements, $head) === false) {
+            if ($this->hasCycleSearch($elements, $head) === false) {
                 $elements[] = $head;
                 $head = $head->next;
             } else {
@@ -24,7 +25,7 @@ class Solution
         }
         return false;
     }
-    private function hasCycle_search(array $array, ?ListNode $element): bool
+    private function hasCycleSearch(array $array, ?ListNode $element): bool
     {
         if (count($array) === 0) {
             return false;
@@ -49,7 +50,7 @@ class Solution
             return [];
         }
 
-        $h = $this->letterCombinations_map(substr($digits, 0, 1));
+        $h = $this->letterCombinationsMap(substr($digits, 0, 1));
         $t = $this->letterCombinations(substr($digits, 1));
         foreach ($h as $f) {
             if (empty($t)) {
@@ -62,7 +63,7 @@ class Solution
         }
         return $ret;
     }
-    private function letterCombinations_map(string $char): array
+    private function letterCombinationsMap(string $char): array
     {
         $map = [
             '2' => ['a', 'b', 'c'],

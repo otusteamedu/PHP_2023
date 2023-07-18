@@ -40,7 +40,7 @@ return [
 
                 if ($arKey[1] == 'from') {
                     if ($key[2] == 'equal') {
-                        $type = 'gte';;
+                        $type = 'gte';
                     } else {
                         $type = 'gt';
                     }
@@ -48,7 +48,7 @@ return [
 
                 if ($arKey[1] == 'to') {
                     if ($key[2] == 'equal') {
-                        $type = 'lte';;
+                        $type = 'lte';
                     } else {
                         $type = 'lt';
                     }

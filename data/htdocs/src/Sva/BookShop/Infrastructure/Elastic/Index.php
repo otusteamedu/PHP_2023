@@ -99,7 +99,7 @@ class Index
             $r = $this->connection->getConnection()->indices()->delete(['index' => self::INDEX_NAME]);
             return $r->getStatusCode() == 200;
         } catch (\Exception $e) {
-
+            // todo: обработка ошибок
         }
 
         return false;
@@ -144,5 +144,4 @@ class Index
 
         return $r->asArray();
     }
-
 }

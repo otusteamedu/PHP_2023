@@ -14,15 +14,16 @@ class Solution
      */
     public function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode
     {
-        while ($headA != null) {
-            $headC = $headB;
-            while ($headC != null) {
-                if ($headA === $headC) {
-                    return $headA;
-                }
-                $headC = $headC->next;
-            }
+        $node = [];
+        while ($headA) {
+            $node[] = $headA;
             $headA = $headA->next;
+        }
+        while ($headB) {
+            if ($this->hasCycleSearch($node, $headB)) {
+                return $headB;
+            }
+            $headB = $headB->next;
         }
         return null;
     }

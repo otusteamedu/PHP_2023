@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw11\YoutubeChannelAnalyzer;
 
-class ChannelStatistics {
+class ChannelStatistics
+{
     protected $databaseConnection;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->databaseConnection = new ElasticSearchConnection();
     }
 
 
-    public function getChannelLikesAndDislikeCount(string $channelId) {
+    public function getChannelLikesAndDislikeCount(string $channelId): array
+    {
         $res = $this->databaseConnection->searchDocument(
             'video',
             [
@@ -36,11 +39,12 @@ class ChannelStatistics {
             ]
         );
 
-        
+
         return $res['aggregations'];
     }
 
-    public function getBestChannelsList(int $count): array {
+    public function getBestChannelsList(int $count): array
+    {
         $result = $this->databaseConnection->searchDocument(
             'channel',
             [

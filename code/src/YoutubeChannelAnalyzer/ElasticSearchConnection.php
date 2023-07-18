@@ -6,10 +6,12 @@ namespace VKorabelnikov\Hw11\YoutubeChannelAnalyzer;
 
 use Elastic\Elasticsearch\ClientBuilder;
 
-class ElasticSearchConnection {
+class ElasticSearchConnection
+{
     protected $elasticConnection;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->elasticConnection = ClientBuilder::create()
         ->setHosts(['http://hw11-elasticsearch:9200'])
         ->build();

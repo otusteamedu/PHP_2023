@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Root\App;
@@ -7,7 +8,7 @@ class Solution
 {
     /**
      * https://leetcode.com/problems/linked-list-cycle/
-     * @param ListNode $head
+     * @param ListNode|null $head
      * @return Boolean
      */
     public function hasCycle(?ListNode $head): bool {
@@ -23,7 +24,7 @@ class Solution
         }
         return false;
     }
-    private function hasCycle_search(array $array, ?ListNode $element)
+    private function hasCycle_search(array $array, ?ListNode $element): bool
     {
         if (count($array) === 0) {
             return false;
@@ -41,7 +42,28 @@ class Solution
      * @param String $digits
      * @return String[]
      */
-    public function letterCombinations($digits): array {
+    public function letterCombinations(string $digits): array
+    {
+        $ret = [];
+        if ($digits === '') {
+            return [];
+        }
+
+        $h = $this->letterCombinations_map(substr($digits, 0, 1));
+        $t = $this->letterCombinations(substr($digits, 1));
+        foreach ($h as $f) {
+            if (empty($t)) {
+                $ret[] = $f;
+            } else {
+                foreach ($t as $l) {
+                    $ret[] = $f . $l;
+                }
+            }
+        }
+        return $ret;
+    }
+    private function letterCombinations_map(string $char): array
+    {
         $map = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -52,11 +74,7 @@ class Solution
             '8' => ['t', 'u', 'v'],
             '9' => ['w', 'x', 'y', 'z']
         ];
-
-
-        $ret = [];
-
-        return $ret;
+        return $map[$char] ?? [];
     }
 
     public function listToString(?ListNode $list = null): string
@@ -100,5 +118,4 @@ class Solution
         }
         return false;
     }
-
 }

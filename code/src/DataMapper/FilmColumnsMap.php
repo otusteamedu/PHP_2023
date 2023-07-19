@@ -57,7 +57,7 @@ class FilmColumnsMapper
 
         $this->deletePdoStatement = $pdo->prepare("DELETE FROM films WHERE id = :id");
 
-        $this->getAllPdoStatement = $pdo->prepare("SELECT * FROM films");
+        $this->getAllPdoStatement = $pdo->prepare("SELECT id, name, duration, cost FROM films ORDER BY :order_field LIMIT :limit OFFSET :offset");
     }
 
     /**
@@ -132,10 +132,36 @@ class FilmColumnsMapper
     /**
      * @param Film $film
      *
-     * @return bool
+     * @return array
      */
-    public function gatAll(): bool
+    public function gatAll(string $orderBy, int $limit, int $offset): array
     {
-        return $this->getAllPdoStatement->execute();
+        $queryOrder = (!empty($orderBy)? $orderBy: 'id');
+        $queryLimit = (!empty($limit)? $limit: '100');
+        $queryOffset = (!empty($offset)? $offset: '0');
+
+        $this->selectPdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->getAllPdoStatement->execute(
+            [
+                'order_field' => $queryOrder,
+                'limit' => $queryLimit,
+                'offset' => $queryOffset
+            ]
+        );
+        $filmsDbResult = $this->selectPdoStatement->fetch();
+
+        $FilmsCollection = [];
+
+        foreach($filmsDbResult as $filmProps)
+        {
+            $FilmsCollection[] = new Film(
+                (int) $filmProps['id'],
+                $filmProps['name'],
+                $filmProps['duration'],
+                $filmProps['cost']
+            );
+        }
+
+        return $FilmsCollection;
     }
 }

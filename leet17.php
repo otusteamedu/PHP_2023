@@ -1,12 +1,14 @@
 <?php
 
+namespace App;
+
 class Solution
 {
 /**
  * @param String $digits
  * @return String[]
  */
-    function letterCombinations($digits)
+    public function letterCombinations($digits)
     {
         $letters = [
         '2' => ['a','b','c'],

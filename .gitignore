@@ -1,0 +1,5 @@
+.idea
+data/elastic
+data/log
+data/phpsocket
+data/postgresql

@@ -21,5 +21,5 @@ php public/index.php create-index && php public/index.php load-data
 php public/index.php delete-index
 
 # поиск по ДЗ 
-php public/index.php search query="рыцОри" price-to="2000" category="Исторические романы" stock-from=10
+php public/index.php search query="рыцОри" price-to="2000" category="Исторический роман" stock-from=10
 ```

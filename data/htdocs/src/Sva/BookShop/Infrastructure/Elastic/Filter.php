@@ -5,7 +5,6 @@ namespace Sva\BookShop\Infrastructure\Elastic;
 class Filter
 {
     private array $filter = [];
-    private array $nestedFields = [];
 
     public function __construct()
     {

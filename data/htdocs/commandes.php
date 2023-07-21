@@ -1,8 +1,8 @@
 <?php
 
-use \Sva\BookShop\Infrastructure\Elastic\Index;
-use \Sva\BookShop\Infrastructure\Elastic\FilterFactory;
-use \Sva\BookShop\Infrastructure\Elastic\ResultConsolePresenter;
+use Sva\BookShop\Infrastructure\Elastic\Index;
+use Sva\BookShop\Infrastructure\Elastic\FilterFactory;
+use Sva\BookShop\Infrastructure\Elastic\ResultConsolePresenter;
 
 return [
     'create-index' => function () {

@@ -1,0 +1,25 @@
+{
+    "name": "timerkhanov/elastic",
+    "description": "hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Timerkhanov\\Elastic\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artur",
+            "email": "se6@rep.earth"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "elasticsearch/elasticsearch": "^8.6"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

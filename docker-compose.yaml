@@ -1,0 +1,31 @@
+version: "3"
+
+services:
+  php-fpm:
+    build: ./docker/php-fpm
+    container_name: otus_app
+    volumes:
+      - ./code:/var/www/application
+    networks:
+      - app-network
+  elastic:
+    image: elasticsearch:${STACK_VERSION}
+    container_name: otus_elastic
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    ports:
+      - ${ELASTIC_PORT}:9200
+    environment:
+      - xpack.security.enabled=false
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    networks:
+      - app-network
+
+volumes:
+  elastic-data:
+    driver: local
+
+networks:
+  app-network:
+    driver: bridge

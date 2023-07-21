@@ -57,6 +57,7 @@ CREATE TABLE tickets (
   seat_id INT,
   tariff_id INT,
   customer_id INT,
+  price DECIMAL(10, 2),
   FOREIGN KEY (showtime_id) REFERENCES showtimes(showtime_id),
   FOREIGN KEY (seat_id) REFERENCES seats(seat_id),
   FOREIGN KEY (tariff_id) REFERENCES tariffs(tariff_id),

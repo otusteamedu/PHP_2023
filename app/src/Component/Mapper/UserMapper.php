@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Imitronov\Hw13\Component\Mapper;
 
 use Imitronov\Hw13\Component\IdentityMap\IdentityMap;
+use Imitronov\Hw13\Component\UnitOfWork\UnitOfWork;
 use Imitronov\Hw13\Exception\DatabaseException;
 use Imitronov\Hw13\Entity\User;
 
@@ -19,6 +20,8 @@ final class UserMapper
     private \PDOStatement $deleteStmt;
 
     private \PDOStatement $partStmt;
+
+    private array $cache;
 
     public function __construct(
         private readonly \PDO $pdo,
@@ -52,6 +55,7 @@ final class UserMapper
         if ($raw) {
             $user = $this->rawToObject($raw);
             $this->identityMap->set($id, $user);
+            $this->cache[$id] = $this->rawToObject($raw);
 
             return $user;
         }
@@ -102,12 +106,45 @@ final class UserMapper
      */
     public function update(User $user): User
     {
-        $this->updateStmt->execute([
-            'name' => $user->getName(),
-            'email' => $user->getEmail(),
-            'passwordHash' => $user->getPasswordHash(),
-            'id' => $user->getId(),
-        ]);
+        $columns = [];
+        $values = [];
+        $cachedUser = array_key_exists($user->getId(), $this->cache)
+            ? $this->cache[$user->getId()]
+            : null;
+
+        if (null !== $cachedUser) {
+            if ($user->getName() !== $cachedUser->getName()) {
+                $columns[] = 'name = :name';
+                $values['name'] = $user->getName();
+            }
+
+            if ($user->getEmail() !== $cachedUser->getEmail()) {
+                $columns[] = 'email = :email';
+                $values['email'] = $user->getEmail();
+            }
+
+            if ($user->getPasswordHash() !== $cachedUser->getPasswordHash()) {
+                $columns[] = 'passwordHash = :passwordHash';
+                $values['passwordHash'] = $user->getPasswordHash();
+            }
+
+            if (count($values) > 0) {
+                $updateStmt = $this->pdo->prepare('UPDATE users SET ' . implode(', ', $columns) . ' WHERE id = :id');
+                $updateStmt->execute(array_merge(
+                    ['id' => $user->getId()],
+                    $values,
+                ));
+            }
+        } else {
+            $this->updateStmt->execute([
+                'name' => $user->getName(),
+                'email' => $user->getEmail(),
+                'passwordHash' => $user->getPasswordHash(),
+                'id' => $user->getId(),
+            ]);
+        }
+
+        $this->identityMap->remove($user->getId());
         $user = $this->firstById($user->getId());
 
         if (null === $user) {

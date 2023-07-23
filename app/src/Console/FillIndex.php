@@ -28,7 +28,7 @@ class FillIndex extends Command
         $pathToFile = $workdir . $input->getArgument("path");
         $inputData = file_get_contents($pathToFile);
 
-        if(!$inputData) {
+        if (!$inputData) {
             $output->writeln("<error>No such file or directory in</error>" . $inputData);
             return self::FAILURE;
         }

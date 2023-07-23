@@ -22,7 +22,9 @@ class SearchBoolQueryBuilder
 
     public function match(string $field, string | null $value, string $rule = 'should'): self
     {
-        if(!$value) return $this;
+        if (!$value) {
+            return $this;
+        }
 
         $this->queryBody['body']['query']['bool'][$rule][]['match'][$field] = $value ?? "";
         return $this;
@@ -30,7 +32,9 @@ class SearchBoolQueryBuilder
 
     public function term(string $field, string | null $value, string $rule = 'should'): self
     {
-        if(!$value) return $this;
+        if (!$value) {
+            return $this;
+        }
 
         $this->queryBody['body']['query']['bool'][$rule][]['term'][$field] =  $value ?? "";
         return $this;
@@ -38,7 +42,9 @@ class SearchBoolQueryBuilder
 
     public function range(string $field, array $range, string $rule = 'must'): self
     {
-        if(!$range) return $this;
+        if (!$range) {
+            return $this;
+        }
 
         $this->queryBody['body']['query']['bool'][$rule][]['range'][$field] = $range;
         return $this;

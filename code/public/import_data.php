@@ -31,7 +31,7 @@ for ($i = 1; $i <= $channelsCount; $i++) {
 
         $channelsAndVideosArray[] = [
             'index' => [
-                '_index' => "video2",
+                '_index' => "video",
                 '_id' => $videoId
             ]
         ];
@@ -47,7 +47,7 @@ for ($i = 1; $i <= $channelsCount; $i++) {
 
     $channelsAndVideosArray[] = [
         'index' => [
-            '_index' => "channel2",
+            '_index' => "channel",
             '_id' => $channelId
         ]
     ];

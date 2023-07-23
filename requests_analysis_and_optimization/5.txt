@@ -1,0 +1,78 @@
+# Выполнение запроса
+explain
+select ch.name, m.name, s.start_date, smp.price
+from cinema_hall as ch
+join session s on ch.id = s.cinema_hall_id
+join session_movie_price smp on s.id = smp.session_id
+join movie m on smp.movie_id = m.id
+where s.start_date in ('2023-07-10', '2023-07-16')
+order by s.start_date
+
+
+# Замер на 10 000 тестовых записей
+# Производительность запроса 164 единицы
+QUERY PLAN
+Sort  (cost=164.18..164.21 rows=12 width=150)
+  Sort Key: s.start_date
+  ->  Hash Join  (cost=116.33..163.96 rows=12 width=150)
+        Hash Cond: (s.movie_id = m.id)
+        ->  Hash Join  (cost=113.08..160.68 rows=12 width=138)
+              Hash Cond: (s.cinema_hall_id = ch.id)
+              ->  Hash Join  (cost=91.15..138.72 rows=12 width=24)
+                    Hash Cond: (smp.session_id = s.id)
+                    ->  Seq Scan on session_movie_price smp  (cost=0.00..41.00 rows=2500 width=12)
+                    ->  Hash  (cost=91.00..91.00 rows=12 width=20)
+                          ->  Seq Scan on session s  (cost=0.00..91.00 rows=12 width=20)
+                                Filter: ((date(start_date) <<> (CURRENT_DATE + '3 days'::interval)) AND (date(start_date) > (CURRENT_DATE - '3 days'::interval)))
+              ->  Hash  (cost=15.30..15.30 rows=530 width=122)
+                    ->  Seq Scan on cinema_hall ch  (cost=0.00..15.30 rows=530 width=122)
+        ->  Hash  (cost=2.00..2.00 rows=100 width=20)
+              ->  Seq Scan on movie m  (cost=0.00..2.00 rows=100 width=20)
+
+
+# Замер на 10 000 000 тестовых записей
+# Производительность запроса 78 985 единиц
+QUERY PLAN
+    Gather Merge  (cost=77768.67..78985.12 rows=10426 width=150)
+      Workers Planned: 2
+      ->  Sort  (cost=76768.65..76781.68 rows=5213 width=150)
+            Sort Key: s.start_date
+            ->  Hash Join  (cost=47314.84..76446.80 rows=5213 width=150)
+                  Hash Cond: (s.movie_id = m.id)
+                  ->  Hash Join  (cost=47308.34..76426.32 rows=5213 width=138)
+                        Hash Cond: (s.cinema_hall_id = ch.id)
+                        ->  Parallel Hash Join  (cost=47286.41..76390.60 rows=5213 width=24)
+                              Hash Cond: (smp.session_id = s.id)
+                              ->  Parallel Seq Scan on session_movie_price smp  (cost=0.00..26367.08 rows=1042708 width=12)
+                              ->  Parallel Hash  (cost=47221.25..47221.25 rows=5213 width=20)
+                                    ->  Parallel Seq Scan on session s  (cost=0.00..47221.25 rows=5213 width=20)
+                                          Filter: ((date(start_date) < (CURRENT_DATE + '3 days'::interval)) AND (date(start_date) > (CURRENT_DATE - '3 days'::interval)))
+                        ->  Hash  (cost=15.30..15.30 rows=530 width=122)
+                              ->  Seq Scan on cinema_hall ch  (cost=0.00..15.30 rows=530 width=122)
+                  ->  Hash  (cost=4.00..4.00 rows=200 width=20)
+                        ->  Seq Scan on movie m  (cost=0.00..4.00 rows=200 width=20)
+
+
+# Оптимизация
+# Создание составноых индексов session_movie_price_session_id_movie_id_price_index, movie_id_name_index
+# немного оптимизировано тело запроса
+# Замер на 10 000 000 тестовых записей
+# Производительность запроса 977 единиц, уменьшение в 81 раз
+QUERY PLAN
+    Nested Loop  (cost=1.18..977.32 rows=210 width=150)
+      ->  Nested Loop  (cost=1.02..955.76 rows=210 width=138)
+            ->  Nested Loop  (cost=0.59..21.91 rows=210 width=130)
+                  ->  Index Only Scan using ix1 on session s  (cost=0.43..12.53 rows=210 width=16)
+                        Index Cond: (start_date = ANY ('{"2023-07-10 00:00:00","2023-07-16 00:00:00"}'::timestamp without time zone[]))
+                  ->  Memoize  (cost=0.16..0.39 rows=1 width=122)
+                        Cache Key: s.cinema_hall_id
+                        Cache Mode: logical
+                        ->  Index Scan using cinema_hall_pkey on cinema_hall ch  (cost=0.15..0.38 rows=1 width=122)
+                              Index Cond: (id = s.cinema_hall_id)
+            ->  Index Only Scan using session_movie_price_session_id_movie_id_price_index on session_movie_price smp  (cost=0.43..4.43 rows=2 width=16)
+                  Index Cond: (session_id = s.id)
+      ->  Memoize  (cost=0.15..0.17 rows=1 width=20)
+            Cache Key: smp.movie_id
+            Cache Mode: logical
+            ->  Index Only Scan using movie_id_name_index on movie m  (cost=0.14..0.16 rows=1 width=20)
+                  Index Cond: (id = smp.movie_id)

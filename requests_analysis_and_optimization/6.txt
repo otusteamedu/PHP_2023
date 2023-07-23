@@ -1,0 +1,47 @@
+# Выполнение запроса
+explain
+select MIN(price) as min, MAX(price) as max
+from session_movie_price
+where session_id in (select id from session order by session.movie_id desc limit 5);
+
+
+# Замер на 10 000 тестовых записей
+# Производительность запроса 130 единиц
+QUERY PLAN
+Aggregate  (cost=130.34..130.35 rows=1 width=16)
+  ->  Hash Semi Join  (cost=82.65..130.30 rows=8 width=8)
+        Hash Cond: (session_movie_price.session_id = "ANY_subquery".id)
+        ->  Seq Scan on session_movie_price  (cost=0.00..41.00 rows=2500 width=12)
+        ->  Hash  (cost=82.59..82.59 rows=5 width=4)
+              ->  Subquery Scan on "ANY_subquery"  (cost=82.52..82.59 rows=5 width=4)
+                    ->  Limit  (cost=82.52..82.54 rows=5 width=8)
+                          ->  Sort  (cost=82.52..88.77 rows=2500 width=8)
+                                Sort Key: session.movie_id DESC
+                                ->  Seq Scan on session  (cost=0.00..41.00 rows=2500 width=8)
+
+
+# Замер на 10 000 000 тестовых записей
+# Производительность запроса 92 221 единица
+QUERY PLAN
+Aggregate  (cost=92221.03..92221.04 rows=1 width=16)
+  ->  Hash Semi Join  (cost=44686.81..92220.98 rows=10 width=8)
+        Hash Cond: (session_movie_price.session_id = "ANY_subquery".id)
+        ->  Seq Scan on session_movie_price  (cost=0.00..40965.00 rows=2502500 width=12)
+        ->  Hash  (cost=44686.75..44686.75 rows=5 width=4)
+              ->  Subquery Scan on "ANY_subquery"  (cost=44686.11..44686.75 rows=5 width=4)
+                    ->  Limit  (cost=44686.11..44686.70 rows=5 width=8)
+                          ->  Gather Merge  (cost=44686.11..288001.63 rows=2085416 width=8)
+                                Workers Planned: 2
+                                ->  Sort  (cost=43686.09..46292.86 rows=1042708 width=8)
+                                      Sort Key: session.movie_id DESC
+                                      ->  Parallel Seq Scan on session  (cost=0.00..26367.08 rows=1042708 width=8)
+
+
+# Оптимизация
+# Добавление индекса в session_movie_price, сортировка по цене
+# Замер на 10 000 000 тестовых записей
+# Производительность запроса 9 единиц, уменьшение в 10 000 раз
+QUERY PLAN
+Aggregate  (cost=8.95..8.96 rows=1 width=16)
+  ->  Index Only Scan using ix2 on session_movie_price  (cost=0.43..8.93 rows=4 width=8)
+        Index Cond: (session_id = ANY ('{200,5000}'::integer[]))

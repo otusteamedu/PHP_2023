@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+
+  postgres-hw10:
+    image: postgres:14.8
+    container_name: postgres-hw10
+    volumes:
+      - ./db/data/:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USERNAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+    networks:
+      - hw10
+
+networks:
+  hw10:
+    driver: bridge

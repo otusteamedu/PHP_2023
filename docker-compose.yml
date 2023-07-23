@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  elastic:
+    container_name: elastic
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.8.1
+    restart: unless-stopped
+    volumes:
+      - data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: application/php
+    container_name: application-php
+    volumes:
+      - ./app:/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+volumes:
+  data: {}

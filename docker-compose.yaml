@@ -1,0 +1,50 @@
+
+version: '3'
+
+
+services:
+  hw11-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw11/nginx
+    container_name: hw11-nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  
+  hw11-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw11/php
+    container_name: hw11-fpm
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  hw11-elasticsearch:
+    image: elasticsearch:8.8.1
+    container_name: hw11-elasticsearch
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ./data/elasticsearch/:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+    networks:
+      - app-network
+
+
+
+networks:
+  app-network:
+    driver: bridge

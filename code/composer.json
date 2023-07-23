@@ -1,0 +1,12 @@
+{
+    "name": "otus/hw",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Hw\\": "src/"
+        }
+    },
+    "require": {
+        "ext-sockets": "*"
+    }
+}

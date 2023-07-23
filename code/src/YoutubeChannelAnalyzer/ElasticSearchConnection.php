@@ -38,6 +38,15 @@ class ElasticSearchConnection
         );
     }
 
+    public function bulk(array $documents): void
+    {
+        $this->elasticConnection->bulk(
+            [
+                "body" => $documents
+            ]
+        );
+    }
+
     public function updateDocument(string $indexName, string $docId, array $docParams): void
     {
         $this->elasticConnection->update(

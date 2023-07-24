@@ -9,16 +9,14 @@ class Client
 
     public function __construct()
     {
-        if(!($this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0)))
-        {
+        if (!($this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0))) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
             throw new \Exception("Couldn't create socket: [$errorcode] $errormsg");
         }
 
-        if(!socket_connect($this->socket , $this->socketFile))
-        {
+        if (!socket_connect($this->socket, $this->socketFile)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
@@ -46,8 +44,7 @@ class Client
 
     private function sendMessage(string $message): false|int
     {
-        if( ! $res = socket_send ($this->socket , $message , strlen($message) , 0))
-        {
+        if( ! $res = socket_send ($this->socket, $message, strlen($message), 0)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
@@ -58,9 +55,7 @@ class Client
 
     private function receiveMessage(): string
     {
-        //if(socket_recv ($this->socket , $buf , 1024 , MSG_PEEK ) === false)
-        if (!$input = socket_read($this->socket, 1024))
-        {
+        if (!$input = socket_read($this->socket, 1024)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 

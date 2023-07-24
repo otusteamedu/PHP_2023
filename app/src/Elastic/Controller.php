@@ -22,7 +22,6 @@ class Controller
                     ->setCABundle(realpath($_SERVER['DOCUMENT_ROOT']) . '/http_ca.crt')
                     ->setBasicAuthentication(getenv('ELASTIC_USER'), getenv('ELASTIC_PASSWORD'))
                     ->build();
-
             } catch (\Exception $exception) {
             }
         }
@@ -52,5 +51,4 @@ class Controller
             return ['error' => $exception->getMessage()];
         }
     }
-
 }

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Desaulenko\Hw11\Elastic;
+
 class Service
 {
     protected Controller $controller;
@@ -17,5 +18,4 @@ class Service
         $body = ['body' => Helper::makeBodySearch($q, $priceFrom)];
         Helper::printResult($this->controller->search($body));
     }
-
 }

@@ -87,7 +87,6 @@ class Helper
                 }
             }
         }
-        
         foreach ($result as $row) {
             foreach ($row as $key => $item) {
                 if (!is_array($item)) {

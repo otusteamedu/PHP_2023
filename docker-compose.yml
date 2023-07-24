@@ -1,0 +1,35 @@
+version: "3.8"
+
+networks:
+  default:
+    name: elastic
+    external: false
+
+services:
+
+  es-hw11:
+    image: elasticsearch:${STACK_VERSION}
+    volumes:
+      - ./certs:/usr/share/elasticsearch/config/certs
+      - ./esdata01:/usr/share/elasticsearch/data
+    ports:
+      - ${ES_PORT}:9200
+    environment:
+      - discovery.type=single-node
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+
+  php-hw11:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw11
+    volumes:
+      - ./app:/var/www/hw11/
+      - ./php/logs:/var/log/

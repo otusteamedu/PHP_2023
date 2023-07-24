@@ -1,0 +1,15 @@
+{
+    "name": "desaulenko/hw11",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Desaulenko\\Hw11\\": "src/"
+        }
+    },
+    "require": {
+        "elasticsearch/elasticsearch": "^8.8",
+        "symfony/dotenv": "^6.3",
+        "symfony/var-dumper": "^6.3",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

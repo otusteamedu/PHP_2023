@@ -1,0 +1,33 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  # Сервер
+  server:
+    build:
+      context: ./docker/server
+      dockerfile: Dockerfile
+    container_name: otus.hw7.server
+    volumes:
+      - ./volume:/usr/src/myapp/volume
+      - ./code:/usr/src/myapp
+    networks:
+      - app-network
+
+  # Клиент
+  client:
+    build:
+      context: ./docker/client
+      dockerfile: Dockerfile
+    container_name: otus.hw7.client
+    volumes:
+      - ./volume:/usr/src/myapp/volume
+      - ./code:/usr/src/myapp
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

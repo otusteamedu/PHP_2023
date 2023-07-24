@@ -1,0 +1,23 @@
+{
+    "name": "yuzyuk_roman/hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "YuzyukRoman\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Roman.Yuzyuk"
+        }
+    ],
+    "require": {
+        "symfony/console": "^6.3",
+        "elasticsearch/elasticsearch": "^8.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

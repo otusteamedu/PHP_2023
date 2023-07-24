@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace YuzyukRoman\Hw11\Console;
 
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -10,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use YuzyukRoman\Hw11\Elastic\Client;
 use YuzyukRoman\Hw11\Elastic\SearchBoolQueryBuilder;
 use YuzyukRoman\Hw11\Interface\ConsoleQuestion;
+use YuzyukRoman\Hw11\Services\SearchResultsProcessor;
 
 #[AsCommand(
     name: 'app:search',
@@ -27,7 +30,7 @@ class SearchBook extends Command
         $minPrice = $question->askQuestion('Минимальная цена: ');
         $maxPrice = $question->askQuestion('Максимаьная цена: ');
 
-        $client = Client::connect('elastic:9200');
+        $client = Client::connect("{$_ENV['ELASTIC_HOST']}:{$_ENV['ELASTIC_PORT']}");
 
         $builder = new SearchBoolQueryBuilder('otus-shop');
         $query = $builder
@@ -43,17 +46,17 @@ class SearchBook extends Command
         $table->setHeaders(['Title', 'SKU', 'Category', 'Price', 'Shop', 'Stock']);
 
         $data = $response['hits']['hits'];
-        foreach ($data as $hit) {
-            $title = $hit['_source']['title'];
-            $sku = $hit['_id'];
-            $category = $hit['_source']['category'];
-            $price = $hit['_source']['price'];
+        $books = SearchResultsProcessor::processResults($data);
 
-            foreach ($hit['_source']['stock'] as $stock) {
-                $shop = $stock['shop'];
-                $stockAmount = $stock['stock'];
-                $table->addRow([$title, $sku, $category, $price, $shop, $stockAmount]);
-            }
+        foreach ($books as $book) {
+            $table->addRow([
+                $book->title,
+                $book->sku,
+                $book->category,
+                $book->price,
+                $book->shop,
+                $book->stockAmount
+            ]);
         }
 
         $table->render();

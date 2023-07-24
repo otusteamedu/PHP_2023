@@ -44,7 +44,7 @@ class FillIndex extends Command
             $sendData[] = json_decode($line, true);
         }
 
-        $client = Client::connect("elastic:9200");
+        $client = Client::connect("{$_ENV['ELASTIC_HOST']}:{$_ENV['ELASTIC_PORT']}");
 
         $client->bulk(['body' => $sendData]);
 

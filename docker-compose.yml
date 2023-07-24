@@ -23,6 +23,9 @@ services:
       context: docker/fpm
       dockerfile: Dockerfile
     image: application/php
+    environment:
+      - ELASTIC_HOST=${ELASTIC_HOST}
+      - ELASTIC_PORT=${ELASTIC_PORT}
     container_name: application-php
     volumes:
       - ./app:/data

@@ -25,7 +25,7 @@ class CreateIndex extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $name = $input->getArgument('index_name');
-        $client = Client::connect("elastic:9200");
+        $client = Client::connect("{$_ENV['ELASTIC_HOST']}:{$_ENV['ELASTIC_PORT']}");
 
         $client->indices()->create([
             'index' => $name,

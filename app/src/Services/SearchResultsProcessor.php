@@ -8,7 +8,8 @@ use YuzyukRoman\Hw11\DTO\BookDto;
 
 class SearchResultsProcessor
 {
-    public static function processResults(array $data): array {
+    public static function processResults(array $data): array
+    {
         $products = [];
 
         foreach ($data as $hit) {

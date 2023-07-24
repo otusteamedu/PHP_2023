@@ -18,7 +18,7 @@ class Server
             throw new \Exception("Couldn't create socket: [$errorcode] $errormsg \n");
         }
 
-        if (!socket_bind($this->socket , $this->socketFile)) {
+        if (!socket_bind($this->socket, $this->socketFile)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
@@ -33,7 +33,7 @@ class Server
 
     public function run()
     {
-        if (!socket_listen ($this->socket, 10)) {
+        if (!socket_listen($this->socket, 10)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 

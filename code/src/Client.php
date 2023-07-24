@@ -44,7 +44,7 @@ class Client
 
     private function sendMessage(string $message): false|int
     {
-        if( ! $res = socket_send ($this->socket, $message, strlen($message), 0)) {
+        if (! $res = socket_send($this->socket, $message, strlen($message), 0)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 

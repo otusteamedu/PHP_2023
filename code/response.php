@@ -10,5 +10,4 @@ class Response
     public const POST_PARAM_IS_EMPTY = 'Parameter "string" is empty!';
     public const POST_PARAM_VALUE_IS_NOT_VALID = 'Incorrect string - braces are not paired.';
     public const POST_PARAM_VALUE_IS_CORRECT = 'Everything is fine.';
-
 }

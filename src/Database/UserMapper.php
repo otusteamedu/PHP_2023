@@ -23,9 +23,6 @@ final class UserMapper
         $this->insertStmt = $pdo->prepare(
             "insert into public.user (name, surname) values (?, ?)"
         );
-        $this->updateStmt = $pdo->prepare(
-            "update public.user set name = ?, surname = ? where id = ?"
-        );
         $this->deleteStmt = $pdo->prepare("delete from public.user where id = ?");
     }
 
@@ -72,13 +69,20 @@ final class UserMapper
         return $user;
     }
 
-    public function update(User $user): bool
+    public function update(User $user, array $raws): bool
     {
+        if (empty($raws)) {
+            return false;
+        }
+
+        $this->updateStmt = $this->pdo->prepare(
+            sprintf('update public.user set %s where id = ?', implode(', ', array_keys($raws))),
+        );
+
         $this->identityMap->set($user);
 
         return $this->updateStmt->execute([
-            $user->getName(),
-            $user->getSurname(),
+            ...$raws,
             $user->getId(),
         ]);
     }

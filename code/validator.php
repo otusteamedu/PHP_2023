@@ -10,13 +10,6 @@ class Validator
     private string $headerResponse;
     private string $responseMessage;
 
-    const STATUS_OK = '200';
-    const STATUS_BAD_REQUEST = '400';
-    const POST_PARAM_IS_MISSING = 'Parameter "string" is missing.';
-    const POST_PARAM_IS_EMPTY = 'Parameter "string" is empty.';
-    const POST_PARAM_VALUE_IS_NOT_VALID = 'Incorrect string - braces are not paired.';
-    const POST_PARAM_VALUE_IS_CORRECT = 'Everything is fine.';
-
     public function __construct(array $postRequestArray)
     {
         $this->postArray = $postRequestArray;
@@ -44,7 +37,7 @@ class Validator
             return true;
         }
 
-        $this->prepareResponse(self::STATUS_BAD_REQUEST, self::POST_PARAM_IS_MISSING);
+        $this->prepareResponse(Response::STATUS_BAD_REQUEST, Response::POST_PARAM_IS_MISSING);
         return false;
     }
 
@@ -54,18 +47,18 @@ class Validator
             return false;
         }
 
-        $this->prepareResponse(self::STATUS_BAD_REQUEST, self::POST_PARAM_IS_EMPTY);
+        $this->prepareResponse(Response::STATUS_BAD_REQUEST, Response::POST_PARAM_IS_EMPTY);
         return true;
     }
 
     private function bracesArePaired()
     {
         if ($this->removePairedBraces()) {
-            $this->prepareResponse(self::STATUS_OK, self::POST_PARAM_VALUE_IS_CORRECT);
+            $this->prepareResponse(Response::STATUS_OK, Response::POST_PARAM_VALUE_IS_CORRECT);
             return true;
         }
 
-        $this->prepareResponse(self::STATUS_BAD_REQUEST, self::POST_PARAM_VALUE_IS_NOT_VALID);
+        $this->prepareResponse(Response::STATUS_BAD_REQUEST, Response::POST_PARAM_VALUE_IS_NOT_VALID);
         return false;
     }
 

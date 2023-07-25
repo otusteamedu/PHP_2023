@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace VKorabelnikov\Hw6\DataMapper;
+namespace VKorabelnikov\Hw13\DataMapper;
 
 class Film
 {

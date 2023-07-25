@@ -15,7 +15,11 @@ RUN apt-get update && apt-get install -y \
         # && docker-php-ext-enable memcached \
         && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
         && apt-get install -y libpq-dev \
-        && docker-php-ext-install pgsql
+        && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
+        && docker-php-ext-install pdo pdo_pgsql pgsql
+
+
+COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 

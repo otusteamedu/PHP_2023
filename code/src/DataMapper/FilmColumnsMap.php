@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace VKorabelnikov\Hw6\DataMapper;
+namespace VKorabelnikov\Hw13\DataMapper;
 
 class FilmColumnsMapper
 {
@@ -132,36 +132,41 @@ class FilmColumnsMapper
     /**
      * @param Film $film
      *
-     * @return array
+     * @return FilmsCollection
      */
-    public function gatAll(string $orderBy, int $limit, int $offset): array
+    public function getAll(string $orderBy = 'id', int $limit = 100, int $offset = 0): FilmsCollection
     {
-        $queryOrder = (!empty($orderBy)? $orderBy: 'id');
-        $queryLimit = (!empty($limit)? $limit: '100');
-        $queryOffset = (!empty($offset)? $offset: '0');
+        // $queryOrder = (!empty($orderBy)? $orderBy: 'id');
+        // $queryLimit = (!empty($limit)? $limit: '100');
+        // $queryOffset = (!empty($offset)? $offset: '0');
 
         $this->selectPdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
         $this->getAllPdoStatement->execute(
             [
-                'order_field' => $queryOrder,
-                'limit' => $queryLimit,
-                'offset' => $queryOffset
+                'order_field' => $orderBy,
+                'limit' => $limit,
+                'offset' => $offset
             ]
         );
         $filmsDbResult = $this->selectPdoStatement->fetch();
 
-        $FilmsCollection = [];
-
+        $filmsCollection = new FilmsCollection();
+        $collectionIndex = 0;
         foreach($filmsDbResult as $filmProps)
         {
-            $FilmsCollection[] = new Film(
-                (int) $filmProps['id'],
-                $filmProps['name'],
-                $filmProps['duration'],
-                $filmProps['cost']
+            $filmsCollection->set(
+                $collectionIndex,
+                new Film(
+                    (int) $filmProps['id'],
+                    $filmProps['name'],
+                    $filmProps['duration'],
+                    $filmProps['cost']
+                )
             );
+
+            $collectionIndex++;
         }
 
-        return $FilmsCollection;
+        return $filmsCollection;
     }
 }

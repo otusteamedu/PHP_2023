@@ -1,5 +1,5 @@
 set my.date_start = '2023-07-01';
-set my.date_end = '2023-08-01';
+set my.date_end = '2023-09-01';
 set my.review_cnt_max = 4;
 
 do

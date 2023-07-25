@@ -16,9 +16,8 @@ class ServerSocket extends ASocket
             $res = $this->recv($connect);
 
             if ($res) {
-                $this->send($connect, "Reverse message: ".strrev($res));
+                $this->send($connect, "Reverse message: " . strrev($res));
             }
         }
     }
-
 }

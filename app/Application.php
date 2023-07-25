@@ -32,7 +32,6 @@ class Application
             'client' => (new ClientSocket())->handle(),
             default => throw new RuntimeException('Wrong type'),
         };
-
     }
 
     private function putToEnvironments(): void

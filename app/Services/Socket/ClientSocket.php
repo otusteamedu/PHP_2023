@@ -18,8 +18,7 @@ class ClientSocket extends ASocket
             }
 
             $this->write($message);
-            echo $this->read().PHP_EOL;
+            echo $this->read() . PHP_EOL;
         }
     }
-
 }

@@ -1,0 +1,19 @@
+{
+    "name": "qdenka/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Qdenka\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "QDenka",
+            "email": "a@bigf.at"
+        }
+    ],
+    "require": {
+        "qdenka/punycode": "^1.1",
+        "php": ">=7.4"
+    }
+}

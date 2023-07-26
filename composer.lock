@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "6d975657e1bf23a02a0c0f46d0f0435e",
+    "packages": [
+        {
+            "name": "qdenka/punycode",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/QDenka/Punycode.git",
+                "reference": "316c7cae80b265b438bca1366b22cf6122626653"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/QDenka/Punycode/zipball/316c7cae80b265b438bca1366b22cf6122626653",
+                "reference": "316c7cae80b265b438bca1366b22cf6122626653",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=8.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Qdenka\\Punycode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "QDenka",
+                    "email": "a@bigf.at"
+                }
+            ],
+            "description": "A simple PHP library for encoding and decoding URLs to and from Punycode.",
+            "support": {
+                "issues": "https://github.com/QDenka/Punycode/issues",
+                "source": "https://github.com/QDenka/Punycode/tree/1.1.0"
+            },
+            "time": "2023-07-01T11:08:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

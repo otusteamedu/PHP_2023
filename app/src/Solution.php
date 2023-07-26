@@ -36,7 +36,50 @@ class Solution
      */
     public function fractionToDecimal(int $numerator, int $denominator): string
     {
-        return '';
+        if ($numerator === 0) {
+            return '0';
+        }
+        if ($denominator === 0) {
+            return '';
+        }
+
+        $maxLength = pow(10,4);
+        $sign = ($numerator < 0 && $denominator >= 0) || ($numerator >= 0 && $denominator < 0) ? '-' : '';
+        $numerator = abs($numerator);
+        $denominator = abs($denominator);
+
+        $remainder = [];
+        $positions = [];
+
+        $partInt = strval(intdiv($numerator, $denominator));
+        $numerator = $numerator % $denominator;
+        $maxLength = $maxLength - strlen($partInt) - 1/* . */;
+        $partFloat = '';
+        $partRepeated = '';
+
+        $remainder[$numerator] = 1;
+        $positions[$numerator] = 0;
+
+        while (strlen($partFloat) < $maxLength && $numerator !== 0) {
+            $numerator *= 10;
+            $digit = intdiv($numerator, $denominator);
+            $numerator = $numerator % $denominator;
+
+            if (!isset($remainder[$numerator])) {
+                $remainder[$numerator] = 1;
+                $partFloat .= $digit;
+                $positions[$numerator] = strlen($partFloat);
+            } else {
+                $remainder[$numerator]++;
+                $partFloat .= $digit;
+                $partRepeated = substr($partFloat, $positions[$numerator]);
+                $partFloat = substr($partFloat, 0, $positions[$numerator]);
+                break;
+            }
+        }
+
+        $partDecimal =  $partFloat . (!empty($partRepeated) ? '('. $partRepeated .')' : '');
+        return $sign . $partInt . (!empty($partDecimal) ? '.'. $partDecimal : '');
     }
 
 

@@ -43,7 +43,7 @@ class Solution
             return '';
         }
 
-        $maxLength = pow(10,4);
+        $maxLength = pow(10, 4);
         $sign = ($numerator < 0 && $denominator >= 0) || ($numerator >= 0 && $denominator < 0) ? '-' : '';
         $numerator = abs($numerator);
         $denominator = abs($denominator);
@@ -78,8 +78,8 @@ class Solution
             }
         }
 
-        $partDecimal =  $partFloat . (!empty($partRepeated) ? '('. $partRepeated .')' : '');
-        return $sign . $partInt . (!empty($partDecimal) ? '.'. $partDecimal : '');
+        $partDecimal =  $partFloat . (!empty($partRepeated) ? '(' . $partRepeated . ')' : '');
+        return $sign . $partInt . (!empty($partDecimal) ? '.' . $partDecimal : '');
     }
 
 

@@ -4,7 +4,12 @@ AS SELECT
        ma_p.name AS attr_parent,
        ma.name AS attr,
        at2.name AS type,
-       mav.value
+       CASE
+           WHEN mav.value_string is not null THEN mav.value_string
+           WHEN mav.value_bool is not null THEN mav.value_bool::text
+           WHEN mav.value_date is not null THEN mav.value_date::text
+           WHEN mav.value_float is not null THEN mav.value_float::text
+        END value
    FROM movie m
             LEFT JOIN movie_attributes_value mav ON mav.movie_id = m.id
             LEFT JOIN movie_attributes ma ON mav.attribute_id = ma.id

@@ -107,14 +107,20 @@ Table "movie_attributes_value" {
   "id" uuid [pk, not null, default: `uuid_generate_v4()`]
   "movie_id" uuid [not null]
   "attribute_id" uuid [not null]
-  "value" varchar
+  "value_string" varchar
+  "value_bool" bool
+  "value_date" date
+  "value_float" float
   "active" bool [default: true]
 
 Indexes {
   active [type: btree, name: "movie_attributes_value_active_idx"]
   attribute_id [type: btree, name: "movie_attributes_value_attribute_id_idx"]
   movie_id [type: btree, name: "movie_attributes_value_movie_id_idx"]
-  value [type: btree, name: "movie_attributes_value_value_idx"]
+  value_string [type: btree, name: "movie_attributes_value_value_string_idx"]
+  value_bool [type: btree, name: "movie_attributes_value_value_bool_idx"]
+  value_date [type: btree, name: "movie_attributes_value_value_date_idx"]
+  value_float [type: btree, name: "movie_attributes_value_value_float_idx"]
 }
 }
 

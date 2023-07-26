@@ -10,7 +10,8 @@ class ClientSocket extends ASocket
     {
         $this->create()->connect();
 
-        while (true) {
+        $message = '';
+        while ($message !== 'quit') {
             $message = readline("Message: ");
 
             if (! $message) {
@@ -18,7 +19,7 @@ class ClientSocket extends ASocket
             }
 
             $this->write($message);
-            echo $this->read() . PHP_EOL;
+            yield $this->read() . PHP_EOL;
         }
     }
 }

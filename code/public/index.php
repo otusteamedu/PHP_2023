@@ -1,26 +1,67 @@
 <?php
 
+include __DIR__ . '/../vendor/autoload.php';
+
+error_reporting(E_ALL);
+
+use VKorabelnikov\Hw13\DataMapper\Film;
 use VKorabelnikov\Hw13\DataMapper\FilmColumnsMapper;
-
-// echo "Hello!";
-
-// $dbconn3 = pg_connect("host=hw13-postgres port=5432 dbname=test user=test password=test");
-// var_dump(pg_version($dbconn3));
 
 
 $pdo = new \PDO("pgsql:host=hw13-postgres;port=5432;dbname=test;","test", "test");
 
-var_dump($pdo);
-
-$selectPdoStatement = $pdo->prepare(
-    "SELECT name, duration, cost FROM test WHERE id = :id"
-);
+$filmsMapper = new FilmColumnsMapper($pdo);
 
 
-$selectPdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
-        $selectPdoStatement->execute(['id' => 2]);
-        $filmParams = $selectPdoStatement->fetch();
+// $filmsMapper->insert(
+//     [
+//         'name' => "film1",
+//         'duration' => "03:12",
+//         'cost' => "25.99"
+//     ]
+// );
 
-var_dump($filmParams);
+// $filmsMapper->insert(
+//     [
+//         'name' => "film2",
+//         'duration' => "08:21",
+//         'cost' => "28.99"
+//     ]
+// );
 
-// phpinfo();
+// $filmsMapper->update(
+//     new Film(
+//         1,
+//         "ff",
+//         "00:01",
+//         0.01
+//     )
+// );
+
+// var_dump(
+//     $filmsMapper->findById(1)
+// );
+
+// $filmsMapper->delete(
+//     new Film(
+//             1,
+//             "ff",
+//             "00:01",
+//             0.01
+//         )
+//     );
+
+
+
+$allFilms = $filmsMapper->getAll();
+
+var_dump($allFilms->get(0));
+
+// $allFilms->set(2, new Film(1, "film3", "1:22", 2.1));
+// var_dump($allFilms->get(2));
+
+// $allFilms->unset(2);
+// var_dump($allFilms->get(2));
+
+
+

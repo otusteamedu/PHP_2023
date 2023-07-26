@@ -48,7 +48,7 @@ class FilmColumnsMapper
         );
 
         $this->insertPdoStatement = $pdo->prepare(
-            "INSERT INTO films (name, duration, cost) VALUES (:id, :name, :duration, :cost)"
+            "INSERT INTO films (name, duration, cost) VALUES (:name, :duration, :cost)"
         );
 
         $this->updatePdoStatement = $pdo->prepare(
@@ -72,10 +72,10 @@ class FilmColumnsMapper
         $filmParams = $this->selectPdoStatement->fetch();
 
         return new Film(
-            $id,
+            (int) $id,
             $filmParams['name'],
             $filmParams['duration'],
-            $filmParams['cost']
+            (float) $filmParams['cost']
         );
     }
 
@@ -98,7 +98,7 @@ class FilmColumnsMapper
             (int) $this->pdo->lastInsertId(),
             $filmParams['name'],
             $filmParams['duration'],
-            $filmParams['cost']
+            (float) $filmParams['cost']
         );
     }
 
@@ -136,11 +136,7 @@ class FilmColumnsMapper
      */
     public function getAll(string $orderBy = 'id', int $limit = 100, int $offset = 0): FilmsCollection
     {
-        // $queryOrder = (!empty($orderBy)? $orderBy: 'id');
-        // $queryLimit = (!empty($limit)? $limit: '100');
-        // $queryOffset = (!empty($offset)? $offset: '0');
-
-        $this->selectPdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->getAllPdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
         $this->getAllPdoStatement->execute(
             [
                 'order_field' => $orderBy,
@@ -148,7 +144,7 @@ class FilmColumnsMapper
                 'offset' => $offset
             ]
         );
-        $filmsDbResult = $this->selectPdoStatement->fetch();
+        $filmsDbResult = $this->getAllPdoStatement->fetchAll();
 
         $filmsCollection = new FilmsCollection();
         $collectionIndex = 0;
@@ -160,7 +156,7 @@ class FilmColumnsMapper
                     (int) $filmProps['id'],
                     $filmProps['name'],
                     $filmProps['duration'],
-                    $filmProps['cost']
+                    (float) $filmProps['cost']
                 )
             );
 

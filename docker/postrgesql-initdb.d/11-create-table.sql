@@ -25,6 +25,7 @@ CREATE TABLE public.movie_attributes_value (
                                                value_bool bool NULL,
                                                value_date date NULL,
                                                value_float float NULL,
+                                               value_int int NULL,
                                                active bool NULL DEFAULT true,
                                                CONSTRAINT movie_attributes_value_pk PRIMARY KEY (id)
 );
@@ -35,3 +36,4 @@ CREATE INDEX movie_attributes_value_value_string_idx ON public.movie_attributes_
 CREATE INDEX movie_attributes_value_value_bool_idx ON public.movie_attributes_value USING btree (value_bool);
 CREATE INDEX movie_attributes_value_value_date_idx ON public.movie_attributes_value USING btree (value_date);
 CREATE INDEX movie_attributes_value_value_float_idx ON public.movie_attributes_value USING btree (value_float);
+CREATE INDEX movie_attributes_value_value_int_idx ON public.movie_attributes_value USING btree (value_int);

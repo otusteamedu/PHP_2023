@@ -2,7 +2,8 @@ INSERT INTO public.attributes_type (id,"name") VALUES
                                                    ('2efd3b02-1831-4831-8c2a-043eaca732a6','bool'),
                                                    ('47649fe0-5ab1-4843-950d-08a45b3ef42a','string'),
                                                    ('64966228-bc4b-4216-b123-d10b6fa9fee1','date'),
-                                                   ('8e66b882-ff3d-4dc5-ab9b-a1f37f61d488','float');
+                                                   ('8e66b882-ff3d-4dc5-ab9b-a1f37f61d488','float'),
+                                                   ('f5e5526b-f604-48f9-b1a5-946d1208e0a7','int');
 
 
 INSERT INTO public.movie_attributes (id,"name",type_id,parent_id) VALUES
@@ -18,4 +19,5 @@ INSERT INTO public.movie_attributes (id,"name",type_id,parent_id) VALUES
                                                                       ('bc7190e4-2c9e-42e8-ab8f-c3aedb384aac','Рецензии',NULL,NULL),
                                                                       ('5df94c81-0320-415c-b48d-be0a79a6453f','Критиков','47649fe0-5ab1-4843-950d-08a45b3ef42a','bc7190e4-2c9e-42e8-ab8f-c3aedb384aac'),
                                                                       ('f377ab20-ac36-42b7-8822-695375f63db2','Неизвестной киноакадемии','47649fe0-5ab1-4843-950d-08a45b3ef42a','bc7190e4-2c9e-42e8-ab8f-c3aedb384aac'),
-                                                                      ('146db9f1-a820-4ad3-823f-20c7486fc96c','Рейтинг','8e66b882-ff3d-4dc5-ab9b-a1f37f61d488',NULL);
+                                                                      ('146db9f1-a820-4ad3-823f-20c7486fc96c','Рейтинг','8e66b882-ff3d-4dc5-ab9b-a1f37f61d488',NULL),
+                                                                      ('4b7d2536-d700-4afa-805b-3230875814e6','Год','f5e5526b-f604-48f9-b1a5-946d1208e0a7',NULL);

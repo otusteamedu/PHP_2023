@@ -49,6 +49,8 @@ $$
             end loop;
             /* 146db9f1-a820-4ad3-823f-20c7486fc96c, Рейтинг */
             INSERT INTO movie_attributes_value (movie_id, attribute_id, value_float) VALUES (movie_r.id, '146db9f1-a820-4ad3-823f-20c7486fc96c', random() * 10);
+            /* 4b7d2536-d700-4afa-805b-3230875814e6, Год */
+            INSERT INTO movie_attributes_value (movie_id, attribute_id, value_int) VALUES (movie_r.id, '4b7d2536-d700-4afa-805b-3230875814e6', floor(random() * (50) + 2000)::int);
         end loop;
     end;
 $$;

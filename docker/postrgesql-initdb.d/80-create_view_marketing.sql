@@ -9,6 +9,7 @@ AS SELECT
            WHEN mav.value_bool is not null THEN mav.value_bool::text
            WHEN mav.value_date is not null THEN mav.value_date::text
            WHEN mav.value_float is not null THEN mav.value_float::text
+           WHEN mav.value_int is not null THEN mav.value_int::text
         END value
    FROM movie m
             LEFT JOIN movie_attributes_value mav ON mav.movie_id = m.id

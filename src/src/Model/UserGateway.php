@@ -5,15 +5,35 @@ namespace App\Model;
 use App\Model\User as User;
 use App\Model\UserIdentityMap as UserIdentityMap;
 
+/**
+ * User gateway
+ */
 class UserGateway
 {
+    /**
+     * MySQLi connection
+     *
+     * @var \mysqli
+     */
     private $mysqli;
 
+    /**
+     * Constructor
+     *
+     * @param \mysqli $mysqli MySQLi connection
+     *
+     * @return void
+     */
     public function __construct(\mysqli $mysqli)
     {
         $this->mysqli = $mysqli;
     }
 
+    /**
+     * Find all users
+     *
+     * @return array
+     */
     public function findAll()
     {
         // Получаем всех пользователей из Identity Map

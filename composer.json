@@ -1,0 +1,26 @@
+{
+    "name": "otus/redis",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Alisher Tashmatov",
+            "email": "pirojok167@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Otus\\App\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require-dev": {
+        "qossmic/deptrac-shim": "^1.0"
+    }
+}

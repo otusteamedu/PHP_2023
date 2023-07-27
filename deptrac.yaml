@@ -1,0 +1,22 @@
+deptrac:
+  paths:
+    - ./src
+  layers:
+    - name: Domain
+      collectors:
+        - type: directory
+          value: src/*/Domain/.*
+    - name: Application
+      collectors:
+        - type: directory
+          value: src/*/Application/.*
+    - name: Infrastructure
+      collectors:
+        - type: directory
+          value: src/*/Infrastructure/.*
+  ruleset:
+    Domain:
+    Application:
+      - Domain
+    Infrastructure:
+      - Application

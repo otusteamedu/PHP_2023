@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Otus\App\Entity;
+namespace Otus\App\EventSourcing\Application\Dto;
 
-final readonly class Condition
+final readonly class ConditionDto
 {
     public function __construct(
         private string $key,

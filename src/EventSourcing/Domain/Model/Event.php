@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Otus\App\Entity;
+namespace Otus\App\EventSourcing\Domain\Model;
 
 final readonly class Event
 {

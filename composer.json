@@ -19,5 +19,8 @@
         "allow-plugins": {
             "php-http/discovery": true
         }
+    },
+    "require-dev": {
+        "qossmic/deptrac-shim": "^1.0"
     }
 }

@@ -111,6 +111,7 @@ Table "movie_attributes_value" {
   "value_bool" bool
   "value_date" date
   "value_float" float
+  "value_int" int
   "active" bool [default: true]
 
 Indexes {
@@ -121,6 +122,7 @@ Indexes {
   value_bool [type: btree, name: "movie_attributes_value_value_bool_idx"]
   value_date [type: btree, name: "movie_attributes_value_value_date_idx"]
   value_float [type: btree, name: "movie_attributes_value_value_float_idx"]
+  value_int [type: btree, name: "movie_attributes_value_value_int_idx"]
 }
 }
 

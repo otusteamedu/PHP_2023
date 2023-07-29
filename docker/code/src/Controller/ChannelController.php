@@ -8,13 +8,6 @@ use Throwable;
 
 class ChannelController
 {
-    public static function getChannelIdFromUrl(): string
-    {
-        $segments = explode('/', $_SERVER['REQUEST_URI']);
-        $channelId = $segments[count($segments) - 2] ?? '';
-        return $channelId;
-    }
-
     public function deleteAction()
     {
         try {
@@ -34,6 +27,13 @@ class ChannelController
 
         $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
         include $viewPath;
+    }
+
+    public static function getChannelIdFromUrl(): string
+    {
+        $segments = explode('/', $_SERVER['REQUEST_URI']);
+        $channelId = $segments[count($segments) - 2] ?? '';
+        return $channelId;
     }
 
     public function listAction()
@@ -84,6 +84,11 @@ class ChannelController
         }
     }
 
+    public static function sanitize($data)
+    {
+        return htmlspecialchars(trim($data));
+    }
+
     public function addAction()
     {
         try {
@@ -121,10 +126,5 @@ class ChannelController
 
         $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Channel/form.php';
         include $viewPath;
-    }
-
-    public static function sanitize($data)
-    {
-        return htmlspecialchars(trim($data));
     }
 }

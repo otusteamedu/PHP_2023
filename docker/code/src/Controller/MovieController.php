@@ -1,21 +1,13 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Controller;
 
-use IilyukDmitryi\App\Model\MovieModel;
 use Exception;
+use IilyukDmitryi\App\Model\MovieModel;
 use Throwable;
 
 class MovieController
 {
-    public static function getMovieIdFromUrl(): string
-    {
-        $segments = explode('/', $_SERVER['REQUEST_URI']);
-        $movieId = $segments[count($segments) - 2] ?? '';
-        return $movieId;
-    }
-
     public function deleteAction()
     {
         try {
@@ -35,6 +27,13 @@ class MovieController
 
         $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
         include $viewPath;
+    }
+
+    public static function getMovieIdFromUrl(): string
+    {
+        $segments = explode('/', $_SERVER['REQUEST_URI']);
+        $movieId = $segments[count($segments) - 2] ?? '';
+        return $movieId;
     }
 
     public function listAction()
@@ -93,15 +92,20 @@ class MovieController
         }
     }
 
+    public static function sanitize($data)
+    {
+        return htmlspecialchars(trim($data));
+    }
+
     public function addAction()
     {
         try {
             $arrResult['formData'] = [
-                'movie_id' =>'',
-                'movie_name' =>'',
-                'channel_id' =>'',
-                'movie_description' =>'',
-                'like' =>'',
+                'movie_id' => '',
+                'movie_name' => '',
+                'channel_id' => '',
+                'movie_description' => '',
+                'like' => '',
                 'dislike' => '',
                 'duration' => '',
             ];
@@ -140,10 +144,5 @@ class MovieController
         } catch (Throwable $th) {
             $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
-    }
-
-    public static function sanitize($data)
-    {
-        return htmlspecialchars(trim($data));
     }
 }

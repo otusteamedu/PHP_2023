@@ -1,8 +1,10 @@
 <?php
+
 namespace IilyukDmitryi\App\Model;
 
 use IilyukDmitryi\App\Storage\Base\MovieStorageInterface;
 use IilyukDmitryi\App\Storage\StorageApp;
+use InvalidArgumentException;
 
 class MovieModel
 {
@@ -13,7 +15,7 @@ class MovieModel
         $this->initStorage();
     }
 
-    public function initStorage():void
+    public function initStorage(): void
     {
         $storageApp = StorageApp::get();
         $storage = $storageApp->getMovieStorage();
@@ -26,8 +28,8 @@ class MovieModel
      */
     public function add(array $movie)
     {
-        if(empty($movie['movie_id'])){
-            throw new \InvalidArgumentException("Empty key movie_id");
+        if (empty($movie['movie_id'])) {
+            throw new InvalidArgumentException("Empty key movie_id");
         }
         return $this->storage->add($movie);
     }
@@ -38,8 +40,8 @@ class MovieModel
      */
     public function delete(string $movieId)
     {
-        if(empty($movieId)){
-            throw new \InvalidArgumentException("Empty key movie_id");
+        if (empty($movieId)) {
+            throw new InvalidArgumentException("Empty key movie_id");
         }
         return $this->storage->delete($movieId);
     }
@@ -51,13 +53,12 @@ class MovieModel
      */
     public function update(string $movieId, array $movie)
     {
-        if(empty($movieId)){
-            throw new \InvalidArgumentException("Empty key movie_id");
+        if (empty($movieId)) {
+            throw new InvalidArgumentException("Empty key movie_id");
         }
 
-        return $this->storage->update($movieId,$movie);
+        return $this->storage->update($movieId, $movie);
     }
-
 
     /**
      * @param int $movieId
@@ -68,6 +69,12 @@ class MovieModel
         return $this->storage->findById($movieId);
     }
 
+    public function getAll($cnt = 50): array
+    {
+        $res = $this->storage->find([], $cnt);
+        return $res;
+    }
+
     /**
      * @param array $filter
      * @return array
@@ -75,12 +82,6 @@ class MovieModel
     public function find(array $filter): array
     {
         return $this->storage->findBy($filter);
-    }
-
-    public function getAll($cnt = 50): array
-    {
-        $res = $this->storage->find([],$cnt);
-        return $res;
     }
 
     public function getTopPopularChannels(int $cntTop = 10)
@@ -94,5 +95,4 @@ class MovieModel
         $res = $this->storage->getLikesDislikesFromChannels($cntTop);
         return $res;
     }
-
 }

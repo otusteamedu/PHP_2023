@@ -3,40 +3,26 @@
 namespace IilyukDmitryi\App\Storage\Elastic;
 
 use Elastic\Elasticsearch\Client;
-use IilyukDmitryi\App\Storage\Base\MovieStorageInterface;
-use IilyukDmitryi\App\Storage\Base\ChannelStorageInterface;
-use IilyukDmitryi\App\Storage\Elastic\Entity\MovieStorage;
-use IilyukDmitryi\App\Storage\Elastic\Entity\ChannelStorage;
-use IilyukDmitryi\App\Storage\Base\StorageInterface;
-
 use Elastic\Elasticsearch\ClientBuilder;
+use Exception;
+use IilyukDmitryi\App\Storage\Base\ChannelStorageInterface;
+use IilyukDmitryi\App\Storage\Base\MovieStorageInterface;
+use IilyukDmitryi\App\Storage\Base\StorageInterface;
+use IilyukDmitryi\App\Storage\Elastic\Entity\ChannelStorage;
+use IilyukDmitryi\App\Storage\Elastic\Entity\MovieStorage;
 
 class ElasticStorage implements StorageInterface
 {
     private Client $client;
 
-    public function __construct($host,$port,$user,$pass)
+    public function __construct($host, $port, $user, $pass)
     {
-    // $test = file_get_contents('https://elastic:test@elasticsearch:9200');//gethostbyname("elasticsearch");
-    // var_dump($test);
-
-    $client = ClientBuilder::create()
-        ->setHosts([$host.':'.$port])
-        //->setBasicAuthentication($user, $pass) // Пароль
-        //->setCABundle('/data/mysite.local/http_ca.crt') // Сертификат
-        ->build();
-    $this->client = $client;
-
-       // echo '<pre>' . print_r([$client], 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
-
-        /*
         $client = ClientBuilder::create()
-        ->setHosts(['http://elastic:9200'])
-        //->setBasicAuthentication('elastic', 'secret') // Пароль
-        /// ->setCABundle('/data/mysite.local/http_ca.crt') // Сертификат
-        ->build();
-        */
-
+            ->setHosts([$host . ':' . $port])
+            //->setBasicAuthentication($user, $pass) // Пароль
+            //->setCABundle('/data/mysite.local/http_ca.crt') // Сертификат
+            ->build();
+        $this->client = $client;
     }
 
     public function bulk($params)
@@ -50,9 +36,10 @@ class ElasticStorage implements StorageInterface
                     echo $item['index']['error']['reason'] . "\n";
                 }
             }
-            throw new \Exception("Ошибка импорта данных");
+            throw new Exception("Ошибка импорта данных");
         }
     }
+
     /**
      * @return mixed
      */
@@ -68,6 +55,4 @@ class ElasticStorage implements StorageInterface
     {
         return new ChannelStorage($this->client);
     }
-
-
 }

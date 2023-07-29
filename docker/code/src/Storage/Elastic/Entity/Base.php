@@ -1,100 +1,21 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Storage\Elastic\Entity;
 
 use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
-use Elastic\Elasticsearch\Exception\MissingParameterException;
-use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Exception;
+use InvalidArgumentException;
+use stdClass;
 
 abstract class Base
 {
-    //public const getIndexName() ;
     private Client $client;
-
-    abstract protected function getSettings(): array;
-
-    abstract protected function getMappings(): array;
-
-    abstract protected static function getIndexName(): string;
-
-    /**
-     * @param int $channelId
-     * @return array
-     */
-    public function findById(string $id): array
-    {
-        $index = static::getIndexName();
-
-        $params = [
-            'index' => $index,
-            'id' => $id,
-        ];
-        try {
-            $response = $this->client->get($params);
-            if($arrRes = $response->asArray()){
-                return $arrRes['_source'];
-            }
-        }catch (ClientResponseException $exception) {
-            $responseJson = $exception->getResponse()->getBody();
-            $responseArray = json_decode($responseJson, true);
-            if($responseArray['found']===false){
-                return [];
-            }else{
-                throw $exception;
-            }
-        }
-        return [];
-    }
-
-    /**
-     * @param array $filter
-     * @return array
-     */
-    public function find(array $filter, int $size = 50, int $from = 0): array
-    {
-        $response =  $this->search($filter, $size, $from);
-        $arrResult = [];
-        if (isset($response['hits']['hits'])) {
-            $elements = $response['hits']['hits'];
-            foreach ($elements as $element) {
-                $arrResult[] = $element['_source'];
-            }
-        }
-        return $arrResult;
-    }
 
     public function __construct(Client $client)
     {
         $this->client = $client;
         $this->initIndex();
-    }
-
-    protected function deleteIndex(): bool
-    {
-        if ($this->indexExist()) {
-            $this->client->indices()->delete(['index' => static::getIndexName()]);
-        }
-        return true;
-    }
-
-    protected function createIndex(): bool
-    {
-        $response = $this->client->indices()->create([
-            'index' => static::getIndexName(),
-            'body' => [
-                'settings' => $this->getSettings(),
-                'mappings' => $this->getMappings()
-            ]
-        ]);
-
-        if ($response->getStatusCode() !== 200) {
-            return false;
-        }
-
-        return true;
     }
 
     protected function initIndex(): void
@@ -116,34 +37,117 @@ abstract class Base
         return false;
     }
 
+    protected function createIndex(): bool
+    {
+        $response = $this->client->indices()->create([
+            'index' => static::getIndexName(),
+            'body' => [
+                'settings' => $this->getSettings(),
+                'mappings' => $this->getMappings()
+            ]
+        ]);
+
+        if ($response->getStatusCode() !== 200) {
+            return false;
+        }
+
+        return true;
+    }
+
+    abstract protected function getSettings(): array;
+
+    abstract protected function getMappings(): array;
 
     /**
      * @param int $channelId
-     * @return mixed
+     * @return array
      */
-    public function delete(string $id):bool
+    public function findById(string $id): array
     {
-        if(empty($id)){
-            throw new \InvalidArgumentException("Empty key channel_id");
+        $index = static::getIndexName();
+
+        $params = [
+            'index' => $index,
+            'id' => $id,
+        ];
+        try {
+            $response = $this->client->get($params);
+            if ($arrRes = $response->asArray()) {
+                return $arrRes['_source'];
+            }
+        } catch (ClientResponseException $exception) {
+            $responseJson = $exception->getResponse()->getBody();
+            $responseArray = json_decode($responseJson, true);
+            if ($responseArray['found'] === false) {
+                return [];
+            } else {
+                throw $exception;
+            }
         }
-        $params = ['id' => $id];
-        return $this->deleteDoc($params);
+        return [];
     }
 
+    abstract protected static function getIndexName(): string;
+
+    /**
+     * @param array $filter
+     * @return array
+     */
+    public function find(array $filter, int $size = 50, int $from = 0): array
+    {
+        $response = $this->search($filter, $size, $from);
+        $arrResult = [];
+        if (isset($response['hits']['hits'])) {
+            $elements = $response['hits']['hits'];
+            foreach ($elements as $element) {
+                $arrResult[] = $element['_source'];
+            }
+        }
+        return $arrResult;
+    }
+
+    protected function search(array $body, int $size = 50, int $from = 0): array
+    {
+        $index = static::getIndexName();
+
+        if (!$body) {
+            $body = [
+                'query' => [
+                    'match_all' => new stdClass()
+                ],
+                //'_source' => array_keys($this->getMappings()['properties'])
+                '_source' => []
+            ];
+        }
+        if ($size) {
+            $body['size'] = $size;
+        }
+        if ($from) {
+            $body['from'] = $from;
+        }
+
+        $params = [
+            'index' => $index,
+            'body' => $body,
+        ];
+
+        $response = $this->client->search($params);
+        return $response->asArray();
+    }
 
     /**
      * @param int $id
      * @param array $data
      * @return mixed
      */
-    public function update(string $id, array $data):bool
+    public function update(string $id, array $data): bool
     {
-        if(empty($id)){
-            throw new \InvalidArgumentException("Empty key id");
+        if (empty($id)) {
+            throw new InvalidArgumentException("Empty key id");
         }
         $params = $data;
 
-        return $this->updateDoc($id,$params);
+        return $this->updateDoc($id, $params);
     }
 
     protected function updateDoc(mixed $id, array $body): bool
@@ -152,29 +156,27 @@ abstract class Base
         $params = [
             'id' => $id,
             'index' => $index,
-            'body' =>['doc' => $body],
+            'body' => ['doc' => $body],
         ];
         $res = $this->client->update($params)->asArray();
 
         if ($res['result'] !== 'updated' && $res['result'] !== 'noop') {
-            throw new \Exception("Error updated element");
+            throw new Exception("Error updated element");
         }
         return true;
     }
-
 
     /**
      * @param array $channel
      * @return mixed
      */
-    public function add(array $arrFileds):bool
+    public function add(array $arrFileds): bool
     {
-        if(empty($arrFileds['id'])){
-            throw new \InvalidArgumentException("Empty key id");
+        if (empty($arrFileds['id'])) {
+            throw new InvalidArgumentException("Empty key id");
         }
         return $this->addDoc($arrFileds);
     }
-
 
     protected function addDoc(array $body): bool
     {
@@ -188,60 +190,16 @@ abstract class Base
         ];
         $res = $this->client->index($params)->asArray();
         if ($res['result'] !== 'created') {
-            throw new \Exception("Error add element");
+            throw new Exception("Error add element");
         }
         return true;
     }
 
-    protected function deleteDoc(array $params): bool
+    public function import(array $documents, bool $clearStorage = false): bool
     {
-        if (!$params) {
-            return false;
-        }
-        $index = static::getIndexName();
-        $params['index'] = $index;
-        $res = $this->client->delete($params);
-        return $res->asBool();
-    }
-
-    protected function search(array $body, int $size = 50, int $from = 0): array
-    {
-        $index = static::getIndexName();
-
-        if (!$body) {
-            $body = [
-                'query' => [
-                    'match_all' => new \stdClass()
-                ],
-                //'_source' => array_keys($this->getMappings()['properties'])
-                '_source' => []
-            ];
-        }
-     /*   echo '<pre>' . print_r(
-                $body,
-                1
-            ) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete*/
-        if($size) {
-            $body['size'] = $size;
-        }
-        if($from) {
-            $body['from'] = $from;
-        }
-
-        $params = [
-            'index' => $index,
-            'body' => $body,
-        ];
-
-        $response = $this->client->search($params);
-        return $response->asArray();
-    }
-
-    public function import(array $documents,bool $clearStorage = false ):bool
-    {
-        if($clearStorage){
+        if ($clearStorage) {
             $this->deleteIndex();
-            if(!$this->createIndex()){
+            if (!$this->createIndex()) {
                 echo "Ошибка при создании индекса ";
                 return false;
             }
@@ -277,5 +235,35 @@ abstract class Base
         return true;
     }
 
+    protected function deleteIndex(): bool
+    {
+        if ($this->indexExist()) {
+            $this->client->indices()->delete(['index' => static::getIndexName()]);
+        }
+        return true;
+    }
 
+    /**
+     * @param int $channelId
+     * @return mixed
+     */
+    public function delete(string $id): bool
+    {
+        if (empty($id)) {
+            throw new InvalidArgumentException("Empty key channel_id");
+        }
+        $params = ['id' => $id];
+        return $this->deleteDoc($params);
+    }
+
+    protected function deleteDoc(array $params): bool
+    {
+        if (!$params) {
+            return false;
+        }
+        $index = static::getIndexName();
+        $params['index'] = $index;
+        $res = $this->client->delete($params);
+        return $res->asBool();
+    }
 }

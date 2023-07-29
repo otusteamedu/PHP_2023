@@ -3,79 +3,21 @@
 namespace IilyukDmitryi\App\Storage\Elastic\Entity;
 
 use IilyukDmitryi\App\Storage\Base\MovieStorageInterface as MovieStorageInterfaceAlias;
+use stdClass;
 
 class MovieStorage extends Base implements MovieStorageInterfaceAlias
 {
-
-
-    protected function getSettings(): array
-    {
-        return [
-            'analysis' => [
-                'filter' => [
-                    'ru_stop' => [
-                        'type' => 'stop',
-                        'stopwords' => '_russian_',
-                    ],
-                    'ru_stemmer' => [
-                        'type' => 'stemmer',
-                        'language' => 'russian',
-                    ]
-                ],
-                'analyzer' => [
-                    'my_russian' => [
-                        'tokenizer' => 'standard',
-                        'filter' => ['lowercase', 'ru_stop', 'ru_stemmer']
-                    ]
-                ]
-            ],
-        ];
-    }
-
-    protected function getMappings(): array
-    {
-        return [
-            'properties' => [
-                "movie_id" => [
-                    "type" => "keyword"
-                ],
-                "channel_id" => [
-                    "type" => "keyword"
-                ],
-                'movie_name' => [
-                    'type' => 'text',
-                    'analyzer' => 'my_russian'
-                ],
-                'movie_description' => [
-                    'type' => 'text',
-                    'analyzer' => 'my_russian'
-                ],
-                'like' => [
-                    'type' => 'integer'
-                ],
-                'dislike' => [
-                    'type' => 'integer'
-                ],
-                'duration' => [
-                    'type' => 'integer'
-                ],
-            ]
-        ];
-    }
-
-
     public static function getIndexName(): string
     {
         return "youtube_movie";
     }
-
 
     public function getLikesDislikesFromChannels(int $cnt = 10): array
     {
         $params = [
             'size' => 0,
             'query' => [
-                'match_all' => new \stdClass()
+                'match_all' => new stdClass()
             ],
             'aggs' => [
                 'channels' => [
@@ -117,12 +59,11 @@ class MovieStorage extends Base implements MovieStorageInterfaceAlias
         return $arrResult;
     }
 
-
     public function getTopPopularChannels(int $cntTop = 10): array
     {
         $params = [
             'query' => [
-                'match_all' => new \stdClass()
+                'match_all' => new stdClass()
             ],
             'aggs' => [
                 'channels' => [
@@ -181,5 +122,60 @@ class MovieStorage extends Base implements MovieStorageInterfaceAlias
             }
         }
         return $arrResult;
+    }
+
+    protected function getSettings(): array
+    {
+        return [
+            'analysis' => [
+                'filter' => [
+                    'ru_stop' => [
+                        'type' => 'stop',
+                        'stopwords' => '_russian_',
+                    ],
+                    'ru_stemmer' => [
+                        'type' => 'stemmer',
+                        'language' => 'russian',
+                    ]
+                ],
+                'analyzer' => [
+                    'my_russian' => [
+                        'tokenizer' => 'standard',
+                        'filter' => ['lowercase', 'ru_stop', 'ru_stemmer']
+                    ]
+                ]
+            ],
+        ];
+    }
+
+    protected function getMappings(): array
+    {
+        return [
+            'properties' => [
+                "movie_id" => [
+                    "type" => "keyword"
+                ],
+                "channel_id" => [
+                    "type" => "keyword"
+                ],
+                'movie_name' => [
+                    'type' => 'text',
+                    'analyzer' => 'my_russian'
+                ],
+                'movie_description' => [
+                    'type' => 'text',
+                    'analyzer' => 'my_russian'
+                ],
+                'like' => [
+                    'type' => 'integer'
+                ],
+                'dislike' => [
+                    'type' => 'integer'
+                ],
+                'duration' => [
+                    'type' => 'integer'
+                ],
+            ]
+        ];
     }
 }

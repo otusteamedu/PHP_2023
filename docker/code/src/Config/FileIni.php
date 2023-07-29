@@ -57,4 +57,3 @@ class FileIni
         return $this->config['elastic_port'];
     }
 }
-

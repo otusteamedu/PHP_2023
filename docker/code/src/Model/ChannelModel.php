@@ -2,10 +2,9 @@
 
 namespace IilyukDmitryi\App\Model;
 
-
 use IilyukDmitryi\App\Storage\Base\ChannelStorageInterface;
 use IilyukDmitryi\App\Storage\StorageApp;
-
+use InvalidArgumentException;
 
 class ChannelModel
 {
@@ -16,7 +15,7 @@ class ChannelModel
         $this->initStorage();
     }
 
-    public function initStorage():void
+    public function initStorage(): void
     {
         $storageApp = StorageApp::get();
         $storage = $storageApp->getChannelStorage();
@@ -29,8 +28,8 @@ class ChannelModel
      */
     public function add(array $channel)
     {
-        if(empty($channel['channel_id'])){
-            throw new \InvalidArgumentException("Empty key channel_id");
+        if (empty($channel['channel_id'])) {
+            throw new InvalidArgumentException("Empty key channel_id");
         }
         return $this->storage->add($channel);
     }
@@ -41,8 +40,8 @@ class ChannelModel
      */
     public function delete(string $channelId)
     {
-        if(empty($channelId)){
-            throw new \InvalidArgumentException("Empty key channel_id");
+        if (empty($channelId)) {
+            throw new InvalidArgumentException("Empty key channel_id");
         }
         return $this->storage->delete($channelId);
     }
@@ -54,13 +53,12 @@ class ChannelModel
      */
     public function update(string $channelId, array $channel)
     {
-        if(empty($channelId)){
-            throw new \InvalidArgumentException("Empty key channel_id");
+        if (empty($channelId)) {
+            throw new InvalidArgumentException("Empty key channel_id");
         }
 
-        return $this->storage->update($channelId,$channel);
+        return $this->storage->update($channelId, $channel);
     }
-
 
     /**
      * @param int $channelId
@@ -71,15 +69,9 @@ class ChannelModel
         return $this->storage->findById($channelId);
     }
 
-    /**
-     * @param array $filter
-     * @return array
-     */
-    
     public function getAll($cnt = 50): array
     {
-        $res = $this->storage->find([],$cnt);
+        $res = $this->storage->find([], $cnt);
         return $res;
     }
-
 }

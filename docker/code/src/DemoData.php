@@ -2,19 +2,11 @@
 
 namespace IilyukDmitryi\App;
 
-use IilyukDmitryi\App\Model\ChannelModel;
-use IilyukDmitryi\App\Model\MovieModel;
-
-use \Faker\Factory;
-use IilyukDmitryi\App\Storage\Elastic\ElasticStorage;
-use IilyukDmitryi\App\Storage\Elastic\Entity\MovieStorage;
-use IilyukDmitryi\App\Storage\Elastic\Entity\ChannelStorage;
+use Faker\Factory;
 use IilyukDmitryi\App\Storage\StorageApp;
-
 
 class DemoData
 {
-
     public static function isInstalledDemoData(): bool
     {
         $storageApp = StorageApp::get();
@@ -36,10 +28,6 @@ class DemoData
         $storageApp = StorageApp::get();
         $storageChannel = $storageApp->getChannelStorage();
         $storageMovie = $storageApp->getMovieStorage();
-
-        echo '<pre>' . print_r($storageMovie->getTopPopularChannels(10), 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
-        //echo '<pre>' . print_r($storageMovie->getLikesDislikesFromChannels(), 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
-        die;//test_delete
         $channelList = [];
         $movieList = [];
         $faker = Factory::create();
@@ -53,7 +41,6 @@ class DemoData
         };
         $movieGen = function () use ($faker) {
             static $chanalsIds;
-
             do {
                 $ids = implode("_", $faker->words(3));
             } while (isset($chanalsIds[$ids]));
@@ -90,7 +77,7 @@ class DemoData
             }
         }
 
-        if($storageChannel->import($channelList, true)) {
+        if ($storageChannel->import($channelList, true)) {
             return $storageMovie->import($movieList, true);
         }
         return false;

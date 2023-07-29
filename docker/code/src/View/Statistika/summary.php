@@ -1,4 +1,5 @@
-<?php include $_SERVER['DOCUMENT_ROOT']. "/src/View/header.php" ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 
     <style>
         body {
@@ -47,7 +48,8 @@
         .desc::after {
             content: " ▼";
         }
-        .asc,.desc  {
+
+        .asc, .desc {
             white-space: nowrap;
         }
     </style>
@@ -66,7 +68,7 @@
 
         </tr>
         <?php
-        $i = 1 ;
+        $i = 1;
         foreach ($arrData as $channel) {
             echo '<tr>';
             echo '<td class="number">' . $i++ . '</td>';
@@ -85,9 +87,9 @@
         <label for="itemsPerPage">Количество элементов:</label>
         <select id="itemsPerPage" name="items_per_page" onchange="document.getElementById('myForm').submit()">
             <?php
-            $currCntTop = $_GET['items_per_page']??100;
+            $currCntTop = $_GET['items_per_page'] ?? 100;
 
-            for ($option = 100;$option<=1000;$option+=100) {
+            for ($option = 100; $option <= 1000; $option += 100) {
                 $selected = $currCntTop == $option ? 'selected' : '';
                 echo "<option value='$option' $selected>$option</option>";
             }
@@ -131,4 +133,5 @@
     </script>
 
 
-<?php include $_SERVER['DOCUMENT_ROOT']. "/src/View/footer.php" ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/src/View/footer.php" ?>

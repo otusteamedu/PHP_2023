@@ -10,6 +10,6 @@ class AppController
 <h1>Добро пожаловать!</h1>
 <p>Тестируем работу с Elastic</p>
         ';
-        include $_SERVER['DOCUMENT_ROOT'].'/src/View/App/index.php';
+        include $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
     }
 }

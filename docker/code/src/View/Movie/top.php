@@ -1,93 +1,93 @@
-<?php include $_SERVER['DOCUMENT_ROOT']. "/src/View/header.php" ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 
     <style>
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 0;
-    padding: 0;
-}
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
 
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
-th, td {
-    padding: 8px;
-    border: 1px dotted #ccc;
-    text-align: left;
-}
+        th, td {
+            padding: 8px;
+            border: 1px dotted #ccc;
+            text-align: left;
+        }
 
-th {
-    background-color: #f2f2f2;
-}
+        th {
+            background-color: #f2f2f2;
+        }
 
-tr:nth-child(even) {
-    background-color: #f2f2f2;
-}
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
 
-.rating td {
-    border: none;
-}
+        .rating td {
+            border: none;
+        }
 
-.rating .label {
-    font-weight: bold;
-}
+        .rating .label {
+            font-weight: bold;
+        }
 
-/* Выравнивание числовых ячеек по центру */
-td.number {
-    text-align: center;
-}
+        /* Выравнивание числовых ячеек по центру */
+        td.number {
+            text-align: center;
+        }
 
-.asc,.desc  {
-    white-space: nowrap;
-}
-.asc::after {
-    content: ' ▲';
-}
+        .asc, .desc {
+            white-space: nowrap;
+        }
 
-.desc::after {
-    content: ' ▼';
-}
+        .asc::after {
+            content: ' ▲';
+        }
+
+        .desc::after {
+            content: ' ▼';
+        }
     </style>
 
-<h2>Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</h2>
-<table>
-    <tr>
-    <tr>
-        <th onclick="sortTable(this)">#</th>
-        <th>Channel ID</th>
-        <th>Название канала</th>
-        <th onclick="sortTable(this)">Подписчики</th>
-        <th onclick="sortTable(this)">Лайки</th>
-        <th onclick="sortTable(this)">Дизлайки</th>
-        <th onclick="sortTable(this)">Популярность</th>
-    </tr>
+    <h2>Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</h2>
+    <table>
+        <tr>
+        <tr>
+            <th onclick="sortTable(this)">#</th>
+            <th>Channel ID</th>
+            <th>Название канала</th>
+            <th onclick="sortTable(this)">Подписчики</th>
+            <th onclick="sortTable(this)">Лайки</th>
+            <th onclick="sortTable(this)">Дизлайки</th>
+            <th onclick="sortTable(this)">Популярность</th>
+        </tr>
 
-    </tr>
-    <?php
-    $i = 1 ;
-    foreach ($arrData as $channel) {
-        echo '<tr>';
-        echo '<td class="number">' . $i++ . '</td>';
-        echo '<td>' . $channel['channel_id'] . '</td>';
-        echo '<td>' . $channel['channel_name'] . '</td>';
-        echo '<td class="number">' . $channel['subscriber_count'] . '</td>';
-        echo '<td class="number">' . $channel['raiting']['likes'] . '</td>';
-        echo '<td class="number">' . $channel['raiting']['dislikes'] . '</td>';
-        echo '<td class="number">' . ceil($channel['raiting']['ratio']*10000) . '</td>';
-        echo '</tr>';
-    }
-
-    ?>
-</table>
-
+        </tr>
+        <?php
+        $i = 1;
+        foreach ($arrData as $channel) {
+            echo '<tr>';
+            echo '<td class="number">' . $i++ . '</td>';
+            echo '<td>' . $channel['channel_id'] . '</td>';
+            echo '<td>' . $channel['channel_name'] . '</td>';
+            echo '<td class="number">' . $channel['subscriber_count'] . '</td>';
+            echo '<td class="number">' . $channel['raiting']['likes'] . '</td>';
+            echo '<td class="number">' . $channel['raiting']['dislikes'] . '</td>';
+            echo '<td class="number">' . ceil($channel['raiting']['ratio'] * 10000) . '</td>';
+            echo '</tr>';
+        }
+        ?>
+    </table>
     <form id="myForm" method="GET">
         <label for="itemsPerPage">Количество элементов:</label>
         <select id="itemsPerPage" name="items_per_page" onchange="document.getElementById('myForm').submit()">
             <?php
-            $currCntTop = $_GET['items_per_page']??5;
+            $currCntTop = $_GET['items_per_page'] ?? 5;
             $options = array(5, 10, 20, 30, 40, 50);
             foreach ($options as $option) {
                 $selected = $currCntTop == $option ? 'selected' : '';
@@ -133,4 +133,5 @@ td.number {
         }
     </script>
 
-<?php include $_SERVER['DOCUMENT_ROOT']. "/src/View/footer.php" ?>
+<?php
+include $_SERVER['DOCUMENT_ROOT'] . "/src/View/footer.php" ?>

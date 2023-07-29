@@ -1,15 +1,13 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Controller;
 
 use Faker\Factory;
 use IilyukDmitryi\App\Storage\StorageApp;
-
+use Throwable;
 
 class DemoController
 {
-
     public static function isInstalledDemoData(): bool
     {
         $storageApp = StorageApp::get();
@@ -29,27 +27,24 @@ class DemoController
     public function installAction()
     {
         try {
-            if($this->install()){
+            if ($this->install()) {
                 $resultHtml = 'Данные установлены';
-            }else{
+            } else {
                 $resultHtml = 'Данные не установлены';
             }
-        }catch (\Throwable $th){
-            $resultHtml = 'Данные не установлены. Ошибка '.$th->getMessage();
+        } catch (Throwable $th) {
+            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
 
         $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
         include $viewPath;
     }
+
     public static function install()
     {
         $storageApp = StorageApp::get();
         $storageChannel = $storageApp->getChannelStorage();
         $storageMovie = $storageApp->getMovieStorage();
-
- /*       echo '<pre>' . print_r($storageMovie->getTopPopularChannels(10), 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
-        //echo '<pre>' . print_r($storageMovie->getLikesDislikesFromChannels(), 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
-        die;//test_delete*/
         $channelList = [];
         $movieList = [];
         $faker = Factory::create();
@@ -99,7 +94,7 @@ class DemoController
             }
         }
 
-        if($storageChannel->import($channelList, true)) {
+        if ($storageChannel->import($channelList, true)) {
             return $storageMovie->import($movieList, true);
         }
         return false;

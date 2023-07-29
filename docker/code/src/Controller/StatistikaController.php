@@ -3,6 +3,7 @@
 namespace IilyukDmitryi\App\Controller;
 
 use IilyukDmitryi\App\Model\StatistikaModel;
+use Throwable;
 
 class StatistikaController
 {
@@ -13,8 +14,7 @@ class StatistikaController
             $arrData = (new StatistikaModel())->getLikesDislikesFromChannels($currCnt);
             $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Statistika/summary.php';
             include $viewPath;
-        } catch (\Throwable $th) {
-            echo '<pre>' . print_r([$th], 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
+        } catch (Throwable $th) {
             $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
     }
@@ -26,8 +26,7 @@ class StatistikaController
             $arrData = (new StatistikaModel())->getTopPopularChannels($currCntTop);
             $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Statistika/top.php';
             include $viewPath;
-        } catch (\Throwable $th) {
-            echo '<pre>' . print_r([$th], 1) . '</pre>' . __FILE__ . ' # ' . __LINE__;//test_delete
+        } catch (Throwable $th) {
             $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
     }

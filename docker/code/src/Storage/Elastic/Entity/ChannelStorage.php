@@ -2,13 +2,17 @@
 
 namespace IilyukDmitryi\App\Storage\Elastic\Entity;
 
-
 use IilyukDmitryi\App\Storage\Base\ChannelStorageInterface;
-
-use function MongoDB\BSON\toCanonicalExtendedJSON;
 
 class ChannelStorage extends Base implements ChannelStorageInterface
 {
+    /**
+     * @return array
+     */
+    public static function getIndexName(): string
+    {
+        return "youtube_channel";
+    }
 
     protected function getSettings(): array
     {
@@ -38,8 +42,8 @@ class ChannelStorage extends Base implements ChannelStorageInterface
     {
         return [
             'properties' => [
-                "channel_id" =>  [
-                    "type" =>  "keyword"
+                "channel_id" => [
+                    "type" => "keyword"
                 ],
                 'channel_name' => [
                     'type' => 'text',
@@ -51,14 +55,4 @@ class ChannelStorage extends Base implements ChannelStorageInterface
             ]
         ];
     }
-
-    /**
-     * @return array
-     */
-    public static  function getIndexName(): string
-    {
-        return "youtube_channel";
-    }
-
-
 }

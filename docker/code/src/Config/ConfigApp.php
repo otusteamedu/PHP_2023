@@ -2,10 +2,8 @@
 
 namespace IilyukDmitryi\App\Config;
 
-
 final class ConfigApp
 {
-
     public static function get(): ?FileIni
     {
         static $config = null;
@@ -13,7 +11,6 @@ final class ConfigApp
         if (null === $config) {
             $config = new FileIni();
         }
-
         return $config;
     }
 }

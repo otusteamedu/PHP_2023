@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,17 +72,17 @@
     </style>
 </head>
 <body>
-    <header>
-        <h1>Elastic</h1>
-    </header>
+<header>
+    <h1>Elastic</h1>
+</header>
 
-    <nav>
-        <a href="/">Главная</a>
-        <a href="/demo/install/">Заполнить Demo данные</a>
-        <a href="/statistika/summary/">Суммарное кол-во лайков и дизлайков для канала по всем его видео</a>
-        <a href="/statistika/top/">Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</a>
-        <a href="/channel/list/">Список каналов</a>
-        <a href="/movie/list/">Список видео</a>
-    </nav>
+<nav>
+    <a href="/">Главная</a>
+    <a href="/demo/install/">Заполнить Demo данные</a>
+    <a href="/statistika/summary/">Суммарное кол-во лайков и дизлайков для канала по всем его видео</a>
+    <a href="/statistika/top/">Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</a>
+    <a href="/channel/list/">Список каналов</a>
+    <a href="/movie/list/">Список видео</a>
+</nav>
 
-    <div class="container">
+<div class="container">

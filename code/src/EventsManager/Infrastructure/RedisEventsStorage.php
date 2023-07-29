@@ -2,16 +2,47 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw12\EventsManager\Storage;
+namespace VKorabelnikov\Hw15\EventsManager\Infrastructure;
 
-class RedisEventsStorage extends EventsStorage
+use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageInterface;
+use VKorabelnikov\Hw15\EventsManager\Application\Config\EventsConfigInterface;
+use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
+
+class RedisEventsStorage implements EventsStorageInterface
 {
     private $redisConnection;
 
-    public function __construct($arConnectionSettings)
+    public function __construct(EventsConfigInterface $config)
     {
         \Predis\Autoloader::register();
-        $this->redisConnection = new \Predis\Client($arConnectionSettings);
+        $this->redisConnection = new \Predis\Client(
+            $this->getConnectionSettings($config)
+        );
+    }
+
+    public function getConnectionSettings(EventsConfigInterface $config): array
+    {
+        $settings = $config->getAllSettings();
+
+        if (!empty($settings["redis_connection_scheme"])) {
+            $arRedisSettings["scheme"] = $settings["redis_connection_scheme"];
+        } else {
+            throw new \Exception("Не задан параметр redis_connection_scheme в config.ini");
+        }
+
+        if (!empty($settings["redis_connection_host"])) {
+            $arRedisSettings["host"] = $settings["redis_connection_host"];
+        } else {
+            throw new \Exception("Не задан параметр redis_connection_host в config.ini");
+        }
+
+        if (!empty($settings["redis_connection_port"])) {
+            $arRedisSettings["port"] = $settings["redis_connection_port"];
+        } else {
+            throw new \Exception("Не задан параметр redis_connection_port в config.ini");
+        }
+
+        return $arRedisSettings;
     }
 
     public function getByCondition(array $arConditions): string
@@ -50,16 +81,18 @@ class RedisEventsStorage extends EventsStorage
         throw new \Exception("No events found");
     }
 
-    public function add(array $arEventProps): void
+    public function add(Event $event): void
     {
         $arParams = [];
-        foreach ($arEventProps["conditions"] as $sName => $sValue) {
-            $this->redisConnection->zAdd($sName . ":" . $sValue, $arEventProps["priority"], $arEventProps["event"]);
+
+        $eventConditions = $event->getConditions();
+        foreach ($eventConditions as $sName => $sValue) {
+            $this->redisConnection->zAdd($sName . ":" . $sValue, $event->getPriority(), $event->getEvent());
 
             $arParams[$sName] = $sValue;
         }
 
-        $this->redisConnection->hmSet($arEventProps["event"], $arParams);
+        $this->redisConnection->hmSet($event->getEvent(), $arParams);
     }
 
     public function deleteAll(): void

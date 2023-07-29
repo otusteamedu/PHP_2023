@@ -1,9 +1,9 @@
 {
-    "name": "v-korabelnikov/hw12",
+    "name": "v-korabelnikov/hw15",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "VKorabelnikov\\Hw12\\": "src/"
+            "VKorabelnikov\\Hw15\\": "src/"
         }
     },
     "require": {

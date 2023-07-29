@@ -6,37 +6,55 @@ use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageFabric;
 use VKorabelnikov\Hw15\EventsManager\Infrastructure\IniConfig;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
 
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\ConditionList;
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\EventTitle;
+
 
 
 try {
-    $storagesFabric = new EventsStorageFabric();
-    $obEventsStorage = $storagesFabric->getStorage("Redis", new IniConfig());
+    $obEventsStorage = EventsStorageFabric::getStorage("Redis", new IniConfig());
 
     $obEventsStorage->add(
         new Event(
-            "::event1::",
-            1000,
-            [
-                "param1" => 1
-            ]
+            new EventTitle("::event1::"),
+            new Priority(1000),
+            new ConditionList(
+                [
+                    "param1" => 1
+                ]
+            )
         )
     );
 
     $obEventsStorage->add(
         new Event(
-            "::event2::",
-            2000,
-            [
-                "param1" => 2,
-                "param2" => 2
-            ]
+            new EventTitle("::event2::"),
+            new Priority(2000),
+            new ConditionList(
+                [
+                    "param1" => 2,
+                    "param2" => 2
+                ]
+            )
         )
     );
 
     $obEventsStorage->add(
         new Event(
-            "::event3::",
-            3000,
+            new EventTitle("::event3::"),
+            new Priority(3000),
+            new ConditionList(
+                [
+                    "param1" => 1,
+                    "param2" => 2
+                ]
+            )
+        )
+    );
+
+    $event = $obEventsStorage->getByCondition(
+        new ConditionList(
             [
                 "param1" => 1,
                 "param2" => 2
@@ -44,14 +62,7 @@ try {
         )
     );
 
-    $event = $obEventsStorage->getByCondition(
-        [
-            "param1" => 1,
-            "param2" => 2
-        ]
-    );
-
-    var_dump($event);
+    var_dump($event->getValue());
 } catch (\Exception $e) {
     echo $e->getMessage();
 }

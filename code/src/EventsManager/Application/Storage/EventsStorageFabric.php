@@ -8,9 +8,12 @@ use VKorabelnikov\Hw15\EventsManager\Application\Config\EventsConfigInterface;
 
 class EventsStorageFabric
 {
-    public function getStorage(string $sStorageName, EventsConfigInterface $config): EventsStorageInterface
+    const STORAGE_CLASSES_NAMESPACE = "\\VKorabelnikov\\Hw15\\EventsManager\\Infrastructure\\";
+    const STORAGE_CLASSES_SUFFIX = "EventsStorage";
+
+    public static function getStorage(string $sStorageName, EventsConfigInterface $config): EventsStorageInterface
     {
-        $className = "\\VKorabelnikov\\Hw15\\EventsManager\\Infrastructure\\" . $sStorageName . "EventsStorage";
+        $className = self::STORAGE_CLASSES_NAMESPACE . $sStorageName . self::STORAGE_CLASSES_SUFFIX;
         
         if (class_exists($className)) {
             return new $className($config);

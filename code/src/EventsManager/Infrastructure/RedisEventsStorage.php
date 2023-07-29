@@ -8,46 +8,55 @@ use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageInterface;
 use VKorabelnikov\Hw15\EventsManager\Application\Config\EventsConfigInterface;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
 
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\ConditionList;
+use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\EventTitle;
+
 class RedisEventsStorage implements EventsStorageInterface
 {
+    const PREDIS_CONNECTION_SETTINGS_MAP = [
+        "scheme" => "redis_connection_scheme",
+        "host" => "redis_connection_host",
+        "port" => "redis_connection_port"
+    ];
+
     private $redisConnection;
 
     public function __construct(EventsConfigInterface $config)
     {
+        $settings = $config->getAllSettings();
+        $this->assertValidSettings($settings);
+
         \Predis\Autoloader::register();
         $this->redisConnection = new \Predis\Client(
-            $this->getConnectionSettings($config)
+            $this->getConnectionSettings($settings)
         );
     }
 
-    public function getConnectionSettings(EventsConfigInterface $config): array
+    private function getConnectionSettings(array $settings): array
     {
-        $settings = $config->getAllSettings();
+        $predisSettings = [];
 
-        if (!empty($settings["redis_connection_scheme"])) {
-            $arRedisSettings["scheme"] = $settings["redis_connection_scheme"];
-        } else {
-            throw new \Exception("Не задан параметр redis_connection_scheme в config.ini");
+        foreach (self::PREDIS_CONNECTION_SETTINGS_MAP as $predisSettingName => $appSettingName) {
+            $predisSettings[$predisSettingName] = $settings[$appSettingName];
         }
 
-        if (!empty($settings["redis_connection_host"])) {
-            $arRedisSettings["host"] = $settings["redis_connection_host"];
-        } else {
-            throw new \Exception("Не задан параметр redis_connection_host в config.ini");
-        }
-
-        if (!empty($settings["redis_connection_port"])) {
-            $arRedisSettings["port"] = $settings["redis_connection_port"];
-        } else {
-            throw new \Exception("Не задан параметр redis_connection_port в config.ini");
-        }
-
-        return $arRedisSettings;
+        return $predisSettings;
     }
 
-    public function getByCondition(array $arConditions): string
+    private function assertValidSettings(array $settings): void
+    {
+        foreach (self::PREDIS_CONNECTION_SETTINGS_MAP as $appSettingName) {
+            if (empty($settings[$appSettingName])) {
+                throw new \Exception("Не задан параметр " . $appSettingName . " в config.ini");
+            }
+        }
+    }
+
+    public function getByCondition(ConditionList $conditionsList): EventTitle
     {
         $arIntersectConditions = [];
+        $arConditions = $conditionsList->getValue();
         foreach ($arConditions as $sConditionName => $sConditionValue) {
             $arIntersectConditions[] = $sConditionName . ":" . $sConditionValue;
         }
@@ -74,7 +83,7 @@ class RedisEventsStorage implements EventsStorageInterface
             }
 
             if ($bAllParamsMatch) {
-                return $arValue[$i];
+                return new EventTitle($arValue[$i]);
             }
         }
 
@@ -85,14 +94,14 @@ class RedisEventsStorage implements EventsStorageInterface
     {
         $arParams = [];
 
-        $eventConditions = $event->getConditions();
+        $eventConditions = $event->getConditions()->getValue();
         foreach ($eventConditions as $sName => $sValue) {
-            $this->redisConnection->zAdd($sName . ":" . $sValue, $event->getPriority(), $event->getEvent());
+            $this->redisConnection->zAdd($sName . ":" . $sValue, $event->getPriority()->getValue(), $event->getEventTitle()->getValue());
 
             $arParams[$sName] = $sValue;
         }
 
-        $this->redisConnection->hmSet($event->getEvent(), $arParams);
+        $this->redisConnection->hmSet($event->getEventTitle()->getValue(), $arParams);
     }
 
     public function deleteAll(): void

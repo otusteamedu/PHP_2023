@@ -5,23 +5,6 @@ require __DIR__ . "/../vendor/autoload.php";
 use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageFabric;
 use VKorabelnikov\Hw15\EventsManager\Infrastructure\IniConfig;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
-// use VKorabelnikov\Hw15\EventsManager\Infrastructure\RedisEventsStorage;
-
-$ob = new \VKorabelnikov\Hw15\EventsManager\Infrastructure\RedisEventsStorage(new IniConfig());
-
-
-
-
-// \Predis\Autoloader::register();
-//         $redisConnection = new \Predis\Client(
-//             $ob->getConnectionSettings(new IniConfig())
-//         );
-
-
-//         $event = $redisConnection->get();
-    
-
-// die("11111");
 
 
 

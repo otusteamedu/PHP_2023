@@ -2,7 +2,6 @@
 explain
 select max(t.cost) as "Max price", min(t.cost) as "Min price"
 from ticket t
-         inner join session s on s.id = t.session_id
 where session_id = 8;
 
 -- 10_000
@@ -23,13 +22,13 @@ where session_id = 8;
 --               ->  Index Only Scan using session_pk on session s  (cost=0.43..4.45 rows=1 width=4)
 --                     Index Cond: (id = 8)
 
--- Index for session_id column in ticket table
-create index idx_ticket_session_id on ticket(session_id);
+-- Change structure of request
+-- explain
+-- select max(t.cost) as "Max price", min(t.cost) as "Min price"
+-- from ticket t
+-- where session_id = 8;
 
--- Index Scan using index instead primary key after index creation
--- Aggregate  (cost=16.95..16.96 rows=1 width=8)
---            ->  Nested Loop  (cost=0.87..16.94 rows=2 width=4)
---         ->  Index Only Scan using session_pk on session s  (cost=0.43..4.45 rows=1 width=4)
---               Index Cond: (id = 8)
---         ->  Index Scan using idx_ticket_session_id on ticket t  (cost=0.43..12.47 rows=2 width=8)
---               Index Cond: (session_id = 8)
+-- Explain after structure changed
+-- Aggregate  (cost=12.48..12.49 rows=1 width=8)
+--   ->  Index Scan using idx_ticket_session_id on ticket t  (cost=0.43..12.47 rows=2 width=4)
+--         Index Cond: (session_id = 8)

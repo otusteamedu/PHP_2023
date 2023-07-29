@@ -1,0 +1,17 @@
+{
+    "name": "neunet/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VLebedev\\BookShop\\": "src/"
+        }
+    },
+    "require": {
+        "elasticsearch/elasticsearch": "^8.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

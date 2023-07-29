@@ -3,7 +3,7 @@
 require __DIR__ . "/../vendor/autoload.php";
 
 use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageFabric;
-use VKorabelnikov\Hw15\EventsManager\Infrastructure\IniConfig;
+use VKorabelnikov\Hw15\EventsManager\Infrastructure\Config\IniConfig;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
 
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw15\EventsManager\Infrastructure;
+namespace VKorabelnikov\Hw15\EventsManager\Infrastructure\Storage;
 
 use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageInterface;
-use VKorabelnikov\Hw15\EventsManager\Application\Config\EventsConfigInterface;
+use VKorabelnikov\Hw15\EventsManager\Application\Config\ConfigInterface;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
 
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;
@@ -22,7 +22,7 @@ class RedisEventsStorage implements EventsStorageInterface
 
     private $redisConnection;
 
-    public function __construct(EventsConfigInterface $config)
+    public function __construct(ConfigInterface $config)
     {
         $settings = $config->getAllSettings();
         $this->assertValidSettings($settings);

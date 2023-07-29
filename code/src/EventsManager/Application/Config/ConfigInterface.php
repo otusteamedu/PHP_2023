@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw15\EventsManager\Application\Config;
 
-interface EventsConfigInterface
+interface ConfigInterface
 {
     public function getAllSettings(): array;
 }

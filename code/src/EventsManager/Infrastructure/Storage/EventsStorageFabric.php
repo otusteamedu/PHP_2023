@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw15\EventsManager\Application\Storage;
+namespace VKorabelnikov\Hw15\EventsManager\Infrastructure\Storage;
 
 use VKorabelnikov\Hw15\EventsManager\Application\Config\ConfigInterface;
+use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageInterface;
 
 class EventsStorageFabric
 {

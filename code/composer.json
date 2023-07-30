@@ -1,0 +1,18 @@
+{
+    "name": "max/app",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Max"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "files": [
+            "./view.php"
+        ],
+        "psr-4": {
+            "app\\": "./"
+        }
+    }
+}

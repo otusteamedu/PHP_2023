@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя Красивая Страница</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        nav {
+            background-color: #444;
+            color: #fff;
+            padding: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px;
+            position: relative; /* Добавляем для псевдоэлемента */
+        }
+
+        nav a::after {
+            content: '|'; /* Здесь можно указать другой разделитель */
+            position: absolute;
+            top: 50%;
+            right: -5px;
+            transform: translateY(-50%);
+        }
+
+        nav a:last-child::after {
+            content: none; /* Удаляем разделитель для последнего пункта меню */
+        }
+
+        nav a:hover {
+            background-color: #555;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        h1 {
+            margin-top: 0;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Elastic</h1>
+</header>
+
+<nav>
+    <a href="/">Главная</a>
+    <a href="/demo/install/">Заполнить Demo данные</a>
+    <a href="/statistika/summary/">Суммарное кол-во лайков и дизлайков для канала по всем его видео</a>
+    <a href="/statistika/top/">Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</a>
+    <a href="/channel/list/">Список каналов</a>
+    <a href="/movie/list/">Список видео</a>
+</nav>
+
+<div class="container">

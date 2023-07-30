@@ -1,0 +1,27 @@
+{
+  "name": "vendor_name/code",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "00dim",
+      "email": "email@example.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "IilyukDmitryi\\App\\": "src/"
+    }
+  },
+  "require": {
+    "php": "8.*",
+    "elasticsearch/elasticsearch": "^8.8",
+    "fakerphp/faker": "^1.23"
+},
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
+}

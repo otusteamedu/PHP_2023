@@ -7,8 +7,6 @@ namespace VKorabelnikov\Hw15\EventsManager\Infrastructure\Storage;
 use VKorabelnikov\Hw15\EventsManager\Application\Storage\EventsStorageInterface;
 use VKorabelnikov\Hw15\EventsManager\Application\Config\ConfigInterface;
 use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
-
-use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\ConditionList;
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\EventTitle;
 use VKorabelnikov\Hw15\EventsManager\Application\Dto\Config;

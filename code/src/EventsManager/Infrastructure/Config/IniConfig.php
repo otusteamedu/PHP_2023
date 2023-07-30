@@ -18,7 +18,7 @@ class IniConfig implements ConfigInterface
         }
 
         $settings = parse_ini_file($sCongigFilePath);
-        
+
         $config = new Config();
         $config->redisConnectionScheme = $settings["redis_connection_scheme"];
         $config->redisConnectionHost = $settings["redis_connection_host"];

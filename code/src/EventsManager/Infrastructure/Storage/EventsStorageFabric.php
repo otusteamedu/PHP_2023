@@ -15,7 +15,7 @@ class EventsStorageFabric
     public static function getStorage(string $storageType, ConfigInterface $config): EventsStorageInterface
     {
         $className = self::STORAGE_CLASSES_NAMESPACE . $storageType . self::STORAGE_CLASSES_SUFFIX;
-        
+
         if (class_exists($className)) {
             return new $className($config);
         }

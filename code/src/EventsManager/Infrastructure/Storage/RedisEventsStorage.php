@@ -11,13 +11,14 @@ use VKorabelnikov\Hw15\EventsManager\Domain\Model\Event;
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\Priority;
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\ConditionList;
 use VKorabelnikov\Hw15\EventsManager\Domain\ValueObject\EventTitle;
+use VKorabelnikov\Hw15\EventsManager\Application\Dto\Config;
 
 class RedisEventsStorage implements EventsStorageInterface
 {
     const PREDIS_CONNECTION_SETTINGS_MAP = [
-        "scheme" => "redis_connection_scheme",
-        "host" => "redis_connection_host",
-        "port" => "redis_connection_port"
+        "scheme" => "redisConnectionScheme",
+        "host" => "redisConnectionHost",
+        "port" => "redisConnectionPort"
     ];
 
     private $redisConnection;
@@ -33,22 +34,22 @@ class RedisEventsStorage implements EventsStorageInterface
         );
     }
 
-    private function getConnectionSettings(array $settings): array
+    private function getConnectionSettings(Config $settings): array
     {
         $predisSettings = [];
 
         foreach (self::PREDIS_CONNECTION_SETTINGS_MAP as $predisSettingName => $appSettingName) {
-            $predisSettings[$predisSettingName] = $settings[$appSettingName];
+            $predisSettings[$predisSettingName] = $settings->$appSettingName;
         }
 
         return $predisSettings;
     }
 
-    private function assertValidSettings(array $settings): void
+    private function assertValidSettings(Config $settings): void
     {
         foreach (self::PREDIS_CONNECTION_SETTINGS_MAP as $appSettingName) {
-            if (empty($settings[$appSettingName])) {
-                throw new \Exception("Не задан параметр " . $appSettingName . " в config.ini");
+            if (empty($settings->$appSettingName)) {
+                throw new \Exception("Не задан обязательный параметр " . $appSettingName);
             }
         }
     }

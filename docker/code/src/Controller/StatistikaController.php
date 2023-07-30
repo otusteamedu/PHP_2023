@@ -3,31 +3,36 @@
 namespace IilyukDmitryi\App\Controller;
 
 use IilyukDmitryi\App\Model\StatistikaModel;
+use IilyukDmitryi\App\Utils\TemplateEngine;
 use Throwable;
 
 class StatistikaController
 {
-    public function summaryAction()
+    public function summaryAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
             $currCnt = $_GET['items_per_page'] ?? 100;
-            $arrData = (new StatistikaModel())->getLikesDislikesFromChannels($currCnt);
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Statistika/summary.php';
-            include $viewPath;
+            $templateData['list'] = (new StatistikaModel())->getLikesDislikesFromChannels($currCnt);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка: ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Statistika/summary.php', $templateData);
+        echo $resultHtml;
     }
 
-    public function topAction()
+    public function topAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
             $currCntTop = $_GET['items_per_page'] ?? 5;
-            $arrData = (new StatistikaModel())->getTopPopularChannels($currCntTop);
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Statistika/top.php';
-            include $viewPath;
+            $templateData['list'] = (new StatistikaModel())->getTopPopularChannels($currCntTop);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка: ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Statistika/top.php', $templateData);
+        echo $resultHtml;
     }
 }

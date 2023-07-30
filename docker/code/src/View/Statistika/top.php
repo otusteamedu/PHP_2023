@@ -1,4 +1,5 @@
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 
     <style>
@@ -55,6 +56,14 @@ include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
     </style>
 
     <h2>Топ N каналов с лучшим соотношением кол-во лайков/кол-во дизлайков</h2>
+<?php
+if (!empty($arrResult['error'])) {
+    echo '<span style="color: red">' . $arrResult['error'] . '</span>';
+}
+
+if (!empty($arrResult['message'])) {
+    echo '<span style="color: green">' . $arrResult['message'] . '</span>';
+} ?>
     <table>
         <tr>
         <tr>
@@ -70,7 +79,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
         </tr>
         <?php
         $i = 1;
-        foreach ($arrData as $channel) {
+        foreach ($arrResult['list'] as $channel) {
             echo '<tr>';
             echo '<td class="number">' . $i++ . '</td>';
             echo '<td>' . $channel['channel_id'] . '</td>';

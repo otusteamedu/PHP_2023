@@ -2,14 +2,14 @@
 
 namespace IilyukDmitryi\App\Controller;
 
+use IilyukDmitryi\App\Utils\TemplateEngine;
+
 class AppController
 {
-    public function indexAction()
+    public function indexAction(): void
     {
-        $resultHtml = '
-<h1>Добро пожаловать!</h1>
-<p>Тестируем работу с Elastic</p>
-        ';
-        include $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
+        $templateEngine = new TemplateEngine();
+        $resultHtml = $templateEngine->render('App/index.php');
+        echo $resultHtml;
     }
 }

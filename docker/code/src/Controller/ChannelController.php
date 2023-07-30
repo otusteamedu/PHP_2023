@@ -2,129 +2,68 @@
 
 namespace IilyukDmitryi\App\Controller;
 
-use Exception;
 use IilyukDmitryi\App\Model\ChannelModel;
+use IilyukDmitryi\App\Utils\Helper;
+use IilyukDmitryi\App\Utils\TemplateEngine;
 use Throwable;
 
 class ChannelController
 {
-    public function deleteAction()
+    public function deleteAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $channelId = static::getChannelIdFromUrl();
-            if (!$channelId) {
-                throw new Exception('Пустой ID');
-            }
+            $channelId = Helper::getIdFromUrl();
             $channelModel = new ChannelModel();
-            $res = $channelModel->findById($channelId);
-            if (!$res) {
-                throw new Exception('Не найден канал с таким  ID');
-            }
-            $res = $channelModel->delete($channelId);
+            $templateData = $channelModel->deleteChannel($channelId);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка: ' . $th->getMessage();
         }
-
-        $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
-        include $viewPath;
+        $resultHtml = $templateEngine->render('App/result.php', $templateData);
+        echo $resultHtml;
     }
 
-    public static function getChannelIdFromUrl(): string
+    public function listAction(): void
     {
-        $segments = explode('/', $_SERVER['REQUEST_URI']);
-        $channelId = $segments[count($segments) - 2] ?? '';
-        return $channelId;
-    }
-
-    public function listAction()
-    {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
             $currCnt = $_GET['items_per_page'] ?? 100;
-            $arrData = (new ChannelModel())->getAll($currCnt);
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Channel/list.php';
-            include $viewPath;
+            $templateData['list'] = (new ChannelModel())->getAll($currCnt);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Channel/list.php', $templateData);
+        echo $resultHtml;
     }
 
-    public function updateAction()
+    public function updateAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $channelId = static::getChannelIdFromUrl();
-            if (!$channelId) {
-                throw new Exception('Пустой ID');
-            }
             $channelModel = new ChannelModel();
-            $channel = $channelModel->findById($channelId);
-            if (!$channel) {
-                throw new Exception('Не найден канал с таким  ID');
-            }
-            if ($_POST) {
-                $channelPost = [
-                    //'channel_id' => static::sanitize($_POST["channel_id"]),
-                    'channel_name' => static::sanitize($_POST["channel_name"]),
-                    'subscriber_count' => (int)static::sanitize($_POST["subscriber_count"])
-                ];
-                if (!$channelModel->update($channelId, $channelPost)) {
-                    $arrResult['error'] = 'Ошибка обновления';
-                } else {
-                    $arrResult['message'] = 'Успешное обновление';
-                    $channel['channel_name'] = $channelPost['channel_name'];
-                    $channel['subscriber_count'] = $channelPost['subscriber_count'];
-                }
-            }
-            $channel['id'] = $channelId;
-            $arrResult['formData'] = $channel;
-            $arrResult['formType'] = 'update';
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Channel/form.php';
-            include $viewPath;
+            $channelId = Helper::getIdFromUrl();
+            $templateData = $channelModel->updateChannel($channelId, $_POST);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Channel/form.php', $templateData);
+        echo $resultHtml;
     }
 
-    public static function sanitize($data)
+    public function addAction(): void
     {
-        return htmlspecialchars(trim($data));
-    }
-
-    public function addAction()
-    {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $arrResult['formData'] = [
-                'channel_id' => '',
-                'channel_name' => '',
-                'subscriber_count' => ''
-            ];
-            if ($_POST) {
-                $channelPost = [
-                    'channel_id' => static::sanitize($_POST["channel_id"]),
-                    'channel_name' => static::sanitize($_POST["channel_name"]),
-                    'subscriber_count' => (int)static::sanitize($_POST["subscriber_count"])
-                ];
-                $channelId = $channelPost['channel_id'];
-                $channelPost['id'] = $channelId;
-                if (!$channelId) {
-                    throw new Exception('Пустой ID');
-                }
-                $channelModel = new ChannelModel();
-                $channel = $channelModel->findById($channelId);
-                if ($channel) {
-                    $arrResult['error'] = 'Найден канал с таким  ID';
-                } elseif (!$channelModel->add($channelPost)) {
-                    $arrResult['error'] = 'Ошибка добавления канала';
-                } else {
-                    $arrResult['message'] = 'Успешное добавление';
-                }
-                $arrResult['formData'] = $channelPost;
-                $arrResult['formType'] = 'add';
-            }
+            $channelModel = new ChannelModel();
+            $templateData = $channelModel->addChannel($_POST);
         } catch (Throwable $th) {
-            $arrResult['error'] = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
-
-        $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Channel/form.php';
-        include $viewPath;
+        $resultHtml = $templateEngine->render('Channel/form.php', $templateData);
+        echo $resultHtml;
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 <?php
 $formData = $arrResult['formData'];

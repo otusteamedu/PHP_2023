@@ -37,6 +37,8 @@ abstract class Base
         return false;
     }
 
+    abstract protected static function getIndexName(): string;
+
     protected function createIndex(): bool
     {
         $response = $this->client->indices()->create([
@@ -86,8 +88,6 @@ abstract class Base
         }
         return [];
     }
-
-    abstract protected static function getIndexName(): string;
 
     /**
      * @param array $filter

@@ -2,147 +2,68 @@
 
 namespace IilyukDmitryi\App\Controller;
 
-use Exception;
 use IilyukDmitryi\App\Model\MovieModel;
+use IilyukDmitryi\App\Utils\Helper;
+use IilyukDmitryi\App\Utils\TemplateEngine;
 use Throwable;
 
 class MovieController
 {
-    public function deleteAction()
+    public function deleteAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $movieId = static::getMovieIdFromUrl();
-            if (!$movieId) {
-                throw new Exception('Пустой ID');
-            }
+            $movieId = Helper::getIdFromUrl();
             $movieModel = new MovieModel();
-            $res = $movieModel->findById($movieId);
-            if (!$res) {
-                throw new Exception('Не найдено видео с таким  ID');
-            }
-            $res = $movieModel->delete($movieId);
+            $templateData = $movieModel->deleteMovie($movieId);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка: ' . $th->getMessage();
         }
-
-        $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/App/index.php';
-        include $viewPath;
+        $resultHtml = $templateEngine->render('App/result.php', $templateData);
+        echo $resultHtml;
     }
 
-    public static function getMovieIdFromUrl(): string
+    public function listAction(): void
     {
-        $segments = explode('/', $_SERVER['REQUEST_URI']);
-        $movieId = $segments[count($segments) - 2] ?? '';
-        return $movieId;
-    }
-
-    public function listAction()
-    {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
             $currCnt = $_GET['items_per_page'] ?? 100;
-            $arrData = (new MovieModel())->getAll($currCnt);
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Movie/list.php';
-            include $viewPath;
+            $templateData['list'] = (new MovieModel())->getAll($currCnt);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Ошибка ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Movie/list.php', $templateData);
+        echo $resultHtml;
     }
 
-    public function updateAction()
+    public function updateAction(): void
     {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $movieId = static::getMovieIdFromUrl();
-            if (!$movieId) {
-                throw new Exception('Пустой ID');
-            }
             $movieModel = new MovieModel();
-            $movie = $movieModel->findById($movieId);
-            if (!$movie) {
-                throw new Exception('Не найдено видео с таким  ID');
-            }
-            if ($_POST) {
-                $moviePost = [
-                    //'movie_id' => static::sanitize($_POST["movie_id"]),
-                    'movie_name' => static::sanitize($_POST["movie_name"]),
-                    'channel_id' => static::sanitize($_POST["channel_id"]),
-                    'movie_description' => static::sanitize($_POST["movie_description"]),
-                    'like' => (int)static::sanitize($_POST["like"]),
-                    'dislike' => (int)static::sanitize($_POST["dislike"]),
-                    'duration' => (int)static::sanitize($_POST["duration"]),
-                ];
-                if (!$movieModel->update($movieId, $moviePost)) {
-                    $arrResult['error'] = 'Ошибка обновления';
-                } else {
-                    $arrResult['message'] = 'Успешное обновление';
-                    $movie['movie_name'] = $moviePost['movie_name'];
-                    $movie['channel_id'] = $moviePost['channel_id'];
-                    $movie['movie_description'] = $moviePost['movie_description'];
-                    $movie['like'] = $moviePost['like'];
-                    $movie['dislike'] = $moviePost['dislike'];
-                    $movie['duration'] = $moviePost['duration'];
-                }
-            }
-            $movie['id'] = $movieId;
-            $arrResult['formData'] = $movie;
-            $arrResult['formType'] = 'update';
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Movie/form.php';
-            include $viewPath;
+            $movieId = Helper::getIdFromUrl();
+            $templateData = $movieModel->updateMovie($movieId, $_POST);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Movie/form.php', $templateData);
+        echo $resultHtml;
     }
 
-    public static function sanitize($data)
+    public function addAction(): void
     {
-        return htmlspecialchars(trim($data));
-    }
-
-    public function addAction()
-    {
+        $templateEngine = new TemplateEngine();
+        $templateData = [];
         try {
-            $arrResult['formData'] = [
-                'movie_id' => '',
-                'movie_name' => '',
-                'channel_id' => '',
-                'movie_description' => '',
-                'like' => '',
-                'dislike' => '',
-                'duration' => '',
-            ];
-            if ($_POST) {
-                $moviePost = [
-                    'movie_id' => static::sanitize($_POST["movie_id"]),
-                    'channel_id' => static::sanitize($_POST["channel_id"]),
-                    'movie_name' => static::sanitize($_POST["movie_name"]),
-                    'movie_description' => static::sanitize($_POST["movie_description"]),
-                    'like' => (int)static::sanitize($_POST["like"]),
-                    'dislike' => (int)static::sanitize($_POST["dislike"]),
-                    'duration' => (int)static::sanitize($_POST["duration"]),
-                ];
-
-                $movieId = $moviePost['movie_id'];
-                $moviePost['id'] = $movieId;
-                if (!$movieId) {
-                    throw new Exception('Пустой ID');
-                }
-                $movieModel = new MovieModel();
-                $movie = $movieModel->findById($movieId);
-                if ($movie) {
-                    $arrResult['error'] = 'Найдено видео с таким  ID';
-                } elseif (!$movieModel->add($moviePost)) {
-                    $arrResult['error'] = 'Ошибка добавления видео';
-                } else {
-                    $arrResult['message'] = 'Успешное добавление';
-                }
-
-                $arrResult['formData'] = $moviePost;
-                $arrResult['formType'] = 'add';
-            }
-
-            $viewPath = $_SERVER['DOCUMENT_ROOT'] . '/src/View/Movie/form.php';
-            include $viewPath;
+            $movieModel = new MovieModel();
+            $templateData = $movieModel->addMovie($_POST);
         } catch (Throwable $th) {
-            $resultHtml = 'Данные не установлены. Ошибка ' . $th->getMessage();
+            $templateData['error'] = 'Данные не установлены. Ошибка ' . $th->getMessage();
         }
+        $resultHtml = $templateEngine->render('Movie/form.php', $templateData);
+        echo $resultHtml;
     }
 }

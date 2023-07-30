@@ -1,29 +1,13 @@
 <?php
 
-namespace IilyukDmitryi\App;
+namespace IilyukDmitryi\App\Model;
 
 use Faker\Factory;
 use IilyukDmitryi\App\Storage\StorageApp;
 
-class DemoData
+class DemoModel
 {
-    public static function isInstalledDemoData(): bool
-    {
-        $storageApp = StorageApp::get();
-        $storageChannel = $storageApp->getChannelStorage();
-        $res = $storageChannel->find([], 1);
-        if (!$res['hits']['total']['value']) {
-            return false;
-        }
-        $storageMovie = $storageApp->getMovieStorage();
-        $res = $storageMovie->find([], 1);
-        if (!$res['hits']['total']['value']) {
-            return false;
-        }
-        return true;
-    }
-
-    public static function install()
+    public static function install(): bool
     {
         $storageApp = StorageApp::get();
         $storageChannel = $storageApp->getChannelStorage();
@@ -48,7 +32,6 @@ class DemoData
             return $ids;
         };
 
-        $arrDataBulk = [];
         for ($i = 0; $i < 100; $i++) {
             $idChannel = $chanalsGen();
             $chanal =

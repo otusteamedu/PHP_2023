@@ -1,4 +1,5 @@
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 
     <style>
@@ -78,7 +79,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
         </tr>
         <?php
         $i = 1;
-        foreach ($arrData as $movie) {
+        foreach ($arrResult['list'] as $movie) {
             echo '<tr>';
             echo '<td class="number">' . $i++ . '</td>';
             echo '<td>' . $movie['movie_id'] . '</td>';
@@ -92,7 +93,6 @@ include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
             echo '<td><a href="/movie/delete/' . $movie['movie_id'] . '/"  onclick="return confirmDelete()">Удалить</a></td>';
             echo '</tr>';
         }
-
         ?>
     </table>
     <script>

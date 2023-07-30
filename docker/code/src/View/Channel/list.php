@@ -1,6 +1,6 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
 
+include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -74,7 +74,7 @@ include $_SERVER['DOCUMENT_ROOT'] . "/src/View/header.php" ?>
         </tr>
         <?php
         $i = 1;
-        foreach ($arrData as $channel) {
+        foreach ($arrResult['list'] as $channel) {
             echo '<tr>';
             echo '<td class="number">' . $i++ . '</td>';
             echo '<td>' . $channel['channel_id'] . '</td>';

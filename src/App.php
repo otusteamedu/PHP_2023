@@ -4,19 +4,29 @@ declare(strict_types=1);
 
 namespace VLebedev\BookShop;
 
-use Elastic\Elasticsearch\ClientBuilder;
+use VLebedev\BookShop\Console\Dialog;
+use VLebedev\BookShop\Exception\InputException;
+use VLebedev\BookShop\Service\ElasticService\ElasticService;
+use VLebedev\BookShop\Service\ElasticService\Exception\AuthenticationException;
 
 class App
 {
-    public function execute()
-    {
-        $client = ClientBuilder::create()
-            ->setHosts(['https://localhost:9200'])
-            ->setBasicAuthentication('elastic', '11pm+TAuP2XqfaxsThBe')
-            ->setCABundle(dirname(__DIR__) . '/http_ca.crt')
-            ->build();
+    private Config $config;
 
-        $response = $client->info();
-        print_r($response['version']);
+    public function __construct()
+    {
+        $this->config = new Config();
+    }
+
+    /**
+     * @throws AuthenticationException
+     * @throws InputException
+     */
+    public function execute(): void
+    {
+        $elasticService = new ElasticService($this->config);
+
+        $dialog = new Dialog();
+        $dialog->start($elasticService);
     }
 }

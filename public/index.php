@@ -2,5 +2,9 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$app = new \VLebedev\BookShop\App();
-$app->execute();
+try {
+    $app = new \VLebedev\BookShop\App();
+    $app->execute();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}

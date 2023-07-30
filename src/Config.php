@@ -16,7 +16,8 @@ class Config
     /**
      * @throws ConfigurationException
      */
-    public function __construct() {
+    public function __construct()
+    {
         if (!$host = getenv('ELASTIC_HOST')) {
             throw new ConfigurationException('Env variable ELASTIC_HOST missing');
         }

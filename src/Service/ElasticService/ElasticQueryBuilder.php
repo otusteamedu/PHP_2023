@@ -29,11 +29,10 @@ class ElasticQueryBuilder
     public function buildSearchQuery(
         string $index,
         string $category = null,
-        int    $priceGte = null,
-        int    $priceLte = null,
+        int $priceGte = null,
+        int $priceLte = null,
         string $title = null,
-        int    $stock = null): array
-    {
+        int $stock = null): array {
         $body = [];
         if ($category) {
             $body['query']['bool']['filter'][] = ['match' => ['category.keyword' => $category]];

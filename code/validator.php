@@ -75,11 +75,11 @@ class Validator
             if (in_array($symbol, [')'])) {
                 $countLeftBraces--;
             }
-            if($countLeftBraces < 0) {
+            if ($countLeftBraces < 0) {
                 break;
             }
         }
-        
+
         if ($countLeftBraces != 0) {
             $result = false;
         }

@@ -4,16 +4,16 @@ namespace app;
 
 class Validator
 {
-    private array $postArray;
+    //private array $postArray;
     private string $string;
     private string $headerStatus;
     private string $headerResponse;
     private string $responseMessage;
 
-    public function __construct(array $postRequestArray)
+    /*public function __construct(array $postRequestArray)
     {
         $this->postArray = $postRequestArray;
-    }
+    }*/
 
     public function validate(string $postParamName)
     {
@@ -22,18 +22,20 @@ class Validator
                 $this->bracesArePaired();
             }
         }
+    }
 
-        return [
-            'header_status' => $this->headerStatus,
-            'header_response' => 'Response: ' . $this->headerResponse,
-            'response_message' => $this->responseMessage,
-        ];
+    public function provideResponse()
+    {
+        header($this->headerStatus);
+        header('Response: ' . $this->headerResponse);
+
+        return $this->responseMessage;
     }
 
     private function postParamExist(string $postParamName)
     {
-        if (isset($this->postArray[$postParamName])) {
-            $this->string = $this->postArray[$postParamName];
+        if (isset($postParamName)) {
+            $this->string = $postParamName;
             return true;
         }
 
@@ -70,9 +72,15 @@ class Validator
             if (in_array($symbol, ['('])) {
                 $countLeftBraces++;
             }
+            if (in_array($symbol, [')'])) {
+                $countLeftBraces--;
+            }
+            if($countLeftBraces < 0) {
+                break;
+            }
         }
-
-        if ($countLeftBraces != substr_count($this->string, ')')) {
+        
+        if ($countLeftBraces != 0) {
             $result = false;
         }
 

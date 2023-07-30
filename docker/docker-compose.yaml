@@ -1,0 +1,55 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: el/nginx
+    container_name: el_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+#Контейнер с php и приложением
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: el/php
+    container_name: el_app
+    volumes:
+      - ./code:/data/mysite.local
+    #command: composer install --no-plugins --no-scripts
+    networks:
+      - app-network
+    depends_on:
+      - nginx
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./code:/app
+    entrypoint:
+      - composer
+      - dump-autoload
+    depends_on:
+      - app
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

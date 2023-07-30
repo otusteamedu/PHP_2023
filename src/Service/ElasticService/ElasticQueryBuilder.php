@@ -32,7 +32,8 @@ class ElasticQueryBuilder
         int $priceGte = null,
         int $priceLte = null,
         string $title = null,
-        int $stock = null): array {
+        int $stock = null
+    ): array {
         $body = [];
         if ($category) {
             $body['query']['bool']['filter'][] = ['match' => ['category.keyword' => $category]];

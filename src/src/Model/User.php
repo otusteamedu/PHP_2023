@@ -25,4 +25,18 @@ class User
      * @var string
      */
     public $email;
+
+    public function validateFields()
+    {
+        if (empty($this->name) || empty($this->email)) {
+            return false;
+        }
+        if (!is_string($this->name) || !is_string($this->email)) {
+            return false;
+        }
+        if (!filter_var($this->email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
+    }
 }

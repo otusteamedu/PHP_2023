@@ -30,21 +30,56 @@ class UserGateway
     }
 
     /**
+     * Update user
+     *
+     * @param int $id User id
+     * @param string $name User name
+     * @param string $email User email
+     *
+     * @return bool
+     */
+    public function update($id, $name, $email)
+    {
+        // if existing user, update user in Identity Map and database.
+        if ($user = UserIdentityMap::getUser($id)) {
+            $query = "UPDATE users SET name = '$name', email = '$email' WHERE id = $id";
+            $user->name = $name;
+            $user->email = $email;
+            if (!$user->validateFields()) {
+                return false;
+            }
+            $result = $this->mysqli->query($query);
+            return $result;
+        }
+
+        // if new user, add user to database.
+        $user = new User();
+            $user->name = $name;
+            $user->email = $email;
+        if (!$user->validateFields()) {
+            return false;
+        }
+        $query = "INSERT INTO users (name, email) VALUES ('$name', '$email')";
+        $result = $this->mysqli->query($query);
+        return $result;
+    }
+
+    /**
      * Find all users
      *
      * @return array
      */
     public function findAll()
     {
-        // Получаем всех пользователей из Identity Map
+        // Getting all users from Identity Map
         $users = UserIdentityMap::getAllUsers();
 
-        // Если пользователи уже загружены, возвращаем их
+        // If users found in Identity Map, return them
         if ($users !== []) {
             return $users;
         }
 
-        // Если пользователи не найдены в Identity Map, выполняем запрос к базе данных
+        // If users not found in Identity Map, find them in database
         $query = "SELECT * FROM users";
         $result = $this->mysqli->query($query);
         $users = [];
@@ -54,7 +89,7 @@ class UserGateway
             $user->name = $userData['name'];
             $user->email = $userData['email'];
 
-            // Добавляем пользователя в Identity Map
+            // Adding user to Identity Map
             UserIdentityMap::addUser($user);
 
             $users[] = $user;

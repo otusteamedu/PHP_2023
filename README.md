@@ -6,7 +6,7 @@
 
 ## Задачи
 1. [Задача](https://leetcode.com/problems/intersection-of-two-linked-lists/) - 
-    [Решение](https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/997476407/)  
+    [Решение](https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/1008390677/)  
    `docker-compose exec php php 01.php`
 1. [Задача](https://leetcode.com/problems/fraction-to-recurring-decimal/) -
    [Решение](https://leetcode.com/problems/fraction-to-recurring-decimal/submissions/1004337271/)  

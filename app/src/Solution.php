@@ -16,11 +16,11 @@ class Solution
     {
         $node = [];
         while ($headA) {
-            $node[] = $headA;
+            $node[spl_object_id($headA)] = 1;
             $headA = $headA->next;
         }
         while ($headB) {
-            if ($this->hasCycleSearch($node, $headB)) {
+            if (isset($node[spl_object_id($headB)])) {
                 return $headB;
             }
             $headB = $headB->next;

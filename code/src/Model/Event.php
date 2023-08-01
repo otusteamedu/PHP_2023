@@ -26,7 +26,7 @@ class Event
     /**
      * @var int
      */
-    protected int    $priority;
+    protected int $priority;
 
     /**
      * @var string

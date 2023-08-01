@@ -10,7 +10,7 @@ use InvalidArgumentException;
 final class StorageDefinition
 {
     public function __construct(private ConfigDefinition $config)
-    {;
+    {
     }
 
     public function getStorage(string $typeStorage): StorageInterface

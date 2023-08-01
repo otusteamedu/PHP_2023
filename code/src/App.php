@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Art\Code;
 
-
 use Art\Code\ConfigService\ConfigDefinition;
 use Art\Code\Service\PostProcessor;
 use Art\Code\Storage\StorageDefinition;

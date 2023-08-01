@@ -20,7 +20,6 @@ class PostProcessor
             switch ($_POST['method']) {
 
                 case 'add':
-
                     $event = $this->addEvent();
 
                     if ($event !== false) {
@@ -30,17 +29,16 @@ class PostProcessor
                     break;
 
                 case 'find':
-
                     $event = $this->findEvent();
 
                     if ($event === false) {
                         return new Response('Nothing was found.');
                     }
                     $eventName = $event['name'];
+
                     return new Response("Found: `$eventName`");
 
                 case 'clear':
-
                     $this->storage->clear();
 
                     return new Response('Storage has been cleaned.');
@@ -54,8 +52,7 @@ class PostProcessor
     {
         if (isset($_POST['event'], $_POST['priority'], $_POST['conditions'])) {
 
-            if (!is_array($_POST['conditions']))
-                echo ('Isn`t array!');
+            if (!is_array($_POST['conditions'])) echo ('Isn`t array!');
 
             $event = new Event($_POST);
 
@@ -70,6 +67,7 @@ class PostProcessor
     private function findEvent()
     {
         if (isset($_POST['params']) && is_array($_POST['params'])) {
+
             return $this->storage->find($_POST['params']);;
         }
 

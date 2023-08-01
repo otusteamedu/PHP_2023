@@ -41,10 +41,6 @@ class PostProcessor
                     $this->storage->clear();
 
                     return new Response('Storage has been cleaned.');
-
-                default:
-
-                    return new Response('Not founded a method');;
             }
         }
 

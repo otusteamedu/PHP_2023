@@ -1,0 +1,40 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    container_name: web
+    image: myapp/nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    depends_on:
+      - php-fpm
+    networks:
+      - redis_pedis_network
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/data/mysite.local
+    depends_on:
+      - redis
+    networks:
+      - redis_pedis_network
+
+  redis:
+    container_name: redis-pedis
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - redis_pedis_network
+
+networks:
+  redis_pedis_network:
+    driver: bridge

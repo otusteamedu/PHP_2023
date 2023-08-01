@@ -16,11 +16,8 @@ class PostProcessor
 
     public function process(): Response
     {
-        $post = $_POST;
-        if (isset($post['method'])) {
-
-            switch ($post['method']) {
-
+        if (isset($_POST['method'])) {
+            switch ($_POST['method']) {
                 case 'add':
                     $event = $this->addEvent();
 
@@ -46,6 +43,7 @@ class PostProcessor
                     return new Response('Storage has been cleaned.');
 
                 default:
+
                     return new Response('Not founded a method');;
             }
         }
@@ -56,7 +54,6 @@ class PostProcessor
     private function addEvent(): bool
     {
         if (isset($_POST['event'], $_POST['priority'], $_POST['conditions'])) {
-
             if (!is_array($_POST['conditions'])) {
                 echo ('Isn`t array!');
             }

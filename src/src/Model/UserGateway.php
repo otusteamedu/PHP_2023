@@ -42,14 +42,20 @@ class UserGateway
     {
         // if existing user, update user in Identity Map and database.
         if ($user = UserIdentityMap::getUser($id)) {
-            $query = "UPDATE users SET name = '$name', email = '$email' WHERE id = $id";
+            $stmt = $this->mysqli->prepare("UPDATE users SET name = ?, email = ? WHERE id = ?");
+            $stmt->bind_param("ssi", $name, $email, $id);
             $user->name = $name;
             $user->email = $email;
             if (!$user->validateFields()) {
                 return false;
             }
-            $result = $this->mysqli->query($query);
-            return $result;
+            if ($stmt->execute()) {
+                $stmt->close();
+                return true;
+            } else {
+                $stmt->close();
+                return false;
+            }
         }
 
         // if new user, add user to database.
@@ -59,9 +65,15 @@ class UserGateway
         if (!$user->validateFields()) {
             return false;
         }
-        $query = "INSERT INTO users (name, email) VALUES ('$name', '$email')";
-        $result = $this->mysqli->query($query);
-        return $result;
+        $stmt = $this->mysqli->prepare("INSERT INTO users (name, email) VALUES (?, ?)");
+        $stmt->bind_param("ss", $name, $email);
+        if ($stmt->execute()) {
+            $stmt->close();
+            return true;
+        } else {
+            $stmt->close();
+            return false;
+        }
     }
 
     /**

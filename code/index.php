@@ -1,9 +1,9 @@
 <h1>Hello, OTUS!</h1>
 <?php
 
-$lines = file($_SERVER['DOCUMENT_ROOT'].'/.env');
+$lines = file($_SERVER['DOCUMENT_ROOT'] . '/.env');
 
-foreach($lines as $key => $value) {
+foreach ($lines as $key => $value) {
     putenv(trim($value));
 }
 

@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+
+
+  otus-nginx:
+    image: nginx:alpine
+    container_name: otus-nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./code/:/var/www/
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - otus-php-fpm
+
+
+  otus-php-fpm:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: digitalocean.com/php
+    container_name: otus-php-fpm
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    volumes:
+      - ./code/:/var/www/
+      - ./docker/php/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/memcached/php-memcached-custom.ini:/usr/local/etc/php/conf.d/php-memcached-custom.ini
+    depends_on:
+      - otus-redis
+      - otus-memcached
+    links:
+      - otus-redis
+      - otus-memcached
+
+  otus-redis:
+    image: redis:latest
+    container_name: otus-redis
+    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+
+
+  otus-memcached:
+    image: memcached:latest
+    container_name: otus-memcached
+    ports:
+      - "11211:11211"
+
+
+

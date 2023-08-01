@@ -1,0 +1,19 @@
+{
+    "name": "art/code",
+    "description": "hw12 redis",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Art\\Code\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artur",
+            "email": "se6@rep.earth"
+        }
+    ],
+    "require": {
+        "predis/predis": "2.0.0"
+    }
+}

@@ -17,6 +17,7 @@ class PostProcessor
     public function process(): Response
     {
         if (isset($_POST['method'])) {
+
             switch ($_POST['method']) {
 
                 case 'add':
@@ -52,7 +53,9 @@ class PostProcessor
     {
         if (isset($_POST['event'], $_POST['priority'], $_POST['conditions'])) {
 
-            if (!is_array($_POST['conditions'])) echo ('Isn`t array!');
+            if (!is_array($_POST['conditions'])) {
+                echo ('Isn`t array!');
+            }
 
             $event = new Event($_POST);
 
@@ -67,8 +70,7 @@ class PostProcessor
     private function findEvent()
     {
         if (isset($_POST['params']) && is_array($_POST['params'])) {
-
-            return $this->storage->find($_POST['params']);;
+            return $this->storage->find($_POST['params']);
         }
 
         return false;

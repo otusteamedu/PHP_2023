@@ -16,9 +16,10 @@ class PostProcessor
 
     public function process(): Response
     {
-        if (isset($_POST['method'])) {
+        $post = $_POST;
+        if (isset($post['method'])) {
 
-            switch ($_POST['method']) {
+            switch ($post['method']) {
 
                 case 'add':
                     $event = $this->addEvent();
@@ -43,6 +44,9 @@ class PostProcessor
                     $this->storage->clear();
 
                     return new Response('Storage has been cleaned.');
+
+                default:
+                    return new Response('Not founded a method');;
             }
         }
 

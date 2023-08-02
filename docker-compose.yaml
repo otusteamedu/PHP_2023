@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  postgresql:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile-postgresql
+    image: "${DOCKER_PREFIX}/postgresql"
+    container_name: "${DOCKER_PREFIX}_postgresql"
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/volumes/postgresql:/var/lib/postgresql/data
+    networks:
+      - hw17-network
+
+  php:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php
+    image: '${DOCKER_PREFIX}/php'
+    container_name: '${DOCKER_PREFIX}-php'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw17-network
+volumes:
+  socket:
+networks:
+  hw17-network:
+    driver: bridge

@@ -1,3 +1,6 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+1. `php tableGateway.php` - Table Data Gateway
+1. `php rowDataGateway.php` - Row Data Gateway
+1. `php dataMapper.php` - Data Mapper
+1. `php dataMapperWithMap.php` - Data Mapper с Identity Map

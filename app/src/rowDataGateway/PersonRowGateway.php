@@ -11,7 +11,7 @@ use Root\App\tableGateway\PersonTableGatewayDto;
 class PersonRowGateway extends PersonTableGatewayDto
 {
     private PDO $pdo;
-    static private string $table = 'person';
+    private static string $table = 'person';
 
     /**
      * @throws Exception
@@ -89,7 +89,7 @@ class PersonRowGateway extends PersonTableGatewayDto
      * @return PersonRowGateway[]
      * @throws Exception
      */
-    static public function getAll(PDO $pdo): array
+    public static function getAll(PDO $pdo): array
     {
         $sql = 'select * from ' . self::$table;
         $statement = $pdo->prepare($sql);
@@ -119,7 +119,7 @@ class PersonRowGateway extends PersonTableGatewayDto
      * @return PersonRowGateway[]
      * @throws Exception
      */
-    static public function findByFamNamOtc(PDO $pdo, string $fam, ?string $nam = null, ?string $otc = null): array
+    public static function findByFamNamOtc(PDO $pdo, string $fam, ?string $nam = null, ?string $otc = null): array
     {
         /** @noinspection SqlResolve */
         $sql = 'select * from ' . self::$table . ' where fam = ?';

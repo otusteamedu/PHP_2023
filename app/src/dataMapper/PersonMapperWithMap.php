@@ -206,5 +206,4 @@ class PersonMapperWithMap
         }
         return $persons;
     }
-
 }

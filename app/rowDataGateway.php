@@ -5,7 +5,6 @@ declare(strict_types=1);
 use Root\App\enum\Sex;
 use Root\App\rowDataGateway\PersonRowGateway;
 
-
 require __DIR__ . '/vendor/autoload.php';
 
 try {

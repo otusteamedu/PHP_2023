@@ -38,7 +38,6 @@ try {
     $test = $personMapper->findByFamNamOtc('family');
     echo 'Count: ', count($test), PHP_EOL;
 
-
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage(), PHP_EOL;
 }

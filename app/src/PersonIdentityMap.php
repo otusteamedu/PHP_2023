@@ -12,7 +12,8 @@ class PersonIdentityMap
     private static ?PersonIdentityMap $instance = null;
 
     private function __construct()
-    {}
+    {
+    }
 
     public static function instance(): self
     {

@@ -33,7 +33,6 @@ try {
     $test = $personTable->findById($person->id);
     print_r($test);
 
-
 } catch (Exception $e) {
     echo 'Error: ' . $e->getMessage(), PHP_EOL;
 }

@@ -1,0 +1,5 @@
+{
+    "require": {
+        "multeg777/calculator-package": "^1.0"
+    }
+}

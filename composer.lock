@@ -1,0 +1,49 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3e3361db0067f631d84f43edf62cbe32",
+    "packages": [
+        {
+            "name": "multeg777/calculator-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/multeg777/calculator.git",
+                "reference": "9837a686ab3e81c164c9eabb670beda9f5201820"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/multeg777/calculator/zipball/9837a686ab3e81c164c9eabb670beda9f5201820",
+                "reference": "9837a686ab3e81c164c9eabb670beda9f5201820",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Multeg777\\CalculatorPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "support": {
+                "issues": "https://github.com/multeg777/calculator/issues",
+                "source": "https://github.com/multeg777/calculator/tree/v1.0.1"
+            },
+            "time": "2023-05-20T11:06:03+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

@@ -1,4 +1,3 @@
 <?php
-
 new Redis();
 phpinfo();

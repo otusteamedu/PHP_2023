@@ -28,34 +28,24 @@ class ElasticQueryBuilder
 
     public function buildSearchQuery(
         string $index,
-        string $category = null,
-        int $priceGte = null,
-        int $priceLte = null,
-        string $title = null,
-        int $stock = null
+        array $filter = [],
+        array $must = [],
+        array $should = [],
     ): array {
         $body = [];
-        if ($category) {
-            $body['query']['bool']['filter'][] = ['match' => ['category.keyword' => $category]];
+
+        foreach ($filter as $key => $value) {
+            $body['query']['bool']['filter'][] = [$key => $value];
         }
-        $priceArr = [];
-        if ($priceGte) {
-            $priceArr['gte'] = $priceGte;
+
+        foreach ($must as $key => $value) {
+            $body['query']['bool']['must'][$key] = $value;
         }
-        if ($priceLte) {
-            $priceArr['lte'] = $priceLte;
+
+        foreach ($should as $key => $value) {
+            $body['query']['bool']['should'][$key] = $value;
         }
-        if (count($priceArr)) {
-            $body['query']['bool']['filter'][] = ['range' => ['price' => $priceArr]];
-        }
-        if ($title) {
-            $body['query']['bool']['must']['match']['title']['query'] = $title;
-            $body['query']['bool']['must']['match']['title']['fuzziness'] = 2;
-        }
-        if ($stock) {
-            $body['query']['bool']['should']['range']['stock.stock']['gte'] = $stock;
-            $body['query']['bool']['should']['range']['stock.stock']['lte'] = $stock;
-        }
+
         return [
             'index' => $index,
             'body' => $body

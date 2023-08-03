@@ -37,21 +37,34 @@ class Input
 
     public function getSearchParams(): array
     {
-        $params = [];
+        $filter = [];
+        $must = [];
+        $should = [];
 
-        $params[] = readline('Enter index to search: ');
-        $params[] = readline('Enter "category" to search (leave empty to skip): ');
+        $index = readline('Enter index to search: ');
 
-        $priceFrom = readline('Enter "price from" to search (leave empty to skip): ');
-        $params[] = $priceFrom ? intval($priceFrom) : null;
+        if ($category = readline('Enter "category" to search (leave empty to skip): ')) {
+            $filter['match']['category.keyword'] = $category;
+        }
 
-        $priceTo = readline('Enter "price to" to search (leave empty to skip): ');
-        $params[] = $priceTo ? intval($priceTo) : null;
+        if ($priceFrom = readline('Enter "price from" to search (leave empty to skip): ')) {
+            $filter['range']['price']['gte'] = intval($priceFrom);
+        }
 
-        $params[] = readline('Enter "title" to search (leave empty to skip): ');
+        if ($priceTo = readline('Enter "price to" to search (leave empty to skip): ')) {
+            $filter['range']['price']['lte'] = intval($priceTo);
+        }
 
-        $stock = readline('Enter "stock" to search (leave empty to skip): ');
-        $params[] = $stock ? intval($stock) : null;
-        return $params;
+        if ($title = readline('Enter "title" to search (leave empty to skip): ')) {
+            $must['match']['title']['query'] = $title;
+            $must['match']['title']['fuzziness'] = 2;
+        }
+
+        if ($stock = readline('Enter "stock" to search (leave empty to skip): ')) {
+            $should['range']['stock.stock']['gte'] = $stock;
+            $should['range']['stock.stock']['lte'] = $stock;
+        }
+
+        return [$index, $filter, $must, $should];
     }
 }

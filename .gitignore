@@ -1,0 +1,7 @@
+.env
+.idea
+
+composer.lock
+/vendor/
+
+http_ca.crt

@@ -6,5 +6,7 @@
             "Root\\App\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+      "ext-pdo": "*"
+    }
 }

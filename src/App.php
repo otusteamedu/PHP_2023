@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace VLebedev\BookShop;
 
 use VLebedev\BookShop\Console\Dialog;
-use VLebedev\BookShop\Exception\InputException;
 use VLebedev\BookShop\Service\ElasticService\ElasticService;
+use VLebedev\BookShop\Exception\InputException;
 use VLebedev\BookShop\Service\ElasticService\Exception\AuthenticationException;
 
 class App

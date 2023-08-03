@@ -1,3 +1,5 @@
-# PHP_2023
+1. Сумма чисел:
+   bash sum.sh 2 -3.596
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+2. Топ-3 популярных города:
+   bash cities.sh

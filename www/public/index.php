@@ -15,7 +15,7 @@ use Symfony\Component\Dotenv\Dotenv;
 $EOL = '<br/>';
 
 $dotenv = new Dotenv();
-$dotenv->load(__DIR__.'/../.env');
+$dotenv->load(__DIR__ . '/../.env');
 
 $redisHost = $_ENV[ 'REDIS_HOST' ];
 $redisPort = $_ENV[ 'REDIS_PORT' ];
@@ -25,20 +25,26 @@ $redisExpireSec = 5;
 
 $dataSet[Redis::class] =
     new StorageDTO(
-        $redisHost, $redisPort,
-        $redisKeyStore, $redisMessageStore, $redisExpireSec
+        $redisHost,
+        $redisPort,
+        $redisKeyStore,
+        $redisMessageStore,
+        $redisExpireSec
     );
 
-$memcacheHost = $_ENV['MEMCACHED_HOST'];
-$memcachePort = $_ENV['MEMCACHED_PORT'];
+$memcacheHost = $_ENV[ 'MEMCACHED_HOST' ];
+$memcachePort = $_ENV[ 'MEMCACHED_PORT' ];
 $memcacheKeyStore = 'mkey';
 $memcacheMessageStore = static fn(): string => 'messaged_at '.date('G:i:s');
 $memcacheExpireSec = 5;
 
 $dataSet[Memcache::class] =
     new StorageDTO(
-        $memcacheHost, $memcachePort,
-        $memcacheKeyStore, $memcacheMessageStore(), $memcacheExpireSec
+        $memcacheHost,
+        $memcachePort,
+        $memcacheKeyStore,
+        $memcacheMessageStore(),
+        $memcacheExpireSec
     );
 
 
@@ -70,7 +76,7 @@ echo $EOL;
 echo printHintAndBoldMessage('Version_PHP: ', PHP_VERSION_ID);
 echo $EOL;
 // -- --
-$driver = $_ENV['DRIVER_DB'];
+$driver = $_ENV[ 'DRIVER_DB' ];
 echo printHintAndBoldMessage('DataBaseDriver: ', $driver);
 echo $EOL;
 echo $EOL;
@@ -83,18 +89,18 @@ function printHintWithUnderscoreAndEndingMessage(string $hint, string $italicMes
     return $hint.'<u>'.$italicMessage.'</u>'.$ending;
 }
 // -- --
-$pgHost = $_ENV['PGSQL_HOST'];
-$pgPort = $_ENV['PGSQL_PORT'];
-$pgDB = $_ENV['PGSQL_DB'];
-$pgUser = $_ENV['PGSQL_USER'];
-$pgPassword = $_ENV['PGSQL_PSW'];
-$dbSet['pgsql'] = new DBStorageDTO('pgsql', $pgHost, $pgPort, $pgDB, $pgUser, $pgPassword);
+$pgHost = $_ENV[ 'PGSQL_HOST' ];
+$pgPort = $_ENV[ 'PGSQL_PORT' ];
+$pgDB = $_ENV[ 'PGSQL_DB' ];
+$pgUser = $_ENV[ 'PGSQL_USER' ];
+$pgPassword = $_ENV[ 'PGSQL_PSW' ];
+$dbSet[ 'pgsql' ] = new DBStorageDTO('pgsql', $pgHost, $pgPort, $pgDB, $pgUser, $pgPassword);
 
-$mysqlHost = $_ENV['MYSQL_HOST'];
-$mysqlPort = $_ENV['MYSQL_PORT'];
-$mysqlDB = $_ENV['MYSQL_DB'];
-$mysqlUser = $_ENV['MYSQL_USER'];
-$mysqlPassword = $_ENV['MYSQL_PSW'];
+$mysqlHost = $_ENV[ 'MYSQL_HOST' ];
+$mysqlPort = $_ENV[ 'MYSQL_PORT' ];
+$mysqlDB = $_ENV[ 'MYSQL_DB' ];
+$mysqlUser = $_ENV[ 'MYSQL_USER' ];
+$mysqlPassword = $_ENV[ 'MYSQL_PSW' ];
 $dbSet['mysql'] = new DBStorageDTO('mysql', $mysqlHost, $mysqlPort, $mysqlDB, $mysqlUser, $mysqlPassword);
 
 

@@ -25,7 +25,7 @@ services:
       - '6379:6379'
     volumes:
       - ./docker/db/redis:/data
-  memcachaed:
+  memcached:
     container_name: 'memcached'
     image: memcached:1.6.21
     restart: always

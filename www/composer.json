@@ -1,0 +1,28 @@
+{
+    "name": "ndybnov/otus-php-hw1",
+    "type": "project",
+    "require": {
+        "psr/cache": "^3.0",
+        "symfony/dotenv": "^6.3",
+        "nette/database": "^3.1",
+        "ext-memcache": "*",
+        "ext-redis": "*",
+        "ext-pdo": "*",
+        "ext-pdo_pgsql": "*",
+        "ext-pdo_mysql": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "autoload": {
+        "psr-4": {
+            "src\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ]
+}

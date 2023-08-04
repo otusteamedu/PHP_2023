@@ -7,11 +7,11 @@ use Redis;
 
 class FabricCaching
 {
-    public static function build(string $name): Caching_Interface
+    public static function build(string $name): CachingCommonInterface
     {
         $cachings = [
-            Redis::class => RedisCaching::class,
-            Memcache::class => MemcacheCaching::class,
+            Redis::class => RedisCachingCommon::class,
+            Memcache::class => MemcacheCachingCommon::class,
         ];
 
         return new $cachings[$name]();

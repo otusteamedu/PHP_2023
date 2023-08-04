@@ -4,7 +4,7 @@ namespace src\domain;
 
 use Memcache;
 
-class MemcacheCaching implements Caching_Interface
+class MemcacheCachingCommon implements CachingCommonInterface
 {
     private Memcache $memcache;
 

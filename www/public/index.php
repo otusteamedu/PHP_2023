@@ -63,7 +63,9 @@ foreach ($dataSet as $type => $storage) {
     echo $EOL;
     echo printHintAndBoldMessage(
         printHintWithUnderscoreAndEndingMessage(
-            'The value from ', $type, '-storage:'
+            'The value from ',
+            $type,
+            '-storage:'
         ),
         ($gotValue ?: '[empty]')
     );

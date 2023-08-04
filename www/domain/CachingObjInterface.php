@@ -2,7 +2,7 @@
 
 namespace src\domain;
 
-interface Caching_Obj_Interface
+interface CachingObjInterface
 {
     public function connect(string $host, int $port): bool;
     public function disconnect(): bool;

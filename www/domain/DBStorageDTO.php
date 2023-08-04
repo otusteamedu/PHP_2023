@@ -26,7 +26,7 @@ class DBStorageDTO
         $this->user = $user;
         $this->password = $password;
 
-        $this->dsn = $driver.':host='.$host.';port='.$port.';dbname='.$db;
+        $this->dsn = $driver . ':host=' . $host . ';port=' . $port . ';dbname=' . $db;
     }
 
     public function getHost(): string

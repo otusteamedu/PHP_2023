@@ -5,7 +5,7 @@ namespace src\domain;
 use Redis;
 use RedisException;
 
-class RedisCaching implements Caching_Interface
+class RedisCachingCommon implements CachingCommonInterface
 {
     private Redis $redis;
 

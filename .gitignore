@@ -1,0 +1,11 @@
+#phpstorm file
+.idea
+
+#enviroment file
+.env
+
+#all containers logs
+hw1/docker/log/*
+
+#dump
+hw1/docker/postgres/*

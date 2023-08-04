@@ -1,8 +1,5 @@
 <?php
-/*
-listen = /run/php/php8.2-fpm.sock
-fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
- * */
+
 namespace src\public;
 
 require '../vendor/autoload.php';
@@ -17,13 +14,11 @@ use Symfony\Component\Dotenv\Dotenv;
 
 $EOL = '<br/>';
 
-
 $dotenv = new Dotenv();
 $dotenv->load(__DIR__.'/../.env');
 
-
-$redisHost = $_ENV['REDIS_HOST'];
-$redisPort = $_ENV['REDIS_PORT'];
+$redisHost = $_ENV[ 'REDIS_HOST' ];
+$redisPort = $_ENV[ 'REDIS_PORT' ];
 $redisKeyStore = 'message';
 $redisMessageStore = 'Hello, Redis!';
 $redisExpireSec = 5;

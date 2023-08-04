@@ -35,7 +35,7 @@ $dataSet[Redis::class] =
 $memcacheHost = $_ENV[ 'MEMCACHED_HOST' ];
 $memcachePort = $_ENV[ 'MEMCACHED_PORT' ];
 $memcacheKeyStore = 'mkey';
-$memcacheMessageStore = static fn(): string => 'messaged_at '.date('G:i:s');
+$memcacheMessageStore = static fn(): string => 'messaged_at ' . date('G:i:s');
 $memcacheExpireSec = 5;
 
 $dataSet[Memcache::class] =
@@ -81,12 +81,14 @@ echo printHintAndBoldMessage('DataBaseDriver: ', $driver);
 echo $EOL;
 echo $EOL;
 // -- --
-function printHintAndBoldMessage(string $hint, string $message): string {
-    return $hint.'<b>'.$message.'</b>';
+function printHintAndBoldMessage(string $hint, string $message): string
+{
+    return $hint . '<b>' . $message . '</b>';
 }
 
-function printHintWithUnderscoreAndEndingMessage(string $hint, string $italicMessage, string $ending): string {
-    return $hint.'<u>'.$italicMessage.'</u>'.$ending;
+function printHintWithUnderscoreAndEndingMessage(string $hint, string $italicMessage, string $ending): string
+{
+    return $hint . '<u>' . $italicMessage . '</u>' . $ending;
 }
 // -- --
 $pgHost = $_ENV[ 'PGSQL_HOST' ];

@@ -1,0 +1,69 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: app/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+       - phpsocket:/var/run
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: app/php
+    container_name: php-fpm
+    volumes:
+       - ./code:/data/mysite.local
+       - ./docker/php-fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+       - phpsocket:/var/run
+    networks:
+      - app-network
+
+  mysql:
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE_NAME}
+      MYSQL_USER: ${MYSQL_USER_LOGIN}
+      MYSQL_PASSWORD: ${MYSQL_USER_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    expose:
+      - '3306'
+    image: mysql
+    container_name: mysql
+    volumes:
+      - ./mysqldata:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    container_name: redis
+    expose:
+      - '6379'
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    expose:
+      - '11211'
+    networks:
+      - app-network
+
+volumes:
+  phpsocket:
+
+networks:
+  app-network:
+    driver: bridge

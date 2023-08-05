@@ -6,28 +6,20 @@ authorize: ~/.ssh/id_rsa.pub
 keys:
     - ~/.ssh/id_rsa
 folders:
-    -
-        map: /app
-        to: /home/vagrant/app
+    - map: /app
+      to: /home/vagrant/app
 sites:
-    -
-        map: application
-        to: /home/vagrant/app/public
+    - map: application
+      to: /home/vagrant/app/public
 databases:
     - homestead
 features:
-    -
-        mysql: true
-    -
-        mariadb: false
-    -
-        postgresql: false
-    -
-        ohmyzsh: false
-    -
-        webdriver: false
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
 services:
-    -
-        enabled: [mysql]
+    - enabled: [mysql]
 name: app
 hostname: app

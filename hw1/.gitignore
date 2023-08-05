@@ -1,0 +1,19 @@
+#phpstorm file
+../.idea
+
+#enviroment file
+.env
+
+#all containers logs
+docker/log
+
+#dump
+docker/postgres
+
+#composer packages
+vendor
+
+#vagrant files
+.vagrant
+after.sh
+aliases

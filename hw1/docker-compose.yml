@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: otus-nginx
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - ./docker/log/nginx/:/var/log/nginx/
+    ports:
+      - "80:80"
+    depends_on:
+      - php-fpm
+    networks:
+      - otus
+
+  php-fpm:
+    build: docker/php-fpm
+    container_name: otus-php-fpm
+    restart: unless-stopped
+    volumes:
+      - .:/app
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+    working_dir: /app
+    depends_on:
+      - pgsql
+      - redis
+      - memcached
+    networks:
+      - otus
+
+  pgsql:
+    image: postgres:latest
+    container_name: otus-pgsql
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: ${DB_NAME:-otus}
+      POSTGRES_USER: ${DB_USER:-root}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-root}
+    volumes:
+      - ./docker/postgres/dump/:/data/
+    networks:
+      - otus
+
+  redis:
+    image: redis:latest
+    restart: unless-stopped
+    container_name: otus-redis
+    networks:
+      - otus
+
+  memcached:
+    image: memcached:latest
+    restart: unless-stopped
+    container_name: otus-memcached
+    networks:
+      - otus
+
+networks:
+  otus:
+    driver: bridge

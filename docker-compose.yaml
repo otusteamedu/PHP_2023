@@ -1,0 +1,88 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ./src:/data/application.local
+       - unixsocket:/var/run
+       - phpmyadmindata:/var/www/phpmyadmin
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - phpmyadmin
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+       - ./src:/data/application.local
+       - unixsocket:/var/run
+    networks:
+      - app-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    depends_on:
+      - app
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - mysql
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - app-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5-fpm-alpine
+    environment:
+      PMA_HOST: mysql
+    volumes:
+      - phpmyadmindata:/var/www/html
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  unixsocket:
+  mysqldata:
+  phpmyadmindata:
+

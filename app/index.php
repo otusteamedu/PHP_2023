@@ -29,4 +29,3 @@ $memcachedValue = $memcached->get('testkey');
 $result = "Значение из Redis: {$redisValue}" . PHP_EOL . "Значение из Memcached: {$memcachedValue}";
 
 echo $result;
-

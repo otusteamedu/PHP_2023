@@ -1,0 +1,19 @@
+{
+  "name": "migonin/console-socket-chat",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "MIgonin\\ConsoleSocketChat\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "MaximIgonin"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}

@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  web:
+    build:
+      context: ./config/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: myapp-server
+    ports:
+      - "8080:80"
+    volumes:
+      - ./public:/data/application.local
+    links:
+      - fpm
+
+  fpm:
+    build:
+      context: ./config/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: myapp-php
+    ports:
+      - ":9000"
+    volumes:
+      - ./public:/data/application.local
+    environment:
+      REDIS_HOST: redis
+      MEMCACHED_HOST: memcached
+      MYSQL_HOST: mysql
+      MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYAPP_MYSQL_USER: ${MYSQL_USER}
+      MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  redis:
+    image: redis
+    container_name: myapp-redis
+    ports:
+      - "6380:6379"
+
+  memcached:
+    image: memcached
+    container_name: myapp-memcached
+    ports:
+      - "11211:11211"
+
+  mysql:
+    image: mysql
+    restart: always
+    container_name: myapp-mysql
+    ports:
+      - "3307:3306"
+    volumes:
+      - myapp-dbvolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+volumes:
+  # here database will store data
+  myapp-dbvolume:

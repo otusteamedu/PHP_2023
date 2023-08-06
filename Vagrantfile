@@ -2,10 +2,10 @@ Vagrant.configure("2") do |config|
   # Added OC
   config.vm.box = "ubuntu/focal64"
 
-  # set shell script that install necessery packages
+  # set shell script that install necessary packages
   config.vm.provision :shell, path: "bootstrap.sh"
 
-  # forvarding ports
+  # forwarding ports
   config.vm.network :forwarded_port, guest: 80, host: 80
 
   # config resources for the VM

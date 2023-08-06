@@ -1,4 +1,5 @@
 <?php
+
 phpinfo();
 
 $redis = new Redis();
@@ -13,14 +14,14 @@ try {
     exit;
 }
 
-if ( !$redis->exists('testkey')) {
-    $redis->set('testkey', 'Test_messages'.uniqid('_otus_hw_redis_'), 300);
+if (!$redis->exists('testkey')) {
+    $redis->set('testkey', 'Test_messages' . uniqid('_otus_hw_redis_'), 300);
 }
 
 $redisValue = $redis->get('testkey');
 
-if ( !$memcached->get('testkey')) {
-    $memcached->set('testkey', 'Test_messages'.uniqid('_otus_hw_memcached_'), 300);
+if (!$memcached->get('testkey')) {
+    $memcached->set('testkey', 'Test_messages' . uniqid('_otus_hw_memcached_'), 300);
 }
 
 $memcachedValue = $memcached->get('testkey');

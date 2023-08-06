@@ -1,0 +1,55 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - ./public:/usr/share/nginx/html
+
+  php:
+    build: ./docker/php
+    volumes:
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./public:/var/www/html
+    depends_on:
+      - redis
+      - memcached
+      - db
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+
+  db:
+    image: mysql:8.1
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./docker/database/data:/var/lib/mysql
+
+  phpmyadmin:
+    image: phpmyadmin
+    restart: always
+    ports:
+      - "8091:80"
+    depends_on:
+      - db
+

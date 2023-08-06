@@ -33,3 +33,22 @@ services:
     container_name: memcached
     expose:
       - '11211'
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    expose:
+      - '3306'
+    container_name: mysql
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:

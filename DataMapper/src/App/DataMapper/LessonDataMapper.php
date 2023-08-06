@@ -94,9 +94,7 @@ class LessonDataMapper extends DataMapperPrototype
      */
     public function insert(Lesson $lesson): ?Lesson
     {
-        if (!$this->insertStatement->execute([
-            $lesson->getName()
-        ])) {
+        if (!$this->insertStatement->execute([$lesson->getName()])) {
             return null;
         }
 

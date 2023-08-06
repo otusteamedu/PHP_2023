@@ -40,3 +40,10 @@ cd application && cp .env.example .env
 ```bash
 sudo docker compose up -d
 ```
+
+Добавьте сайт `mysite.local` в файл `hosts`
+```bash
+127.0.0.1 mysite.local
+```
+
+Готово!

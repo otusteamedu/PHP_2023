@@ -1,0 +1,16 @@
+{
+    "name": "art/data-mapper",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Art\\DataMapper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artur",
+            "email": "se6@rep.earth"
+        }
+    ],
+    "require": {}
+}

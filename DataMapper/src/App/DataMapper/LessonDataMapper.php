@@ -1,7 +1,9 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Art\DataMapper\App\DataMapper;
+
 use Art\DataMapper\Domain\Models\Lesson;
 use Art\DataMapper\Domain\Models\LessonCollection;
 use Art\DataMapper\Domain\Models\LessonIdentityMap;

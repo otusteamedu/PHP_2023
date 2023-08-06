@@ -1,0 +1,35 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+
+  app:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+  redis:
+    image: redis:4.0
+    container_name: redis
+    ports:
+      - "6382:6379"
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    expose:
+      - '11211'

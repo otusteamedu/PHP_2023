@@ -1,0 +1,33 @@
+ip: 192.168.56.56
+memory: 2048
+cpus: 2
+provider: virtualbox
+authorize: ~/.ssh/id_rsa.pub
+keys:
+    - ~/.ssh/id_rsa
+folders:
+    -
+        map: 'C:\Users\gespa\Projects\study\otus\PHP_2023'
+        to: /home/vagrant/code
+sites:
+    -
+        map: application.local
+        to: /home/vagrant/code/public
+databases:
+    - homestead
+features:
+    -
+        mysql: true
+    -
+        mariadb: false
+    -
+        postgresql: false
+    -
+        ohmyzsh: false
+    -
+        webdriver: false
+services:
+    -
+        enabled: [mysql]
+name: php-2023
+hostname: php-2023

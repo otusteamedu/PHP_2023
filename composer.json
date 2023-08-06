@@ -1,0 +1,11 @@
+{
+    "name": "mmelnyk/hw1_2",
+    "authors": [
+        {
+            "name": "Maksym Melnyk"
+        }
+    ],
+    "require-dev": {
+        "laravel/homestead": "^14.4"
+    }
+}

@@ -1,4 +1,4 @@
 .env
-.idea
 .vagrant
+.idea
 application/.env

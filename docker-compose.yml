@@ -2,21 +2,17 @@ version: "3"
 
 services:
   nginx:
-    build:
-      context: ./docker/nginx
-      dockerfile: Nginx.Dockerfile
+    image: nginx
     ports:
       - "80:80"
     depends_on:
       - php
     volumes:
       - ./docker/nginx:/etc/nginx/conf.d
-      - ./public:/var/www/html
+      - ./public:/usr/share/nginx/html
 
   php:
-    build:
-      context: ./docker/php
-      dockerfile: Php.Dockerfile
+    build: ./docker/php
     volumes:
       - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
       - ./public:/var/www/html
@@ -24,7 +20,6 @@ services:
       - redis
       - memcached
       - db
-#      - composer
 
   redis:
     image: redis:latest

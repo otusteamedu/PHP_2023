@@ -4,9 +4,9 @@
 $redis = new Redis();
 
 if ($redis->connect($_SERVER['REDIS_HOST'])) {
-	echo 'Connected to redis<br />';
+    echo 'Connected to redis<br />';
 } else {
-	echo 'Cannot connect to redis<br />';
+    echo 'Cannot connect to redis<br />';
 }
 
 $memcached = new Memcached();
@@ -15,9 +15,9 @@ $memcached->addServer($_SERVER['MEMCACHED_HOST'], 11211);
 $memcached->set('test', 100);
 
 if ($memcached->get('test') === 100) {
-	echo 'Memcached connected<br />';
+    echo 'Memcached connected<br />';
 } else {
-	echo 'Cannot connect to memcached<br />';
+    echo 'Cannot connect to memcached<br />';
 }
 
 $mysqli = new mysqli(
@@ -30,5 +30,5 @@ $mysqli = new mysqli(
 if ($mysqli->connect_error) {
     echo 'Cannot connect to mysql<br />';
 } else {
-	echo 'MySQL connected<br />';
+    echo 'MySQL connected<br />';
 }

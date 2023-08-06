@@ -1,5 +1,14 @@
 <?php
 
+try {
+    // Сходим в хомстид за бд
+    $dbh = new PDO('mysql:host=192.168.56.56:3306;dbname=homestead', 'hw1', 'passwordpassword');
+    echo "База данных работает<br/>";
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+}
+
+
 echo "Nginx работает<br/>";
 
 $time = microtime(true);

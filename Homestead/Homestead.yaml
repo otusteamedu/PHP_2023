@@ -1,42 +1,37 @@
-GNU nano 4.8                                                                                 Homestead.yaml.example
 ---
 ip: "192.168.56.56"
-memory: 2048
-cpus: 2
+memory: 512
+cpus: 1
 provider: virtualbox
 
 authorize: ~/.ssh/id_rsa.pub
 
 keys:
-  - ~/.ssh/id_rsa
+    - ~/.ssh/id_rsa
 
 folders:
-  - map: ~/code
-    to: /home/vagrant/code
-
-sites:
-  - map: homestead.test
-    to: /home/vagrant/code/public
+    - map: ~/learn/PHP_2023/mysql-files
+      to: /var/lib/mysql
 
 databases:
-  - homestead
+    - homestead
 
 features:
-  - mysql: true
-  - mariadb: false
-  - postgresql: false
-  - ohmyzsh: false
-  - webdriver: false
+    - mysql: true
+    - mariadb: false
+    - postgresql: false
+    - ohmyzsh: false
+    - webdriver: false
 
 services:
-  - enabled:
-      - "mysql"
+    - enabled:
+          - "mysql"
 #    - disabled:
 #        - "postgresql@11-main"
 
-#ports:
-#    - send: 33060 # MySQL/MariaDB
-#      to: 3306
+ports:
+   - send: 3306 # MySQL/MariaDB
+     to: 3306
 #    - send: 4040
 #      to: 4040
 #    - send: 54320 # PostgreSQL
@@ -46,3 +41,4 @@ services:
 #    - send: 9600
 #      to: 9600
 #    - send: 27017
+#      to: 27017

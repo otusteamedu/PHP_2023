@@ -12,7 +12,7 @@ services:
     container_name: my-otus-webserver
     # проброс портов
     ports:
-      - "80:80"
+      - 81:80
     volumes:
        - ./code:/data/mysite.local
     networks:
@@ -41,7 +41,15 @@ services:
     networks:
       - otus-app-network
 
+  memcached:
+    image: memcached:latest
+    container_name: memcached-otus
+    ports:
+      - 11211:11211
+    networks:
+      - otus-app-network
+
 #Docker Networks
 networks:
-  app-network:
+  otus-app-network:
     driver: bridge

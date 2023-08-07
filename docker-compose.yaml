@@ -32,6 +32,15 @@ services:
     networks:
       - otus-app-network
 
+  redis:
+    image: redis:latest
+    command: [ "redis-server", "--appendonly", "yes" ]
+    container_name: my-otus-redis
+    ports:
+      - 6380:6379
+    networks:
+      - otus-app-network
+
 #Docker Networks
 networks:
   app-network:

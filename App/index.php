@@ -1,0 +1,4 @@
+<?php
+
+new Redis();
+phpinfo();

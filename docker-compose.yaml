@@ -35,6 +35,24 @@ services:
     networks:
       - otus-app-network
 
+  db:
+    image: mysql:8.1.0
+    container_name: my-otus-mysql
+    environment:
+      MYSQL_DATABASE: laravel
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - '42339:3306'
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - otus-app-network
+    command:
+      - --sql_mode=NO_ENGINE_SUBSTITUTION
+      - --table_open_cache=20000
+      - --max_connections=1000
+      - --performance_schema
+
   redis:
     image: redis:latest
     command: [ "redis-server", "--appendonly", "yes" ]
@@ -59,3 +77,5 @@ networks:
 
 volumes:
   phpsocket:
+  dbdata:
+    driver: local

@@ -39,8 +39,8 @@ services:
     image: mysql:8.1.0
     container_name: my-otus-mysql
     environment:
-      MYSQL_DATABASE: laravel
-      MYSQL_ROOT_PASSWORD: secret
+      MYSQL_DATABASE: "${MYSQL_DATABASE}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
     ports:
       - '42339:3306'
     volumes:

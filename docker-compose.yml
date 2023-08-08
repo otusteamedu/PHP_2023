@@ -1,0 +1,21 @@
+version: '3.9'
+
+services:
+  php:
+    restart: unless-stopped
+    image: otus-php:lastest
+    build:
+      context: .docker
+      target: php_fpm
+    working_dir: /home/warp/app/website
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  nginx:
+    restart: unless-stopped
+    image: nginx:alpine
+
+    environment:
+      ROOT_DOMAIN: ${ROOT_DOMAIN}
+      FPM_ROOT: /home/warp/app
+      NGINX_ROOT: /srv

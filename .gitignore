@@ -1,5 +1,2 @@
-.idea
-/app/vendor
-/postgres/data
-.env
-
+.idea/
+/app/vendor/

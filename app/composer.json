@@ -1,0 +1,18 @@
+{
+    "name": "jasur/app",
+    "type": "project",
+    "require": {
+        "jasfayz/bracket-chcker": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jasur\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "jasur",
+            "email": "jasfayz@gmail.com"
+        }
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "8dc5e06ec8cc7da2886ae25e17209d38",
+    "packages": [
+        {
+            "name": "jasfayz/bracket-chcker",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JasFayz/bracket-chcker.git",
+                "reference": "1547272727898217a038334d4ced14caee650c42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JasFayz/bracket-chcker/zipball/1547272727898217a038334d4ced14caee650c42",
+                "reference": "1547272727898217a038334d4ced14caee650c42",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JasFayz\\BracketChecker\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "jasfayz",
+                    "email": "jasfayz@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/JasFayz/bracket-chcker/issues",
+                "source": "https://github.com/JasFayz/bracket-chcker/tree/v1.0.3"
+            },
+            "time": "2023-05-23T13:34:23+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

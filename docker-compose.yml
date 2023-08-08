@@ -1,0 +1,7 @@
+version: "3.0"
+services:
+  bash-bc:
+    build: ./bash-bc
+    container_name: hw-02-nick-bash-bc
+    volumes:
+      - ./www:/www

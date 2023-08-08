@@ -1,0 +1,9 @@
+.env
+/mysql/data/**
+/mysql/logs/**
+
+# Другие файлы
+.idea/
+.DS_Store
+http_ca.crt
+/vendor/*

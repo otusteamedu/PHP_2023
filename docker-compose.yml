@@ -1,0 +1,34 @@
+version: "3.8"
+
+networks:
+  default:
+    name: hw12
+
+services:
+
+  redis-hw12:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    ports:
+      - "16379:6379"
+
+  nginx-hw12:
+    image: nginx:stable-alpine
+    container_name: nginx-hw12
+    ports:
+      - "9080:80"
+    volumes:
+      - ./app:/var/www/hw12/
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx/
+
+  php-hw12:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw12
+    volumes:
+      - ./app:/var/www/hw12/
+      - ./php/logs:/var/log/

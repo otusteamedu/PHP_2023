@@ -25,6 +25,7 @@ class App
 
     protected ControllerInterface $controller;
     protected StorageInterface $storage;
+
     public function __construct()
     {
         Dotenv::createUnsafeImmutable(realpath(__DIR__ . '/../../'))->load();
@@ -119,7 +120,7 @@ class App
             if (mb_strpos($arg, 'file') !== false) {
                 $data = [
                     0 => 'data',
-                    1 => file_get_contents(__DIR__ . '/../../' .  explode('=', $arg)[1])
+                    1 => file_get_contents(__DIR__ . '/../../' . explode('=', $arg)[1])
                 ];
             }
         }
@@ -145,7 +146,7 @@ class App
         $rawBody = file_get_contents('php://input');
 
         $this->data = $rawBody;
-        switch($_SERVER['REQUEST_METHOD']) {
+        switch ($_SERVER['REQUEST_METHOD']) {
             case 'GET':
                 $this->method = Constants::METHOD_GET;
                 if (!$rawBody) {

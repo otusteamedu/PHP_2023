@@ -15,16 +15,12 @@ class RedisStorage implements StorageInterface
 
     public function __construct()
     {
-        try {
-            $this->storage = new Redis();
-            $host = getenv(Constants::REDIS_HOST);
-            $port = getenv(Constants::REDIS_PORT) ? (int)getenv(Constants::REDIS_PORT) : Constants::REDIS_PORT_DEFAULT;
-            $this->storage->connect($host, $port);
-            if (!$this->storage->ping()) {
-                throw new Exception(self::NO_CONNECT);
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+        $this->storage = new Redis();
+        $host = getenv(Constants::REDIS_HOST);
+        $port = getenv(Constants::REDIS_PORT) ? (int)getenv(Constants::REDIS_PORT) : Constants::REDIS_PORT_DEFAULT;
+        $this->storage->connect($host, $port);
+        if (!$this->storage->ping()) {
+            throw new Exception(self::NO_CONNECT);
         }
     }
 

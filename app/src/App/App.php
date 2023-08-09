@@ -6,14 +6,10 @@ namespace DEsaulenko\Hw12\App;
 
 use DEsaulenko\Hw12\Constants;
 use DEsaulenko\Hw12\Controller\ControllerInterface;
-use DEsaulenko\Hw12\Controller\RedisController;
-use DEsaulenko\Hw12\Storage\RedisStorage;
 use DEsaulenko\Hw12\Storage\StorageInterface;
-use Dotenv\Dotenv;
 
 class App
 {
-    public const NO_DEFAULT_STORAGE = 'Set DEFAULT_STORAGE in .env';
     public const NO_METHOD_ARGV = 'Не задан метод method';
     public const NO_DATA_ARGV = 'Не передан json в data';
     public const UNKNOWN_METHOD = 'Unknown method';
@@ -26,11 +22,12 @@ class App
     protected ControllerInterface $controller;
     protected StorageInterface $storage;
 
-    public function __construct()
+    public function __construct(
+        ControllerInterface $controller
+    )
     {
-        Dotenv::createUnsafeImmutable(realpath(__DIR__ . '/../../'))->load();
+        $this->controller = $controller;
         $this->prepareData();
-        $this->init();
     }
 
     /**
@@ -69,25 +66,6 @@ class App
                 break;
             default:
                 throw new \Exception(self::UNKNOWN_METHOD);
-        }
-    }
-
-    /**
-     * Инициализирует хранилище и контроллер
-     *
-     * @return void
-     * @throws \Exception
-     */
-    protected function init(): void
-    {
-        $typeStorage = getenv(Constants::DEFAULT_STORAGE);
-        switch ($typeStorage) {
-            case Constants::STORAGE_REDIS:
-                $this->storage = new RedisStorage();
-                $this->controller = new RedisController($this->storage);
-                break;
-            default:
-                throw new \Exception(self::NO_DEFAULT_STORAGE);
         }
     }
 

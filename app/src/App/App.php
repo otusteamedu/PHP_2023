@@ -24,8 +24,7 @@ class App
 
     public function __construct(
         ControllerInterface $controller
-    )
-    {
+    ) {
         $this->controller = $controller;
         $this->prepareData();
     }

@@ -7,15 +7,34 @@ services:
     build:
       context: .docker
       target: php_fpm
+    volumes:
+      - type: bind
+        source: .volumes/php-socket
+        target: /var/run/php
+      - type: bind
+        source: .
+        target: /home/warp/app
     working_dir: /home/warp/app/website
     extra_hosts:
       - host.docker.internal:host-gateway
 
+
   nginx:
     restart: unless-stopped
     image: nginx:alpine
-
+    volumes:
+      - type: bind
+        source: .volumes/php-socket
+        target: /var/run/php
+      - type: bind
+        source: .
+        target: /srv
+      - type: bind
+        source: .docker/nginx
+        target: /etc/nginx/templates
     environment:
+      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
+      NGINX_ENVSUBST_TEMPLATE_SUFFIX: .tmpl
+      NGINX_ROOT: /srv
       ROOT_DOMAIN: ${ROOT_DOMAIN}
       FPM_ROOT: /home/warp/app
-      NGINX_ROOT: /srv

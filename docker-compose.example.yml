@@ -1,0 +1,24 @@
+# Reference: https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+version: '3.9'
+
+services:
+  php:
+    extra_hosts:
+      - ${ROOT_DOMAIN}:host-gateway
+
+  nginx:
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.php_2023-nginx.loadbalancer.server.port=80'
+      - 'traefik.http.routers.php_2023-nginx.service=php_2023-nginx'
+      - 'traefik.http.routers.php_2023-nginx.rule=HostRegexp(`${ROOT_DOMAIN}`)'
+      - 'traefik.http.routers.php_2023-nginx.priority=50'
+    networks:
+      - default
+      - web
+
+networks:
+  web:
+    external: true
+    name: web

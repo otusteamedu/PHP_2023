@@ -83,7 +83,7 @@ class DiscountPrice
     }
 
     /**
-     * @param int $id
+     * @param int $productId
      *
      * @return DiscountPriceDto|null
      */

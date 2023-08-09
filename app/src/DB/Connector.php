@@ -35,7 +35,6 @@ class Connector
             $this->PDO = new \PDO($dsn, $user, $password);
         } catch (\Exception $e) {
         }
-
     }
 
     protected function getDSN(): string

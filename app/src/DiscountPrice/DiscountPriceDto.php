@@ -101,5 +101,4 @@ class DiscountPriceDto
         $this->discount_price = $discount_price;
         return $this;
     }
-
 }

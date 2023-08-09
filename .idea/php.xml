@@ -11,9 +11,14 @@
   </component>
   <component name="PhpIncludePathManager">
     <include_path>
-      <path value="$PROJECT_DIR$/app/vendor/jasfayz/bracket-chcker" />
       <path value="$PROJECT_DIR$/app/vendor/composer" />
+      <path value="$PROJECT_DIR$/app/vendor/jasfayz/bracket-chcker" />
+      <path value="$PROJECT_DIR$/app/vendor/pecee/simple-router" />
+      <path value="$PROJECT_DIR$/app/vendor/devanych/view-renderer" />
     </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="7.4">
+    <option name="suggestChangeDefaultLanguageLevel" value="false" />
   </component>
   <component name="PhpStanOptionsConfiguration">
     <option name="transferred" value="true" />

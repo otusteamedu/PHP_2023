@@ -1,0 +1,14 @@
+{
+    "name": "desaulenko/hw12",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "DEsaulenko\\Hw12\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.3",
+        "vlucas/phpdotenv": "^5.5",
+        "ext-redis": "*"
+    }
+}

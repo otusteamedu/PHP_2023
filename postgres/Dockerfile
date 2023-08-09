@@ -1,6 +1,0 @@
-FROM postgres:15.1-alpine
-
-COPY initdb.d /docker-entrypoint-initdb.d
-RUN chmod +x /docker-entrypoint-initdb.d/*
-
-VOLUME /var/lib/postgresql/data

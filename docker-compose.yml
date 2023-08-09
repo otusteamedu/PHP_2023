@@ -1,10 +1,10 @@
-version: "3"
+version: "3.8"
 
 services:
 
-  mysql-hw7:
-    image: mysql:5.7
-    container_name: mysql-hw7
+  mysql-hw13:
+    image: mysql:8.0
+    container_name: mysql-hw13
     volumes:
       - ./mysql/data/:/var/lib/mysql
       - ./mysql/config:/etc/mysql/conf.d
@@ -14,11 +14,17 @@ services:
     ports:
       - "${MYSQL_PORT}:3306"
     environment:
-      MYSQL_DATABASE: hw7
-      MYSQL_ALLOW_EMPTY_PASSWORD: true
-    networks:
-      - hw7
+      MYSQL_DATABASE: hw13
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+      MYSQL_USER: "${MYSQL_USER}"
+      MYSQL_PASSWORD: "${MYSQL_USER}"
 
-networks:
-  hw7:
-    driver: bridge
+  php-hw13:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw13
+    volumes:
+      - ./app:/var/www/hw13/
+      - ./php/logs:/var/log/

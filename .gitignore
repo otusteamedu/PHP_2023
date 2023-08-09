@@ -1,6 +1,8 @@
 .env
 /mysql/data/**
 /mysql/logs/**
+/mysql/dump/**
+/php/logs/**
 
 # Другие файлы
 .idea/

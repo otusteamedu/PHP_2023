@@ -1,7 +1,13 @@
-# HW7
+# HW13
 
-0. Схема есть в 2 видах:
-   1. scheme.drawio
-   2. scheme.jpg
-1. Запускаем mysql/install.sql
-2. Запускаем mysql/searchPopular.sql
+## PHP и базы данных 
+
+### Реализованы паттерны:
+#### Table Data Gateway
+DiscountPrice
+#### DataMapper
+Product
+
+ProductMapper
+#### Lazy Load
+В методе getDiscountPrice класса Product. Подгрузка осуществляется при обращении из другой таблицы таблицы

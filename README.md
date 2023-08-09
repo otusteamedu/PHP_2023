@@ -1,3 +1,13 @@
-# PHP_2023
+# HW13
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## PHP и базы данных 
+
+### Реализованы паттерны:
+#### Table Data Gateway
+DiscountPrice
+#### DataMapper
+Product
+
+ProductMapper
+#### Lazy Load
+В методе getDiscountPrice класса Product. Подгрузка осуществляется при обращении из другой таблицы таблицы

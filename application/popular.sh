@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-echo "Welcome. Lets see what kind of cities is the most popular!"
+echo "Welcome. Lets see what kind of cities are the most popular!"
 
 ERROR_EXIT_CODE=1
 

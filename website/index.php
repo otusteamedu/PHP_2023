@@ -1,3 +1,8 @@
 <?php
+require 'vendor/autoload.php';
 
-echo phpinfo();
+try {
+
+} catch (RuntimeException $e) {
+    echo $e->getMessage();
+}

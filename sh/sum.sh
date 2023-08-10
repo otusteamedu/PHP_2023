@@ -24,5 +24,5 @@ sum=$(echo "$arg1 + $arg2" | bc)
 echo "$arg1 + $arg2 = $sum"
 
 # применяем awk для вычисления среднего значения
-avg=$(echo "$arg1 $arg2" | awk '{avg=($1+$2)/2; printf "%.2f", avg}')
+avg=$(echo "$arg1 $arg2" | awk '{avg=($arg1+$arg2)/2; printf "%.2f", avg}')
 echo "Среднее значение: $avg"

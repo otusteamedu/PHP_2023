@@ -1,6 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\API\PlaylistController;
+use App\Http\Controllers\API\TrackController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/create-track', [TrackController::class, 'create']);
+Route::post('/create-list', [PlaylistController::class, 'create']);
+Route::get('/tracks', [TrackController::class, 'showList']);
+Route::get('/lists', [PlaylistController::class, 'showList']);

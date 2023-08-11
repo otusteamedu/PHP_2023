@@ -14,7 +14,7 @@ class TrackController
 {
     public function showList(Request $request): Collection
     {
-        return (new Track)->getList($request->all());
+        return (new Track())->getList($request->all());
     }
 
     public function create(Request $request, Track $model): JsonResponse

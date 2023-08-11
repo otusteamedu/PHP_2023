@@ -14,7 +14,7 @@ class PlaylistController
 {
     public function showList(): Collection
     {
-        return (new Playlist)->getList();
+        return (new Playlist())->getList();
     }
 
     public function create(Request $request, Playlist $model): JsonResponse

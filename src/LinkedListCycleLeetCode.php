@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Art\Php2023;
+
 /**
  * Definition for a singly-linked list.
  * class ListNode {

@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace Art\Php2023;
+
 class Solution {
 
     private $results;
@@ -33,11 +35,12 @@ class Solution {
     function search($digits, $pos = 0, $prefix = "") {
         $digit = (int)$digits[$pos];
         foreach($this->phoneData[$digit] as $char){
-            if($pos < strlen($digits) - 1)
+            if($pos < strlen($digits) - 1){
                 $this->search($digits, $pos+1, $prefix . $char);
-            else
+            }
+            else{
                 $this->results[] = $prefix . $char;
+            }
         }
     }
-
 }

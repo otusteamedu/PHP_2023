@@ -18,7 +18,7 @@ class Solution
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head)
+    function hasCycle($head): bool
     {
         if ($head == null) {
             return false;

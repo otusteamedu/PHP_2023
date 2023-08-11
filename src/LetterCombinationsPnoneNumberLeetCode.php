@@ -6,7 +6,6 @@ namespace Art\Php2023;
 
 class Solution
 {
-
     private $results;
 
     private $phoneData = [
@@ -24,7 +23,7 @@ class Solution
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations($digits)
+    function letterCombinations(string $digits): array
     {
         if (strlen($digits) === 0) {
             return [];
@@ -34,7 +33,7 @@ class Solution
         return $this->results;
     }
 
-    function search($digits, $pos = 0, $prefix = "")
+    function search($digits, $pos = 0, $prefix = ""): void
     {
         $digit = (int)$digits[$pos];
         foreach ($this->phoneData[$digit] as $char) {

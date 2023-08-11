@@ -12,24 +12,25 @@ namespace Art\Php2023;
  *     function __construct($val) { $this->val = $val; }
  * }
  */
-
-class Solution {
+class Solution
+{
     /**
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head) {
-        if($head == null) {
+    function hasCycle($head)
+    {
+        if ($head == null) {
             return false;
         }
 
         $fastNode = $head;
 
-        while($fastNode && $fastNode->next) {
+        while ($fastNode && $fastNode->next) {
             $head = $head->next;
             $fastNode = $fastNode->next->next;
 
-            if($fastNode === $head){
+            if ($fastNode === $head) {
                 return true;
             }
         }

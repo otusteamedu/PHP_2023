@@ -4,18 +4,11 @@ declare(strict_types=1);
 
 namespace DEsaulenko;
 
+use DEsaulenko\Hw14\ListNode;
+
 require_once('vendor/autoload.php');
 
-class ListNode
-{
-    public $val = 0;
-    public $next = null;
 
-    public function __construct($val)
-    {
-        $this->val = $val;
-    }
-}
 
 /**
  * Сложность O(n)

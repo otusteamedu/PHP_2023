@@ -54,7 +54,6 @@ function makeNodesList(array $head, $pos): array
         ) {
             $node->next = &$nodes[$pos];
         }
-
     }
     return $nodes;
 }

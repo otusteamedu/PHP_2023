@@ -1,0 +1,13 @@
+version: "3.8"
+
+services:
+
+  php-hw14:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw14
+    volumes:
+      - ./app:/var/www/hw14/
+      - ./php/logs:/var/log/

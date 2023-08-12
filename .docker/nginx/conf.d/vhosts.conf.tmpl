@@ -1,0 +1,7 @@
+server {
+    listen 80;
+    server_name ${ROOT_DOMAIN};
+    root ${NGINX_ROOT}/website;
+    set $fpm_root ${FPM_ROOT}/website;
+    include include/app;
+}

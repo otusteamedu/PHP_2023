@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace DEsaulenko;
+
 require_once('vendor/autoload.php');
 
 /**
@@ -11,12 +13,11 @@ require_once('vendor/autoload.php');
  */
 class Solution
 {
-
     /**
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations($digits)
+    public function letterCombinations($digits)
     {
         if (!$digits) {
             return [];

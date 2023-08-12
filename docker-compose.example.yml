@@ -18,6 +18,14 @@ services:
       - default
       - web
 
+  mysql:
+    ports:
+      - "53306:3306"
+
+  rabbitmq:
+    ports:
+      - "55672:15672"
+
 networks:
   web:
     external: true

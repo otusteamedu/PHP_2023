@@ -15,6 +15,9 @@ RUN apt-get update -qq \
 # https://github.com/mlocati/docker-php-extension-installer#supported-php-extensions
 COPY --from=extension_installer /usr/bin/install-php-extensions /usr/bin/
 RUN PICKLE_PECL_UNSAFE=1 IPE_GD_WITHOUTAVIF=1 install-php-extensions \
+      bcmath-stable \
+      redis-stable \
+      memcached-stable \
       mysqli-stable \
       pdo_mysql-stable \
       zip-stable \
@@ -29,6 +32,7 @@ RUN addgroup --gid $GID warp \
     && adduser --system --home /home/warp --shell /bin/bash --uid $UID --ingroup warp --disabled-password warp \
     && mkdir -p /home/warp/app \
     && chown -R warp:warp /home/warp
+
 
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 

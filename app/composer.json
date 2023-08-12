@@ -1,0 +1,15 @@
+{
+    "name": "desaulenko/hw14",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "DEsaulenko\\Hw14\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.3",
+        "vlucas/phpdotenv": "^5.5",
+        "ext-redis": "*",
+        "ext-pdo": "*"
+    }
+}

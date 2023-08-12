@@ -1,6 +1,6 @@
 .env
-/php/logs/**
 
 # Другие файлы
 .idea/
 .DS_Store
+/vendor/*

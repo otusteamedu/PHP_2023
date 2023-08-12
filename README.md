@@ -1,3 +1,8 @@
-# PHP_2023
+# HW14
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Практикум решения алгоритмических задач 1
+## https://leetcode.com/problems/linked-list-cycle/
+сложность O(n)
+## https://leetcode.com/problems/letter-combinations-of-a-phone-number/
+Сложность O(3^n * 4^m)
+т.к. у нас комбинации букв на цифрах от 3 до 4

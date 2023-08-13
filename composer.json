@@ -1,0 +1,20 @@
+{
+    "name": "ro/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Ro\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Roman.Yuzyuk",
+            "email": "roman.yuzyuk@lenvendo.ru"
+        }
+    ],
+    "require": {
+        "symfony/routing": "^6.3",
+        "symfony/http-foundation": "^6.3",
+        "symfony/http-kernel": "^6.3",
+        "predis/predis": "^2.2"
+    }
+}

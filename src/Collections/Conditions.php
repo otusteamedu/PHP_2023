@@ -32,7 +32,7 @@ class Conditions implements ConditionsInterface
         $result = [];
         $it = $this->getIterator();
 
-        while( $it->valid() )
+        while ($it->valid())
         {
             $result[$it->current()->getName()] = $it->current()->getValue();
             $it->next();

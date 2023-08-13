@@ -46,7 +46,8 @@ class EventStorage implements EventStorageInterface
         return $this->redisClient->hgetall($id);
     }
 
-    public function clearEvents() {
+    public function clearEvents()
+    {
         return $this->redisClient->flushdb();
     }
 

@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerResolver;
 
 class App
 {
-    public function Run(): void
+    public function run(): void
     {
         $redisClient = new Client([
             'host' => $_ENV['REDIS_HOST'],

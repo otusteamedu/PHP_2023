@@ -13,7 +13,6 @@ class Event implements EventInterface
         private readonly ConditionsInterface $conditions,
         private readonly array $event,
     ) {
-
     }
 
     public function getPriority(): int

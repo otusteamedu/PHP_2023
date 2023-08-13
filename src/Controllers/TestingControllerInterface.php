@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Ro\Php2023\Controllers;
+
 use Symfony\Component\HttpFoundation\Response;
 
 interface TestingControllerInterface

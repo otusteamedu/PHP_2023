@@ -13,7 +13,8 @@ class Redis
         $this->redisClient->connect();
     }
 
-    public function ping() {
+    public function ping()
+    {
         return $this->redisClient->ping();
     }
 }

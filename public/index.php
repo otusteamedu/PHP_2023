@@ -9,8 +9,5 @@ use Ro\Php2023\App;
 try {
     $app = new App();
     $app->run();
+} catch (Exception $e) {
 }
-catch(Exception $e){
-}
-
-

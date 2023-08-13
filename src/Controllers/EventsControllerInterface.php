@@ -15,4 +15,3 @@ interface EventsControllerInterface
     public function getMatching(Request $request): Response;
     public function delete(): Response;
 }
-

@@ -1,0 +1,96 @@
+version: '2'
+
+volumes:
+  site:
+  db:
+    driver: local
+
+
+services:
+    php:
+        build: ./${PHP_VERSION}
+        volumes_from:
+            - source
+        ports:
+            - '${INTERFACE}:9900:9900'
+        links:
+            - db
+            - memcached
+            - redis
+        networks:
+            - otushw1
+        restart: always
+    web_server:
+        build: ./${WEB_SERVER_TYPE}
+        depends_on:
+            - source
+        volumes_from:
+            - source
+        ports:
+            - '${INTERFACE}:80:80'
+            - '${INTERFACE}:443:443'
+        links:
+            - php
+        networks: 
+            - otushw1
+        restart: always
+    db:
+        build: ./${DB_SERVER_TYPE}
+        volumes_from:
+            - source
+        ports:
+            - '${INTERFACE}:3306:3306'
+        environment:
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+        command: mysqld --sql-mode=""
+        networks:
+            - otushw1
+        restart: always
+    memcached:
+        image: memcached:1.5-alpine
+        volumes_from:
+            - source
+        ports:
+            - '${INTERFACE}:11211:11211'
+        networks:
+            - otushw1
+        restart: always
+    adminer:
+        image: adminer
+        links:
+            - db:db
+        ports:
+            - '${INTERFACE}:8080:8080'
+        networks:
+            - otushw1
+    redis:
+        image: redis:latest
+        ports:
+            - '${INTERFACE}:6379:6379'
+        networks:
+            - otushw1
+        restart: always
+    source:
+        image: alpine:latest
+        volumes:
+            - ./logs/${WEB_SERVER_TYPE}:/var/log/${WEB_SERVER_TYPE}
+            - ./logs/php:/var/log/php
+            - ./logs/db:/var/log/mysql
+            - ./logs/memcached:/var/log/memcached
+            - ./logs/redis:/var/log/redis
+            - db:/var/lib/mysql
+            - ./data/memcached:/var/lib/memcached
+            - ${SITE_PATH}:/var/www
+            - /etc/localtime:/etc/localtime/:ro
+        networks:
+            - otushw1
+networks:
+    otushw1:
+        driver: bridge
+        ipam:
+            driver: default
+            config:
+                - subnet: 10.199.0.0/24

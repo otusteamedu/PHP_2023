@@ -9,4 +9,4 @@ WORKDIR /var/www/app
 
 VOLUME /var/www/app
 
-CMD ["php", "worker.php"]
+CMD ["php", "./public/worker.php"]

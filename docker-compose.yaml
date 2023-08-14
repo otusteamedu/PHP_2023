@@ -68,8 +68,6 @@ services:
     networks:
       - hw31-network
 
-volumes:
-  socket:
 networks:
   hw31-network:
     driver: bridge

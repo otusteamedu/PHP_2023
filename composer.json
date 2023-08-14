@@ -1,0 +1,43 @@
+{
+  "name": "kulikov-rv/brain-games",
+  "description": "study project for hexlet",
+  "type": "project",
+  "keywords": [
+    "php",
+    "hexlet",
+    "brain-games"
+  ],
+  "bin": ["bin/brain-even",
+    "bin/brain-calc",
+    "bin/brain-gcd",
+    "bin/brain-progression",
+    "bin/brain-prime"
+  ],
+  "authors": [
+    {
+      "name": "Roman Kulikov",
+      "email": "texasultra@mail.ru"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "wp-cli/php-cli-tools": "^0.11.11",
+    "ext-gmp": "*"
+  },
+  "autoload": {
+    "files": [
+      "src/games/Progression.php",
+      "src/games/Gcd.php",
+      "src/games/Calc.php",
+      "src/games/Even.php",
+      "src/Engine.php",
+      "src/games/Prime.php"
+    ]
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.5.8"
+  },
+  "scripts": {
+    "phpcs": "phpcs"
+  }
+}

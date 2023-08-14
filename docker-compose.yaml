@@ -53,6 +53,34 @@ services:
       - '15672:15672'
     networks:
       - hw28-network
+  php-worker-exec:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php-worker-exec
+    image: '${DOCKER_PREFIX}/php-worker-exec'
+    container_name: '${DOCKER_PREFIX}-php-worker-exec'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw28-network
+  php-worker-notify:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php-worker-notify
+    image: '${DOCKER_PREFIX}/php-worker-notify'
+    container_name: '${DOCKER_PREFIX}-php-worker-notify'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw28-network
 volumes:
   socket:
 networks:

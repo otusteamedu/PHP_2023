@@ -10,8 +10,10 @@ class Validator
     public function validateString(?string $string): bool
     {
         $this->string = $string;
-
         $this->checkNullable();
+        if (!$this->result) {
+            return $this->result;
+        }
         $this->checkBrackets();
 
         return $this->result;
@@ -24,20 +26,19 @@ class Validator
         }
     }
 
-    private function checkBrackets(): void 
+    private function checkBrackets(): void
     {
         $number = 0;
         foreach (str_split($this->string) as $element) {
-            if ($element == "(") {
-                $number += 1;
-            } elseif($element == ")") {
-                $number -= 1;
+            if ($element === "(") {
+                ++$number;
+            } elseif ($element === ")") {
+                --$number;
             }
         }
 
-        if ($number != 0) {
+        if ($number !== 0) {
             $this->result = false;
         }
     }
-
 }

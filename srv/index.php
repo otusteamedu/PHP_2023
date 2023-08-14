@@ -3,7 +3,7 @@
 require 'Validator.php';
 
 $validator = new Validator;
-$string = ')(';
+$string = '(((((())))))';
 
 $result = $validator->validateString($string);
 

@@ -6,7 +6,8 @@ namespace Ro\Php2023\Models;
 
 use Ro\Php2023\DataMapper\UserDataMapperInterface;
 
-class User {
+class User
+{
     private int $id;
     private string $username;
     private string $email;
@@ -37,7 +38,6 @@ class User {
     }
 
     public function getPosts(): array
-
     {
         if ($this->posts === null) {
             $this->posts = $this->userDataMapper->fetchPostsForUser($this->id);

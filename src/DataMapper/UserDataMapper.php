@@ -12,7 +12,8 @@ class UserDataMapper implements UserDataMapperInterface
     private PDO $db_connection;
     private UserIdentityMap $userIdentityMap;
 
-    public function __construct(PDO $db_connection, UserIdentityMap $userIdentityMap) {
+    public function __construct(PDO $db_connection, UserIdentityMap $userIdentityMap)
+    {
         $this->db_connection = $db_connection;
         $this->userIdentityMap = $userIdentityMap;
     }

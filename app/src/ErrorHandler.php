@@ -12,8 +12,8 @@ class ErrorHandler
         string $errstr,
         ?string $errfile = null,
         ?int $errline = null,
-        ?array $errcontext = []): void
-    {
+        ?array $errcontext = []
+    ): void {
         /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
         Response::echo(false, "Error: {$errno}, {$errstr}. ({$errfile} : {$errline})");
     }

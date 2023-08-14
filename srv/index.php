@@ -1,6 +1,6 @@
 <?php
 
-require 'Validator.php';
+namespace App;
 
 $validator = new Validator;
 $string = '(((((())))))';

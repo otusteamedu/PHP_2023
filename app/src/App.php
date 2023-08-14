@@ -56,7 +56,7 @@ class App
         }
         return $data;
     }
-    
+
     private function getBankStatement(string $start, string $end, array $notification = []): void
     {
         $query = new Query();

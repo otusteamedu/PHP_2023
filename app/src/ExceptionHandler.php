@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Root\App;
@@ -11,5 +12,4 @@ class ExceptionHandler
     {
         Response::echo(false, ($exception instanceof AppException ? 'App error: ' : 'Fatal error: ') . $exception->getMessage());
     }
-
 }

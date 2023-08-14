@@ -21,7 +21,7 @@ class TaskTable
     /**
      * @throws AppException
      */
-    public function findById(string $id): ?TaskDto
+    public function findById(string $id): TaskDto
     {
         /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
         $sql = "select * from {$this->table} where id = ?";
@@ -29,7 +29,7 @@ class TaskTable
         $statement->execute([$id]);
         $result = $statement->fetch();
         if (empty($result)) {
-            return null;
+            throw new NotFoundException("id=`({$id}` not found)");
         }
 
         return (new TaskDto())

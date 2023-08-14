@@ -8,7 +8,7 @@ volumes:
 
 services:
     php:
-        build: ./${PHP_VERSION}
+        build: ./php74
         volumes_from:
             - source
         ports:
@@ -21,7 +21,7 @@ services:
             - otushw1
         restart: always
     web_server:
-        build: ./${WEB_SERVER_TYPE}
+        build: ./nginx
         depends_on:
             - source
         volumes_from:
@@ -35,7 +35,7 @@ services:
             - otushw1
         restart: always
     db:
-        build: ./${DB_SERVER_TYPE}
+        build: ./mysql
         volumes_from:
             - source
         ports:
@@ -58,14 +58,6 @@ services:
         networks:
             - otushw1
         restart: always
-    adminer:
-        image: adminer
-        links:
-            - db:db
-        ports:
-            - '${INTERFACE}:8080:8080'
-        networks:
-            - otushw1
     redis:
         image: redis:latest
         ports:
@@ -76,7 +68,7 @@ services:
     source:
         image: alpine:latest
         volumes:
-            - ./logs/${WEB_SERVER_TYPE}:/var/log/${WEB_SERVER_TYPE}
+            - ./logs/nginx:/var/log/nginx
             - ./logs/php:/var/log/php
             - ./logs/db:/var/log/mysql
             - ./logs/memcached:/var/log/memcached

@@ -1,0 +1,12 @@
+FROM hw31/php
+
+ARG user
+ARG uid
+
+USER $user
+
+WORKDIR /var/www/app
+
+VOLUME /var/www/app
+
+CMD ["php", "worker.php"]

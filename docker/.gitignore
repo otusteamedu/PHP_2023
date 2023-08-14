@@ -1,2 +1,2 @@
-/volumes
+/docker/volumes/postgresql
 /tmp

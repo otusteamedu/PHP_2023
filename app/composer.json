@@ -1,0 +1,12 @@
+{
+    "name": "root/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\App\\": "src/"
+        }
+    },
+    "require": {
+        "php-amqplib/php-amqplib": "v3.5.4"
+    }
+}

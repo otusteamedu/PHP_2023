@@ -2,7 +2,7 @@
 
 namespace App;
 
-$validator = new Validator;
+$validator = new Validator();
 $string = '(((((())))))';
 
 $result = $validator->validateString($string);

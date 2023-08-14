@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "71098c13e3a4db9c652d238dc505a23d",
+    "packages": [
+        {
+            "name": "professor-archibaald/composer-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ProfessorArchibaald/composer-package.git",
+                "reference": "89dcc9bab89ef7d4df780ae5b8205fb0751f186a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ProfessorArchibaald/composer-package/zipball/89dcc9bab89ef7d4df780ae5b8205fb0751f186a",
+                "reference": "89dcc9bab89ef7d4df780ae5b8205fb0751f186a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ProfessorArchibaald\\ComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Archibald01",
+                    "email": "85070971+Archibald01@users.noreply.github.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/ProfessorArchibaald/composer-package/issues",
+                "source": "https://github.com/ProfessorArchibaald/composer-package/tree/v1.0.1"
+            },
+            "time": "2023-08-14T19:25:23+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

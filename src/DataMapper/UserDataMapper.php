@@ -7,7 +7,8 @@ namespace Ro\Php2023\DataMapper;
 use PDO;
 use Ro\Php2023\Models\User;
 
-class UserDataMapper implements UserDataMapperInterface {
+class UserDataMapper implements UserDataMapperInterface
+{
     private PDO $db_connection;
     private UserIdentityMap $userIdentityMap;
 
@@ -16,7 +17,8 @@ class UserDataMapper implements UserDataMapperInterface {
         $this->userIdentityMap = $userIdentityMap;
     }
 
-    public function fetchAllUsers(): array {
+    public function fetchAllUsers(): array
+    {
         $query = "SELECT * FROM users";
         $result = $this->db_connection->query($query);
         $users = [];
@@ -28,32 +30,37 @@ class UserDataMapper implements UserDataMapperInterface {
         return $users;
     }
 
-    public function fetchPostsForUser(int $user_id): array {
+    public function fetchPostsForUser(int $user_id): array
+    {
         $query = "SELECT * FROM user_posts WHERE user_id = ?";
         $stmt = $this->db_connection->prepare($query);
         $stmt->execute([$user_id]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function createUser(string $username, string $email): bool {
+    public function createUser(string $username, string $email): bool
+    {
         $query = "INSERT INTO users (username, email) VALUES (?, ?)";
         $stmt = $this->db_connection->prepare($query);
         return $stmt->execute([$username, $email]);
     }
 
-    public function updateUser(int $user_id, string $username, string $email): bool {
+    public function updateUser(int $user_id, string $username, string $email): bool
+    {
         $query = "UPDATE users SET username = ?, email = ? WHERE id = ?";
         $stmt = $this->db_connection->prepare($query);
         return $stmt->execute([$username, $email, $user_id]);
     }
 
-    public function deleteUser(int $user_id): bool {
+    public function deleteUser(int $user_id): bool
+    {
         $query = "DELETE FROM users WHERE id = ?";
         $stmt = $this->db_connection->prepare($query);
         return $stmt->execute([$user_id]);
     }
 
-    public function getUserById(int $user_id): ?User {
+    public function getUserById(int $user_id): ?User
+    {
         $cachedUser = $this->userIdentityMap->getUserById($user_id);
         if ($cachedUser) {
             return $cachedUser;

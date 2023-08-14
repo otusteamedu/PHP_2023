@@ -6,7 +6,8 @@ namespace Ro\Php2023\DataMapper;
 
 use Ro\Php2023\Models\User;
 
-interface UserDataMapperInterface {
+interface UserDataMapperInterface
+{
     public function fetchAllUsers(): array;
     public function fetchPostsForUser(int $user_id): array;
     public function createUser(string $username, string $email): bool;

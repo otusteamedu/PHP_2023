@@ -13,26 +13,32 @@ class User {
     private ?array $posts = null;
     private UserDataMapperInterface $userDataMapper;
 
-    public function __construct(int $id, string $username, string $email, UserDataMapperInterface $userDataMapper) {
+    public function __construct(int $id, string $username, string $email, UserDataMapperInterface $userDataMapper)
+    {
         $this->id = $id;
         $this->username = $username;
         $this->email = $email;
         $this->userDataMapper = $userDataMapper;
     }
 
-    public function getId(): int {
+    public function getId(): int
+    {
         return $this->id;
     }
 
-    public function getUsername(): string {
+    public function getUsername(): string
+    {
         return $this->username;
     }
 
-    public function getEmail(): string {
+    public function getEmail(): string
+    {
         return $this->email;
     }
 
-    public function getPosts(): array {
+    public function getPosts(): array
+
+    {
         if ($this->posts === null) {
             $this->posts = $this->userDataMapper->fetchPostsForUser($this->id);
         }

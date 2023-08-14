@@ -1,11 +1,5 @@
 #!/bin/bash
 
-if ! dpkg -s bc >/dev/null 2>&1
-  then
-    echo "Не установлен пакет bc для вычислений с плавающей точкой"
-    exit 1
-fi
-
 if [[ $# -ne 2 ]]
   then
     echo "Кол-во аргументов должно быть = 2"
@@ -19,6 +13,11 @@ if [[ $# -ne 2 ]]
         exit 1
     fi
 
-    sum=$(bc<<<"scale=3;$1+$2")
-    echo $sum
+    if dpkg -s bc >/dev/null 2>&1
+      then
+        sum=$(bc<<<"scale=3;$1+$2")
+        echo $sum
+      else
+        echo $1 $2 | awk '{print $1+$2}'
+    fi
 fi

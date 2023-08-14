@@ -1,22 +1,16 @@
 <?php
 
-// require 'Validator.php';
+require 'Validator.php';
 
-// $validator = new Validator;
-// $string = '(()()()()))((((()()()))(()()()(((()))))))';
+$validator = new Validator;
+$string = ')(';
 
-// $result = $validator->validateString($_POST['string'] = $string);
+$result = $validator->validateString($string);
 
-// if ($result) {
-//     http_response_code(200);
-//     echo 'Запрос выполнен успешно';
-// } else {
-//     http_response_code(400);
-//     echo 'Запрос невыполнен. Ошибка валидации';
-// }
-
-echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
-echo "<br>";
-echo "IP  " . $_SERVER['SERVER_ADDR'];
-
-phpinfo();
+if ($result) {
+    http_response_code(200);
+    echo 'Запрос выполнен успешно';
+} else {
+    http_response_code(400);
+    echo 'Запрос невыполнен. Ошибка валидации';
+}

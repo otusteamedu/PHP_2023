@@ -5,13 +5,14 @@ declare(strict_types=1);
 class Validator
 {
     private bool $result = true;
-    private null|string $string = null;
+    private ?string $string = null;
 
-    public function validateString(null|string $string): bool
+    public function validateString(?string $string): bool
     {
         $this->string = $string;
 
         $this->checkNullable();
+        $this->checkBrackets();
 
         return $this->result;
     }
@@ -25,8 +26,18 @@ class Validator
 
     private function checkBrackets(): void 
     {
-        // Идея в том, чтобы перебирая все элементы если (, то прибавлять + если ), то
-        // отнимать. Если итоговое значение 0, то все отлично.
+        $number = 0;
+        foreach (str_split($this->string) as $element) {
+            if ($element == "(") {
+                $number += 1;
+            } elseif($element == ")") {
+                $number -= 1;
+            }
+        }
+
+        if ($number != 0) {
+            $this->result = false;
+        }
     }
 
 }

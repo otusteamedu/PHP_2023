@@ -28,6 +28,7 @@ services:
     image: my-otus-app/php # имя будущего образа
     container_name: my-otus-app # имя контейнера после запуска
     volumes:
+       - .:/data
        - ./code:/data/mysite.local
        - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
        - phpsocket:/var/run

@@ -2,13 +2,14 @@
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
-### Init Docker App
-- cd ./docker
-- copy .env.example .env
-- Set the environment for .env
-- Build Image: docker-compose up --build -d
+### Init HomeWork
+- ```docker-compose up --build -d```
 
+#### Test Calculator
+- ```docker exec -it ubuntu bash```
+- ./sum.sh {num1} {num2} (Example: ```./sum.sh 1 2```)
 
-### Init Homestead
-- cd ./homestead
-- Read: **[Homestead](https://laravel.com/docs/10.x/homestead)**
+#### Test Select City
+- ```docker exec -it ubuntu bash```
+- ```./select.sh```
+

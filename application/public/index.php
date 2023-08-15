@@ -1,34 +1,16 @@
 <?php
 
-// from docs: https://github.com/phpredis/phpredis#class-redis
-$redis = new Redis();
+declare(strict_types=1);
 
-if ($redis->connect($_SERVER['REDIS_HOST'])) {
-    echo 'Connected to redis<br />';
-} else {
-    echo 'Cannot connect to redis<br />';
-}
+require __DIR__ . '/../vendor/autoload.php';
 
-$memcached = new Memcached();
-$memcached->addServer($_SERVER['MEMCACHED_HOST'], 11211);
+use Gesparo\Calculator\Calculator;
 
-$memcached->set('test', 100);
+$calc = new Calculator();
 
-if ($memcached->get('test') === 100) {
-    echo 'Memcached connected<br />';
-} else {
-    echo 'Cannot connect to memcached<br />';
-}
+echo 'This is manipulations with created package' . '<br>' . '<br>';
 
-$mysqli = new mysqli(
-    "{$_SERVER['MYSQL_HOST']}:3306",
-    $_SERVER['MYAPP_MYSQL_USER'],
-    $_SERVER['MYAPP_MYSQL_PASSWORD'],
-    $_SERVER['MYAPP_MYSQL_DATABASE']
-);
-
-if ($mysqli->connect_error) {
-    echo 'Cannot connect to mysql<br />';
-} else {
-    echo 'MySQL connected<br />';
-}
+echo 'Sum: ' . $calc->add(1, 2) . '<br>';
+echo 'Subtract: ' . $calc->subtract(1, 2) . '<br>';
+echo 'Multiply: ' . $calc->multiply(1, 2) . '<br>';
+echo 'Divide: ' . $calc->divide(1, 2) . '<br>';

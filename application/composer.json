@@ -1,0 +1,20 @@
+{
+    "name": "gesparo/phpstudy",
+    "description": "This is the main project for the course PHP Developer. Professional",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gesparo\\Phpstudy\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maxim Melnik",
+            "email": "gesparo1@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "gesparo/calculator": "^1.1"
+    }
+}

@@ -7,7 +7,7 @@ namespace DmitryEsaulenko\Hw15\Chat\Client;
 use DmitryEsaulenko\Hw15\Constants;
 use Socket\Raw\Socket;
 
-class ClientController implements ClientInterface
+class Client implements ClientInterface
 {
     private Socket $socket;
 

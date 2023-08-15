@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace DmitryEsaulenko\Hw15\App;
 
-use DmitryEsaulenko\Hw15\Chat\Client\ClientController;
-use DmitryEsaulenko\Hw15\Chat\Server\ServerController;
+use DmitryEsaulenko\Hw15\Chat\Client\Client;
+use DmitryEsaulenko\Hw15\Chat\Server\Server;
 use DmitryEsaulenko\Hw15\Constants;
 
 class App
@@ -20,12 +20,12 @@ class App
         switch ($typeClient) {
             case Constants::TYPE_APP_CLIENT:
                 $socket = $factory->createClient($address);
-                (new ClientController($socket))->run();
+                (new Client($socket))->run();
                 break;
             case Constants::TYPE_APP_SERVER:
                 unlink($socket);
                 $socket = $factory->createServer($address)->listen();
-                (new ServerController($socket))->run();
+                (new Server($socket))->run();
                 break;
             default:
                 throw new \Exception('Undefined type app');

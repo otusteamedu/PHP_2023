@@ -1,13 +1,13 @@
 <?php
 
-namespace DmitryEsaulenko\Hw6;
+namespace DmitryEsaulenko\Hw15;
 
 class Constants
 {
-    public const CONFIG_PATH = '/config/config.ini';
-
-    public const UNIX_SOCKET = 'unix_socket';
-
+    public const SOCKET = 'SOCKET';
+    public const SOCKET_TYPE = 'SOCKET_TYPE';
     public const TYPE_APP_CLIENT = 'client';
     public const TYPE_APP_SERVER = 'server';
+
+    public const MESSAGE_LENGTH = 4096;
 }

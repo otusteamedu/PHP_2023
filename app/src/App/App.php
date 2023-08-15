@@ -2,25 +2,30 @@
 
 declare(strict_types=1);
 
-namespace DmitryEsaulenko\Hw6\App;
+namespace DmitryEsaulenko\Hw15\App;
 
-use DmitryEsaulenko\Hw6\Chat\Client;
-use DmitryEsaulenko\Hw6\Chat\Server;
-use DmitryEsaulenko\Hw6\Constants;
+use DmitryEsaulenko\Hw15\Chat\Client\ClientController;
+use DmitryEsaulenko\Hw15\Chat\Server\ServerController;
+use DmitryEsaulenko\Hw15\Constants;
 
 class App
 {
     public function run()
     {
         $typeClient = $this->getTypeClient();
+        $socket = getenv(Constants::SOCKET);
+        $type = getenv(Constants::SOCKET_TYPE);
+        $address = $type . $socket;
+        $factory = new \Socket\Raw\Factory();
         switch ($typeClient) {
             case Constants::TYPE_APP_CLIENT:
-                $client = new Client();
-                $client->run();
+                $socket = $factory->createClient($address);
+                (new ClientController($socket))->run();
                 break;
             case Constants::TYPE_APP_SERVER:
-                $server = new Server();
-                $server->run();
+                unlink($socket);
+                $socket = $factory->createServer($address)->listen();
+                (new ServerController($socket))->run();
                 break;
             default:
                 throw new \Exception('Undefined type app');

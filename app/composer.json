@@ -3,13 +3,15 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "DmitryEsaulenko\\Hw6\\": "src/"
+            "DmitryEsaulenko\\Hw15\\": "src/"
         }
     },
     "require-dev": {
         "symfony/var-dumper": "^6.2"
     },
     "require": {
-        "ext-sockets": "*"
+        "vlucas/phpdotenv": "^5.5",
+        "ext-sockets": "*",
+        "clue/socket-raw": "^1.6"
     }
 }

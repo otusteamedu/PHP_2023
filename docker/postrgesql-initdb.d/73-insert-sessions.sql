@@ -24,6 +24,8 @@ $$
             time_start = Date(curr.generate_series) + current_setting('my.time_start')::time;
             time_end = Date(curr.generate_series) + current_setting('my.time_end')::time;
 
+            raise notice 'date %', Date(curr.generate_series);
+
             for hall_r in select id from hall where active = true loop
                 time_curr := time_start;
                     while time_curr < time_end loop

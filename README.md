@@ -27,10 +27,12 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 1. `SELECT * FROM public.service;` - view служебных дат
 
 ## Запросы `sql/`
-1. `select-all-movie-today.sql` - Выбор всех фильмов на сегодня
-1. `select-ticket-week.sql` - Подсчёт проданных билетов за неделю
-1. `select-poster.sql` - Формирование афиши (фильмы, которые показывают сегодня)
-1. `select-most-profit-movie.sql` - Поиск 3 самых прибыльных фильмов за неделю
-1. `select-hall-scheme.sql` - Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
-1. `select-session-price-minmax.sql` - Вывести диапазон минимальной и максимальной цены за билет на конкретный сеанс
+1. `01/select-all-movie-today.sql` - Выбор всех фильмов на сегодня
+1. `02/select-ticket-week.sql` - Подсчёт проданных билетов за неделю
+1. `03/select-poster.sql` - Формирование афиши (фильмы, которые показывают сегодня)
+1. `04/select-most-profit-movie.sql` - Поиск 3 самых прибыльных фильмов за неделю
+1. `05/select-hall-scheme.sql` - Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+1. `06/select-session-price-minmax.sql` - Вывести диапазон минимальной и максимальной цены за билет на конкретный сеанс
 
+## Результаты выполнения запросов
+`sql/*/descr.md`

@@ -1,5 +1,5 @@
-set my.cnt_seat_number_min = 10;
-set my.cnt_seat_number_max = 25;
+set my.cnt_seat_number_min = 100;
+set my.cnt_seat_number_max = 2500;
 
 do
 $$

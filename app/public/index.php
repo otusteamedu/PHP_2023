@@ -29,10 +29,9 @@ $app->addBodyParsingMiddleware();
 
 $settings = $container->get(Settings::class);
 
-
 $errorMiddleware = $app->addErrorMiddleware(
-    $settings->get('displayErrorDetails'),
-    $settings->get('logError'),
-    $settings->get('logErrorDetails'));
+$settings->get('displayErrorDetails'),
+$settings->get('logError'),
+$settings->get('logErrorDetails'));
 
 $app->run();

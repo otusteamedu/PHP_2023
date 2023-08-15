@@ -23,8 +23,12 @@ return function (ContainerBuilder $containerBuilder) {
             $settings = $c->get(Settings::class);
             $settings = $settings->get('rabbitmq');
 
-            return new AMQPStreamConnection($settings['host'], $settings['port'], $settings['user'],
-                $settings['password']);
+            return new AMQPStreamConnection(
+                $settings['host'],
+                $settings['port'],
+                $settings['user'],
+                $settings['password']
+            );
         }
     ]);
 };

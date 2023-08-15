@@ -32,7 +32,7 @@ abstract class Action
             return $this->action();
         } catch (NotFoundException $e) {
             return $this->responsePrepare(['message' => $e->getMessage()], 404);
-        } catch (AppException|BadRequestException $e) {
+        } catch (AppException | BadRequestException $e) {
             return $this->responsePrepare(['message' => $e->getMessage()], 400);
         } catch (Exception $e) {
             //throw new HttpInternalServerErrorException($this->request, $e->getMessage());
@@ -50,6 +50,5 @@ abstract class Action
         return $this->response
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($code);
-
     }
 }

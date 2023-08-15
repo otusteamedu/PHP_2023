@@ -1,3 +1,30 @@
-# PHP_2023
+#### результат выполнения домашней работы 03
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+##### Установка
+
+Запуск команды установки composer пакетов
+```bash
+composer install
+```
+
+##### Настройка
+
+Создание файла настроек на основе примера
+```bash
+cp .env.example .env
+```
+
+##### Запуск
+
+Пример запуска php-файла
+```bash
+php -f src/index.php
+```
+
+###### Ожидаемый вывод
+Такой вывод ожидается, если все корректно работает
+```bash
+VAL-KEY
++
+-not-exist-
+```

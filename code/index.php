@@ -1,11 +1,10 @@
 <?php
-/**
+/** Точка входа в приложение
  * @file
- * Точка входа в приложение
- * @author Alex150rus
- * @category fun
+ * @author Alex Medvedev <alex150rus@outlook.com>
+ * @category Fun
  * @php ^8.1
- * @package no
+ * @package No
  * @licence no
  * @link no
  */

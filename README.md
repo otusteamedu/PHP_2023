@@ -42,3 +42,63 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 
 ## Результаты выполнения запросов
 `sql/*/descr.md`
+
+## Отсортированный список (15 значений) самых больших по размеру объектов БД
+```sql
+select
+	nspname || '.' || relname AS "relation",
+	pg_size_pretty(pg_total_relation_size(C.oid)) AS "total_size"
+FROM pg_class C
+LEFT JOIN pg_namespace N ON (N.oid = C.relnamespace)
+ORDER BY pg_total_relation_size(C.oid) desc
+LIMIT 15
+```
+Результат:
+```
+relation                     |total_size|
+-----------------------------+----------+
+public.session               |1860 MB   |
+public.ticket                |1570 MB   |
+public.movie                 |1505 MB   |
+public.seat                  |1478 MB   |
+public.hall                  |1035 MB   |
+public.session_pk            |486 MB    |
+public.ticket_pk             |391 MB    |
+public.movie_pk              |387 MB    |
+public.seat_pk               |383 MB    |
+public.hall_pkey             |383 MB    |
+public.ticket_session_id_idx |301 MB    |
+public.seat_hall_id_idx      |301 MB    |
+public.session_start_time_idx|214 MB    |
+public.seat_row_idx          |67 MB     |
+public.ticket_status_idx     |67 MB     |
+```
+
+## Отсортированные списки (по 5 значений) самых часто и редко используемых индексов
+```sql
+SELECT indexrelname, idx_scan FROM pg_stat_user_indexes order by idx_scan desc limit 5
+```
+Результат:
+```
+indexrelname         |idx_scan|
+---------------------+--------+
+session_pk           | 5004214|
+movie_pk             | 1115586|
+ticket_session_id_idx|    2353|
+seat_pk              |      86|
+hall_pkey            |      61|
+```
+
+```sql
+SELECT indexrelname, idx_scan FROM pg_stat_user_indexes order by idx_scan asc limit 5
+```
+Результат:
+```
+indexrelname             |idx_scan|
+-------------------------+--------+
+attributes_type_pk       |       0|
+movie_attributes_pk      |       0|
+seat_type_pk             |       0|
+ticket_pk                |       0|
+movie_attributes_value_pk|       0|
+```

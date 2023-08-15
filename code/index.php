@@ -1,6 +1,13 @@
 <?php
 /**
- * @file Точка входа в приложение
+ * @file
+ * Точка входа в приложение
+ * @author Alex150rus
+ * @category fun
+ * @php ^8.1
+ * @package no
+ * @licence no
+ * @link no
  */
 declare(strict_types=1);
 

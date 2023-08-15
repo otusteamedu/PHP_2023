@@ -26,8 +26,8 @@ select 'ticket' as ticket, count(id) from "ticket"
 
 | table  | count |
 |--------|-------|
-|  seat  | 1909|
-| ticket |66023|
+| seat   | 1909  |
+| ticket | 66023 |
 
 ```
 QUERY PLAN                                                                                                          |
@@ -53,10 +53,10 @@ Execution Time: 8.475 ms                                                        
 
 Добавим записей в таблицу `seat` выполнением `docker/postrgesql-initdb.d/72-insert-seat.sql`. Имеем:
 
-| table   | count |
-|---------|-------|
-| seat    |13363|
-|  ticket |66023|
+| table  | count |
+|--------|-------|
+| seat   | 13363 |
+| ticket | 66023 |
 
 Результат:
 ```
@@ -81,6 +81,47 @@ Execution Time: 10.138 ms                                                       
 
 ### 10000000
 
+Добавим записей в таблицу `seat` выполнением:
+
+```sql
+INSERT INTO public."seat" (hall_id, "number", "row")
+select
+    uuid_generate_v4() as hall_id,
+    floor(random() * 2000 + 1)::int as "number",
+    floor(random() * 2000 + 1)::int as "row"
+FROM generate_series(1, 10000000);
+```
+
+| table  | count |
+|--------|-------|
+|  seat  |10013373|
+| ticket |10066033|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                              |
+----------------------------------------------------------------------------------------------------------------------------------------+
+Sort  (cost=157210.09..157210.09 rows=1 width=49) (actual time=345.181..347.722 rows=24 loops=1)                                        |
+  Sort Key: s."row", ((s.number)::integer)                                                                                              |
+  Sort Method: quicksort  Memory: 26kB                                                                                                  |
+  ->  Gather  (cost=1000.45..157210.08 rows=1 width=49) (actual time=11.744..347.680 rows=24 loops=1)                                   |
+        Workers Planned: 2                                                                                                              |
+        Workers Launched: 2                                                                                                             |
+        ->  Nested Loop  (cost=0.45..156209.98 rows=1 width=49) (actual time=221.280..332.360 rows=8 loops=3)                           |
+              ->  Parallel Seq Scan on ticket t  (cost=0.00..156201.49 rows=1 width=23) (actual time=221.260..332.282 rows=8 loops=3)   |
+                    Filter: (session_id = 'a28b0a5b-3a0f-4b26-9286-cbd9465b4660'::uuid)                                                 |
+                    Rows Removed by Filter: 3355336                                                                                     |
+              ->  Memoize  (cost=0.45..8.46 rows=1 width=24) (actual time=0.008..0.009 rows=1 loops=24)                                 |
+                    Cache Key: t.seat_id                                                                                                |
+                    Cache Mode: logical                                                                                                 |
+                    Hits: 0  Misses: 24  Evictions: 0  Overflows: 0  Memory Usage: 4kB                                                  |
+                    ->  Index Scan using seat_pk on seat s  (cost=0.43..8.46 rows=1 width=24) (actual time=0.007..0.007 rows=1 loops=24)|
+                          Index Cond: (id = t.seat_id)                                                                                  |
+                          Filter: (hall_id = '1906cfce-73fc-4e4b-9f35-bc10703030f4'::uuid)                                              |
+Planning Time: 0.424 ms                                                                                                                 |
+JIT:                                                                                                                                    |
+  Functions: 45                                                                                                                         |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                         |
+  Timing: Generation 3.183 ms, Inlining 0.000 ms, Optimization 1.358 ms, Emission 32.309 ms, Total 36.849 ms                            |
+Execution Time: 348.531 ms                                                                                                              |
 ```

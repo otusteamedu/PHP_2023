@@ -19,8 +19,8 @@ select 'session' as table, count(id) from "session"
 
 | table   | count |
 |---------|-------|
-|  movie  |10000|
-| session | 1182|
+| movie   | 10000 |
+| session | 1182  |
 
 ```
 QUERY PLAN                                                                                                                           |
@@ -45,8 +45,8 @@ Execution Time: 0.700 ms                                                        
 
 | table   | count |
 |---------|-------|
-|  movie  |10000|
-| session |13120|
+| movie   | 10000 |
+| session | 13120 |
 
 Результат:
 ```
@@ -70,6 +70,36 @@ Execution Time: 6.189 ms                                                        
 
 ### 10000000
 
+Записи были добавлены ранее. Имеем:
+
+| table   | count |
+|---------|-------|
+|  movie  |10010000|
+| session |10013306|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                                        |
+--------------------------------------------------------------------------------------------------------------------------------------------------+
+Unique  (cost=359250.79..365315.97 rows=49933 width=37) (actual time=5808.801..5822.627 rows=881 loops=1)                                         |
+  ->  Gather Merge  (cost=359250.79..365066.31 rows=49933 width=37) (actual time=5808.800..5818.976 rows=42297 loops=1)                           |
+        Workers Planned: 2                                                                                                                        |
+        Workers Launched: 2                                                                                                                       |
+        ->  Sort  (cost=358250.77..358302.78 rows=20805 width=37) (actual time=5791.101..5791.850 rows=14099 loops=3)                             |
+              Sort Key: m.id, m.name                                                                                                              |
+              Sort Method: quicksort  Memory: 969kB                                                                                               |
+              Worker 0:  Sort Method: quicksort  Memory: 934kB                                                                                    |
+              Worker 1:  Sort Method: quicksort  Memory: 938kB                                                                                    |
+              ->  Nested Loop Left Join  (cost=0.43..356758.56 rows=20805 width=37) (actual time=9.556..5782.231 rows=14099 loops=3)              |
+                    ->  Parallel Seq Scan on session s  (cost=0.00..221160.16 rows=20805 width=16) (actual time=7.881..414.117 rows=14099 loops=3)|
+                          Filter: (date(start_time) = CURRENT_DATE)                                                                               |
+                          Rows Removed by Filter: 3323670                                                                                         |
+                    ->  Index Scan using movie_pk on movie m  (cost=0.43..6.52 rows=1 width=37) (actual time=0.380..0.380 rows=0 loops=42297)     |
+                          Index Cond: (id = s.movie_id)                                                                                           |
+Planning Time: 6.770 ms                                                                                                                           |
+JIT:                                                                                                                                              |
+  Functions: 22                                                                                                                                   |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                   |
+  Timing: Generation 2.489 ms, Inlining 0.000 ms, Optimization 1.900 ms, Emission 21.370 ms, Total 25.759 ms                                      |
+Execution Time: 5823.238 ms                                                                                                                       |
 ```

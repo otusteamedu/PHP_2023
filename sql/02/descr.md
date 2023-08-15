@@ -19,10 +19,10 @@ union
 select 'ticket' as table, count(id) from "ticket"
 ```
 
-| table    | count |
-|----------|-------|
-|  session | 1182|
-| ticket   |66023|
+| table   | count |
+|---------|-------|
+| session | 1182  |
+| ticket  | 66023 |
 
 ```
 QUERY PLAN                                                                                                                        |
@@ -46,10 +46,10 @@ Execution Time: 25.689 ms                                                       
 
 После выполнения шага [01-10000](../01/descr.md#10000). Имеем:
 
-| table    | count |
-|----------|-------|
-|  session |13120|
-| ticket   |66023|
+| table   | count |
+|---------|-------|
+| session | 13120 |
+| ticket  | 66023 |
 
 Результат:
 ```
@@ -72,6 +72,50 @@ Execution Time: 27.949 ms                                                       
 
 ### 10000000
 
+Добавим записей в таблицу `ticket` выполнением:
+
+```sql
+INSERT INTO public."ticket" (session_id, seat_id, price, status)
+select
+    uuid_generate_v4() as session_id,
+    uuid_generate_v4() as seat_id,
+    floor(random() * 2000 + 30)::int as price,
+    round(random()) as status
+FROM generate_series(1, 10000000);
+```
+
+| table    | count |
+|----------|-------|
+|  session |10013306|
+| ticket   |10066033|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                                               |
+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+Finalize Aggregate  (cost=210167.30..210167.31 rows=1 width=40) (actual time=22204.420..22218.458 rows=1 loops=1)                                        |
+  ->  Gather  (cost=210167.07..210167.28 rows=2 width=40) (actual time=22203.469..22218.427 rows=3 loops=1)                                              |
+        Workers Planned: 2                                                                                                                               |
+        Workers Launched: 2                                                                                                                              |
+        ->  Partial Aggregate  (cost=209167.07..209167.08 rows=1 width=40) (actual time=22189.671..22189.672 rows=1 loops=3)                             |
+              ->  Nested Loop  (cost=0.57..209115.03 rows=10408 width=21) (actual time=42.163..22188.812 rows=7308 loops=3)                              |
+                    ->  Parallel Seq Scan on ticket t  (cost=0.00..156174.51 rows=2081488 width=37) (actual time=10.929..615.101 rows=1678570 loops=3)   |
+                          Filter: (status = 1)                                                                                                           |
+                          Rows Removed by Filter: 1676774                                                                                                |
+                    ->  Memoize  (cost=0.57..0.77 rows=1 width=16) (actual time=0.013..0.013 rows=0 loops=5035711)                                       |
+                          Cache Key: t.session_id                                                                                                        |
+                          Cache Mode: logical                                                                                                            |
+                          Hits: 11926  Misses: 1667559  Evictions: 1562702  Overflows: 0  Memory Usage: 8193kB                                           |
+                          Worker 0:  Hits: 8924  Misses: 1665927  Evictions: 1561070  Overflows: 0  Memory Usage: 8193kB                                 |
+                          Worker 1:  Hits: 10794  Misses: 1670581  Evictions: 1565724  Overflows: 0  Memory Usage: 8193kB                                |
+                          ->  Index Scan using session_pk on session s  (cost=0.56..0.76 rows=1 width=16) (actual time=0.012..0.012 rows=0 loops=5004067)|
+                                Index Cond: (id = t.session_id)                                                                                          |
+                                Filter: (((start_time)::date <= CURRENT_DATE) AND ((start_time)::date >= (CURRENT_DATE - '7 days'::interval)))           |
+                                Rows Removed by Filter: 0                                                                                                |
+Planning Time: 380.456 ms                                                                                                                                |
+JIT:                                                                                                                                                     |
+  Functions: 50                                                                                                                                          |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                          |
+  Timing: Generation 3.147 ms, Inlining 0.000 ms, Optimization 1.348 ms, Emission 31.536 ms, Total 36.031 ms                                             |
+Execution Time: 22233.049 ms                                                                                                                             |
 ```

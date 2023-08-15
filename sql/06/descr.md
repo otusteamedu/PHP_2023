@@ -26,10 +26,10 @@ select 'hall' as ticket, count(id) from "hall"
 
 | table   | count |
 |---------|-------|
-| ticket  |66023|
-| session | 1182|
-| movie   |10000|
-|  hall   |   30|
+| ticket  | 66023 |
+| session | 1182  |
+| movie   | 10000 |
+| hall    | 30    |
 
 ```
 QUERY PLAN                                                                                                                                               |
@@ -63,10 +63,10 @@ Execution Time: 8.267 ms                                                        
 
 | table   | count |
 |---------|-------|
-| session |13120|
-| ticket  |66023|
-| movie   |10000|
-|  hall   |10030|
+| session | 13120 |
+| ticket  | 66023 |
+| movie   | 10000 |
+| hall    | 10030 |
 
 Результат:
 ```
@@ -97,6 +97,44 @@ Execution Time: 8.371 ms                                                        
 
 ### 10000000
 
+Добавим записей в таблицу `hall` выполнением `docker/postrgesql-initdb.d/70-insert-hall.sql`. Имеем:
+
+| table   | count |
+|---------|-------|
+|  hall   |10010030|
+| ticket  |10066033|
+| movie   |10010000|
+| session |10013306|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                                                |
+----------------------------------------------------------------------------------------------------------------------------------------------------------+
+GroupAggregate  (cost=157227.19..157227.24 rows=2 width=110) (actual time=330.668..332.844 rows=1 loops=1)                                                |
+  Group Key: m.name, s.start_time, h.name                                                                                                                 |
+  ->  Sort  (cost=157227.19..157227.20 rows=2 width=51) (actual time=330.613..332.792 rows=52 loops=1)                                                    |
+        Sort Key: m.name, s.start_time, h.name                                                                                                            |
+        Sort Method: quicksort  Memory: 29kB                                                                                                              |
+        ->  Gather  (cost=1001.43..157227.18 rows=2 width=51) (actual time=19.366..332.738 rows=52 loops=1)                                               |
+              Workers Planned: 2                                                                                                                          |
+              Workers Launched: 2                                                                                                                         |
+              ->  Nested Loop Left Join  (cost=1.43..156226.98 rows=1 width=51) (actual time=213.449..317.128 rows=17 loops=3)                            |
+                    ->  Nested Loop Left Join  (cost=1.00..156218.53 rows=1 width=50) (actual time=213.439..317.085 rows=17 loops=3)                      |
+                          ->  Nested Loop Left Join  (cost=0.56..156210.08 rows=1 width=45) (actual time=213.428..317.040 rows=17 loops=3)                |
+                                Join Filter: (t.session_id = s.id)                                                                                        |
+                                ->  Parallel Seq Scan on ticket t  (cost=0.00..156201.49 rows=1 width=21) (actual time=213.408..316.983 rows=17 loops=3)  |
+                                      Filter: (session_id = 'e0f96958-19fb-489e-bcb4-7f6e4d10db28'::uuid)                                                 |
+                                      Rows Removed by Filter: 3355327                                                                                     |
+                                ->  Index Scan using session_pk on session s  (cost=0.56..8.58 rows=1 width=56) (actual time=0.003..0.003 rows=1 loops=52)|
+                                      Index Cond: (id = 'e0f96958-19fb-489e-bcb4-7f6e4d10db28'::uuid)                                                     |
+                          ->  Index Scan using movie_pk on movie m  (cost=0.43..8.45 rows=1 width=37) (actual time=0.002..0.002 rows=1 loops=52)          |
+                                Index Cond: (id = s.movie_id)                                                                                             |
+                    ->  Index Scan using hall_pkey on hall h  (cost=0.43..8.45 rows=1 width=33) (actual time=0.002..0.002 rows=1 loops=52)                |
+                          Index Cond: (id = s.hall_id)                                                                                                    |
+Planning Time: 0.652 ms                                                                                                                                   |
+JIT:                                                                                                                                                      |
+  Functions: 65                                                                                                                                           |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                           |
+  Timing: Generation 3.713 ms, Inlining 0.000 ms, Optimization 2.226 ms, Emission 39.767 ms, Total 45.706 ms                                              |
+Execution Time: 334.284 ms                                                                                                                                |
 ```

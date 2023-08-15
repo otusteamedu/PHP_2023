@@ -17,10 +17,10 @@ union
 select 'session' as table, count(id) from "session"
 ```
 
-| table  | count |
-| ------- |-------|
-| movie  | 10000 |
-| session| 1182  |
+| table   | count |
+|---------|-------|
+| movie   | 10000 |
+| session | 1182  |
 
 ```
 QUERY PLAN                                                                                                               |
@@ -41,8 +41,8 @@ Execution Time: 1.214 ms                                                        
 
 | table   | count |
 |---------|-------|
-|  movie  |10000|
-| session |13120|
+| movie   | 10000 |
+| session | 13120 |
 
 Результат:
 ```
@@ -62,6 +62,39 @@ Execution Time: 5.738 ms                                                        
 
 ### 10000000
 
+Добавим записей в таблицу `movie` выполнением `docker/postrgesql-initdb.d/71-insert-movie.sql`  
+Добавим записей в таблицу `session` выполнением:
+
+```sql
+INSERT INTO public."session" (hall_id, movie_id, start_time, length_minute)
+    select uuid_generate_v4() as hall_id, uuid_generate_v4() as movie_id, 
+        timestamp '2023-01-01 08:00:00' + random() * (timestamp '2023-08-30 20:00:00' - timestamp '2023-01-01 08:00:00') as start_time, 
+        floor(random() * 2000 + 30)::int as length_minute
+    FROM generate_series(1, 10000000);
+```
+
+| table   | count |
+|---------|-------|
+| movie   |10010000|
+| session |10013306|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                            |
+--------------------------------------------------------------------------------------------------------------------------------------+
+Gather  (cost=1000.43..362803.88 rows=49933 width=45) (actual time=7.128..664.668 rows=42297 loops=1)                                 |
+  Workers Planned: 2                                                                                                                  |
+  Workers Launched: 2                                                                                                                 |
+  ->  Nested Loop Left Join  (cost=0.43..356810.58 rows=20805 width=45) (actual time=6.907..641.448 rows=14099 loops=3)               |
+        ->  Parallel Seq Scan on session s  (cost=0.00..221160.16 rows=20805 width=24) (actual time=6.854..556.396 rows=14099 loops=3)|
+              Filter: (date(start_time) = CURRENT_DATE)                                                                               |
+              Rows Removed by Filter: 3323670                                                                                         |
+        ->  Index Scan using movie_pk on movie m  (cost=0.43..6.52 rows=1 width=37) (actual time=0.006..0.006 rows=0 loops=42297)     |
+              Index Cond: (id = s.movie_id)                                                                                           |
+Planning Time: 1.019 ms                                                                                                               |
+JIT:                                                                                                                                  |
+  Functions: 24                                                                                                                       |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                       |
+  Timing: Generation 1.852 ms, Inlining 0.000 ms, Optimization 1.147 ms, Emission 19.106 ms, Total 22.105 ms                          |
+Execution Time: 668.397 ms                                                                                                            |
 ```

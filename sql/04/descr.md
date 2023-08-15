@@ -27,9 +27,9 @@ select 'movie' as table, count(id) from "movie"
 
 | table   | count |
 |---------|-------|
-| movie   |10000|
-| session | 1182|
-| ticket  |66023|
+| movie   | 10000 |
+| session | 1182  |
+| ticket  | 66023 |
 
 ```
 QUERY PLAN                                                                                                                                                |
@@ -68,11 +68,11 @@ Execution Time: 54.369 ms                                                       
 
 После выполнения шага [03-10000](../03/descr.md#10000). Имеем:
 
-|table  | count |
-|-------|-------|
-|movie  | 10000 |
-|session| 13120 |
-|ticket | 66023 |
+| table   | count |
+|---------|-------|
+| movie   | 10000 |
+| session | 13120 |
+| ticket  | 66023 |
 
 Результат:
 ```
@@ -108,6 +108,51 @@ Execution Time: 56.505 ms                                                       
 
 ### 10000000
 
+Записи были добавлены ранее. Имеем:
+
+| table   | count |
+|---------|-------|
+|  movie  |10010000|
+| session |10013306|
+| ticket  |10066033|
+
 Результат:
 ```
+QUERY PLAN                                                                                                                                                                         |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Limit  (cost=498440.93..498440.94 rows=3 width=77) (actual time=4033.431..4094.821 rows=3 loops=1)                                                                                 |
+  ->  Sort  (cost=498440.93..498503.90 rows=25190 width=77) (actual time=4015.707..4077.096 rows=3 loops=1)                                                                        |
+        Sort Key: (sum(t.price)) DESC                                                                                                                                              |
+        Sort Method: top-N heapsort  Memory: 25kB                                                                                                                                  |
+        ->  Finalize GroupAggregate  (cost=494852.68..498115.35 rows=25190 width=77) (actual time=4011.873..4076.773 rows=759 loops=1)                                             |
+              Group Key: s.movie_id, m.name                                                                                                                                        |
+              ->  Gather Merge  (cost=494852.68..497538.08 rows=20992 width=77) (actual time=4011.853..4076.026 rows=779 loops=1)                                                  |
+                    Workers Planned: 2                                                                                                                                             |
+                    Workers Launched: 2                                                                                                                                            |
+                    ->  Partial GroupAggregate  (cost=493852.66..494115.06 rows=10496 width=77) (actual time=3991.267..3993.842 rows=260 loops=3)                                  |
+                          Group Key: s.movie_id, m.name                                                                                                                            |
+                          ->  Sort  (cost=493852.66..493878.90 rows=10496 width=58) (actual time=3991.226..3991.705 rows=7308 loops=3)                                             |
+                                Sort Key: s.movie_id, m.name                                                                                                                       |
+                                Sort Method: quicksort  Memory: 913kB                                                                                                              |
+                                Worker 0:  Sort Method: quicksort  Memory: 944kB                                                                                                   |
+                                Worker 1:  Sort Method: quicksort  Memory: 947kB                                                                                                   |
+                                ->  Nested Loop Left Join  (cost=263031.61..493151.65 rows=10496 width=58) (actual time=2153.807..3987.562 rows=7308 loops=3)                      |
+                                      ->  Parallel Hash Join  (cost=263031.18..424743.06 rows=10496 width=37) (actual time=2153.752..2456.676 rows=7308 loops=3)                   |
+                                            Hash Cond: (t.session_id = s.id)                                                                                                       |
+                                            ->  Parallel Seq Scan on ticket t  (cost=0.00..156201.49 rows=2099197 width=37) (actual time=0.038..532.070 rows=1678570 loops=3)      |
+                                                  Filter: (status = 1)                                                                                                             |
+                                                  Rows Removed by Filter: 1676774                                                                                                  |
+                                            ->  Parallel Hash  (cost=262771.11..262771.11 rows=20805 width=32) (actual time=1105.164..1105.165 rows=113143 loops=3)                |
+                                                  Buckets: 131072 (originally 65536)  Batches: 8 (originally 1)  Memory Usage: 3776kB                                              |
+                                                  ->  Parallel Seq Scan on session s  (cost=0.00..262771.11 rows=20805 width=32) (actual time=11.682..1032.900 rows=113143 loops=3)|
+                                                        Filter: (((start_time)::date <= CURRENT_DATE) AND ((start_time)::date >= (CURRENT_DATE - '7 days'::interval)))             |
+                                                        Rows Removed by Filter: 3224625                                                                                            |
+                                      ->  Index Scan using movie_pk on movie m  (cost=0.43..6.52 rows=1 width=37) (actual time=0.209..0.209 rows=1 loops=21925)                    |
+                                            Index Cond: (id = s.movie_id)                                                                                                          |
+Planning Time: 0.571 ms                                                                                                                                                            |
+JIT:                                                                                                                                                                               |
+  Functions: 79                                                                                                                                                                    |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                                    |
+  Timing: Generation 6.973 ms, Inlining 0.000 ms, Optimization 1.801 ms, Emission 50.759 ms, Total 59.532 ms                                                                       |
+Execution Time: 4096.491 ms                                                                                                                                                        |
 ```

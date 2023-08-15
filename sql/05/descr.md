@@ -125,3 +125,31 @@ JIT:                                                                            
   Timing: Generation 3.183 ms, Inlining 0.000 ms, Optimization 1.358 ms, Emission 32.309 ms, Total 36.849 ms                            |
 Execution Time: 348.531 ms                                                                                                              |
 ```
+
+### Оптимизация
+
+Добавим индексы
+```sql
+CREATE INDEX seat_hall_id_idx ON public.seat (hall_id);
+CREATE INDEX ticket_session_id_idx ON public.ticket (session_id);
+```
+
+Результат:
+```
+QUERY PLAN                                                                                                                                     |
+-----------------------------------------------------------------------------------------------------------------------------------------------+
+Sort  (cost=20.97..20.97 rows=1 width=49) (actual time=1.530..1.532 rows=24 loops=1)                                                           |
+  Sort Key: s."row", ((s.number)::integer)                                                                                                     |
+  Sort Method: quicksort  Memory: 26kB                                                                                                         |
+  ->  Nested Loop  (cost=0.87..20.96 rows=1 width=49) (actual time=0.046..1.513 rows=24 loops=1)                                               |
+        Join Filter: (s.id = t.seat_id)                                                                                                        |
+        Rows Removed by Join Filter: 4008                                                                                                      |
+        ->  Index Scan using seat_hall_id_idx on seat s  (cost=0.43..8.45 rows=1 width=24) (actual time=0.019..0.063 rows=168 loops=1)         |
+              Index Cond: (hall_id = '1906cfce-73fc-4e4b-9f35-bc10703030f4'::uuid)                                                             |
+        ->  Index Scan using ticket_session_id_idx on ticket t  (cost=0.43..12.47 rows=2 width=23) (actual time=0.002..0.005 rows=24 loops=168)|
+              Index Cond: (session_id = 'a28b0a5b-3a0f-4b26-9286-cbd9465b4660'::uuid)                                                          |
+Planning Time: 0.393 ms                                                                                                                        |
+Execution Time: 1.564 ms                                                                                                                       |                                                                                                                                             |                                                                                                                                                       |
+```
+
+Индексы - есть, ускорение - есть.

@@ -138,3 +138,34 @@ JIT:                                                                            
   Timing: Generation 3.713 ms, Inlining 0.000 ms, Optimization 2.226 ms, Emission 39.767 ms, Total 45.706 ms                                              |
 Execution Time: 334.284 ms                                                                                                                                |
 ```
+
+### Оптимизация
+
+Индекс `ticket_session_id_idx` был добавлен ранее.
+Результат:
+```
+QUERY PLAN                                                                                                                                               |
+---------------------------------------------------------------------------------------------------------------------------------------------------------+
+GroupAggregate  (cost=37.99..38.04 rows=2 width=110) (actual time=0.230..0.232 rows=1 loops=1)                                                           |
+  Group Key: m.name, s.start_time, h.name                                                                                                                |
+  ->  Sort  (cost=37.99..38.00 rows=2 width=51) (actual time=0.194..0.198 rows=52 loops=1)                                                               |
+        Sort Key: m.name, s.start_time, h.name                                                                                                           |
+        Sort Method: quicksort  Memory: 29kB                                                                                                             |
+        ->  Nested Loop Left Join  (cost=1.87..37.98 rows=2 width=51) (actual time=0.104..0.148 rows=52 loops=1)                                         |
+              Join Filter: (t.session_id = s.id)                                                                                                         |
+              ->  Index Scan using ticket_session_id_idx on ticket t  (cost=0.43..12.47 rows=2 width=21) (actual time=0.039..0.050 rows=52 loops=1)      |
+                    Index Cond: (session_id = 'e0f96958-19fb-489e-bcb4-7f6e4d10db28'::uuid)                                                              |
+              ->  Materialize  (cost=1.43..25.49 rows=1 width=62) (actual time=0.001..0.001 rows=1 loops=52)                                             |
+                    ->  Nested Loop Left Join  (cost=1.43..25.48 rows=1 width=62) (actual time=0.057..0.059 rows=1 loops=1)                              |
+                          ->  Nested Loop Left Join  (cost=1.00..17.03 rows=1 width=61) (actual time=0.038..0.039 rows=1 loops=1)                        |
+                                ->  Index Scan using session_pk on session s  (cost=0.56..8.58 rows=1 width=56) (actual time=0.021..0.022 rows=1 loops=1)|
+                                      Index Cond: (id = 'e0f96958-19fb-489e-bcb4-7f6e4d10db28'::uuid)                                                    |
+                                ->  Index Scan using movie_pk on movie m  (cost=0.43..8.45 rows=1 width=37) (actual time=0.013..0.013 rows=1 loops=1)    |
+                                      Index Cond: (id = s.movie_id)                                                                                      |
+                          ->  Index Scan using hall_pkey on hall h  (cost=0.43..8.45 rows=1 width=33) (actual time=0.017..0.017 rows=1 loops=1)          |
+                                Index Cond: (id = s.hall_id)                                                                                             |
+Planning Time: 0.629 ms                                                                                                                                  |
+Execution Time: 0.318 ms                                                                                                                                 |                                                                                                                   |                                                                                                                           |                                                                                                         |
+```
+
+Индексы - есть, ускорение - есть.

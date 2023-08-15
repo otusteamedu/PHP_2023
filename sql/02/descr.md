@@ -119,3 +119,79 @@ JIT:                                                                            
   Timing: Generation 3.147 ms, Inlining 0.000 ms, Optimization 1.348 ms, Emission 31.536 ms, Total 36.031 ms                                             |
 Execution Time: 22233.049 ms                                                                                                                             |
 ```
+
+### Оптимизация
+
+Индекс `session_start_time_idx` был добавлен ранее.  
+Добавим индекс
+```sql
+CREATE INDEX ticket_status_idx ON public.ticket (status);
+```
+
+Результат:
+```
+QUERY PLAN                                                                                                                                                 |
+-----------------------------------------------------------------------------------------------------------------------------------------------------------+
+Finalize Aggregate  (cost=426101.89..426101.90 rows=1 width=40) (actual time=1877.818..1880.480 rows=1 loops=1)                                            |
+  ->  Gather  (cost=426101.67..426101.88 rows=2 width=40) (actual time=1876.890..1880.457 rows=3 loops=1)                                                  |
+        Workers Planned: 2                                                                                                                                 |
+        Workers Launched: 2                                                                                                                                |
+        ->  Partial Aggregate  (cost=425101.67..425101.68 rows=1 width=40) (actual time=1864.751..1864.754 rows=1 loops=3)                                 |
+              ->  Parallel Hash Join  (cost=263337.56..425049.18 rows=10496 width=21) (actual time=1053.348..1863.798 rows=7308 loops=3)                   |
+                    Hash Cond: (t.session_id = s.id)                                                                                                       |
+                    ->  Parallel Seq Scan on ticket t  (cost=0.00..156201.26 rows=2099188 width=37) (actual time=0.034..469.895 rows=1678570 loops=3)      |
+                          Filter: (status = 1)                                                                                                             |
+                          Rows Removed by Filter: 1676774                                                                                                  |
+                    ->  Parallel Hash  (cost=263076.80..263076.80 rows=20861 width=16) (actual time=1052.650..1052.651 rows=113143 loops=3)                |
+                          Buckets: 524288 (originally 65536)  Batches: 1 (originally 1)  Memory Usage: 23680kB                                             |
+                          ->  Parallel Seq Scan on session s  (cost=0.00..263076.80 rows=20861 width=16) (actual time=10.642..1010.813 rows=113143 loops=3)|
+                                Filter: (((start_time)::date <= CURRENT_DATE) AND ((start_time)::date >= (CURRENT_DATE - '7 days'::interval)))             |
+                                Rows Removed by Filter: 3224625                                                                                            |
+Planning Time: 0.268 ms                                                                                                                                    |
+JIT:                                                                                                                                                       |
+  Functions: 50                                                                                                                                            |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                            |
+  Timing: Generation 2.973 ms, Inlining 0.000 ms, Optimization 1.357 ms, Emission 30.598 ms, Total 34.928 ms                                               |
+Execution Time: 1881.476 ms                                                                                                                                |                                                                                                         |
+```
+
+Изменим запрос на
+```sql
+EXPLAIN ANALYZE
+    select count(t.id) as cnt, sum(t.price) as price from ticket t
+    left join "session" s on t.session_id=s.id
+    where
+        t.status = 1 AND
+        s.start_time between (CURRENT_DATE - interval '1 WEEK') + '00:00:00'::time and CURRENT_DATE + '24:00:00'::time
+```
+Результат:
+```
+QUERY PLAN                                                                                                                                                                                              |
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+Finalize Aggregate  (cost=410965.53..410965.54 rows=1 width=40) (actual time=1559.298..1563.736 rows=1 loops=1)                                                                                         |
+  ->  Gather  (cost=410965.30..410965.51 rows=2 width=40) (actual time=1558.247..1563.709 rows=3 loops=1)                                                                                               |
+        Workers Planned: 2                                                                                                                                                                              |
+        Workers Launched: 2                                                                                                                                                                             |
+        ->  Partial Aggregate  (cost=409965.30..409965.31 rows=1 width=40) (actual time=1544.944..1544.949 rows=1 loops=3)                                                                              |
+              ->  Parallel Hash Join  (cost=247886.25..409597.88 rows=73484 width=21) (actual time=702.561..1543.979 rows=7308 loops=3)                                                                 |
+                    Hash Cond: (t.session_id = s.id)                                                                                                                                                    |
+                    ->  Parallel Seq Scan on ticket t  (cost=0.00..156201.26 rows=2099188 width=37) (actual time=0.057..472.366 rows=1678570 loops=3)                                                   |
+                          Filter: (status = 1)                                                                                                                                                          |
+                          Rows Removed by Filter: 1676774                                                                                                                                               |
+                    ->  Parallel Hash  (cost=246060.60..246060.60 rows=146052 width=16) (actual time=701.401..701.404 rows=113143 loops=3)                                                              |
+                          Buckets: 524288  Batches: 1  Memory Usage: 20064kB                                                                                                                            |
+                          ->  Parallel Bitmap Heap Scan on session s  (cost=7441.32..246060.60 rows=146052 width=16) (actual time=59.729..660.379 rows=113143 loops=3)                                  |
+                                Recheck Cond: ((start_time >= ((CURRENT_DATE - '7 days'::interval) + '00:00:00'::interval)) AND (start_time <= (CURRENT_DATE + '24:00:00'::time without time zone)))    |
+                                Rows Removed by Index Recheck: 1861683                                                                                                                                  |
+                                Heap Blocks: exact=15526 lossy=24006                                                                                                                                    |
+                                ->  Bitmap Index Scan on session_start_time_idx  (cost=0.00..7353.69 rows=350524 width=0) (actual time=51.440..51.440 rows=339430 loops=1)                              |
+                                      Index Cond: ((start_time >= ((CURRENT_DATE - '7 days'::interval) + '00:00:00'::interval)) AND (start_time <= (CURRENT_DATE + '24:00:00'::time without time zone)))|
+Planning Time: 0.462 ms                                                                                                                                                                                 |
+JIT:                                                                                                                                                                                                    |
+  Functions: 56                                                                                                                                                                                         |
+  Options: Inlining false, Optimization false, Expressions true, Deforming true                                                                                                                         |
+  Timing: Generation 3.698 ms, Inlining 0.000 ms, Optimization 1.756 ms, Emission 33.783 ms, Total 39.237 ms                                                                                            |
+Execution Time: 1564.972 ms                                                                                                                                                                             |
+```
+
+Индекс используется, но ускорение незначительное.

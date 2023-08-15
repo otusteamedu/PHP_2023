@@ -1,7 +1,7 @@
-set my.date_start = '2020-01-01';
-set my.date_end = '2020-01-03';
+set my.date_start = '2023-08-01';
+set my.date_end = '2023-09-01';
 
-set my.time_start = '08:00:00';
+set my.time_start = '06:00:00';
 set my.time_end = '23:00:00';
 
 set my.movie_interval = '10';

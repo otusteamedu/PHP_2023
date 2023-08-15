@@ -5,7 +5,6 @@ CREATE TABLE public.hall (
                              active bool NOT NULL DEFAULT true,
                              CONSTRAINT hall_pkey PRIMARY KEY (id)
 );
-CREATE INDEX hall_active_idx ON public.hall USING btree (active);
 COMMENT ON COLUMN public.hall."name" IS 'Наименование';
 COMMENT ON COLUMN public.hall.seat IS 'Кол-во мест';
 
@@ -18,8 +17,6 @@ CREATE TABLE public.movie (
                               length_minute int2 NULL,
                               CONSTRAINT movie_pk PRIMARY KEY (id)
 );
-CREATE INDEX movie_name_idx ON public.movie USING btree (name);
-CREATE INDEX movie_release_date_idx ON public.movie USING btree (release_date);
 COMMENT ON COLUMN public.movie."name" IS 'Наименование';
 COMMENT ON COLUMN public.movie.description IS 'Описание';
 
@@ -33,9 +30,6 @@ CREATE TABLE public.seat (
                              type_id uuid NULL,
                              CONSTRAINT seat_pk PRIMARY KEY (id)
 );
-CREATE INDEX seat_active_idx ON public.seat USING btree (active);
-CREATE INDEX seat_hall_id_idx ON public.seat USING btree (hall_id);
-CREATE INDEX seat_row_idx ON public.seat USING btree ("row", number);
 
 
 CREATE TABLE public."session" (
@@ -46,9 +40,6 @@ CREATE TABLE public."session" (
                                   length_minute int2 NULL,
                                   CONSTRAINT session_pk PRIMARY KEY (id)
 );
-CREATE INDEX session_hall_id_idx ON public.session USING btree (hall_id);
-CREATE INDEX session_movie_id_idx ON public.session USING btree (movie_id);
-CREATE INDEX session_start_time_idx ON public.session USING btree (start_time);
 
 
 CREATE TABLE public.ticket (
@@ -59,9 +50,6 @@ CREATE TABLE public.ticket (
                                status int2 NULL DEFAULT 0, -- 0-доступен, 1-продан,2-забронирован,10-не доступен
                                CONSTRAINT ticket_pk PRIMARY KEY (id)
 );
-CREATE INDEX ticket_seat_id_idx ON public.ticket USING btree (seat_id);
-CREATE INDEX ticket_session_id_idx ON public.ticket USING btree (session_id);
-CREATE INDEX ticket_status_idx ON public.ticket USING btree (status);
 COMMENT ON COLUMN public.ticket.status IS '0-доступен, 1-продан,2-забронирован,10-не доступен';
 
 
@@ -79,5 +67,3 @@ CREATE TABLE public.price_catalog (
                                       price numeric(10, 2) NOT NULL DEFAULT 0.0,
                                       CONSTRAINT price_catalog_pk PRIMARY KEY (id)
 );
-CREATE INDEX price_catalog_seat_type_id_idx ON public.price_catalog USING btree (seat_type_id);
-CREATE INDEX price_catalog_session_id_idx ON public.price_catalog USING btree (session_id);

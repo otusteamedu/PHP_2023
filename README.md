@@ -44,6 +44,16 @@ cd application && cp .env.example .env
 sudo docker compose up -d
 ```
 
+Перейдите в php котейнер
+```bash
+sudo docker container exec -it myapp-php bash
+```
+
+И запустите composer
+```bash
+cd /data/www && composer install
+```
+
 Добавьте сайт `mysite.local` в файл `hosts`
 ```bash
 127.0.0.1 mysite.local

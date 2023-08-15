@@ -1,3 +1,9 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Запуск
+1. `docker-compose build php`
+2. `docker-compose up`
+
+## Документация
+- `doc\api.yaml`
+- `doc\doc.html`

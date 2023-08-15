@@ -4,8 +4,8 @@ ARG user
 ARG uid
 
 RUN apt-get update && \
-    apt-get install -y git libpq-dev p7zip && \
-    docker-php-ext-install pdo pdo_pgsql pgsql && \
+    apt-get install -y git libpq-dev libzip-dev zip && \
+    docker-php-ext-install pdo pdo_pgsql pgsql sockets zip && \
     rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -13,7 +13,6 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN useradd -G users -u $uid -d /home/$user $user
 RUN mkdir -p /home/$user/.composer && \
     chown -R $user:$user /home/$user
-
 
 USER $user
 

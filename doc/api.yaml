@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: Api
+  description: Api
+  version: 1.0.0
+servers:
+  - url: 'http://192.168.56.151'
+paths:
+  /request:
+    get:
+      tags:
+        - request
+        - view
+      description: Получить список задач
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TaskResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+    post:
+      tags:
+        - request
+      description: Добавить новую задачу
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+  /request/{id}:
+    get:
+      tags:
+        - request
+        - view
+      description: Получить задачу по id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        400:
+          $ref: '#/components/responses/400'
+        500:
+          $ref: '#/components/responses/500'
+components:
+  schemas:
+    TaskStatus:
+      type: string
+      description: |
+        Статус задачи
+        * `Created` - Создана
+        * `Processing` - Выполняется
+        * `Finished` - Завершена
+      enum:
+        - Created
+        - Processing
+        - Finished
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Id задачи
+        add_timestamp:
+          type: string
+          format: date-time
+          description: Время создания
+          example: 2023-08-14 23:24:53.152
+        body:
+          type: string
+        exec_timestamp:
+          type: string
+          format: date-time
+          description: Время начала выполнения
+          example: 2023-08-14 23:24:53.152
+        finish_timestamp:
+          type: string
+          format: date-time
+          description: Время завершения
+          example: 2023-08-14 23:24:53.152
+        status:
+          $ref: '#/components/schemas/TaskStatus'
+    TaskResponse:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/Task'
+      required:
+        - id
+        - add_timestamp
+        - status
+    TaskCreate:
+      type: object
+      properties:
+        body:
+          type: string
+    GeneralError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+  responses:
+    '400':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+    '404':
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+    '500':
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GeneralError'
+tags:
+  - name: request
+    description: Запросы пользователей
+  - name: view
+    description: Просмотр

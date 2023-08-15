@@ -11,6 +11,7 @@ use Psr\Http\Message\ResponseInterface;
 use Root\App\Action;
 use Root\App\AppException;
 use Root\App\BadRequestException;
+use Root\App\NotFoundException;
 use Root\App\TaskTable;
 use Throwable;
 
@@ -26,7 +27,7 @@ class ViewAction extends Action
         parent::__construct($container);
         try {
             $this->taskTable = new TaskTable($this->container->get(PDO::class));
-        } catch (Exception|Throwable $e) {
+        } catch (Exception | Throwable $e) {
             throw new AppException('Error connect database. ' . $e->getMessage());
         }
     }
@@ -34,6 +35,7 @@ class ViewAction extends Action
     /**
      * @throws AppException
      * @throws BadRequestException
+     * @throws NotFoundException
      */
     protected function action(): ResponseInterface
     {

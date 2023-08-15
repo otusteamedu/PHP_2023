@@ -20,6 +20,7 @@ class TaskTable
 
     /**
      * @throws AppException
+     * @throws NotFoundException
      */
     public function findById(string $id): TaskDto
     {
@@ -129,5 +130,4 @@ class TaskTable
             throw new AppException('Error update task. ' . $e->getMessage());
         }
     }
-
 }

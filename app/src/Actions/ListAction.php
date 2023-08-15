@@ -25,7 +25,7 @@ class ListAction extends Action
         parent::__construct($container);
         try {
             $this->taskTable = new TaskTable($this->container->get(PDO::class));
-        } catch (Exception|Throwable $e) {
+        } catch (Exception | Throwable $e) {
             throw new AppException('Error connect database. ' . $e->getMessage());
         }
     }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Root\App;
 
-
 use ErrorException;
 use Exception;
 use JsonSerializable;
@@ -42,7 +41,6 @@ class Query
     {
         if (is_string($message)) {
             $msg = new AMQPMessage($message);
-
         } else {
             $msg = new AMQPMessage(json_encode($message, JSON_UNESCAPED_UNICODE));
         }
@@ -61,5 +59,4 @@ class Query
             throw new AppException('Error connect listen. ' . $e->getMessage());
         }
     }
-
 }

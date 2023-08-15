@@ -1,0 +1,23 @@
+{
+    "name": "ndybnov/hw03",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ndybnov\\Hw03\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "ndybnov-hw03/cnf-read": "*"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
+}

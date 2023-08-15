@@ -1,8 +1,8 @@
-set my.date_start = '2023-08-01';
-set my.date_end = '2023-09-01';
+set my.date_start = '2023-08-07';
+set my.date_end = '2023-08-18';
 
-set my.time_start = '06:00:00';
-set my.time_end = '23:00:00';
+set my.time_start = '08:00:00';
+set my.time_end = '20:00:00';
 
 set my.movie_interval = '10';
 
@@ -19,12 +19,15 @@ $$
         time_end timestamp;
         time_curr timestamp;
         len int;
+
+        cnt int;
     begin
         FOR curr IN SELECT generate_series(current_setting('my.date_start')::date, current_setting('my.date_end')::date, '1 day'::interval) LOOP
             time_start = Date(curr.generate_series) + current_setting('my.time_start')::time;
             time_end = Date(curr.generate_series) + current_setting('my.time_end')::time;
 
             raise notice 'date %', Date(curr.generate_series);
+            cnt := 0;
 
             for hall_r in select id from hall where active = true loop
                 time_curr := time_start;
@@ -37,6 +40,8 @@ $$
 
                         time_curr := time_curr + concat(movie_r.length_minute, ' minutes')::interval + concat(current_setting('my.movie_interval'), ' minutes')::interval;
                     end loop;
+                raise notice 'cnt %', cnt;
+                cnt:= cnt + 1;
             end loop;
         END LOOP;
     end;

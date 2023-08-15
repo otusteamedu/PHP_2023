@@ -1,10 +1,16 @@
-# PHP_2023_HW_12
+# PHP_2023_HW_13
 
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
 
 ## Запуск
 1. `docker-compose build`
 1. `docker-compose up`
+1. Заполнение базы занимает большое время. Для уменьшения числа записей необходимо изменить следующие параметры:
+   1. `docker/postrgesql-initdb.d/70-insert-hall.sql`:  
+      `set my.cnt_hall = 1000;` - количество залов
+   2. `docker/postrgesql-initdb.d/73-insert-sessions.sql`:  
+      `set my.date_start = '2023-08-01';` - дата начала сеансов  
+      `set my.date_end = '2023-09-01';` - дата окончания сеансов
 
 ## SQL
 1. `docker/postrgesql-initdb.d` - запускаются при создании БД

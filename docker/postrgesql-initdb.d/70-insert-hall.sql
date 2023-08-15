@@ -1,4 +1,4 @@
-set my.cnt_hall = 10000;
+set my.cnt_hall = 30;
 set my.cnt_hall_seat_min = 20;
 set my.cnt_hall_seat_max = 100;
 INSERT INTO public.hall ("name", seat, active)

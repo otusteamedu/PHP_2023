@@ -1,8 +1,8 @@
 set my.cnt_movie = 10000;
 set my.cnt_movie_release_min = '2000-01-01';
 set my.cnt_movie_release_max = '2030-01-01';
-set my.cnt_movie_length_min = 20;
-set my.cnt_movie_length_max = 40;
+set my.cnt_movie_length_min = 40;
+set my.cnt_movie_length_max = 200;
 
 INSERT INTO public.movie ("name", release_date , description, length_minute)
 select

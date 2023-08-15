@@ -3,7 +3,6 @@ CREATE TABLE public.attributes_type (
                                         "name" varchar NOT NULL,
                                         CONSTRAINT attributes_type_pk PRIMARY KEY (id)
 );
-CREATE INDEX attributes_type_name_idx ON public.attributes_type USING btree (name);
 
 
 CREATE TABLE public.movie_attributes (
@@ -13,8 +12,6 @@ CREATE TABLE public.movie_attributes (
                                          parent_id uuid NULL,
                                          CONSTRAINT movie_attributes_pk PRIMARY KEY (id)
 );
-CREATE INDEX movie_attributes_name_idx ON public.movie_attributes USING btree (name);
-CREATE INDEX movie_attributes_parent_id_idx ON public.movie_attributes USING btree (parent_id);
 
 
 CREATE TABLE public.movie_attributes_value (
@@ -29,11 +26,3 @@ CREATE TABLE public.movie_attributes_value (
                                                active bool NULL DEFAULT true,
                                                CONSTRAINT movie_attributes_value_pk PRIMARY KEY (id)
 );
-CREATE INDEX movie_attributes_value_active_idx ON public.movie_attributes_value USING btree (active);
-CREATE INDEX movie_attributes_value_attribute_id_idx ON public.movie_attributes_value USING btree (attribute_id);
-CREATE INDEX movie_attributes_value_movie_id_idx ON public.movie_attributes_value USING btree (movie_id);
-CREATE INDEX movie_attributes_value_value_string_idx ON public.movie_attributes_value USING btree (value_string);
-CREATE INDEX movie_attributes_value_value_bool_idx ON public.movie_attributes_value USING btree (value_bool);
-CREATE INDEX movie_attributes_value_value_date_idx ON public.movie_attributes_value USING btree (value_date);
-CREATE INDEX movie_attributes_value_value_float_idx ON public.movie_attributes_value USING btree (value_float);
-CREATE INDEX movie_attributes_value_value_int_idx ON public.movie_attributes_value USING btree (value_int);

@@ -17,8 +17,6 @@ services:
       - ./docker/volumes/postgresql:/var/lib/postgresql/data
     networks:
       - hw13-network
-volumes:
-  socket:
 networks:
   hw13-network:
     driver: bridge

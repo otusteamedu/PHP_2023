@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "562ad8913e8a4d366554b2187fbb0605",
+    "packages": [
+        {
+            "name": "amedvedev/first-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Alex150Rus/amedvedev-package.git",
+                "reference": "98b61e0bdf934a2087409c3dd834fd54d8e3d187"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Alex150Rus/amedvedev-package/zipball/98b61e0bdf934a2087409c3dd834fd54d8e3d187",
+                "reference": "98b61e0bdf934a2087409c3dd834fd54d8e3d187",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Amedvedev\\FirstPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alex150Rus"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Alex150Rus/amedvedev-package/issues",
+                "source": "https://github.com/Alex150Rus/amedvedev-package/tree/v1.0.0"
+            },
+            "time": "2023-08-15T19:38:26+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

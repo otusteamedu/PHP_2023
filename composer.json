@@ -1,0 +1,5 @@
+{
+    "require": {
+        "amedvedev/first-package": "^1.0"
+    }
+}

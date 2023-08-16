@@ -1,13 +1,6 @@
 <?php
 /**
- * @file
  * Точка входа в приложение
- * @author Alex Medvedev <alex150rus@outlook.com>
- * @category Fun
- * @php 8.1
- * @package No
- * @licence GPL
- * @link http://example.com Документация к файлу"зф.
  */
 declare(strict_types=1);
 

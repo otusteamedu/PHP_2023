@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile-postgresql
     image: "${DOCKER_PREFIX}/postgresql"
     container_name: "${DOCKER_PREFIX}_postgresql"
+    shm_size: 1g
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"
@@ -16,35 +17,7 @@ services:
     volumes:
       - ./docker/volumes/postgresql:/var/lib/postgresql/data
     networks:
-      - hw-network
-
-  php:
-    build:
-      args:
-        uid: $USER_UID
-        user: $USER_NAME
-      context: docker
-      dockerfile: Dockerfile-php
-    image: '${DOCKER_PREFIX}/php'
-    container_name: '${DOCKER_PREFIX}-php'
-    restart: unless-stopped
-    volumes:
-      - ./app:/var/www/app
-    networks:
-      - hw-network
-  nginx:
-    image: nginx:1.23.3-alpine
-    container_name: '${DOCKER_PREFIX}-nginx'
-    restart: unless-stopped
-    ports:
-      - '80:80'
-    volumes:
-      - ./app:/var/www/app
-      - ./docker/nginx-conf:/etc/nginx/conf.d
-    networks:
-      - hw-network
-volumes:
-  socket:
+      - hw13-network
 networks:
-  hw-network:
+  hw13-network:
     driver: bridge

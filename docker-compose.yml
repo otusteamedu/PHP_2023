@@ -8,11 +8,14 @@ services:
     image: nginx/webserver
     container_name: webserver
     ports:
-      - "$NGINX_EXTERNAL_PORT:80"
+      - "80:80"
     volumes:
-      - ./srv:/srv/app
+      - ./app:/srv/app
     networks:
       - app-networks
+    depends_on:
+      - app1
+      - app2
 
   app1:
     build:
@@ -21,9 +24,12 @@ services:
     image: nginx/app1
     container_name: app1
     volumes:
-      - ./srv:/srv/app
+      - ./app:/srv/app
     networks:
       - app-networks
+    depends_on:
+      - php1
+      - php2
 
   app2:
     build:
@@ -32,9 +38,12 @@ services:
     image: nginx/app2
     container_name: app2
     volumes:
-      - ./srv:/srv/app
+      - ./app:/srv/app
     networks:
       - app-networks
+    depends_on:
+      - php1
+      - php2
 
   php1:
     build:
@@ -43,7 +52,7 @@ services:
     image: php/app1
     container_name: php1
     volumes:
-      - ./srv:/srv/app
+      - ./app:/srv/app
     networks:
       - app-networks
 
@@ -54,7 +63,7 @@ services:
     image: php/app2
     container_name: php2
     volumes:
-      - ./srv:/srv/app
+      - ./app:/srv/app
     networks:
       - app-networks
 

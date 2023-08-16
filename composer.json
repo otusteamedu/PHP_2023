@@ -1,0 +1,15 @@
+{
+    "name": "mihailarhipov/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mihailarhipov\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "y"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,87 @@
+# версия синтаксиса
+version: '3.7'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #Контейнер с PHP, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: hw1-infrastructure/php
+    container_name: app # имя контейнера после запуска
+    volumes:
+      - ./app:/data/myapp.local
+      - sock:/var/run
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - hw1-network
+
+  #контейне с Nginx
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+      args:
+        UID: ${UID}
+    image: hw1-infrastructure/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "${NGINX_PORT}:80"
+      - "${NGINX_PORT_SSL}:443"
+    volumes:
+      - ./app:/data/myapp.local
+      - sock:/var/run
+    networks:
+      - hw1-network
+
+  # контейнер с MySQL
+  # строим на базе стандартного образа
+  db:
+    image: mysql:5.7.22
+    container_name: db
+    ports:
+      - "${MYSQL_PORT}:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./docker/mysql/dbdata:/var/lib/mysql
+    networks:
+      - hw1-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - "${REDIS_PORT}:6379"
+    container_name: redis
+    volumes:
+      - ./docker/redis/data:/var/lib/redis
+    networks:
+      - hw1-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "${MEMCACHED_PORT}:11211"
+    command:
+      - '--memory-limit=1024'
+    networks:
+      - hw1-network
+
+#Docker Networks
+networks:
+  hw1-network:
+    driver: bridge
+
+volumes:
+  sock:

@@ -4,7 +4,7 @@ ARG user
 ARG uid
 
 RUN apt-get update && \
-    apt-get install -y git libpq-dev p7zip && \
+    apt-get install -y git libpq-dev p7zip libzip-dev zip && \
     docker-php-ext-install pdo pdo_pgsql pgsql && \
     rm -rf /var/lib/apt/lists/*
 

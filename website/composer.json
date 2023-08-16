@@ -1,0 +1,14 @@
+{
+  "name": "dimonvelsk/otus",
+  "type": "project",
+  "require": {
+    "dimonvelsk/otus-composer-package": "^1.0"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Dima Teplukhin"
+    }
+  ],
+  "minimum-stability": "stable"
+}

@@ -8,20 +8,20 @@
     "packages": [
         {
             "name": "gesparo/calculator",
-            "version": "v1.1.0",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Gesparo/calculator.git",
-                "reference": "0fece8a6d68e744f4cc322065b7c7bf9b8fd5807"
+                "reference": "c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Gesparo/calculator/zipball/0fece8a6d68e744f4cc322065b7c7bf9b8fd5807",
-                "reference": "0fece8a6d68e744f4cc322065b7c7bf9b8fd5807",
+                "url": "https://api.github.com/repos/Gesparo/calculator/zipball/c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7",
+                "reference": "c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7",
                 "shasum": ""
             },
             "require": {
-                "php": ">=7.4"
+                "php": ">=7.0"
             },
             "type": "library",
             "autoload": {
@@ -42,9 +42,9 @@
             "description": "This is the test package for hw4",
             "support": {
                 "issues": "https://github.com/Gesparo/calculator/issues",
-                "source": "https://github.com/Gesparo/calculator/tree/v1.1.0"
+                "source": "https://github.com/Gesparo/calculator/tree/v1.1.1"
             },
-            "time": "2023-08-15T17:21:45+00:00"
+            "time": "2023-08-16T16:23:27+00:00"
         }
     ],
     "packages-dev": [],

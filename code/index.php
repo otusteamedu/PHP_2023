@@ -6,8 +6,8 @@
  * @category ItIsDepricated
  * @package  AmedvedevPHP2023Otus
  * @author   Alex 150Rus <alex150rus@outlook.com>
- * @licence  http://opensource.org/licenses/gpl-license.php GNU Public License
- * @version  GIT: @1.0.0@
+ * @licence  http://opensource.org/licenses/gpl-license.php
+ * @version  1.0.0
  * @link     https://github.com/Alex150Rus
  * @license  GPL
  */

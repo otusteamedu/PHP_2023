@@ -1,0 +1,113 @@
+version: '3.9'
+
+services:
+  proxy-nginx:
+    build:
+      context: ./docker/nginx/proxy
+      dockerfile: Dockerfile
+    image: myapp/proxy-nginx
+    container_name: proxy-nginx
+    ports:
+      - "${NGINX_PORT}:80"
+      - "${NGINX_PORT_SSL}:443"
+    networks:
+      - proxy-network
+
+  webserver1:
+    build:
+      context: ./docker/nginx/webserver
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver1
+    volumes:
+      - ./app:/data/myapp.local
+    networks:
+      - proxy-network
+      - app-network
+
+  webserver2:
+    build:
+      context: ./docker/nginx/webserver
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver2
+    volumes:
+      - ./app:/data/myapp.local
+    networks:
+      - proxy-network
+      - app-network
+
+  app1:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        uname: ${APP_UNAME}
+        uid: ${APP_UID}
+        gid: ${APP_GID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./app:/data/myapp.local
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+      MEMCACHED_HOST: memcached1
+      MEMCACHED_PORT: 11211
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        uname: ${APP_UNAME}
+        uid: ${APP_UID}
+        gid: ${APP_GID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./app:/data/myapp.local
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+      MEMCACHED_HOST: memcached2
+      MEMCACHED_PORT: 11212
+    networks:
+      - app-network
+
+  memcached1:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: myapp/repcached
+    container_name: memcached1
+    tty: true
+    environment:
+      MEMCACHED_SLAVE_IP: memcached2
+    depends_on:
+      - memcached2
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+  memcached2:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: myapp/repcached
+    container_name: memcached2
+    tty: true
+    ports:
+      - "11212:11211"
+    networks:
+      - app-network
+
+
+networks:
+  proxy-network:
+    driver: bridge
+  app-network:
+    driver: bridge

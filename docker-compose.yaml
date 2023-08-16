@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile-postgresql
     image: "${DOCKER_PREFIX}/postgresql"
     container_name: "${DOCKER_PREFIX}_postgresql"
+    shm_size: 1g
     environment:
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_USER: "${POSTGRES_USER}"

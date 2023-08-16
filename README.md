@@ -42,6 +42,7 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 
 ## Результаты выполнения запросов
 `sql/*/descr.md`
+`sql/*/note-*.md`
 
 ## Отсортированный список (15 значений) самых больших по размеру объектов БД
 ```sql

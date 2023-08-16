@@ -1,0 +1,61 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "66c415d5cf4e4837ce77fab06e1c67f4",
+    "packages": [
+        {
+            "name": "gesparo/calculator",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gesparo/calculator.git",
+                "reference": "c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gesparo/calculator/zipball/c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7",
+                "reference": "c3192fb5ea2374ed0610d9b0012e59b2ee0f58d7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gesparo\\Calculator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "mit"
+            ],
+            "authors": [
+                {
+                    "name": "Maxim Melnik",
+                    "email": "gesparo1@gmail.com"
+                }
+            ],
+            "description": "This is the test package for hw4",
+            "support": {
+                "issues": "https://github.com/Gesparo/calculator/issues",
+                "source": "https://github.com/Gesparo/calculator/tree/v1.1.1"
+            },
+            "time": "2023-08-16T16:23:27+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

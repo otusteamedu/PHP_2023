@@ -11,5 +11,7 @@
             "name": "y"
         }
     ],
-    "require": {}
+    "require": {
+        "mikhail-arkhipov/php-generator-id": "^1.0"
+    }
 }

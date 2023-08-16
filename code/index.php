@@ -9,7 +9,6 @@
  * @licence  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version  GIT: @1.0.0@
  * @link     https://github.com/Alex150Rus
- * @license  GNU Public License
  */
 declare(strict_types=1);
 

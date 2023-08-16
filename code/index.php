@@ -8,7 +8,7 @@
  * @author   Alex 150Rus <alex150rus@outlook.com>
  * @licence  http://opensource.org/licenses/gpl-license.php GNU Public License
  * @version  GIT:1.0.0
- * @link     https://github.com/Alex150Rus My_GIT_profile
+ * @link     http://github.com/Alex150Rus My_GIT_profile
  * @license  http://opensource.org/licenses/gpl-license.php GNU
  */
 declare(strict_types=1);

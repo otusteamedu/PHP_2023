@@ -5,15 +5,15 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\PlaylistBuilder;
-use App\Decorators\TrackDescriptionDecorator;
-use App\Helpers\FormatDurationHelper;
-use Illuminate\Database\Eloquent\Model;
+use App\Composites\DescriptionComponent;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Playlist extends Model
+class Playlist extends DescriptionComponent
 {
     protected string $table = 'playlists';
 
-    public function tracks()
+    public function tracks(): BelongsToMany
     {
         return $this->belongsToMany(Track::class, 'playlist_tracks');
     }
@@ -40,27 +40,24 @@ class Playlist extends Model
         return $result;
     }
 
-    public function getList()
+    public function getList(): Collection
     {
         $playlists = Playlist::with('tracks')->get();
 
-        foreach ($playlists as $playlistKey => $playlist) {
+        foreach ($playlists as &$playlist) {
             $totalPlaybackTime = 0;
 
-            foreach ($playlist->tracks as $trackKey => $playlistTrack) {
+            foreach ($playlist->tracks as &$playlistTrack) {
                 if ($playlistTrack['duration']) {
                     $totalPlaybackTime += $playlistTrack['duration'];
                 }
 
-                $descriptionDecorator = new TrackDescriptionDecorator($playlistTrack, $playlistTrack['description']);
-                $playlistTrack['description'] = $descriptionDecorator->decorate();
-
-                $playlist->tracks[$trackKey] = $playlistTrack;
+                $this->setDescription($playlistTrack);
             }
 
             if ($totalPlaybackTime) {
-                $duration = FormatDurationHelper::formatDuration($totalPlaybackTime);
-                $playlists[$playlistKey]['duration'] = 'Playback time: ' . $duration;
+                $playlist->duration = $totalPlaybackTime;
+                $this->setDescription($playlist);
             }
         }
 

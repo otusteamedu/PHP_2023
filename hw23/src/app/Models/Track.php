@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\Builders\TrackBuilder;
-use App\Decorators\TrackDescriptionDecorator;
+use App\Composites\DescriptionComponent;
 use App\Iterators\TracksIterator;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
-class Track extends Model
+class Track extends DescriptionComponent
 {
     protected string $table = 'tracks';
 
@@ -58,11 +57,10 @@ class Track extends Model
         return $tracksList;
     }
 
-    private function decorateDescription(&$tracksList): void
+    private function decorateDescription(Collection &$tracksList): void
     {
-        foreach ($tracksList as $key => $value) {
-            $descriptionDecorator = new TrackDescriptionDecorator($value, $value['description']);
-            $tracksList[$key]['description'] = $descriptionDecorator->decorate();
+        foreach ($tracksList as &$value) {
+            $this->setDescription($value);
         }
     }
 }

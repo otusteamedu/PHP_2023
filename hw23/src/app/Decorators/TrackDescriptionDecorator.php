@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Decorators;
 
+use App\Composites\DescriptionComponent;
 use App\Helpers\FormatDurationHelper;
-use App\Models\Track;
 use Illuminate\Support\Str;
 
 class TrackDescriptionDecorator
 {
-    private Track $track;
+    private DescriptionComponent $track;
 
-    private string $description;
+    private string|null $description;
 
     private array $socialNetworkLinks = [
         'Spotify' => 'https://spotify.com',
@@ -21,16 +21,19 @@ class TrackDescriptionDecorator
         'Yandex Music' => 'https://music.yandex.ru',
     ];
 
-    public function __construct(Track $track, string $description)
+    public function __construct(DescriptionComponent $track, string $description = null)
     {
         $this->track = $track;
         $this->description = $description;
     }
 
-    public function decorate(): string
+    public function decorate(bool $full = true): string
     {
         $this->addDuration();
-        $this->addSocialNetworkLinks();
+
+        if ($full) {
+            $this->addSocialNetworkLinks();
+        }
 
         return $this->description;
     }
@@ -39,14 +42,20 @@ class TrackDescriptionDecorator
     {
         if ($this->track->duration) {
             $duration = FormatDurationHelper::formatDuration($this->track->duration);
-            $this->description .= PHP_EOL . 'Playback time: ' . $duration;
+            $description = 'Playback time: ' . $duration;
+
+            if (!empty($this->description)) {
+                $this->description .= PHP_EOL . $description;
+            } else {
+                $this->description = $description;
+            }
         }
     }
 
     private function addSocialNetworkLinks(): void
     {
         if ($this->track->title && $this->track->author) {
-            $links = PHP_EOL . 'Share:';
+            $links = 'Share:';
 
             foreach ($this->socialNetworkLinks as $socialNetwork => $link) {
                 $url = [
@@ -57,7 +66,11 @@ class TrackDescriptionDecorator
                 $links .= ' <a href="' . implode('/', $url) . '">On ' . $socialNetwork . '</a>';
             }
 
-            $this->description .= $links;
+            if (!empty($this->description)) {
+                $this->description .= PHP_EOL . $links;
+            } else {
+                $this->description = $links;
+            }
         }
     }
 }

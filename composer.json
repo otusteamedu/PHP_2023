@@ -1,0 +1,17 @@
+{
+    "name": "mihailarhipov/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mihailarhipov\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "y"
+        }
+    ],
+    "require": {
+        "mikhail-arkhipov/php-generator-id": "^1.0"
+    }
+}

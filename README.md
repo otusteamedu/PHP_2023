@@ -1,3 +1,19 @@
-# PHP_2023
+#### домашняя работа 3
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+##### Установка
+
+Запуск команды установки composer пакетов
+```bash
+composer install
+```
+
+##### Запуск
+
+Пример запуска php-файла
+```bash
+php src/index.php
+```
+
+###### Ожидаемый результат
+Вывод на экран количества символов в строке
+

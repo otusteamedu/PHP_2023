@@ -1,0 +1,18 @@
+{
+    "name": "artemcherepanov/otus-composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "ArtemCherepanov\\OtusComposer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "cherepanov.a",
+            "email": "art.cherepan@gmail.com"
+        }
+    ],
+    "require": {
+        "danielstjules/stringy": "^3.1"
+    }
+}

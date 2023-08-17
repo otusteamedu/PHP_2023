@@ -5,3 +5,5 @@
 .env
 .editorconfig
 .gitattributes
+/vendor/
+/images/

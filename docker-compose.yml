@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-config/utils-test.conf:/etc/nginx/conf.d/application.local.conf
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    # nginx должен общаться с php контейнером
+    links:
+      - php
+    networks:
+      - utils-network
+  php:
+    build: ./images/php-fpm
+    container_name: php-fpm
+
+    volumes:
+      - ./www:/var/www
+    networks:
+      - utils-network
+
+networks:
+  utils-network:
+    driver: bridge

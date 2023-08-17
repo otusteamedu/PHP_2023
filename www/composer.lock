@@ -1,0 +1,50 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "2809a678f10af1766bb790da74761aa5",
+    "packages": [
+        {
+            "name": "nalofree/utils",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.com:nalofree/utils.git",
+                "reference": "f33b380b15d29424346b11bfcfb573b13949932a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/nalofree%2Futils/repository/archive.zip?sha=f33b380b15d29424346b11bfcfb573b13949932a",
+                "reference": "f33b380b15d29424346b11bfcfb573b13949932a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "nalofree\\utils\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "nalofree"
+                }
+            ],
+            "time": "2023-08-17T15:41:09+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

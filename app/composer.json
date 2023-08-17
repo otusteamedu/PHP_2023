@@ -1,0 +1,10 @@
+{
+    "name": "otus/socket-chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\SocketChat\\": "src/"
+        }
+    },
+    "require": {}
+}

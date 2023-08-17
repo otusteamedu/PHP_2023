@@ -1,0 +1,51 @@
+version: '3.9'
+
+services:
+  socket-chat-server:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        uname: ${APP_UNAME}
+        uid: ${APP_UID}
+        gid: ${APP_GID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: socket-chat/php
+    container_name: socket-chat-server
+    volumes:
+      - ./app:/data/socket-chat
+      - socket-volume:/tmp/sockets
+#    entrypoint: ["php", "app.php", "server"]
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    networks:
+      - socket-chat-network
+
+  socket-chat-client:
+    depends_on:
+      - socket-chat-server
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        uname: ${APP_UNAME}
+        uid: ${APP_UID}
+        gid: ${APP_GID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: socket-chat/php
+    container_name: socket-chat-client
+    volumes:
+      - ./app:/data/socket-chat
+      - socket-volume:/tmp/sockets
+#    entrypoint: ["php", "app.php", "client"]
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    networks:
+      - socket-chat-network
+
+networks:
+  socket-chat-network:
+    driver: bridge
+
+volumes:
+  socket-volume:

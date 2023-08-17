@@ -13,6 +13,6 @@
         }
     ],
     "require": {
-        "danielstjules/stringy": "^3.1"
+        "artem-cherepanov/otus-composer-package": "^1.1"
     }
 }

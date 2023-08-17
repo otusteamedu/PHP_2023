@@ -1,0 +1,18 @@
+{
+    "name": "ivan/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "IvanSochkov\\OtusComposer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Iva-So",
+            "email": "sochkov1994@mail.ru"
+        }
+    ],
+    "require": {
+        "iva-so/otus-composer-package": "^1.0"
+    }
+}

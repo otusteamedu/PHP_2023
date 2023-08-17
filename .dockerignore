@@ -1,0 +1,15 @@
+## Ignore all
+*
+
+## Except
+!/app
+!.docker/php/config/*
+!.docker/elk/tls/certs/elasticsearch/elasticsearch.crt
+!.docker/elk/tls/certs/elasticsearch/elasticsearch.key
+
+# Ignore unnecessary files inside allowed directories
+# This should go after the allowed directories
+**/*~
+**/*.log
+**/.DS_Store
+**/Thumbs.db

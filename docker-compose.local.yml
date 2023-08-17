@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  application:
+    build:
+      target: app_php_dev
+    volumes:
+      - ./app:/app
+
+  kibana:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.kibana-http.entrypoints=web"
+      - "traefik.http.routers.kibana-http.rule=Host(`kibana.otus-shop.localhost`)"
+      - "traefik.http.routers.kibana-http.middlewares=kibana-https"
+      - "traefik.http.services.kibana.loadbalancer.server.port=5601"
+      - "traefik.http.middlewares.kibana-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.kibana.entrypoints=websecure"
+      - "traefik.http.routers.kibana.rule=Host(`kibana.otus-shop.localhost`)"
+      - "traefik.http.routers.kibana.tls=true"
+
+  reverse-proxy:
+    image: traefik:v2.6
+    command:
+      - "--accesslog"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.elasticsearch.address=:9200"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+    networks:
+      - elk
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.docker/traefik/configuration:/configuration/
+      - ./.docker/traefik/certs:/etc/certs:ro

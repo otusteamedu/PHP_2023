@@ -18,7 +18,7 @@ abstract class RestaurantAbstract
     {
         echo 'Payment', PHP_EOL;
     }
-abstract protected function cooking(Product $product, StrategyInterface $strategy): void;
+    abstract protected function cooking(Product $product, StrategyInterface $strategy): void;
     protected function assembly(): void
     {
         echo 'Assembly', PHP_EOL;

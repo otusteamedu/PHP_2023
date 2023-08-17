@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "0a5d7a62e6e866b653be233d1287c8c4",
+    "packages": [
+        {
+            "name": "iva-so/otus-composer-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "git@gitlab.com:Iva-So/otus-composer-package.git",
+                "reference": "5c002d7a6740fc4c7ab8404353cb0c6ef259d96f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://gitlab.com/api/v4/projects/Iva-So%2Fotus-composer-package/repository/archive.zip?sha=5c002d7a6740fc4c7ab8404353cb0c6ef259d96f",
+                "reference": "5c002d7a6740fc4c7ab8404353cb0c6ef259d96f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IvanSochkov\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Iva-So",
+                    "email": "sochkov1994@mail.ru"
+                }
+            ],
+            "time": "2023-08-17T16:19:03+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

@@ -26,17 +26,8 @@ class App
         $type = $input['type'] ?? null;
         switch ($type) {
             case 'get_bank_statement':
-                $dateStart = $input['dateStart'] ?? null;
-                $dateEnd = $input['dateEnd'] ?? null;
-                $notification = $input['notification'] ?? [];
-                if (!is_array($notification)) {
-                    $notification = [];
-                }
-
-                if (empty($dateStart) || empty($dateEnd)) {
-                    throw new AppException('Empty date start or date end');
-                }
-                $this->getBankStatement($dateStart, $dateEnd, $notification);
+                $command = new GetBankStatementCommand($this->settings);
+                $command->run($input);
                 break;
             default:
                 throw new AppException('Unknown type');

@@ -33,9 +33,8 @@ final class AppController
         $storage = $this->storageDefinition->getStorage($this->typeStorage);
         $processor = new PostUseCase($storage);
 
+
         return $processor->process()->send();
     }
 }
-
-
 

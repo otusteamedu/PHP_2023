@@ -10,16 +10,16 @@ abstract class Storage
      * @param array $params
      * @return mixed
      */
-    abstract function find(array $params): mixed;
+    abstract public function find(array $params): mixed;
 
     /**
      * @param Event $event
      * @return bool
      */
-    abstract function add(Event $event): bool;
+    abstract public function add(Event $event): bool;
 
     /**
      * @return void
      */
-    abstract function clear(): void;
+    abstract public function clear(): void;
 }

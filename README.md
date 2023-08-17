@@ -1,11 +1,9 @@
 # PHP_2023 Timerkhanov Artur hw15
 ## Архитектура кода
 
---- 
 ### Before
-> Взял работу по Редису для рефакторинга, в проекте изначально не было четких слоев.
-[Проект по работе с Redis](https://github.com/otusteamedu/PHP_2023/tree/ATimerkhanov/hw12/code)
-<br>
+> Взял работу по Редису для рефакторинга, в проекте изначально не было четких слоев.<br>
+[Проект по работе с Redis](https://github.com/otusteamedu/PHP_2023/tree/ATimerkhanov/hw12/code)<br>
 > Все находилось хаотично - что можно увидеть на скрине
 
 ![alt text](img/before.png)

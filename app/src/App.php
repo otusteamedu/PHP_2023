@@ -6,9 +6,11 @@ namespace Root\App;
 
 class App
 {
-    public function __construct()
+    private Settings $settings;
+    public function __construct(Settings $settings)
     {
         mb_internal_encoding('utf8');
+        $this->settings = $settings;
     }
 
     /**
@@ -57,9 +59,12 @@ class App
         return $data;
     }
 
+    /**
+     * @throws AppException
+     */
     private function getBankStatement(string $start, string $end, array $notification = []): void
     {
-        $query = new Query();
+        $query = new Query($this->settings->get('rabbitmq'));
         $query->publish(['start' => $start, 'end' => $end, 'notification' => $notification]);
 
         Response::echo(true, 'Ожидайте уведомления');

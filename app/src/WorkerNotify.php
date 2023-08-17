@@ -14,9 +14,9 @@ class WorkerNotify
     /**
      * @throws AppException
      */
-    public function __construct()
+    public function __construct(Settings $settings)
     {
-        $this->query = new Query($this->queryName);
+        $this->query = new Query($settings->get('rabbitmq'), $this->queryName);
     }
 
     /**

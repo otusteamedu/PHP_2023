@@ -15,10 +15,10 @@ class WorkerExec
     /**
      * @throws AppException
      */
-    public function __construct()
+    public function __construct(Settings $settings)
     {
-        $this->query = new Query();
-        $this->queryNotify = new Query($this->queryNameNotify);
+        $this->query = new Query($settings->get('rabbitmq'));
+        $this->queryNotify = new Query($settings->get('rabbitmq'), $this->queryNameNotify);
     }
 
     /**

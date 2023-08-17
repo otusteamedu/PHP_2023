@@ -20,14 +20,19 @@ class Query
     /**
      * @throws AppException
      */
-    public function __construct(?string $queryName = null)
+    public function __construct(array $config, ?string $queryName = null)
     {
         if (!empty($queryName)) {
             $this->queryName = $queryName;
         }
 
         try {
-            $this->connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
+            $this->connection = new AMQPStreamConnection(
+                $config['host'] ?? null,
+                $config['port'] ?? null,
+                $config['user'] ?? null,
+                $config['password'] ?? null
+            );
             $this->channel = $this->connection->channel();
             $this->channel->queue_declare($this->queryName);
         } catch (Exception $e) {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Art\Code\Model;
+namespace Art\Code\Domain\Model;
 
 use JsonException;
 

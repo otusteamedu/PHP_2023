@@ -2,18 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Art\Code\Service;
+namespace Art\Code\Application\UseCase;
 
-use Art\Code\Http\Response;
-use Art\Code\Model\Event;
-use Art\Code\Storage\StorageInterface;
+use Art\Code\Domain\Model\Event;
+use Art\Code\Domain\Model\Response;
+use Art\Code\Domain\Model\Storage;
+use JsonException;
 
-class PostProcessor
+class PostUseCase implements PostInterface
 {
-    public function __construct(private readonly StorageInterface $storage)
+    public function __construct(private readonly Storage $storage)
     {
     }
 
+    /**
+     * @return Response
+     * @throws JsonException
+     */
     public function process(): Response
     {
         if (isset($_POST['method'])) {
@@ -47,6 +52,10 @@ class PostProcessor
         return new Response('Bad Request', Response::HTTP_BAD_REQUEST, ['content-type' => 'text/html']);
     }
 
+    /**
+     * @return bool
+     * @throws JsonException
+     */
     private function addEvent(): bool
     {
         if (isset($_POST['event'], $_POST['priority'], $_POST['conditions'])) {
@@ -64,7 +73,10 @@ class PostProcessor
         return false;
     }
 
-    private function findEvent()
+    /**
+     * @return false|mixed
+     */
+    private function findEvent(): mixed
     {
         if (isset($_POST['params']) && is_array($_POST['params'])) {
             return $this->storage->find($_POST['params']);

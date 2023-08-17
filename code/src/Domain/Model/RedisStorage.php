@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Art\Code\Storage;
+namespace Art\Code\Domain\Model;
 
-use Art\Code\Model\Event;
-use Art\Code\Storage\StorageInterface;
+use JsonException;
 use Predis\Client;
 
-class RedisStorage implements StorageInterface
+class RedisStorage extends Storage
 {
     private Client $redis;
 
@@ -17,6 +16,11 @@ class RedisStorage implements StorageInterface
         $this->redis = new Client($options);
     }
 
+    /**
+     * @param array $params
+     * @return mixed
+     * @throws JsonException
+     */
     public function find(array $params): mixed
     {
         $event = [];
@@ -52,6 +56,10 @@ class RedisStorage implements StorageInterface
         return $event;
     }
 
+    /**
+     * @param Event $event
+     * @return bool
+     */
     public function add(Event $event): bool
     {
         $this->redis->sadd($event::KEY, (array) $event->getId());
@@ -62,6 +70,9 @@ class RedisStorage implements StorageInterface
         return true;
     }
 
+    /**
+     * @return void
+     */
     public function clear(): void
     {
         $this->redis->flushDB();

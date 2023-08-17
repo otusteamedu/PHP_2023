@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Root\App\Burger\BurgerFactory;
 use Root\App\Burger\BurgerStandartBuilder;
 use Root\App\Burger\BurgerWithPepperBuilder;
+use Root\App\HotDog\HotDogBuilder;
 use Root\App\RestaurantFastFood;
 use Root\App\Sandwich\SandwichFactory;
 
@@ -30,3 +31,7 @@ $restaurant->execute($burger2, $burgerFactory->createCookingStrategy());
 
 $restaurant->execute($sandwich1, $sandwichFactory->createCookingStrategy());
 $restaurant->execute($sandwich2, $sandwichFactory->createCookingStrategy());
+
+
+$hotDog = (new HotDogBuilder())->build();
+$restaurant->execute($hotDog, $burgerFactory->createCookingStrategy());

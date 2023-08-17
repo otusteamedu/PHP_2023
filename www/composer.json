@@ -1,0 +1,17 @@
+{
+    "name": "nalofree/utils-test",
+    "type": "project",
+    "require": {
+        "nalofree/utils": ">=1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Nalofree\\UtilsTest\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nalofree"
+        }
+    ]
+}

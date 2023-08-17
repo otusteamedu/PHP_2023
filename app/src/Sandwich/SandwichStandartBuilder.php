@@ -9,7 +9,6 @@ use Root\App\ProductBuilderAbstract;
 
 class SandwichStandartBuilder extends ProductBuilderAbstract
 {
-
     public function __construct()
     {
         $this->onion = 1;

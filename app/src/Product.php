@@ -36,6 +36,4 @@ abstract class Product
     {
         return $this->name;
     }
-
-
 }

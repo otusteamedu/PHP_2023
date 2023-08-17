@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Root\App\HotDog;
@@ -32,5 +33,4 @@ class HotDogAdapter extends Product
     {
         return $this->product->getName();
     }
-
 }

@@ -16,7 +16,7 @@ services:
     volumes:
       - ./docker/volumes/postgresql:/var/lib/postgresql/data
     networks:
-      - hw31-network
+      - hw21-network
 
   php:
     build:
@@ -31,7 +31,7 @@ services:
     volumes:
       - ./app:/var/www/app
     networks:
-      - hw31-network
+      - hw21-network
   nginx:
     image: nginx:1.23.3-alpine
     container_name: '${DOCKER_PREFIX}-nginx'
@@ -42,7 +42,7 @@ services:
       - ./app:/var/www/app
       - ./docker/nginx-conf:/etc/nginx/conf.d
     networks:
-      - hw31-network
+      - hw21-network
   rabbitmq:
     image: rabbitmq:3.12-management
     container_name: '${DOCKER_PREFIX}-rabbitmq'
@@ -52,7 +52,7 @@ services:
     ports:
       - '15672:15672'
     networks:
-      - hw31-network
+      - hw21-network
   php-worker:
     build:
       args:
@@ -66,8 +66,8 @@ services:
     volumes:
       - ./app:/var/www/app
     networks:
-      - hw31-network
+      - hw21-network
 
 networks:
-  hw31-network:
+  hw21-network:
     driver: bridge

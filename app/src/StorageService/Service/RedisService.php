@@ -17,7 +17,7 @@ class RedisService implements ServiceInterface
     public function __construct()
     {
         $this->redis = new Client([
-            'host' => 'otus-redis'
+            'host' => getenv('REDIS_HOST')
         ]);
     }
 

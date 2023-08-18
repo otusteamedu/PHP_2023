@@ -1,0 +1,4 @@
+FROM composer:latest
+
+RUN /bin/sh -c composer install | composer dump-autoload
+

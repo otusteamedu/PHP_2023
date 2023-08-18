@@ -1,0 +1,16 @@
+{
+    "name": "neunet/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Neunet\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "neunet",
+            "email": "prizman2000@mail.ru"
+        }
+    ],
+    "require": {}
+}

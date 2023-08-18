@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Infrastructure\Query;
 
 use ErrorException;
 use Exception;
@@ -10,8 +10,11 @@ use JsonSerializable;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
+use Root\App\Application\QueryInterface;
+use Root\App\Domain\Exception\AppException;
 
-class Query
+
+class AmqpQuery implements QueryInterface
 {
     private AMQPStreamConnection $connection;
     private AMQPChannel $channel;

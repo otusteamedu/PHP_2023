@@ -2,26 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Root\App\Actions;
+namespace Root\App\Application\Actions;
 
 use Exception;
 use PDO;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Root\App\Action;
-use Root\App\AppException;
-use Root\App\BadRequestException;
-use Root\App\Data\TaskDto;
-use Root\App\Query;
-use Root\App\Settings;
-use Root\App\TaskTable;
+use Root\App\Application\Action;
+use Root\App\Application\QueryInterface;
+use Root\App\Application\SettingsInterface;
+use Root\App\Application\TaskRepositoryInterface;
+use Root\App\Domain\DTO\TaskDto;
+use Root\App\Domain\Exception\AppException;
+use Root\App\Domain\Exception\BadRequestException;
+use Root\App\Infrastructure\Database\TaskTableDatabaseRepository;
+use Root\App\Infrastructure\Query\AmqpQuery;
 use Throwable;
 
 class AddAction extends Action
 {
-    private TaskTable $taskTable;
-    private Query $query;
+    private TaskRepositoryInterface $taskTable;
+    private QueryInterface $query;
 
     /**
      * @throws AppException
@@ -30,15 +32,15 @@ class AddAction extends Action
     {
         parent::__construct($container);
         try {
-            $this->taskTable = new TaskTable($this->container->get(PDO::class));
+            $this->taskTable = new TaskTableDatabaseRepository($this->container->get(PDO::class));
         } catch (Exception | Throwable $e) {
             throw new AppException('Error connect database. ' . $e->getMessage());
         }
 
         try {
-            $this->query = new Query(
+            $this->query = new AmqpQuery(
                 $this->container->get(AMQPStreamConnection::class),
-                ($this->container->get(Settings::class)->get('rabbitmq'))['queryName']
+                ($this->container->get(SettingsInterface::class)->get('rabbitmq'))['queryName']
             );
         } catch (Exception | Throwable $e) {
             throw new AppException('Error connect query. ' . $e->getMessage());

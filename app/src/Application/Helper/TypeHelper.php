@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Application\Helper;
 
 use DateTime;
 use ReflectionEnum;
 use ReflectionException;
+use Root\App\Domain\Exception\AppException;
 
 class TypeHelper
 {

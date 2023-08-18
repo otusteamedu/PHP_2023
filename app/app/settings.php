@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
-use Root\App\Settings;
+use Root\App\Application\SettingsInterface;
+use Root\App\Infrastructure\Settings;
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
-        Settings::class => function () {
+        SettingsInterface::class => function () {
             return new Settings([
                 'displayErrorDetails' => true, // Should be set to false in production
                 'logError'            => false,

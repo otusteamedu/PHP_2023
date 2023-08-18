@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-use Root\App\Actions\AddAction;
-use Root\App\Actions\ListAction;
-use Root\App\Actions\ViewAction;
+use Root\App\Application\Actions\AddAction;
+use Root\App\Application\Actions\ListAction;
+use Root\App\Application\Actions\ViewAction;
 use Slim\App;
 use Slim\Interfaces\RouteCollectorProxyInterface;
 

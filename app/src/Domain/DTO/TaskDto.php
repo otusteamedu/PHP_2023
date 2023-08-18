@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Root\App\Data;
+namespace Root\App\Domain\DTO;
 
 use DateTime;
 use JsonSerializable;
-use Root\App\AppException;
-use Root\App\TypeHelper;
+use Root\App\Application\Helper\TypeHelper;
+use Root\App\Domain\Enum\TaskStatus;
+use Root\App\Domain\Exception\AppException;
+
 
 class TaskDto implements JsonSerializable
 {
@@ -74,7 +76,7 @@ class TaskDto implements JsonSerializable
             'body' => $this->body,
             'exec_timestamp' => $this->exec_timestamp?->format(TypeHelper::DATETIME_FORMAT_TIMESTAMP),
             'finish_timestamp' => $this->finish_timestamp?->format(TypeHelper::DATETIME_FORMAT_TIMESTAMP),
-            'status' => $this->status?->value
+            'status' => $this->status->value
         ];
     }
 }

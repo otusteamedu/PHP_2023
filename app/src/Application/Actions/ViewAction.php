@@ -12,6 +12,7 @@ use Root\App\Application\Action;
 use Root\App\Application\TaskRepositoryInterface;
 use Root\App\Domain\Exception\AppException;
 use Root\App\Domain\Exception\BadRequestException;
+use Root\App\Domain\Exception\NotFoundException;
 use Root\App\Infrastructure\Database\TaskTableDatabaseRepository;
 use Throwable;
 

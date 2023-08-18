@@ -50,6 +50,9 @@ class Worker
         }
     }
 
+    /**
+     * @throws AppException
+     */
     public function run(): void
     {
         $this->query->listen($this->tag, [$this, 'exec']);
@@ -86,6 +89,10 @@ class Worker
         }
     }
 
+    /**
+     * @throws AppException
+     * @throws NotFoundException
+     */
     private function execStart(TaskDto $task): void
     {
         $updateTask = (new TaskDto())
@@ -95,6 +102,10 @@ class Worker
         $this->taskTable->update($updateTask);
     }
 
+    /**
+     * @throws AppException
+     * @throws NotFoundException
+     */
     private function execFinished(TaskDto $task): void
     {
         $updateTask = (new TaskDto())

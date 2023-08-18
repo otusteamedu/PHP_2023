@@ -32,6 +32,7 @@ class ListAction extends Action
     }
 
     /**
+     * @throws AppException
      */
     protected function action(): ResponseInterface
     {

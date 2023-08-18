@@ -23,7 +23,7 @@ class TaskTableDatabaseRepository implements TaskRepositoryInterface
     }
 
     /**
-     * @throws NotFoundException
+     * @throws NotFoundException|AppException
      */
     public function findById(string $id): TaskDto
     {

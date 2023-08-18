@@ -1,9 +1,4 @@
 <?php
-// echo '<pre>';
-echo date('Y-m-d',time());
-// var_dump( scandir(__DIR__) );
-
-// exit;
 
 require_once 'vendor/autoload.php';
 
@@ -21,7 +16,6 @@ try {
 try {
     $memcached = new Memcached();
     $memcached->addServer('memcached', 11211);
-
     $memcached->add('message', 'Memcached is up!');
     echo $memcached->get('message');
 } catch (Exception $e) {

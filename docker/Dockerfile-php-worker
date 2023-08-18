@@ -1,4 +1,4 @@
-FROM hw31/php
+FROM hw21/php
 
 ARG user
 ARG uid

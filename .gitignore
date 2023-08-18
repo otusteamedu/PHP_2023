@@ -1,0 +1,4 @@
+mysql/
+app/vendor/
+*.sh
+.env

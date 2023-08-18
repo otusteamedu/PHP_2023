@@ -1,43 +1,38 @@
 services:
   web:
     build: config/nginx
-    container_name: myapp-server
+    container_name: myapp-server${DOCKER_CONTAINER_SUFFIX}
     ports: 
       - "80:80"
-    links:
-      - fpm
 
   fpm:
     build: config/php
-    container_name: myapp-php
+    container_name: myapp-php${DOCKER_CONTAINER_SUFFIX}
     ports:
       - ":9000"
     volumes:
       - ./:/data/www
     environment:
-      REDIS_HOST: redis
-      MEMCACHED_HOST: memcached
-      MYSQL_HOST: mysql
       MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYAPP_MYSQL_USER: ${MYSQL_USER}
       MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
   redis:
     image: redis
-    container_name: myapp-redis
+    container_name: myapp-redis${DOCKER_CONTAINER_SUFFIX}
     ports:
       - "6379:6379"
 
   memcached:
     image: memcached
-    container_name: myapp-memcached
+    container_name: myapp-memcached${DOCKER_CONTAINER_SUFFIX}
     ports:
       - "11211:11211"
 
   mysql:
     image: mysql
     restart: always
-    container_name: myapp-mysql
+    container_name: myapp-mysql${DOCKER_CONTAINER_SUFFIX}
     ports:
       - "3306:3306"
     volumes:

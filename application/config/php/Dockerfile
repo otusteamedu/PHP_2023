@@ -6,6 +6,7 @@ RUN apt-get update \
 	&& pecl install memcached-3.2.0 \
 	&& docker-php-ext-enable redis memcached \
 	&& docker-php-ext-install mysqli \
-	&& docker-php-ext-enable mysqli
+	&& docker-php-ext-enable mysqli \
+    && apt-get install -y git
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer

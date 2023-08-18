@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Infrastructure;
 
-class Settings
+use Root\App\Application\SettingsInterface;
+
+class Settings implements SettingsInterface
 {
     private array $settings;
 

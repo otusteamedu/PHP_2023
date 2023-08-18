@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
-use Root\App\Settings;
+use Root\App\Application\SettingsInterface;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -27,7 +27,7 @@ $routes($app);
 $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 
-$settings = $container->get(Settings::class);
+$settings = $container->get(SettingsInterface::class);
 
 $errorMiddleware = $app->addErrorMiddleware(
     $settings->get('displayErrorDetails'),

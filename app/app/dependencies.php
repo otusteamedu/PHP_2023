@@ -5,12 +5,13 @@ declare(strict_types=1);
 use DI\ContainerBuilder;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Psr\Container\ContainerInterface;
-use Root\App\Settings;
+use Root\App\Application\SettingsInterface;
+
 
 return function (ContainerBuilder $containerBuilder) {
     $containerBuilder->addDefinitions([
         PDO::class => function (ContainerInterface $c) {
-            $settings = $c->get(Settings::class);
+            $settings = $c->get(SettingsInterface::class);
             $pdoSettings = $settings->get('pdo');
 
             $pdo = new PDO("pgsql:host={$pdoSettings['host']};port={$pdoSettings['port']};" .
@@ -20,7 +21,7 @@ return function (ContainerBuilder $containerBuilder) {
             return $pdo;
         },
         AMQPStreamConnection::class => function (ContainerInterface $c) {
-            $settings = $c->get(Settings::class);
+            $settings = $c->get(SettingsInterface::class);
             $settings = $settings->get('rabbitmq');
 
             return new AMQPStreamConnection(

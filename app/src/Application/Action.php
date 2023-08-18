@@ -2,13 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Application;
 
 use Exception;
 use JsonSerializable;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Root\App\Domain\Exception\AppException;
+use Root\App\Domain\Exception\BadRequestException;
+use Root\App\Domain\Exception\NotFoundException;
 
 abstract class Action
 {
@@ -22,6 +25,7 @@ abstract class Action
         $this->container = $container;
     }
 
+    /** @noinspection PhpRedundantCatchClauseInspection */
     public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $this->request = $request;

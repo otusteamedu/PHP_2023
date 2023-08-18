@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Infrastructure\Database;
 
 use PDO;
 use PDOException;
-use Root\App\Data\TaskDto;
+use Root\App\Application\Helper\TypeHelper;
+use Root\App\Application\TaskRepositoryInterface;
+use Root\App\Domain\DTO\TaskDto;
+use Root\App\Domain\Exception\AppException;
+use Root\App\Domain\Exception\NotFoundException;
 
-class TaskTable
+class TaskTableDatabaseRepository implements TaskRepositoryInterface
 {
     private PDO $pdo;
     private string $table = 'task';
@@ -19,17 +23,17 @@ class TaskTable
     }
 
     /**
-     * @throws AppException
-     * @throws NotFoundException
+     * @throws NotFoundException|AppException
      */
     public function findById(string $id): TaskDto
     {
-        /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
+        /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection, SqlNoDataSourceInspection */
         $sql = "select * from {$this->table} where id = ?";
         $statement = $this->pdo->prepare($sql);
         $statement->execute([$id]);
         $result = $statement->fetch();
         if (empty($result)) {
+            /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
             throw new NotFoundException("id=`({$id}` not found)");
         }
 
@@ -48,7 +52,7 @@ class TaskTable
      */
     public function findAll(): array
     {
-        /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
+        /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection, SqlNoDataSourceInspection */
         $sql = "select * from {$this->table}";
         $statement = $this->pdo->prepare($sql);
         $statement->execute();
@@ -76,7 +80,7 @@ class TaskTable
     public function insert(TaskDto $task): TaskDto
     {
         try {
-            /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
+            /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection, SqlNoDataSourceInspection */
             $sql = "INSERT INTO {$this->table} (body) VALUES(?) RETURNING id, add_timestamp";
             $statement = $this->pdo->prepare($sql);
             $statement->execute([$task->body]);
@@ -95,6 +99,7 @@ class TaskTable
     /**
      * @throws AppException
      * @throws NotFoundException
+     * @noinspection PhpUnnecessaryCurlyVarSyntaxInspection
      */
     public function update(TaskDto $task): TaskDto
     {
@@ -116,13 +121,13 @@ class TaskTable
         }
 
         try {
+            /** @noinspection SqlNoDataSourceInspection */
             $sql = "UPDATE {$this->table} SET " .
                 implode(', ', array_map(fn($name): string => "{$name} = ?", array_keys($columns))) .
                 ' WHERE id = ?';
             $statement = $this->pdo->prepare($sql);
             $statement->execute([...array_values($columns), $task->id]);
             if ($statement->rowCount() === 0) {
-                /** @noinspection PhpUnnecessaryCurlyVarSyntaxInspection */
                 throw new NotFoundException("id=`({$task->id}` not found)");
             }
             return $task;

@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use DI\ContainerBuilder;
-use Root\App\Worker;
+use Root\App\Application\Worker;
 
 require __DIR__ . '/../vendor/autoload.php';
 

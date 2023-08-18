@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Root\App\Data;
+namespace Root\App\Domain\Enum;
 
 enum TaskStatus: string
 {

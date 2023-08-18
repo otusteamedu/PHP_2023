@@ -2,22 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Root\App\Actions;
+namespace Root\App\Application\Actions;
 
 use Exception;
 use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Root\App\Action;
-use Root\App\AppException;
-use Root\App\BadRequestException;
-use Root\App\NotFoundException;
-use Root\App\TaskTable;
+use Root\App\Application\Action;
+use Root\App\Application\TaskRepositoryInterface;
+use Root\App\Domain\Exception\AppException;
+use Root\App\Domain\Exception\BadRequestException;
+use Root\App\Domain\Exception\NotFoundException;
+use Root\App\Infrastructure\Database\TaskTableDatabaseRepository;
 use Throwable;
 
 class ViewAction extends Action
 {
-    private TaskTable $taskTable;
+    private TaskRepositoryInterface $taskTable;
 
     /**
      * @throws AppException
@@ -26,7 +27,7 @@ class ViewAction extends Action
     {
         parent::__construct($container);
         try {
-            $this->taskTable = new TaskTable($this->container->get(PDO::class));
+            $this->taskTable = new TaskTableDatabaseRepository($this->container->get(PDO::class));
         } catch (Exception | Throwable $e) {
             throw new AppException('Error connect database. ' . $e->getMessage());
         }
@@ -34,8 +35,8 @@ class ViewAction extends Action
 
     /**
      * @throws AppException
-     * @throws BadRequestException
      * @throws NotFoundException
+     * @throws BadRequestException
      */
     protected function action(): ResponseInterface
     {

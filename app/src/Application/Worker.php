@@ -2,24 +2,28 @@
 
 declare(strict_types=1);
 
-namespace Root\App;
+namespace Root\App\Application;
 
 use DateTime;
 use Exception;
 use PDO;
+use Root\App\Domain\DTO\TaskDto;
+use Root\App\Domain\Enum\TaskStatus;
+use Root\App\Domain\Exception\AppException;
+use Root\App\Domain\Exception\NotFoundException;
+use Root\App\Infrastructure\Database\TaskTableDatabaseRepository;
+use Root\App\Infrastructure\Query\AmqpQuery;
+use Throwable;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Container\ContainerInterface;
-use Root\App\Data\TaskDto;
-use Root\App\Data\TaskStatus;
-use Throwable;
 
 class Worker
 {
     private string $tag;
     private ContainerInterface $container;
-    private TaskTable $taskTable;
-    private Query $query;
+    private TaskRepositoryInterface $taskTable;
+    private QueryInterface $query;
 
     /**
      * @throws AppException
@@ -30,15 +34,15 @@ class Worker
         $this->container = $container;
 
         try {
-            $this->taskTable = new TaskTable($this->container->get(PDO::class));
+            $this->taskTable = new TaskTableDatabaseRepository($this->container->get(PDO::class));
         } catch (Exception | Throwable $e) {
             throw new AppException('Error connect database. ' . $e->getMessage());
         }
 
         try {
-            $this->query = new Query(
+            $this->query = new AmqpQuery(
                 $this->container->get(AMQPStreamConnection::class),
-                ($this->container->get(Settings::class)->get('rabbitmq'))['queryName']
+                ($this->container->get(SettingsInterface::class)->get('rabbitmq'))['queryName']
             );
         } catch (Exception | Throwable $e) {
             throw new AppException('Error connect query. ' . $e->getMessage());

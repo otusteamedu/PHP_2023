@@ -13,7 +13,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 use Root\App\Application\QueryInterface;
 use Root\App\Domain\Exception\AppException;
 
-
 class AmqpQuery implements QueryInterface
 {
     private AMQPStreamConnection $connection;

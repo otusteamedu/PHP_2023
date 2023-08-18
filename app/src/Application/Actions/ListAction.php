@@ -39,5 +39,4 @@ class ListAction extends Action
         $tasks = $this->taskTable->findAll();
         return $this->responsePrepare($tasks);
     }
-
 }

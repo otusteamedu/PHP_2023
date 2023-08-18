@@ -13,7 +13,6 @@ use Root\App\Domain\Exception\AppException;
 use Root\App\Domain\Exception\BadRequestException;
 use Root\App\Domain\Exception\NotFoundException;
 
-
 abstract class Action
 {
     protected ContainerInterface $container;

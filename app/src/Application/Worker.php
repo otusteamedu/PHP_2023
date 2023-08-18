@@ -18,7 +18,6 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use Psr\Container\ContainerInterface;
 
-
 class Worker
 {
     private string $tag;

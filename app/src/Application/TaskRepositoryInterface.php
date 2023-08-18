@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Root\App\Application;
 
-
-
 use Root\App\Domain\DTO\TaskDto;
 
 interface TaskRepositoryInterface

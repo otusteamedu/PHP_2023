@@ -10,7 +10,6 @@ use Root\App\Application\Helper\TypeHelper;
 use Root\App\Domain\Enum\TaskStatus;
 use Root\App\Domain\Exception\AppException;
 
-
 class TaskDto implements JsonSerializable
 {
     public ?string $id = null;

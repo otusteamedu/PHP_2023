@@ -2,6 +2,9 @@
 
 namespace Neunet\App\Model;
 
+use Neunet\App\Database\Database;
+use Neunet\App\DataMapper\HumanMapper;
+
 class Animal
 {
     private ?int $id;
@@ -10,6 +13,17 @@ class Animal
     private string $name;
     private int $age;
     private int $price;
+    private ?Human $owner = null;
+
+    public function __construct(int $id, string $type, bool $male, string $name, int $age, int $price)
+    {
+        $this->id = $id;
+        $this->type = $type;
+        $this->male = $male;
+        $this->name = $name;
+        $this->age = $age;
+        $this->price = $price;
+    }
 
     /**
      * @return int|null
@@ -105,5 +119,25 @@ class Animal
     public function setPrice(int $price): void
     {
         $this->price = $price;
+    }
+
+    /**
+     * Lazy load
+     *
+     * @return Human
+     */
+    public function getOwner(): Human
+    {
+        if ($this->owner === null) {
+            $humanMapper = new HumanMapper((new Database())->connect());
+            $human = $humanMapper->findByAnimalId($this->getId());
+            $this->setOwner($human);
+        }
+        return $this->owner;
+    }
+
+    public function setOwner(Human $human): void
+    {
+        $this->owner = $human;
     }
 }

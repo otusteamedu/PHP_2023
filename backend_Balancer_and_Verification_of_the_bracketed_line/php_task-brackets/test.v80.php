@@ -27,6 +27,7 @@ $examples = [
     '<?php echo(sprintf("%5s", "Ai-aai :)"));',
     '(()()()()))((((()()()))(()()()(((()))))))',
     '(()()()()) ((((()()()))(()()()(((()))))))',
+    '(()()()())((((()()()))(()()()(((()))))))',
 ];
 
 
@@ -64,9 +65,7 @@ function fmatch($symbol, &$stack): bool
             '(' => static fn() => $stack->push($symbol),
             ')' => static fn() => $stack->pop(),
             default => static fn() =>
-                $skipNotBracketSymbolOrException ?
-                    $stack->count() :
-                    throw new Exception('unknown symbol'),
+                $skipNotBracketSymbolOrException ?: throw new Exception('unknown symbol'),
         };
         $doMatch();
     } catch (Exception $exception) {

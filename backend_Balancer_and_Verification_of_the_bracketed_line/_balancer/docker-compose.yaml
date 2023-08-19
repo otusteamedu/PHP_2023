@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+  nginx:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: balance/nginx  # имя будущего образа
+    container_name: nginx # имя контейнера после запуска
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+       - ./code:/data/app.local
+    networks:
+      - app-network
+
+  php-fpm-01:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: php-fpm-01
+    volumes:
+       - ./code:/data/app.local
+    networks:
+      - app-network
+
+  php-fpm-02:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: php-fpm-02
+    volumes:
+      - ./code:/data/app.local
+    networks:
+      - app-network
+
+  php-fpm-03:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: php-fpm-03
+    volumes:
+      - ./code:/data/app.local
+    networks:
+      - app-network
+
+  php-fpm-04:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: php-fpm-04
+    volumes:
+      - ./code:/data/app.local
+    networks:
+      - app-network
+
+  memcache:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: balance/memcached
+    container_name: memcache
+    ports:
+      - '11212:11211'
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

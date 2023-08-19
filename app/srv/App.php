@@ -8,8 +8,8 @@ class App
 {
     public function run(): void
     {
-        $string = '(((((()))))))';
+        $string = '(((((())))))';
 
-        Result::result((new Validator())->validateString($string));
+        print(Result::result((new Validator())->validateString($string)));
     }
 }

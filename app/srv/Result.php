@@ -6,14 +6,14 @@ namespace App\Hw4;
 
 class Result
 {
-    public static function result(bool $result): void
+    public static function result(bool $result): string
     {
-        if ($result) {
-            http_response_code(200);
-            echo 'Запрос выполнен успешно';
-        } else {
+        if (!$result) {
             http_response_code(400);
-            echo 'Запрос невыполнен. Ошибка валидации';
+            return 'Запрос не выполнен. Ошибка валидации';
         }
+
+        http_response_code(200);
+        return 'Запрос выполнен успешно';
     }
 }

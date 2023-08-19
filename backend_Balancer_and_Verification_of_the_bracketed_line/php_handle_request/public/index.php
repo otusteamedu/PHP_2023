@@ -11,13 +11,13 @@ $app = AppFactory::create();
 $app->post('/', function (Request $request, Response $response): Response {
 
     $data = $request->getParsedBody();
-    
+
     $string = $data['string'];
 
     $isOk = true;
     $statusMessage = 'OK';
     $statusCode = 200;
-    if(!$isOk) {
+    if (!$isOk) {
         $statusMessage = 'Bad Request';
         $statusCode = 400;
     }

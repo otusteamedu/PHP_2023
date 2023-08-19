@@ -7,7 +7,7 @@ namespace DmitryEsaulenko\Hw15\Chat\Server;
 use DmitryEsaulenko\Hw15\Constants;
 use Socket\Raw\Socket;
 
-class Server implements ServerInterface
+class ServerSocket implements ServerInterface
 {
     private Socket $socket;
 

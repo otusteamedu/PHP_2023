@@ -7,13 +7,12 @@ namespace DmitryEsaulenko\Hw15\Chat\Client;
 use DmitryEsaulenko\Hw15\Constants;
 use Socket\Raw\Socket;
 
-class Client implements ClientInterface
+class ClientSocket implements ClientInterface
 {
     private Socket $socket;
 
-    public function __construct(
-        Socket $socket
-    ) {
+    public function __construct(Socket $socket)
+    {
         $this->socket = $socket;
     }
 

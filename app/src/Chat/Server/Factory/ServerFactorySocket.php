@@ -13,7 +13,7 @@ use DmitryEsaulenko\Hw15\Constants;
 
 class ServerFactorySocket extends ServerFactory
 {
-    function createServer(): ServerInterface
+    public function createServer(): ServerInterface
     {
         $socketFactory = new \Socket\Raw\Factory();
         $socketPath = getenv(Constants::SOCKET_VAR);

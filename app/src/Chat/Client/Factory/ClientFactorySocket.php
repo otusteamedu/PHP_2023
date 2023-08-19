@@ -10,7 +10,7 @@ use DmitryEsaulenko\Hw15\Constants;
 
 class ClientFactorySocket extends ClientFactory
 {
-    function createClient(): ClientInterface
+    public function createClient(): ClientInterface
     {
         $socketFactory = new \Socket\Raw\Factory();
         $socketPath = getenv(Constants::SOCKET_VAR);

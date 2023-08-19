@@ -8,8 +8,9 @@ use DmitryEsaulenko\Hw15\Chat\Client\ClientInterface;
 
 abstract class ClientFactory
 {
-    public function __construct() {
+    public function __construct()
+    {
     }
 
-    abstract function createClient(): ClientInterface;
+    abstract public function createClient(): ClientInterface;
 }

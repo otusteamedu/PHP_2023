@@ -17,9 +17,9 @@ class ServerFactorySocket extends ServerFactory
     {
         $socketFactory = new \Socket\Raw\Factory();
         $socketPath = getenv(Constants::SOCKET_VAR);
-        $address = $socketPath . Constants::SOCKET_TYPE;
-        $socket = $socketFactory->createServer($address)->listen();
+        $address = Constants::SOCKET_TYPE . $socketPath;
         unlink($socketPath);
+        $socket = $socketFactory->createServer($address)->listen();
         return new ServerSocket($socket);
     }
 }

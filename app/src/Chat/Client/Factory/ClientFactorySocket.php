@@ -14,7 +14,7 @@ class ClientFactorySocket extends ClientFactory
     {
         $socketFactory = new \Socket\Raw\Factory();
         $socketPath = getenv(Constants::SOCKET_VAR);
-        $address = $socketPath . Constants::SOCKET_TYPE;
+        $address = Constants::SOCKET_TYPE . $socketPath;
         $socket = $socketFactory->createClient($address);
         return new ClientSocket($socket);
     }

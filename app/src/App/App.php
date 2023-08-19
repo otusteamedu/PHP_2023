@@ -33,7 +33,7 @@ class App
 
     public function runClient(): void
     {
-        $type = getenv(Constants::SOCKET_TYPE);
+        $type = getenv(Constants::SOCKET_TYPE_VAR);
         $client = match ($type) {
             Constants::SOCKET_TYPE => (new ClientFactorySocket())->createClient(),
             default => throw new \Exception('Undefined type socket_type'),
@@ -43,7 +43,7 @@ class App
 
     public function runServer(): void
     {
-        $type = getenv(Constants::SOCKET_TYPE);
+        $type = getenv(Constants::SOCKET_TYPE_VAR);
         $server = match ($type) {
             Constants::SOCKET_TYPE => (new ServerFactorySocket())->createServer(),
             default => throw new \Exception('Undefined type socket_type'),

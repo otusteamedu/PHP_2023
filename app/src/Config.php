@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace DmitryEsaulenko\Hw6;
+namespace DmitryEsaulenko\Hw15;
 
 class Config
 {

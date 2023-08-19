@@ -31,7 +31,7 @@ try {
     $isOk = false;
 }
 
-if($isOk) {
+if ($isOk) {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode([
         'data' => json_decode($response->getBody()->getContents()),
@@ -45,8 +45,8 @@ if($isOk) {
 
 $match = $router->match();
 
-if( is_array($match) && is_callable( $match['target'] ) ) {
-    call_user_func_array( $match['target'], $match['params'] );
+if (is_array($match) && is_callable($match['target'])) {
+    call_user_func_array($match['target'], $match['params']);
 } else {
     // no route was matched
     //header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');

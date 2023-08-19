@@ -41,14 +41,14 @@ echo '<br>';
 
 //
 $memcache = new Memcache();
-$memcache->connect('memcache', 11211) or die ('Could not connect');
+$memcache->connect('memcache', 11211);
 ////
 $version = $memcache->getVersion();
 echo 'Memcache version: ' . $version;
 echo '<br>';
 //
 $key = 'memcache->getVersion();';
-$memcache->set($key,'my-val',MEMCACHE_COMPRESSED, 10);
+$memcache->set($key, 'my-val', MEMCACHE_COMPRESSED, 10);
 ////waiting more than 10 sec
 ////sleep(20);
 //

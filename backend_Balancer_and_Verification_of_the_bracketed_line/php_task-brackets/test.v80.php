@@ -38,7 +38,7 @@ foreach ($examples as $example) {
     $status = sprintf("%-8s", !$checkedStatus ? 'OK' : 'Error');
     echo $status;
     echo '|';
-    $readableStatus = sprintf("%-14s", getReadableStatus($checkedStatus) . ' ' .($response['ind']??''));
+    $readableStatus = sprintf("%-14s", getReadableStatus($checkedStatus) . ' ' . ($response['ind'] ?? ''));
     echo $readableStatus;
     echo '|';
     echo PHP_EOL;
@@ -69,7 +69,6 @@ function fmatch($symbol, &$stack): bool
                     throw new Exception('unknown symbol'),
         };
         $doMatch();
-
     } catch (Exception $exception) {
         //echo '`'.$symbol.'`';
         return false;
@@ -90,18 +89,18 @@ function checkString(string $str, array &$response): int
     $blIsValid = true;
     for ($i = 0; $i < $len; $i++) {
         $isMatched = fmatch($str[$i], $stack);
-        if(!$isMatched) {
+        if (!$isMatched) {
             $response['ind'] = $i;
             return 4;
         }
         $blIsValid &= $isMatched;
     }
 
-    if(!$blIsValid) {
+    if (!$blIsValid) {
         return 2;
     }
 
-    if($stack->count()) {
+    if ($stack->count()) {
         return 3;
     }
 

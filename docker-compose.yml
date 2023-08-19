@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: DockerfileWebserver
+    image: nginx/webserver
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/srv/app
+    networks:
+      - app-networks
+    depends_on:
+      - app1
+      - app2
+
+  app1:
+    build:
+      context: ./nginx
+      dockerfile: DockerfileApp
+    image: nginx/app1
+    container_name: app1
+    volumes:
+      - ./app:/srv/app
+    networks:
+      - app-networks
+    depends_on:
+      - php1
+      - php2
+
+  app2:
+    build:
+      context: ./nginx
+      dockerfile: DockerfileApp
+    image: nginx/app2
+    container_name: app2
+    volumes:
+      - ./app:/srv/app
+    networks:
+      - app-networks
+    depends_on:
+      - php1
+      - php2
+
+  php1:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php/app1
+    container_name: php1
+    volumes:
+      - ./app:/srv/app
+    networks:
+      - app-networks
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php/app2
+    container_name: php2
+    volumes:
+      - ./app:/srv/app
+    networks:
+      - app-networks
+
+  memcached:
+    image: 'memcached:latest'
+    container_name: memcached
+    volumes:
+      - './memcached/volumes:/root/memcached'
+    networks:
+      - app-networks
+
+networks:
+  app-networks:
+    driver: bridge

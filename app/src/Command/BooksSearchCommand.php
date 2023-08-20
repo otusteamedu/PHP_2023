@@ -60,10 +60,10 @@ final class BooksSearchCommand extends Command
 
             foreach ($searchResult->books as $book) {
                 $stockList = [];
-                foreach ($book->stock as $shop => $count) {
+                foreach ($book->getStock() as $shop => $count) {
                     $stockList[] = "$shop: $count";
                 }
-                $bookList[] = [$book->title, $book->sku, $book->price, implode("\n", $stockList)];
+                $bookList[] = [$book->getTitle(), $book->getSku(), $book->getPrice(), implode("\n", $stockList)];
             }
 
             $table = new Table($output);

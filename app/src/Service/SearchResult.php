@@ -6,8 +6,11 @@ namespace App\Service;
 
 final class SearchResult
 {
+    /**
+     * @param BookInterface[] $books
+     * @param int $total
+     */
     public function __construct(
-        /** @var Book[] */
         public readonly array $books,
         public readonly int $total,
     ) {

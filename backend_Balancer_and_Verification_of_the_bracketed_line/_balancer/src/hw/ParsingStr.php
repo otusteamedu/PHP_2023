@@ -4,14 +4,17 @@ namespace Ndybnov\Hw04\hw;
 
 class ParsingStr
 {
-    private function __construct() {
+    private function __construct()
+    {
     }
 
-    public static function build(): self {
+    public static function build(): self
+    {
         return new self();
     }
 
-    public function parse(?string $str, array &$response): int {
+    public function parse(?string $str, array &$response): int
+    {
         return $this->checkString($str, $response);
     }
 

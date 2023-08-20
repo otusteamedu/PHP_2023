@@ -4,23 +4,17 @@ namespace Ndybnov\Hw04\hw;
 
 class ParseString
 {
-    private ResultDTO $resultDTO;
-
-    private function __construct() {
+    private function __construct()
+    {
     }
 
-    public static function build(): self {
+    public static function build(): self
+    {
         return new self();
     }
 
-    public function makeResult(?string $str): ResultDTO {
-//        if(!$str) {
-//            return ResultDTO::build()
-//                ->setString('NOT-EXIST')
-//                ->setCodeStatus($checkedStatus)
-//                ->setPositionDetectedError( $response['ind'] ?? -1 );
-//        }
-
+    public function makeResult(?string $str): ResultDTO
+    {
         $response = [];
         $checkedStatus = ParsingStr::build()->parse($str, $response);
 

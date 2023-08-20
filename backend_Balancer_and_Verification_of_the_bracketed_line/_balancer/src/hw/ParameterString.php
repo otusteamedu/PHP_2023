@@ -6,14 +6,17 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 class ParameterString
 {
-    private function __construct() {
+    private function __construct()
+    {
     }
 
-    public static function build(): self {
+    public static function build(): self
+    {
         return new self();
     }
 
-    public function getValue(Request $request) {
+    public function getValue(Request $request)
+    {
         $parsedBody = $request->getParsedBody();
         $queryParams = $request->getQueryParams();
 
@@ -33,11 +36,13 @@ class ParameterString
         return null;
     }
 
-    private function getValueByKey(string $key, array|null &$data, array &$alternative, $default) {
+    private function getValueByKey(string $key, array|null &$data, array &$alternative, $default)
+    {
         return $data[$key] ?? ($alternative[$key] ?? $default);
     }
 
-    private function getAlternativeFieldNames(): array {
+    private function getAlternativeFieldNames(): array
+    {
         return [
             'string',
             'String',

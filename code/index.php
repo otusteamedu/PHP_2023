@@ -1,4 +1,5 @@
 <?php
+
 require __DIR__ . '/vendor/autoload.php';
 
 try {
@@ -11,4 +12,3 @@ $redis->set('hello', "Hi Redis!");
 $hello = $redis->get('hello');
 
 echo $hello;
-

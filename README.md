@@ -1,27 +1,59 @@
-текущая версия *черновая*
+Реализация домашнего 
 
-Домашнее задание реалзовано по частям (не единым приложением)
+* `backend_Balancer_and_Verification_of_the_bracketed_line`
+функциональная часть серверной логики 
 
-Пропущенные подпукнты
+* `client`
+функциональная часть клиенткой логики, выполнение post-метода, возможная обработка ответа ошибок
+
+
+Пропущена реализация следующих подпунктов
 ```
 9    Усложнённая задача для тех, кто хочет проверить свои силы
 10.1 Объедините оба Memcache в кластер. Можно использовать Repcached
 ```
 
+-- --
 
+* `_hw04/client/`
 
-* `_hw04/client/php_client_send_json/index.php`
+-- реализация функционала клиента - отправка строки POST-запросом
+
+* * `_hw04/client/php_client_send_json/index.php`
 
 -- реализация клиентского вызова, и отправка строки json-форматом POST-запроса
 
-* `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/_balancer`
+* * `_hw04/client/test_cases.sh`
+
+-- реализация клиентского вызова, используя curl - тестовый набор данных
+
+ 
+* * `_hw04/client/Makefile`
+
+-- реализация клиентского вызова, используя `curl`, `php_client_send_json`, `client/test_cases.sh` - тестовый набор данных
+
+-- --
+
+* `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/`
+
+-- реализация функционала бэкенда - балансера, верификации строки со скобками
+
+* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/_balancer`
 
 -- балансируемый кластер
 
-* `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_handle_request`
+* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_handle_request`
 
 -- реализация серверной логики - слушателя входящих POST-запросов
 
-* `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_task-brackets`
+* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_task-brackets`
 
 -- реализация соответствия строки со скобками задачи ДЗ
+
+-- --
+
+Остались не реализованны идеи по использованию такого анализатора скобок
+- отправить post-запрос с web-страницы, и в случае наличия ошибки и полученной позиции этой ошибки - отметить позицию для визуального восприятия и облегчения исправления строки пользователем
+- если продолжать улучшать клиент такого анализатора, то также можно отправить строку с ошибкой на анализ, получить позицию, удалить этот символ и снова отправить, ..либо до получения корректной строки - оптимистичный вариант )
+
+-- --

@@ -7,22 +7,31 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use GuzzleHttp\Client;
 
-$router = new AltoRouter();
+
+$hostLikeCommandLineParameter = $argv[1] ?? null;
+$strLikeCommandLineParameter = $argv[2] ?? null;
+
+
 $client = new Client();
 
-$host = 'http://0.0.0.0:8181';
+$host = $hostLikeCommandLineParameter ?? 'http://0.0.0.0:8181';
 $uri = '/';
+//$uri = '/?string=(())';
 
-//$body = ['String' => 'bla-bla'];
+//$body = ['string' => 'bla-bla'];
+//$body = [];
+//$body = ['string' => ''];
+//$body = ['string' => '())(()'];
+//$body = ['string' => '()()'];
+$str = $strLikeCommandLineParameter ?? '(()()()()))((((()()()))(()()()(((()))))))';
+$body = ['string' => $str];
 
 $msg = '';
 $isOk = true;
 try {
     $response = $client->post($host . $uri, [
         'Content-Type' => 'application/json',
-        'json' => [
-                'string' => '())(()',
-        ],
+        'json' => $body
     ]);
 } catch (Exception $exception) {
     $msg = $exception->getMessage();
@@ -41,13 +50,4 @@ if ($isOk) {
     ]);
 
     echo PHP_EOL;
-}
-
-$match = $router->match();
-
-if (is_array($match) && is_callable($match['target'])) {
-    call_user_func_array($match['target'], $match['params']);
-} else {
-    // no route was matched
-    //header( $_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
 }

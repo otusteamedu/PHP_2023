@@ -11,27 +11,29 @@
 1. Запускаем `gitlab` и `gitlab-runner` - `docker-compose up gitlab gitlab-runner`.
 1. После запуска получаем пароль для пользователя `root` - `docker-compose exec gitlab grep 'Password:' /etc/gitlab/initial_root_password`
    В конкретном случае - `NSMvEE3yt3x69a/sPnP3cRYiko0NScHY0HFW6p1Jjfc=`
-1. В интерфейсе `gitlab`, переходим в раздел `Admin Area`->`CI/CD`->`Runners`, выбираем `New Instance runner`
+1. В интерфейсе `gitlab`, переходим в раздел `Admin Area`->`CI/CD`->`Runners`, выбираем `New Instance runner`  
    ![01](./readme/01.jpg)
-1. Создаем новый `runner`. Выбираем Ос - `Linux`. Отмечаем `Run untagged jobs`
+1. Создаем новый `runner`. Выбираем Ос - `Linux`. Отмечаем `Run untagged jobs`  
    ![02](./readme/02.jpg)
-   В результате получаем токен для регистрации, в данном случае `glrt-eKBsfNeLU-aBnkffMZNz`
+   В результате получаем токен для регистрации, в данном случае `glrt-eKBsfNeLU-aBnkffMZNz`  
    ![03](./readme/03.png)
 1. Настраиваем файл `./docker/volumes/gitlab/config/config.template.toml`:
    1. `"/home/user/hw/hw35/deploy:/mnt/deploy:rw"` - указываем полный путь к папке для развертывания.
 1. Регистрируем `runner`: 
    `docker-compose exec gitlab-runner gitlab-runner register --url http://gitlab --token glrt-eKBsfNeLU-aBnkffMZNz --template-config /etc/gitlab-runner/config.template.toml --executor docker --non-interactive`,
    где `-token` - токен полученный ранее
-1. В интерфейсе `gitlab`, переходим в раздел `Admin Area`->`CI/CD`->`Runners`, ранее мозданный `runner` должен быть в статусе `Online`
+1. В интерфейсе `gitlab`, переходим в раздел `Admin Area`->`CI/CD`->`Runners`, ранее мозданный `runner` должен быть в статусе `Online`  
    ![04](./readme/04.png)
 1. В интерфейсе `gitlab`, создем новый репозиторий `hw28` (`http://192.168.56.151/root/hw28.git`), 
    возмем за основу проект [HW28](https://github.com/otusteamedu/PHP_2023/tree/APorivaev/hw28), 
    его отредактированная версия [HW35-app](https://github.com/otusteamedu/PHP_2023/tree/APorivaev/hw35-app).
-1. Скачиваем проект с `github.com`, добавляем к нему репозиторий с `gitlab`
-   ![05](./readme/05.png)
-    и делаем `push` на сервер `gitlab`, Получем:
-   ![06](./readme/06.png)
-   ![07](./readme/07.png)
+1. Скачиваем проект с `github.com`, добавляем к нему репозиторий с `gitlab`  
+   ![05](./readme/05.png)  
+    и делаем `push` на сервер `gitlab`, Получем:  
+   ![06](./readme/06.png)  
+   ![06_2](./readme/06_2.png)  
+   ![07](./readme/07.png)  
+   ![07_2](./readme/07_2.png)  
 1. После успешного завершения `deploy-job` в `./docker/volumes/deploy` должна появиться новая 
    папка и ссылка `current` на нее. 
    ```shell
@@ -48,5 +50,16 @@
           - ./docker/volumes/deploy/current:/var/www/app
    ```
 1. Запускаем `php`, `nginx` и `rabbitmq` - `docker-compose up php nginx rabbitmq`.
-1. Проверяем работу приложения:
+1. Проверяем работу приложения:  
    ![08](./readme/08.png)
+1. Вносим изменения в приложение, например в файл `src/GetBankStatementCommand.php`, в строке 26:
+   ```php
+   Response::echo(true, 'Ожидайте уведомления', ['debugMessage' => 'deploy success']);
+   ```
+   ![09](./readme/09.png)
+1. После успешного выполнения `pipeline`  
+   ![10](./readme/10.png)  
+   Проверяем работу приложения  
+   ![11](./readme/11.png)
+1. Выполнилось успешно.
+2. 

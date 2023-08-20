@@ -1,23 +1,6 @@
 version: '3'
 
 services:
-  postgresql:
-    build:
-      context: ./docker
-      dockerfile: Dockerfile-postgresql
-    image: "${DOCKER_PREFIX}/postgresql"
-    container_name: "${DOCKER_PREFIX}_postgresql"
-    environment:
-      POSTGRES_DB: "${POSTGRES_DB}"
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./docker/volumes/postgresql:/var/lib/postgresql/data
-    networks:
-      - hw-network
-
   php:
     build:
       args:
@@ -29,22 +12,59 @@ services:
     container_name: '${DOCKER_PREFIX}-php'
     restart: unless-stopped
     volumes:
-      - ./app:/var/www/app
+      - ./docker/volumes/deploy/current:/var/www/app
     networks:
-      - hw-network
+      - hw35-network
   nginx:
     image: nginx:1.23.3-alpine
     container_name: '${DOCKER_PREFIX}-nginx'
     restart: unless-stopped
     ports:
-      - '80:80'
+      - '8080:80'
     volumes:
-      - ./app:/var/www/app
+      - ./docker/volumes/deploy/current:/var/www/app
       - ./docker/nginx-conf:/etc/nginx/conf.d
     networks:
-      - hw-network
-volumes:
-  socket:
+      - hw35-network
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: '${DOCKER_PREFIX}-rabbitmq'
+    environment:
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD}'
+    ports:
+      - '15672:15672'
+    networks:
+      - hw35-network
+
+  gitlab:
+    image: 'gitlab/gitlab-ee:latest'
+    restart: always
+    hostname: 'gitlab.example.com'
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://192.168.56.151'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+    ports:
+      - '80:80'
+      - '443:443'
+      - '2222:22'
+    volumes:
+      - ./docker/volumes/gitlab/config:/etc/gitlab'
+      - ./docker/volumes/gitlab/logs:/var/log/gitlab'
+      - ./docker/volumes/gitlab/data:/var/opt/gitlab'
+    shm_size: '256m'
+    networks:
+      - hw35-network
+  gitlab-runner:
+    image: 'gitlab/gitlab-runner:latest'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./docker/volumes/gitlab/config:/etc/gitlab-runner
+      - ./docker/volumes/deploy:/mnt/deploy
+    restart: unless-stopped
+    networks:
+      - hw35-network
 networks:
-  hw-network:
+  hw35-network:
     driver: bridge

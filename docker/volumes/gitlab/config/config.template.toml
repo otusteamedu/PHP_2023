@@ -1,0 +1,8 @@
+[[runners]]
+
+[runners.docker]
+    image = "docker"
+    volumes = ["/cache", "/home/user/hw/hw35/docker/volumes/deploy:/mnt/deploy:rw", "/var/run/docker.sock:/var/run/docker.sock"]
+    pull_policy = "if-not-present"
+    tls_verify = false
+    privileged = true

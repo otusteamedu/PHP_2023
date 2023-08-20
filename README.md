@@ -38,17 +38,13 @@
 
 -- реализация функционала бэкенда - балансера, верификации строки со скобками
 
-* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/_balancer`
+* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/_balancer/src/public/index.php`
 
--- балансируемый кластер
+-- реализация точки запуска обработки входящих post-запросов
 
-* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_handle_request`
+* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/_balancer/src/public/check.php`
 
--- реализация серверной логики - слушателя входящих POST-запросов
-
-* * `_hw04/backend_Balancer_and_Verification_of_the_bracketed_line/php_task-brackets`
-
--- реализация соответствия строки со скобками задачи ДЗ
+-- реализация проверки корректности настройки memcache, сессий, php
 
 -- --
 

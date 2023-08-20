@@ -1,5 +1,6 @@
 stages:          # List of stages for jobs, and their order of execution
   - deploy
+  - restart
 
 deploy-job:      # This job runs in the deploy stage.
   image: "hw35/php"
@@ -17,4 +18,7 @@ deploy-job:      # This job runs in the deploy stage.
     - cd ../
     - ln -srfn ./$DIR ./current
     - echo "Application successfully deployed."
-    - docker restart  hw35-php
+restart-job:
+  stage: restart
+  script:
+    - docker restart hw35-php

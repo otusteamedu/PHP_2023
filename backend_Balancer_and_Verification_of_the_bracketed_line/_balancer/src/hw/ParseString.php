@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ndybnov\Hw04\hw;
 
 class ParseString
@@ -15,12 +17,16 @@ class ParseString
 
     public function makeResult(?string $str): ResultDTO
     {
-        $response = [];
-        $checkedStatus = ParsingStr::build()->parse($str, $response);
+        try {
+            ParsingStr::build()->parse($str);
 
-        return ResultDTO::build()
-            ->setString($str)
-            ->setCodeStatus($checkedStatus)
-            ->setPositionDetectedError($response['ind'] ?? -1);
+            return ResultDTO::build()
+                ->setString($str)
+                ->setInfoMessage('success');
+        } catch (\Exception $exception) {
+            return ResultDTO::build()
+                ->setString($str)
+                ->setInfoMessage($exception->getMessage());
+        }
     }
 }

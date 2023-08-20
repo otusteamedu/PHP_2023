@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ndybnov\Hw04\hw;
 
 use Psr\Http\Message\ServerRequestInterface as Request;

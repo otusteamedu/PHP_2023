@@ -21,14 +21,10 @@ $app->post('/', function (Request $request, Response $response): Response {
 
     $body = [
         'received' => $result->getString(),
-        'info' => $result->getStatusMessage(),
-        'status-code' => $result->getStatusCode(),
+        'info' => $result->getInfoMessage(),
     ];
-    if (4 === $result->getCodeStatus()) {
-        $body['position'] = $result->getPositionDetectedError();
-    }
 
-    $response->getBody()->write(json_encode($body));
+    $response->getBody()->write(json_encode($body, JSON_THROW_ON_ERROR));
 
     return $response->withStatus($result->getStatusCode());
 });

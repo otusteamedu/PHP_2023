@@ -19,6 +19,9 @@ test-curl-post-empty-all:
 test-curl-post-arg-url:
 	curl -X POST  http://0.0.0.0:8181/\?str\=\(\)
 
+test-curl-post-arg-url-error:
+	curl -X POST  http://0.0.0.0:8181/\?str\='())()'
+
 test-curl-all:
 	make test-curl-arg
 	@echo ''
@@ -31,6 +34,8 @@ test-curl-all:
 	make test-curl-post-empty-all
 	@echo ''
 	make test-curl-post-arg-url
+	@echo ''
+	make test-curl-post-arg-url-error
 	@echo ''
 
 test-php-clint-ok:

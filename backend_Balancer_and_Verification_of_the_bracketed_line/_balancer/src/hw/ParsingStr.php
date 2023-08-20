@@ -1,6 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ndybnov\Hw04\hw;
+
+use Ndybnov\Hw04\hw\exceptions\EmptyParameterException;
+use Ndybnov\Hw04\hw\exceptions\ErrorCountOfBracketsInParameterException;
+use Ndybnov\Hw04\hw\exceptions\ErrorInParameterException;
+use Ndybnov\Hw04\hw\exceptions\ErrorParameterOnPositionException;
+use Ndybnov\Hw04\hw\exceptions\NullParameterException;
 
 class ParsingStr
 {
@@ -13,20 +21,24 @@ class ParsingStr
         return new self();
     }
 
-    public function parse(?string $str, array &$response): int
+    public function parse(?string $str): int
     {
-        return $this->checkString($str, $response);
+        try {
+            return $this->checkString($str);
+        } catch (\Exception $exception) {
+            throw new $exception($exception->getMessage());
+        }
     }
 
-    private function checkString(?string $str, array &$response): int
+    private function checkString(?string $str): int
     {
         if (!$str) {
-            return 1;
+            throw new NullParameterException();
         }
 
         $len = strlen($str);
         if (!$len) {
-            return 1;
+            throw new EmptyParameterException();
         }
 
         $stack = new \SplStack();
@@ -34,18 +46,17 @@ class ParsingStr
         for ($i = 0; $i < $len; $i++) {
             $isMatched = $this->fmatch($str[$i], $stack);
             if (!$isMatched) {
-                $response['ind'] = $i;
-                return 4;
+                throw new ErrorParameterOnPositionException('Error in parameter at position ' . $i);
             }
             $blIsValid &= $isMatched;
         }
 
         if (!$blIsValid) {
-            return 2;
+            throw new ErrorInParameterException();
         }
 
         if ($stack->count()) {
-            return 3;
+            throw new ErrorCountOfBracketsInParameterException();
         }
 
         return 0;
@@ -63,7 +74,6 @@ class ParsingStr
             };
             $doMatch();
         } catch (\Exception $exception) {
-            //echo '`'.$symbol.'`';
             return false;
         }
 

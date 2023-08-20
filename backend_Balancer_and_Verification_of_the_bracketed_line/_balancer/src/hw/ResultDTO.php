@@ -1,17 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Ndybnov\Hw04\hw;
 
 class ResultDTO
 {
     private ?string $str;
     private int $codeStatus;
-    private int $positionDetectedError;
+    private string $infoMessage;
 
     private function __construct()
     {
-        $this->codeStatus = -1;
-        $this->positionDetectedError = -1; //@fixme include ErrorClass
     }
 
     public static function build(): self
@@ -19,9 +19,16 @@ class ResultDTO
         return new self();
     }
 
-    public function isSuccess(): int
+    public function getInfoMessage(): string
     {
-        return (0 === $this->codeStatus);
+        return $this->infoMessage;
+    }
+
+    public function setInfoMessage(string $infoMessage): self
+    {
+        $this->infoMessage = $infoMessage;
+        $this->codeStatus = ('success' === $infoMessage) ? 0 : -1;
+        return $this;
     }
 
     public function getString(): ?string
@@ -35,35 +42,13 @@ class ResultDTO
         return $this;
     }
 
-    public function getCodeStatus(): int
-    {
-        return $this->codeStatus;
-    }
-
-    public function setCodeStatus(int $codeStatus): self
-    {
-        $this->codeStatus = $codeStatus;
-        return $this;
-    }
-
-    public function getPositionDetectedError(): int
-    {
-        return $this->positionDetectedError;
-    }
-
-    public function setPositionDetectedError(int $positionDetectedError): self
-    {
-        $this->positionDetectedError = $positionDetectedError;
-        return $this;
-    }
-
-    public function getStatusMessage(): string
-    {
-        return $this->isSuccess() ? 'OK' : 'Bad Request';
-    }
-
     public function getStatusCode(): int
     {
         return $this->isSuccess() ? 200 : 400;
+    }
+
+    private function isSuccess(): bool
+    {
+        return (0 === $this->codeStatus);
     }
 }

@@ -1,0 +1,50 @@
+version: "3"
+
+server:
+  command: "php public/index.php"
+  env:
+    - APP_RUNTIME: Baldinof\RoadRunnerBundle\Runtime\Runtime
+    - OTEL_SERVICE_NAME: redis-php-application
+    - OTEL_TRACES_EXPORTER: otlp
+    - OTEL_EXPORTER_OTLP_PROTOCOL: http/protobuf
+    - OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+    - OTEL_PHP_TRACES_PROCESSOR: simple
+
+http:
+  address: 0.0.0.0:8080
+  pool:
+    debug: false
+  middleware: [ "static", "gzip", "otel" ]
+  uploads:
+    forbid: [ ".php", ".exe", ".bat" ]
+  static:
+    dir: "public"
+    forbid: [ ".php", ".htaccess" ]
+
+otel:
+  insecure: true
+  compress: false
+  exporter: otlp
+  service_name: redis-rr-application
+  service_version: 1.0.0
+  endpoint: otel-collector:4317
+
+logs:
+  mode: production
+  channels:
+    http:
+      level: debug # Log all http requests, set to info to disable
+    server:
+      level: info # Everything written to worker stderr is logged
+      mode: raw
+    metrics:
+      level: error
+
+# Uncomment to use metrics integration
+# rpc:
+#   listen: tcp://127.0.0.1:6001
+
+# Uncomment to use metrics integration
+# metrics:
+#   # prometheus client address (path /metrics added automatically)
+#   address: "0.0.0.0:9180"

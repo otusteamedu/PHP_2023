@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  application:
+    build:
+      target: app_php_dev
+    volumes:
+      - ./app/src:/app/src
+      - ./app/vendor:/app/vendor
+      - ./app/config:/app/config
+      - ./app/public:/app/public
+      - ./app/.env:/app/.env
+      - ./app/.env.sample:/app/.env.sample
+      - ./app/.rr.dev.yaml:/app/.rr.dev.yaml
+      - ./app/composer.json:/app/composer.json
+      - ./app/composer.lock:/app/composer.lock
+      - ./app/symfony.lock:/app/symfony.lock
+    command: "bin/rr serve -c .rr.dev.yaml --debug"
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+      XDEBUG_MODE: ${XDEBUG_MODE}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.application-http.entrypoints=web"
+      - "traefik.http.routers.application-http.rule=Host(`app.otus-redis.localhost`)"
+      - "traefik.http.routers.application-http.middlewares=application"
+      - "traefik.http.services.application.loadbalancer.server.port=8080"
+      - "traefik.http.middlewares.application.redirectscheme.scheme=https"
+      - "traefik.http.routers.application.entrypoints=websecure"
+      - "traefik.http.routers.application.rule=Host(`app.otus-redis.localhost`)"
+      - "traefik.http.routers.application.tls=true"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  reverse-proxy:
+    image: traefik:v2.6
+    command:
+      - "--accesslog"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--providers.file.directory=/configuration/"
+      - "--providers.file.watch=true"
+    networks:
+      - otus-redis
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8082:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./.docker/traefik/configuration:/configuration/
+      - ./.docker/traefik/certs:/etc/certs:ro
+
+  grafana:
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.grafana-http.entrypoints=web"
+      - "traefik.http.routers.grafana-http.rule=Host(`grafana.otus-redis.localhost`)"
+      - "traefik.http.routers.grafana-http.middlewares=grafana-https"
+      - "traefik.http.services.grafana.loadbalancer.server.port=3000"
+      - "traefik.http.middlewares.grafana-https.redirectscheme.scheme=https"
+      - "traefik.http.routers.grafana.entrypoints=websecure"
+      - "traefik.http.routers.grafana.rule=Host(`grafana.otus-redis.localhost`)"
+      - "traefik.http.routers.grafana.tls=true"
+
+  redis:
+    ports:
+      - "6379:6379"

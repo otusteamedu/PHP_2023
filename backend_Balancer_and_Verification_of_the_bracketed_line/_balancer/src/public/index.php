@@ -24,7 +24,7 @@ $app->post('/', function (Request $request, Response $response): Response {
         'info' => $result->getStatusMessage(),
         'status-code' => $result->getStatusCode(),
     ];
-    if(4 === $result->getCodeStatus()) {
+    if (4 === $result->getCodeStatus()) {
         $body['position'] = $result->getPositionDetectedError();
     }
 

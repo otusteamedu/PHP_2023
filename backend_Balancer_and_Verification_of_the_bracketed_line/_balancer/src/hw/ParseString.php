@@ -21,6 +21,6 @@ class ParseString
         return ResultDTO::build()
             ->setString($str)
             ->setCodeStatus($checkedStatus)
-            ->setPositionDetectedError( $response['ind'] ?? -1 );
+            ->setPositionDetectedError($response['ind'] ?? -1);
     }
 }

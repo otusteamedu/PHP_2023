@@ -14,7 +14,8 @@ class ResultDTO
         $this->positionDetectedError = -1; //@fixme include ErrorClass
     }
 
-    public static function build(): self {
+    public static function build(): self
+    {
         return new self();
     }
 

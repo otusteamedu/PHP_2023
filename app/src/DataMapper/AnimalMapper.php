@@ -14,7 +14,6 @@ class AnimalMapper
 
     private PDOStatement $selectStmt;
     private PDOStatement $insertStmt;
-    private PDOStatement $updateStmt;
     private PDOStatement $deleteStmt;
 
     public function __construct(PDO $db)
@@ -26,9 +25,6 @@ class AnimalMapper
         );
         $this->insertStmt = $db->prepare(
             "insert into animal (type, male, name, age, price) values (?, ?, ?, ?, ?)"
-        );
-        $this->updateStmt = $db->prepare(
-            "update animal set type = ?, male = ?, name = ?, age = ?, price = ? where id = ?"
         );
         $this->deleteStmt = $db->prepare("delete from animal where id = ?");
     }
@@ -56,16 +52,15 @@ class AnimalMapper
         );
     }
 
-    public function update(Animal $animal): bool
+    public function update(array $raw, int $id): bool
     {
-        return $this->updateStmt->execute([
-            $animal->getType(),
-            $animal->isMale(),
-            $animal->getName(),
-            $animal->getAge(),
-            $animal->getPrice(),
-            $animal->getId()
-        ]);
+        $query = "update animal set ";
+        foreach ($raw as $name => $value) {
+            $query .= "$name = ?,";
+        }
+        $query = rtrim($query, ',') . " where id = $id";
+
+        return $this->db->prepare($query)->execute();
     }
 
     public function delete(Animal $animal): bool

@@ -9,5 +9,4 @@ try {
     $app->run();
 } catch (Exception $exception) {
     echo $exception->getMessage();
-    exit(1);
 }

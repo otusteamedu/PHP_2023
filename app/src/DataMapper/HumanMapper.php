@@ -15,7 +15,6 @@ class HumanMapper
     private PDOStatement $selectStmt;
     private PDOStatement $selectByAnimalStmt;
     private PDOStatement $insertStmt;
-    private PDOStatement $updateStmt;
     private PDOStatement $deleteStmt;
 
     public function __construct(PDO $db)
@@ -30,9 +29,6 @@ class HumanMapper
         );
         $this->insertStmt = $db->prepare(
             "insert into human (name, phone) values (?, ?)"
-        );
-        $this->updateStmt = $db->prepare(
-            "update human set name = ?, phone = ? where id = ?"
         );
         $this->deleteStmt = $db->prepare("delete from human where id = ?");
     }
@@ -62,13 +58,15 @@ class HumanMapper
         return new Human((int) $this->db->lastInsertId(), $raw['name'], $raw['phone'], $raw['animalId']);
     }
 
-    public function update(Human $human): bool
+    public function update(array $raw, int $id): bool
     {
-        return $this->updateStmt->execute([
-            $human->getName(),
-            $human->getPhone(),
-            $human->getId()
-        ]);
+        $query = "update human set ";
+        foreach ($raw as $name => $value) {
+            $query .= "$name = ?,";
+        }
+        $query = rtrim($query, ',') . " where id = $id";
+
+        return $this->db->prepare($query)->execute();
     }
 
     public function delete(Human $human): bool

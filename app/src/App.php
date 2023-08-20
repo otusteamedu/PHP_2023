@@ -27,7 +27,7 @@ class App
         print_r($animalMapper->findById($vasya->getId()));
 
         $vasya->setAge(4);
-        $animalMapper->update($vasya);
+        $animalMapper->update(['age' => $vasya->getAge()], $vasya->getId());
 
         $humanMapper->insert(['name' => 'Stepa', 'phone' => '+77777777777', 'animal_id' => $vasya->getId()]);
 

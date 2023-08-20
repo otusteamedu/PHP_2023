@@ -1,23 +1,6 @@
 version: '3'
 
 services:
-  postgresql:
-    build:
-      context: ./docker
-      dockerfile: Dockerfile-postgresql
-    image: "${DOCKER_PREFIX}/postgresql"
-    container_name: "${DOCKER_PREFIX}_postgresql"
-    environment:
-      POSTGRES_DB: "${POSTGRES_DB}"
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./docker/volumes/postgresql:/var/lib/postgresql/data
-    networks:
-      - hw-network
-
   php:
     build:
       args:
@@ -31,7 +14,7 @@ services:
     volumes:
       - ./app:/var/www/app
     networks:
-      - hw-network
+      - hw28-network
   nginx:
     image: nginx:1.23.3-alpine
     container_name: '${DOCKER_PREFIX}-nginx'
@@ -42,9 +25,47 @@ services:
       - ./app:/var/www/app
       - ./docker/nginx-conf:/etc/nginx/conf.d
     networks:
-      - hw-network
+      - hw28-network
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: '${DOCKER_PREFIX}-rabbitmq'
+    environment:
+      RABBITMQ_DEFAULT_USER: '${RABBITMQ_USER}'
+      RABBITMQ_DEFAULT_PASS: '${RABBITMQ_PASSWORD}'
+    ports:
+      - '15672:15672'
+    networks:
+      - hw28-network
+  php-worker-exec:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php-worker-exec
+    image: '${DOCKER_PREFIX}/php-worker-exec'
+    container_name: '${DOCKER_PREFIX}-php-worker-exec'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw28-network
+  php-worker-notify:
+    build:
+      args:
+        uid: $USER_UID
+        user: $USER_NAME
+      context: docker
+      dockerfile: Dockerfile-php-worker-notify
+    image: '${DOCKER_PREFIX}/php-worker-notify'
+    container_name: '${DOCKER_PREFIX}-php-worker-notify'
+    restart: unless-stopped
+    volumes:
+      - ./app:/var/www/app
+    networks:
+      - hw28-network
 volumes:
   socket:
 networks:
-  hw-network:
+  hw28-network:
     driver: bridge

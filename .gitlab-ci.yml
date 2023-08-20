@@ -1,0 +1,19 @@
+stages:          # List of stages for jobs, and their order of execution
+  - deploy
+
+deploy-job:      # This job runs in the deploy stage.
+  image: "hw35/php"
+
+  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+  environment: production
+  script:
+    - echo "Deploying application..."
+    - export DIR=$(date +%Y-%m-%d_%H-%M-%S-%N)
+    - echo $DIR
+    - mkdir /mnt/deploy/$DIR
+    - cp -r ./* /mnt/deploy/$DIR
+    - cd /mnt/deploy/$DIR
+    - composer install
+    - cd ../
+    - ln -srfn ./$DIR ./current
+    - echo "Application successfully deployed."

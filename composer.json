@@ -1,0 +1,10 @@
+{
+    "name": "aleksandrdolgov/otus_php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Aleksandrdolgov\\OtusPhp2023\\": "src/"
+        }
+    },
+    "require": {}
+}

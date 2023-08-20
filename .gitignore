@@ -2,3 +2,4 @@
 vendor
 mysql-data
 .idea
+composer.lock

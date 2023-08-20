@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  webserver:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: email-app/nginx
+    container_name: webserver
+    volumes:
+      - ./app:/data/email-app
+    ports:
+      - "${NGINX_PORT}:80"
+      - "${NGINX_PORT_SSL}:443"
+    networks:
+      - email-app-network
+
+  email-app:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+      args:
+        uname: ${APP_UNAME}
+        uid: ${APP_UID}
+        gid: ${APP_GID}
+        DOCKER_PHP_ENABLE_XDEBUG: ${DOCKER_PHP_ENABLE_XDEBUG}
+    image: email-app/php
+    container_name: email-app
+    volumes:
+      - ./app:/data/email-app
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+    networks:
+      - email-app-network
+
+networks:
+  email-app-network:
+    driver: bridge

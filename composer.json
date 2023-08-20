@@ -1,0 +1,18 @@
+{
+    "name": "evgeny-romanov/php-2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "EvgenyRomanov\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evgeny Romanov",
+            "email": "e.romanov93@yandex.ru"
+        }
+    ],
+    "require": {
+        "evgeny-romanov/otus-composer-package": "^1.0"
+    }
+}

@@ -6,28 +6,70 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: myapp/nginx
-    container_name: webserver
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
-       - ./src:/data/application.local
-       - unixsocket:/var/run
        - phpmyadmindata:/var/www/phpmyadmin
     networks:
       - app-network
     depends_on:
-      - app
+      - app1
+      - app2
+      - nginx_back1
+      - nginx_back2
       - phpmyadmin
 
-  app:
+  nginx_back1:
+    build:
+      context: ./nginx
+      dockerfile: DockerfileBack
+    image: myapp/nginx_back
+    container_name: nginx_back1
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+
+  nginx_back2:
+    build:
+      context: ./nginx
+      dockerfile: DockerfileBack
+    image: myapp/nginx
+    container_name: nginx_back2
+    volumes:
+      - ./src:/data/application.local
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+
+  app1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: app
+    container_name: app1
     volumes:
        - ./src:/data/application.local
-       - unixsocket:/var/run
+    networks:
+      - app-network
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    volumes:
+      - ./src:/data/application.local
     networks:
       - app-network
     environment:
@@ -40,7 +82,8 @@ services:
     ports:
       - "6379:6379"
     depends_on:
-      - app
+      - app1
+      - app2
     networks:
       - app-network
 
@@ -52,7 +95,8 @@ services:
     networks:
       - app-network
     depends_on:
-      - app
+      - app1
+      - app2
       - mysql
 
   mysql:
@@ -82,7 +126,6 @@ networks:
     driver: bridge
 
 volumes:
-  unixsocket:
   mysqldata:
   phpmyadmindata:
 

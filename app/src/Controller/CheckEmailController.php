@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\UserExceptionInterface;
 use App\Service\EmailChecker;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\{File\UploadedFile, JsonResponse, Request, Response};
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,10 +26,15 @@ class CheckEmailController extends AbstractController
     {
         $email = $request->get('email', '');
 
-        $isValid = $this->emailChecker->isEmailValid($email);
-
-        if (!$isValid) {
-            return $this->json(EmailChecker::NOT_VALID_EMAIL_MESSAGE, Response::HTTP_BAD_REQUEST);
+        try {
+            $this->emailChecker->isEmailValid($email);
+        } catch (Exception $exc) {
+            return $this->json(
+                $exc instanceof UserExceptionInterface
+                    ? $exc->getUserMessage()
+                    : EmailChecker::NOT_VALID_EMAIL_MESSAGE,
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         return $this->json('OK');

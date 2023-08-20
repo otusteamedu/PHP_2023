@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Service;
 
 use App\Service\EmailChecker;
+use Exception;
 use PHPUnit\Framework\TestCase;
 
 class EmailCheckerTest extends TestCase
@@ -13,7 +14,16 @@ class EmailCheckerTest extends TestCase
     public function testEmailCheckerSuccess(string $email): void
     {
         $emailChecker = new EmailChecker();
-        $this->assertEquals(true, $emailChecker->isEmailValid($email));
+
+        $result = true;
+
+        try {
+            $emailChecker->isEmailValid($email);
+        } catch (Exception) {
+            $result = false;
+        }
+
+        $this->assertEquals(true, $result);
     }
 
     /**
@@ -23,7 +33,15 @@ class EmailCheckerTest extends TestCase
     {
         $emailChecker = new EmailChecker();
 
-        $this->assertEquals(false, $emailChecker->isEmailValid($email));
+        $result = true;
+
+        try {
+            $emailChecker->isEmailValid($email);
+        } catch (Exception) {
+            $result = false;
+        }
+
+        $this->assertEquals(false, $result);
     }
 
     public function successDataProvider(): array

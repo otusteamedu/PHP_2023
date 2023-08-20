@@ -2,6 +2,7 @@
 
 namespace App\Command;
 
+use App\Exception\UserExceptionInterface;
 use App\Service\EmailChecker;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -10,6 +11,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 use Symfony\Component\HttpFoundation\File\File;
+use Exception;
 
 #[AsCommand(
     name: 'app:check-email',
@@ -46,8 +48,14 @@ class CheckEmailCommand extends Command
         }
 
         if ($email) {
-            if (!$this->emailChecker->isEmailValid((string)$email)) {
-                $io->caution(EmailChecker::NOT_VALID_EMAIL_MESSAGE);
+            try {
+                $this->emailChecker->isEmailValid((string)$email);
+            } catch (Exception $exc) {
+                $io->caution(
+                    $exc instanceof UserExceptionInterface
+                        ? $exc->getUserMessage()
+                        : EmailChecker::NOT_VALID_EMAIL_MESSAGE
+                );
                 return Command::SUCCESS;
             }
 

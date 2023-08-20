@@ -23,7 +23,7 @@ class GetBankStatementCommand
         $query = new Query($this->settings->get('rabbitmq'));
         $query->publish(['start' => $start, 'end' => $end, 'notification' => $notification]);
 
-        Response::echo(true, 'Ожидайте уведомления', ['debug' => true, 'message' => 'test']);
+        Response::echo(true, 'Ожидайте уведомления');
     }
 
     /**

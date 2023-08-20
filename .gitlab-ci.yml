@@ -21,4 +21,6 @@ deploy-job:      # This job runs in the deploy stage.
 restart-job:
   stage: restart
   script:
+    - echo "Restart container..."
     - docker restart hw35-php
+    - echo "Restart container success"

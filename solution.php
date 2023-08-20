@@ -2,12 +2,15 @@
 
 declare(strict_types=1);
 
-class Solution {
+namespace App\Solution;
+
+class Solution
+{
     /**
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations(string $digits): array
+    public function letterCombinations(string $digits): array
     {
         if (!strlen($digits)) {
             return [];

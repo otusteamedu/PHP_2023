@@ -17,3 +17,4 @@ deploy-job:      # This job runs in the deploy stage.
     - cd ../
     - ln -srfn ./$DIR ./current
     - echo "Application successfully deployed."
+    - docker restart  hw35-php

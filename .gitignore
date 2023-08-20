@@ -1,1 +1,11 @@
-﻿.idea
+.idea
+app/vendor
+.DS_Store
+runtime
+rr*
+.env
+.app.env.sample
+.phpunit.result.cache
+.deptrac.cache
+.docker/traefik/certs/local-cert.pem
+.docker/traefik/certs/local-key.pem

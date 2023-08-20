@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  nginx:
+    build:
+      dockerfile: .docker/nginx/Dockerfile
+      context: ./
+    volumes:
+      - ./app:/app
+    ports:
+      - "8080:80"
+    networks:
+      - otus-db-pattern
+
+  php:
+    build:
+      dockerfile: .docker/php/Dockerfile
+      context: ./
+      args:
+        UNAME: ${UNAME}
+        UGROUP: ${UGROUP}
+        UID: ${APP_UID}
+        GID: ${APP_GID}
+    volumes:
+      - ./app:/app
+    environment:
+      PHP_IDE_CONFIG: serverName=${XDEBUG_STORM_SERVER_NAME}
+      XDEBUG_MODE: ${XDEBUG_MODE}
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ${DB_NAME}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_OPTIONS: ${DB_PASSWORD}
+    networks:
+      - otus-db-pattern
+
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - ./.docker/postgres:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+    networks:
+      - otus-db-pattern
+
+networks:
+  otus-db-pattern:
+    driver: bridge

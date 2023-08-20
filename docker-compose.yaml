@@ -43,12 +43,12 @@ services:
     hostname: 'gitlab.example.com'
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://192.168.56.151'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+        external_url '${GITLAB_EXTERNAL_URL}'
+        gitlab_rails['gitlab_shell_ssh_port'] = '${GITLAB_SSH_PORT}'
     ports:
       - '80:80'
       - '443:443'
-      - '2222:22'
+      - '${GITLAB_SSH_PORT}:22'
     volumes:
       - ./docker/volumes/gitlab/config:/etc/gitlab'
       - ./docker/volumes/gitlab/logs:/var/log/gitlab'

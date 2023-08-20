@@ -2,14 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Ndybnov\Hw04;
+namespace Ndybnov\Hw04\public;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+
 use Ndybnov\Hw04\hw\MainCommand;
-use Slim\Factory\AppFactory;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
 
 
 $app = AppFactory::create();

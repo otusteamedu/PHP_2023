@@ -20,6 +20,10 @@ class ParsingStr
 
     private function checkString(?string $str, array &$response): int
     {
+        if (!$str) {
+            return 1;
+        }
+
         $len = strlen($str);
         if (!$len) {
             return 1;

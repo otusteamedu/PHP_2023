@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Ndybnov\\Hw04\\": "src/"
+            "Ndybnov\\Hw04\\": "."
         }
     },
     "authors": [

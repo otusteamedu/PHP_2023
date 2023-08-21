@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "f36fc5d1f4108bbec4003e7c5ec4a528",
+    "packages": [
+        {
+            "name": "maxim-bazlov/otus-composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/X0TTa6bl4/otus-composer-package.git",
+                "reference": "04bcf2f2108167e83079417b1e8106a0712601b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/X0TTa6bl4/otus-composer-package/zipball/04bcf2f2108167e83079417b1e8106a0712601b3",
+                "reference": "04bcf2f2108167e83079417b1e8106a0712601b3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MaximBazlov\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "MaximBazlov"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/X0TTa6bl4/otus-composer-package/issues",
+                "source": "https://github.com/X0TTa6bl4/otus-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-08-21T07:08:43+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=8.0"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

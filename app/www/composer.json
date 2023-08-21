@@ -1,0 +1,17 @@
+{
+    "name": "root/www",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\Www\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MTikhonov"
+        }
+    ],
+    "require": {
+        "maxim-tsikhonov/php-nod": "^1.0"
+    }
+}

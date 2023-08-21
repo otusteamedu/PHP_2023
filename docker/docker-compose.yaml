@@ -56,10 +56,10 @@ services:
         volumes:
             - ../mysql-data:/var/lib/mysql
         environment:
-            MYSQL_ROOT_PASSWORD: root1234
-            MYSQL_DATABASE: app-db
-            MYSQL_USER: app-user
-            MYSQL_PASSWORD: app-pass
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
 networks:
     app-network:

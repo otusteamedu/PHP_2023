@@ -10,7 +10,7 @@ class UsingCache
     {
         $getId = $_GET['id'] ?? null;
 
-        if($getId) {
+        if ($getId) {
             echo \session_id($getId);
         }
         \session_start();

@@ -22,7 +22,6 @@ class RoutersHandlerCommand
     public function make(string $flag)
     {
         return match ($flag) {
-
             'get-root' => static function (Request $request, Response $response): Response {
                 return HelpCommand::build()->run($request, $response);
             },

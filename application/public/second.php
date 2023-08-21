@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 use Gesparo\Hw\Exception\HttpException;
@@ -18,7 +19,7 @@ function validateString(string $string): bool
     $count = 0;
     $sizeOfString = strlen($string);
 
-    for($i = 0; $i < $sizeOfString; ++$i) {
+    for ($i = 0; $i < $sizeOfString; ++$i) {
         if ($string[$i] === '(') {
             ++$count;
         } else {
@@ -52,4 +53,3 @@ try {
 } catch (HttpException $exception) {
     header("HTTP/1.1 {$exception->getCode()} {$exception->getMessage()}");
 }
-

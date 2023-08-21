@@ -57,3 +57,5 @@ RUN apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && php -r "unlink('composer-setup.php');"
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
+WORKDIR /data/app.local

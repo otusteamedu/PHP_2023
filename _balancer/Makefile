@@ -11,6 +11,3 @@ up:
 upb:
 	docker-compose up --build
 
-php-s:
-	php -S 0.0.0.0:8181 -t src/public
-

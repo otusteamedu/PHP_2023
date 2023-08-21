@@ -1,0 +1,54 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "21dbcec9a99d04668104fcb8af528df0",
+    "packages": [
+        {
+            "name": "maxim-tsikhonov/php-nod",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MaximTsikhonov/php-nod.git",
+                "reference": "690ec29efb037bca28f8e13f2dc2c948887eee70"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MaximTsikhonov/php-nod/zipball/690ec29efb037bca28f8e13f2dc2c948887eee70",
+                "reference": "690ec29efb037bca28f8e13f2dc2c948887eee70",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MaximTsikhonov\\PhpNod\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "MaximTsikhonov"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/MaximTsikhonov/php-nod/issues",
+                "source": "https://github.com/MaximTsikhonov/php-nod/tree/v1.0.2"
+            },
+            "time": "2023-08-21T08:08:46+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

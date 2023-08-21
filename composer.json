@@ -1,0 +1,18 @@
+{
+    "name": "maxim-bazlov/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MaximBazlov\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MaximBazlov"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "maxim-bazlov/otus-composer-package": "^1.0"
+    }
+}

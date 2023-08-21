@@ -1,0 +1,17 @@
+version: '3'
+services:
+  site:
+    image: nginx:stable-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx:/etc/nginx/conf.d
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/php.dockerfile
+    volumes:
+      - ./:/var/www/html
+    ports:
+      - "9000:9000"

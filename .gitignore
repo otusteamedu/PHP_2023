@@ -1,0 +1,11 @@
+# Composer
+/vendor/
+/composer.lock
+/composer.phar
+
+# IDE specific files
+/.idea/
+/.vscode/
+/import/
+/out/
+*.iml

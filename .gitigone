@@ -1,0 +1,39 @@
+# Composer
+/vendor/
+/composer.lock
+/composer.phar
+
+# IDE specific files
+/.idea/
+/.vscode/
+
+# Logs and caches
+/log/
+/bootstrap/cache/
+
+# Environment specific files
+/.env
+/.env.*
+.env.local
+.env.php
+.env.testing
+.env.dusk.local
+
+# Dependencies
+/node_modules/
+/yarn.lock
+
+# Testing result files
+/phpunit.xml
+/tests/Report.xml
+
+# Editor specific files
+*.sublime-project
+*.sublime-workspace
+*.komodoproject
+.komodotools/
+.komodo/
+
+# Miscellaneous
+.DS_Store
+Thumbs.db

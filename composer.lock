@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4d7515bad5c60832c199b647b973ef35",
+    "packages": [
+        {
+            "name": "adrapeza/composer-hello",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adrapeza/composer-hello.git",
+                "reference": "192dfef398270487cb6ad4d300998b2ec931b13b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adrapeza/composer-hello/zipball/192dfef398270487cb6ad4d300998b2ec931b13b",
+                "reference": "192dfef398270487cb6ad4d300998b2ec931b13b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Adrapeza\\ComposerHello\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "adrapeza",
+                    "email": "a.drapeza@tcp-soft.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/adrapeza/composer-hello/issues",
+                "source": "https://github.com/adrapeza/composer-hello/tree/v.1.0.1"
+            },
+            "time": "2023-08-21T08:41:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "adrapeza/composer-hello": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

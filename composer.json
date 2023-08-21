@@ -1,0 +1,19 @@
+{
+    "name": "adrapeza/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Adrapeza\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "adrapeza",
+            "email": "a.drapeza@tcp-soft.com"
+        }
+    ],
+    "require": {
+        "adrapeza/composer-hello": "dev-master"
+    },
+    "minimum-stability": "dev"
+}

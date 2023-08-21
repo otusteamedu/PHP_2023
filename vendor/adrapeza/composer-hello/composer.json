@@ -1,0 +1,18 @@
+{
+    "name": "adrapeza/composer-hello",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Adrapeza\\ComposerHello\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "adrapeza",
+            "email": "a.drapeza@tcp-soft.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    }
+}

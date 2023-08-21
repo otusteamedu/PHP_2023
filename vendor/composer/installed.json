@@ -1,0 +1,46 @@
+{
+    "packages": [
+        {
+            "name": "adrapeza/composer-hello",
+            "version": "dev-master",
+            "version_normalized": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adrapeza/composer-hello.git",
+                "reference": "cbbc880ac2fba85d364f8d5cd2d64774b918942e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adrapeza/composer-hello/zipball/cbbc880ac2fba85d364f8d5cd2d64774b918942e",
+                "reference": "cbbc880ac2fba85d364f8d5cd2d64774b918942e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "time": "2023-08-21T06:55:53+00:00",
+            "default-branch": true,
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Adrapeza\\ComposerHello\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "adrapeza",
+                    "email": "a.drapeza@tcp-soft.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/adrapeza/composer-hello/issues",
+                "source": "https://github.com/adrapeza/composer-hello/tree/v.1.0.0"
+            },
+            "install-path": "../adrapeza/composer-hello"
+        }
+    ],
+    "dev": true,
+    "dev-package-names": []
+}

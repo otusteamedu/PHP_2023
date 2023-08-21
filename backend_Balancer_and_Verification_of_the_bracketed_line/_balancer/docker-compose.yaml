@@ -59,14 +59,25 @@ services:
     networks:
       - app-network
 
-  memcache:
+  memcache01:
     build:
       context: ./memcached
       dockerfile: Dockerfile
     image: balance/memcached
-    container_name: memcache
+    container_name: memcache01
     ports:
-      - '11212:11211'
+      - '11201:11211'
+    networks:
+      - app-network
+
+  memcache02:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: balance/memcached
+    container_name: memcache02
+    ports:
+      - '11202:11211'
     networks:
       - app-network
 

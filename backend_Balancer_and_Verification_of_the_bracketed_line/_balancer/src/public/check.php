@@ -4,7 +4,12 @@ session_start();
 
 
 $memcached = new \Memcached();
-$isAdded = $memcached->addServer('memcache', 11211, 33);
+$isAdded = $memcached->addServer('memcache01', 11211, 33);
+echo $isAdded ? '+' : '-';
+echo '<br>';
+$isAdded = $memcached->addServer('memcache02', 11211, 33);
+echo $isAdded ? '+' : '-';
+echo '<br>';
 
 $myKey = 'uuid-key';
 $memcached->set($myKey, 'memcached-value', 10);
@@ -39,7 +44,8 @@ echo '<br>';
 
 //
 $memcache = new Memcache();
-$memcache->connect('memcache', 11211);
+$memcache->connect('memcache01', 11211);
+$memcache->connect('memcache02', 11211);
 
 $version = $memcache->getVersion();
 echo 'Memcache version: ' . $version;
@@ -51,7 +57,7 @@ $memcache->set($key, 'my-val', MEMCACHE_COMPRESSED, 10);
 //sleep(20);
 //
 $key = $memcache->get($key);
-echo 'key:';
+echo 'value-by-key:';
 var_dump($key);
 echo '<br>';
 //echo $key ? '+' : '-';

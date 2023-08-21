@@ -12,6 +12,6 @@ class TestCalculator
     {
         $calculator = new Calculator();
 
-        echo $calculator->sum(1,3);
+        echo $calculator->sum(1, 3);
     }
 }

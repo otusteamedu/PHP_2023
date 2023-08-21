@@ -3,7 +3,7 @@
         'name' => 'adrapeza/hw3',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'cb0fff316a25f1b60b1b32c08ae29ce2fcdcd0cd',
+        'reference' => '4337b6d7872bb12d73427ef9ae621df5d026a565',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'adrapeza/composer-hello' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'cbbc880ac2fba85d364f8d5cd2d64774b918942e',
+            'reference' => '192dfef398270487cb6ad4d300998b2ec931b13b',
             'type' => 'library',
             'install_path' => __DIR__ . '/../adrapeza/composer-hello',
             'aliases' => array(
@@ -24,7 +24,7 @@
         'adrapeza/hw3' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'cb0fff316a25f1b60b1b32c08ae29ce2fcdcd0cd',
+            'reference' => '4337b6d7872bb12d73427ef9ae621df5d026a565',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

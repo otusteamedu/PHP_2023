@@ -1,4 +1,19 @@
 <?php
+declare(strict_types=1);
+
+session_start();
+
+echo "Host name: {$_SERVER['HOSTNAME']}<br />";
+
+if (gethostbyname('web') === $_SERVER['SERVER_ADDR']) {
+    echo "Webserver 'web' got this request<br />";
+} else if (gethostbyname('web2') === $_SERVER['SERVER_ADDR']) {
+    echo "Webserver 'web2' got this request<br />";
+} else {
+    echo "I don't know the name of the current sever";
+}
+
+echo 'Session counter: ' . (array_key_exists('counter', $_SESSION) ? ++$_SESSION['counter'] : $_SESSION['counter'] = 1) . '<br />';
 
 // from docs: https://github.com/phpredis/phpredis#class-redis
 $redis = new Redis();

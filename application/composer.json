@@ -1,0 +1,16 @@
+{
+    "name": "gesparo/hw",
+    "autoload": {
+        "psr-4": {
+            "Gesparo\\Hw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maksym Melnyk"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    }
+}

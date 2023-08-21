@@ -1,4 +1,4 @@
 FROM nginx
 
-EXPOSE 7878
+EXPOSE 80
 COPY nginx.conf /etc/nginx/conf.d/mysite.local.conf

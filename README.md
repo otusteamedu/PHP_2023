@@ -1,3 +1,38 @@
-# PHP_2023
+### Реализация домашнего задания
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+* `_balancer`
+функциональная часть серверной логики 
+
+-- --
+#### Настройка
+
+* создание файла конфигурации для запуска docker-контейнеров
+```shell
+cp ./_balancer/.env.example ./_balancer/.env
+```
+
+* создание файла конфигурации для использования веб-приложением
+```shell
+cp ./_balancer/src/.env.example ./_balancer/src/.env
+```
+
+* Собрать и запустить docker-контейнеры
+```shell
+docker-compose up --build
+```
+
+* установка composer-зависимостей
+```shell
+  docker exec -ti php-fpm-01 composer install
+```
+-- --
+#### Запуск
+После успешной настройки веб-приложение готово к использованию.
+
+-- --
+#### Использование
+* http://app.local:8181/check-cache/ - проверка успешной настройки и подключения memcache, сессий
+
+* http://app.local:8181/ - ожидание запросов от клиентов (по заданию - "Верификация строки со скобками")
+
+-- --

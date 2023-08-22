@@ -6,5 +6,7 @@
             "Aleksandrdolgov\\OtusPhp2023\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "aleksandr-dolgov/otus-student-package": "^2.0"
+    }
 }

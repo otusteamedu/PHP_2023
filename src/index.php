@@ -1,40 +1,11 @@
 <?php
 
-// Создание объекта Memcached
-$memcached = new Memcached();
+declare(strict_types=1);
 
-// Добавление серверов Memcached (адрес и порт)
-$memcached->addServer("memcached", 11211);
+use AleksandrDolgov\OtusStudentPackage\Reverser as Reverser;
 
-$key = 'test_key';
-$value = 'Hello, Memcached!';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-// Запись данных
-$memcached->set($key, $value, 3600);
-
-// Чтение данных
-$result = $memcached->get($key);
-
-if ($result === $value) {
-    echo sprintf('Memcached is working! Your value: %s<br>', $result);
-} else {
-    echo "Memcached is not working!";
-}
-
-$redis = new Redis();
-$redis->connect('redis', 6379);
-
-$key = 'test_key';
-$value = 'Hello, Redis!';
-
-// Запись данных
-$redis->set($key, $value);
-
-// Чтение данных
-$result = $redis->get($key);
-
-if ($result === $value) {
-    echo sprintf('Redis is working! Your value: %s', $result);
-} else {
-    echo "Redis is not working!";
-}
+$reverser = new Reverser();
+echo $reverser->reverseInt(123456) . "\n";
+echo $reverser->reverseString('Hello Otus!');

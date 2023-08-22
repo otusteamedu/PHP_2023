@@ -1,0 +1,5 @@
+{
+    "require": {
+        "damir-73/otus_package": "^1.0"
+    }
+}

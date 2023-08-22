@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "1ab9df208a32126f7c8bedbe0009eb47",
+    "packages": [
+        {
+            "name": "damir-73/otus_package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Damir-73/otus_package.git",
+                "reference": "d4c264d4d75d123a33d0050c631c69ad592d3c04"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Damir-73/otus_package/zipball/d4c264d4d75d123a33d0050c631c69ad592d3c04",
+                "reference": "d4c264d4d75d123a33d0050c631c69ad592d3c04",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Damir73\\OtusPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "damir",
+                    "email": "khalikov@beta.agency"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Damir-73/otus_package/issues",
+                "source": "https://github.com/Damir-73/otus_package/tree/v1.0.0"
+            },
+            "time": "2023-08-22T16:18:48+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

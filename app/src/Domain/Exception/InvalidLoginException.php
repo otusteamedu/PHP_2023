@@ -6,5 +6,4 @@ namespace App\Domain\Exception;
 
 class InvalidLoginException extends \Exception
 {
-
 }

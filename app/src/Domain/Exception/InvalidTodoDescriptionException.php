@@ -6,5 +6,4 @@ namespace App\Domain\Exception;
 
 class InvalidTodoDescriptionException extends \Exception
 {
-
 }

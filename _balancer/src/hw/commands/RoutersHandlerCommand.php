@@ -16,10 +16,7 @@ class RoutersHandlerCommand
         return new self();
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function make(string $flag)
+    public function make(string $flag): \Closure
     {
         return match ($flag) {
             'get-root' => static function (Request $request, Response $response): Response {
@@ -34,7 +31,9 @@ class RoutersHandlerCommand
                 return CheckCacheCommand::build()->run($request, $response);
             },
 
-            default => throw new \Exception('unknown route-handler')
+            default => static function (Request $request, Response $response): Response {
+                return NotFoundCommand::build()->run($request, $response);
+            }
         };
     }
 }

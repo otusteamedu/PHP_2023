@@ -1,0 +1,3 @@
+news:
+    resource: ../src/News/Infrastructure/Controller/
+    type: attribute

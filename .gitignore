@@ -5,3 +5,5 @@
 .env
 .editorconfig
 .gitattributes
+./logs
+./logs-balance

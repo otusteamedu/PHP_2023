@@ -3,6 +3,7 @@
 include "./autoload.php";
 
 use Nalofree\WsTest\Skobochnik;
+
 // Упражняться с роутингом нет особого смысла, так что мы просто проверим что там в адресе
 if ($_SERVER['REQUEST_URI'] === '/form') {
   require "./views/form.php";

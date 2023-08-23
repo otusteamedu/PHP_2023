@@ -14,21 +14,23 @@ class Skobochnik
     $this->string = $string;
   }
 
-  private function getCache($key) {
+  private function getCache($key)
+  {
     $m = new Memcached();
     $m->addServer('memcached', 11211);
-    if(!($result = $m->get($key))) {
+    if (!($result = $m->get($key))) {
       if ($m->getResultCode() === Memcached::RES_NOTFOUND) {
         return ['exist' => false, 'result' => null];
-      }else{
+      } else {
         throw new Exception('Сломался кэш', 500);
       }
-    }else{
-      return ['exist'=>true, 'result'=>$result];
+    } else {
+      return ['exist' => true, 'result' => $result];
     }
   }
 
-  private function setCache($key, $value) {
+  private function setCache($key, $value)
+  {
     $m = new Memcached();
     $m->addServer('memcached', 11211);
     $m->set($key, $value);
@@ -54,20 +56,20 @@ class Skobochnik
       return $cache['result'];
     }
 
-    if(!strlen($s_string)) {
+    if (!strlen($s_string)) {
       return false; //Если строка пуста, то и проверять нечего.
     }
     $stacks = [
-      '('=>[],
-      '['=>[],
-      '{'=>[],
-      '<'=>[]
+      '(' => [],
+      '[' => [],
+      '{' => [],
+      '<' => []
     ];
     $mirror_sk = [
-      ')'=>'(',
-      ']'=>'[',
-      '}'=>'{',
-      '>'=>'<'
+      ')' => '(',
+      ']' => '[',
+      '}' => '{',
+      '>' => '<'
     ];
     $i = 0; // обойдем строку
     while ($i < strlen($s_string)) {

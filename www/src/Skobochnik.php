@@ -20,7 +20,8 @@ class Skobochnik
             return ['exist' => false, 'result' => null];
         }
         $m = new Memcached();
-        $m->addServer('memcached', 11211);
+        $m->addServer('memcached1', 11211);
+        $m->addServer('memcached2', 11211);
         if (!($result = $m->get($key))) {
             if ($m->getResultCode() === Memcached::RES_NOTFOUND) {
                 return ['exist' => false, 'result' => null];

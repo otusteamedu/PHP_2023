@@ -16,6 +16,9 @@ class Skobochnik
 
   private function getCache($key)
   {
+    if (!$key) {
+      return ['exist' => false, 'result' => null];
+    }
     $m = new Memcached();
     $m->addServer('memcached', 11211);
     if (!($result = $m->get($key))) {

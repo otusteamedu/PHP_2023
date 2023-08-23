@@ -1,0 +1,15 @@
+{
+    "name": "romank/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Romank\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "romank",
+            "email": "roman-k@team.ucheba.ru"
+        }
+    ],
+    "require": {}
+}

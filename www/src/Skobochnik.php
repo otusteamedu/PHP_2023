@@ -7,7 +7,7 @@ use Memcached;
 
 class Skobochnik
 {
-    public string $string;
+    private string $string;
 
     public function __construct(string $string)
     {

@@ -15,23 +15,19 @@ class Validator
 
     private function validateBrackets($string): void
     {
-        $openCount = 0;
-        $closeCount = 0;
+        $count = 0;
 
         for ($i = 0; $i < strlen($string); $i++) {
             $character = $string[$i];
 
             if ($character === '(') {
-                $openCount++;
+                $count++;
             } elseif ($character === ')') {
-                $closeCount++;
-            }
-            if ($closeCount > $openCount || ($i === strlen($string) - 1 && $openCount > $closeCount)) {
-                throw new \Exception('Неправильное количество скобок.');
+                $count--;
             }
         }
 
-        if ($openCount !== $closeCount) {
+        if ($count !== 0) {
             throw new \Exception('Неправильное количество скобок.');
         }
     }

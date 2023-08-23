@@ -27,5 +27,3 @@ if ($_SERVER['REQUEST_URI'] === '/form') {
         exit('Текст, что всё плохо');
     }
 }
-
-

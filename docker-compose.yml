@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - ":1337"
+    volumes:
+      - ./nginx-config/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - php
+    networks:
+      - wst-network
+
+  nginx-balance:
+    build: ./images/nginx
+    container_name: nginx-balance
+    ports:
+      - "80:80"
+    volumes:
+      - ./logs-balance/nginx:/var/log/nginx
+    networks:
+      - wst-network
+
+  php:
+    build: ./images/php-fpm
+    volumes:
+      - ./www:/var/www
+    networks:
+      - wst-network
+
+  memcached1:
+    image: memcached:latest
+    container_name: memcached1
+    ports:
+      - '11212:11211'
+    networks:
+      - wst-network
+
+  memcached2:
+    image: memcached:latest
+    container_name: memcached2
+    ports:
+      - '11213:11211'
+    networks:
+      - wst-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - wst-network
+
+networks:
+  wst-network:
+    driver: bridge

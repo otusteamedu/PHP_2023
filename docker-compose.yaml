@@ -1,71 +1,25 @@
 version: '3'
 
 services:
-  nginx:
-    build:
-      context: docker/nginx-balancer
-      dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx-balancer
-    ports:
-      - "80:80"
-    volumes:
-      - ./app:/data/mysite.local
-    networks:
-      - app-network
-
-  nginx-01:
-    build:
-      context: docker/nginx
-      dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx-01
-    volumes:
-      - ./app:/data/mysite.local
-    networks:
-      - app-network
-  app1:
+  php-fpm-server:
     build:
       context: docker/fpm
       dockerfile: Dockerfile
-    image: balance/php
-    container_name: app1
     volumes:
-      - ./app:/data/mysite.local
-
+      - ./app:/var/www/html
+      - php-fpm-socket:/sockets/php-fpm
     networks:
       - app-network
 
-
-  nginx-02:
-    build:
-      context: docker/nginx
-      dockerfile: Dockerfile
-    image: balance/nginx
-    container_name: nginx-02
-    volumes:
-      - ./app:/data/mysite.local
-    networks:
-      - app-network
-  app2:
+  php-fpm-client:
     build:
       context: docker/fpm
       dockerfile: Dockerfile
-    image: balance/php
-    container_name: app2
     volumes:
-      - ./app:/data/mysite.local
-
-    networks:
-      - app-network
-
-
-  memcached:
-    build:
-      context: docker/memcached
-      dockerfile: Dockerfile
-    image: balance/memcached
-    container_name: memcached
+      - ./app:/var/www/html
+      - php-fpm-socket:/sockets/php-fpm
+    depends_on:
+      - php-fpm-server
     networks:
       - app-network
 
@@ -73,3 +27,6 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  php-fpm-socket:

@@ -1,16 +1,17 @@
 <?php
 
-require_once './vendor/autoload.php';
+use Jasur\App\App;
 
-require_once 'config/routes.php';
-require_once 'helpers.php';
+require_once './vendor/autoload.php';
 
 define('ROOT', dirname(__DIR__));
 
-$memcache = new Memcached();
-$memcache->addServer('memcache', 11211);
-$memcache->get('connection');
+//\Pecee\SimpleRouter\SimpleRouter::start();
 
-
-\Pecee\SimpleRouter\SimpleRouter::start();
+try {
+    $app = new App();
+    $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
+}
 ?>

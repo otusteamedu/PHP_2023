@@ -1,8 +1,9 @@
 <?php
 
-class Solution
-{
+namespace App;
 
+class LeftRightSum
+{
     /**
      * Сложность алгоритма O(n).
      */
@@ -41,7 +42,7 @@ class Solution
 $nums = [10,4,8,3];
 
 
-$solution = new Solution();
+$solution = new LeftRightSum();
 $solution->leftRightDifference($nums);
 
 

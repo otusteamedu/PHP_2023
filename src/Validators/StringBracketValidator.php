@@ -46,8 +46,9 @@ class StringBracketValidator implements ValidatorContract
      */
     public function isFirstBracketOpening(): bool
     {
-        if ($this->string[0] !== self::OPENING_BRACKET)
+        if ($this->string[0] !== self::OPENING_BRACKET) {
             throw new FirstBracketException();
+        }
 
         return true;
     }
@@ -58,8 +59,9 @@ class StringBracketValidator implements ValidatorContract
      */
     public function validateBracketCount(): bool
     {
-        if (!$this->isBracketCountEqual())
+        if (!$this->isBracketCountEqual()) {
             throw new MismatchBracketCountException();
+        }
 
         return true;
     }
@@ -71,8 +73,9 @@ class StringBracketValidator implements ValidatorContract
      */
     private static function checkString(?string $string): void
     {
-        if (empty($string))
+        if (empty($string)) {
             throw new MissingArgumentException("You must provide a string argument");
+        }
     }
 
     /**

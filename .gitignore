@@ -3,3 +3,4 @@ mysql/
 app/vendor/
 *.sh
 .env
+.idea/

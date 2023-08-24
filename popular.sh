@@ -1,0 +1,1 @@
+awk '{print $3}' city.txt | sort | uniq -c | sort -nr | head -3

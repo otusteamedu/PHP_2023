@@ -38,13 +38,6 @@ class LeftRightSum
     }
 }
 
-
 $nums = [10,4,8,3];
-
-
 $solution = new LeftRightSum();
 $solution->leftRightDifference($nums);
-
-
-
-

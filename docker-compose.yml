@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  nginx_balancer:
+    build: nginx-balancer
+    container_name: nginx_balancer
+    ports:
+      - "80:80"
+    networks:
+      - web-network
+  nginx_web_1:
+    build: nginx-web
+    container_name: nginx_web_1
+    volumes:
+      - ./src:/www/website.local
+    networks:
+      - web-network
+  nginx_web_2:
+    build: nginx-web
+    container_name: nginx_web_2
+    volumes:
+      - ./src:/www/website.local
+    networks:
+      - web-network
+  php_1:
+    build: ./php
+    container_name: php_1
+    volumes:
+      - ./src:/www/website.local
+    networks:
+      - web-network
+
+  php_2:
+    build: ./php
+    container_name: php_2
+    volumes:
+      - ./src:/www/website.local
+    networks:
+      - web-network
+
+  postgres:
+    image: postgres:15.1-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'postgres'
+      POSTGRES_DB: 'postgres'
+    ports:
+      - "5432:5432"
+    networks:
+      - web-network
+
+  memcached:
+    image: memcached:1.6.18-alpine
+    container_name: memcached
+
+networks:
+  web-network:
+    driver: bridge

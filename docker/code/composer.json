@@ -16,9 +16,8 @@
   },
   "require": {
     "php": "8.*",
-    "predis/predis": "^2.2",
-    "ext-pdo": "*"
-},
+    "php-di/php-di": "6.*"
+  },
   "config": {
     "allow-plugins": {
       "php-http/discovery": true

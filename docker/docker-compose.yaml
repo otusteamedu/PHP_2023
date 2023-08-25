@@ -32,8 +32,6 @@ services:
     #command: composer install --no-plugins --no-scripts
     networks:
       - app-network
-    depends_on:
-      - mysql
 
   composer:
     image: composer:latest
@@ -44,26 +42,6 @@ services:
       - dump-autoload
     depends_on:
       - app
-
-  #Контейнер с mysql
-  mysql:
-    image: mariadb
-    #image: mysql
-    container_name: ${CONTAINER_NAME}_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    networks:
-      - app-network
-
-  redis:
-    image: redis
-    container_name: redis
-    networks:
-      - app-network
 
 #Docker Networks
 networks:

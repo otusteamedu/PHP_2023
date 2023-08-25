@@ -80,10 +80,10 @@
 
 <nav>
     <a href="/">Главная</a>
-    <a href="/event/add/">Добавить событие</a>
-    <a href="/event/find/">Найти событие</a>
-    <a href="/event/list/">Все события</a>
-    <a href="/event/delete/">Удалить все события</a>
+    <a href="/cafe/burger/">Заказать бургер</a>
+    <a href="/cafe/sandwich/">Заказать  сэндвич</a>
+    <a href="/cafe/hotdog/">Заказать хотдог</a>
+
 </nav>
 
 <div class="container">

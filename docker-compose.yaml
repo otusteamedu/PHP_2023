@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: app-webserver
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php 
+    container_name: app
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: app-redis
+    ports: 
+      - "6379:6379"
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: app-memcached
+    ports:
+      - "11212:11211"
+    networks:
+      - app-network
+
+  db:
+    image: mysql
+    container_name: app-db
+    environment:
+        MYSQL_HOST: "db"
+        MYSQL_DATABASE: "app-db"
+        MYSQL_USER: "user"
+        MYSQL_PASSWORD: "pswd"
+    volumes:
+      - ./code:/data/mysite.local    
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

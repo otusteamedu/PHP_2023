@@ -49,7 +49,6 @@ services:
         MYSQL_DATABASE: "app-db"
         MYSQL_USER: "user"
         MYSQL_PASSWORD: "pswd"
-        MYSQL_HOST: "rootpswd"
     volumes:
       - ./code:/data/mysite.local    
     networks:

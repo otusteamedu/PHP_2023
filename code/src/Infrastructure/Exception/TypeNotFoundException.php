@@ -6,6 +6,6 @@ namespace Art\Php2023\Infrastructure\Exception;
 
 use Exception;
 
-class UriNotFoundException extends Exception
+class TypeNotFoundException extends Exception
 {
 }

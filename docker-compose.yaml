@@ -17,7 +17,7 @@ services:
   client:
     build:
       context: ./.docker/fpm
-      dockerfile: Dockerfile
+      dockerfile: DockerfileClient
     image: myapp/client
     container_name: app_client
     volumes:

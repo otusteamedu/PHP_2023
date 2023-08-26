@@ -33,5 +33,5 @@ WORKDIR /data
 
 VOLUME /data
 
-#CMD ["php-fpm"]
-CMD ["php", "public/app.php", "server"]
+CMD ["php-fpm"]
+#CMD ["php", "public/app.php", "client"]

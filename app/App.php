@@ -26,7 +26,6 @@ class App
         global $argv;
 
         if (!isset($argv[1])) {
-            print_r($argv);
             throw new AppException(
                 'The application must be started with one of the arguments: ' . PHP_EOL
                 . static::SERVER . PHP_EOL

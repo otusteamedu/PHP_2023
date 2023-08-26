@@ -66,7 +66,7 @@ class PropertyRepository extends DataMapperPrototype
 
         $gotProperty = $this->selectStatement->fetch();
 
-        if($needCadastralInfo){
+        if ($needCadastralInfo) {
             $gotProperty->getCadastralInformation();
         }
 

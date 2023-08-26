@@ -6,5 +6,4 @@ namespace Gesparo\Hw\Socket;
 
 class SocketException extends \RuntimeException
 {
-
 }

@@ -8,7 +8,7 @@ class ClientSocket extends BaseSocket
 {
     protected function create(string $pathToTheUnixFile): \Socket
     {
-        if (($socket = socket_create(AF_UNIX,  SOCK_STREAM, 0)) === false) {
+        if (($socket = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
             throw new SocketException(socket_strerror(socket_last_error($socket)), socket_last_error($socket));
         }
 

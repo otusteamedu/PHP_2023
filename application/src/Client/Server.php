@@ -23,7 +23,7 @@ class Server extends BaseClient
 
                 $bytes = 0;
 
-                foreach($messageSocket->read() as $message) {
+                foreach ($messageSocket->read() as $message) {
                     echo "DEBUG: Message is '$message'" . PHP_EOL;
 
                     if ($bytes === 0 && $message === 'quit') {

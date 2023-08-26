@@ -24,7 +24,7 @@ class MessageSocket
 
     public function read(): \Generator
     {
-        while(($message = socket_read($this->socket, self::MESSAGE_LENGTH, PHP_BINARY_READ)) !== '') {
+        while (($message = socket_read($this->socket, self::MESSAGE_LENGTH, PHP_BINARY_READ)) !== '') {
             if ($message === false) {
                 if (socket_last_error($this->socket) === self::ERROR_OF_BLOCK_RECEIVING_MESSAGE) {
                     break;

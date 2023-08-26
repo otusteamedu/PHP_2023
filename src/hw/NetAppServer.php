@@ -73,7 +73,7 @@ class NetAppServer implements NetworkApplicationInterface
 
         Output::info(PHP_EOL . 'Server:: binding ... ' . PHP_EOL);
         Output::info(PHP_EOL . 'Server::' . $server_side_sock . PHP_EOL);
-        Output::info(PHP_EOL . 'Server:: socket' . ($this->socket ?'+':'-') . PHP_EOL);
+        Output::info(PHP_EOL . 'Server:: socket' . ($this->socket ? '+' : '-') . PHP_EOL);
 
         if (!\socket_bind($this->socket, $server_side_sock)) {
             throw new \RuntimeException("Server:: Unable to bind to $server_side_sock.");
@@ -139,10 +139,10 @@ class NetAppServer implements NetworkApplicationInterface
 
     public function determineNeedToWait()
     {
-        Output::debug('Server-determineNeedToWait: buf: `' . $this->message .'`');
+        Output::debug('Server-determineNeedToWait: buf: `' . $this->message . '`');
 
         if ('server-off' === $this->message) {
-            Output::info( 'Server: stopping');
+            Output::info('Server: stopping');
             $this->stateServer->setStop();
         }
         if ('all-turn-off' === $this->message) {

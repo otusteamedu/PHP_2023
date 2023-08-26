@@ -115,7 +115,7 @@ class NetAppClient implements NetworkApplicationInterface
 
     public function message()
     {
-        Output::info( 'client: send message to server');
+        Output::info('client: send message to server');
 
         $msg = $this->message;
         $len = \mb_strlen($msg);
@@ -137,7 +137,7 @@ class NetAppClient implements NetworkApplicationInterface
 
     public function confirm()
     {
-        Output::info( 'client: show got confirmation');
+        Output::info('client: show got confirmation');
 
         if (!\socket_set_block($this->socket)) {
             throw new \RuntimeException('Unable to set blocking mode for socket');

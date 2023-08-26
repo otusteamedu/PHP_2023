@@ -12,6 +12,20 @@ services:
       - ":9000"
     volumes:
       - ./:/data/www
+      - shared-volume:/data/shared
+    environment:
+      MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYAPP_MYSQL_USER: ${MYSQL_USER}
+      MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+  fpm2:
+    build: config/php
+    container_name: myapp-php2${DOCKER_CONTAINER_SUFFIX}
+    ports:
+      - ":9000"
+    volumes:
+      - ./:/data/www
+      - shared-volume:/data/shared
     environment:
       MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYAPP_MYSQL_USER: ${MYSQL_USER}
@@ -46,3 +60,5 @@ services:
 volumes:
   # here database will store data
   myapp-dbvolume:
+  # shared volume between containers
+  shared-volume:

@@ -17,9 +17,9 @@
 
 		<button>Submit</button>
 	</form>
-	<?php if (isset($response_validator)) : ?>
-		<h3><?= $response_validator ?></h3>
-	<?php endif; ?>
+	<?php if (isset($response_validator)) ?>
+		echo "<h3>" . $response_validator . "</h3>";
+	<?php ?>
 </div>
 </body>
 </html>

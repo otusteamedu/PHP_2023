@@ -27,7 +27,7 @@ class Validator
     public function validate(string $postParamName): array
     {
         if ($this->postParamExist($postParamName)) {
-            if (!$this->stringIsEmpty()) {
+            if (! $this->stringIsEmpty()) {
                 $this->bracesArePaired();
             }
         }
@@ -52,7 +52,7 @@ class Validator
 
     private function stringIsEmpty(): bool
     {
-        if (!empty($this->string)) {
+        if (! empty($this->string)) {
             return false;
         }
 

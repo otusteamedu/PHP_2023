@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+  php-fpm-chat-server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: image-php-fpm-chat-server
+    container_name: php-fpm-chat-server
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+      - _chat_socket:/var/run
+    networks:
+      - app-chat-network
+
+  php-fpm-chat-client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: image-php-fpm-chat-client
+    container_name: php-fpm-chat-client
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+      - _chat_socket:/var/run
+    networks:
+      - app-chat-network
+    depends_on:
+      - php-fpm-chat-server
+
+  php-fpm-chat-client-second:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: image-php-fpm-chat-client-second
+    container_name: php-fpm-chat-client-second
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+      - _chat_socket:/var/run
+    networks:
+      - app-chat-network
+    depends_on:
+      - php-fpm-chat-server
+
+networks:
+  app-chat-network:
+    driver: bridge
+
+volumes:
+  _chat_socket:

@@ -1,0 +1,4 @@
+socket-share-file=/var/run/server.sock
+
+socket-client-path=/var/run
+socket-client-template-name-file=client.sock

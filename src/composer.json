@@ -1,0 +1,25 @@
+{
+    "name": "ndybnov/hw05-chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ndybnov\\Hw05\\": "."
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "ndybnov-hw03/cnf-read": "^1.1.0",
+        "ext-readline": "*",
+        "ext-sockets": "*",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    }
+}

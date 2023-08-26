@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Art\Php2023\Infrastructure\Exception;
+namespace Art\Php2023\Application\Exception;
 
 use Exception;
 

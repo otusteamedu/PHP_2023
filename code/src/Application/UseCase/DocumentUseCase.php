@@ -6,7 +6,7 @@ namespace Art\Php2023\Application\UseCase;
 
 use Art\Php2023\Domain\AbstractFactory\CommercialDocumentFactory;
 use Art\Php2023\Domain\AbstractFactory\ResidentialDocumentFactory;
-use Art\Php2023\Infrastructure\Exception\TypeNotFoundException;
+use Art\Php2023\Application\Exception\TypeNotFoundException;
 
 class DocumentUseCase
 {

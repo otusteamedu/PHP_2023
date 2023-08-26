@@ -7,7 +7,7 @@ namespace Art\Php2023\Infrastructure\Proxy;
 use Art\Php2023\Domain\Property;
 use Art\Php2023\Domain\Strategy\CommercialCadastralStrategy;
 use Art\Php2023\Domain\Strategy\ResidentialCadastralStrategy;
-use Art\Php2023\Infrastructure\Exception\TypeNotFoundException;
+use Art\Php2023\Application\Exception\TypeNotFoundException;
 
 class PropertyProxy extends Property
 {
@@ -43,3 +43,4 @@ class PropertyProxy extends Property
         return throw new TypeNotFoundException('Need pass a valid type for API');
     }
 }
+

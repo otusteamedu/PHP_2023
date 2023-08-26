@@ -111,13 +111,9 @@ class App
                 $talkback = "Received {$receivedBytes} bytes" . PHP_EOL;
                 echo $buf . PHP_EOL;
                 socket_write($msgSock, $talkback, 2048);
-
             } while (true);
-
             socket_close($msgSock);
-
         } while (true);
-
         socket_close($sock);
     }
 
@@ -151,7 +147,6 @@ class App
                 socket_close($sock);
                 break;
             }
-
         } while (true);
     }
 }

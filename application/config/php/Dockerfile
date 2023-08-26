@@ -12,3 +12,5 @@ RUN apt-get update \
     && apt-get install -y git
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /data/www/

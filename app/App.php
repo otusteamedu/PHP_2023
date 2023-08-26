@@ -142,7 +142,7 @@ class App
 
             // Читаем одну строку из STDIN
             do {
-                $line = rtrim(fgets(STDIN), "\n");
+                $line = rtrim(fgets(STDIN), PHP_EOL);
             } while (!($line));
 
             socket_write($sock, $line, 2048);

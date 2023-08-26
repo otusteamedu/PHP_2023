@@ -23,10 +23,11 @@ RUN apt-get update && apt-get install -y \
     && chmod +x /usr/local/bin/install-php-extensions  \
     && install-php-extensions redis \
     && install-php-extensions @composer-2 \
-    && install-php-extensions memcached
+    && install-php-extensions memcached \
+    && install-php-extensions sockets
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
-COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+#COPY ./zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /data
 

@@ -8,5 +8,5 @@ try {
     $app = new App();
     $app->run();
 } catch (Exception $e) {
-    echo $e->getMessage();
+    echo $e->getMessage() . PHP_EOL;
 }

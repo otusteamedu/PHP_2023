@@ -3,7 +3,7 @@ version: '3.8'
 services:
   server:
     build:
-      context: ./.docker
+      context: ./.docker/fpm
       dockerfile: Dockerfile
     image: myapp/server
     container_name: app_server
@@ -12,10 +12,11 @@ services:
       - unix_socket:/var/run
     networks:
       - app-network
+    restart: always
 
   client:
     build:
-      context: ./.docker
+      context: ./.docker/fpm
       dockerfile: Dockerfile
     image: myapp/client
     container_name: app_client
@@ -26,6 +27,7 @@ services:
       - app-network
     depends_on:
       - server
+    restart: always
 
 networks:
   app-network:

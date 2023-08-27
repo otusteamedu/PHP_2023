@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "258331d613bcc7e368bf8c8570e1d6a6",
+    "packages": [
+        {
+            "name": "dr33m/otus-hw3",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DR33M/otus-hw3.git",
+                "reference": "bf7218b3b398e8bac1e3eabf145ed80f56f8afdf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DR33M/otus-hw3/zipball/bf7218b3b398e8bac1e3eabf145ed80f56f8afdf",
+                "reference": "bf7218b3b398e8bac1e3eabf145ed80f56f8afdf",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dr33m\\OtusHw3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "DmitriiPropastin",
+                    "email": "dima.propastin@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/DR33M/otus-hw3/issues",
+                "source": "https://github.com/DR33M/otus-hw3/tree/v1.0.0"
+            },
+            "time": "2023-08-27T11:38:34+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

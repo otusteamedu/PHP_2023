@@ -3,6 +3,7 @@
 namespace App;
 
 use Exception;
+use Socket;
 
 
 class App
@@ -13,11 +14,18 @@ class App
     /** @var string  */
     protected const CLIENT  = 'client';
 
+    /** @var string  */
+    protected const EXIT = 'выход';
+
+    /** @var string  */
+    protected const SHUTDOWN = 'выключение';
+
     /** @var string */
     protected string $mode;
 
     /** @var array */
     protected array $config;
+
 
     /**
      * @throws Exception
@@ -62,56 +70,152 @@ class App
     }
 
     /**
+     * @param int $domain
+     * @param int $type
+     * @param int $protocol
+     * @return Socket
+     * @throws Exception
+     */
+    protected function createSocket(int $domain = AF_UNIX, int $type = SOCK_STREAM, int $protocol = 0): Socket
+    {
+        if (($socket = socket_create($domain, $type, $protocol)) === false) {
+            throw new Exception(socket_strerror(socket_last_error()));
+        }
+
+        return $socket;
+    }
+
+    /**
+     * @param Socket $socket
+     * @param string $address
+     * @param int $port
+     * @return bool
+     * @throws Exception
+     */
+    protected function socketBind(Socket $socket, string $address, int $port = 0): bool
+    {
+        if (($result = socket_bind($socket, $address, $port)) === false) {
+            throw new Exception(socket_strerror(socket_last_error($socket)));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Socket $socket
+     * @return bool
+     * @throws Exception
+     */
+    protected function socketListen(Socket $socket): bool
+    {
+        if (($result = socket_listen($socket)) === false) {
+            throw new Exception(socket_strerror(socket_last_error($socket)));
+        }
+
+        return $result;
+    }
+
+    /**
+     * @param Socket $socket
+     * @return Socket
+     * @throws Exception
+     */
+    protected function socketAccept(Socket $socket): Socket
+    {
+        if (($messageSocket = socket_accept($socket)) === false) {
+            throw new Exception(socket_strerror(socket_last_error($socket)));
+        }
+
+        return $messageSocket;
+    }
+
+    /**
+     * @param Socket $socket
+     * @param string $message
+     * @param int $length
+     * @return false|int
+     */
+    protected function socketWrite(Socket $socket, string $message, int $length): bool|int
+    {
+        return socket_write($socket, $message, $length);
+    }
+
+    /**
+     * @param Socket $socket
+     * @param int $length
+     * @param int $mode
+     * @return false|string
+     */
+    protected function socketRead(Socket $socket, int $length, int $mode = PHP_BINARY_READ): bool|string
+    {
+        return socket_read($socket, $length, $mode);
+    }
+
+    /**
+     * @param Socket $socket
+     * @return void
+     */
+    protected function socketClose(Socket $socket): void
+    {
+        socket_close($socket);
+    }
+
+    /**
+     * @param Socket $socket
+     * @param string $address
+     * @param int|null $port
+     * @return bool
+     * @throws Exception
+     */
+    protected function socketConnect(Socket $socket, string $address, ?int $port = null): bool
+    {
+        if (($result = socket_connect($socket, $address, $port)) === false) {
+            throw new Exception(socket_strerror(socket_last_error($socket)));
+        }
+
+        return $result;
+    }
+
+    /**
      * @return void
      * @throws Exception
      */
     protected function runServer(): void
     {
-        if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
-            throw new Exception(socket_strerror(socket_last_error()));
-        }
-
-        if (socket_bind($sock, $this->config['unix_socket']) === false) {
-            throw new Exception(socket_strerror(socket_last_error($sock)));
-        }
-
-        if (socket_listen($sock) === false) {
-            throw new Exception(socket_strerror(socket_last_error($sock)));
-        }
+        $socket = $this->createSocket();
+        $this->socketBind($socket, $this->config['unix_socket']);
+        $this->socketListen($socket);
 
         do {
-            if (($msgSock = socket_accept($sock)) === false) {
-                throw new Exception(socket_strerror(socket_last_error($sock)));
-            }
+            $messageSocket = $this->socketAccept($socket);
 
             // Отправляем инструкции
             $msg = PHP_EOL . "Добро пожаловать на тестовый сервер PHP." . PHP_EOL .
                 "Чтобы отключиться, наберите 'выход'. Чтобы выключить сервер, наберите 'выключение'." . PHP_EOL;
-            socket_write($msgSock, $msg, 2048);
+            $this->socketWrite($messageSocket, $msg, 2048);
 
             do {
-                if (false === ($buf = socket_read($msgSock, 2048))) {
-                    echo socket_strerror(socket_last_error($msgSock)) . PHP_EOL;
+                if (false === ($receivedMessage = $this->socketRead($messageSocket, 2048))) {
                     break 2;
                 }
 
-                if ($buf == 'выход') {
+                if ($receivedMessage == static::EXIT) {
                     break;
                 }
 
-                if ($buf == 'выключение') {
-                    socket_close($msgSock);
+                if ($receivedMessage == static::SHUTDOWN) {
+                    $this->socketClose($messageSocket);
                     break 2;
                 }
 
-                $receivedBytes = mb_strlen($buf);
+                $receivedBytes = mb_strlen($receivedMessage);
                 $talkback = "Received {$receivedBytes} bytes" . PHP_EOL;
-                echo $buf . PHP_EOL;
-                socket_write($msgSock, $talkback, 2048);
+                echo $receivedMessage . PHP_EOL;
+                $this->socketWrite($messageSocket, $talkback, 2048);
             } while (true);
-            socket_close($msgSock);
+            $this->socketClose($messageSocket);
         } while (true);
-        socket_close($sock);
+        $this->socketClose($socket);
     }
 
     /**
@@ -120,28 +224,21 @@ class App
      */
     protected function runClient(): void
     {
-        if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
-            throw new Exception(socket_strerror(socket_last_error()));
-        }
-
-        $result = socket_connect($sock, $this->config['unix_socket']);
-
-        if ($result === false) {
-            throw new Exception(socket_strerror(socket_last_error($sock)));
-        }
+        $socket = $this->createSocket();
+        $this->socketConnect($socket, $this->config['unix_socket']);
 
         do {
-            echo socket_read($sock, 2048);
+            echo $this->socketRead($socket, 2048);
 
             // Читаем одну строку из STDIN
             do {
                 $line = rtrim(fgets(STDIN), PHP_EOL);
             } while (!($line));
 
-            socket_write($sock, $line, 2048);
+            $this->socketWrite($socket, $line, 2048);
 
-            if ($line == 'выход' || $line == 'выключение') {
-                socket_close($sock);
+            if ($line == static::EXIT || $line == static::SHUTDOWN) {
+                $this->socketClose($socket);
                 break;
             }
         } while (true);

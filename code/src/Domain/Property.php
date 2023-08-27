@@ -6,82 +6,61 @@ namespace Art\Php2023\Domain;
 
 class Property
 {
-    public ?int $id;
-    private ?string $name;
-    private ?string $type;
-    private ?array $cadastralInformation;
+    private string $name;
+    private string $type;
+    private array $cadastralInformation;
 
     /**
-     * @param int|null $id
-     * @param string|null $name
-     * @param string|null $type
-     * @param array|null $cadastralInformation
+     * @param string $name
+     * @param string $type
+     * @param array $cadastralInformation
      */
-    public function __construct(?int $id = null, ?string $name = null, ?string $type = null, ?array $cadastralInformation = null)
+    public function __construct(string $name, string $type, array $cadastralInformation)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->type = $type;
         $this->cadastralInformation = $cadastralInformation;
     }
 
     /**
-     * @return int|null
+     * @return string
      */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getType(): ?string
+    public function getType(): string
     {
         return $this->type;
     }
 
     /**
-     * @return array|null
+     * @return array
      */
-    public function getCadastralInformation(): ?array
+    public function getCadastralInformation(): array
     {
         return $this->cadastralInformation;
     }
 
     /**
-     * @param int|null $id
+     * @param string $name
      * @return Property
      */
-    public function setId(int|null $id): self
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
-     * @param string|null $name
-     * @return Property
-     */
-    public function setName(string|null $name): self
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
     /**
-     * @param string|null $type
+     * @param string $type
      * @return Property
      */
-    public function setType(string|null $type): self
+    public function setType(string $type): self
     {
         $this->type = $type;
         return $this;

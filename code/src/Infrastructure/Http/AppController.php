@@ -21,7 +21,7 @@ final class AppController
     private function execute()
     {
         $dispatcher = simpleDispatcher(function (RouteCollector $r) {
-            $r->addRoute('POST', '/property/{type}', PropertyRepository::class . '/insert');
+            $r->addRoute('POST', '/property/{name}/{type}', PropertyRepository::class . '/insert');
             $r->addRoute('GET', '/property/', PropertyRepository::class . '/findAll');
             $r->addRoute('GET', '/property/{id:\d+}/{needCadastralInfo}', PropertyRepository::class . '/getById');
             $r->addRoute('GET', '/property/make-rent-package-documents/{type}', DocumentUseCase::class . '/makePackageDocumentsByType');

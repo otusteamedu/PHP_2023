@@ -14,13 +14,12 @@ class PropertyProxy extends Property
     private ?array $cadastralInformation = null;
 
     /**
-     * @param int|null $id
-     * @param string|null $name
-     * @param string|null $type
+     * @param string $name
+     * @param string $type
      */
-    public function __construct(?int $id = null, ?string $name = null, ?string $type = null)
+    public function __construct(string $name, string $type)
     {
-        parent::__construct($id, $name, $type, []);
+        parent::__construct($name, $type, []);
     }
 
     /**

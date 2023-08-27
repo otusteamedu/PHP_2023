@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nginx-emails:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: image-nginx-emails
+    container_name: nginx-emails
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+    networks:
+      - network-emails
+
+  php-fpm-emails:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: image-php-fpm-emails
+    container_name: php-fpm-emails
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+    networks:
+      - network-emails
+
+networks:
+  network-emails:
+    driver: bridge

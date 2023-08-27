@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "78565d39bfa72d7e06df04d4eba2e5e1",
+    "packages": [
+        {
+            "name": "supervoron/formatter-composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/supervoron1/formatter-composer-package.git",
+                "reference": "845b63b61f14b67f537a889bbeaea4b8c6fe3fe9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/supervoron1/formatter-composer-package/zipball/845b63b61f14b67f537a889bbeaea4b8c6fe3fe9",
+                "reference": "845b63b61f14b67f537a889bbeaea4b8c6fe3fe9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4 "
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "supervoron\\FormatterComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Dmitriy Vorontsov",
+                    "email": "vorontsof@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/supervoron1/formatter-composer-package/issues",
+                "source": "https://github.com/supervoron1/formatter-composer-package/tree/v1.0.0"
+            },
+            "time": "2023-08-27T13:48:37+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

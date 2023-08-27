@@ -1,0 +1,7 @@
+{
+    "name": "dmitrii/otus",
+    "type": "project",
+    "require": {
+        "dr33m/otus-hw3": "^1.0"
+    }
+}

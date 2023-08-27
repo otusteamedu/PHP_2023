@@ -52,9 +52,9 @@ class CheckEmailsCommand
             $errors = $validator->getErrors();
             Output::lineEnd();
             Output::lineEnd();
-            Output::show('Message-errors('.count($errors).'):');
+            Output::show('Message-errors(' . count($errors) . '):');
             Output::lineEnd();
-            foreach($errors as $key => $error) {
+            foreach ($errors as $key => $error) {
                 Output::show(' ' . $key . ' :: ' . $error);
                 Output::lineEnd();
             }

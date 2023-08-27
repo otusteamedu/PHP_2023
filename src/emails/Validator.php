@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Ndybnov\Hw06\emails;
+
 use Ndybnov\Hw06\exceptions\KeyRuleUsedRuntimeException;
 
 class Validator

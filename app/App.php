@@ -5,7 +5,6 @@ namespace App;
 use Exception;
 use Socket;
 
-
 class App
 {
     /** @var string  */

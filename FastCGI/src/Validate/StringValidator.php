@@ -12,12 +12,18 @@ class StringValidator
             $string = $_POST['string'];
 
             // 1. Проверка на пустоту
-            if (empty($string)) {
+            if ($string == '') {
                 http_response_code(400);
                 exit("Bad Request: Empty string");
             }
 
-            // 2. Проверка на корректность кол-ва скобок
+            // 2. Проверка на корректность скобок
+            if (!preg_match('/^[()]*$/', $string)) {
+                http_response_code(400);
+                exit("Bad Request: Input only ()");
+            }
+
+            // 3. Проверка на корректность кол-ва скобок
             $openBracketCount = substr_count($string, '(');
             $closeBracketCount = substr_count($string, ')');
             if ($openBracketCount != $closeBracketCount) {
@@ -25,7 +31,7 @@ class StringValidator
                 exit("Bad Request: Unmatched parenthesis count");
             }
 
-            // 3. Проверка соответствия скобок
+            // 4. Проверка соответствия скобок
             $stack = [];
             for ($i = 0; $i < strlen($string); $i++) {
                 $char = $string[$i];

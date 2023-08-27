@@ -17,8 +17,6 @@ RUN apt-get update && apt-get install -y \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
-COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
-
 WORKDIR /data
 
 VOLUME /data

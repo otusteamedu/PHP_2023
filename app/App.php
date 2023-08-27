@@ -26,6 +26,9 @@ class App
     /** @var array */
     protected array $config;
 
+    /** @var string  */
+    protected string $fileSocket;
+
 
     /**
      * @throws Exception
@@ -34,16 +37,17 @@ class App
     {
         $this->mode = $_SERVER['argv'][1] ?? null;
         $this->config = parse_ini_string(file_get_contents(__DIR__ . '/../app.conf'));
+        $this->fileSocket = $this->config['unix_socket'] ?? null;
     }
 
     public function __destruct()
     {
         if (
             $this->mode == static::SERVER
-            && isset($this->config['unix_socket'])
-            && file_exists($this->config['unix_socket'])
+            && $this->fileSocket
+            && file_exists($this->fileSocket)
         ) {
-            unlink($this->config['unix_socket']);
+            unlink($this->fileSocket);
         }
     }
 
@@ -183,7 +187,7 @@ class App
     protected function runServer(): void
     {
         $socket = $this->createSocket();
-        $this->socketBind($socket, $this->config['unix_socket']);
+        $this->socketBind($socket, $this->fileSocket);
         $this->socketListen($socket);
 
         do {
@@ -225,7 +229,7 @@ class App
     protected function runClient(): void
     {
         $socket = $this->createSocket();
-        $this->socketConnect($socket, $this->config['unix_socket']);
+        $this->socketConnect($socket, $this->fileSocket);
 
         do {
             echo $this->socketRead($socket, 2048);

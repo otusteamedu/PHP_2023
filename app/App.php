@@ -2,7 +2,8 @@
 
 namespace App;
 
-use App\Exception\AppException;
+use Exception;
+
 
 class App
 {
@@ -19,21 +20,11 @@ class App
     protected array $config;
 
     /**
-     * @throws AppException
+     * @throws Exception
      */
     public function __construct()
     {
-        global $argv;
-
-        if (!isset($argv[1])) {
-            throw new AppException(
-                'The application must be started with one of the arguments: ' . PHP_EOL
-                . static::SERVER . PHP_EOL
-                . static::CLIENT . PHP_EOL
-            );
-        }
-
-        $this->mode = $argv[1];
+        $this->mode = $_SERVER['argv'][1] ?? null;
         $this->config = parse_ini_string(file_get_contents(__DIR__ . '/../app.conf'));
     }
 
@@ -50,7 +41,7 @@ class App
 
     /**
      * @return void
-     * @throws AppException
+     * @throws Exception
      */
     public function run(): void
     {
@@ -62,32 +53,35 @@ class App
                 $this->runClient();
                 break;
             default:
-                //TODO
-                break;
+                throw new Exception(
+                    'The application must be started with one of the arguments: ' . PHP_EOL
+                    . static::SERVER . PHP_EOL
+                    . static::CLIENT . PHP_EOL
+                );
         }
     }
 
     /**
      * @return void
-     * @throws AppException
+     * @throws Exception
      */
     protected function runServer(): void
     {
         if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
-            throw new AppException(socket_strerror(socket_last_error()));
+            throw new Exception(socket_strerror(socket_last_error()));
         }
 
         if (socket_bind($sock, $this->config['unix_socket']) === false) {
-            throw new AppException(socket_strerror(socket_last_error($sock)));
+            throw new Exception(socket_strerror(socket_last_error($sock)));
         }
 
         if (socket_listen($sock) === false) {
-            throw new AppException(socket_strerror(socket_last_error($sock)));
+            throw new Exception(socket_strerror(socket_last_error($sock)));
         }
 
         do {
             if (($msgSock = socket_accept($sock)) === false) {
-                throw new AppException(socket_strerror(socket_last_error($sock)));
+                throw new Exception(socket_strerror(socket_last_error($sock)));
             }
 
             // Отправляем инструкции
@@ -122,18 +116,18 @@ class App
 
     /**
      * @return void
-     * @throws AppException
+     * @throws Exception
      */
     protected function runClient(): void
     {
         if (($sock = socket_create(AF_UNIX, SOCK_STREAM, 0)) === false) {
-            throw new AppException(socket_strerror(socket_last_error()));
+            throw new Exception(socket_strerror(socket_last_error()));
         }
 
         $result = socket_connect($sock, $this->config['unix_socket']);
 
         if ($result === false) {
-            throw new AppException(socket_strerror(socket_last_error($sock)));
+            throw new Exception(socket_strerror(socket_last_error($sock)));
         }
 
         do {

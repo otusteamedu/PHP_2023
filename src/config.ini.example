@@ -1,0 +1,3 @@
+nginx-docker-host=http://nginx-emails
+
+default-emails='correct@mail.ru,er@mail.!ru,aa@qq,aa@q,aa@qq.q,box@mail.ru,aa@mail.qq'

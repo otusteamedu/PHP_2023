@@ -1,5 +1,5 @@
 /db_restore
-vendor/
+code/vendor/
 
 .env
 .idea

@@ -18,5 +18,12 @@ use Amedvedev\code\helpers\BracketsHelper;
 $bracketsHelper = new BracketsHelper();
 $bracketsHelper->handle($_POST);
 
+$memcached = new Memcached;
+$memcached->addServer("memcached-otus", 11211);
+$result = $memcached->add('host', $_SERVER['HOSTNAME']);
+echo $memcached->get('host') . '<br>';
+
+var_dump($_SERVER['HOSTNAME']);
+
 
 

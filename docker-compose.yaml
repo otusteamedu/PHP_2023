@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: ./.docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/app
+    container_name: app
+    volumes:
+      - .:/data
+    networks:
+      - app-network
+    restart: always
+    environment:
+      - API_KEY=${API_KEY}
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  unix_socket:

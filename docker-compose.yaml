@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./.docker/fpm
+      dockerfile: Dockerfile
+    image: myapp/server
+    container_name: app_server
+    volumes:
+      - .:/data
+      - unix_socket:/var/run
+    networks:
+      - app-network
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  unix_socket:
+

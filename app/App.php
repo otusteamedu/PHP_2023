@@ -72,6 +72,8 @@ class App
     }
 
     /**
+     * //TODO Этот метод можно развивать дальше, сделать расширяемым для других API
+     *
      * @param CurlHandle $curl
      * @param array $data
      * @return void

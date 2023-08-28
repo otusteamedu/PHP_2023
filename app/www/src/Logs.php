@@ -1,15 +1,16 @@
 <?php
+
 namespace Root\Www;
 
 use Memcached;
 
-class Logs 
-{   
+class Logs
+{
     private $memcached;
     private $key = 'lists_log';
 
-    public function __construct() 
-    {  
+    public function __construct()
+    {
         $this->init();
     }
 
@@ -32,9 +33,9 @@ class Logs
     public function addRow($str)
     {
         $list = $this->get($this->key);
-        if (!$list) 
+        if (!$list)
             $list = [];
-        $row = 'HOSTNAME:&nbsp;'.$_SERVER['HOSTNAME'].'&nbsp;&nbsp;IP_USER:&nbsp;'.$_SERVER['REMOTE_ADDR'].'&nbsp;&nbsp;'.$str;    
+        $row = 'HOSTNAME:' . $_SERVER['HOSTNAME'] . '&nbsp;IP_USER:' . $_SERVER['REMOTE_ADDR'] . '&nbsp;' . $str;
         array_push($list, $row);
         $this->set($this->key, $list);
     }

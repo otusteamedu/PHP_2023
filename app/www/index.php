@@ -15,9 +15,9 @@ $app->get('/', function (Request $req, Response $res, $args = []) {
     $list = $logs->getList();
         echo '<h1>Logs</h1>';
     if ($list) {
-       foreach ($list as $log) {
+        foreach ($list as $log) {
             echo $log . '<br />';
-       }
+        }
     } else {
         echo '<h3>Записей нет</h3>';
     }
@@ -34,6 +34,7 @@ $app->post('/', function (Request $req, Response $res, $args = []) {
     $logs->addRow('Message:&nbsp;' . $parser->getMessage());
     if (!$parser->validate())
         return $res->withStatus(400)->write($parser->getMessage());
+    
     return $res->write($parser->getMessage());
 });
 

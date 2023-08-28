@@ -1,18 +1,19 @@
 <?php
+
 namespace Root\Www;
 
-class StringParser 
+class StringParser
 {
     private $string;
     private $is_valid = true;
-    private $message  = null; 
+    private $message  = null;
 
-    public function __construct($string) 
-    {  
+    public function __construct($string)
+    {
         $this->string = $string;
     }
 
-    public function run() 
+    public function run()
     {
         if (empty($this->string)) {
             $this->is_valid = false;
@@ -27,7 +28,7 @@ class StringParser
         str_replace('(', 1, $this->string, $count_open);
         str_replace(')', 2, $this->string, $count_close);
         $val =  $count_open - $count_close;
-        if($val != 0) {
+        if ($val != 0) {
             $this->is_valid = false;
             $count = abs($val);
             $extra = $val > 0 ? "'('" : "')'";

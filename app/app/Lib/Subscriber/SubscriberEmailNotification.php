@@ -24,8 +24,7 @@ class SubscriberEmailNotification implements SubscriberObserverInterface
         $subscribers = $this->subscriberModel->where('genre_id', $trackObject->getGenre())->get();
         foreach ($subscribers as $subscriber) {
             //todo: тут будет отправка email
-            // $subscriber->user()->first()
+            mail($subscriber->user()->first()->getAttribute('email'), '1', '2');
         }
     }
-
 }

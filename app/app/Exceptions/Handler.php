@@ -2,10 +2,7 @@
 
 namespace App\Exceptions;
 
-use Bitrix\Main\Error;
-use Bitrix\Main\ErrorCollection;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
-use Illuminate\Http\Response;
 use Throwable;
 
 class Handler extends ExceptionHandler

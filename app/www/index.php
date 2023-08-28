@@ -10,14 +10,12 @@ $app = new Slim\App();
 /**
  * Выводит Log запросов из Memcached
  */
-
-$app->get('/', function (Request $req,  Response $res, $args = [])
+$app->get('/', function (Request $req, Response $res, $args = [])
 {
     $logs = new Root\Www\Logs();
-
     $list = $logs->getList();
     echo '<h1>Logs</h1>';
-    if($list) {
+    if ($list) {
        foreach($list as $log) {
         echo $log.'<br />';
        }
@@ -29,20 +27,15 @@ $app->get('/', function (Request $req,  Response $res, $args = [])
 /** 
  * Принимает параметр String обрабатывает и записывает в Memcached 
  */
-
-$app->post('/', function (Request $req,  Response $res, $args = [])
+$app->post('/', function (Request $req, Response $res, $args = [])
 {
     $body = $req->getParsedBody();
-
     $parser = new Root\Www\StringParser($body['string']);
     $parser->run();
-
     $logs = new Root\Www\Logs();
     $logs->addRow('Message:&nbsp;'.$parser->getMessage());
-
-    if(!$parser->validate())
+    if (!$parser->validate())
         return $res->withStatus(400)->write($parser->getMessage());
-
     return $res->write($parser->getMessage());
 });
 

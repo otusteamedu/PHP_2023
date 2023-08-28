@@ -18,6 +18,8 @@ class App
 
         try {
             (new MainController($request, $config))->index();
+        } catch (\Throwable $exception) {
+            (new ExceptionHandler())->handle($exception);
         } finally {
             // additional protection when __destruct will not call in BaseSocket class
             if (

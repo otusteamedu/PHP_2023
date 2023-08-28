@@ -10,11 +10,84 @@ services:
       - ./nginx/logs:/var/log/nginx
       - ./www:/var/www
     links:
-      - php  
+      - server1
+      - server2  
+      - server3  
+    networks:
+      - app-network     
 
-  php:
+  server1:
     build: ./php
     volumes:
       - ./www:/var/www
-    container_name: php
-    tty: true  
+    container_name: server1
+    hostname: server1
+    environment: 
+      NAME_MEMCASHED_SERVER: 'memcached-s1'
+    links:
+      - memcached-s1
+    networks:
+      - app-network   
+
+  server2:
+    build: ./php
+    volumes:
+      - ./www:/var/www
+    container_name: server2 
+    hostname: server2
+    environment: 
+      NAME_MEMCASHED_SERVER: 'memcached-s2'
+    links:
+      - memcached-s2
+    networks:
+      - app-network   
+
+  server3:
+    build: ./php
+    volumes:
+      - ./www:/var/www
+    container_name: server3
+    hostname: server3
+    environment: 
+      NAME_MEMCASHED_SERVER: 'memcached-s3'
+    links:
+      - memcached-s3
+    networks:
+      - app-network  
+
+  memcached-s1:
+    image: memcached:latest
+    ports:
+      - 11212:11211  
+    networks:
+      - app-network 
+
+  memcached-s2:
+    image: memcached:latest
+    ports:
+      - 11213:11211  
+    networks:
+      - app-network 
+
+  memcached-s3:
+    image: memcached:latest
+    ports:
+      - 11214:11211  
+    networks:
+      - app-network    
+
+  mcrouter:
+    image: studiosol/mcrouter:v0.19.0
+    links:
+      - memcached-s1:memcached-s1
+      - memcached-s2:memcached-s2
+      - memcached-s3:memcached-s3
+    command: mcrouter --config-str='{"pools":{"A":{"servers":["memcached-s1:11211", "memcached-s2:11211", "memcached-s3:11211"]}},"route":{"type":"OperationSelectorRoute","operation_policies":{"add":"AllFastestRoute|Pool|A","delete":"AllFastestRoute|Pool|A","get":"AllFastestRoute|Pool|A","set":"AllFastestRoute|Pool|A"}}}' -p 11211
+    ports:
+      - 11211:11211  
+    networks:
+      - app-network               
+
+networks:
+  app-network:
+    driver: bridge     

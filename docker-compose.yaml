@@ -5,14 +5,16 @@ services:
     build:
       context: ./.docker/fpm
       dockerfile: Dockerfile
-    image: myapp/server
-    container_name: app_server
+    image: myapp/app
+    container_name: app
     volumes:
       - .:/data
-      - unix_socket:/var/run
     networks:
       - app-network
     restart: always
+    environment:
+      - API_KEY=${API_KEY}
+
 
 networks:
   app-network:

@@ -16,7 +16,7 @@ class Logs
 
     private function init()
     {
-        $this->memcached = new Memcached;
+        $this->memcached = new Memcached();
         $this->memcached->addServer('mcrouter', 11211);
     }
 
@@ -33,8 +33,9 @@ class Logs
     public function addRow($str)
     {
         $list = $this->get($this->key);
-        if (!$list)
+        if (!$list) {
             $list = [];
+        }
         $row = 'HOSTNAME:' . $_SERVER['HOSTNAME'] . '&nbsp;IP_USER:' . $_SERVER['REMOTE_ADDR'] . '&nbsp;' . $str;
         array_push($list, $row);
         $this->set($this->key, $list);

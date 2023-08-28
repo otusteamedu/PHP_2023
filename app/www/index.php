@@ -32,9 +32,9 @@ $app->post('/', function (Request $req, Response $res, $args = []) {
     $parser->run();
     $logs = new Root\Www\Logs();
     $logs->addRow('Message:&nbsp;' . $parser->getMessage());
-    if (!$parser->validate())
+    if (!$parser->validate()) {
         return $res->withStatus(400)->write($parser->getMessage());
-    
+    }
     return $res->write($parser->getMessage());
 });
 

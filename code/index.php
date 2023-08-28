@@ -13,9 +13,10 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/../vendor/autoload.php';
+use Amedvedev\code\helpers\BracketsHelper;
 
-use Amedvedev\FirstPackage\MyWords;
+$bracketsHelper = new BracketsHelper();
+$bracketsHelper->handle($_POST);
 
-$myWords = new MyWords();
 
-echo $myWords->getMyWords()[0];
+

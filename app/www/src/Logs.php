@@ -1,6 +1,8 @@
 <?php
 namespace Root\Www;
 
+use Memcached;
+
 class Logs 
 {   
     private $memcached;
@@ -13,7 +15,7 @@ class Logs
 
     private function init()
     {
-        $this->memcached = new \Memcached;
+        $this->memcached = new Memcached;
         $this->memcached->addServer('mcrouter', 11211);
     }
 

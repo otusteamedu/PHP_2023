@@ -4088,3 +4088,79 @@ View in rendered output by enabling the "displayErrorDetails" setting" while rea
 2023/08/28 16:41:33 [notice] 1#1: start worker process 22
 2023/08/28 16:41:33 [notice] 1#1: start worker process 23
 2023/08/28 17:05:02 [error] 21#21: *2 open() "/var/www/favicon.ico" failed (2: No such file or directory), client: 172.31.0.1, server: mysite.d, request: "GET /favicon.ico HTTP/1.1", host: "mysite.d", referrer: "http://mysite.d/"
+2023/08/28 17:16:54 [error] 21#21: *44 FastCGI sent in stderr: "PHP message: Slim Application Error:
+Type: Error
+Message: Class 'Root\Www\Memcached' not found
+File: /var/www/src/Logs.php
+Line: 16
+Trace: #0 /var/www/src/Logs.php(11): Root\Www\Logs->init()
+#1 /var/www/index.php(15): Root\Www\Logs->__construct()
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(40): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /var/www/vendor/slim/slim/Slim/Route.php(281): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /var/www/vendor/slim/slim/Slim/Route.php(268): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /var/www/vendor/slim/slim/Slim/App.php(503): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /var/www/vendor/slim/slim/Slim/App.php(392): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /var/www/vendor/slim/slim/Slim/App.php(297): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /var/www/index.php(47): Slim\App->run()
+#12 {main}
+View in rendered output by enabling the "displayErrorDetails" setting" while reading response header from upstream, client: 172.31.0.1, server: mysite.d, request: "GET / HTTP/1.1", upstream: "fastcgi://172.31.0.7:9000", host: "mysite.d"
+2023/08/28 17:16:55 [error] 22#22: *46 FastCGI sent in stderr: "PHP message: Slim Application Error:
+Type: Error
+Message: Class 'Root\Www\Memcached' not found
+File: /var/www/src/Logs.php
+Line: 16
+Trace: #0 /var/www/src/Logs.php(11): Root\Www\Logs->init()
+#1 /var/www/index.php(15): Root\Www\Logs->__construct()
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(40): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /var/www/vendor/slim/slim/Slim/Route.php(281): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /var/www/vendor/slim/slim/Slim/Route.php(268): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /var/www/vendor/slim/slim/Slim/App.php(503): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /var/www/vendor/slim/slim/Slim/App.php(392): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /var/www/vendor/slim/slim/Slim/App.php(297): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /var/www/index.php(47): Slim\App->run()
+#12 {main}
+View in rendered output by enabling the "displayErrorDetails" setting" while reading response header from upstream, client: 172.31.0.1, server: mysite.d, request: "GET / HTTP/1.1", upstream: "fastcgi://172.31.0.5:9000", host: "mysite.d"
+2023/08/28 17:17:41 [error] 21#21: *49 FastCGI sent in stderr: "PHP message: Slim Application Error:
+Type: Error
+Message: Class 'Root\Www\Memcached' not found
+File: /var/www/src/Logs.php
+Line: 16
+Trace: #0 /var/www/src/Logs.php(11): Root\Www\Logs->init()
+#1 /var/www/index.php(38): Root\Www\Logs->__construct()
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(40): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /var/www/vendor/slim/slim/Slim/Route.php(281): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /var/www/vendor/slim/slim/Slim/Route.php(268): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /var/www/vendor/slim/slim/Slim/App.php(503): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /var/www/vendor/slim/slim/Slim/App.php(392): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /var/www/vendor/slim/slim/Slim/App.php(297): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /var/www/index.php(47): Slim\App->run()
+#12 {main}
+View in rendered output by enabling the "displayErrorDetails" setting" while reading response header from upstream, client: 172.31.0.1, server: mysite.d, request: "POST / HTTP/1.1", upstream: "fastcgi://172.31.0.5:9000", host: "mysite.d"
+2023/08/28 17:17:58 [error] 21#21: *51 FastCGI sent in stderr: "PHP message: Slim Application Error:
+Type: Error
+Message: Class 'Root\Www\Memcached' not found
+File: /var/www/src/Logs.php
+Line: 16
+Trace: #0 /var/www/src/Logs.php(11): Root\Www\Logs->init()
+#1 /var/www/index.php(38): Root\Www\Logs->__construct()
+#2 [internal function]: Closure->{closure}(Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#3 /var/www/vendor/slim/slim/Slim/Handlers/Strategies/RequestResponse.php(40): call_user_func(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#4 /var/www/vendor/slim/slim/Slim/Route.php(281): Slim\Handlers\Strategies\RequestResponse->__invoke(Object(Closure), Object(Slim\Http\Request), Object(Slim\Http\Response), Array)
+#5 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\Route->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#6 /var/www/vendor/slim/slim/Slim/Route.php(268): Slim\Route->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#7 /var/www/vendor/slim/slim/Slim/App.php(503): Slim\Route->run(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#8 /var/www/vendor/slim/slim/Slim/MiddlewareAwareTrait.php(117): Slim\App->__invoke(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#9 /var/www/vendor/slim/slim/Slim/App.php(392): Slim\App->callMiddlewareStack(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#10 /var/www/vendor/slim/slim/Slim/App.php(297): Slim\App->process(Object(Slim\Http\Request), Object(Slim\Http\Response))
+#11 /var/www/index.php(47): Slim\App->run()
+#12 {main}
+View in rendered output by enabling the "displayErrorDetails" setting" while reading response header from upstream, client: 172.31.0.1, server: mysite.d, request: "POST / HTTP/1.1", upstream: "fastcgi://172.31.0.6:9000", host: "mysite.d"

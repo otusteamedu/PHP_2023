@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  server:
+  app:
     build:
       context: ./.docker/fpm
       dockerfile: Dockerfile
@@ -22,4 +22,3 @@ networks:
 
 volumes:
   unix_socket:
-

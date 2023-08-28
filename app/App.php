@@ -7,23 +7,30 @@ use CurlHandle;
 class App
 {
     /** @var string  */
-    private string $api;
+    protected string $api;
 
     /** @var CurlHandle|bool  */
-    private bool|CurlHandle $curl;
+    protected bool|CurlHandle $curl;
 
     /** @var string  */
-    private string $method;
+    protected string $method;
 
     /** @var null|string  */
-    private ?string $apiKey;
+    protected ?string $apiKey;
 
-    public function __construct(string $api = 'https://api.siterelic.com/dnsrecord', string $method = 'POST')
-    {
+    /** @var string  */
+    protected string $contentType;
+
+    public function __construct(
+        string $api = 'https://api.siterelic.com/dnsrecord',
+        string $method = 'POST',
+        string $contentType = 'application/json'
+    ) {
         $this->api = $api;
         $this->curl = curl_init($this->api);
         $this->method = $method;
         $this->apiKey = $_ENV['API_KEY'] ?? null;
+        $this->contentType = $contentType;
     }
 
     public function __destruct()
@@ -44,34 +51,52 @@ class App
     }
 
     /**
+     * @see https://siterelic.com/docs#getting-started
      * @param string $email
      * @return bool
      */
-    private function checkMXRecord(string $email): bool
+    protected function checkMXRecord(string $email): bool
     {
         $data = [
             'url' => $email
         ];
-        $payload = json_encode($data, JSON_UNESCAPED_UNICODE);
         $curl = $this->curl;
-
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->method);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, [
-            'Content-Type: application/json',
-            'Content-Length: ' . mb_strlen($payload),
-            'x-api-key: ' . 'e964950a-f041-409f-bb01-fbc98917099f',
-            ]
-        );
-
-        $result = curl_exec($curl);
+        $this->curlSetOpt($curl, $data);
+        $result = $this->curlExec($curl);
 
         if (isset($result['data']['MX'])) {
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * @param CurlHandle $curl
+     * @param array $data
+     * @return void
+     */
+    protected function curlSetOpt(CurlHandle $curl, array $data): void
+    {
+        $payload = json_encode($data, JSON_UNESCAPED_UNICODE);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, $this->method);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+                'Content-Type: ' . $this->contentType,
+                'Content-Length: ' . mb_strlen($payload),
+                'x-api-key: ' . $this->apiKey,
+            ]
+        );
+    }
+
+    /**
+     * @param CurlHandle $curl
+     * @return array
+     */
+    protected function curlExec(CurlHandle $curl): array
+    {
+        return json_decode(curl_exec($curl), true);
     }
 
     /**
@@ -120,5 +145,21 @@ class App
     public function setApiKey(?string $apiKey): void
     {
         $this->apiKey = $apiKey;
+    }
+
+    /**
+     * @param string $contentType
+     */
+    public function setContentType(string $contentType): void
+    {
+        $this->contentType = $contentType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContentType(): string
+    {
+        return $this->contentType;
     }
 }

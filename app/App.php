@@ -85,7 +85,9 @@ class App
         curl_setopt($curl, CURLOPT_POSTFIELDS, $payload);
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(
-            $curl, CURLOPT_HTTPHEADER, [
+            $curl,
+            CURLOPT_HTTPHEADER,
+            [
                 'Content-Type: ' . $this->contentType,
                 'Content-Length: ' . mb_strlen($payload),
                 'x-api-key: ' . $this->apiKey,

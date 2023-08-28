@@ -16,7 +16,6 @@ declare(strict_types=1);
 
 namespace Amedvedev\code\helpers;
 
-
 class BracketsHelper
 {
     public function handle(array $post)

@@ -76,7 +76,7 @@ class ServiceTrack
     /**
      * @return Collection|Track[]
      */
-    public function getAll(): ?Collection
+    public function getAll(): Collection
     {
         return $this->track->all();
     }

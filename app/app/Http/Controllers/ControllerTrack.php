@@ -37,9 +37,4 @@ class ControllerTrack extends Controller
         $this->serviceTrack->add($request->all());
         return $this->prepareResult();
     }
-
-    public function subscribe(Request $request): JsonResponse
-    {
-        return $this->prepareResult();
-    }
 }

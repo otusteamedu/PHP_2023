@@ -18,50 +18,43 @@ namespace Amedvedev\code\helpers;
 
 class BracketsHelper
 {
-    public function handle(array $post)
+
+    /**
+     * @param array $post
+     * @return bool
+     */
+    public function handle(array $post): bool
     {
         if (isset($post['string'])) {
             $string = $post['string'];
             //проверка на не пустоту
             if (!$string) {
-                header('HTTP/1.1 400 Bad Request', true, 400);
-                echo '<span style="color:red">Строка со скобками не верна</span>' . $string . '<br>';
-                echo '<form method="POST"><input style="width: 199px" name="string" value="(()()()()))((((()()()))(()()()(((()))))))">' .
-                    '<p><button>Отправить</button></p></form>';
-                exit;
+                return false;
             }
 
             $array = [];
-            $stringArray = str_split($string);
             //проверка на скобки - стэк
-            for ($i = 0; $i < count($stringArray); $i++) {
-                if ($i === 0 && $stringArray[$i] === ')') {
-                    $array[] = $stringArray[$i];
+            for ($i = 0; $i < strlen($string) ; $i++) {
+                if ($i === 0 && $string[$i] === ')') {
                     break;
                 }
 
                 if ($i === 0) {
-                    $array[] = $stringArray[$i];
+                    $array[] = $string[$i];
                     continue;
                 }
 
-                if (!empty($array) && $array[array_key_last($array)] == '(' && $stringArray[$i] === ')') {
+                if (!empty($array) && $array[array_key_last($array)] == '(' && $string[$i] === ')') {
                     unset($array[array_key_last($array)]);
                 } else {
-                    $array[] = $stringArray[$i];
+                    $array[] = $string[$i];
                 }
             }
 
             if (!empty($array)) {
-                header('HTTP/1.1 400 Bad Request', true, 400);
-                echo '<span style="color:red">Строка со скобками не верна</span>' . $string . '<br>';
-            } else {
-                echo '<span>Строка со скобками верна</span>' . $string . '<br>';
+                return false;
             }
         }
-
-
-        echo '<form method="POST"><input style="width: 199px" name="string" value="(()()()()))((((()()()))(()()()(((()))))))">' .
-            '<p><button>Отправить</button></p></form>';
+        return true;
     }
 }

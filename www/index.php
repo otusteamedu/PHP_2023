@@ -2,7 +2,7 @@
 
 require 'vendor/autoload.php';
 
-use \Nalofree\Hw5\EmailChecker;
+use Nalofree\Hw5\EmailChecker;
 
 if ($_SERVER['REQUEST_URI'] === '/form') {
     require "./views/form.php";

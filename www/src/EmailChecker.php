@@ -13,7 +13,7 @@ class EmailChecker
 
     private function getEmails($string): array|bool
     {
-        $emails = preg_split('/\s+|\,\s?/', $string );
+        $emails = preg_split('/\s+|\,\s?/', $string);
         // Из строки надо получить адреса, они могут быть через пробел или через запятую.
         return array_diff($emails, array(''));
     }
@@ -27,18 +27,18 @@ class EmailChecker
 
         foreach ($emails as $email) {
             if (preg_match($pattern, $email, $matches)) {
-                $checked_emails[$matches[0]] = $this->CheckMX($matches[1]) ? "valid" : "invalid";
+                $checked_emails[$matches[0]] = $this->CheckMxRecord($matches[1]) ? "valid" : "invalid";
             }
         }
         return $checked_emails;
     }
 
-    private function CheckMX($domain): bool
+    private function CheckMxRecord($domain): bool
     {
         getmxrr($domain, $mx_records, $mx_weight);
-        if(empty($mx_records)) {
+        if (empty($mx_records)) {
             return false;
-        }else{
+        } else {
             return true;
         }
     }

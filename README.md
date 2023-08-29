@@ -42,7 +42,7 @@ sudo docker compose up
 
 Перейдите в контейнер php и запустите composer
 ```bash
-sudo docker container exec -it myapp-memcached-dev bash
+sudo docker container exec -it myapp-php-fpm1 bash
 ```
 ```bash
 cd /data/www && composer install

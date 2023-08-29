@@ -1,0 +1,81 @@
+services:
+  nginx-root:
+    build: config/nginx-root
+    container_name: myapp-nginx-root
+    ports:
+      - "80:80"
+
+  nginx1:
+    build: config/nginx
+    container_name: myapp-nginx1
+    volumes:
+      - ./:/data/www
+
+  nginx2:
+    build: config/nginx
+    container_name: myapp-nginx2
+    volumes:
+      - ./:/data/www
+
+  fpm:
+    build: config/php
+    container_name: myapp-php-fpm1
+    ports:
+      - ":9000"
+    volumes:
+      - ./:/data/www
+    environment:
+      MYAPP_MYSQL_HOST: ${MYSQL_HOST}
+      MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYAPP_MYSQL_USER: ${MYSQL_USER}
+      MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_URL: redis://redis:6379
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+      MEMCACHED_URL: memcached://memcached:11211
+
+  fpm2:
+    build: config/php
+    container_name: myapp-php-fpm2
+    ports:
+      - ":9000"
+    volumes:
+      - ./:/data/www
+    environment:
+      MYAPP_MYSQL_HOST: ${MYSQL_HOST}
+      MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYAPP_MYSQL_USER: ${MYSQL_USER}
+      MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_URL: redis://redis:6379
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+      MEMCACHED_URL: memcached://memcached:11211
+
+  redis:
+    image: redis
+    container_name: myapp-redis
+    ports:
+      - "6379:6379"
+
+  memcached:
+    image: memcached
+    container_name: myapp-memcached
+    ports:
+      - "11211:11211"
+
+  mysql:
+    image: mysql
+    restart: always
+    container_name: myapp-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - myapp-dbvolume:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+volumes:
+  myapp-dbvolume:

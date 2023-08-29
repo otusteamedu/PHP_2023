@@ -27,13 +27,13 @@ class EmailChecker
 
         foreach ($emails as $email) {
             if (preg_match($pattern, $email, $matches)) {
-                $checked_emails[$matches[0]] = $this->CheckMxRecord($matches[1]) ? "valid" : "invalid";
+                $checked_emails[$matches[0]] = $this->checkMxRecord($matches[1]) ? "valid" : "invalid";
             }
         }
         return $checked_emails;
     }
 
-    private function CheckMxRecord($domain): bool
+    private function checkMxRecord($domain): bool
     {
         getmxrr($domain, $mx_records, $mx_weight);
         if (empty($mx_records)) {

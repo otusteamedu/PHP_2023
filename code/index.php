@@ -38,5 +38,7 @@ echo $memcached->get('host') . '<br>';
 
 echo $_SERVER['HOSTNAME'];
 
+var_dump($_SERVER);
+
 
 

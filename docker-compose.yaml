@@ -5,19 +5,53 @@ version: '3'
 services:
 
   #контейнер с Nginx
+  nginx-balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: my-otus-app/nginx
+    container_name: my-otus-webserver-balsncer
+    # проброс портов
+    ports:
+      - 80:80
+    depends_on:
+      - nginx
+      - nginx2
+    volumes:
+      - ./nginx/hosts/mysite.local.balancer.conf:/etc/nginx/conf.d/mysite.local.conf
+    networks:
+      - otus-app-network
+
+
   nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
     image: my-otus-app/nginx
-    container_name: my-otus-webserver-balancer
+    container_name: my-otus-webserver-1
     # проброс портов
     ports:
-      - 80:80
+      - 81:80
     volumes:
        - ./code:/data/mysite.local
        - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
        - phpsocket:/var/run
+    networks:
+      - otus-app-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: my-otus-app/nginx
+    container_name: my-otus-webserver-2
+    # проброс портов
+    ports:
+      - 82:80
+    volumes:
+      - ./code:/data/mysite.local
+      - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+      - phpsocket:/var/run
     networks:
       - otus-app-network
 

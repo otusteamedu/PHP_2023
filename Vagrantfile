@@ -8,6 +8,9 @@ Vagrant.configure("2") do |config|
   # forwarding ports
   config.vm.network :forwarded_port, guest: 80, host: 80
 
+  # sync current folders to vagrant. I use rsync because of problems with syncing windows and linux
+  config.vm.synced_folder ".", "/vagrant", type: "rsync"
+
   # config resources for the VM
   config.vm.provider "virtualbox" do |v|
     v.memory = 4048

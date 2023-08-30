@@ -17,7 +17,7 @@ class PathHelper
 
     public static function getInstance(): self
     {
-        if(self::$instance === null) {
+        if (self::$instance === null) {
             self::$instance = new self($_SERVER['PWD'] . '/../');
         }
 

@@ -42,7 +42,7 @@ class Response
     {
         return array_reduce(
             $validatedEmails,
-            static function(array $carry, ValidateResult $item) {
+            static function (array $carry, ValidateResult $item) {
                 if ($item->getIsValid()) {
                     $carry['valid'][] = $item->getEmail();
                 } else {

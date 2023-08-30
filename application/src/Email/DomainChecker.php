@@ -55,7 +55,7 @@ class DomainChecker
 
         $response = curl_exec($curl);
 
-        if($response === false) {
+        if ($response === false) {
             throw EmailException::failToGetResponseFromTheApi($domain, $curl);
         }
 

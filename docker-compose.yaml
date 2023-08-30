@@ -1,0 +1,89 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  nginx-upstream:
+    build:
+      context: nginx-upstream
+      dockerfile: Dockerfile
+    image: otus/nginx-upstream
+    container_name: nginx-upstream
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-upstream/hosts/mysite.balancer.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nginx-webserv1
+      - nginx-webserv2
+    networks:
+      - app-network
+
+  nginx-webserv1:
+    build:
+      context: nginx-webservers
+      dockerfile: Dockerfile
+    image: otus/nginx-webserv1
+    container_name: nginx-webserv1
+    ports:
+      - "8081:80"
+    volumes:
+      - ./src:/data/mysite.local
+      - ./nginx-webservers/hosts:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+  nginx-webserv2:
+    build:
+      context: nginx-webservers
+      dockerfile: Dockerfile
+    image: otus/nginx-webserv2
+    container_name: nginx-webserv2
+    ports:
+      - "8082:80"
+    volumes:
+      - ./src:/data/mysite.local
+      - ./nginx-webservers/hosts:/etc/nginx/conf.d
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm1
+    container_name: app1
+    volumes:
+      - ./src:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm2 # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./src:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - '11212:11211'
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

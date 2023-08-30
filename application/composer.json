@@ -2,7 +2,8 @@
     "name": "balabas/hw5",
     "autoload": {
         "psr-4": {
-            "classes\\": "classes/"
+            "classes\\": "classes/",
+            "core\\":"core"
         }
     },
     "authors": [

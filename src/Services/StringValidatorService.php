@@ -17,8 +17,7 @@ class StringValidatorService
             } else {
                 if (count($stack) === 0) {
                     return false;
-                }
-                elseif ($closingSymbolOpeningMatch[$key] === end($stack)) {
+                } elseif ($closingSymbolOpeningMatch[$key] === end($stack)) {
                     array_pop($stack);
                 }
             }

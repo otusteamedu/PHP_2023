@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Gesparo\Hw;
 
 use Dotenv\Dotenv;
-use Gesparo\Hw\Controller\MainController;
+use Gesparo\Hw\Controller\EmailService;
 
 class App
 {
@@ -14,7 +14,10 @@ class App
         try {
             Dotenv::createImmutable(PathHelper::getInstance()->getRootPath())->load();
 
-            (new MainController())->index();
+            (new EmailService(
+                $_ENV['DOMAIN_API'],
+                PathHelper::getInstance()->getFilesPath() . 'emails.txt')
+            )->make();
         } catch (\Throwable $exception) {
             (new ExceptionHandler())->handle($exception);
         }

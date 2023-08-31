@@ -4,10 +4,7 @@ version: '3'
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
   nginx-upstream:
-    build:
-      context: nginx-upstream
-      dockerfile: Dockerfile
-    image: otus/nginx-upstream
+    image: nginx
     container_name: nginx-upstream
     ports:
       - "80:80"
@@ -20,29 +17,20 @@ services:
       - app-network
 
   nginx-webserv1:
-    build:
-      context: nginx-webservers
-      dockerfile: Dockerfile
-    image: otus/nginx-webserv1
+    image: nginx
     container_name: nginx-webserv1
-    ports:
-      - "8081:80"
+
     volumes:
-      - ./src:/data/mysite.local
+      - ./public:/data/mysite.local
       - ./nginx-webservers/hosts:/etc/nginx/conf.d
     networks:
       - app-network
 
   nginx-webserv2:
-    build:
-      context: nginx-webservers
-      dockerfile: Dockerfile
-    image: otus/nginx-webserv2
+    image: nginx
     container_name: nginx-webserv2
-    ports:
-      - "8082:80"
     volumes:
-      - ./src:/data/mysite.local
+      - ./public:/data/mysite.local
       - ./nginx-webservers/hosts:/etc/nginx/conf.d
     networks:
       - app-network
@@ -56,7 +44,7 @@ services:
     image: otus/php-fpm1
     container_name: app1
     volumes:
-      - ./src:/data/mysite.local
+      - ./public:/data/mysite.local
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
@@ -70,7 +58,7 @@ services:
     image: otus/php-fpm2 # имя будущего образа
     container_name: app2 # имя контейнера после запуска
     volumes:
-      - ./src:/data/mysite.local
+      - ./public:/data/mysite.local
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network

@@ -1,8 +1,8 @@
 <?php
 
-include_once('autoload.php');
+include_once(__DIR__ . '/src/autoload.php');
 
-$stringValidatorService = new \Services\StringValidatorService();
+$stringValidatorService = new \src\Services\StringValidatorService();
 $string = $_POST['string'];
 
 if ($stringValidatorService->isBracketsValid($string)) {

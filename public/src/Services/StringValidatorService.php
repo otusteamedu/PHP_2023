@@ -1,6 +1,6 @@
 <?php
 
-namespace Services;
+namespace src\Services;
 
 class StringValidatorService
 {

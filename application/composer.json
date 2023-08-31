@@ -1,0 +1,18 @@
+{
+    "name": "gesparo/hw",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gesparo\\Hw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maksym Melnyk"
+        }
+    ],
+    "require": {
+        "ext-curl": "*",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

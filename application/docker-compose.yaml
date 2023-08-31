@@ -6,12 +6,12 @@ services:
       - "80:80"
 
   fpm:
-    build: config/php
+    build:
+      context: ./
+      dockerfile: config/php/Dockerfile
     container_name: myapp-php${DOCKER_CONTAINER_SUFFIX}
     ports:
       - ":9000"
-    volumes:
-      - ./:/data/www
     environment:
       MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYAPP_MYSQL_USER: ${MYSQL_USER}

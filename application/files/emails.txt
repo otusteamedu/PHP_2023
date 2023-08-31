@@ -1,0 +1,8 @@
+mail@mail.ru
+myawesomeemail@invalidsmtpwebsite.com
+googleaccount@gmail.com
+googleaccount@google.com
+existingwebsitewithoutsmtp@example.com
+invalidemail
+login@password
+ivaliddomain@some.r

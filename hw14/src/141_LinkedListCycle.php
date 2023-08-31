@@ -1,5 +1,7 @@
 <?php
 
+namespace src;
+
 /**
  * Definition for a singly-linked list.
  * class ListNode {

@@ -19,8 +19,10 @@
         "symfony/yaml": "6.3.*"
     },
     "require-dev": {
+        "dama/doctrine-test-bundle": "^7.2",
         "doctrine/doctrine-fixtures-bundle": "^3.4",
         "fakerphp/faker": "^1.23",
+        "liip/test-fixtures-bundle": "^2.6",
         "phpunit/phpunit": "^9.6",
         "symfony/browser-kit": "6.3.*",
         "symfony/css-selector": "6.3.*",

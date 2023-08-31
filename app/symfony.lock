@@ -1,4 +1,13 @@
 {
+    "dama/doctrine-test-bundle": {
+        "version": "7.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.0",
+            "ref": "2c920f73a217f30bd4a37833c91071f4d3dc1ecd"
+        }
+    },
     "doctrine/doctrine-bundle": {
         "version": "2.10",
         "recipe": {
@@ -37,6 +46,9 @@
             "./config/packages/doctrine_migrations.yaml",
             "./migrations/.gitignore"
         ]
+    },
+    "liip/test-fixtures-bundle": {
+        "version": "2.6.0"
     },
     "phpunit/phpunit": {
         "version": "9.6",

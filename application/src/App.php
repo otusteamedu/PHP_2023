@@ -16,8 +16,8 @@ class App
 
             (new EmailService(
                 $_ENV['DOMAIN_API'],
-                PathHelper::getInstance()->getFilesPath() . 'emails.txt')
-            )->make();
+                PathHelper::getInstance()->getFilesPath() . 'emails.txt'
+            ))->make();
         } catch (\Throwable $exception) {
             (new ExceptionHandler())->handle($exception);
         }

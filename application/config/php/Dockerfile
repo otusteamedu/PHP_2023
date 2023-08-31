@@ -14,3 +14,7 @@ RUN apt-get update \
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 WORKDIR /data/www
+
+COPY ./ /data/www
+
+RUN composer install

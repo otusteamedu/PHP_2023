@@ -47,7 +47,7 @@ docker container exec -it myapp-php-dev bash
 Выполните команду
 
 ```bash
-composer install && cd console
+cd console
 ```
 
 ## Запуск и работа скрипта

@@ -36,6 +36,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./database/tables.ddl:/docker-entrypoint-initdb.d/tables.sql
       - myapp-dbvolume:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}

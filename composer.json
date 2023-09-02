@@ -1,0 +1,16 @@
+{
+    "name": "ivan/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Iva-So",
+            "email": "sochkov1994@mail.ru"
+        }
+    ],
+    "require": {}
+}

@@ -44,6 +44,5 @@ class BracketsHelper
         }
 
         return $counter === 0;
-
     }
 }

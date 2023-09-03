@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    image: nginx:stable-alpine
+    container_name: nginx-balancer
+    working_dir: /app
+    ports:
+      - "80:80"
+    volumes:
+      - ./docker/nginx-balancer/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - nginx-1
+      - nginx-2
+    networks:
+      - network
+    restart: always
+
+  nginx-1:
+    image: nginx:stable-alpine
+    container_name: nginx-1
+    working_dir: /app
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/app
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+    networks:
+      - network
+    restart: always
+
+  nginx-2:
+    image: nginx:stable-alpine
+    container_name: nginx-2
+    working_dir: /app
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./:/app
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+    networks:
+      - network
+    restart: always
+
+  php-fpm-1:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: php-fpm.docker
+    container_name: php-fpm-1
+    working_dir: /app
+    volumes:
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./:/app
+    depends_on:
+      - memcached
+    networks:
+      - network
+    restart: always
+
+  php-fpm-2:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: php-fpm.docker
+    container_name: php-fpm-2
+    working_dir: /app
+    volumes:
+      - ./docker/php-fpm/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./:/app
+    depends_on:
+      - memcached
+    networks:
+      - network
+    restart: always
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11212:11211"
+    networks:
+      - network
+    restart: always
+
+networks:
+  network:
+    driver: bridge

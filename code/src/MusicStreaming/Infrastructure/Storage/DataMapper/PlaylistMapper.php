@@ -8,7 +8,6 @@ use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Playlist;
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\User;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\PlaylistMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Exceptions\TableRowNotFoundException;
-
 use PDOStatement;
 
 class PlaylistMapper implements PlaylistMapperInterface
@@ -57,7 +56,6 @@ class PlaylistMapper implements PlaylistMapperInterface
             "INSERT INTO playlists_tracks (playlist_id, track_id) VALUES (:playlist_id, :track_id)"
         );
 
-        
         $this->updateStatement = $this->pdo->prepare(
             "UPDATE playlist SET name=:name WHERE id = :id"
         );
@@ -87,7 +85,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $this->selectByIdStatement->execute(["id" => $id]);
         $row = $this->selectByIdStatement->fetch();
 
-        if(!$row) {
+        if (!$row) {
             throw new TableRowNotFoundException("Playlist With Id Not Found");
         }
 
@@ -106,7 +104,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $this->selectByNameStatement->execute(["name" => $name]);
         $row = $this->selectByNameStatement->fetch();
 
-        if(!$row) {
+        if (!$row) {
             throw new TableRowNotFoundException("Playlist With name Not Found");
         }
 
@@ -125,7 +123,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $this->selectByUserStatement->execute(["user_id" => $user->getId()]);
 
         $result = [];
-        while($row = $this->selectByUserStatement->fetch())
+        while ($row = $this->selectByUserStatement->fetch())
         {
             $userMapper = new UserMapper($this->pdo);
             $result[] = new Playlist(
@@ -145,8 +143,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $this->selectPlaylistTracksTableStatement->setFetchMode(\PDO::FETCH_ASSOC);
         $this->selectPlaylistTracksTableStatement->execute(["playlist_id" => $playlistId]);
 
-        while($row = $this->selectPlaylistTracksTableStatement->fetch())
-        {
+        while ($row = $this->selectPlaylistTracksTableStatement->fetch()) {
             $trackMapper = new TrackMapper($this->pdo);
             $tracksList[] = $trackMapper->findById($row["track_id"]);
         }
@@ -190,7 +187,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $tracksToDelete = [];
 
         foreach ($playlist->getTracksList() as $inputTrack) {
-            if($inputTrack->getId() < 0) {
+            if ($inputTrack->getId() < 0) {
                 $tracksToInsert[] = $inputTrack;
             }
         }
@@ -198,7 +195,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         foreach ($playlist->getTracksList() as $inputTrack) {
             $trackAttachedToPlaylist = false;
             foreach ($dbTracksList as $dbTrack) {
-                if($inputTrack->getId() == $dbTrack->getId()) {
+                if ($inputTrack->getId() == $dbTrack->getId()) {
                     $trackAttachedToPlaylist = true;
                     break;
                 }
@@ -212,7 +209,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         foreach ($dbTracksList as $dbTrack) {
             $deletedFromPlaylist = true;
             foreach ($playlist->getTracksList() as $inputTrack) {
-                if($inputTrack->getId() == $dbTrack->getId()) {
+                if ($inputTrack->getId() == $dbTrack->getId()) {
                     $deletedFromPlaylist = false;
                     break;
                 }
@@ -222,7 +219,7 @@ class PlaylistMapper implements PlaylistMapperInterface
             }
         }
 
-        foreach($tracksToInsert as $track) {
+        foreach ($tracksToInsert as $track) {
             $successInsert = $this->insertPlaylistTrackStatement->execute(
                 [
                     "playlist_id" => $playlist->getId(),
@@ -235,7 +232,7 @@ class PlaylistMapper implements PlaylistMapperInterface
             }
         }
 
-        foreach($tracksToDelete as $track) {
+        foreach ($tracksToDelete as $track) {
             $successDelete = $this->deleteSinglePlaylistTrackStatement->execute(
                 [
                     "playlist_id" => $playlist->getId(),
@@ -247,7 +244,7 @@ class PlaylistMapper implements PlaylistMapperInterface
                 $success = false;
             }
         }
-        
+
         return $success;
     }
 

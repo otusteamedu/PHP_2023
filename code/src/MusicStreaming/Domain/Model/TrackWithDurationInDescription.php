@@ -10,7 +10,7 @@ class TrackWithDurationInDescription extends TrackDecorator
     {
         $description = $this->track->getDescription();
         $description .= "<br><br>  Duration: "
-        . (empty($this->track->getDuration())? "unknown": $this->track->getDuration());
+        . (empty($this->track->getDuration()) ? "unknown" : $this->track->getDuration());
         return $description;
     }
 }

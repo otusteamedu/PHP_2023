@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw16\MusicStreaming\Domain\Model;
 
-use function \VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
+use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
 
 class Playlist implements \JsonSerializable, DurationInterface
 {
     const FAKE_ID = -1;
 
-    private int $id; // positive int
-    private string $name;  // not empty string
+    private int $id;
+    private string $name;
     private User $user;
     private array $tracksList;
 
@@ -20,8 +20,7 @@ class Playlist implements \JsonSerializable, DurationInterface
         string $name,
         User $user,
         array $tracksList
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->user = $user;
@@ -31,7 +30,7 @@ class Playlist implements \JsonSerializable, DurationInterface
     public function jsonSerialize(): mixed
     {
         return [
-            "id" => $this->id,  /////////////////////////
+            "id" => $this->id,
             "name" => $this->name,
             "user" => $this->user->getLogin(),
             "tracksList" => $this->tracksList
@@ -45,7 +44,7 @@ class Playlist implements \JsonSerializable, DurationInterface
     public function getDurationSeconds(): int
     {
         $totalDuration = 0;
-        foreach($this->tracksList as $track) {
+        foreach ($this->tracksList as $track) {
             $totalDuration += $track->getDurationSeconds();
         }
         return $totalDuration;
@@ -92,21 +91,6 @@ class Playlist implements \JsonSerializable, DurationInterface
     public function setTracksList(array $tracksList): self
     {
         $this->tracksList = $tracksList;
-        return $this;
-    }
-
-
-
-    /////////////////  ???????????????????????????
-
-
-    public function addTracksToList(array $tracks): self
-    {
-        return $this;
-    }
-
-    public function deleteTracksFromList(): self
-    {
         return $this;
     }
 }

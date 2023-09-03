@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw16\MusicStreaming\Domain\Model;
 
-class TrackDecorator implements TrackInterface, \JsonSerializable
+abstract class TrackDecorator implements TrackInterface, \JsonSerializable
 {
     protected TrackInterface $track;
 
@@ -82,14 +82,5 @@ class TrackDecorator implements TrackInterface, \JsonSerializable
         $trackSerializeArray = $this->track->jsonSerialize();
         $trackSerializeArray["description"] = $this->getDescription();
         return $trackSerializeArray;
-        // return [
-        //     "name" => $this->track->getName(),
-        //     "author" => "",
-        //     "genre" => $this->track->getGenre()->getName(),
-        //     "duration" => $this->track->getDuration(),
-        //     "description" => $this->getDescription(),
-        //     "fileLink" => $this->fileLink,
-        //     "user" => $this->user->getLogin()
-        // ];
     }
 }

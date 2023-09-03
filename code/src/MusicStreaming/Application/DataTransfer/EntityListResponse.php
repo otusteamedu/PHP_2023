@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer;
 
-use function \VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
+use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
 
 class EntityListResponse extends Response
 {
@@ -31,7 +31,7 @@ class EntityListResponse extends Response
     private function computeDuration(array $entitiesList): string
     {
         $totalDuration = 0;
-        foreach($entitiesList as $entity) {
+        foreach ($entitiesList as $entity) {
             $totalDuration += $entity->getDurationSeconds();
         }
         return convertFromIntToString($totalDuration);

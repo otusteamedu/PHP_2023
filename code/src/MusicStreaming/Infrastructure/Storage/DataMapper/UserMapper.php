@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper;
 
 use PDOStatement;
-
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\UserMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Exceptions\TableRowNotFoundException;
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\User;
@@ -39,7 +38,6 @@ class UserMapper implements UserMapperInterface
             "INSERT INTO straming_service_users (login, sha1_password) VALUES (:login, :sha1_password)"
         );
 
-        
         $this->updateStatement = $this->pdo->prepare(
             "UPDATE straming_service_users SET login=:login sha1_password=:sha1_password WHERE id = :id"
         );
@@ -47,7 +45,6 @@ class UserMapper implements UserMapperInterface
         $this->deleteStatement = $this->pdo->prepare(
             "DELETE FROM straming_service_users WHERE id = :id"
         );
-        
     }
 
 
@@ -62,7 +59,7 @@ class UserMapper implements UserMapperInterface
         $this->selectByIdStatement->execute(["id" => $id]);
         $row = $this->selectByIdStatement->fetch();
 
-        if(!$row) {
+        if (!$row) {
             throw new TableRowNotFoundException("User with id not found");
         }
 
@@ -79,7 +76,7 @@ class UserMapper implements UserMapperInterface
         $this->selectByLoginStatement->execute(["login" => $login]);
         $row = $this->selectByLoginStatement->fetch();
 
-        if(!$row) {
+        if (!$row) {
             throw new TableRowNotFoundException("User with login not found");
         }
 

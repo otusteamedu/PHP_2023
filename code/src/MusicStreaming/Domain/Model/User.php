@@ -9,16 +9,15 @@ class User
     const FAKE_ID = -1;
 
 
-    private int $id; // positive int
-    private string $login;  // not empty string
+    private int $id;
+    private string $login;
     private string $passwordSha1;
 
     public function __construct(
         int $id,
         string $login,
         string $passwordSha1
-    )
-    {
+    ) {
         $this->id = $id;
         $this->login = $login;
         $this->passwordSha1 = $passwordSha1;

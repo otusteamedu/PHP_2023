@@ -7,7 +7,6 @@ namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper;
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Genre;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\GenreMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Exceptions\TableRowNotFoundException;
-
 use PDOStatement;
 
 class GenreMapper implements GenreMapperInterface
@@ -39,7 +38,6 @@ class GenreMapper implements GenreMapperInterface
             "INSERT INTO genre (name) VALUES (:name)"
         );
 
-        
         $this->updateStatement = $this->pdo->prepare(
             "UPDATE genre SET name=:name WHERE id = :id"
         );
@@ -47,7 +45,6 @@ class GenreMapper implements GenreMapperInterface
         $this->deleteStatement = $this->pdo->prepare(
             "DELETE FROM genre WHERE id = :id"
         );
-        
     }
 
 
@@ -62,7 +59,7 @@ class GenreMapper implements GenreMapperInterface
         $this->selectByIdStatement->execute(["id" => $id]);
         $result = $this->selectByIdStatement->fetch();
 
-        if(!$result) {
+        if (!$result) {
             throw new TableRowNotFoundException("Genre with id not found");
         }
 
@@ -78,7 +75,7 @@ class GenreMapper implements GenreMapperInterface
         $this->selectByNameStatement->execute(["name" => $name]);
         $result = $this->selectByNameStatement->fetch();
 
-        if(!$result) {
+        if (!$result) {
             throw new TableRowNotFoundException("Genre with name not found");
         }
 

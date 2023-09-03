@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper;
 
 use PDOStatement;
-
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\TrackMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Exceptions\TableRowNotFoundException;
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Track;
@@ -40,7 +39,6 @@ class TrackMapper implements TrackMapperInterface
             "INSERT INTO track (name, author, genre_id, duration, description, file_link, user_id) VALUES (:name, :author, :genre_id, :duration, :description, :file_link, :user_id)"
         );
 
-        
         $this->updateStatement = $this->pdo->prepare(
             "UPDATE track SET name=:name WHERE id = :id"
         );
@@ -48,7 +46,6 @@ class TrackMapper implements TrackMapperInterface
         $this->deleteStatement = $this->pdo->prepare(
             "DELETE FROM track WHERE id = :id"
         );
-        
     }
 
 
@@ -63,7 +60,7 @@ class TrackMapper implements TrackMapperInterface
         $this->selectbyIdStatement->execute(["id" => $id]);
         $row = $this->selectbyIdStatement->fetch();
 
-        if(!$row) {
+        if (!$row) {
             throw new TableRowNotFoundException("Track With Id Not Found");
         }
 
@@ -99,8 +96,7 @@ class TrackMapper implements TrackMapperInterface
         );
 
         $result = [];
-        while($row = $this->selectByGenreStatement->fetch())
-        {
+        while ($row = $this->selectByGenreStatement->fetch()) {
             $genreMapper = new GenreMapper($this->pdo);
             $userMapper = new UserMapper($this->pdo);
 

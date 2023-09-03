@@ -16,7 +16,7 @@ class HttpApiInit
     {
         $requestJson = file_get_contents('php://input');
         $requestData = json_decode($requestJson, true);
-        if(
+        if (
             ($requestData === false)
             || (!is_array($requestData))
         ) {
@@ -24,11 +24,10 @@ class HttpApiInit
         }
 
         session_start();
-        if(
+        if (
             ($_REQUEST["path"] != "user/auth/")
             && empty($_SESSION["userLogin"])
-        )
-        {
+        ) {
             die("You do not have access permissions!");
         }
 
@@ -41,13 +40,13 @@ class HttpApiInit
                 )
             );
         }
-        // catch (\Throwable $e) {
-        //     $this->output(
-        //         new ErrorResponse(
-        //             "Internal error occured."
-        //         )
-        //     );
-        // }
+        catch (\Throwable $e) {
+            $this->output(
+                new ErrorResponse(
+                    "Internal error occured."
+                )
+            );
+        }
     }
 
     public function runController($requestData)

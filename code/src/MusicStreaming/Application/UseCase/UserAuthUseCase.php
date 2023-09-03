@@ -12,8 +12,7 @@ class UserAuthUseCase
 
     public function __construct(
         UserMapperInterface $userMapper
-    )
-    {
+    ) {
         $this->userMapper = $userMapper;
     }
 

@@ -6,18 +6,11 @@ namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController;
 
 use VKorabelnikov\Hw16\MusicStreaming\Application\UseCase\UploadTrackUseCase;
 use VKorabelnikov\Hw16\MusicStreaming\Application\UseCase\FindTrackUseCase;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\ConnectionManager;
-
 use VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer\EntityListResponse;
 use VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer\Response;
-
-use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Track;
-
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Config\IniConfig;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\GenreMapper;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\UserMapper;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\TrackMapper;
-
 
 class TrackController
 {

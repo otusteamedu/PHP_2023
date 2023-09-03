@@ -8,14 +8,13 @@ class Genre
 {
     const FAKE_ID = -1;
 
-    private int $id; // positive int
-    private string $name;  // not empty string
+    private int $id;
+    private string $name;
 
     public function __construct(
         int $id,
         string $name
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
     }

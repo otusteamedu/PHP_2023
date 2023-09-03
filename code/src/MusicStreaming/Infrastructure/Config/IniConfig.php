@@ -29,8 +29,7 @@ class IniConfig implements ConfigInterface
         $settings = parse_ini_file($sCongigFilePath);
 
         $config = new Config();
-        foreach($setingsNames as $setting)
-        {
+        foreach ($setingsNames as $setting) {
             $config->$setting = $settings[$setting];
         }
 

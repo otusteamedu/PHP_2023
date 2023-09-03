@@ -12,7 +12,6 @@ use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\TrackMap
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\PlaylistMapper;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Config\IniConfig;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\ConnectionManager;
-
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\PlaylistController;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\UserController;
 use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\TrackController;
@@ -195,6 +194,3 @@ $playlistController->create(
         "userLogin" => $user2Login
     ]
 );
-
-
-

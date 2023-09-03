@@ -27,9 +27,7 @@ class WavFileProcessor implements AudioFileProcessor
                 )
             );
 
-            
-
-        return (int) ($numSamples/ $this->getSampleRate());
+        return (int) ($numSamples / $this->getSampleRate());
     }
 
     public function getFileProperties(): array

@@ -19,8 +19,7 @@ class CreatePlaylistUsecase
         PlaylistMapperInterface $playlistMapper,
         UserMapperInterface $userMapper,
         TrackMapperInterface $trackMapper
-    )
-    {
+    ) {
         $this->playlistMapper = $playlistMapper;
         $this->userMapper = $userMapper;
         $this->trackMapper = $trackMapper;
@@ -36,7 +35,7 @@ class CreatePlaylistUsecase
 
         if (
             empty($playlistParams["tracksList"])
-            || !is_array($playlistParams["tracksList"])    
+            || !is_array($playlistParams["tracksList"])
         ) {
             throw new \Exception("Incorrect tracksList");
         }
@@ -52,7 +51,7 @@ class CreatePlaylistUsecase
     public function createPaylistObject($playlistParams): Playlist
     {
         $tracksList = [];
-        foreach($playlistParams["tracksList"] as $trackId){
+        foreach ($playlistParams["tracksList"] as $trackId) {
             $tracksList[] = $this->trackMapper->findById((int) $trackId);
         }
 

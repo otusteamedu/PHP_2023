@@ -15,8 +15,7 @@ class FindPlaylistUseCase
     public function __construct(
         PlaylistMapperInterface $playlistMapper,
         UserMapperInterface $userMapper
-    )
-    {
+    ) {
         $this->playlistMapper = $playlistMapper;
         $this->userMapper = $userMapper;
     }

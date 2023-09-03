@@ -8,7 +8,8 @@ class ErrorResponse extends Response
 {
     protected string $errorDescription;
 
-    public function __construct($errorDescription) {
+    public function __construct($errorDescription)
+    {
         $this->success = false;
         $this->errorDescription = $errorDescription;
     }

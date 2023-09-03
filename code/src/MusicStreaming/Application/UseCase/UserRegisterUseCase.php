@@ -13,8 +13,7 @@ class UserRegisterUseCase
 
     public function __construct(
         UserMapperInterface $userMapper
-    )
-    {
+    ) {
         $this->userMapper = $userMapper;
     }
 

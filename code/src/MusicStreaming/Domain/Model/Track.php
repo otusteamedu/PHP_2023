@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw16\MusicStreaming\Domain\Model;
 
-use function \VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromStringToInt;
+use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromStringToInt;
 
 class Track implements \JsonSerializable, DurationInterface, TrackInterface
 {
     const FAKE_ID = -1;
 
 
-    private int $id; // positive int
-    private string $name;  // not empty string
-    private string $author;  // not empty string
+    private int $id;
+    private string $name;
+    private string $author;
     private Genre $genre;
-    private string $duration; // timestamp?
-    private string $description; // any string
+    private string $duration;
+    private string $description;
     private string $fileLink;
     private User $user;
 
@@ -29,8 +29,7 @@ class Track implements \JsonSerializable, DurationInterface, TrackInterface
         string $description,
         string $fileLink,
         User $user
-    )
-    {
+    ) {
         $this->id = $id;
         $this->name = $name;
         $this->author = $author;
@@ -152,11 +151,9 @@ class Track implements \JsonSerializable, DurationInterface, TrackInterface
     {
         $filePathParts = explode("/", $this->fileLink);
         $partsCount = count($filePathParts);
-        if($partsCount >= 2) {
+        if ($partsCount >= 2) {
             return "/" . $filePathParts[$partsCount - 2] . "/" . $filePathParts[$partsCount - 1];
-        }
-        else
-        {
+        } else {
             return "";
         }
     }

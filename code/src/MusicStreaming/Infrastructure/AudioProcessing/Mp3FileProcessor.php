@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\AudioProcessing;
 
 use VKorabelnikov\Hw16\MusicStreaming\Application\AudioProcessing\AudioFileProcessor;
-use \falahati\PHPMP3\MpegAudio;
+use falahati\PHPMP3\MpegAudio;
 
 class Mp3FileProcessor implements AudioFileProcessor
 {

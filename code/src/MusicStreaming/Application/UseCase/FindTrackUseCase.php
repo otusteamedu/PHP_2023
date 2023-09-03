@@ -10,7 +10,6 @@ use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\TrackMapper
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\TrackWithSocialLinksInDescription;
 use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\TrackWithDurationInDescription;
 
-
 class FindTrackUseCase
 {
     protected GenreMapperInterface $genreMapper;
@@ -21,8 +20,7 @@ class FindTrackUseCase
         GenreMapperInterface $genreMapper,
         UserMapperInterface $userMapper,
         TrackMapperInterface $trackMapper
-    )
-    {
+    ) {
         $this->genreMapper = $genreMapper;
         $this->userMapper = $userMapper;
         $this->trackMapper = $trackMapper;
@@ -42,7 +40,7 @@ class FindTrackUseCase
             $itemsPerPage,
             $itemsPerPage * ($pageNumber - 1)
         );
-        if($setAdditionalDescription === true) {
+        if ($setAdditionalDescription === true) {
             $tracksList = $this->decorateTracksSocial(
                 $this->decorateTracksDuration($tracksList)
             );
@@ -54,7 +52,7 @@ class FindTrackUseCase
     protected function decorateTracksSocial(array $tracksList): array
     {
         $decoratedTracks = [];
-        foreach($tracksList as $track) {
+        foreach ($tracksList as $track) {
             $decoratedTracks[] = new TrackWithSocialLinksInDescription($track);
         }
 
@@ -64,7 +62,7 @@ class FindTrackUseCase
     protected function decorateTracksDuration(array $tracksList): array
     {
         $decoratedTracks = [];
-        foreach($tracksList as $track) {
+        foreach ($tracksList as $track) {
             $decoratedTracks[] = new TrackWithDurationInDescription($track);
         }
 

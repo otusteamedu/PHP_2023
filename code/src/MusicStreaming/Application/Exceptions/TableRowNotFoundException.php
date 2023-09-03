@@ -6,5 +6,4 @@ namespace VKorabelnikov\Hw16\MusicStreaming\Application\Exceptions;
 
 class TableRowNotFoundException extends \Exception
 {
-
 }

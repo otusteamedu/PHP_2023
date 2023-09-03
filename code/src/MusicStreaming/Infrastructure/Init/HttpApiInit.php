@@ -39,8 +39,7 @@ class HttpApiInit
                     $e->getMessage()
                 )
             );
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             $this->output(
                 new ErrorResponse(
                     "Internal error occured."

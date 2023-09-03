@@ -11,8 +11,7 @@ use VKorabelnikov\Hw16\MusicStreaming\Application\AudioProcessing\AudioFileProce
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\GenreMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\UserMapperInterface;
 use VKorabelnikov\Hw16\MusicStreaming\Application\Storage\DataMapper\TrackMapperInterface;
-
-use function \VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
+use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
 
 class UploadTrackUseCase
 {
@@ -28,8 +27,7 @@ class UploadTrackUseCase
         GenreMapperInterface $genreMapper,
         UserMapperInterface $userMapper,
         TrackMapperInterface $trackMapper
-    )
-    {
+    ) {
         $this->genreMapper = $genreMapper;
         $this->userMapper = $userMapper;
         $this->trackMapper = $trackMapper;
@@ -41,8 +39,6 @@ class UploadTrackUseCase
             $requestParams["file_contents"],
             $requestParams["file_name"]
         );
-
-        
 
         $this->saveToDatabase(
             [
@@ -107,8 +103,6 @@ class UploadTrackUseCase
         $obAudioFileProcessor = new $classname($fileName);
         return $obAudioFileProcessor;
     }
-
-    
 
     protected function decodeFileFromBase64(string $base64FileContents, string $fileName): string
     {

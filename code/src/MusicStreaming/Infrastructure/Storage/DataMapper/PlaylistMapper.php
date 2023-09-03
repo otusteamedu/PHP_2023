@@ -123,8 +123,7 @@ class PlaylistMapper implements PlaylistMapperInterface
         $this->selectByUserStatement->execute(["user_id" => $user->getId()]);
 
         $result = [];
-        while ($row = $this->selectByUserStatement->fetch())
-        {
+        while ($row = $this->selectByUserStatement->fetch()) {
             $userMapper = new UserMapper($this->pdo);
             $result[] = new Playlist(
                 $row['id'],
@@ -191,7 +190,7 @@ class PlaylistMapper implements PlaylistMapperInterface
                 $tracksToInsert[] = $inputTrack;
             }
         }
-        
+
         foreach ($playlist->getTracksList() as $inputTrack) {
             $trackAttachedToPlaylist = false;
             foreach ($dbTracksList as $dbTrack) {
@@ -200,7 +199,7 @@ class PlaylistMapper implements PlaylistMapperInterface
                     break;
                 }
             }
-            if(!$trackAttachedToPlaylist) {
+            if (!$trackAttachedToPlaylist) {
                 $tracksToInsert[] = $inputTrack;
             }
         }
@@ -214,7 +213,7 @@ class PlaylistMapper implements PlaylistMapperInterface
                     break;
                 }
             }
-            if(!$deletedFromPlaylist) {
+            if (!$deletedFromPlaylist) {
                 $tracksToDelete[] = $inputTrack;
             }
         }

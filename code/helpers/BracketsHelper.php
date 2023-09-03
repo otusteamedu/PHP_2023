@@ -18,7 +18,6 @@ namespace Amedvedev\code\helpers;
 
 class BracketsHelper
 {
-
     /**
      * @param array $post
      * @return bool
@@ -34,7 +33,7 @@ class BracketsHelper
 
             $array = [];
             //проверка на скобки - стэк
-            for ($i = 0; $i < strlen($string) ; $i++) {
+            for ($i = 0; $i < strlen($string); $i++) {
                 if ($i === 0 && $string[$i] === ')') {
                     break;
                 }

@@ -59,6 +59,13 @@ class HttpApiInit
         $pdo = $connection->getPdo();
 
         $className = self::HTTP_API_CONTROLLER_NAMESPACE . $claccPrefix . "Controller";
+        if (
+            !class_exists($className)
+            || !method_exists($className,$method)
+        ) {
+            http_response_code(404);
+            die();
+        }
         $controller = new $className($pdo);
         $this->output(
             ((object)$controller)->$method($requestData)

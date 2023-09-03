@@ -9,7 +9,7 @@ class TrackWithSocialLinksInDescription extends TrackDecorator
     public function getDescription(): string
     {
         $description = $this->track->getDescription();
-        $description .= "<br><br>  Follow us in social media!";
+        $description .= "<br><br>  Поделиться в соц сетях: <a href='...'>ссылка на соцсеть</a>";
         return $description;
     }
 }

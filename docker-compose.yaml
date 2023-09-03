@@ -15,7 +15,7 @@ services:
       - "80:80"
     volumes:
        - ./code:/data/mysite.local
-       - socket:/var/run/php-fpm8.sock
+       - ./socket:/var/run
     networks:
       - app-network
 
@@ -29,7 +29,8 @@ services:
     container_name: app # имя контейнера после запуска
     volumes:
        - ./code:/data/mysite.local
-       - socket:/var/run/php-fpm8.sock
+       - ./socket:/var/run
+       - ./zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
@@ -64,5 +65,4 @@ networks:
   app-network:
     driver: bridge
     
-volumes:
-    socket:
+

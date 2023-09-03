@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Helpers\Email;
+use App\Helpers\EmailValidator;
+use App\Model\Email;
+use Doctrine\Common\Collections\ArrayCollection;
 
 require 'vendor/autoload.php';
 
@@ -14,7 +16,17 @@ $emailRecords = [
 ];
 
 try {
-    dump(Email::validateEmails($emailRecords));
+    /** @var ArrayCollection<Email> $collection */
+    $collection = new ArrayCollection(array_map(static function ($email) {
+        return new Email((string)$email);
+    }, $emailRecords));
+
+    $validator = new EmailValidator();
+    $validator->validate($collection);
+
+    $collection->map(static function ($email) {
+        echo($email . '<br />');
+    });
 } catch (RuntimeException $e) {
     dump($e);
 }

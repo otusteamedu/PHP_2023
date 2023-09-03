@@ -18,7 +18,7 @@ class Solution
      * @param ListNode $headB
      * @return ListNode
      */
-    function getIntersectionNode(ListNode $headA, ListNode $headB): ListNode
+    public function getIntersectionNode(ListNode $headA, ListNode $headB): ListNode
     {
         $a = $headA;
         $b = $headB;

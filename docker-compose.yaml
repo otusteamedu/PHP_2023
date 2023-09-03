@@ -15,7 +15,6 @@ services:
         build:
             dockerfile: .docker/php/Dockerfile
             context: ./
-        restart: always
         depends_on:
             - rabbitmq
         extra_hosts:
@@ -26,7 +25,6 @@ services:
     rabbitmq:
         container_name: otus_rabbitmq
         image: rabbitmq:3-management-alpine
-        restart: always
         ports:
             - 5672:5672
             - 15672:15672

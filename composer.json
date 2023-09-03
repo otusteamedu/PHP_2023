@@ -1,0 +1,9 @@
+{
+    "name": "dev/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Dev\\Php2023\\": "src/"
+        }
+    },
+    "require": {}
+}

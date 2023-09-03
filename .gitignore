@@ -1,0 +1,6 @@
+/.idea
+/.env
+/docker/.data/*
+/vendor/
+
+/vendor/

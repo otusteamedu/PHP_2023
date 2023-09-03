@@ -9,4 +9,4 @@ GROUP BY
     m.name
 ORDER BY
     sum_price DESC
-    LIMIT 1
+LIMIT 1

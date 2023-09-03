@@ -24,36 +24,26 @@ class BracketsHelper
      */
     public function handle(array $post): bool
     {
-        if (isset($post['string'])) {
-            $string = $post['string'];
-            //проверка на не пустоту
-            if (!$string) {
-                return false;
+        if (empty($post['string'])) {
+            return false;
+        }
+
+        $counter = 0;
+        $string = $post['string'];
+        //проверка на скобки
+        for ($i = 0; $i < strlen($string); $i++) {
+            if ($i === 0 && $string[$i] === ')') {
+                $counter++;
+                break;
             }
-
-            $array = [];
-            //проверка на скобки - стэк
-            for ($i = 0; $i < strlen($string); $i++) {
-                if ($i === 0 && $string[$i] === ')') {
-                    break;
-                }
-
-                if ($i === 0) {
-                    $array[] = $string[$i];
-                    continue;
-                }
-
-                if (!empty($array) && $array[array_key_last($array)] == '(' && $string[$i] === ')') {
-                    unset($array[array_key_last($array)]);
-                } else {
-                    $array[] = $string[$i];
-                }
-            }
-
-            if (!empty($array)) {
-                return false;
+            if ($string[$i] === '(') {
+                $counter++;
+            } else {
+                $counter--;
             }
         }
-        return true;
+
+        return $counter === 0;
+
     }
 }

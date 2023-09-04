@@ -1,0 +1,88 @@
+version: '3.9'
+
+services:
+  app:
+    container_name: ${PROJECT_NAME}_app
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}_php_fpm
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      PROJECT_NAME: ${PROJECT_NAME}
+    ports:
+      - "9009:9000"
+    volumes:
+      - ./code:/data/mysite.local
+      - sock:/sock
+    networks:
+      - app-network
+
+  webserver:
+    container_name: ${PROJECT_NAME}_webserver
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}_nginx
+    ports:
+      - "8088:80"
+      - "443:443"
+    volumes:
+      - ./code:/data/mysite.local
+      - sock:/sock
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  memcaced:
+    container_name: ${PROJECT_NAME}_memcached
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    restart: always
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    networks:
+      - app-network
+    volumes:
+      - ./datadb:/var/lib/mysql
+    depends_on:
+      - app
+
+  phpMyAdmin:
+    image: phpmyadmin
+    environment:
+      PMA_ARBITRARY: 1
+    ports:
+      - "8880:80"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  sock:

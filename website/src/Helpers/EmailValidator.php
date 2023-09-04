@@ -3,18 +3,40 @@
 namespace App\Helpers;
 
 use App\Model\Email;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use RuntimeException;
 
 class EmailValidator
 {
     protected array $DNS = [];
+    protected Collection $emails;
 
-    public function validate(Collection &$emails): void
+    public function validate(array $emails): self
     {
-        /** @var Email $email */
-        foreach ($emails as $email) {
-            $email->setIsValid(filter_var($email->getEmail(), FILTER_VALIDATE_EMAIL) && $this->checkDNS($email->getEmail()));
-        }
+        $this->emails = new ArrayCollection(array_map(function ($email) {
+            $emailValidate = new Email((string)$email);
+            $emailValidate->setIsValid(
+                filter_var($emailValidate->getEmail(), FILTER_VALIDATE_EMAIL) &&
+                $this->checkDNS($emailValidate->getEmail())
+            );
+            return $emailValidate;
+        }, $emails));
+        return $this;
+    }
+
+    public function printResult(): void
+    {
+        echo $this->getResult();
+    }
+
+    public function getResult(): string
+    {
+        $output = '';
+        $this->emails->map(static function ($email) use (&$output) {
+            $output .= sprintf('%s <br />', $email);
+        });
+        return $output;
     }
 
     public function checkDNS(string $email): bool
@@ -26,7 +48,7 @@ class EmailValidator
 
         try {
             $resultEmail = getmxrr($domain, $mx_records) && count($mx_records) > 0;
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $_) {
             $resultEmail = false;
         }
 

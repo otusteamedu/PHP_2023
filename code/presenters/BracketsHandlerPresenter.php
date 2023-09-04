@@ -36,7 +36,18 @@ class BracketsHandlerPresenter
         $color = $result ? 'green' : 'red';
         $not = $result ? '' : 'не';
 
-        return str_replace(['{color}', '{string}', '{not}'], [$color, $string, $not],
-            file_get_contents(__DIR__ . '/../views/brackets.php'));
+        return str_replace(
+            [
+                '{color}',
+                '{string}',
+                '{not}'
+            ],
+            [
+                $color,
+                $string,
+                $not
+            ],
+            file_get_contents(__DIR__ . '/../views/brackets.php')
+        );
     }
 }

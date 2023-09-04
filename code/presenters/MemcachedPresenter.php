@@ -22,7 +22,7 @@ class MemcachedPresenter
 {
     public function render()
     {
-        $memcached = new Memcached;
+        $memcached = new Memcached();
         $memcached->addServer("memcached-otus", 11211);
         $memcached->add('host', $_SERVER['HOSTNAME']);
         return 'Хост закешированный ' . $memcached->get('host') . '. Хост реальный: ' . $_SERVER['HOSTNAME'] . '<br>';

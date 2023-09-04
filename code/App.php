@@ -35,5 +35,4 @@ class App
 
         return $html;
     }
-
 }

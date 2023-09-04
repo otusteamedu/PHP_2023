@@ -1,5 +1,19 @@
 {
+    "name": "amedvedev/php-2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Amedvedev\\": ""
+        }
+    },
+    "authors": [
+        {
+            "name": "Alex150Rus"
+        }
+    ],
+
     "require": {
-        "amedvedev/first-package": "^1.0"
+        "amedvedev/first-package": "^1.0",
+        "ext-memcached": "*"
     }
 }

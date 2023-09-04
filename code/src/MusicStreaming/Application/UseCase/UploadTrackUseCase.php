@@ -110,7 +110,7 @@ class UploadTrackUseCase
         $uploadDirPath = $_SERVER["DOCUMENT_ROOT"] . "/upload";
         if (!file_exists($uploadDirPath)) {
             mkdir($uploadDirPath);
-        } else if(!is_dir( $uploadDirPath )) {
+        } else if (!is_dir($uploadDirPath)) {
             throw new \Exception("Невозможно создать служебный каталог upload: существует файл с таким именем");
         }
         $filePath = $uploadDirPath . "/" . $fileName;

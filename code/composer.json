@@ -1,0 +1,18 @@
+{
+    "name": "v-korabelnikov/hw16",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VKorabelnikov\\Hw16\\": "src/"
+        },
+        "files": ["src/MusicStreaming/Domain/Model/Functions/Functions.php"]
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require": {
+        "falahati/php-mp3": "dev-master"
+    }
+}

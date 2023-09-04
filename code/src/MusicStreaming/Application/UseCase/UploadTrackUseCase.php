@@ -16,7 +16,6 @@ use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFro
 
 class UploadTrackUseCase
 {
-    const APP_ROOT_DIRECTORY = "/data/mysite.local";
     const AUDIO_FILE_PROCESSOR_NAMESPACE =  'VKorabelnikov\\Hw16\\MusicStreaming\\Infrastructure\\AudioProcessing';
 
 
@@ -108,7 +107,13 @@ class UploadTrackUseCase
     protected function decodeFileFromBase64(string $base64FileContents, string $fileName): string
     {
         $data = base64_decode($base64FileContents);
-        $filePath = self::APP_ROOT_DIRECTORY . "/public/upload/" . $fileName;
+        $uploadDirPath = $_SERVER["DOCUMENT_ROOT"] . "/upload";
+        if ( !file_exists( $uploadDirPath ) ) {
+            mkdir( $uploadDirPath );
+        } else if( !is_dir( $uploadDirPath ) ) {
+            throw new \Exception("Невозможно создать служебный каталог upload: существует файл с таким именем");
+        }
+        $filePath = $uploadDirPath . "/" . $fileName;
         file_put_contents($filePath, $data);
         return $filePath;
     }

@@ -1,0 +1,1 @@
+<span style="color:{color}">Строка со скобками {not} верна: {string}</span>

@@ -22,5 +22,5 @@ try {
     $app = new App($argv);
     $app->run();
 } catch (Exception $e) {
-
+    echo $e->getMessage();
 }

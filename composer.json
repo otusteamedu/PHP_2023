@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "php": ">=7.4",
         "stymiee/email-validator": "^1.1"
     }
 }

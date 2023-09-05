@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50505
 File Encoding         : 65001
 
-Date: 2023-09-04 23:10:54
+Date: 2023-09-05 10:14:35
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -58,6 +58,9 @@ CREATE TABLE `orders` (
   `schedule_id` int(11) DEFAULT NULL,
   `client_id` int(11) DEFAULT NULL,
   `seat_id` int(11) DEFAULT NULL,
+  `price` decimal(10,2) DEFAULT NULL,
+  `promocode` varchar(255) DEFAULT NULL,
+  `discount` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `ouniq` (`schedule_id`,`client_id`,`seat_id`) USING BTREE,
   KEY `client` (`client_id`),
@@ -70,12 +73,12 @@ CREATE TABLE `orders` (
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES ('2', '2', '1', '16');
-INSERT INTO `orders` VALUES ('6', '2', '2', '17');
-INSERT INTO `orders` VALUES ('7', '2', '3', '18');
-INSERT INTO `orders` VALUES ('3', '6', '1', '37');
-INSERT INTO `orders` VALUES ('4', '6', '2', '38');
-INSERT INTO `orders` VALUES ('1', '6', '3', '36');
+INSERT INTO `orders` VALUES ('1', '6', '3', '36', '1500.00', 'new_client22', '25');
+INSERT INTO `orders` VALUES ('2', '2', '1', '16', '300.00', null, null);
+INSERT INTO `orders` VALUES ('3', '6', '1', '37', '1500.00', 'new_client22', '25');
+INSERT INTO `orders` VALUES ('4', '6', '2', '38', '1999.00', null, null);
+INSERT INTO `orders` VALUES ('6', '2', '2', '17', '300.00', null, null);
+INSERT INTO `orders` VALUES ('7', '2', '3', '18', '30.00', 'my_best_friend', '90');
 
 -- ----------------------------
 -- Table structure for rooms

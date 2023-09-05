@@ -22,13 +22,11 @@ class Solution
                 }
 
                 $list[] = $listNode;
-
             } elseif (!is_null($list1->val)) {
                 $listNode->val = $list1->val;
                 $listNode->next = (!is_null($list1->next) || !is_null($list2->next)) ? new ListNode() : null;
                 $list1 = $list1->next;
                 $list[] = $listNode;
-
             } elseif (!is_null($list2->val)) {
                 $listNode->val = $list2->val;
                 $listNode->next = (!is_null($list1->next) || !is_null($list2->next)) ? new ListNode() : null;

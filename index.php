@@ -25,11 +25,11 @@ class Solution
             if (!is_null($list1->val) && !is_null($list2->val)) {
                 if ($list1->val <= $list2->val) {
                     $listNode->val = $list1->val;
-                    $listNode->next = new ListNode(null);
+                    $listNode->next = new ListNode();
                     $list1 = $list1->next;
                 } else {
                     $listNode->val = $list2->val;
-                    $listNode->next = new ListNode(null);
+                    $listNode->next = new ListNode();
                     $list2 = $list2->next;
                 }
 
@@ -43,7 +43,7 @@ class Solution
 
             } elseif (!is_null($list2->val)) {
                 $listNode->val = $list2->val;
-                $listNode->next = (!is_null($list1->next) || !is_null($list2->next)) ? new ListNode(null) : null;
+                $listNode->next = (!is_null($list1->next) || !is_null($list2->next)) ? new ListNode() : null;
                 $list2 = $list2->next;
                 $list[] = $listNode;
             }

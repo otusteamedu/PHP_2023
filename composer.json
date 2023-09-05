@@ -1,0 +1,19 @@
+{
+    "name": "ivan/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Iva-So",
+            "email": "sochkov1994@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "stymiee/email-validator": "^1.1"
+    }
+}

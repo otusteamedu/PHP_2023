@@ -50,13 +50,13 @@ services:
       - otus-app-network
 
   #Контейнер с PHP-FPM, назовём его app
-  app:
+  server:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./fpm
       dockerfile: Dockerfile
     image: my-otus-app/php # имя будущего образа
-    container_name: my-otus-app # имя контейнера после запуска
+    container_name: my-server-app # имя контейнера после запуска
     volumes:
        - .:/data
        - ./code:/data/mysite.local
@@ -67,13 +67,13 @@ services:
       - otus-app-network
 
   #Контейнер с PHP-FPM, назовём его app
-  app-2:
+  client:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./fpm
       dockerfile: Dockerfile
     image: my-otus-app/php # имя будущего образа
-    container_name: my-otus-app-2 # имя контейнера после запуска
+    container_name: my-client-app # имя контейнера после запуска
     volumes:
       - .:/data
       - ./code:/data/mysite.local
@@ -82,6 +82,8 @@ services:
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - otus-app-network
+    depends_on:
+      - server
 
   db:
     image: mysql:8.1.0

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Точка входа в приложение
  * php version 8.2.8
@@ -10,15 +11,16 @@
  * @Version  GIT: 1.0.0
  * @link     http://github.com/Alex150Rus My_GIT_profile
  */
+
 declare(strict_types=1);
 
-use Amedvedev\code\App;
+use Amedvedev\code\app\App;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 try {
-    $app = new App();
-    echo $app->run();
+    $app = new App($argv);
+    $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

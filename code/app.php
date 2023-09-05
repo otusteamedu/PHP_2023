@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Вспомогательный класс для работы со строкой в виде скобок
+ * Описание класса
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,12 +14,25 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\app\App;
+namespace Amedvedev\code;
 
-require_once __DIR__ . '/../vendor/autoload.php';
-try {
-    $app = new App($argv);
-    $app->run();
-} catch (Exception $e) {
-    echo $e->getMessage();
+use Amedvedev\code\presenters\BracketsHandlerPresenter;
+use Amedvedev\code\presenters\MainPresenter;
+use Amedvedev\code\presenters\MemcachedPresenter;
+
+class App
+{
+    public function run()
+    {
+        $mainPresenter = new MainPresenter();
+        $bracketsHandlerPresenter = new BracketsHandlerPresenter();
+        $bracketsInfoHtml = $bracketsHandlerPresenter->render($_POST);
+        $memcachedPresenter = new MemcachedPresenter();
+        $memcachedHtml = $memcachedPresenter->render();
+
+        $formHtml = $mainPresenter->render();
+        $html = $bracketsInfoHtml . $formHtml . $memcachedHtml;
+
+        return $html;
+    }
 }

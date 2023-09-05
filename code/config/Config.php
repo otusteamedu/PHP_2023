@@ -52,7 +52,7 @@ class Config
     private static function completeConfigArrayFromEnvFIle(array $fileArray): void
     {
         foreach ($fileArray as $string) {
-            if(empty(trim($string))) {
+            if (empty(trim($string))) {
                 continue;
             }
             $array = explode('=', $string);

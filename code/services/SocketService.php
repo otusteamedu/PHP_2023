@@ -44,7 +44,7 @@ class SocketService
             throw new \Exception("Couldn't create socket: [$errorcode] $errormsg \n");
         }
 
-        if(file_exists($this->chatSocket)) {
+        if (file_exists($this->chatSocket)) {
             unlink($this->chatSocket);
         }
 
@@ -139,7 +139,7 @@ class SocketService
             echo "Message send successfully \n";
 
             //Now receive reply from server
-            if (socket_recv($this->socket, $buf, 2045, MSG_WAITALL) === FALSE) {
+            if (socket_recv($this->socket, $buf, 2045, MSG_WAITALL) === false) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
 
@@ -154,7 +154,6 @@ class SocketService
                 $demon = false;
             }
         }
-
     }
 
     /**

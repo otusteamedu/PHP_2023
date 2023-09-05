@@ -16,6 +16,7 @@ declare(strict_types=1);
 
 namespace Amedvedev\code\app;
 
+use Amedvedev\code\config\Config;
 use Amedvedev\code\services\SocketService;
 
 class App
@@ -23,6 +24,7 @@ class App
     private readonly array $argv;
     public function __construct(array $argv)
     {
+        Config::init();
         $this->argv = $argv;
     }
 

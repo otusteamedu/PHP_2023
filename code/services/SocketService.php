@@ -16,12 +16,25 @@ declare(strict_types=1);
 
 namespace Amedvedev\code\services;
 
+use Amedvedev\code\config\Config;
 use Socket;
 
 class SocketService
 {
     private Socket $socket;
+    private string $chatSocket;
+    private int $chatPort;
 
+    public function __construct()
+    {
+        $this->chatSocket = Config::get('chat_socket');
+        $this->chatPort = (int)Config::get('chat_port');
+    }
+
+    /**
+     * @return void
+     * @throws \Exception
+     */
     private function server()
     {
         if (!($this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0))) {
@@ -31,10 +44,19 @@ class SocketService
             throw new \Exception("Couldn't create socket: [$errorcode] $errormsg \n");
         }
 
+        if(file_exists($this->chatSocket)) {
+            unlink($this->chatSocket);
+        }
+
+        //f you want to reuse address and port, and get rid of error: unable to bind, address already in use
+        if (!socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 1)) {
+            throw new \Exception(socket_strerror(socket_last_error($this->socket)));
+        }
+
         echo "Socket created" . PHP_EOL;
 
         // Bind the source address
-        if (!socket_bind($this->socket, "/var/run/chat-socket", 5000)) {
+        if (!socket_bind($this->socket, $this->chatSocket, $this->chatPort)) {
             $errorcode = socket_last_error();
             $errormsg = socket_strerror($errorcode);
 
@@ -62,7 +84,7 @@ class SocketService
 
             //display information about the client who is connected
             if (socket_getpeername($client, $address, $port)) {
-                echo "Client $address : $port is now connected to us.";
+                echo "Client $address : $port is now connected to us." . PHP_EOL;
             }
 
             //read data from the incoming socket
@@ -70,13 +92,21 @@ class SocketService
 
             $response = "OK .. $input" . PHP_EOL;
 
+            if ($input === 'exit') {
+                $demon = false;
+            }
             // Display output  back to client
             socket_write($client, $response);
             socket_close($client);
         }
+        socket_close($this->socket);
     }
 
-    private function client()
+    /**
+     * @return void
+     * @throws \Exception
+     */
+    private function client(): void
     {
         $demon = true;
         while ($demon) {
@@ -88,7 +118,7 @@ class SocketService
             }
 
             //Connect socket to remote server
-            if (!socket_connect($this->socket, '/var/run/chat-socket', 5000)) {
+            if (!socket_connect($this->socket, $this->chatSocket, $this->chatPort)) {
                 $errorcode = socket_last_error();
                 $errormsg = socket_strerror($errorcode);
 
@@ -96,7 +126,7 @@ class SocketService
             }
 
             $demon = true;
-            $message = readline("Введите сообщение: ");
+            $message = readline("Enter message: ");
 
             //Send the message to the server
             if (!socket_send($this->socket, $message, strlen($message), 0)) {
@@ -118,14 +148,23 @@ class SocketService
 
             //print the received message
             echo $buf;
+            if (str_contains($buf, 'exit')) {
+                echo "Closing socket..." . PHP_EOL;
+                socket_close($this->socket);
+                $demon = false;
+            }
         }
 
     }
 
-    public function strategy(array $array)
+    /**
+     * @param array $array
+     * @return void
+     * @throws \Exception
+     */
+    public function strategy(array $array): void
     {
-
-        echo match ($array[1]) {
+        echo match ($array[1] ?? 'default') {
             'server' => $this->server(),
             'client' => $this->client(),
             default => 'default ' . PHP_EOL,

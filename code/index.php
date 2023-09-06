@@ -12,12 +12,12 @@
  */
 declare(strict_types=1);
 
-use Amedvedev\code\App;
+use Amedvedev\code\app;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $app = new App();
+    $app = new app();
     echo $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();

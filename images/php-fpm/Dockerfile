@@ -14,6 +14,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl wget git\
     && docker-php-ext-enable memcached\
     && pecl install redis\
     && docker-php-ext-enable redis\
+    && pecl install php-dom\
+    && docker-php-ext-enable php-dom\
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Прокинем конфиг

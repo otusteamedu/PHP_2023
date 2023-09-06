@@ -9,7 +9,7 @@
     </head>
     <body>
         <div class="container">
-            <form action="/" method="post" class="form">
+            <form action="/check" method="post" class="form">
                 <div class="mb-3">
                     <label for="email-list" class="form-label">Список email через пробел или запятую</label>
                     <textarea class="form-control" name="string" id="email-list" cols="30" rows="10" autofocus></textarea>

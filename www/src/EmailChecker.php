@@ -8,7 +8,7 @@ class EmailChecker
 
     public function __construct($string)
     {
-        $this->string = $string;
+        $this->string = (string)$string;
     }
 
     private function getEmails($string): array|bool

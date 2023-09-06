@@ -1,0 +1,15 @@
+{
+    "name": "root/www",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\Www\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MT"
+        }
+    ],
+    "require": {}
+}

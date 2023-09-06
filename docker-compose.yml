@@ -23,6 +23,7 @@ services:
       - app-networks
     depends_on:
       - php1
+      - php2
   nginx2:
     image: nginx:stable-alpine
     container_name: nginx1
@@ -32,7 +33,17 @@ services:
     networks:
       - app-networks
     depends_on:
+      - php1
       - php2
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-networks
   php1:
     build:
       context: ./docker/php

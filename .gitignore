@@ -2,3 +2,4 @@
 .DS_Store
 .env
 docker/db
+/vendor/

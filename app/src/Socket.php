@@ -15,7 +15,7 @@ class Socket
         if (!$this->socket) {
             die('Unable to create AF_UNIX socket');
         }
-        $this->host = $host; 
+        $this->host = $host;
     }
 
     public function bind()

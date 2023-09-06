@@ -8,19 +8,19 @@ class App
 {
     public function run()
     {
-        if($_SERVER['REQUEST_URI'] === '/'){
+        if ($_SERVER['REQUEST_URI'] === '/') {
             $home = new Home();
 
             $home->home();
         }
 
-        if($_SERVER['REQUEST_URI'] === '/info'){
+        if ($_SERVER['REQUEST_URI'] === '/info') {
             $home = new Info();
 
             $home->getInfo();
         }
 
-        if($_SERVER['REQUEST_URI'] === '/string-validation'){
+        if ($_SERVER['REQUEST_URI'] === '/string-validation') {
             $stringValidation = new StringValidation();
 
             $stringValidation->validation();

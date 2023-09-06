@@ -1,14 +1,25 @@
-# PHP_2023
+### Init Docker
+```bash
+- cd app
+- cd config && cp config.ini.example.php config.ini.php
+- cd ../
+- docker-compose up --build -d
+- docker exec -it php-server bash
+- composer install
+- exit;
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Test
+#### Start Server
+```bash
+- docker exec -it php-server bash
+- cd public
+- php app.php server
+```
 
-### Init Docker App
-- cd ./docker
-- copy .env.example .env
-- Set the environment for .env
-- Build Image: docker-compose up --build -d
-
-
-### Init Homestead
-- cd ./homestead
-- Read: **[Homestead](https://laravel.com/docs/10.x/homestead)**
+#### Start Client 
+```bash
+- docker exec -it php-client bash
+- cd public
+- php app.php client 
+```

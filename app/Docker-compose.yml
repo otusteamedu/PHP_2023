@@ -1,0 +1,29 @@
+version: '3.3'
+
+services:
+  php-server:
+    build: ./php
+    container_name: php-server 
+    hostname: php-server
+    volumes:
+      - ./:/var/www
+      - phpsocket:/var/run 
+    networks:
+      - code-network  
+
+  php-client:
+    build: ./php
+    container_name: php-client 
+    hostname: php-client
+    volumes:
+      - ./:/var/www   
+      - phpsocket:/var/run
+    networks:
+      - code-network
+
+networks:
+    code-network:
+        driver: bridge
+
+volumes:
+    phpsocket:    

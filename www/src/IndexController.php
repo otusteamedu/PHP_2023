@@ -4,7 +4,7 @@ namespace Nalofree\Hw5;
 
 use DOMDocument;
 
-class indexController
+class IndexController
 {
     public function __construct()
     {

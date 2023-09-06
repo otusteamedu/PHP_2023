@@ -26,13 +26,13 @@ class App
         switch ($argv[1]) {
             case 'server':
                 $class = new Server();
-            break;
+                break;
             case 'client':
                 $class = new Client();
-            break;
+                break;
             default:
                 throw new Exception('Process not found!');
-            break;
+                break;
         }
         return $class;
     }

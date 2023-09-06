@@ -15,7 +15,7 @@ class Socket
         if (!$this->socket) {
             die('Unable to create AF_UNIX socket');
         }
-        $this->host = $host;    
+        $this->host = $host; 
     }
 
     public function bind()
@@ -30,7 +30,7 @@ class Socket
 
     public function setNonBlock()
     {
-        return socket_set_nonblock($this->socket); 
+        return socket_set_nonblock($this->socket);
     }
 
     public function getMessage()
@@ -50,7 +50,7 @@ class Socket
     }
 
     public function __destruct()
-    {  
+    {
         $this->clear();
     }
 

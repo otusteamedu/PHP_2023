@@ -14,7 +14,7 @@ class Helper
         print_r($p);
         print('</pre>');
     }
-    
+
     public static function conf($key)
     {
         $config_arr = require(Helper::PATH_CONFIG_FILE);

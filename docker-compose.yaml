@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: ./docker
+      dockerfile: DockerfileServer
+    image: myapp/server
+    container_name: app_server
+    volumes:
+      - .:/data
+      - unix_socket:/var/run
+    networks:
+      - app-network
+    restart: always
+
+  client:
+    build:
+      context: ./docker
+      dockerfile: DockerfileClient
+    image: myapp/client
+    container_name: app_client
+    volumes:
+      - .:/data
+      - unix_socket:/var/run
+    networks:
+      - app-network
+    depends_on:
+      - server
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  unix_socket:

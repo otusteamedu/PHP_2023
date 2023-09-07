@@ -1,3 +1,24 @@
-# PHP_2023
+### Реализация домашнего задания
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+* задача https://leetcode.com/problems/merge-two-sorted-lists/ на слияние двух списков
+
+Реализованное решение представлено в классе `src/Solution.php`
+
+Алгоритмическая сложность представленного решения O(n^2)
+
+Поиск минимальных элементов происходит во всем списке,
+проверяя каждый элемент списка поочередно,
+вызов проверок происходит в цикле,
+пока не обработается весь список.
+
+-- --
+
+* установка composer-зависимостей
+```shell
+  composer install
+```
+* проверка решения раннее добавленными тестами
+```shell
+  ./vendor/phpunit/phpunit/phpunit ./tests/SolutionTest.php
+```
+-- --

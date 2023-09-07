@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Описание класса
+ * Входная точка в приложение - FrontController
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -16,10 +16,7 @@ declare(strict_types=1);
 
 namespace Amedvedev\code;
 
-use Amedvedev\code\presenters\BracketsHandlerPresenter;
-use Amedvedev\code\presenters\MainPresenter;
-use Amedvedev\code\presenters\MemcachedPresenter;
-use Amedvedev\code\services\EmailValidatorService;
+use Amedvedev\code\presenters\EmailValidatorPresenter;
 
 class App
 {
@@ -28,30 +25,7 @@ class App
      */
     public function run(): string
     {
-        $mainPresenter = new MainPresenter();
-
-        $bracketsHandlerPresenter = new BracketsHandlerPresenter();
-        $bracketsInfoHtml = $bracketsHandlerPresenter->render($_POST);
-
-        $memcachedPresenter = new MemcachedPresenter();
-        $memcachedHtml = $memcachedPresenter->render();
-
-        $formHtml = $mainPresenter->render();
-
-        $emails = [
-            'alex150rus@outlook.com',
-            'alekhimkirus58-0@yandex.ru',
-            '----@----.----',
-            'admin@localhost',
-            'бывший-премьер@правительство.рф'
-        ];
-        $emailValidatorService = new EmailValidatorService();
-        $regExpValidityCheckResult = $emailValidatorService->regExpValidityCheck($emails);
-        $simpleValidityCheckResult = $emailValidatorService->simpleValidityCheck($emails);
-
-
-        return $bracketsInfoHtml . $formHtml . $memcachedHtml
-            . 'Валидация при помощи регулярки: ' . json_encode($regExpValidityCheckResult) . '<br>'
-            . 'Простая валидация: ' . json_encode($simpleValidityCheckResult);
+        $emailValidatorPresenter = new EmailValidatorPresenter();
+        return $emailValidatorPresenter->render($_POST);
     }
 }

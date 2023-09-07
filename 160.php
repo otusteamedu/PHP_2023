@@ -1,6 +1,7 @@
 <?php
 /**
  * вариант с циклом
+ * линейная сложность, проходим каждый элемент ровно 1 раз
  * https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/
  * */
 class Solution {

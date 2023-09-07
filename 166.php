@@ -1,7 +1,8 @@
 <?php
 
 /**
- * решение задачи
+ * Решение задачи
+ * линейная сложность, проходим по каждой цифре 1 раз
  * https://leetcode.com/problems/fraction-to-recurring-decimal/submissions/1043093745/
  */
 class Solution

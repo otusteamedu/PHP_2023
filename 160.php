@@ -1,23 +1,5 @@
 <?php
 
-/**
- * Definition for a singly-linked list.
- * class ListNode {
- *     public $val = 0;
- *     public $next = null;
- *     function __construct($val) { $this->val = $val; }
- * }
- */
-
-class ListNode {
-     public $val = 0;
-     public $next = null;
-     function __construct($val,$next = null) {
-         $this->val = $val;
-         $this->next = $next;
-     }
-}
-
 class Solution {
     /**
      * @param ListNode $headA

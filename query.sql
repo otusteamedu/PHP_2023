@@ -1,0 +1,2 @@
+--Самый прибыльный фильм
+SELECT f.film_id,f.name,SUM(p.price) as total FROM `orders` o INNER JOIN sessions s ON o.session_id = s.session_id INNER JOIN films f ON f.film_id = s.film_id INNER JOIN price p ON p.shedule_id = s.shedule_id GROUP by f.film_id,f.name ORDER BY total DESC LIMIT 0,1;

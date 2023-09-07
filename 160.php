@@ -67,22 +67,3 @@ class Solution {
         return null;
     }
 }
-
-/*$inresetNode = new ListNode('c1', new ListNode('c2',new ListNode('c3')));
-
-$headA = new ListNode('a1',
-    new ListNode('a2',$inresetNode));
-
-
-$headB = new ListNode('b1',
-        new ListNode('b2',
-            new ListNode('b3',$inresetNode)));*/
-
-
-$headA = new ListNode('a1');
-
-$headB = new ListNode('a1');
-
-$sol = new Solution();
-$res = $sol->getIntersectionNode($headA, $headB);
-echo '<pre>'.print_r([$res], 1).'</pre>'.__FILE__.' # '.__LINE__;//test_delete

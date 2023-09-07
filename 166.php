@@ -50,22 +50,3 @@ class Solution
         return $intStr;
     }
 }
-
-
-$s = new Solution();
-$numerator = 2;
-$denominator = 1;
-/*$numerator = 1;
-$denominator = 2147483647;*/
-$result = $s->fractionToDecimal($numerator, $denominator);
-print_r($result);
-die;//test_delete
-for ($i = 1; $i < 100; $i++) {
-    for ($j = 1; $j < 100; $j++) {
-        $numerator = $i;
-        $denominator = $j;
-        $result = $s->fractionToDecimal($numerator, $denominator);
-        echo print_r([$numerator,$denominator,$result],1).PHP_EOL.'<br>';
-    }
-}
-//0,14285714285714285714285714285714

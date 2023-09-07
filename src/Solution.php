@@ -24,11 +24,11 @@ class Solution
         $this->getTail($list1)->next = $list2;
 
         $newHead = new ListNode(null, null);
-        $min = $this->getMin($list1);
-        while ($min !== 101) {
-            $this->getTail($newHead)->next = new ListNode($min, null);
-            $this->updateByVal($min, $list1);
-            $min = $this->getMin($list1);
+        $lastNode = $newHead;
+        while ($nodeWithMin = $this->getNodeWithMinVal($list1)) {
+            $lastNode->next = new ListNode($nodeWithMin->val, null);
+            $lastNode = $lastNode->next;
+            $nodeWithMin->val = null;
         }
 
         return $newHead->next;
@@ -40,24 +40,17 @@ class Solution
         }
         return $node;
     }
-    private function updateByVal(int $val, ListNode $node): bool
+    private function getNodeWithMinVal(ListNode $node): ?ListNode
     {
+        $min = 101;
+        $nodeWithMin = null;
         while ($node) {
-            if ($val === $node->val) {
-                $node->val = null;
-                return true;
+            if ((!is_null($node->val)) && ($node->val < $min)) {
+                $min = $node->val;
+                $nodeWithMin = $node;
             }
             $node = $node->next;
         }
-        return false;
-    }
-    private function getMin(ListNode $node): int
-    {
-        $min = 101;
-        while ($node) {
-            $min = (!is_null($node->val)) ? min($min, $node->val) : $min;
-            $node = $node->next;
-        }
-        return $min;
+        return $nodeWithMin;
     }
 }

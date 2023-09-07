@@ -3,14 +3,14 @@
 namespace src;
 
 
-class Solution {
-
+class Solution
+{
     /**
      * @param ListNode $list1
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2) {
+    public function mergeTwoLists($list1, $list2) {
         if (is_null($list1) && is_null($list2)) {
             return null;
         }
@@ -34,12 +34,14 @@ class Solution {
         return $newHead->next;
     }
 
-    private function getTail(?ListNode $node): ?ListNode {
+    private function getTail(?ListNode $node): ?ListNode
+    {
         for (; $node->next; $node = $node->next) {
         }
         return $node;
     }
-    private function updateByVal(int $val, ListNode $node): bool {
+    private function updateByVal(int $val, ListNode $node): bool
+    {
         while ($node) {
             if ($val === $node->val) {
                 $node->val = null;
@@ -49,7 +51,8 @@ class Solution {
         }
         return false;
     }
-    private function getMin(ListNode $node): int {
+    private function getMin(ListNode $node): int
+    {
         $min = 101;
         while ($node) {
             $min = (!is_null($node->val)) ? min($min, $node->val) : $min;

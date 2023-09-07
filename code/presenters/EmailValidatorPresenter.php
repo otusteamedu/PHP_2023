@@ -45,8 +45,6 @@ class EmailValidatorPresenter
                 file_get_contents(__DIR__ . '/../views/email-validator-result.php')
             );
         }
-
         return $form . $result;
-
     }
 }

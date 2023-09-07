@@ -2,15 +2,16 @@
 
 namespace src;
 
-
 class Solution
 {
+
     /**
      * @param ListNode $list1
      * @param ListNode $list2
      * @return ListNode
      */
-    public function mergeTwoLists($list1, $list2) {
+    public function mergeTwoLists($list1, $list2)
+    {
         if (is_null($list1) && is_null($list2)) {
             return null;
         }

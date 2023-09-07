@@ -135,7 +135,7 @@ class SolutionTest extends TestCase
         $this->assertSame($expect, $listArray);
     }
 
-    public function testMergeTwoListsCase06_2()
+    public function testMergeTwoListsCase062()
     {
         //Input: list1 = [-2,5], list2 = [-9,-6,-3,-1,1,6]
         //Output: [-9,-6,-3,-2,-1,1,5,6]

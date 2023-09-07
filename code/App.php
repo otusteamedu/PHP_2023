@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Описание класса
+ * Входная точка в приложение - FrontController
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -16,23 +16,16 @@ declare(strict_types=1);
 
 namespace Amedvedev\code;
 
-use Amedvedev\code\presenters\BracketsHandlerPresenter;
-use Amedvedev\code\presenters\MainPresenter;
-use Amedvedev\code\presenters\MemcachedPresenter;
+use Amedvedev\code\presenters\EmailValidatorPresenter;
 
 class App
 {
-    public function run()
+    /**
+     * @return string
+     */
+    public function run(): string
     {
-        $mainPresenter = new MainPresenter();
-        $bracketsHandlerPresenter = new BracketsHandlerPresenter();
-        $bracketsInfoHtml = $bracketsHandlerPresenter->render($_POST);
-        $memcachedPresenter = new MemcachedPresenter();
-        $memcachedHtml = $memcachedPresenter->render();
-
-        $formHtml = $mainPresenter->render();
-        $html = $bracketsInfoHtml . $formHtml . $memcachedHtml;
-
-        return $html;
+        $emailValidatorPresenter = new EmailValidatorPresenter();
+        return $emailValidatorPresenter->render($_POST);
     }
 }

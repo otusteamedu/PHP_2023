@@ -1,0 +1,27 @@
+{
+    "name": "ndybnov/hw08-leetcode-merge-linked-lists",
+    "description": "Realization of https://leetcode.com/problems/merge-two-sorted-lists/",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}

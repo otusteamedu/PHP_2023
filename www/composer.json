@@ -1,0 +1,16 @@
+{
+    "name": "nalofree/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Nalofree\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nalofree",
+            "email": "nalofree@gmail.com"
+        }
+    ],
+    "require": {}
+}

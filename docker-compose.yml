@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-config/check-email.conf:/etc/nginx/conf.d/check-email.conf
+      - ./www:/var/www
+      - ./logs/nginx:/var/log/nginx
+    links:
+      - app
+    networks:
+      - ec-network
+
+  app:
+    build: ./images/php-fpm
+    container_name: app
+    volumes:
+      - ./www:/var/www
+    networks:
+      - ec-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - '11212:11211'
+    networks:
+      - ec-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - ec-network
+
+networks:
+  ec-network:
+    driver: bridge

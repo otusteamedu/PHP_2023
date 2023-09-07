@@ -1,5 +1,8 @@
 <?php
-
+/**
+ * вариант с циклом
+ * https://leetcode.com/problems/intersection-of-two-linked-lists/submissions/
+ * */
 class Solution {
     /**
      * @param ListNode $headA

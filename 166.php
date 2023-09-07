@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * решение задачи
+ * https://leetcode.com/problems/fraction-to-recurring-decimal/submissions/1043093745/
+ */
 class Solution
 {
     public function fractionToDecimal(int $numerator, int $denominator): string

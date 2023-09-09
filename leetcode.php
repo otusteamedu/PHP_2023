@@ -20,7 +20,8 @@ class Solution
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2) {
+    function mergeTwoLists($list1, $list2)
+    {
         $result = [];
         $output = null;
         do {
@@ -35,7 +36,7 @@ class Solution
             }
         } while ($list1 || $list2);
 
-        for($i=count($result)-1; $i>=0; $i--){
+        for ($i = count($result) - 1; $i >= 0; $i--) {
             $output = new ListNode($result[$i], $output);
         }
 

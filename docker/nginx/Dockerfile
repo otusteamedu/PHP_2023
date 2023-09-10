@@ -2,8 +2,6 @@ FROM nginx
 
 COPY ./application.local.conf /etc/nginx/conf.d/application.local.conf
 
-COPY ./index.html /data/application.local/index.html
-
 WORKDIR /app
 
 VOLUME /app

@@ -14,17 +14,6 @@ services:
         networks:
             - app-network
 
-    app:
-        build:
-            context: ./..
-            dockerfile: docker/fpm/Dockerfile
-        image: myapp/php
-        container_name: app
-        volumes:
-            - ../src:/app
-        networks:
-            - app-network
-
     memcached:
         build:
             context: ./memcached
@@ -35,31 +24,40 @@ services:
         networks:
             - app-network
 
-    redis:
+    app1:
         build:
-            context: ./redis
-            dockerfile: Dockerfile
-        ports:
-            - "6379:6379"
-        container_name: app-redis
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        image: myapp/php
+        container_name: app1
+        volumes:
+            - ../src:/app
         networks:
             - app-network
 
-    mysql:
+    # second php-fpm
+    app2:
         build:
-            context: ./mysql
-            dockerfile: Dockerfile
-        restart: always
-        ports:
-            - "3306:3306"
-        container_name: app-mysql
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        image: myapp/php
+        container_name: app2
         volumes:
-            - ../mysql-data:/var/lib/mysql
-        environment:
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-            MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_USER: ${MYSQL_USER}
-            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+            - ../src:/app
+        networks:
+            - app-network
+
+    # second php-fpm
+    app3:
+        build:
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        image: myapp/php
+        container_name: app3
+        volumes:
+            - ../src:/app
+        networks:
+            - app-network
 
 networks:
     app-network:

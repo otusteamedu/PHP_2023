@@ -1,5 +1,6 @@
 <?php
 
+echo "<h1>This is " . $_SERVER['HOSTNAME'] . "</h1>";
 // Создание объекта Memcached
 $memcached = new Memcached();
 
@@ -21,20 +22,4 @@ if ($result === $value) {
     echo "Memcached is not working!";
 }
 
-$redis = new Redis();
-$redis->connect('redis', 6379);
-
-$key = 'test_key';
-$value = 'Hello, Redis!';
-
-// Запись данных
-$redis->set($key, $value);
-
-// Чтение данных
-$result = $redis->get($key);
-
-if ($result === $value) {
-    echo sprintf('Redis is working! Your value: %s', $result);
-} else {
-    echo "Redis is not working!";
-}
+phpinfo();

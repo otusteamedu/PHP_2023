@@ -47,7 +47,7 @@ class FormHandler
 
     protected function isAccountNumberValid(string $accountNumber)
     {
-        if (preg_match("#100000\/\d{5,15}#",$accountNumber)) {
+        if (preg_match("#100000\/\d{5,15}#", $accountNumber)) {
             return true;
         }
 

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace MikhailArkhipov\Php2023;
+
 class Validator
 {
     private string $string = '';
@@ -23,7 +24,7 @@ class Validator
     public function validate(): string
     {
         if (empty($this->string)) {
-            $this->sendHeaders(['status' => self::STATUS_BAD_REQUEST, 'response' => 'Response: '.self::POST_PARAM_IS_EMPTY]);
+            $this->sendHeaders(['status' => self::STATUS_BAD_REQUEST, 'response' => 'Response: ' . self::POST_PARAM_IS_EMPTY]);
             $this->responseMessage(self::POST_PARAM_IS_EMPTY);
         } else {
             $this->bracesArePaired();
@@ -35,12 +36,12 @@ class Validator
     private function bracesArePaired(): void
     {
         if (strlen($this->removePairedBraces()) === 0) {
-            $this->sendHeaders(['status' => self::STATUS_OK, 'response' => 'Response: '.self::POST_PARAM_VALUE_IS_CORRECT]);
+            $this->sendHeaders(['status' => self::STATUS_OK, 'response' => 'Response: ' . self::POST_PARAM_VALUE_IS_CORRECT]);
             $this->responseMessage(self::POST_PARAM_VALUE_IS_CORRECT);
             return;
         }
 
-        $this->sendHeaders(['status' => self::STATUS_BAD_REQUEST, 'response' => 'Response: '.self::HEADER_RESPONSE]);
+        $this->sendHeaders(['status' => self::STATUS_BAD_REQUEST, 'response' => 'Response: ' . self::HEADER_RESPONSE]);
         $this->responseMessage(self::NOT_VALID);
     }
 

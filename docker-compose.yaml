@@ -1,0 +1,53 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  otus-hw-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw11/nginx
+    container_name: otus-hw-nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  otus-hw-fpm:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw11/php # имя будущего образа
+    container_name: otus-hw-fpm # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    working_dir: /app
+    hostname: ${RABBITMQ_HOST_NAME}
+    container_name: 'rabbit-mq'
+    ports:
+      - ${RABBITMQ_ADMIN_PANEL_PORT}:15672
+      - ${RABBITMQ_PORT}:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

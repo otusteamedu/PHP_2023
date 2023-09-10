@@ -1,30 +1,16 @@
 <?php
 
+namespace App;
 
-/**
- * Definition for a singly-linked list.
- * class ListNode {
- *     public $val = 0;
- *     public $next = null;
- *     function __construct($val = 0, $next = null) {
- *         $this->val = $val;
- *         $this->next = $next;
- *     }
- * }
- */
 class MergeTwoList
 {
-    /**
-     * @param ListNode $list1
-     * @param ListNode $list2
-     * @return ListNode
-     */
-    function mergeTwoLists($list1, $list2) {
-        if($list1 === null) {
+    public function mergeTwoLists($list1, $list2)
+    {
+        if ($list1 === null) {
             return $list2;
         }
 
-        if($list2 === null) {
+        if ($list2 === null) {
             return $list1;
         }
 

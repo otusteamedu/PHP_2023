@@ -38,7 +38,7 @@ class Application
 
         $requiredConnectionSettings = [
             "RABBITMQ_DEFAULT_USER",
-            "RABBITMQ_DEFAULT_DEFAULT_PASS",
+            "RABBITMQ_DEFAULT_PASS",
             "RABBITMQ_HOST_NAME",
             "RABBITMQ_PORT"
         ];
@@ -53,7 +53,7 @@ class Application
             $settings['RABBITMQ_HOST_NAME'],
             $settings["RABBITMQ_PORT"],
             $settings["RABBITMQ_DEFAULT_USER"],
-            $settings["RABBITMQ_DEFAULT_DEFAULT_PASS"]
+            $settings["RABBITMQ_DEFAULT_PASS"]
         );
     }
 }

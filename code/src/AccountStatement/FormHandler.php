@@ -4,10 +4,8 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw19\AccountStatement;
 
-
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
-
 
 class FormHandler
 {

@@ -1,0 +1,14 @@
+{
+    "name": "mikhail-arkhipov/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MikhailArkhipov\\Php2023\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mikhail Arkhipov"
+        }
+    ]
+}

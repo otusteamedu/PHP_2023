@@ -316,10 +316,10 @@ VALUES (1, 1),
        (18, 5);
 
 
-select m.ID,
-       m.title,
-       count(movie_id),
-       sum(s.price)
+select m.ID            as movie_id,
+       m.title         as movie_title,
+       count(movie_id) as tickets_sold_out_count,
+       sum(s.price)    as movie_sum_profit
 from movie m
          inner join ticket t on m.ID = t.movie_id
          inner join screening s on t.screening_id = s.id

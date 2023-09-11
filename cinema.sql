@@ -42,34 +42,34 @@ VALUES (1, 1, 30, 3, '2019-05-05', '2025-05-05'),
 
 CREATE TABLE screening
 (
-    ID         SERIAL PRIMARY KEY,
-    start_time TIME                           NOT NULL,
-    end_time   TIME                           NOT NULL,
-    day_off    INT                            NOT NULL,
-    price      DOUBLE PRECISION               NOT NULL,
-    created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
+    ID             SERIAL PRIMARY KEY,
+    start_time     TIME                           NOT NULL,
+    end_time       TIME                           NOT NULL,
+    day_off_status BOOLEAN                        NOT NULL,
+    price          DOUBLE PRECISION               NOT NULL,
+    created_at     TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at     TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO screening (start_time, end_time, day_off, price)
-VALUES ('07:00:00', '09:00:00', 1, 300),
-       ('07:00:00', '09:00:00', 0, 100),
-       ('09:00:00', '11:00:00', 1, 300),
-       ('09:00:00', '11:00:00', 0, 100),
-       ('11:00:00', '13:00:00', 1, 400),
-       ('11:00:00', '13:00:00', 0, 200),
-       ('13:00:00', '15:00:00', 1, 400),
-       ('13:00:00', '15:00:00', 0, 200),
-       ('15:00:00', '17:00:00', 1, 450),
-       ('15:00:00', '17:00:00', 0, 250),
-       ('17:00:00', '19:00:00', 1, 450),
-       ('17:00:00', '19:00:00', 0, 250),
-       ('19:00:00', '21:00:00', 1, 600),
-       ('19:00:00', '21:00:00', 0, 300),
-       ('21:00:00', '23:00:00', 1, 600),
-       ('21:00:00', '23:00:00', 0, 300),
-       ('23:00:00', '01:00:00', 1, 400),
-       ('23:00:00', '01:00:00', 0, 200);
+INSERT INTO screening (start_time, end_time, day_off_status, price)
+VALUES ('07:00:00', '09:00:00', true, 300),
+       ('07:00:00', '09:00:00', false, 100),
+       ('09:00:00', '11:00:00', true, 300),
+       ('09:00:00', '11:00:00', false, 100),
+       ('11:00:00', '13:00:00', true, 400),
+       ('11:00:00', '13:00:00', false, 200),
+       ('13:00:00', '15:00:00', true, 400),
+       ('13:00:00', '15:00:00', false, 200),
+       ('15:00:00', '17:00:00', true, 450),
+       ('15:00:00', '17:00:00', false, 250),
+       ('17:00:00', '19:00:00', true, 450),
+       ('17:00:00', '19:00:00', false, 250),
+       ('19:00:00', '21:00:00', true, 600),
+       ('19:00:00', '21:00:00', false, 300),
+       ('21:00:00', '23:00:00', true, 600),
+       ('21:00:00', '23:00:00', false, 300),
+       ('23:00:00', '01:00:00', true, 400),
+       ('23:00:00', '01:00:00', false, 200);
 
 
 -- #############################################################################
@@ -316,12 +316,13 @@ VALUES (1, 1),
        (18, 5);
 
 
-select m.title,
+select m.ID,
+       m.title,
        count(movie_id),
        sum(s.price)
 from movie m
          inner join ticket t on m.ID = t.movie_id
          inner join screening s on t.screening_id = s.id
-group by title
+group by m.ID
 order by sum(s.price) DESC;
 

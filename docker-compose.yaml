@@ -1,0 +1,37 @@
+services:
+    web:
+        container_name: otus_web
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./.docker/nginx/server.conf:/etc/nginx/conf.d/default.conf
+            - ./:/var/www
+        depends_on:
+            - php
+
+    php:
+        container_name: otus_php
+        build:
+            dockerfile: .docker/php/Dockerfile
+            context: ./
+        depends_on:
+            - rabbitmq
+        extra_hosts:
+            - host.docker.internal:host-gateway
+        volumes:
+            - ./:/var/www
+
+    rabbitmq:
+        container_name: otus_rabbitmq
+        image: rabbitmq:3-management-alpine
+        ports:
+            - 5672:5672
+            - 15672:15672
+        volumes:
+            - rabbitmq_data:/var/lib/rabbitmq/
+
+volumes:
+    rabbitmq_data:
+        driver:
+            local

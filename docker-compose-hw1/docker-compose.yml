@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  php:
+    image: php:fpm
+    volumes:
+      - './php:/var/www/html'
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - 80:80
+    volumes:
+      - './php:/var/www/html'
+      - './nginx/conf.d:/etc/nginx/conf.d'
+
+  mysql:
+    image: mysql:8
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    volumes:
+      - ../mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"

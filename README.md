@@ -1,3 +1,9 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### HW18
+
+#### https://leetcode.com/problems/intersection-of-two-linked-lists/
+Сложность 0(n+m)
+
+#### https://leetcode.com/problems/fraction-to-recurring-decimal/
+Сложность 0(n)

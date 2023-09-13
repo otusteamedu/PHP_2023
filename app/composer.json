@@ -1,0 +1,12 @@
+{
+    "name": "desaulenko/hw18",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "DEsaulenko\\Hw18\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.3"
+    }
+}

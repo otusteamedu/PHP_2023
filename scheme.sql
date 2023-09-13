@@ -1,13 +1,34 @@
 CREATE DATABASE IF NOT EXISTS cinema;
 USE cinema;
 
+
+# справочник цен
+CREATE TABLE IF NOT EXISTS prices (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    price DECIMAL(8,2) NOT NULL,
+    updated_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)  ENGINE=INNODB;
+
+
+# коэффициенты, которые будут влиять на итоговую стоимость в билете
+CREATE TABLE IF NOT EXISTS coefficients (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    `value` FLOAT NOT NULL,
+    updated_at TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)  ENGINE=INNODB;
+
+
 # типы залов
 CREATE TABLE IF NOT EXISTS type_halls (
     id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
+    coefficient_id INT,
     description TEXT,
     updated_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (coefficient_id) REFERENCES coefficients(id)
 )  ENGINE=INNODB;
 
 
@@ -25,8 +46,10 @@ CREATE TABLE IF NOT EXISTS scheme_halls (
 CREATE TABLE IF NOT EXISTS seating_zones (
     id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
+    coefficient_id INT,
     updated_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (coefficient_id) REFERENCES coefficients(id)
 )  ENGINE=INNODB;
 
 
@@ -97,8 +120,10 @@ CREATE TABLE IF NOT EXISTS type_sessions (
     id INT AUTO_INCREMENT PRIMARY KEY,
     `name` VARCHAR(255) NOT NULL,
     description TEXT,
+    coefficient_id INT,
     updated_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (coefficient_id) REFERENCES coefficients(id)
 )  ENGINE=INNODB;
 
 
@@ -128,18 +153,6 @@ CREATE TABLE IF NOT EXISTS clients (
     updated_at TIMESTAMP,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )  ENGINE=INNODB;
-
-
-# базовые цены на фильмы
-CREATE TABLE IF NOT EXISTS prices (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    movie_id INT NOT NULL,
-    price DECIMAL(8,2) NOT NULL,
-    updated_at TIMESTAMP,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (movie_id) REFERENCES movies(id)
-)  ENGINE=INNODB;
-
 
 # билеты
 CREATE TABLE IF NOT EXISTS tickets (

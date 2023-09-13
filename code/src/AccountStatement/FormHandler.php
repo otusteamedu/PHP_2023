@@ -47,30 +47,18 @@ class FormHandler
 
     protected function isAccountNumberValid(string $accountNumber)
     {
-        if (preg_match("#100000\/\d{5,15}#", $accountNumber)) {
-            return true;
-        }
-
-        return false;
+        return preg_match("#100000\/\d{5,15}#", $accountNumber);
     }
 
     protected function isDateValid($date)
     {
         $sFormat = "Y.m.d";
         $obDate = \DateTime::createFromFormat($sFormat, $date);
-        if ($obDate && ($obDate->format($sFormat) === $date)) {
-            return true;
-        }
-
-        return false;
+        return ($obDate && ($obDate->format($sFormat) === $date));
     }
 
     protected function isEmailValid(string $email)
     {
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return true;
-        }
-
-        return false;
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
     }
 }

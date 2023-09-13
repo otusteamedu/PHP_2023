@@ -23,7 +23,7 @@ class TwoListsMerger
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
+    public function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
     {
         $dummy = new ListNode();
         $current = $dummy;

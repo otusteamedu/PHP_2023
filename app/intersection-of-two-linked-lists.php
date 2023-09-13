@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace DEsaulenko\Hw18\Intersection;
+
 use DEsaulenko\Hw18\ListNode;
 
 require_once 'vendor/autoload.php';
@@ -21,7 +23,7 @@ class Solution
      * @param ListNode $headB
      * @return ListNode
      */
-    function getIntersectionNode($headA, $headB)
+    public function getIntersectionNode($headA, $headB)
     {
         if ($headA === $headB) {
             return $headA;
@@ -34,7 +36,7 @@ class Solution
         return $this->findIntersection($headB, $headA, $lengthHeadB - $lengthHeadA);
     }
 
-    function findIntersection(ListNode $first, ListNode $second, int $count): ?ListNode
+    protected function findIntersection(ListNode $first, ListNode $second, int $count): ?ListNode
     {
         for ($i = 0; $i < $count; $i++) {
             $first = $first->next;
@@ -52,7 +54,7 @@ class Solution
         return null;
     }
 
-    function getLength(ListNode $list)
+    protected function getLength(ListNode $list)
     {
         $count = 0;
         while ($list !== null) {

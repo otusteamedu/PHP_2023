@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use DEsaulenko\Hw18\ListNode;
+namespace DEsaulenko\Hw18\Fraction;
 
 require_once 'vendor/autoload.php';
 
@@ -16,13 +16,12 @@ require_once 'vendor/autoload.php';
  */
 class Solution
 {
-
     /**
      * @param Integer $numerator
      * @param Integer $denominator
      * @return String
      */
-    function fractionToDecimal($numerator, $denominator)
+    public function fractionToDecimal($numerator, $denominator)
     {
         if ($denominator === 0) {
             return '';
@@ -39,7 +38,7 @@ class Solution
         return $negative . $left . $right;
     }
 
-    function prepareRight($numerator, $denominator)
+    protected function prepareRight($numerator, $denominator)
     {
         $result = '.';
 
@@ -62,8 +61,6 @@ class Solution
 
 $numerators = [1, 2, 4, 1, 4, 6, 4, 1, -50, 1];
 $denumerators = [2, 1, 333, 3, 3, 73, 11, 6, 8, 214748364];
-//$numerators = [1];
-//$denumerators = [3];
 $solution = new Solution();
 foreach ($numerators as $i => $val) {
     dump([
@@ -71,4 +68,3 @@ foreach ($numerators as $i => $val) {
         $solution->fractionToDecimal($val, $denumerators[$i])
     ]);
 }
-

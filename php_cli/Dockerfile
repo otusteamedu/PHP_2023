@@ -24,4 +24,4 @@ WORKDIR /data/mysite.local/public
 
 VOLUME /data
 
-CMD ["sh", "/data/mysite.local/php_cli.sh"]
+CMD ["php", "/data/mysite.local/public/app.php"]

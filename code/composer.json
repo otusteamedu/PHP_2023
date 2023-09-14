@@ -1,0 +1,17 @@
+{
+    "name": "v-korabelnikov/hw19",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VKorabelnikov\\Hw19\\": "src/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require": {
+        "php-amqplib/php-amqplib": ">=3.0"
+    }
+}

@@ -1,0 +1,22 @@
+<html>
+    <head><meta charset="UTF-8"></head>
+    <body>
+        <form method="POST" action="app.php">
+            <p>Выберите счет:</p>
+            <select name="accountNumber">
+                <option value="100000/34234">100000/34234</option>
+                <option value="100000/42343">100000/42343</option>
+                <option value="100000/56459">100000/56459</option>
+                <option value="100000/87686">100000/87686</option>
+            </select>
+            <p>Дата с:  (в формате гггг.мм.дд)</p>
+            <input type="text" name="dateStart">
+            <p>Дата по:  (в формате гггг.мм.дд)</p>
+            <input type="text" name="dateEnd">
+            <p>Укажите email, на который будет выслана выписка:</p>
+            <input type="email" name="email">
+            <br>
+            <button type="submit">Сформировать выписку</button>
+        </form>
+    </body>
+</html>

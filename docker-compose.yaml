@@ -1,0 +1,61 @@
+version: '3'
+
+
+services:
+  otus-hw-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw19/nginx
+    container_name: otus-hw-nginx
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  otus-hw-fpm:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw19/phpfpm
+    container_name: otus-hw-fpm
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  otus-hw-php-cli:
+    build:
+      context: ./php_cli
+      dockerfile: Dockerfile
+    image: hw19/phpcli
+    container_name: otus-hw-php-cli
+    volumes:
+       - ./code:/data/mysite.local
+    restart: on-failure
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  rabbitmq:
+    image: rabbitmq:3.7.5-management
+    working_dir: /app
+    hostname: ${RABBITMQ_HOST_NAME}
+    container_name: 'rabbitmq'
+    ports:
+      - ${RABBITMQ_ADMIN_PANEL_PORT}:15672
+      - ${RABBITMQ_PORT}:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    networks:
+      - app-network
+
+
+
+networks:
+  app-network:
+    driver: bridge

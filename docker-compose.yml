@@ -1,0 +1,82 @@
+version: '3'
+services:
+  balancer:
+    image: nginx:stable-alpine
+    container_name: balancer
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/balancer/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - otus-balancer
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx1
+      - nginx2
+  nginx1:
+    image: nginx:stable-alpine
+    container_name: nginx2
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/app:/etc/nginx/conf.d
+    networks:
+      - otus-balancer
+    depends_on:
+      - php1
+      - php2
+  nginx2:
+    image: nginx:stable-alpine
+    container_name: nginx1
+    volumes:
+      - .:/var/www/html
+      - ./docker/nginx/app:/etc/nginx/conf.d
+    networks:
+      - otus-balancer
+    depends_on:
+      - php1
+      - php2
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: php.dockerfile
+    container_name: php
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - otus-balancer
+  php1:
+    build:
+      context: ./docker/php
+      dockerfile: php.dockerfile
+    container_name: php1
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - otus-balancer
+  php2:
+    build:
+      context: ./docker/php
+      dockerfile: php.dockerfile
+    container_name: php2
+    image: balance/php
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - otus-balancer
+  memcached:
+    image: memcached:1.6.21
+    container_name: memcached
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - otus-balancer
+    ports:
+      - "11211:11211"
+    command: ["-u", "root", "-m", "128"]
+networks:
+  otus-balancer:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.147.0.0/24

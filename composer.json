@@ -1,0 +1,16 @@
+{
+    "name": "khalikovdn/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Khalikovdn\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "damir",
+            "email": "khalikov@beta.agency"
+        }
+    ],
+    "require": {}
+}

@@ -15,6 +15,7 @@ services:
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
       - otus-php-fpm
+      - otus-php-fpm2
 
 
   otus-php-fpm:
@@ -31,21 +32,29 @@ services:
       - ./docker/php/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
       - ./docker/memcached/php-memcached-custom.ini:/usr/local/etc/php/conf.d/php-memcached-custom.ini
     depends_on:
-      - otus-redis
       - otus-memcached
     links:
-      - otus-redis
       - otus-memcached
 
-  otus-redis:
-    image: redis:latest
-    container_name: otus-redis
-    command: redis-server --appendonly yes --requirepass "${REDIS_PASSWORD}"
+
+  otus-php-fpm2:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: digitalocean.com/php
+    container_name: otus-php-fpm2
     restart: unless-stopped
-    ports:
-      - "6379:6379"
+    tty: true
+    working_dir: /var/www/
     volumes:
-      - ./data/redis:/data
+      - ./code/:/var/www/
+      - ./docker/php/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/memcached/php-memcached-custom.ini:/usr/local/etc/php/conf.d/php-memcached-custom.ini
+    depends_on:
+      - otus-memcached
+    links:
+      - otus-memcached
+
 
 
   otus-memcached:

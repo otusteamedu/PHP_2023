@@ -1,27 +1,31 @@
-<h1>Hello, OTUS!</h1>
 <?php
+declare(strict_types = 1);
+header('Content-Type: application/json; charset=utf-8');
+include 'CheckRequest.php';
+include 'JsonResponse.php';
 
-$lines = file($_SERVER['DOCUMENT_ROOT'] . '/.env');
+$checkRequest = new CheckRequest();
+$response = new JsonResponse();
 
-foreach ($lines as $key => $value) {
-    putenv(trim($value));
+if(isset($_POST['string']) && mb_strlen($_POST['string']) > 0) {
+    if($checkRequest->checkString($_POST['string'])) {
+        try {
+            echo $response->response(200, 'Строка валидна!');
+        } catch (JsonException $e) {
+            echo $e->getMessage();
+        }
+    }
+    else {
+        try {
+            header(sprintf('HTTP/1.1 %s', 400), true, 400);
+            echo $response->response(400, 'Строка Невалидна!');
+        } catch (JsonException $e) {
+            return $e->getMessage();
+        }
+    }
+}
+else {
+    throw new \RuntimeException('Не передан обязательный параметр string');
 }
 
-$redis = new Redis();
 
-try {
-    $redis->connect(getenv('REDIS_HOST'));
-    echo "Успешно подключились к Redis.<br>";
-} catch (RedisException $e) {
-    echo $e->getMessage();
-}
-
-$memcached = new Memcached();
-
-
-try {
-    $memcached->addServer(getenv('MEMCACHED_HOST'), 11211);
-    echo "Успешно подключились к Memcached";
-} catch (MemcachedException $e) {
-    echo $e->getMessage();
-}

@@ -1,0 +1,361 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e172592f27b88d265956fd2226920eab",
+    "packages": [
+        {
+            "name": "dazzle-php/socket",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dazzle-php/socket.git",
+                "reference": "c32cea9c8794a5b233a805f799634e6c99ee47d0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dazzle-php/socket/zipball/c32cea9c8794a5b233a805f799634e6c99ee47d0",
+                "reference": "c32cea9c8794a5b233a805f799634e6c99ee47d0",
+                "shasum": ""
+            },
+            "require": {
+                "kraken-php/event": "0.4.*",
+                "kraken-php/loop": "0.4.*",
+                "kraken-php/stream": "0.4.*",
+                "kraken-php/throwable": "0.4.*",
+                "php": ">=5.6.7"
+            },
+            "suggest": {
+                "ext-zmq": "*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Ipc\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Kraken Framework Ipc Component.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "agent-model",
+                "ipc",
+                "kraken",
+                "kraken-php",
+                "message-driven",
+                "service-oriented",
+                "soa",
+                "zeromq",
+                "zmq"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-05-11T20:36:41+00:00"
+        },
+        {
+            "name": "kraken-php/event",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-php/event.git",
+                "reference": "2169388cfea22a408e9d0e3e4b62d0e590e22d29"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-php/event/zipball/2169388cfea22a408e9d0e3e4b62d0e590e22d29",
+                "reference": "2169388cfea22a408e9d0e3e4b62d0e590e22d29",
+                "shasum": ""
+            },
+            "require": {
+                "kraken-php/loop": "0.4.*",
+                "php": ">=5.6.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Event\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Kraken Framework Event Component.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "emitter",
+                "event",
+                "event emitter",
+                "event-driven",
+                "kraken",
+                "kraken-php"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-06-17T17:15:26+00:00"
+        },
+        {
+            "name": "kraken-php/loop",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-php/loop.git",
+                "reference": "57878a092b03fc80aeccfb94b8c457569186ac5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-php/loop/zipball/57878a092b03fc80aeccfb94b8c457569186ac5f",
+                "reference": "57878a092b03fc80aeccfb94b8c457569186ac5f",
+                "shasum": ""
+            },
+            "require": {
+                "kraken-php/util": "0.4.*",
+                "php": ">=5.6.7"
+            },
+            "suggest": {
+                "ext-event": "~1.0",
+                "ext-libev": "*",
+                "ext-libevent": ">=0.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Loop\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Kraken Framework Loop Component.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "async",
+                "asynchronous",
+                "event",
+                "event-loop",
+                "kraken",
+                "kraken-php",
+                "libev",
+                "libevent",
+                "loop"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-05-11T20:36:41+00:00"
+        },
+        {
+            "name": "kraken-php/stream",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-php/stream.git",
+                "reference": "1940ecfc3d77384eeeb2c633be6ff7067917bbd5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-php/stream/zipball/1940ecfc3d77384eeeb2c633be6ff7067917bbd5",
+                "reference": "1940ecfc3d77384eeeb2c633be6ff7067917bbd5",
+                "shasum": ""
+            },
+            "require": {
+                "kraken-php/event": "0.4.*",
+                "kraken-php/loop": "0.4.*",
+                "kraken-php/throwable": "0.4.*",
+                "kraken-php/util": "0.4.*",
+                "php": ">=5.6.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Stream\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Asynchronous Stream Library.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "async",
+                "asynchronous",
+                "kraken",
+                "kraken-php",
+                "stream"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-05-11T20:36:41+00:00"
+        },
+        {
+            "name": "kraken-php/throwable",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-php/throwable.git",
+                "reference": "add591e895aafe88a81fd47a772e272bfd750652"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-php/throwable/zipball/add591e895aafe88a81fd47a772e272bfd750652",
+                "reference": "add591e895aafe88a81fd47a772e272bfd750652",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Throwable\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Kraken Framework Throwable Component.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "error",
+                "exception",
+                "kraken",
+                "kraken-php",
+                "throwable"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-05-11T20:36:41+00:00"
+        },
+        {
+            "name": "kraken-php/util",
+            "version": "v0.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kraken-php/util.git",
+                "reference": "99e15ce04fd90f71421daeb31bc081dcbabed5b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kraken-php/util/zipball/99e15ce04fd90f71421daeb31bc081dcbabed5b1",
+                "reference": "99e15ce04fd90f71421daeb31bc081dcbabed5b1",
+                "shasum": ""
+            },
+            "require": {
+                "kraken-php/throwable": "0.4.*",
+                "php": ">=5.6.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Kraken\\Util\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kamil Jamroz"
+                }
+            ],
+            "description": "Kraken Framework Util Component.",
+            "homepage": "http://kraken-php.com",
+            "keywords": [
+                "design",
+                "kraken",
+                "kraken-php",
+                "pattern",
+                "support",
+                "util",
+                "utility"
+            ],
+            "support": {
+                "issues": "https://github.com/kraken-php/framework/issues",
+                "source": "https://github.com/kraken-php/framework"
+            },
+            "time": "2017-05-11T20:36:41+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

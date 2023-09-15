@@ -1,0 +1,19 @@
+{
+    "name": "rofflexor/hw6",
+    "type": "project",
+    "license": "mti",
+    "autoload": {
+        "psr-4": {
+            "Rofflexor\\Hw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rudolf Medvedev",
+            "email": "rof@andia.ru"
+        }
+    ],
+    "require": {
+        "dazzle-php/socket": "^0.4.1"
+    }
+}

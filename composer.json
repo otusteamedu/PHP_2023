@@ -1,7 +1,7 @@
 {
     "name": "rofflexor/hw",
     "type": "project",
-    "require-dev": {
+    "require": {
         "rofflexor/lumen-eloquent-abstract-repository": "1.0.4"
     },
     "license": "MIT",
@@ -16,5 +16,5 @@
             "email": "rof@andia.ru"
         }
     ],
-    "require": {}
+    "require-dev": {}
 }

@@ -1,0 +1,20 @@
+{
+    "name": "rofflexor/hw",
+    "type": "project",
+    "require": {
+        "rofflexor/lumen-eloquent-abstract-repository": "1.0.4"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Rofflexor\\Hw\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rudolf Medvedev",
+            "email": "rof@andia.ru"
+        }
+    ],
+    "require-dev": {}
+}

@@ -25,16 +25,13 @@ class ServerService
     public function start() {
         $server = new SocketListener('unix://'.(new Config())->getSocketPath(), $this->loop);
         $server->on('connect', function($server, SocketInterface $client) {
-            printf("New connection #%s from %s!\n", $res = $client->getResourceId(), $client->getLocalAddress());
-
             $client->on('data', function($client, $data) use(&$buffer) {
-                printf("Received message=\"%s\"\n", $data);
-            });
-            $client->on('close', function() use($res) {
-                printf("Closed connection #$res\n");
+                $client->write("Received message=$data\n");
             });
         });
-        $server->start();
+        $this->loop->onStart(function() use($server) {
+            $server->start();
+        });
         $this->loop->start();
     }
 

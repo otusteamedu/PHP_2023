@@ -22,15 +22,15 @@ class ClientService
      */
     public function start() {
         $socket = new Socket('unix://'.(new Config())->getSocketPath(), $this->loop);
-        $socket->on('close', function() {
-            printf("Server has closed the connection!\n");
-            $this->loop->stop();
-        });
 
+        $socket->on('data', function ($socket, $data) {
+            printf("%s\n", $data);
+        });
         $this->loop->addPeriodicTimer(1, function() use($socket) {
             $input = rtrim(fgets(STDIN));
             if(!empty($input)) {
                 $socket->write($input);
+                $socket->read();
             }
         });
 

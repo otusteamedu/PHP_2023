@@ -15,7 +15,7 @@ services:
       - nginx2
   nginx1:
     image: nginx:stable-alpine
-    container_name: nginx2
+    container_name: nginx1
     volumes:
       - .:/var/www/html
       - ./docker/nginx/app:/etc/nginx/conf.d
@@ -26,7 +26,7 @@ services:
       - php2
   nginx2:
     image: nginx:stable-alpine
-    container_name: nginx1
+    container_name: nginx2
     volumes:
       - .:/var/www/html
       - ./docker/nginx/app:/etc/nginx/conf.d
@@ -35,15 +35,6 @@ services:
     depends_on:
       - php1
       - php2
-  php:
-    build:
-      context: ./docker/php
-      dockerfile: php.dockerfile
-    container_name: php
-    volumes:
-      - ./:/var/www/html
-    networks:
-      - otus-balancer
   php1:
     build:
       context: ./docker/php

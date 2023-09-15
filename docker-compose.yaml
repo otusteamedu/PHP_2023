@@ -1,0 +1,33 @@
+version: '3.9'
+
+services:
+  client:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: digitalocean.com/php
+    container_name: chat_client
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www/
+      - shared:/shared
+
+  server:
+    build:
+      context: .
+      dockerfile: ./docker/php/Dockerfile
+    image: digitalocean.com/php
+    container_name: chat_server
+    restart: unless-stopped
+    tty: true
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www/
+      - shared:/shared
+    depends_on:
+      - client
+
+volumes:
+  shared: {}

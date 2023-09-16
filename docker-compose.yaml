@@ -2,66 +2,37 @@ version: '3'
 
 services:
 
-
-  otus-nginx:
+  nginx-rofflexor:
     image: nginx:alpine
-    container_name: otus-nginx
+    container_name: nginx-rofflexor
     restart: unless-stopped
     tty: true
     ports:
       - "80:80"
     volumes:
-      - ./code/:/var/www/
+      - ./:/var/www/
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
     depends_on:
-      - otus-php-fpm
-      - otus-php-fpm2
+      - php-fpm-rofflexor
+    networks:
+      - framework
 
 
-  otus-php-fpm:
+  php-fpm-rofflexor:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
     image: digitalocean.com/php
-    container_name: otus-php-fpm
+    container_name: php-fpm-rofflexor
     restart: unless-stopped
     tty: true
     working_dir: /var/www/
     volumes:
-      - ./code/:/var/www/
-      - ./docker/php/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
-      - ./docker/memcached/php-memcached-custom.ini:/usr/local/etc/php/conf.d/php-memcached-custom.ini
-    depends_on:
-      - otus-memcached
-    links:
-      - otus-memcached
+      - ./:/var/www/
+    networks:
+      - framework
 
 
-  otus-php-fpm2:
-    build:
-      context: .
-      dockerfile: ./docker/php/Dockerfile
-    image: digitalocean.com/php
-    container_name: otus-php-fpm2
-    restart: unless-stopped
-    tty: true
-    working_dir: /var/www/
-    volumes:
-      - ./code/:/var/www/
-      - ./docker/php/php-custom.ini:/usr/local/etc/php/conf.d/php-custom.ini
-      - ./docker/memcached/php-memcached-custom.ini:/usr/local/etc/php/conf.d/php-memcached-custom.ini
-    depends_on:
-      - otus-memcached
-    links:
-      - otus-memcached
-
-
-
-  otus-memcached:
-    image: memcached:latest
-    container_name: otus-memcached
-    ports:
-      - "11211:11211"
-
-
-
+networks:
+  framework:
+    external: true

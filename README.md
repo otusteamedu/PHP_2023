@@ -1,3 +1,14 @@
-# PHP_2023
+## HW19. Очереди. Часть 2
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Инструкция по развертыванию системы
+1. Запустить чат с ботом https://t.me/hw19notifier_bot
+2. Запустить контейнеры командой `docker-compose up -d`
+3. Зайти в контейнер `php-hw19` командой `docker exec -it php-hw19 bash`.
+4. Перейти в директорию `hw19` командой `cd hw19`
+5. Установить пакеты composer командой `composer install`
+6. Запустить приложение для консюмера `php server.php` (запускать можно и после отправки сообщений в очередь)
+7. Отправить из Postman (или подобной) POST запрос c json `{"key":"some value", "chat_id": 6666666}` внутри тела сообщения, где
+key - текст, chat_id - id телеграма для отправки уведомления (можно узнать тут @userinfobot (https://t.me/userinfobot))
+8. В терминале с запущенным приложением с консюмером (п.4) должно вывестись сообщение (пересланный json)
+9. В чат с ботом должно придти уведомление
+

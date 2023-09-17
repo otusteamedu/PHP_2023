@@ -1,0 +1,15 @@
+{
+    "name": "desaulenko/hw19",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "DEsaulenko\\Hw19\\": "src/"
+        }
+    },
+    "require": {
+        "symfony/var-dumper": "^6.3",
+        "vlucas/phpdotenv": "^5.5",
+        "php-amqplib/php-amqplib": "^3.5",
+        "guzzlehttp/guzzle": "^7.8"
+    }
+}

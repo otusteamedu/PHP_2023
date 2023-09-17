@@ -1,3 +1,21 @@
-# PHP_2023
+# PHP_2023 
+## HW 19 RabbitMQ
+### Timerkhanov A.D.
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+1. Добавить в host файл `127.0.0.1 mysite.local`
+2. Копировать файл `.env.example` в `.env`
+3. Запустить контейнеры командой `docker-compose up --build -d`
+4. Зайти в контейнер `docker exec -it php bash` и установить зависимости `composer i`
+---
+**Проверяем работу**
+
+Получаем результат работы очередей
+6.  В контейнере `docker exec -it php bash` переходим в директорию `code/public` и запускаем консульные приложения<br><br>
+`php receive.php` - чтобы вывести список сообщений отправленных в очередь с запросом выписки.<br><br>
+`php emailConsumer.php` - выводит список сообщений отправленных в очередь, с запросом отправики email
+   с результатами выписки.<br><br>
+7. По адресу http://mysite.local/statement/index открывает форму -> заполняем данные -> отпраляем
+9. Проверяем сообщения в консольных приложениях.
+
+Также состояние очередей можно посмотреть по адресу http://localhost:15672/. <br>
+(login: user, password: password)

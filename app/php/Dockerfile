@@ -8,7 +8,12 @@ RUN apt-get update && apt-get install -y \
 	&& pecl install memcached-3.2.0 \
 	&& docker-php-ext-enable memcached \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd 
+	&& docker-php-ext-install -j$(nproc) gd
+
+RUN apt-get update && apt-get install -y \
+	zip libzip-dev \
+	&& docker-php-ext-configure zip \
+	&& docker-php-ext-install zip	 
 	
 
 # Composer

@@ -1,14 +1,15 @@
-# PHP_2023
+### Init Docker
+```bash
+cd app
+docker-compose up --build -d
+docker exec -it php-server bash
+composer install
+exit;
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+- Add **mysite.local** in /etc/hosts
 
-### Init Docker App
-- cd ./docker
-- copy .env.example .env
-- Set the environment for .env
-- Build Image: docker-compose up --build -d
-
-
-### Init Homestead
-- cd ./homestead
-- Read: **[Homestead](https://laravel.com/docs/10.x/homestead)**
+### Test
+```bash
+curl -d "emails=123@mail.ru,123@yandex.ru" -X POST http://mysite.local
+```

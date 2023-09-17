@@ -1,16 +1,43 @@
 version: '3'
 
 services:
-    nginx:
+    nginx-root:
         build:
-            context: ./nginx
+            context: ./nginx-root
             dockerfile: Dockerfile
-        image: myapp/nginx
-        container_name: webserver
+        container_name: nginx-root
         ports:
             -   "80:80"
+        networks:
+            - app-network
+
+    nginx-child-1:
+        build:
+            context: ./nginx-child
+            dockerfile: Dockerfile
+        container_name: nginx-child-1
         volumes:
-            -   ../src:/app
+            - ../src:/app
+        networks:
+            - app-network
+
+    nginx-child-2:
+        build:
+            context: ./nginx-child
+            dockerfile: Dockerfile
+        container_name: nginx-child-2
+        volumes:
+            - ../src:/app
+        networks:
+            - app-network
+
+    nginx-child-3:
+        build:
+            context: ./nginx-child
+            dockerfile: Dockerfile
+        container_name: nginx-child-3
+        volumes:
+            - ../src:/app
         networks:
             - app-network
 
@@ -28,8 +55,9 @@ services:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        image: myapp/php
         container_name: app1
+        ports:
+            - ":9000"
         volumes:
             - ../src:/app
         networks:
@@ -40,20 +68,22 @@ services:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        image: myapp/php
         container_name: app2
+        ports:
+            - ":9000"
         volumes:
             - ../src:/app
         networks:
             - app-network
 
-    # second php-fpm
+    # third php-fpm
     app3:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        image: myapp/php
         container_name: app3
+        ports:
+            - ":9000"
         volumes:
             - ../src:/app
         networks:

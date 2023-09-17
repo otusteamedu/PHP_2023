@@ -19,7 +19,7 @@ foreach ($emails as $email) {
     try {
         $emailValidator->validate($email);
         echo "$email: Is valid";
-    } catch(Exception $e) {
+    } catch (Exception $e) {
         echo "$email: {$e->getMessage()}";
     }
     echo PHP_EOL;

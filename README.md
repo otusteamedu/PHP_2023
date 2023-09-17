@@ -1,3 +1,15 @@
-# PHP_2023
+### Init Docker
+```bash
+cd app
+docker-compose up --build -d
+docker exec -it php-server bash
+composer install
+exit;
+```
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+- Add **mysite.local** in /etc/hosts
+
+### Test
+```bash
+curl -d "emails=123@mail.ru,123@yandex.ru" -X POST http://mysite.local
+```

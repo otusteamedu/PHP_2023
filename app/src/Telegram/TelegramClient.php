@@ -18,7 +18,6 @@ class TelegramClient
         if (!self::$instance) {
             self::$instance = new self();
         }
-        
         return self::$instance;
     }
 
@@ -34,9 +33,8 @@ class TelegramClient
         } catch (\Exception $e) {
             dump($e->getMessage());
         }
-
     }
-    
+
     protected function __construct()
     {
         $this->client = new Client();

@@ -67,6 +67,4 @@ class Config
     {
         return $this->vhost;
     }
-
-
 }

@@ -6,5 +6,4 @@ namespace DEsaulenko\Hw19\Interfaces;
 
 interface ClientInterface
 {
-
 }

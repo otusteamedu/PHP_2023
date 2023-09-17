@@ -1,0 +1,38 @@
+version: "3.8"
+
+networks:
+  default:
+    name: hw19
+
+services:
+
+  nginx-hw19:
+    image: nginx:stable-alpine
+    container_name: nginx-hw19
+    ports:
+      - "9080:80"
+    volumes:
+      - ./app:/var/www/hw19/
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx/
+
+  php-web-hw19:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw19
+    volumes:
+      - ./app:/var/www/hw19/
+      - ./php/logs:/var/log/
+
+  rabbitmq-hw19:
+    image: rabbitmq:3.7.5-management
+    working_dir: /app
+    container_name: rabbit-hw19
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    environment:
+      RABBITMQ_DEFAULT_USER: some_user
+      RABBITMQ_DEFAULT_PASS: some_pass

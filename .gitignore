@@ -14,3 +14,5 @@
 # Другие файлы
 .idea/
 .DS_Store
+
+vendor/*

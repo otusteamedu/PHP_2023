@@ -13,6 +13,7 @@
         }
     ],
     "require": {
-        "miladrahimi/phprouter": "5.*"
+        "miladrahimi/phprouter": "5.*",
+      "ext-curl": "*"
     }
 }

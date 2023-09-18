@@ -1,0 +1,19 @@
+{
+    "name": "rofflexor/framework",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Rofflexor\\Hw\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Rudolf Medvedev",
+            "email": "rof@andia.ru"
+        }
+    ],
+    "require": {
+        "miladrahimi/phprouter": "5.*",
+      "ext-curl": "*"
+    }
+}

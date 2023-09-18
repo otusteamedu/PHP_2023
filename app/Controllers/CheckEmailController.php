@@ -2,7 +2,6 @@
 
 namespace Rofflexor\Hw\Controllers;
 
-use Illuminate\Http\Request;
 use Laminas\Diactoros\Response\JsonResponse;
 use MiladRahimi\PhpContainer\Container;
 use Rofflexor\Hw\Actions\CheckEmailAction;

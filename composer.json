@@ -1,9 +1,8 @@
 {
-    "name": "adrapeza/hw3",
-    "type": "project",
+    "name": "user/php_2023",
     "autoload": {
         "psr-4": {
-            "Adrapeza\\Hw3\\": "src/"
+            "User\\Php2023\\": "src/"
         }
     },
     "authors": [
@@ -12,8 +11,5 @@
             "email": "a.drapeza@tcp-soft.com"
         }
     ],
-    "require": {
-        "adrapeza/composer-hello": "dev-master"
-    },
-    "minimum-stability": "dev"
+    "require": {}
 }

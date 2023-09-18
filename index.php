@@ -1,10 +1,17 @@
 <?php
 
-declare(strict_types=1);
+require_once __DIR__ . '/vendor/autoload.php';
 
-use Adrapeza\ComposerHello\ComposerHello;
+if (!empty($_POST['string'])) {
+    $expression = $_POST['string'];
+    $expressionIsCorrect = StringValidator::isValid($expression);
 
-require __DIR__ . '/vendor/autoload.php';
+    if ($expressionIsCorrect) {
+        http_response_code(200);
+        echo "Expression is correct";
+        exit;
+    }
+}
 
-$processor = new ComposerHello();
-echo $processor->sayHello("Alex");
+http_response_code(400);
+echo "Wrong expression!";

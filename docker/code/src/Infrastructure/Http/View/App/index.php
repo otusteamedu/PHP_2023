@@ -1,9 +1,9 @@
 <?php
 
-include dirname(__DIR__)."/header.php" ?>
-    
+include dirname(__DIR__) . "/header.php" ?>
+
     <h1>Добро пожаловать!</h1>
-    <p>Паттерн Data Mapper /Storage/Mysql/Entity</p>
+    <p>Работаем с брокером сообщений RabbitMQ</p>
 
 <?php
-include dirname(__DIR__)."/footer.php";
+include dirname(__DIR__) . "/footer.php";

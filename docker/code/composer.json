@@ -16,9 +16,11 @@
   },
   "require": {
     "php": "8.*",
-    "predis/predis": "^2.2",
-    "ext-pdo": "*"
-},
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "php-amqplib/php-amqplib": "^3.5",
+    "phpmailer/phpmailer": "^6.8"
+  },
   "config": {
     "allow-plugins": {
       "php-http/discovery": true

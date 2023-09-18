@@ -1,8 +1,10 @@
 # PHP_2023
 
-# Реализация паттерна Data Mapper
-в файле `docker/code/src/Config/app.ini` включен mysql реализация storage
-сам паттерн реализован в файлах `docker/code/src/Storage/Mysql/Entity/EventMapper.php` и
-`docker/code/src/Storage/Mysql/Entity/Event.php`
+### Добавляем настройки для smtp сервера в файле 
 
-так же добавлен IdentityMap  в маппер
+``docker/code/src/Infrastructure/Config/app.ini``
+
+### Запускаем контейнер, переходим по адресу http://mysite.local 
+(предварительно нудно прописать в файле `hosts` соответствие `127.0.0.1 mysite.local`)
+
+В меню выбираем `Получить банковскую выписку`, заполняем форму, ожидам результат.

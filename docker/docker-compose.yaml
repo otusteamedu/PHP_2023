@@ -1,7 +1,6 @@
 # версия синтаксиса
 version: '3'
 
-# в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
 
   #контейнер с Nginx
@@ -9,8 +8,7 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: el/nginx
-    container_name: ${CONTAINER_NAME}_nginx
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
@@ -25,15 +23,14 @@ services:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: phpmysql/php
-    container_name: ${CONTAINER_NAME}_app
+    container_name: app
     volumes:
       - ./code:/data/mysite.local
     #command: composer install --no-plugins --no-scripts
+    depends_on:
+      - rabbitmq
     networks:
       - app-network
-    depends_on:
-      - mysql
 
   composer:
     image: composer:latest
@@ -45,23 +42,13 @@ services:
     depends_on:
       - app
 
-  #Контейнер с mysql
-  mysql:
-    image: mariadb
-    #image: mysql
-    container_name: ${CONTAINER_NAME}_mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    networks:
-      - app-network
-
-  redis:
-    image: redis
-    container_name: redis
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
     networks:
       - app-network
 

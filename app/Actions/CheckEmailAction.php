@@ -11,13 +11,17 @@ class CheckEmailAction
     /**
      * @throws Exception
      */
-    public function run(string $email): false|int
+    public function run(string $email): array
     {
-        $isValidFormat = (new CheckEmailTask())->run($email);
-        if($isValidFormat) {
-            return (new CheckEmailDomainWithDoHTask())->run($email);
+        $emails = explode(',', $email);
+        $validatedEmails = [];
+        foreach($emails as $emailItem) {
+            $isValidFormat = (new CheckEmailTask())->run($emailItem);
+            if($isValidFormat && (new CheckEmailDomainWithDoHTask())->run($emailItem)) {
+                $validatedEmails[] = $emailItem;
+            }
         }
-        return false;
+        return $validatedEmails;
     }
 
 }

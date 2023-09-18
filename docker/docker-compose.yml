@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    volumes:
+      - ./../src:/var/www/public
+      - php-fpm-socket:/sockets/php-fpm
+    networks:
+      - app-network
+
+  php-fpm-server:
+    build:
+      context: php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/public
+      - php-fpm-socket:/sockets/php-fpm
+    networks:
+      - app-network
+
+  php-fpm-client:
+    build:
+      context: php-fpm
+      dockerfile: Dockerfile
+    volumes:
+      - ./../src:/var/www/public
+      - php-fpm-socket:/sockets/php-fpm
+    depends_on:
+      - php-fpm-server
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  php-fpm-socket:

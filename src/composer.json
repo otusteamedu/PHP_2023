@@ -1,0 +1,19 @@
+{
+  "name": "abalabas/chat",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "chat\\": "app"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alexander"
+    }
+  ],
+  "require": {
+    "php": ">=8.0",
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}

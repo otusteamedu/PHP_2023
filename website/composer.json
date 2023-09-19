@@ -2,11 +2,8 @@
   "name": "dimonvelsk/otus",
   "type": "project",
   "require": {
-    "ext-memcached": "*",
-    "ext-bcmath": "*",
-    "ext-redis": "*",
     "vlucas/phpdotenv": "^5.5",
-    "php-amqplib/php-amqplib": "^2.0"
+    "elasticsearch/elasticsearch": "^8.9"
   },
   "license": "MIT",
   "authors": [
@@ -20,5 +17,10 @@
   },
   "scripts": {
     "phpcs": "phpcs --standard=PSR2"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
   }
 }

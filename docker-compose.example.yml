@@ -7,24 +7,16 @@ services:
     extra_hosts:
       - ${ROOT_DOMAIN}:host-gateway
 
-  nginx:
+  kibana:
     labels:
       - 'traefik.enable=true'
-      - 'traefik.http.services.php_2023-nginx.loadbalancer.server.port=80'
-      - 'traefik.http.routers.php_2023-nginx.service=php_2023-nginx'
-      - 'traefik.http.routers.php_2023-nginx.rule=HostRegexp(`${ROOT_DOMAIN}`)'
-      - 'traefik.http.routers.php_2023-nginx.priority=50'
+      - 'traefik.http.services.php_2023-kibana.loadbalancer.server.port=5601'
+      - 'traefik.http.routers.php_2023-kibana.service=php_2023-kibana'
+      - 'traefik.http.routers.php_2023-kibana.rule=HostRegexp(`${ROOT_DOMAIN}`)'
+      - 'traefik.http.routers.php_2023-kibana.priority=50'
     networks:
       - default
       - web
-
-  mysql:
-    ports:
-      - "53306:3306"
-
-  rabbitmq:
-    ports:
-      - "55672:15672"
 
 networks:
   web:

@@ -18,73 +18,23 @@ services:
     extra_hosts:
       - host.docker.internal:host-gateway
 
-  nginx:
+  elasticsearch:
     restart: unless-stopped
-    image: nginx:alpine
-    volumes:
-      - type: bind
-        source: .volumes/php-socket
-        target: /var/run/php
-      - type: bind
-        source: .
-        target: /srv
-      - type: bind
-        source: .docker/nginx
-        target: /etc/nginx/templates
+    image: elasticsearch:8.9.2
     environment:
-      NGINX_ENVSUBST_OUTPUT_DIR: /etc/nginx
-      NGINX_ENVSUBST_TEMPLATE_SUFFIX: .tmpl
-      NGINX_ROOT: /srv
-      ROOT_DOMAIN: ${ROOT_DOMAIN}
-      FPM_ROOT: /home/warp/app
-
-  mysql:
-    restart: unless-stopped
-    image: percona:5.7
-    command:
-      - '--character-set-server=utf8'
-      - '--collation-server=utf8_unicode_ci'
-      - '--init-connect=SET collation_connection = utf8_general_ci'
-      - '--init-connect=SET NAMES utf8'
-      - '--init-connect=SET innodb_strict_mode=0'
-      - '--sql-mode='
-    environment:
-      MYSQL_USER: ${DB_USER:-otus}
-      MYSQL_PASSWORD: ${DB_USER_PASSWORD:-7e52fa183f09a4f8}
-      MYSQL_DATABASE: ${DB_DATABASE:-otus}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-37ece454be1af34e}
+      - discovery.type=single-node
+      - xpack.security.enabled=false
     volumes:
       - type: volume
-        source: mysql
-        target: /var/lib/mysql
-      - type: bind
-        source: .volumes/mysql
-        target: /mnt/mysql
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
 
-  rabbitmq:
+  kibana:
     restart: unless-stopped
-    image: rabbitmq:3-management
+    image: kibana:8.9.2
     environment:
-      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-otus}
-      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-7e52fa183f09a4f8}
-    volumes:
-      - type: volume
-        source: rabbitmq
-        target: /var/lib/rabbitmq
-
-  redis:
-    restart: unless-stopped
-    image: redis:7-alpine
-    volumes:
-      - type: volume
-        source: redis
-        target: /data:delegated
-
-  memcached:
-    restart: unless-stopped
-    image: memcached:1-alpine
+      - ELASTICSEARCH_HOSTS:http://<elasticsearch>:9200
 
 volumes:
   mysql:
-  rabbitmq:
-  redis:
+  elasticsearch:

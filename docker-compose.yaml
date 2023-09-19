@@ -103,6 +103,25 @@ services:
       - --max_connections=1000
       - --performance_schema
 
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - ${POSTGRES_HOST_PORT}:${POSTGRES_LOCAL_PORT}
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgresql-volume:/var/lib/postgresql/data
+    networks:
+      - otus-app-network
+
+  adminer:
+    image: adminer
+    ports:
+      - ${ADMINER_HOST_PORT}:${ADMINER_LOCAL_PORT}
+    networks:
+      - otus-app-network
+
 #  redis:
 #    image: redis:latest
 #    command: [ "redis-server", "--appendonly", "yes" ]
@@ -128,4 +147,6 @@ networks:
 volumes:
   phpsocket:
   dbdata:
+    driver: local
+  postgresql-volume:
     driver: local

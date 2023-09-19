@@ -4,6 +4,7 @@ createdb cinemapark
 \dt - list tables of public schema
 \dt <schema-name> - list tables of certain schema (\dt public)
 
+\c cinemapark - connection (use)
 
 CREATE TABLE theater (
     id serial,

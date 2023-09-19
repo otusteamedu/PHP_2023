@@ -6,9 +6,7 @@ class StringValidator
     function isValid($str) : bool
     {
         $braces = [
-            '}' => '{',
-            ')' => '(',
-            ']' => '[',
+            ')' => '('
         ];
 
         $stack = [];

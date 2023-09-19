@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.2-fpm
 
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
@@ -8,16 +8,14 @@ RUN apt-get update && apt-get install -y \
 	libonig-dev \
 	libzip-dev \
 	libmemcached-dev \
-	libmcrypt-dev \
-        && pecl install mcrypt-1.0.3 \
-	&& docker-php-ext-enable mcrypt \
+	libssl-dev \
         && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd \
      && pecl install memcached && \
         docker-php-ext-enable memcached
 
-COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+#COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 

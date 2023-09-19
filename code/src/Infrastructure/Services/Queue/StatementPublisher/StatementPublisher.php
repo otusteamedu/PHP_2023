@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Art\Code\Infrastructure\Services\Queue\StatementPublisher;
 
 use Art\Code\Infrastructure\DTO\StatementSendDTO;
+use Art\Code\Infrastructure\Interface\StatementPublisherInterface;
 use Art\Code\Infrastructure\Rabbit\RabbitMQConnector;
 use Art\Code\Infrastructure\Services\Queue\Interface\QueueInterface;
 use JsonException;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class StatementPublisher implements QueueInterface
+class StatementPublisher implements QueueInterface, StatementPublisherInterface
 {
     private AMQPChannel $channel;
 

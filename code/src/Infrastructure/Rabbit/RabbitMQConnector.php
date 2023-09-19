@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Art\Code\Infrastructure\Rabbit;
 
+use Art\Code\Infrastructure\Interface\ConnectorInterface;
 use Exception;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
-class RabbitMQConnector
+class RabbitMQConnector implements ConnectorInterface
 {
     private AMQPStreamConnection $connection;
 

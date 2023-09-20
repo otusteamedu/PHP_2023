@@ -1,0 +1,54 @@
+createdb cinemapark
+
+\l - list databases
+\dt - list tables of public schema
+\dt <schema-name> - list tables of certain schema (\dt public)
+
+\c cinemapark - connection (use)
+
+CREATE TABLE theater (
+    id serial,
+    name varchar(255) not null,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE halls
+(
+    id serial,
+    theater_id int not null REFERENCES theater (id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE seats
+(
+    id serial,
+    seat_number smallint not null,
+    hall_id int not null REFERENCES halls (id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE movies
+(
+    id serial,
+    name varchar(255),
+    description text not null,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE sessions
+(
+    id serial,
+    date timestamp with time zone not null,
+    hall_id int not null REFERENCES halls (id) ON DELETE CASCADE,
+    movie_id int not null REFERENCES movies (id) ON DELETE CASCADE,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE tickets
+(
+    id serial,
+    movie_session_id int not null REFERENCES sessions (id) ON DELETE CASCADE,
+    seat_id int not null REFERENCES seats (id) ON DELETE CASCADE,
+    price numeric(4,2) not null,
+    PRIMARY KEY(id)
+);

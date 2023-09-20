@@ -32,6 +32,7 @@ CREATE TABLE "moviesAttributesValues"
     v_int int,
     v_timestamp timestamp,
     v_bool boolean,
+    v_float float,
     PRIMARY KEY(id)
 );
 

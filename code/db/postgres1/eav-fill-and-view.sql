@@ -43,7 +43,7 @@ INSERT into "moviesAttributesValues" (movie_id, movies_attr_id, v_bool) VALUES
 
 #View сборки данных для маркетинга в форме: фильм, тип атрибута, атрибут, значение (значение выводим как текст)
 SELECT movies.name as фильм, CONCAT(mat.type, ': ' , ma.name) as атрибут,
-CONCAT(mav.v_bool::text, mav.v_timestamp::text) as значение  FROM movies
+CONCAT(mav.v_bool::text, mav.v_timestamp::text, mav.v_float::text) as значение  FROM movies
 LEFT JOIN "moviesAttributesValues" as mav ON movies.id = movie_id
 LEFT JOIN "moviesAttributes" as ma ON mav.movies_attr_id = ma.id
 LEFT JOIN "moviesAttributesTypes" as mat ON ma.type_id = mat.id
@@ -82,3 +82,45 @@ LEFT JOIN "moviesAttributes" as ma ON mav.movies_attr_id = ma.id
 LEFT JOIN "moviesAttributesTypes" as mat ON ma.type_id = mat.id
 WHERE v_timestamp::date >= (CURRENT_TIMESTAMP + interval '20 days')::date
 ORDER BY фильм;
+
+#ответ на вопрос как хранить float и bool (см. последние два столбца):
+ALTER TABLE "moviesAttributesValues" ADD column v_float float;
+SELECT * FROM "moviesAttributesValues";
+
+#id | movie_id | movies_attr_id | v_text | v_int |        v_timestamp         | v_bool | v_float
+#----+----------+----------------+--------+-------+----------------------------+--------+---------
+#  4 |        3 |              1 |        |       | 2023-09-19 21:47:25.213022 |        |
+#  5 |        2 |              1 |        |       | 2023-09-19 21:47:25.213022 |        |
+#  6 |        4 |              1 |        |       | 2023-10-10 00:00:00        |        |
+#  7 |        4 |              3 |        |       |                            | t      |
+#  8 |        2 |              4 |        |       |                            | t      |
+#(5 rows)
+
+INSERT into "moviesAttributesValues" (movie_id, movies_attr_id, v_float) VALUES (2, 5, 4.23);
+SELECT * FROM "moviesAttributesValues";
+
+#id | movie_id | movies_attr_id | v_text | v_int |        v_timestamp         | v_bool | v_float
+#----+----------+----------------+--------+-------+----------------------------+--------+---------
+#  4 |        3 |              1 |        |       | 2023-09-19 21:47:25.213022 |        |
+#  5 |        2 |              1 |        |       | 2023-09-19 21:47:25.213022 |        |
+#  6 |        4 |              1 |        |       | 2023-10-10 00:00:00        |        |
+#  7 |        4 |              3 |        |       |                            | t      |
+#  8 |        2 |              4 |        |       |                            | t      |
+#  9 |        2 |              5 |        |       |                            |        |    4.23
+
+SELECT movies.name as фильм, CONCAT(mat.type, ': ' , ma.name) as атрибут,
+CONCAT(mav.v_bool::text, mav.v_timestamp::text, mav.v_float::text) as значение  FROM movies
+LEFT JOIN "moviesAttributesValues" as mav ON movies.id = movie_id
+LEFT JOIN "moviesAttributes" as ma ON mav.movies_attr_id = ma.id
+LEFT JOIN "moviesAttributesTypes" as mat ON ma.type_id = mat.id
+ORDER BY фильм;
+#фильм |                атрибут                 |          значение
+#-------+----------------------------------------+----------------------------
+# my    | рецензии: Пальмовая ветвь              | true
+# my    | средняя оценка зрителей: статистика вк | 4.23
+# my    | служебные даты: старт продаж билетов   | 2023-09-19 21:47:25.213022
+# my1   | служебные даты: старт продаж билетов   | 2023-09-19 21:47:25.213022
+# my2   | премии: Оскар                          | true
+# my2   | служебные даты: старт продаж билетов   | 2023-10-10 00:00:00
+# my3   | :                                      |
+#(7 rows)

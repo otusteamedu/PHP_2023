@@ -5,7 +5,7 @@
 -- Dumped from database version 12.3
 -- Dumped by pg_dump version 12.2
 
--- Started on 2023-09-17 15:37:08 UTC
+-- Started on 2023-09-20 17:42:38 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -100,6 +100,9 @@ CREATE TABLE public.movie_values (
                                      value_text text,
                                      value_bool boolean,
                                      value_date date,
+                                     value_float real,
+                                     value_numeric numeric(12,2),
+                                     value_int integer,
                                      entity_id integer NOT NULL,
                                      attribute_id integer NOT NULL,
                                      type_id integer NOT NULL
@@ -175,7 +178,7 @@ ALTER TABLE public.movie_attribute_types ALTER COLUMN id ADD GENERATED ALWAYS AS
 
 
 --
--- TOC entry 2994 (class 0 OID 16399)
+-- TOC entry 2997 (class 0 OID 16399)
 -- Dependencies: 206
 -- Data for Name: movie_attribute_types; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -184,10 +187,13 @@ INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALU
 INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (2, 'premium');
 INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (3, 'important dates');
 INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (4, 'service dates');
+INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (6, 'duration');
+INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (7, 'sum of money at the global box office');
+INSERT INTO public.movie_attribute_types (id, name) OVERRIDING SYSTEM VALUE VALUES (8, 'the amount of money in the Russian Federation');
 
 
 --
--- TOC entry 2991 (class 0 OID 16390)
+-- TOC entry 2994 (class 0 OID 16390)
 -- Dependencies: 203
 -- Data for Name: movie_attributes; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -203,20 +209,20 @@ INSERT INTO public.movie_attributes (id, name) OVERRIDING SYSTEM VALUE VALUES (1
 
 
 --
--- TOC entry 2996 (class 0 OID 16406)
+-- TOC entry 2999 (class 0 OID 16406)
 -- Dependencies: 208
 -- Data for Name: movie_values; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id) VALUES (NULL, true, NULL, 1, 5, 2);
-INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id) VALUES ('Какая-то рецензия...', NULL, NULL, 1, 3, 1);
-INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id) VALUES (NULL, NULL, '2024-01-01', 1, 7, 3);
-INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id) VALUES (NULL, NULL, '2024-05-01', 1, 8, 3);
-INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id) VALUES (NULL, NULL, '2023-10-11', 1, 10, 4);
+INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id, value_float, value_numeric, value_int) VALUES (NULL, true, NULL, 1, 5, 2, NULL, NULL, NULL);
+INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id, value_float, value_numeric, value_int) VALUES ('Какая-то рецензия...', NULL, NULL, 1, 3, 1, NULL, NULL, NULL);
+INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id, value_float, value_numeric, value_int) VALUES (NULL, NULL, '2024-01-01', 1, 7, 3, NULL, NULL, NULL);
+INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id, value_float, value_numeric, value_int) VALUES (NULL, NULL, '2024-05-01', 1, 8, 3, NULL, NULL, NULL);
+INSERT INTO public.movie_values (value_text, value_bool, value_date, entity_id, attribute_id, type_id, value_float, value_numeric, value_int) VALUES (NULL, NULL, '2023-10-11', 1, 10, 4, NULL, NULL, NULL);
 
 
 --
--- TOC entry 2990 (class 0 OID 16385)
+-- TOC entry 2993 (class 0 OID 16385)
 -- Dependencies: 202
 -- Data for Name: movies; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -227,7 +233,7 @@ INSERT INTO public.movies (id, name) OVERRIDING SYSTEM VALUE VALUES (3, 'Наз�
 
 
 --
--- TOC entry 3002 (class 0 OID 0)
+-- TOC entry 3005 (class 0 OID 0)
 -- Dependencies: 205
 -- Name: attribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -236,7 +242,7 @@ SELECT pg_catalog.setval('public.attribute_id_seq', 11, true);
 
 
 --
--- TOC entry 3003 (class 0 OID 0)
+-- TOC entry 3006 (class 0 OID 0)
 -- Dependencies: 204
 -- Name: entity_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -245,12 +251,12 @@ SELECT pg_catalog.setval('public.entity_id_seq', 3, true);
 
 
 --
--- TOC entry 3004 (class 0 OID 0)
+-- TOC entry 3007 (class 0 OID 0)
 -- Dependencies: 207
 -- Name: type_attribute_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.type_attribute_id_seq', 5, true);
+SELECT pg_catalog.setval('public.type_attribute_id_seq', 8, true);
 
 
 --
@@ -281,7 +287,7 @@ ALTER TABLE ONLY public.movie_attribute_types
 
 
 --
--- TOC entry 2857 (class 2606 OID 16415)
+-- TOC entry 2860 (class 2606 OID 16415)
 -- Name: movie_values value_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -298,7 +304,31 @@ CREATE INDEX value_date ON public.movie_values USING btree (value_date);
 
 
 --
--- TOC entry 2858 (class 1259 OID 16436)
+-- TOC entry 2856 (class 1259 OID 16604)
+-- Name: value_float; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX value_float ON public.movie_values USING btree (value_float);
+
+
+--
+-- TOC entry 2857 (class 1259 OID 16606)
+-- Name: value_int; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX value_int ON public.movie_values USING btree (value_int);
+
+
+--
+-- TOC entry 2858 (class 1259 OID 16605)
+-- Name: value_numeric; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX value_numeric ON public.movie_values USING btree (value_numeric);
+
+
+--
+-- TOC entry 2861 (class 1259 OID 16436)
 -- Name: value_text; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -306,7 +336,7 @@ CREATE INDEX value_text ON public.movie_values USING btree (value_text);
 
 
 --
--- TOC entry 2860 (class 2606 OID 16426)
+-- TOC entry 2863 (class 2606 OID 16426)
 -- Name: movie_values value_attribute_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -315,7 +345,7 @@ ALTER TABLE ONLY public.movie_values
 
 
 --
--- TOC entry 2859 (class 2606 OID 16421)
+-- TOC entry 2862 (class 2606 OID 16421)
 -- Name: movie_values value_entity_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -324,7 +354,7 @@ ALTER TABLE ONLY public.movie_values
 
 
 --
--- TOC entry 2861 (class 2606 OID 16431)
+-- TOC entry 2864 (class 2606 OID 16431)
 -- Name: movie_values value_type_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -332,7 +362,7 @@ ALTER TABLE ONLY public.movie_values
     ADD CONSTRAINT value_type_id_fkey FOREIGN KEY (type_id) REFERENCES public.movie_attribute_types(id) NOT VALID;
 
 
--- Completed on 2023-09-17 15:37:08 UTC
+-- Completed on 2023-09-20 17:42:39 UTC
 
 --
 -- PostgreSQL database dump complete

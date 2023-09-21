@@ -1,0 +1,58 @@
+# версия синтаксиса
+version: '3'
+
+services:
+
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+#Контейнер с php и приложением
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: app
+    volumes:
+      - ./code:/data/mysite.local
+    #command: composer install --no-plugins --no-scripts
+    depends_on:
+      - rabbitmq
+    networks:
+      - app-network
+
+  composer:
+    image: composer:latest
+    volumes:
+      - ./code:/app
+    entrypoint:
+      - composer
+      - dump-autoload
+    depends_on:
+      - app
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

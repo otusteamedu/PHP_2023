@@ -1,3 +1,10 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Добавляем настройки для smtp сервера в файле 
+
+``docker/code/src/Infrastructure/Config/app.ini``
+
+### Запускаем контейнер, переходим по адресу http://mysite.local 
+(предварительно нудно прописать в файле `hosts` соответствие `127.0.0.1 mysite.local`)
+
+В меню выбираем `Получить банковскую выписку`, заполняем форму, ожидам результат.

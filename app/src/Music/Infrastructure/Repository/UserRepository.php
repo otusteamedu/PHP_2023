@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Music\Infrastructure\Repository;
 
 use App\Music\Domain\Entity\User;
-use App\Music\Domain\Repository\UserRepositoryInterface;
+use App\Music\Domain\RepositoryInterface\UserRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

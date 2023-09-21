@@ -7,3 +7,7 @@ controllers:
 kernel:
     resource: ../src/Shared/Infrastructure/Kernel.php
     type: annotation
+
+music:
+    resource: ../src/Music/Infrastructure/Controller/
+    type: annotation

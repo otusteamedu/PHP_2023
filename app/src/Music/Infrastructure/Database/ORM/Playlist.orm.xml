@@ -1,0 +1,22 @@
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="https://doctrine-project.org/schemas/orm/doctrine-mapping
+                          https://www.doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity name="App\Music\Domain\Entity\Playlist" table="music_playlist">
+
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="music_playlist_seq" allocation-size="1" initial-value="1" />
+        </id>
+
+        <field name="name" column="name" type="string" />
+        
+        <many-to-one field="user" target-entity="User">
+            <cascade><cascade-remove /></cascade>
+            <join-column name="user_id" referenced-column-name="id" on-delete="CASCADE" />
+        </many-to-one>
+    </entity>
+
+
+</doctrine-mapping>

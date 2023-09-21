@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Music\Domain\Repository;
+namespace App\Music\Domain\RepositoryInterface;
 
 use App\Music\Domain\Entity\User;
 

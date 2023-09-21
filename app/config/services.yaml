@@ -15,3 +15,7 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     App\:
         resource: '../src/'
+
+    App\Music\Infrastructure\Controller\:
+        resource: '../src/Music/Infrastructure/Controller/'
+        tags: [ 'controller.service_arguments' ]

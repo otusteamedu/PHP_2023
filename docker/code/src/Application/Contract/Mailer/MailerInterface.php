@@ -1,7 +1,7 @@
 <?php
 
 
-namespace IilyukDmitryi\App\Domain\Mailer;
+namespace IilyukDmitryi\App\Application\Contract\Mailer;
 
 interface MailerInterface
 {

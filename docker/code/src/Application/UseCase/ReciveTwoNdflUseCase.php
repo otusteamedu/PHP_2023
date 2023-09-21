@@ -7,11 +7,12 @@ use IilyukDmitryi\App\Application\Contract\Mailer\MailerInterface;
 use IilyukDmitryi\App\Application\Contract\Messenger\MessengerInterface;
 use IilyukDmitryi\App\Application\Dto\MessageReciveResult;
 use IilyukDmitryi\App\Application\Message\BankStatementMessage;
+use IilyukDmitryi\App\Application\Message\TwoNdflMessage;
 use IilyukDmitryi\App\Domain\Model\BankStatementModel;
+use IilyukDmitryi\App\Domain\Model\TwoNdflModel;
 
 
-
-class ReciveBankStatementUseCase
+class ReciveTwoNdflUseCase
 {
     public function __construct(protected readonly MessengerInterface $messenger, protected readonly MailerInterface $mailer)
     {
@@ -24,10 +25,10 @@ class ReciveBankStatementUseCase
     {
         $isSendEmail = false;
         $isRecive = false;
-        $messageBankStatement = new BankStatementMessage();
-        if($this->messenger->recive($messageBankStatement)){
+        $twoNdflMessage = new TwoNdflMessage();
+        if($this->messenger->recive($twoNdflMessage)){
             $isRecive = true;
-            $isSendEmail = $this->sendStatementToEmail($messageBankStatement);
+            $isSendEmail = $this->sendStatementToEmail($twoNdflMessage);
         }
 
         return new MessageReciveResult($isRecive, $isSendEmail);
@@ -36,24 +37,21 @@ class ReciveBankStatementUseCase
     /**
      * @throws Exception
      */
-    private function sendStatementToEmail(BankStatementMessage $bankStatementMessage): bool
+    private function sendStatementToEmail(TwoNdflMessage $twoNdflMessage): bool
     {
-        $bankStatement = new BankStatementModel(
-            $bankStatementMessage->getDateStart(),
-            $bankStatementMessage->getDateEnd()
+        $twoNdflModel = new TwoNdflModel(
+            $twoNdflMessage->getNumMonth(),
         );
-        $emailTo = $bankStatementMessage->getEmail();
-        $body = $this->getMailBody($bankStatement);
-        $subject = "Выписка по банковскому счету за период c " .
-            $bankStatement->getDateStart()->format('d.m.Y') . " по " .
-            $bankStatement->getDateEnd()->format('d.m.Y');
+        $emailTo = $twoNdflMessage->getEmail();
+        $body = $this->getMailBody($twoNdflModel);
+        $subject = "Справка 2НДФЛ за  " . $twoNdflModel->getNumMonth() . " мес. ";
         return $this->mailer->sendMail($emailTo, $subject, $body);
     }
 
-    private function getMailBody(BankStatementModel $bankStatement): string
+    private function getMailBody(TwoNdflModel $twoNdflModel): string
     {
         $body = '';
-        foreach ($bankStatement->getBankStatement() as $item) {
+        foreach ($twoNdflModel->getReference() as $item) {
             $body .= $item['date']->format('d.m.Y') . ' - ' . $item['value'] . PHP_EOL;
         }
         return $body;

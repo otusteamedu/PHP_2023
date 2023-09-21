@@ -3,25 +3,24 @@
 namespace IilyukDmitryi\App\Application\UseCase;
 
 use Exception;
-use IilyukDmitryi\App\Application\Builder\BankStatementRequestModelBuilder;
-use IilyukDmitryi\App\Application\Dto\MessageBankStatement;
-use IilyukDmitryi\App\Domain\Repository\BankStatementSenderInterface;
+use IilyukDmitryi\App\Application\Builder\BankStatementMessageBuilder;
+use IilyukDmitryi\App\Application\Contract\Messenger\MessengerInterface;
+use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
+use IilyukDmitryi\App\Application\Message\BankStatementMessage;
 
 class SendBankStatementUseCase
 {
-    private BankStatementSenderInterface $sender;
 
-    public function __construct(BankStatementSenderInterface $sender)
+    public function __construct(protected readonly MessengerInterface $messenger)
     {
-        $this->sender = $sender;
     }
 
     /**
      * @throws Exception
      */
-    public function exec(MessageBankStatement $messageSendRequest): void
+    public function exec(BankStatementRequest $messageSendRequest): void
     {
-        $bankStatementRequestModel = BankStatementRequestModelBuilder::createFromRequest($messageSendRequest);
-        $this->sender->send($bankStatementRequestModel);
+        $bankStatementMessage = BankStatementMessageBuilder::createFromRequest($messageSendRequest);
+        $this->messenger->send($bankStatementMessage);
     }
 }

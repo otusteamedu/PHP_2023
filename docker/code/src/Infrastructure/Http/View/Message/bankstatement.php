@@ -40,9 +40,8 @@ if (!empty($arrResult['message'])) {
         }
 
         function waitRecive() {
-            sendAjaxRequest('/message/recive/', function (response) {
+            sendAjaxRequest('/message/reciveBankStatement/', function (response) {
                 let message = '';
-                console.log(response);
                 if (response) {
                     let json = JSON.parse(response);
                     message = json.message;
@@ -63,18 +62,18 @@ if (!empty($arrResult['message'])) {
     <form id="myForm" action="" method="post">
         <div class="form-group">
             <label for="dateStart">Дата начала периода:</label>
-            <input type="date" id="dateStart" name="dateStart" value="<?php
+            <input type="date" id="dateStart" name="dateStart" max="<?=date("Y-m-d",strtotime('-1month'))?>" value="<?php
             echo $formData['dateStart'] ?? "" ?>" required>
         </div>
         <div class="form-group">
             <label for="dateStart">Дата окончания периода:</label>
-            <input type="date" id="dateEnd" name="dateEnd" value="<?php
+            <input type="date" id="dateEnd" name="dateEnd" max="<?=date("Y-m-d",strtotime('-1days'))?>" value="<?php
             echo $formData['dateEnd'] ?? "" ?>" required>
         </div>
         <div class="form-group">
             <label for="email">email:</label>
             <input type="email" id="email" name="email" value="<?php
-            echo $formData['dateEnd'] ?? "" ?>" required>
+            echo $formData['email'] ?? "" ?>" required>
         </div>
 
         <hr>

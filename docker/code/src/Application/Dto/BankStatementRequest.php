@@ -2,7 +2,7 @@
 
 namespace IilyukDmitryi\App\Application\Dto;
 
-class MessageBankStatement
+class BankStatementRequest
 {
     private string $dateStart;
     private string $dateEnd;
@@ -15,9 +15,9 @@ class MessageBankStatement
      */
     public function __construct(string $dateStart, string $dateEnd, string $email)
     {
-        $this->dateStart = $dateStart;
-        $this->dateEnd = $dateEnd;
-        $this->email = $email;
+        $this->dateStart = trim($dateStart);
+        $this->dateEnd = trim($dateEnd);
+        $this->email = trim($email);
     }
 
     /**

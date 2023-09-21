@@ -17,12 +17,4 @@ class Helper
         $id = $segments[count($segments) - 2] ?? '';
         return $id;
     }
-
-    public static function getBrokerName(): string
-    {
-        $settings = ConfigApp::get();
-        $BrokerClassName = $settings->getNameBroker();
-        $arrNames = explode('\\', $BrokerClassName);
-        return end($arrNames);
-    }
 }

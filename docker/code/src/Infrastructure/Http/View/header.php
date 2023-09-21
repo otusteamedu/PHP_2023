@@ -80,7 +80,8 @@
 
 <nav>
     <a href="/">Главная</a>
-    <a href="/message/send/">Получить банковскую выписку</a>
+    <a href="/message/sendBankStatement/">Получить банковскую выписку</a>
+    <a href="/message/sendTwoNdfl/">Получить справку 2ndfl </a>
 
 </nav>
 

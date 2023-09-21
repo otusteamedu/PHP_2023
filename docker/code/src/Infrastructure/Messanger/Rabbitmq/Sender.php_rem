@@ -9,7 +9,7 @@ use IilyukDmitryi\App\Infrastructure\Config\ConfigApp;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class Sender implements SenderBrokerInterface
+class Sender
 {
     private string $host;
     private string $port;

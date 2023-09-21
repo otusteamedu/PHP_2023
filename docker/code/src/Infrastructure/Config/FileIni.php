@@ -17,102 +17,55 @@ class FileIni
         $this->config = parse_ini_file(self::CONFIG_PATH) ?: [];
     }
 
-    public function getSenderName(): string
+    public function getMessangerName(): string
     {
-        return $this->config['sender'];
+        return $this->config['messanger']?? throw new \InvalidArgumentException("The config parameter messanger is not a valid config parameter");
     }
 
     /**
      * @return string
      */
-    public function getReciverName(): string
+    public function getMessangerHost(): string
     {
-        return $this->config['reciver'];
-    }
-
-    public function getReciverHost(): string
-    {
-        return $this->config['reciver_host'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReciverPort(): int
-    {
-        return (int)$this->config['reciver_port'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReciverUser(): string
-    {
-        return $this->config['reciver_user'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReciverPass(): string
-    {
-        return $this->config['reciver_pass'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReciverQueue(): string
-    {
-        return $this->config['reciver_queue'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getReciveTime(): int
-    {
-        return (int)$this->config['recive_time'];
-    }
-
-    /**
-     * @return string
-     */
-    public function getSenderHost(): string
-    {
-        return $this->config['sender_host'];
+        return $this->config['messanger_host']?? throw new \InvalidArgumentException("The config parameter messanger_host is not a valid config parameter");
     }
 
     /**
      * @return int
      */
-    public function getSenderPort(): int
+    public function getMessangerPort(): int
     {
-        return (int)$this->config['sender_port'];
+        return (int)$this->config['messanger_port']?? throw new \InvalidArgumentException("The config parameter messanger_port is not a valid config parameter");
     }
 
     /**
      * @return string
      */
-    public function getSenderUser(): string
+    public function getMessangerUser(): string
     {
-        return $this->config['sender_user'];
+        return $this->config['messanger_user']?? throw new \InvalidArgumentException("The config parameter messanger_user is not a valid config parameter");
     }
 
     /**
      * @return string
      */
-    public function getSenderPass(): string
+    public function getMessangerPass(): string
     {
-        return $this->config['sender_pass'];
+        return $this->config['messanger_pass']?? throw new \InvalidArgumentException("The config parameter messanger_pass is not a valid config parameter");
     }
+
+    public function getMessangerReciveTime()
+    {
+        return $this->config['messanger_recive_time']?? throw new \InvalidArgumentException("The config parameter messanger_recive_time is not a valid config parameter");
+    }
+
 
     /**
      * @return string
      */
-    public function getSenderQueue(): string
+    public function getMailerName(): string
     {
-        return $this->config['sender_queue'];
+        return $this->config['mailer']?? throw new \InvalidArgumentException("The config parameter mailer is not a valid config parameter");
     }
 
     /**
@@ -120,7 +73,7 @@ class FileIni
      */
     public function getMailerSmptHost(): string
     {
-        return $this->config['mailer_smtp_host'];
+        return $this->config['mailer_smtp_host']?? throw new \InvalidArgumentException("The config parameter mailer_smtp_host is not a valid config parameter");
     }
 
     /**
@@ -128,7 +81,7 @@ class FileIni
      */
     public function getMailerSmptUser(): string
     {
-        return $this->config['mailer_smtp_user'];
+        return $this->config['mailer_smtp_user']?? throw new \InvalidArgumentException("The config parameter mailer_smtp_user is not a valid config parameter");
     }
 
     /**
@@ -136,7 +89,7 @@ class FileIni
      */
     public function getMailerSmptPass(): string
     {
-        return $this->config['mailer_smtp_pass'];
+        return $this->config['mailer_smtp_pass']?? throw new \InvalidArgumentException("The config parameter mailer_smtp_pass is not a valid config parameter");
     }
 
     /**
@@ -144,7 +97,7 @@ class FileIni
      */
     public function getMailerSmptPort(): string
     {
-        return $this->config['mailer_smtp_port'];
+        return $this->config['mailer_smtp_port']?? throw new \InvalidArgumentException("The config parameter mailer_smtp_port is not a valid config parameter");
     }
 
     /**
@@ -152,6 +105,6 @@ class FileIni
      */
     public function getMailerSmptEmailFrom(): string
     {
-        return $this->config['mailer_smtp_email_from'];
+        return $this->config['mailer_smtp_email_from']?? throw new \InvalidArgumentException("The config parameter mailer_smtp_email_from is not a valid config parameter");
     }
 }

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg
+PUBLIC "-//W3C//DTD SVG 1.1//EN"
+       "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg viewBox="279 148 923 539" width="644px" height="391px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+   <line x1="393" y1="236" x2="403" y2="236" style="stroke:#333;stroke-width:1;"/>
+   <line x1="812" y1="193" x2="822" y2="193" style="stroke:#333;stroke-width:1;"/>
+   <line x1="403" y1="236" x2="812" y2="193" style="stroke:#333;stroke-width:1;"/>
+   <line x1="400.5" y1="236" x2="396.96446609407" y2="239.53553390593" style="stroke:#333;stroke-width:2;"/>
+   <line x1="400.5" y1="236" x2="396.96446609407" y2="232.46446609407" style="stroke:#333;stroke-width:2;"/>
+   <line x1="817" y1="193" x2="813.46446609407" y2="196.53553390593" style="stroke:#333;stroke-width:2;"/>
+   <line x1="817" y1="193" x2="813.46446609407" y2="189.46446609407" style="stroke:#333;stroke-width:2;"/>
+   <line x1="837" y1="503" x2="827" y2="503" style="stroke:#cb0;stroke-width:1;"/>
+   <line x1="452" y1="434" x2="442" y2="434" style="stroke:#cb0;stroke-width:1;"/>
+   <line x1="827" y1="503" x2="452" y2="434" style="stroke:#cb0;stroke-width:1;"/>
+   <line x1="829.5" y1="503" x2="833.03553390593" y2="506.53553390593" style="stroke:#cb0;stroke-width:2;"/>
+   <line x1="829.5" y1="503" x2="833.03553390593" y2="499.46446609407" style="stroke:#cb0;stroke-width:2;"/>
+   <line x1="447" y1="434" x2="450.53553390593" y2="437.53553390593" style="stroke:#cb0;stroke-width:2;"/>
+   <line x1="447" y1="434" x2="450.53553390593" y2="430.46446609407" style="stroke:#cb0;stroke-width:2;"/>
+   <line x1="837" y1="483" x2="827" y2="483" style="stroke:#b0b;stroke-width:1;"/>
+   <line x1="812" y1="193" x2="822" y2="193" style="stroke:#b0b;stroke-width:1;"/>
+   <line x1="827" y1="483" x2="812" y2="193" style="stroke:#b0b;stroke-width:1;"/>
+   <line x1="829.5" y1="483" x2="833.03553390593" y2="486.53553390593" style="stroke:#b0b;stroke-width:2;"/>
+   <line x1="829.5" y1="483" x2="833.03553390593" y2="479.46446609407" style="stroke:#b0b;stroke-width:2;"/>
+   <line x1="817" y1="193" x2="813.46446609407" y2="196.53553390593" style="stroke:#b0b;stroke-width:2;"/>
+   <line x1="817" y1="193" x2="813.46446609407" y2="189.46446609407" style="stroke:#b0b;stroke-width:2;"/>
+   <line x1="646" y1="327" x2="656" y2="327" style="stroke:#c00;stroke-width:1;"/>
+   <line x1="827" y1="443" x2="837" y2="443" style="stroke:#c00;stroke-width:1;"/>
+   <line x1="656" y1="327" x2="827" y2="443" style="stroke:#c00;stroke-width:1;"/>
+   <line x1="653.5" y1="327" x2="649.96446609407" y2="330.53553390593" style="stroke:#c00;stroke-width:2;"/>
+   <line x1="653.5" y1="327" x2="649.96446609407" y2="323.46446609407" style="stroke:#c00;stroke-width:2;"/>
+   <line x1="832" y1="443" x2="828.46446609407" y2="446.53553390593" style="stroke:#c00;stroke-width:2;"/>
+   <line x1="832" y1="443" x2="828.46446609407" y2="439.46446609407" style="stroke:#c00;stroke-width:2;"/>
+   <line x1="565" y1="387" x2="555" y2="387" style="stroke:#333;stroke-width:1;"/>
+   <line x1="403" y1="196" x2="393" y2="196" style="stroke:#333;stroke-width:1;"/>
+   <line x1="555" y1="387" x2="403" y2="196" style="stroke:#333;stroke-width:1;"/>
+   <line x1="557.5" y1="387" x2="561.03553390593" y2="390.53553390593" style="stroke:#333;stroke-width:2;"/>
+   <line x1="557.5" y1="387" x2="561.03553390593" y2="383.46446609407" style="stroke:#333;stroke-width:2;"/>
+   <line x1="398" y1="196" x2="401.53553390593" y2="199.53553390593" style="stroke:#333;stroke-width:2;"/>
+   <line x1="398" y1="196" x2="401.53553390593" y2="192.46446609407" style="stroke:#333;stroke-width:2;"/>
+   <rect width="121" height="20" x="321" y="404" style="fill:#007;stroke:black;"/>
+   <text width="121" height="20" x="326" y="418" style="fill:#fff;" font-family="Arial" font-size="16px"> films</text>
+   <rect width="121" height="20" x="321" y="424" style="fill:#aea;stroke:black;"/>
+   <text width="121" height="20" x="326" y="438" style="fill:black;" font-family="Arial" font-size="16px">id</text>
+   <rect width="121" height="20" x="321" y="444" style="fill:none;stroke:black;"/>
+   <text width="121" height="20" x="326" y="458" style="fill:black;" font-family="Arial" font-size="16px">name</text>
+   <rect width="121" height="20" x="321" y="464" style="fill:none;stroke:black;"/>
+   <text width="121" height="20" x="326" y="478" style="fill:black;" font-family="Arial" font-size="16px">genre</text>
+   <rect width="121" height="20" x="321" y="484" style="fill:none;stroke:black;"/>
+   <text width="121" height="20" x="326" y="498" style="fill:black;" font-family="Arial" font-size="16px">production_year</text>
+   <rect width="121" height="20" x="321" y="504" style="fill:none;stroke:black;"/>
+   <text width="121" height="20" x="326" y="518" style="fill:black;" font-family="Arial" font-size="16px">duration</text>
+   <rect width="50" height="20" x="822" y="163" style="fill:#007;stroke:black;"/>
+   <text width="50" height="20" x="827" y="177" style="fill:#fff;" font-family="Arial" font-size="16px"> halls</text>
+   <rect width="50" height="20" x="822" y="183" style="fill:#aea;stroke:black;"/>
+   <text width="50" height="20" x="827" y="197" style="fill:black;" font-family="Arial" font-size="16px">id</text>
+   <rect width="50" height="20" x="822" y="203" style="fill:none;stroke:black;"/>
+   <text width="50" height="20" x="827" y="217" style="fill:black;" font-family="Arial" font-size="16px">name</text>
+   <rect width="99" height="20" x="294" y="166" style="fill:#007;stroke:black;"/>
+   <text width="99" height="20" x="299" y="180" style="fill:#fff;" font-family="Arial" font-size="16px"> seats</text>
+   <rect width="99" height="20" x="294" y="186" style="fill:#aea;stroke:black;"/>
+   <text width="99" height="20" x="299" y="200" style="fill:black;" font-family="Arial" font-size="16px">id</text>
+   <rect width="99" height="20" x="294" y="206" style="fill:none;stroke:black;"/>
+   <text width="99" height="20" x="299" y="220" style="fill:black;" font-family="Arial" font-size="16px">seat_number</text>
+   <rect width="99" height="20" x="294" y="226" style="fill:none;stroke:black;"/>
+   <text width="99" height="20" x="299" y="240" style="fill:black;" font-family="Arial" font-size="16px">hall_id</text>
+   <rect width="71" height="20" x="837" y="413" style="fill:#007;stroke:black;"/>
+   <text width="71" height="20" x="842" y="427" style="fill:#fff;" font-family="Arial" font-size="16px"> sessions</text>
+   <rect width="71" height="20" x="837" y="433" style="fill:#aea;stroke:black;"/>
+   <text width="71" height="20" x="842" y="447" style="fill:black;" font-family="Arial" font-size="16px">id</text>
+   <rect width="71" height="20" x="837" y="453" style="fill:none;stroke:black;"/>
+   <text width="71" height="20" x="842" y="467" style="fill:black;" font-family="Arial" font-size="16px">datetime</text>
+   <rect width="71" height="20" x="837" y="473" style="fill:none;stroke:black;"/>
+   <text width="71" height="20" x="842" y="487" style="fill:black;" font-family="Arial" font-size="16px">hall_id</text>
+   <rect width="71" height="20" x="837" y="493" style="fill:none;stroke:black;"/>
+   <text width="71" height="20" x="842" y="507" style="fill:black;" font-family="Arial" font-size="16px">film_id</text>
+   <rect width="81" height="20" x="565" y="277" style="fill:#007;stroke:black;"/>
+   <text width="81" height="20" x="570" y="291" style="fill:#fff;" font-family="Arial" font-size="16px"> tickets</text>
+   <rect width="81" height="20" x="565" y="297" style="fill:#aea;stroke:black;"/>
+   <text width="81" height="20" x="570" y="311" style="fill:black;" font-family="Arial" font-size="16px">id</text>
+   <rect width="81" height="20" x="565" y="317" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="570" y="331" style="fill:black;" font-family="Arial" font-size="16px">session_id</text>
+   <rect width="81" height="20" x="565" y="337" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="570" y="351" style="fill:black;" font-family="Arial" font-size="16px">status</text>
+   <rect width="81" height="20" x="565" y="357" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="570" y="371" style="fill:black;" font-family="Arial" font-size="16px">price</text>
+   <rect width="81" height="20" x="565" y="377" style="fill:none;stroke:black;"/>
+   <text width="81" height="20" x="570" y="391" style="fill:black;" font-family="Arial" font-size="16px">seat_id</text>
+</svg>

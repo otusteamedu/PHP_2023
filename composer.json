@@ -1,0 +1,18 @@
+{
+    "name": "user/php_2023",
+    "autoload": {
+        "psr-4": {
+            "User\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evgeniy Evstifeev",
+            "email": "evstifeevea@gmail.com"
+        }
+    ],
+    "require": {
+        "tel3scop/otus-composer-package": "^1.0",
+        "php": "7.4"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "name": "mtyarev/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mtyarev\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mtyarev",
+            "email": "mtyarev@cmd.su"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "mtyuryaev/otus-composer-package": "^1.0"
+    }
+}

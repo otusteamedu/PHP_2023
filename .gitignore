@@ -1,4 +1,6 @@
 .env
-conf/
+conf
 .idea/
 *.bak
+
+/vendor/

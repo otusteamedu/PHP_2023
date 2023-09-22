@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "4e794b39823c8e040033d9c800d7c133",
+    "packages": [
+        {
+            "name": "tel3scop/otus-composer-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tel3scop/otus-composer-package.git",
+                "reference": "05a04f2d9fb7ca1d7f35adb1928f1b02b4b7ef7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tel3scop/otus-composer-package/zipball/05a04f2d9fb7ca1d7f35adb1928f1b02b4b7ef7d",
+                "reference": "05a04f2d9fb7ca1d7f35adb1928f1b02b4b7ef7d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tel3scop\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Evgeniy Evstifeev",
+                    "email": "evstifeevea@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Tel3scop/otus-composer-package/issues",
+                "source": "https://github.com/Tel3scop/otus-composer-package/tree/v1.0.1"
+            },
+            "time": "2023-09-22T05:58:50+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

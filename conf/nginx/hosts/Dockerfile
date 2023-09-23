@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY ./conf/nginx/main.conf /etc/nginx/conf.d/main.conf
+COPY ./conf/nginx/hosts/otus.local.conf /etc/nginx/conf.d/otus.local.conf
 
 WORKDIR /var/www/html
 

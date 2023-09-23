@@ -27,6 +27,5 @@ class StringValidatorController
             http_response_code(400);
             return "Bad Request: " . $e->getMessage();
         }
-
     }
 }

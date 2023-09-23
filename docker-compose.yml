@@ -1,10 +1,10 @@
 version: '3'
 services:
-  nginx:
+  nginx-main:
     container_name: nginx
     build:
       context: .
-      dockerfile: ./conf/nginx/Dockerfile
+      dockerfile: conf/nginx/Dockerfile
     image: balance/nginx
     ports:
       - "80:80"
@@ -13,6 +13,37 @@ services:
       - ./code:/var/www/html
     networks:
       - app-network
+      - internal
+
+  nginx-1:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-1
+    networks:
+      - internal
+
+  nginx-2:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-2
+    networks:
+      - internal
+
+  nginx-3:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-3
+    networks:
+      - internal
 
   app1:
     image: balance/php
@@ -25,7 +56,7 @@ services:
     links:
       - memcache
     networks:
-      - app-network
+      - internal
 
   app2:
     image: balance/php
@@ -38,7 +69,7 @@ services:
     links:
       - memcache
     networks:
-      - app-network
+      - internal
 
   app3:
     image: balance/php
@@ -51,10 +82,11 @@ services:
     links:
       - memcache
     networks:
-      - app-network
+      - internal
 
   memcache:
     image: memcached:latest
 
 networks:
   app-network:
+  internal:

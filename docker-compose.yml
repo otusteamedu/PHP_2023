@@ -1,0 +1,60 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: ./conf/nginx/Dockerfile
+    image: balance/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/nginx/hosts/otus.local.conf:/etc/nginx/otus.local.conf
+      - ./code:/var/www/html
+    networks:
+      - app-network
+
+  app1:
+    image: balance/php
+    container_name: app1
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - app-network
+
+  app2:
+    image: balance/php
+    container_name: app2
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - app-network
+
+  app3:
+    image: balance/php
+    container_name: app3
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - app-network
+
+  memcache:
+    image: memcached:latest
+
+networks:
+  app-network:

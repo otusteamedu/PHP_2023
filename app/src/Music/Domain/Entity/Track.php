@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Music\Domain\Entity;
 
-class Track
+use App\Music\Domain\Decorator\Track\TrackInterface;
+
+class Track implements TrackInterface
 {
     private int $id;
     private string $name;

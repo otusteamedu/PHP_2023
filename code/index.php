@@ -1,11 +1,17 @@
 <?php
+
 declare(strict_types=1);
 
 try {
     $string = $_POST['string'] ?? '';
 
-    if (empty($string)) throw new Exception("String parameter is empty");
-    if (!isValidString($string)) throw new Exception("Your string '$string' contains invalid parentheses");
+    if (empty($string)) {
+        throw new Exception("String parameter is empty");
+    }
+    if (!isValidString($string)) {
+        throw new Exception("Your string '$string' contains invalid parentheses");
+    }
+
 
     http_response_code(200);
     echo "OK: Your String '$string' is valid";

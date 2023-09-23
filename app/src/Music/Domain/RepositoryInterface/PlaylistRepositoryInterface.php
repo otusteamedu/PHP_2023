@@ -6,5 +6,4 @@ namespace App\Music\Domain\RepositoryInterface;
 
 interface PlaylistRepositoryInterface
 {
-
 }

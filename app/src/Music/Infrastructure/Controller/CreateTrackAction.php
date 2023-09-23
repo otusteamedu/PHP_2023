@@ -19,7 +19,8 @@ class CreateTrackAction
     public function __construct(
         private readonly TrackRepository $trackRepository,
         private readonly GenreRepository $genreRepository
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

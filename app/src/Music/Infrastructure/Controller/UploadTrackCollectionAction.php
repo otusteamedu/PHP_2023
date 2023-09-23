@@ -16,8 +16,9 @@ class UploadTrackCollectionAction
 {
     public function __construct(
         private readonly MusicServiceInterface $musicService,
-        private readonly TrackRepository       $trackRepository
-    ){}
+        private readonly TrackRepository $trackRepository
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

@@ -14,7 +14,8 @@ class GetTrackDurationAction
 {
     public function __construct(
         private readonly TrackRepository $trackRepository
-    ) {}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

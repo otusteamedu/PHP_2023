@@ -6,7 +6,6 @@ namespace App\Music\Application\Strategy\SortIteratorStrategy;
 
 class IdSortIteratorStrategy implements SortIteratorStrategyInterface
 {
-
     public function sort(array $collection): array
     {
         $keys = array_column($collection, 'id');

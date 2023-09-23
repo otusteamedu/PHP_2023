@@ -18,7 +18,8 @@ class UploadPlaylistCollectionAction
     public function __construct(
         private readonly MusicServiceInterface $musicService,
         private readonly PlaylistRepository $playlistRepository
-    ){}
+    ) {
+    }
 
     public function __invoke(Request $request): JsonResponse
     {

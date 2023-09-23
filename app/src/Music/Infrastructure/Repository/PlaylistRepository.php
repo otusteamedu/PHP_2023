@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Music\Infrastructure\Repository;
 
-use App\Music\Application\Iterator\UploadIteratorInterface;
 use App\Music\Domain\Entity\Playlist;
+use App\Music\Domain\Iterator\UploadIteratorInterface;
 use App\Music\Domain\RepositoryInterface\PlaylistRepositoryInterface;
 use App\Music\Domain\RepositoryInterface\UploadCollectionInterface;
 use App\Music\Domain\RepositoryInterface\UserRepositoryInterface;
@@ -16,7 +16,7 @@ class PlaylistRepository extends ServiceEntityRepository implements PlaylistRepo
 {
     public function __construct(
         ManagerRegistry $registry,
-        private UserRepositoryInterface $userRepository
+        private readonly UserRepositoryInterface $userRepository
     ) {
         parent::__construct($registry, Playlist::class);
     }

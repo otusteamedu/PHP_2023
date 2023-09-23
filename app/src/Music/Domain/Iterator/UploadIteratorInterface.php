@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Music\Application\Iterator;
+namespace App\Music\Domain\Iterator;
 
 interface UploadIteratorInterface
 {

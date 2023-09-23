@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Music\Infrastructure\Repository;
 
-use App\Music\Application\Iterator\UploadIteratorInterface;
 use App\Music\Domain\Entity\Track;
+use App\Music\Domain\Iterator\UploadIteratorInterface;
 use App\Music\Domain\RepositoryInterface\GenreRepositoryInterface;
 use App\Music\Domain\RepositoryInterface\TrackRepositoryInterface;
 use App\Music\Domain\RepositoryInterface\UploadCollectionInterface;

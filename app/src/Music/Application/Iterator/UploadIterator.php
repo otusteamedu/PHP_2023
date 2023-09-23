@@ -4,14 +4,17 @@ declare(strict_types=1);
 
 namespace App\Music\Application\Iterator;
 
+use App\Music\Application\Strategy\SortIteratorStrategy\SortIteratorStrategyInterface;
+use App\Music\Domain\Iterator\UploadIteratorInterface;
+
 class UploadIterator implements UploadIteratorInterface
 {
     private array $collection;
     private int $currentElement = 0;
 
-    public function __construct(array $collection)
+    public function __construct(array $collection, SortIteratorStrategyInterface $iteratorStrategy)
     {
-        $this->collection = $collection;
+        $this->collection = $iteratorStrategy->sort($collection);
     }
 
     public function getNext()

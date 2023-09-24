@@ -6,6 +6,6 @@ WORKDIR /app
 
 VOLUME /app
 
-EXPOSE 8871
+EXPOSE 7878
 
-CMD ["nginx", "-g", "daemon off;"]
+#CMD ["nginx", "-g", "daemon off;"]

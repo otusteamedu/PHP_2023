@@ -3,8 +3,10 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Aleksandrdolgov\\OtusPhp2023\\": "src/"
+            "App\\": "src/"
         }
     },
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
 }

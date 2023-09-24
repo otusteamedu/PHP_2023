@@ -29,12 +29,8 @@ COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 USER www-data:www-data
 
-COPY ../../../composer.json composer.json
+COPY composer.json composer.json
 
 RUN composer install
-
-WORKDIR /app
-
-VOLUME /app
 
 CMD ["php-fpm"]

@@ -2,90 +2,86 @@ version: '3'
 
 services:
     nginx-root:
-        build:
-            context: ./nginx-root
-            dockerfile: Dockerfile
+        image: nginx:stable-alpine
         container_name: nginx-root
+        working_dir: /app
         ports:
             -   "80:80"
         networks:
             - app-network
+        volumes:
+            - ../docker/nginx-root/application.local.conf:/etc/nginx/conf.d/application.local.conf
 
     nginx-child-1:
-        build:
-            context: ./nginx-child
-            dockerfile: Dockerfile
+        image: nginx:stable-alpine
         container_name: nginx-child-1
+        working_dir: /app
         volumes:
-            - ../src:/app
+            - ../docker/nginx-child/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ../app:/app
         networks:
             - app-network
 
     nginx-child-2:
-        build:
-            context: ./nginx-child
-            dockerfile: Dockerfile
+        image: nginx:stable-alpine
         container_name: nginx-child-2
+        working_dir: /app
         volumes:
-            - ../src:/app
+            - ../docker/nginx-child/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ..app:/app
         networks:
             - app-network
 
     nginx-child-3:
-        build:
-            context: ./nginx-child
-            dockerfile: Dockerfile
+        image: nginx:stable-alpine
         container_name: nginx-child-3
+        working_dir: /app
         volumes:
-            - ../src:/app
+            - ../docker/nginx-child/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ..app:/app
         networks:
             - app-network
 
     memcached:
-        build:
-            context: ./memcached
-            dockerfile: Dockerfile
+        image: memcached:latest
         ports:
             - "11211:11211"
         container_name: app-memcached
         networks:
             - app-network
 
-    app1:
+    php-fpm-1:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        container_name: app1
-        ports:
-            - ":9000"
+        container_name: php-fpm-1
         volumes:
-            - ../src:/app
+            - ../:/app
+        working_dir: /app
         networks:
             - app-network
 
     # second php-fpm
-    app2:
+    php-fpm-2:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        container_name: app2
-        ports:
-            - ":9000"
+        container_name: php-fpm-2
         volumes:
-            - ../src:/app
+            - ../:/app
+        working_dir: /app
         networks:
             - app-network
 
     # third php-fpm
-    app3:
+    php-fpm-3:
         build:
             context: ./..
             dockerfile: docker/fpm/Dockerfile
-        container_name: app3
-        ports:
-            - ":9000"
+        container_name: php-fpm-3
         volumes:
-            - ../src:/app
+            - ../:/app
+        working_dir: /app
         networks:
             - app-network
 

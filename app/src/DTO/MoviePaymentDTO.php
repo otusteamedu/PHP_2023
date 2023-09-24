@@ -13,7 +13,8 @@ class MoviePaymentDTO
         private int $cvv,
         private string $orderNumber,
         private string $sum
-    ) {}
+    ) {
+    }
 
     public function getCardNumber(): string
     {

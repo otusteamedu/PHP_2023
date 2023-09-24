@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Eevstifeev\Chat\Handlers;
+namespace Eevstifeev\Chat\Socket;
 
 use Eevstifeev\Chat\Contracts\SocketContract;
 

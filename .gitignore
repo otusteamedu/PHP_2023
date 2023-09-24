@@ -2,5 +2,4 @@
 conf/db
 .idea/
 *.bak
-
 vendor

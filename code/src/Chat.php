@@ -3,8 +3,8 @@
 declare(strict_types=1);
 
 namespace Eevstifeev\Chat;
-use Eevstifeev\Chat\Handlers\ClientSocket;
-use Eevstifeev\Chat\Handlers\ServerSocket;
+use Eevstifeev\Chat\Socket\ClientSocket;
+use Eevstifeev\Chat\Socket\ServerSocket;
 
 final class Chat
 {

@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/Services/EmailValidator.php';
+use Eevstifeev\Emailvalidator\Controllers\EmailValidateController;
+
+require __DIR__ . '/vendor/autoload.php';
 
 $emailList = [
     'info@otus.ru',
@@ -11,12 +13,4 @@ $emailList = [
     'admin@gooooooooooooooooooooooooogle.com',
 ];
 
-$emailValidator = new Services\EmailValidator();
-
-foreach ($emailList as $email) {
-    if ($emailValidator->validate($email)) {
-        echo "$email - Валидный email\n";
-    } else {
-        echo "$email - Невалидный email\n";
-    }
-}
+print_r(EmailValidateController::getValidate($emailList));

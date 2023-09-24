@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./conf/php
+      dockerfile: Dockerfile
+    container_name: ${APPLICATION_NAME}-server
+    volumes:
+      - ./code:/var/www
+      - ./socket:/tmp/socket
+    networks:
+      - internal
+
+  client:
+    build:
+      context: ./conf/php
+      dockerfile: Dockerfile
+    container_name: ${APPLICATION_NAME}-client
+    depends_on:
+      - server
+    volumes:
+      - ./code:/var/www
+      - ./socket:/tmp/socket
+    networks:
+      - internal
+
+networks:
+  internal:

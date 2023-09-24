@@ -19,8 +19,12 @@ class MergeListsTask
             }
             $tail = $tail->getNext();
         }
-        $tail->setNext($listNode1 ?? $listNode2);
-        return $head->getNext();
+        if(!is_null($tail)) {
+            $tail->setNext($listNode1 ?? $listNode2);
+            return $head->getNext();
+        }
+
+        return false;
 
     }
 

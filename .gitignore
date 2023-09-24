@@ -1,4 +1,5 @@
 .env
-conf/
+conf/db
 .idea/
 *.bak
+vendor

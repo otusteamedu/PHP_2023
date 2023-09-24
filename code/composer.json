@@ -1,0 +1,21 @@
+{
+    "name": "eevstifeev/chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eevstifeev\\Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evgeniy Evstifeev",
+            "email": "evstifeevea@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">= 8.1",
+        "ext-sockets": "*",
+        "ext-readline": "*",
+        "ext-mbstring": "*"
+    }
+}

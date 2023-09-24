@@ -1,3 +1,5 @@
-# PHP_2023
+# HW17
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+https://drive.google.com/file/d/1yAtmj9DE2yFeGh26WxDwr42j7RVbB_PI/view
+
+Решение в solution.md

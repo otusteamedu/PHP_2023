@@ -3,6 +3,6 @@
 /** @var Router $router */
 
 use MiladRahimi\PhpRouter\Router;
-use Rofflexor\Hw\Controllers\CheckEmailController;
+use Rofflexor\Hw\Controllers\SortController;
 
-$router->post('/', CheckEmailController::class);
+$router->get('/', SortController::class);

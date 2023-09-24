@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace LebedevVR\App\Repository;
+namespace App\Repository;
 
 class PaymentRepository
 {

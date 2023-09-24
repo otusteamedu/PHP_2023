@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace LebedevVR\App\Validator;
+namespace App\Validator;
 
-use LebedevVR\App\DTO\MoviePaymentDTO;
-use LebedevVR\App\Exception\CardExpirationValidationException;
-use LebedevVR\App\Exception\CardHolderValidationException;
-use LebedevVR\App\Exception\CardNumberValidationException;
-use LebedevVR\App\Exception\CvvValidationException;
-use LebedevVR\App\Exception\OrderNumberValidationException;
-use LebedevVR\App\Exception\SumValidationException;
+use App\DTO\MoviePaymentDTO;
+use App\Exception\CardExpirationValidationException;
+use App\Exception\CardHolderValidationException;
+use App\Exception\CardNumberValidationException;
+use App\Exception\CvvValidationException;
+use App\Exception\OrderNumberValidationException;
+use App\Exception\SumValidationException;
 
 class MoviePaymentValidator
 {
     public function validate(MoviePaymentDTO $dto): void
     {
-        if (strlen((string)$dto->getCardNumber()) !== 16) {
+        if (strlen($dto->getCardNumber()) !== 16) {
             throw new CardNumberValidationException('Card number must contain 16 digits');
         }
-        if (!preg_match('/^\d+$/', (string)$dto->getCardNumber())) {
+        if (!preg_match('/^\d+$/', $dto->getCardNumber())) {
             throw new CardNumberValidationException('Card number must contain only digits');
         }
 

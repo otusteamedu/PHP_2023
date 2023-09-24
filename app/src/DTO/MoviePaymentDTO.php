@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace LebedevVR\App\DTO;
+namespace App\DTO;
 
-readonly class MoviePaymentDTO
+class MoviePaymentDTO
 {
     public function __construct(
-        private int    $cardNumber,
+        private string $cardNumber,
         private string $cardHolder,
         private string $cardExpiration,
-        private int    $cvv,
+        private int $cvv,
         private string $orderNumber,
         private string $sum
     ) {}
 
-    public function getCardNumber(): int
+    public function getCardNumber(): string
     {
         return $this->cardNumber;
     }

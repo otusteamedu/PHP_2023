@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace LebedevVR\App\Controller;
+namespace App\Controller;
 
-use LebedevVR\App\DTO\MoviePaymentDTO;
-use LebedevVR\App\Repository\PaymentRepository;
-use LebedevVR\App\Service\PaymentService;
-use LebedevVR\App\Validator\MoviePaymentValidator;
+use App\DTO\MoviePaymentDTO;
+use App\Repository\PaymentRepository;
+use App\Service\PaymentService;
+use App\Validator\MoviePaymentValidator;
 
 class PaymentController
 {
     public function __construct(
-        private readonly PaymentService    $paymentService,
-        private readonly PaymentRepository $repository){
-
+        private readonly PaymentService $paymentService,
+        private readonly PaymentRepository $paymentRepository
+    ) {
     }
 
     public function moviePaymentAction(MoviePaymentDTO $request): void
@@ -23,7 +23,7 @@ class PaymentController
         $validator->validate($request);
 
         if ($this->paymentService->pay($request)['code'] === 200) {
-            $this->repository->add([
+            $this->paymentRepository->add([
                 'id' => 1,
                 'order_number' => $request->getOrderNumber(),
                 'card_holder' => $request->getCardHolder(),

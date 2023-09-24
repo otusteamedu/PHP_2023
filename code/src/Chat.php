@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Eevstifeev\Chat;
+
 use Eevstifeev\Chat\Socket\ClientSocket;
 use Eevstifeev\Chat\Socket\ServerSocket;
 
@@ -19,7 +20,7 @@ final class Chat
             if ($type === 'client') {
                 $client = new ClientSocket($config);
                 $client->handle();
-            } elseif ($type ==='server') {
+            } elseif ($type === 'server') {
                 $server = new ServerSocket($config);
                 $server->handle();
             }

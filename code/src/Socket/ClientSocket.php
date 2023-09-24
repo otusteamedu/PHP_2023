@@ -15,9 +15,10 @@ final class ClientSocket extends MainSocket implements SocketContract
             echo 'Сообщение: ';
             $input = readline();
             $this->writeSocket($input);
-            echo 'The server received ' .$this->readSocket() . ' bytes.' . PHP_EOL;
+            echo 'The server received ' . $this->readSocket() . ' bytes.' . PHP_EOL;
         }
     }
+
     private function initSocket(): void
     {
         $this->createSocket();

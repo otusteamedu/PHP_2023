@@ -11,7 +11,7 @@ use Socket as BaseSocket;
 
 class MainSocket implements SocketContract
 {
-    const maxLengthForRead = 1024;
+    const MAX_LENGTH_FOR_READ = 1024;
     private ?BaseSocket $socket = null;
     private string $socketFile;
     public int $maxLengthForRead;
@@ -21,9 +21,11 @@ class MainSocket implements SocketContract
         $this->socketFile = $this->config->get('path');
         $this->maxLengthForRead = intval($this->config->get('socket_max_bytes'));
     }
+
     public function handle(): void
     {
     }
+
     public function createSocket(bool $recreate = false): void
     {
         if ($recreate && file_exists($this->socketFile)) {
@@ -71,9 +73,10 @@ class MainSocket implements SocketContract
             throw new RuntimeException('Не удалось подключить сокет!');
         }
     }
+
     public function readSocket(): string
     {
-        $data = socket_read($this->socket, self::maxLengthForRead);
+        $data = socket_read($this->socket, self::MAX_LENGTH_FOR_READ);
         if ($data === false) {
             throw new RuntimeException('Ошибка при чтении из сокета!');
         }
@@ -84,10 +87,11 @@ class MainSocket implements SocketContract
     {
         $socket = $socket ?? $this->socket;
         if (!socket_write($socket, $message, strlen($message))) {
-            echo 'Fatal error: #' . socket_last_error() . '. ' . socket_strerror(socket_last_error())  . PHP_EOL;
+            echo 'Fatal error: #' . socket_last_error() . '. ' . socket_strerror(socket_last_error()) . PHP_EOL;
             throw new RuntimeException('Не удалось записать в сокет!');
         }
     }
+
     public function listenSocket(): void
     {
         if (!socket_listen($this->socket)) {

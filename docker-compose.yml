@@ -11,6 +11,8 @@ services:
       - ./socket:/tmp/socket
     networks:
       - internal
+    env_file:
+      - .env
 
   client:
     build:
@@ -24,6 +26,8 @@ services:
       - ./socket:/tmp/socket
     networks:
       - internal
+    env_file:
+      - .env
 
 networks:
   internal:

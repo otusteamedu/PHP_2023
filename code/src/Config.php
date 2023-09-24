@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace EEvstifeev\Chat;
+namespace Eevstifeev\Chat;
 
 use RuntimeException;
 
@@ -10,7 +10,7 @@ class Config {
     const FILE_NAME ='socket.ini';
 
     public function __construct() {
-        $configFilePath = dirname(__DIR__, 2) . '/config/' . self::FILE_NAME;
+        $configFilePath = $_ENV['ROOT_DIR'] . '/config/' . self::FILE_NAME;
         if (!file_exists($configFilePath)) {
             throw new RuntimeException('Configuration file not found: ' . $configFilePath);
         }

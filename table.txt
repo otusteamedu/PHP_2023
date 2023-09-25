@@ -1,0 +1,7 @@
+id user city phone
+1 test Moscow 88005553535
+2 test2 Magnitogorsk 81234447635
+3 test3 New-York 34567759056
+4 test4 Moscow 89764533232
+5 test5 Ekaterinburg 89234568767
+6 test6 New-York 36784523222

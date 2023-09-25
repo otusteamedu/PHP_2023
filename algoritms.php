@@ -58,8 +58,8 @@ function countPricesGreaterThanEach(array $prices): array
 
 function findGreatestPrices($prices): int
 {
-   $len = count($prices);
-   return $prices[$len-1];
+    $len = count($prices);
+    return $prices[$len - 1];
 }
 
 function reverseString($string): string

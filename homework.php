@@ -91,4 +91,3 @@ function runHomeWork($values): void
     echo "Результат выполнения функции:" . PHP_EOL;
     print_r(leftRightDifference($values));
 }
-

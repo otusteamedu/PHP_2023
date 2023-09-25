@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Task1;
 
-class ListNode {
+class ListNode
+{
     public int $val = 0;
     public self|null $next = null;
     public function __construct($val)

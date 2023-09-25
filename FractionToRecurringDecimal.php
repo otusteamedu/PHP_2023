@@ -6,7 +6,11 @@ namespace App\Task2;
 
 class Solution
 {
-    function fractionToDecimal(int $numerator, int $denominator): string
+    /**
+     * @time O(n)
+     * @memory O(1)
+     */
+    public function fractionToDecimal(int $numerator, int $denominator): string
     {
         $res = '';
         if (($numerator < 0 && $denominator > 0) || ($numerator > 0 && $denominator < 0)) {

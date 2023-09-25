@@ -7,7 +7,7 @@ namespace App\Task1;
 class ListNode {
     public int $val = 0;
     public self|null $next = null;
-    function __construct($val)
+    public function __construct($val)
     {
         $this->val = $val;
     }
@@ -44,7 +44,7 @@ class Solution
      * @time O(2n)
      * @memory O(1)
      */
-    function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode
+    public function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode
     {
         // Count length
         $lenA = 1;

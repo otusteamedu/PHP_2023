@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Art\Code\Infrastructure\Services\Queue\StatementPublisher;
+namespace Art\Code\Infrastructure\Services\Queue\RequestPublisher;
 
-use Art\Code\Infrastructure\DTO\StatementSendDTO;
-use Art\Code\Infrastructure\Interface\StatementPublisherInterface;
-use Art\Code\Infrastructure\Rabbit\RabbitMQConnector;
+use Art\Code\Infrastructure\Broker\Rabbit\RabbitMQConnector;
+use Art\Code\Infrastructure\DTO\RequestSendDTO;
+use Art\Code\Infrastructure\Interface\RequestPublisherInterface;
 use Art\Code\Infrastructure\Services\Queue\Interface\QueueInterface;
 use JsonException;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class StatementPublisher implements QueueInterface, StatementPublisherInterface
+class RequestPublisher implements QueueInterface, RequestPublisherInterface
 {
     private AMQPChannel $channel;
 
@@ -29,7 +29,7 @@ class StatementPublisher implements QueueInterface, StatementPublisherInterface
         $this->createChanel();
         $message = $this->createMessage($data);
 
-        $this->channel->basic_publish($message, '', self::QUEUE_NAME_STATEMENT);
+        $this->channel->basic_publish($message, '', self::QUEUE_NAME_REQUEST);
         $this->channel->close();
     }
 
@@ -37,7 +37,7 @@ class StatementPublisher implements QueueInterface, StatementPublisherInterface
     {
         $connection =  $this->rabbitMQConnector->connection();
         $this->channel = $connection->channel();
-        $this->channel->queue_declare(self::QUEUE_NAME_STATEMENT, false, false, false, false);
+        $this->channel->queue_declare(self::QUEUE_NAME_REQUEST, false, false, false, false);
     }
 
     /**
@@ -45,7 +45,7 @@ class StatementPublisher implements QueueInterface, StatementPublisherInterface
      */
     private function createMessage(array $data): AMQPMessage
     {
-        $dto  = new StatementSendDTO($data);
+        $dto  = new RequestSendDTO($data);
         return new AMQPMessage($dto->toAMQPMessage());
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Art\Code\Infrastructure\Rabbit;
+namespace Art\Code\Infrastructure\Broker\Rabbit;
 
 use Art\Code\Infrastructure\Interface\ConnectorInterface;
 use Exception;

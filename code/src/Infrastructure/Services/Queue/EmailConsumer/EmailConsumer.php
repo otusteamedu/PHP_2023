@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Art\Code\Infrastructure\Services\Queue\EmailConsumer;
 
+use Art\Code\Infrastructure\Broker\Rabbit\RabbitMQConnector;
 use Art\Code\Infrastructure\DTO\EmailReceivedDTO;
-use Art\Code\Infrastructure\Rabbit\RabbitMQConnector;
 use Art\Code\Infrastructure\Services\Queue\Interface\QueueInterface;
 use PhpAmqpLib\Channel\AMQPChannel;
 
@@ -43,7 +43,7 @@ class EmailConsumer implements QueueInterface
         echo " [*] Waiting for messages. To exit press CTRL+C\n";
     }
 
-    private function sendMail(EmailReceivedDTO $dto ): void
+    private function sendMail(EmailReceivedDTO $dto): void
     {
         mail($dto->getTo(), $dto->getTitle(), $dto->getTitle());
     }

@@ -4,52 +4,50 @@ declare(strict_types=1);
 
 namespace Art\Code\Infrastructure;
 
-use Art\Code\Infrastructure\View\View;
+use Art\Code\Infrastructure\Response\Response;
 
 class RouteManager
 {
-    const ALLOWED_ACTIONS = ['index', 'get', 'delete'];
-    const ALLOWED_ROUTES = ['statement',''];
-    const NAMESPACE = "Art\\Code\\Infrastructure\\Controller\\";
+    const ALLOWED_ACTIONS = ['index', 'get', 'delete', 'post'];
+    const ALLOWED_ROUTES = ['request', 'documentation'];
+    const NAMESPACE = "Art\\Code\\Infrastructure\\Controller\\Api\\v1\\";
 
     public function __construct()
     {
         $url = strtok($_SERVER["REQUEST_URI"], '?');
         $routes = explode('/', $url);
+        $controller_name = '';
+        $action_name = '';
 
-        if (empty($routes[1] && in_array(strtolower($routes[1]),self::ALLOWED_ROUTES)) ) {
-            $this->viewRender();
-        }
-        else{
-            $route = ucfirst(strtolower($routes[1]));
-            $controller_name = self::NAMESPACE."{$route}Controller";
+        if (empty($routes[3]) || !in_array(strtolower($routes[3]), self::ALLOWED_ROUTES)) {
+
+            $this->noPage();
+        } else {
+            $route = ucfirst(strtolower($routes[3]));
+            $controller_name = self::NAMESPACE . "{$route}Controller";
         }
 
-        if (empty($routes[2] && in_array(strtolower($routes[2]),self::ALLOWED_ACTIONS)) ) {
-            $this->viewRender();
+        if (empty($routes[4])) {
+            $action_name = "index";
+        } else if (!in_array(strtolower($routes[4]), self::ALLOWED_ACTIONS)) {
+            $this->noPage();
+        } else {
+            $action_name = strtolower($routes[4]);
         }
-        $action_name = strtolower($routes[2]);
 
-        // redirect to 404
         if (!class_exists($controller_name, true)) {
-            $this->viewRender();
+            $this->noPage();
         }
-
-        // redirect to 404
-        if(!method_exists($controller_name, $action_name)) {
-            $this->viewRender();
+        if (!method_exists($controller_name, $action_name)) {
+            $this->noPage();
         }
 
         $controller = new $controller_name();
         $controller->$action_name();
     }
 
-    private function viewRender(): void
+    private function noPage(): void
     {
-        View::render('error/404', [
-            'title' => 'Ошибка 404',
-            'error_code' => '404 - Not Found',
-            'result' => 'Нет такой страницы'
-        ]);
+        Response::send(Response::HTTP_CODE_BAD_REQUEST, "No such page!");
     }
 }

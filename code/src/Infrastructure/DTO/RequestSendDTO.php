@@ -6,7 +6,7 @@ namespace Art\Code\Infrastructure\DTO;
 
 use JsonException;
 
-class StatementSendDTO
+class RequestSendDTO
 {
     private string $dateFrom;
 
@@ -22,8 +22,12 @@ class StatementSendDTO
         $this->payload =
             [
                 'dateFrom' => $data['dateFrom'],
-                'dateTill' =>$data['dateTill'],
+                'dateTill' => $data['dateTill'],
                 'email' => $data['email'],
+                'request_id' => $data['request_id'],
+                'user_id' => $data['user_id'],
+                'request_status_id' => $data['request_status_id'],
+                'request_type_id' => $data['request_type_id']
             ];
     }
 

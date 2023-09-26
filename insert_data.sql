@@ -74,8 +74,8 @@ select
     (1 + random())::integer,
     (1 + random()*990)::integer,
     (1 + random())::integer,
-    random() * (timestamp '2023-09-25 00:00:00' - timestamp '2023-09-01 00:00:00') + timestamp '2023-09-01 00:00:00',
-    random() * (timestamp '2023-09-25 00:00:00' - timestamp '2023-09-01 00:00:00') + timestamp '2023-09-01 00:00:00'
+    random() * (timestamp '2023-10-15 00:00:00' - timestamp '2023-09-01 00:00:00') + timestamp '2023-09-01 00:00:00',
+    random() * (timestamp '2023-10-15 00:00:00' - timestamp '2023-09-01 00:00:00') + timestamp '2023-09-01 00:00:00'
 from
     generate_series(1, 1000) as gs(id);
 
@@ -91,11 +91,12 @@ insert into seating_arrangements (row, place, zone_id, scheme_id)
         generate_series(1, 50) as gs(id);
 
 
-insert into tickets (client_id, session_id, price, seating_arrangements_id)
+insert into tickets (client_id, session_id, price, seating_arrangements_id, date_sale)
     select
         (1 + random()*990)::integer,
         (1 + random()*990)::integer,
         (450 + random()*50)::integer,
-        (1 + random())::integer
+        (1 + random())::integer,
+        random() * (timestamp '2023-09-25 00:00:00' - timestamp '2023-09-01 00:00:00') + timestamp '2023-09-01 00:00:00'
     from
         generate_series(1, 45) as gs(id);

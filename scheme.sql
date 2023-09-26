@@ -144,6 +144,7 @@ CREATE TABLE IF NOT EXISTS tickets (
     client_id INT NOT NULL,
     session_id INT NOT NULL,
     price DECIMAL(8,2) NOT NULL,
+    date_sale TIMESTAMP NOT NULL,
     seating_arrangements_id INT NOT NULL,
     FOREIGN KEY (client_id) REFERENCES clients(id),
     FOREIGN KEY (session_id) REFERENCES sessions(id),

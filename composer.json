@@ -1,0 +1,17 @@
+{
+    "name": "acvetkov/otus",
+    "type": "project",
+    "require": {
+        "danielstjules/stringy": "^3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Acvetkov\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "acvetkov"
+        }
+    ]
+}

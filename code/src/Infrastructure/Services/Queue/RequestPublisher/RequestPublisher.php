@@ -45,7 +45,7 @@ class RequestPublisher implements QueueInterface, RequestPublisherInterface
      */
     private function createMessage(array $data): AMQPMessage
     {
-        $dto  = new RequestSendDTO($data);
+        $dto = new RequestSendDTO($data);
         return new AMQPMessage($dto->toAMQPMessage());
     }
 }

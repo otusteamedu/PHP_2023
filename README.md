@@ -1,3 +1,16 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+
+### Запускаем контейнер, переходим по адресу http://mysite.local/api/v1/
+(предварительно нужно прописать в файле `hosts` соответствие `127.0.0.1 mysite.local`)
+по анному адресу есть описание API v 1, здесь же можно протестировать его работу.
+
+Для запуска демона который будет получать завяки и их обрабатывать надо вызвать команду 
+в консоли контейнера app
+`php /data/mysite.local/daemon/reciveMessages.php`
+После этого можно отправлять запросы `sendBankStatementRequest` или `sendTwondflRequest` и 
+проверять их статус методом `checkStatusEvent`
+
+В данный момент для писем подключен файловый логгер, все отправленные письма будут логироваться 
+в домашней папке в файле `mail.log`
+

@@ -1,4 +1,5 @@
-CREATE DATABASE cinema;
+CREATE
+DATABASE cinema;
 
 CREATE TABLE films
 (
@@ -28,5 +29,6 @@ CREATE TABLE values
     text_value    text,
     bool_value    boolean,
     date_value    date,
-    integer_value integer
+    integer_value integer,
+    float_value   float
 );

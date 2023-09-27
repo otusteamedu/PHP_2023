@@ -33,13 +33,10 @@ select f.title AS film_name,
            when v.text_value is not null then v.text_value::text
            when v.bool_value is not null then v.bool_value::text
            when v.date_value is not null then to_char(v.date_value, 'YYYY-MM-DD')::text
-           when v.integer_value is not null then
-               case
-                   when at.id = 5 then (v.integer_value / 100)::text
-                   else v.integer_value::text
-                   end
-           end as value
+           when v.integer_value is not null then v.integer_value::text
+           when v.float_value is not null then v.float_value::text
+           end
 from values v
-    inner join films f on v.film_id = f.id
-    inner join attributes a on v.attribute_id = a.id
-    inner join attribute_types at on v.type_id = at.id;
+         inner join films f on v.film_id = f.id
+         inner join attributes a on v.attribute_id = a.id
+         inner join attribute_types at on v.type_id = at.id;

@@ -35,8 +35,8 @@ INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (1, 3, 3, '1977-12-23');
 INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (1, 7, 4, '2023-10-15');
-INSERT INTO values (film_id, attribute_id, type_id, integer_value)
-VALUES (1, 5, 5, 98);
+INSERT INTO values (film_id, attribute_id, type_id, float_value)
+VALUES (1, 5, 5, 9.8);
 
 INSERT INTO values (film_id, attribute_id, type_id, text_value)
 VALUES (2, 1, 1, 'Забавный мультфильм с хорошей анимацией.');
@@ -52,8 +52,8 @@ INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (2, 3, 3, '2001-06-28');
 INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (2, 7, 4, '2023-11-01');
-INSERT INTO values (film_id, attribute_id, type_id, integer_value)
-VALUES (2, 5, 5, 75);
+INSERT INTO values (film_id, attribute_id, type_id, float_value)
+VALUES (2, 5, 5, 7.5);
 
 INSERT INTO values (film_id, attribute_id, type_id, text_value)
 VALUES (3, 1, 1, 'Интересный и визуально потрясающий фильм о космических приключениях.');
@@ -69,8 +69,8 @@ INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (3, 3, 3, '2014-11-06');
 INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (3, 7, 4, '2023-10-01');
-INSERT INTO values (film_id, attribute_id, type_id, integer_value)
-VALUES (3, 5, 5, 86);
+INSERT INTO values (film_id, attribute_id, type_id, float_value)
+VALUES (3, 5, 5, 8.6);
 
 INSERT INTO values (film_id, attribute_id, type_id, text_value)
 VALUES (4, 1, 1, 'Знаменитая драма о катастрофе Титаника.');
@@ -86,5 +86,5 @@ INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (4, 3, 3, '1997-12-18');
 INSERT INTO values (film_id, attribute_id, type_id, date_value)
 VALUES (4, 7, 4, CURRENT_DATE);
-INSERT INTO values (film_id, attribute_id, type_id, integer_value)
-VALUES (4, 5, 5, 87);
+INSERT INTO values (film_id, attribute_id, type_id, float_value)
+VALUES (4, 5, 5, 8.7);

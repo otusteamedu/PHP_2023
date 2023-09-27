@@ -642,4 +642,61 @@ where
 
 Приступаем к оптимизации.  
 
-Для таблицы sessions будет уместным добавить индекс для поля 
+Для таблицы sessions будет уместным добавить индекс для поля start_time  
+```
+-- Выбор всех фильмов на сегодня
+explain select
+    *
+from
+    sessions s
+where
+    s.start_time >= TO_TIMESTAMP(TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'), 'YYYY-MM-DD');
+```
+
+|QUERY PLAN                                                                                                                                 |
+|-------------------------------------------------------------------------------------------------------------------------------------------|
+|Bitmap Heap Scan on sessions s  (cost=8458.87..27790.62 rows=451411 width=48)                                                              |
+|  Recheck Cond: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))    |
+|  ->  Bitmap Index Scan on start_time  (cost=0.00..8346.02 rows=451411 width=0)                                                            |
+|        Index Cond: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))|
+
+Получаем сканирование по индексу => уменьшение стоимости.  
+
+--- 
+
+Для таблицы tickets уместным будет добавить индекс для поля created_at
+```
+-- Подсчёт проданных билетов за неделю
+explain select
+    count(*)
+from
+    tickets t
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW();
+```
+|QUERY PLAN                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Finalize Aggregate  (cost=26177.66..26177.67 rows=1 width=8)                                                                                                                         |
+|  ->  Gather  (cost=26177.44..26177.65 rows=2 width=8)                                                                                                                               |
+|        Workers Planned: 2                                                                                                                                                           |
+|        ->  Partial Aggregate  (cost=25177.44..25177.45 rows=1 width=8)                                                                                                              |
+|              ->  Parallel Seq Scan on tickets t  (cost=0.00..24031.56 rows=458352 width=0)                                                                                          |
+|                    Filter: ((created_at <= now()) AND (created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)))|
+
+К сожалению видим, что в данном случае не помогло. Почему? Низкая селективноть данных, created_at заполнялся автоматически.
+
+После пересоздания таблицы, где данное поле засеили более разными данными получаем
+
+|QUERY PLAN                                                                                                                                                                                     |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Finalize Aggregate  (cost=17650.93..17650.94 rows=1 width=8)                                                                                                                                   |
+|  ->  Gather  (cost=17650.71..17650.92 rows=2 width=8)                                                                                                                                         |
+|        Workers Planned: 2                                                                                                                                                                     |
+|        ->  Partial Aggregate  (cost=16650.71..16650.72 rows=1 width=8)                                                                                                                        |
+|              ->  Parallel Bitmap Heap Scan on tickets t  (cost=4460.95..16431.96 rows=87500 width=0)                                                                                          |
+|                    Recheck Cond: ((created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)) AND (created_at <= now()))    |
+|                    ->  Bitmap Index Scan on created_at  (cost=0.00..4408.45 rows=210001 width=0)                                                                                              |
+|                          Index Cond: ((created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)) AND (created_at <= now()))|
+
+Получаем уменьшение стоимости и сканирование по индексу.  
+

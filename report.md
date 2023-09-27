@@ -454,3 +454,177 @@ where
 
 Результат аналогичный.  
 
+### 3)  
+tickets и sessions увеличиваем до 1000000 записей.  
+Проверим планы в том же порядке.
+
+```
+ -- Выбор всех фильмов на сегодня
+explain select
+    *
+from
+    sessions s
+where
+    s.start_time >= TO_TIMESTAMP(TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'), 'YYYY-MM-DD');
+```
+
+|QUERY PLAN                                                                                                                       |
+|---------------------------------------------------------------------------------------------------------------------------------|
+|Seq Scan on sessions s  (cost=0.00..33947.50 rows=451411 width=48)                                                               |
+|  Filter: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))|
+
+
+```
+-- Подсчёт проданных билетов за неделю
+explain select
+    count(*)
+from
+    tickets t
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW();
+```
+
+|QUERY PLAN                                                                                                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Finalize Aggregate  (cost=26177.62..26177.63 rows=1 width=8)                                                                                                                         |
+|  ->  Gather  (cost=26177.40..26177.61 rows=2 width=8)                                                                                                                               |
+|        Workers Planned: 2                                                                                                                                                           |
+|        ->  Partial Aggregate  (cost=25177.40..25177.41 rows=1 width=8)                                                                                                              |
+|              ->  Parallel Seq Scan on tickets t  (cost=0.00..24031.56 rows=458337 width=0)                                                                                          |
+|                    Filter: ((created_at <= now()) AND (created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)))|
+
+```
+-- Формирование афиши (фильмы, которые показывают сегодня)
+explain select 
+    m."name" as "название фильма",
+    mg."name" as "жанр",
+    mc."name" as "категория"
+from
+    sessions s
+    join movies m on m.id = s.movie_id
+    join movie_genres mg on mg.id = m.genre_id
+    join movie_categories mc on mc.id = m.category_id
+where
+    s.start_time >= TO_TIMESTAMP(TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'), 'YYYY-MM-DD');
+```
+
+|QUERY PLAN                                                                                                                                         |
+|---------------------------------------------------------------------------------------------------------------------------------------------------|
+|Hash Join  (cost=57.35..37641.98 rows=451411 width=1038)                                                                                           |
+|  Hash Cond: (m.category_id = mc.id)                                                                                                               |
+|  ->  Hash Join  (cost=44.42..36405.48 rows=451411 width=526)                                                                                      |
+|        Hash Cond: (m.genre_id = mg.id)                                                                                                            |
+|        ->  Hash Join  (cost=31.50..35168.97 rows=451411 width=14)                                                                                 |
+|              Hash Cond: (s.movie_id = m.id)                                                                                                       |
+|              ->  Seq Scan on sessions s  (cost=0.00..33947.50 rows=451411 width=4)                                                                |
+|                    Filter: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))|
+|              ->  Hash  (cost=19.00..19.00 rows=1000 width=18)                                                                                     |
+|                    ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=18)                                                                |
+|        ->  Hash  (cost=11.30..11.30 rows=130 width=520)                                                                                           |
+|              ->  Seq Scan on movie_genres mg  (cost=0.00..11.30 rows=130 width=520)                                                               |
+|  ->  Hash  (cost=11.30..11.30 rows=130 width=520)                                                                                                 |
+|        ->  Seq Scan on movie_categories mc  (cost=0.00..11.30 rows=130 width=520)                                                                 |
+
+
+```
+-- Поиск 3 самых прибыльных фильмов за неделю
+explain select
+    m."name",
+    sum(t.price) as summa
+from
+    tickets t
+    join sessions s on s.id = t.session_id
+    join movies m on m.id = s.movie_id
+group by
+    m.id
+order by
+    summa desc
+limit 3   
+```
+
+|QUERY PLAN                                                                                                                      |
+|--------------------------------------------------------------------------------------------------------------------------------|
+|Limit  (cost=48494.23..48494.23 rows=3 width=42)                                                                                |
+|  ->  Sort  (cost=48494.23..48496.73 rows=1000 width=42)                                                                        |
+|        Sort Key: (sum(t.price)) DESC                                                                                           |
+|        ->  Finalize GroupAggregate  (cost=48220.45..48481.30 rows=1000 width=42)                                               |
+|              Group Key: m.id                                                                                                   |
+|              ->  Gather Merge  (cost=48220.45..48453.80 rows=2000 width=42)                                                    |
+|                    Workers Planned: 2                                                                                          |
+|                    ->  Sort  (cost=47220.43..47222.93 rows=1000 width=42)                                                      |
+|                          Sort Key: m.id                                                                                        |
+|                          ->  Partial HashAggregate  (cost=47158.10..47170.60 rows=1000 width=42)                               |
+|                                Group Key: m.id                                                                                 |
+|                                ->  Hash Join  (cost=21320.38..44866.34 rows=458352 width=15)                                   |
+|                                      Hash Cond: (s.movie_id = m.id)                                                            |
+|                                      ->  Parallel Hash Join  (cost=21288.88..43626.57 rows=458352 width=9)                     |
+|                                            Hash Cond: (t.session_id = s.id)                                                    |
+|                                            ->  Parallel Seq Scan on tickets t  (cost=0.00..14864.52 rows=458352 width=9)       |
+|                                            ->  Parallel Hash  (cost=13762.50..13762.50 rows=458750 width=8)                    |
+|                                                  ->  Parallel Seq Scan on sessions s  (cost=0.00..13762.50 rows=458750 width=8)|
+|                                      ->  Hash  (cost=19.00..19.00 rows=1000 width=10)                                          |
+|                                            ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=10)                     |
+
+```
+   
+-- Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+explain select 
+    sa."row" as "ряд",
+    sa.place as "место",
+    case
+        when t.id is null then 'свободно'
+        else 'занято'
+    end as "занятость места"
+from
+    seating_arrangements sa
+    join scheme_halls sh on sh.id = sa.scheme_id
+    join halls h on h.scheme_id = sh.id
+    left join tickets t on t.seating_arrangements_id = sa.id
+where
+    h.id = 1 -- Для зала №1
+```
+
+|QUERY PLAN                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------|
+|Hash Right Join  (cost=35.61..25528.85 rows=8662 width=40)                                                    |
+|  Hash Cond: (t.seating_arrangements_id = sa.id)                                                              |
+|  ->  Seq Scan on tickets t  (cost=0.00..21281.45 rows=1100045 width=8)                                       |
+|  ->  Hash  (cost=35.48..35.48 rows=10 width=12)                                                              |
+|        ->  Nested Loop  (cost=8.32..35.48 rows=10 width=12)                                                  |
+|              ->  Hash Join  (cost=8.18..34.28 rows=6 width=20)                                               |
+|                    Hash Cond: (sa.scheme_id = h.scheme_id)                                                   |
+|                    ->  Seq Scan on seating_arrangements sa  (cost=0.00..22.70 rows=1270 width=16)            |
+|                    ->  Hash  (cost=8.17..8.17 rows=1 width=4)                                                |
+|                          ->  Index Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=4)        |
+|                                Index Cond: (id = 1)                                                          |
+|              ->  Index Only Scan using scheme_halls_pkey on scheme_halls sh  (cost=0.14..0.20 rows=1 width=4)|
+|                    Index Cond: (id = sa.scheme_id)                                                           |
+
+```
+-- Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
+explain select
+    min(t.price),
+    max(t.price)
+from
+    tickets t
+    join sessions s on s.id = t.session_id
+where
+    s.id = 331
+```
+
+|QUERY PLAN                                                                                     |
+|-----------------------------------------------------------------------------------------------|
+|Aggregate  (cost=17145.35..17145.36 rows=1 width=64)                                           |
+|  ->  Nested Loop  (cost=1000.43..17139.85 rows=1100 width=5)                                  |
+|        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.43..8.45 rows=1 width=4)|
+|              Index Cond: (id = 331)                                                           |
+|        ->  Gather  (cost=1000.00..17120.40 rows=1100 width=9)                                 |
+|              Workers Planned: 2                                                               |
+|              ->  Parallel Seq Scan on tickets t  (cost=0.00..16010.40 rows=458 width=9)       |
+|                    Filter: (session_id = 331)                                                 |
+
+
+### 4)  
+
+Приступаем к оптимизации.  
+

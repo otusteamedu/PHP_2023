@@ -2,8 +2,6 @@
 
 namespace IilyukDmitryi\App\Infrastructure\Http\Utils;
 
-use IilyukDmitryi\App\Infrastructure\Config\ConfigApp;
-
 class Helper
 {
     public static function sanitize($data): string

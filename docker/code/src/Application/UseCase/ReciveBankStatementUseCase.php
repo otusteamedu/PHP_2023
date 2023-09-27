@@ -12,11 +12,13 @@ use IilyukDmitryi\App\Application\Message\BankStatementMessage;
 use IilyukDmitryi\App\Domain\Model\BankStatementModel;
 
 
-
 class ReciveBankStatementUseCase
 {
-    public function __construct(protected readonly MessengerInterface $messenger, protected readonly MailerInterface $mailer,protected readonly EventStorageInterface $eventStorage)
-    {
+    public function __construct(
+        protected readonly MessengerInterface $messenger,
+        protected readonly MailerInterface $mailer,
+        protected readonly EventStorageInterface $eventStorage
+    ) {
     }
 
     /**
@@ -27,10 +29,12 @@ class ReciveBankStatementUseCase
         $isSendEmail = false;
         $isRecive = false;
         $messageBankStatement = new BankStatementMessage();
-        if($this->messenger->recive($messageBankStatement)){
+        if ($this->messenger->recive($messageBankStatement)) {
             $isRecive = true;
             $isSendEmail = $this->sendStatementToEmail($messageBankStatement);
-            $this->eventStorage->add(new Event($messageBankStatement->getUuid(),$messageBankStatement->getFields(),true));
+            $this->eventStorage->add(
+                new Event($messageBankStatement->getUuid(), $messageBankStatement->getFields(), true)
+            );
         }
 
         return new MessageReciveResult($isRecive, $isSendEmail);

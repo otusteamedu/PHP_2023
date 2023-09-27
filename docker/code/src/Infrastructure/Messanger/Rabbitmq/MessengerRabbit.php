@@ -35,14 +35,6 @@ class MessengerRabbit implements MessengerInterface
     }
 
     /**
-     * @throws Exception
-     */
-    private function getConnection(): AMQPStreamConnection
-    {
-        return new AMQPStreamConnection($this->host, $this->port, $this->user, $this->pass);
-    }
-
-    /**
      * @param MessageInterface $message
      * @return bool
      * @throws Exception
@@ -65,6 +57,14 @@ class MessengerRabbit implements MessengerInterface
         $channel->close();
         $connection->close();
         return false;
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function getConnection(): AMQPStreamConnection
+    {
+        return new AMQPStreamConnection($this->host, $this->port, $this->user, $this->pass);
     }
 
     /**

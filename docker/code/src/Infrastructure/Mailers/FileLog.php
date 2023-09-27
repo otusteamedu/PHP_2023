@@ -3,9 +3,7 @@
 namespace IilyukDmitryi\App\Infrastructure\Mailers;
 
 use IilyukDmitryi\App\Application\Contract\Mailer\MailerInterface;
-use IilyukDmitryi\App\Infrastructure\Config\ConfigApp;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\PHPMailer;
 
 class FileLog implements MailerInterface
 {

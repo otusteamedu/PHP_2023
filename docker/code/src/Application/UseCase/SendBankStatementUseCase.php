@@ -6,7 +6,6 @@ use Exception;
 use IilyukDmitryi\App\Application\Builder\BankStatementMessageBuilder;
 use IilyukDmitryi\App\Application\Contract\Messenger\MessengerInterface;
 use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
-use IilyukDmitryi\App\Application\Message\BankStatementMessage;
 
 class SendBankStatementUseCase
 {

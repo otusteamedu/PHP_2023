@@ -1,6 +1,5 @@
 <?php
 
-
 namespace IilyukDmitryi\App\Application\Dto;
 
 class Event
@@ -8,9 +7,17 @@ class Event
     public function __construct(
         protected string $uuid,
         protected array $params,
-        protected bool  $done,
-    )
+        protected bool $done,
+    ) {
+    }
+
+    public function toArray(): array
     {
+        return [
+            'uuid' => $this->getUuid(),
+            'params' => $this->getParams(),
+            'done' => $this->isDone(),
+        ];
     }
 
     /**
@@ -35,14 +42,5 @@ class Event
     public function isDone(): bool
     {
         return $this->done;
-    }
-
-    public function toArray():array
-    {
-        return [
-           'uuid' => $this->getUuid(),
-           'params' => $this->getParams(),
-           'done' => $this->isDone(),
-        ];
     }
 }

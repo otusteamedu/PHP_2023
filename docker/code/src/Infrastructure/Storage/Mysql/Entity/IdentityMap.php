@@ -5,7 +5,7 @@ namespace IilyukDmitryi\App\Infrastructure\Storage\Mysql\Entity;
 class IdentityMap
 {
     private array $objects = [];
-    
+
     /**
      * @param int $id
      * @return object|null
@@ -14,9 +14,9 @@ class IdentityMap
     {
         return $this->objects[$id] ?? null;
     }
-    
+
     /**
-     * @param int    $id
+     * @param int $id
      * @param object $object
      * @return void
      */
@@ -24,7 +24,7 @@ class IdentityMap
     {
         $this->objects[$id] = $object;
     }
-    
+
     /**
      * @param int $id
      * @param     $object
@@ -36,7 +36,7 @@ class IdentityMap
             unset($this->objects[$id]);
         }
     }
-    
+
     /**
      * @return void
      */

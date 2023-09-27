@@ -2,6 +2,8 @@
 
 namespace IilyukDmitryi\App\Application\Message;
 
+use Exception;
+
 class TwoNdflMessage extends AbstractMessage
 {
 
@@ -29,17 +31,9 @@ class TwoNdflMessage extends AbstractMessage
     }
 
     /**
-     * @inheritDoc
-     */
-    public function getType(): string
-    {
-        return static::MESSAGE_TYPE;
-    }
-
-    /**
      * @param string $body
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function setBody(string $body): void
     {
@@ -48,7 +42,7 @@ class TwoNdflMessage extends AbstractMessage
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function fillProperty(): void
     {
@@ -57,8 +51,8 @@ class TwoNdflMessage extends AbstractMessage
 
         if ($this->body) {
             $array = json_decode($this->body, true);
-            if($this->getType() !== $array['type']) {
-               throw new \Exception('Message types do not match');
+            if ($this->getType() !== $array['type']) {
+                throw new Exception('Message types do not match');
             }
             if (isset($array['fields']['uuid'])) {
                 $this->uuid = $array['fields']['uuid'];
@@ -72,13 +66,12 @@ class TwoNdflMessage extends AbstractMessage
         }
     }
 
-
     /**
-     * @param string $email
+     * @inheritDoc
      */
-    public function setEmail(string $email): void
+    public function getType(): string
     {
-        $this->email = $email;
+        return static::MESSAGE_TYPE;
     }
 
     /**
@@ -87,6 +80,14 @@ class TwoNdflMessage extends AbstractMessage
     public function getEmail(): string
     {
         return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail(string $email): void
+    {
+        $this->email = $email;
     }
 
     /**

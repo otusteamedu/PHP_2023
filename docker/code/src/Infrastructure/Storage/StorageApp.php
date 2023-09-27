@@ -16,7 +16,7 @@ class StorageApp
         if (!class_exists($storageClassName)) {
             throw new Exception("No exists Storage Class");
         }
-        
+
         $storage = new $storageClassName();
         if (!$storage instanceof StorageInterface) {
             throw new Exception("Storage error");

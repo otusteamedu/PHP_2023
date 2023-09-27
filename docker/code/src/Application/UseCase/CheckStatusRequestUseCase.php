@@ -21,14 +21,14 @@ class CheckStatusRequestUseCase
     {
         $uuid = $checkStatusEventRequest->getUuid();
         $event = $this->eventStorage->get($uuid);
-        if(is_null($event)){
+        if (is_null($event)) {
             throw new Exception("No event found");
         }
-        if($event->isDone()) {
+        if ($event->isDone()) {
             $message = 'Запрос выполнен. Результат отправлен вам на Емаил';
-        }else{
+        } else {
             $message = "Запрос ожидает обработки";
         }
-        return  new CheckStatusEventResponse($message);
+        return new CheckStatusEventResponse($message);
     }
 }

@@ -11,18 +11,11 @@ abstract class AbstractMessage implements MessageInterface
     /**
      * @return string
      */
-    abstract public function getType(): string;
-    abstract public function getFields(): array;
-
-
-    /**
-     * @return string
-     */
     final public function getBody(): string
     {
         $arrBody = [
             'type' => $this->getType(),
-            'fields'=>$this->getFields(),
+            'fields' => $this->getFields(),
         ];
 
         return json_encode($arrBody);
@@ -36,6 +29,13 @@ abstract class AbstractMessage implements MessageInterface
     {
         $this->body = $body;
     }
+
+    /**
+     * @return string
+     */
+    abstract public function getType(): string;
+
+    abstract public function getFields(): array;
 
 
 }

@@ -3,33 +3,24 @@
 namespace IilyukDmitryi\App\Infrastructure\Http\Controller;
 
 use Exception;
-use IilyukDmitryi\App\App;
-use IilyukDmitryi\App\Application\Dto\TwoNdflRequest;
-use IilyukDmitryi\App\Application\UseCase\ReciveTwoNdflUseCase;
-use IilyukDmitryi\App\Application\UseCase\SendTwoNdflUseCase;
 use Throwable;
-use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
-use IilyukDmitryi\App\Application\UseCase\ReciveBankStatementUseCase;
-use IilyukDmitryi\App\Application\UseCase\SendBankStatementUseCase;
-use IilyukDmitryi\App\Infrastructure\Http\Utils\TemplateEngine;
-use IilyukDmitryi\App\Infrastructure\Mailers\MailerApp;
-use IilyukDmitryi\App\Infrastructure\Messanger\MessengerApp;
 
 class ApiController
 {
     public const API_CONTROLLER_RUN_METHOD = 'run';
+
     public function v1Action(): void
     {
         ob_start();
-        $result=[];
+        $result = [];
         try {
             $requestURI = $_SERVER['REQUEST_URI'];
-            $controllerClass = __NAMESPACE__."\\Api\\v1\\ApiController";
+            $controllerClass = __NAMESPACE__ . "\\Api\\v1\\ApiController";
 
             if (class_exists($controllerClass)) {
                 $controller = new $controllerClass();
                 $methodName = static::API_CONTROLLER_RUN_METHOD;
-                if (method_exists($controller,$methodName )) {
+                if (method_exists($controller, $methodName)) {
                     $controller->$methodName();
                 } else {
                     throw new Exception("Controller method not found for API");

@@ -69,7 +69,7 @@ class EventMapper
     public function delete(Event $event): bool
     {
         $this->deleteStmt->execute(['uuid' => $event->getUuid()]);
-        return $this->deleteStmt->rowCount()===1;
+        return $this->deleteStmt->rowCount() === 1;
     }
 
     /**
@@ -93,20 +93,6 @@ class EventMapper
         return $event;
     }
 
-
-    /**
-     * @param $arrFields
-     * @return Event
-     */
-    public static function rawToEvent($arrFields): Event
-    {
-        return (new Event())
-            ->setUuid($arrFields['uuid'] ?? 0)
-            ->setParams($arrFields['params'] ?? [])
-            ->setDone($arrFields['done'] ?? false);
-    }
-
-
     /**
      * @param string $eventName
      * @return Event|null
@@ -120,6 +106,18 @@ class EventMapper
             return static::rawToEvent($raw);
         }
         return null;
+    }
+
+    /**
+     * @param $arrFields
+     * @return Event
+     */
+    public static function rawToEvent($arrFields): Event
+    {
+        return (new Event())
+            ->setUuid($arrFields['uuid'] ?? 0)
+            ->setParams($arrFields['params'] ?? [])
+            ->setDone($arrFields['done'] ?? false);
     }
 
     /**

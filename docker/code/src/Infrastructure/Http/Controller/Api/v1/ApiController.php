@@ -3,18 +3,18 @@
 namespace IilyukDmitryi\App\Infrastructure\Http\Controller\Api\V1;
 
 use Exception;
+use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
+use IilyukDmitryi\App\Application\Dto\CheckStatusEventRequest;
 use IilyukDmitryi\App\Application\Dto\TwoNdflRequest;
+use IilyukDmitryi\App\Application\UseCase\CheckStatusRequestUseCase;
+use IilyukDmitryi\App\Application\UseCase\SendBankStatementUseCase;
 use IilyukDmitryi\App\Application\UseCase\SendTwoNdflUseCase;
+use IilyukDmitryi\App\Infrastructure\Http\Controller\Api\ApiControllerInterface;
 use IilyukDmitryi\App\Infrastructure\Http\Utils\TemplateEngine;
+use IilyukDmitryi\App\Infrastructure\Messanger\MessengerApp;
+use IilyukDmitryi\App\Infrastructure\Storage\StorageApp;
 use IilyukDmitryi\App\Infrastructure\UuidGenerator\SimpleGenerator;
 use Throwable;
-use IilyukDmitryi\App\Application\Dto\CheckStatusEventRequest;
-use IilyukDmitryi\App\Application\UseCase\CheckStatusRequestUseCase;
-use IilyukDmitryi\App\Infrastructure\Http\Controller\Api\ApiControllerInterface;
-use IilyukDmitryi\App\Infrastructure\Storage\StorageApp;
-use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
-use IilyukDmitryi\App\Application\UseCase\SendBankStatementUseCase;
-use IilyukDmitryi\App\Infrastructure\Messanger\MessengerApp;
 
 class ApiController implements ApiControllerInterface
 {
@@ -30,7 +30,7 @@ class ApiController implements ApiControllerInterface
         } elseif (method_exists($this::class, $methodName)) {
             $this->$methodName();
         } else {
-            throw new \Exception("Method '$methodName' not found");
+            throw new Exception("Method '$methodName' not found");
         }
     }
 

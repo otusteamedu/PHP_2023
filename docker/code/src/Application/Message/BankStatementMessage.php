@@ -2,11 +2,14 @@
 
 namespace IilyukDmitryi\App\Application\Message;
 
+use DateTime;
+use Exception;
+
 class BankStatementMessage extends AbstractMessage
 {
     private const MESSAGE_TYPE = 'bankstatement';
-    private ?\DateTime $dateStart = null;
-    private ?\DateTime $dateEnd = null;
+    private ?DateTime $dateStart = null;
+    private ?DateTime $dateEnd = null;
     private string $email = '';
     private string $uuid = '';
 
@@ -28,6 +31,45 @@ class BankStatementMessage extends AbstractMessage
         return $this;
     }
 
+    /**
+     * @param string $body
+     * @return void
+     * @throws Exception
+     */
+    public function setBody(string $body): void
+    {
+        $this->body = $body;
+        $this->fillProperty();
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function fillProperty(): void
+    {
+        $this->uuid = '';
+        $this->dateStart = null;
+        $this->dateEnd = null;
+        $this->email = '';
+        if ($this->body) {
+            $array = json_decode($this->body, true);
+            if ($this->getType() !== $array['type']) {
+                throw new Exception('Message types do not match');
+            }
+            if (isset($array['fields']['uuid'])) {
+                $this->uuid = $array['fields']['uuid'];
+            }
+            if (isset($array['fields']['dateStart'])) {
+                $this->dateStart = $array['fields']['dateStart'] ? new DateTime($array['fields']['dateStart']) : null;
+            }
+            if (isset($array['fields']['dateEnd'])) {
+                $this->dateEnd = $array['fields']['dateEnd'] ? new DateTime($array['fields']['dateEnd']) : null;
+            }
+            if (isset($array['fields']['email'])) {
+                $this->email = $array['fields']['email'] ?: (string)$array['fields']['email'];
+            }
+        }
+    }
 
     /**
      * @inheritDoc
@@ -38,47 +80,6 @@ class BankStatementMessage extends AbstractMessage
     }
 
     /**
-     * @param string $body
-     * @return void
-     * @throws \Exception
-     */
-    public function setBody(string $body): void
-    {
-        $this->body = $body;
-        $this->fillProperty();
-    }
-
-    /**
-     * @throws \Exception
-     */
-    protected function fillProperty(): void
-    {
-        $this->uuid = '';
-        $this->dateStart = null;
-        $this->dateEnd = null;
-        $this->email = '';
-        if ($this->body) {
-            $array = json_decode($this->body, true);
-            if($this->getType() !== $array['type']) {
-               throw new \Exception('Message types do not match');
-            }
-            if (isset($array['fields']['uuid'])) {
-                $this->uuid = $array['fields']['uuid'];
-            }
-            if (isset($array['fields']['dateStart'])) {
-                $this->dateStart = $array['fields']['dateStart'] ? new \DateTime($array['fields']['dateStart']) : null;
-            }
-            if (isset($array['fields']['dateEnd'])) {
-                $this->dateEnd = $array['fields']['dateEnd'] ? new \DateTime($array['fields']['dateEnd']) : null;
-            }
-            if (isset($array['fields']['email'])) {
-                $this->email = $array['fields']['email'] ?: (string)$array['fields']['email'];
-            }
-        }
-    }
-
-
-    /**
      * @return string
      */
     public function getEmail(): string
@@ -87,19 +88,43 @@ class BankStatementMessage extends AbstractMessage
     }
 
     /**
-     * @return string
+     * @param string $email
      */
-    public function getDateStart(): ?\DateTime
+    public function setEmail(string $email): void
     {
-        return $this->dateStart;
+        $this->email = $email;
     }
 
     /**
      * @return string
      */
-    public function getDateEnd(): ?\DateTime
+    public function getDateStart(): ?DateTime
+    {
+        return $this->dateStart;
+    }
+
+    /**
+     * @param DateTime|null $dateStart
+     */
+    public function setDateStart(?DateTime $dateStart): void
+    {
+        $this->dateStart = $dateStart;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDateEnd(): ?DateTime
     {
         return $this->dateEnd;
+    }
+
+    /**
+     * @param DateTime|null $dateEnd
+     */
+    public function setDateEnd(?DateTime $dateEnd): void
+    {
+        $this->dateEnd = $dateEnd;
     }
 
     /**
@@ -113,30 +138,5 @@ class BankStatementMessage extends AbstractMessage
             'dateEnd' => $this->dateEnd?->format("Y-m-d H:i:s"),
             'email' => $this->email,
         ];
-    }
-
-
-    /**
-     * @param \DateTime|null $dateStart
-     */
-    public function setDateStart(?\DateTime $dateStart): void
-    {
-        $this->dateStart = $dateStart;
-    }
-
-    /**
-     * @param \DateTime|null $dateEnd
-     */
-    public function setDateEnd(?\DateTime $dateEnd): void
-    {
-        $this->dateEnd = $dateEnd;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
-    {
-        $this->email = $email;
     }
 }

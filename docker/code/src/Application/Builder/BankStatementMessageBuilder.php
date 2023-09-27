@@ -4,9 +4,9 @@ namespace IilyukDmitryi\App\Application\Builder;
 
 use DateTime;
 use Exception;
-
 use IilyukDmitryi\App\Application\Dto\BankStatementRequest;
 use IilyukDmitryi\App\Application\Message\BankStatementMessage;
+use InvalidArgumentException;
 
 class BankStatementMessageBuilder
 {
@@ -20,22 +20,25 @@ class BankStatementMessageBuilder
         $dateEndRaw = $bankStatementRequest->getDateEnd();
         $emailRaw = $bankStatementRequest->getEmail();
 
-        if($dateStartRaw){
-            $dateStart = new \DateTime($dateStartRaw);
+        if ($dateStartRaw) {
+            $dateStart = new DateTime($dateStartRaw);
         } else {
-            throw new \InvalidArgumentException("Invalid date start");
+            throw new InvalidArgumentException("Invalid date start");
         }
 
-        if($dateEndRaw){
-            $dateEnd = new \DateTime($dateEndRaw);
+        if ($dateEndRaw) {
+            $dateEnd = new DateTime($dateEndRaw);
         } else {
-            throw new \InvalidArgumentException("Invalid date end");
+            throw new InvalidArgumentException("Invalid date end");
         }
 
-        if ($emailRaw && preg_match("/^(?:[a-z0-9]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,5})$/i", $emailRaw)) {
+        if ($emailRaw && preg_match(
+                "/^(?:[a-z0-9]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,5})$/i",
+                $emailRaw
+            )) {
             $email = $emailRaw;
-        }else{
-            throw new \InvalidArgumentException("Invalid email address");
+        } else {
+            throw new InvalidArgumentException("Invalid email address");
         }
 
         $bankStatementMessage = new BankStatementMessage();

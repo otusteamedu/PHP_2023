@@ -20,23 +20,6 @@ class Mailer implements MailerInterface
     }
 
     /**
-     * @param string $emailTo
-     * @param string $subject
-     * @param string $message
-     * @return bool
-     * @throws Exception
-     */
-    public function sendMail(string $emailTo, string $subject, string $message): bool
-    {
-
-        $this->mail->addAddress($emailTo);
-        $this->mail->isHTML(false);
-        $this->mail->Subject = $subject;
-        $this->mail->Body = $message;
-        return $this->mail->send();
-    }
-
-    /**
      * @throws Exception
      */
     private function initMailer(): void
@@ -59,5 +42,21 @@ class Mailer implements MailerInterface
         $this->mail->Port = $settings->getMailerSmptPort();
         $this->mail->CharSet = PHPMailer::CHARSET_UTF8;
         $this->mail->setFrom($settings->getMailerSmptEmailFrom(), 'Mailer');
+    }
+
+    /**
+     * @param string $emailTo
+     * @param string $subject
+     * @param string $message
+     * @return bool
+     * @throws Exception
+     */
+    public function sendMail(string $emailTo, string $subject, string $message): bool
+    {
+        $this->mail->addAddress($emailTo);
+        $this->mail->isHTML(false);
+        $this->mail->Subject = $subject;
+        $this->mail->Body = $message;
+        return $this->mail->send();
     }
 }

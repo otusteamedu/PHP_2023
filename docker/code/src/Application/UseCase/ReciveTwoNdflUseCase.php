@@ -12,11 +12,13 @@ use IilyukDmitryi\App\Application\Message\TwoNdflMessage;
 use IilyukDmitryi\App\Domain\Model\TwoNdflModel;
 
 
-
 class ReciveTwoNdflUseCase
 {
-    public function __construct(protected readonly MessengerInterface $messenger, protected readonly MailerInterface $mailer,protected readonly EventStorageInterface $eventStorage)
-    {
+    public function __construct(
+        protected readonly MessengerInterface $messenger,
+        protected readonly MailerInterface $mailer,
+        protected readonly EventStorageInterface $eventStorage
+    ) {
     }
 
     /**
@@ -27,10 +29,10 @@ class ReciveTwoNdflUseCase
         $isSendEmail = false;
         $isRecive = false;
         $twoNdflMessage = new TwoNdflMessage();
-        if($this->messenger->recive($twoNdflMessage)){
+        if ($this->messenger->recive($twoNdflMessage)) {
             $isRecive = true;
             $isSendEmail = $this->sendStatementToEmail($twoNdflMessage);
-            $this->eventStorage->add(new Event($twoNdflMessage->getUuid(),$twoNdflMessage->getFields(),true));
+            $this->eventStorage->add(new Event($twoNdflMessage->getUuid(), $twoNdflMessage->getFields(), true));
         }
 
         return new MessageReciveResult($isRecive, $isSendEmail);

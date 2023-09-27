@@ -16,7 +16,7 @@ class MailerApp
         $settings = ConfigApp::get();
         $className = $settings->getMailerName();
         if (!class_exists($className)) {
-            throw new Exception("No exists Mailer Class ".$className);
+            throw new Exception("No exists Mailer Class " . $className);
         }
 
         $mailer = new $className();

@@ -43,7 +43,7 @@ class Event
     public function setParams(array|string $params): self
     {
         if (!is_array($params)) {
-            $params = json_decode( $params,true);
+            $params = json_decode($params, true);
         }
         $this->params = $params;
         return $this;

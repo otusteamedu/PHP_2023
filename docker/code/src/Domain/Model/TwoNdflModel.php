@@ -14,7 +14,7 @@ class TwoNdflModel
     /**
      * @throws Exception
      */
-    public function __construct(protected Int $numMonth)
+    public function __construct(protected int $numMonth)
     {
     }
 
@@ -23,8 +23,8 @@ class TwoNdflModel
         static $twondfl;
 
         if (is_null($twondfl)) {
-            $dateEnd  = (new DateTime())->modify("-1 day");
-            $dateStart = (new DateTime())->modify("-".$this->numMonth." month");
+            $dateEnd = (new DateTime())->modify("-1 day");
+            $dateStart = (new DateTime())->modify("-" . $this->numMonth . " month");
 
             $interval = new DateInterval('P1M');
             $daterange = new DatePeriod($dateStart, $interval, $dateEnd);

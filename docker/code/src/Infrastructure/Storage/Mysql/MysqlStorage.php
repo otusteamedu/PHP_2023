@@ -2,8 +2,8 @@
 
 namespace IilyukDmitryi\App\Infrastructure\Storage\Mysql;
 
-use IilyukDmitryi\App\Infrastructure\Config\ConfigApp;
 use IilyukDmitryi\App\Application\Contract\Storage\EventStorageInterface;
+use IilyukDmitryi\App\Infrastructure\Config\ConfigApp;
 use IilyukDmitryi\App\Infrastructure\Storage\Base\StorageInterface;
 use PDO;
 
@@ -14,7 +14,7 @@ class MysqlStorage implements StorageInterface
      * @var PDO
      */
     private static ?PDO $pdo = null;
-    
+
     public function __construct()
     {
         if (is_null(static::$pdo)) {
@@ -23,7 +23,7 @@ class MysqlStorage implements StorageInterface
             $dbName = $settings->getMysqlDbName();
             $dbUser = $settings->getMysqlUser();
             $dbPass = $settings->getMysqlPass();
-            
+
             static::$pdo = new PDO(
                 "mysql:host={$dbHost};dbname={$dbName}",
                 $dbUser,
@@ -34,7 +34,7 @@ class MysqlStorage implements StorageInterface
             );
         }
     }
-    
+
     /**
      * @return EventStorageInterface
      */

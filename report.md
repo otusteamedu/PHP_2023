@@ -139,6 +139,8 @@ from
     tickets t
     join sessions s on s.id = t.session_id
     join movies m on m.id = s.movie_id
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW()
 group by
     m.id
 order by
@@ -160,28 +162,33 @@ from
     tickets t
     join sessions s on s.id = t.session_id
     join movies m on m.id = s.movie_id
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW()
 group by
     m.id
 order by
     summa desc
 limit 3
 ```
-|QUERY PLAN                                                                                      |
-|------------------------------------------------------------------------------------------------|
-|Limit  (cost=118.24..118.25 rows=3 width=42)                                                    |
-|  ->  Sort  (cost=118.24..120.72 rows=990 width=42)                                             |
-|        Sort Key: (sum(t.price)) DESC                                                           |
-|        ->  HashAggregate  (cost=93.07..105.44 rows=990 width=42)                               |
-|              Group Key: m.id                                                                   |
-|              ->  Hash Join  (cost=63.00..88.12 rows=990 width=24)                              |
-|                    Hash Cond: (s.movie_id = m.id)                                              |
-|                    ->  Hash Join  (cost=31.50..54.01 rows=990 width=18)                        |
-|                          Hash Cond: (t.session_id = s.id)                                      |
-|                          ->  Seq Scan on tickets t  (cost=0.00..19.90 rows=990 width=18)       |
-|                          ->  Hash  (cost=19.00..19.00 rows=1000 width=8)                       |
-|                                ->  Seq Scan on sessions s  (cost=0.00..19.00 rows=1000 width=8)|
-|                    ->  Hash  (cost=19.00..19.00 rows=1000 width=10)                            |
-|                          ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=10)       |
+|QUERY PLAN                                                                                                                                                                                                   |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Limit  (cost=66.46..66.47 rows=3 width=552)                                                                                                                                                                  |
+|  ->  Sort  (cost=66.46..66.47 rows=5 width=552)                                                                                                                                                             |
+|        Sort Key: (sum(t.price)) DESC                                                                                                                                                                        |
+|        ->  GroupAggregate  (cost=66.30..66.40 rows=5 width=552)                                                                                                                                             |
+|              Group Key: m.id                                                                                                                                                                                |
+|              ->  Sort  (cost=66.30..66.31 rows=5 width=534)                                                                                                                                                 |
+|                    Sort Key: m.id                                                                                                                                                                           |
+|                    ->  Nested Loop  (cost=40.03..66.24 rows=5 width=534)                                                                                                                                    |
+|                          ->  Hash Join  (cost=39.76..64.53 rows=5 width=18)                                                                                                                                 |
+|                                Hash Cond: (s.id = t.session_id)                                                                                                                                             |
+|                                ->  Seq Scan on sessions s  (cost=0.00..20.70 rows=1070 width=8)                                                                                                             |
+|                                ->  Hash  (cost=39.70..39.70 rows=5 width=18)                                                                                                                                |
+|                                      ->  Seq Scan on tickets t  (cost=0.00..39.70 rows=5 width=18)                                                                                                          |
+|                                            Filter: ((created_at <= now()) AND (created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)))|
+|                          ->  Index Scan using movies_pkey on movies m  (cost=0.27..0.34 rows=1 width=520)                                                                                                   |
+|                                Index Cond: (id = s.movie_id)                                                                                                                                                |
+
 
 Имеем последовательное сканирование всех таблиц
 
@@ -368,28 +375,32 @@ from
     tickets t
     join sessions s on s.id = t.session_id
     join movies m on m.id = s.movie_id
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW()
 group by
     m.id
 order by
     summa desc
 limit 3
 ```
-|QUERY PLAN                                                                                          |
-|----------------------------------------------------------------------------------------------------|
-|Limit  (cost=7901.46..7901.47 rows=3 width=42)                                                      |
-|  ->  Sort  (cost=7901.46..7903.96 rows=1000 width=42)                                              |
-|        Sort Key: (sum(t.price)) DESC                                                               |
-|        ->  HashAggregate  (cost=7876.03..7888.53 rows=1000 width=42)                               |
-|              Group Key: m.id                                                                       |
-|              ->  Hash Join  (cost=3541.00..7375.81 rows=100045 width=15)                           |
-|                    Hash Cond: (s.movie_id = m.id)                                                  |
-|                    ->  Hash Join  (cost=3509.50..7080.58 rows=100045 width=9)                      |
-|                          Hash Cond: (t.session_id = s.id)                                          |
-|                          ->  Seq Scan on tickets t  (cost=0.00..1935.45 rows=100045 width=9)       |
-|                          ->  Hash  (cost=1852.00..1852.00 rows=101000 width=8)                     |
-|                                ->  Seq Scan on sessions s  (cost=0.00..1852.00 rows=101000 width=8)|
-|                    ->  Hash  (cost=19.00..19.00 rows=1000 width=10)                                |
-|                          ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=10)           |
+|QUERY PLAN                                                                                                                                                                                       |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Limit  (cost=9902.36..9902.37 rows=3 width=43)                                                                                                                                                   |
+|  ->  Sort  (cost=9902.36..9904.86 rows=1000 width=43)                                                                                                                                           |
+|        Sort Key: (sum(t.price)) DESC                                                                                                                                                            |
+|        ->  HashAggregate  (cost=9876.93..9889.43 rows=1000 width=43)                                                                                                                            |
+|              Group Key: m.id                                                                                                                                                                    |
+|              ->  Hash Join  (cost=3541.00..9376.71 rows=100045 width=16)                                                                                                                        |
+|                    Hash Cond: (s.movie_id = m.id)                                                                                                                                               |
+|                    ->  Hash Join  (cost=3509.50..9081.48 rows=100045 width=9)                                                                                                                   |
+|                          Hash Cond: (t.session_id = s.id)                                                                                                                                       |
+|                          ->  Seq Scan on tickets t  (cost=0.00..3936.35 rows=100045 width=9)                                                                                                    |
+|                                Filter: ((created_at <= now()) AND (created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)))|
+|                          ->  Hash  (cost=1852.00..1852.00 rows=101000 width=8)                                                                                                                  |
+|                                ->  Seq Scan on sessions s  (cost=0.00..1852.00 rows=101000 width=8)                                                                                             |
+|                    ->  Hash  (cost=19.00..19.00 rows=1000 width=11)                                                                                                                             |
+|                          ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=11)                                                                                                        |
+
 
 Ожидаемый результат, фиксируем увеличение стоимости.  
 
@@ -535,35 +546,38 @@ from
     tickets t
     join sessions s on s.id = t.session_id
     join movies m on m.id = s.movie_id
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW()
 group by
     m.id
 order by
     summa desc
 limit 3   
 ```
+|QUERY PLAN                                                                                                                                                                                                         |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Limit  (cost=57657.54..57657.55 rows=3 width=43)                                                                                                                                                                   |
+|  ->  Sort  (cost=57657.54..57660.04 rows=1000 width=43)                                                                                                                                                           |
+|        Sort Key: (sum(t.price)) DESC                                                                                                                                                                              |
+|        ->  Finalize GroupAggregate  (cost=57383.77..57644.62 rows=1000 width=43)                                                                                                                                  |
+|              Group Key: m.id                                                                                                                                                                                      |
+|              ->  Gather Merge  (cost=57383.77..57617.12 rows=2000 width=43)                                                                                                                                       |
+|                    Workers Planned: 2                                                                                                                                                                             |
+|                    ->  Sort  (cost=56383.75..56386.25 rows=1000 width=43)                                                                                                                                         |
+|                          Sort Key: m.id                                                                                                                                                                           |
+|                          ->  Partial HashAggregate  (cost=56321.42..56333.92 rows=1000 width=43)                                                                                                                  |
+|                                Group Key: m.id                                                                                                                                                                    |
+|                                ->  Hash Join  (cost=21316.28..54029.61 rows=458361 width=16)                                                                                                                      |
+|                                      Hash Cond: (s.movie_id = m.id)                                                                                                                                               |
+|                                      ->  Parallel Hash Join  (cost=21284.78..52789.82 rows=458361 width=9)                                                                                                        |
+|                                            Hash Cond: (t.session_id = s.id)                                                                                                                                       |
+|                                            ->  Parallel Seq Scan on tickets t  (cost=0.00..24031.84 rows=458361 width=9)                                                                                          |
+|                                                  Filter: ((created_at <= now()) AND (created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)))|
+|                                            ->  Parallel Hash  (cost=13760.68..13760.68 rows=458568 width=8)                                                                                                       |
+|                                                  ->  Parallel Seq Scan on sessions s  (cost=0.00..13760.68 rows=458568 width=8)                                                                                   |
+|                                      ->  Hash  (cost=19.00..19.00 rows=1000 width=11)                                                                                                                             |
+|                                            ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=11)                                                                                                        |
 
-|QUERY PLAN                                                                                                                      |
-|--------------------------------------------------------------------------------------------------------------------------------|
-|Limit  (cost=48494.23..48494.23 rows=3 width=42)                                                                                |
-|  ->  Sort  (cost=48494.23..48496.73 rows=1000 width=42)                                                                        |
-|        Sort Key: (sum(t.price)) DESC                                                                                           |
-|        ->  Finalize GroupAggregate  (cost=48220.45..48481.30 rows=1000 width=42)                                               |
-|              Group Key: m.id                                                                                                   |
-|              ->  Gather Merge  (cost=48220.45..48453.80 rows=2000 width=42)                                                    |
-|                    Workers Planned: 2                                                                                          |
-|                    ->  Sort  (cost=47220.43..47222.93 rows=1000 width=42)                                                      |
-|                          Sort Key: m.id                                                                                        |
-|                          ->  Partial HashAggregate  (cost=47158.10..47170.60 rows=1000 width=42)                               |
-|                                Group Key: m.id                                                                                 |
-|                                ->  Hash Join  (cost=21320.38..44866.34 rows=458352 width=15)                                   |
-|                                      Hash Cond: (s.movie_id = m.id)                                                            |
-|                                      ->  Parallel Hash Join  (cost=21288.88..43626.57 rows=458352 width=9)                     |
-|                                            Hash Cond: (t.session_id = s.id)                                                    |
-|                                            ->  Parallel Seq Scan on tickets t  (cost=0.00..14864.52 rows=458352 width=9)       |
-|                                            ->  Parallel Hash  (cost=13762.50..13762.50 rows=458750 width=8)                    |
-|                                                  ->  Parallel Seq Scan on sessions s  (cost=0.00..13762.50 rows=458750 width=8)|
-|                                      ->  Hash  (cost=19.00..19.00 rows=1000 width=10)                                          |
-|                                            ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=10)                     |
 
 ```
    

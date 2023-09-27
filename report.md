@@ -700,3 +700,45 @@ where
 
 Получаем уменьшение стоимости и сканирование по индексу.  
 
+---
+
+Афиша использовала в запросе sessions.  
+Индекс для sessions ранее добавили. Проверяем
+
+```
+-- Формирование афиши (фильмы, которые показывают сегодня)
+explain select 
+    m."name" as "название фильма",
+    mg."name" as "жанр",
+    mc."name" as "категория"
+from
+    sessions s
+    join movies m on m.id = s.movie_id
+    join movie_genres mg on mg.id = m.genre_id
+    join movie_categories mc on mc.id = m.category_id
+where
+    s.start_time >= TO_TIMESTAMP(TO_CHAR(CURRENT_DATE, 'YYYY-MM-DD'), 'YYYY-MM-DD');
+```
+
+|QUERY PLAN                                                                                                                                                   |
+|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Hash Join  (cost=8516.22..31485.10 rows=451411 width=1039)                                                                                                   |
+|  Hash Cond: (m.category_id = mc.id)                                                                                                                         |
+|  ->  Hash Join  (cost=8503.30..30248.60 rows=451411 width=527)                                                                                              |
+|        Hash Cond: (m.genre_id = mg.id)                                                                                                                      |
+|        ->  Hash Join  (cost=8490.37..29012.09 rows=451411 width=15)                                                                                         |
+|              Hash Cond: (s.movie_id = m.id)                                                                                                                 |
+|              ->  Bitmap Heap Scan on sessions s  (cost=8458.87..27790.62 rows=451411 width=4)                                                               |
+|                    Recheck Cond: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))    |
+|                    ->  Bitmap Index Scan on start_time  (cost=0.00..8346.02 rows=451411 width=0)                                                            |
+|                          Index Cond: (start_time >= to_timestamp(to_char((CURRENT_DATE)::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text))|
+|              ->  Hash  (cost=19.00..19.00 rows=1000 width=19)                                                                                               |
+|                    ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=19)                                                                          |
+|        ->  Hash  (cost=11.30..11.30 rows=130 width=520)                                                                                                     |
+|              ->  Seq Scan on movie_genres mg  (cost=0.00..11.30 rows=130 width=520)                                                                         |
+|  ->  Hash  (cost=11.30..11.30 rows=130 width=520)                                                                                                           |
+|        ->  Seq Scan on movie_categories mc  (cost=0.00..11.30 rows=130 width=520)                                                                           |
+
+
+Видим использование индексов в запросе при фильтрации.  
+

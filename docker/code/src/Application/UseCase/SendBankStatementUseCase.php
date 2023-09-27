@@ -23,4 +23,6 @@ class SendBankStatementUseCase
         $bankStatementMessage = BankStatementMessageBuilder::createFromRequest($messageSendRequest);
         $this->messenger->send($bankStatementMessage);
     }
+
+
 }

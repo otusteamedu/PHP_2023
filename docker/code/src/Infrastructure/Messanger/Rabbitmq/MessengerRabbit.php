@@ -49,32 +49,22 @@ class MessengerRabbit implements MessengerInterface
      */
     public function recive(MessageInterface &$message): bool
     {
-        if (rand() % 2 == 0) {
-            sleep(5);
-            return false;
-        } else {
-            sleep(2);
+        $connection = $this->getConnection();
+        $channel = $connection->channel();
+        $time = time();
 
-            $connection = $this->getConnection();
-            $channel = $connection->channel();
-            $time = time();
-            while (true) {
-                $messageAMPQ = $channel->basic_get($message->getType());
-                if ($messageAMPQ instanceof AMQPMessage) {
-                    $messageAMPQ->ack();
-                    $channel->close();
-                    $connection->close();
-                    $message->setBody($messageAMPQ->body);
-                    return true;
-                }
-                if (time() - $time > $this->recivetime) {
-                    break;
-                }
-            }
+        $messageAMPQ = $channel->basic_get($message->getType());
+        if ($messageAMPQ instanceof AMQPMessage) {
+            $messageAMPQ->ack();
             $channel->close();
             $connection->close();
-            return false;
+            $message->setBody($messageAMPQ->body);
+            return true;
         }
+
+        $channel->close();
+        $connection->close();
+        return false;
     }
 
     /**

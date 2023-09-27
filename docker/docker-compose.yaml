@@ -52,6 +52,20 @@ services:
     networks:
       - app-network
 
+  #Контейнер с mysql
+  mysql:
+    image: mariadb
+    #image: mysql
+    container_name: ${CONTAINER_NAME}_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    networks:
+      - app-network
+
 #Docker Networks
 networks:
   app-network:

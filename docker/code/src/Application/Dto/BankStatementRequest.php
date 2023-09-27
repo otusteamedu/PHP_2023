@@ -2,24 +2,34 @@
 
 namespace IilyukDmitryi\App\Application\Dto;
 
+/**
+ *
+ */
 class BankStatementRequest
 {
-    private string $dateStart;
-    private string $dateEnd;
-    private string $email;
 
     /**
+     * @param string $uuid
      * @param string $dateStart
      * @param string $dateEnd
      * @param string $email
      */
-    public function __construct(string $dateStart, string $dateEnd, string $email)
+    public function __construct(private string $uuid, private string $dateStart, private string $dateEnd, private string $email)
     {
+        $this->uuid = trim($uuid);
         $this->dateStart = trim($dateStart);
         $this->dateEnd = trim($dateEnd);
         $this->email = trim($email);
     }
 
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+    
     /**
      * @return string
      */

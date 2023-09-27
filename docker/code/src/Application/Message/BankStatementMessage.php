@@ -8,6 +8,25 @@ class BankStatementMessage extends AbstractMessage
     private ?\DateTime $dateStart = null;
     private ?\DateTime $dateEnd = null;
     private string $email = '';
+    private string $uuid = '';
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     * @return BankStatementMessage
+     */
+    public function setUuid(string $uuid): BankStatementMessage
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
 
 
     /**
@@ -34,14 +53,17 @@ class BankStatementMessage extends AbstractMessage
      */
     protected function fillProperty(): void
     {
+        $this->uuid = '';
         $this->dateStart = null;
         $this->dateEnd = null;
         $this->email = '';
-
         if ($this->body) {
             $array = json_decode($this->body, true);
             if($this->getType() !== $array['type']) {
                throw new \Exception('Message types do not match');
+            }
+            if (isset($array['fields']['uuid'])) {
+                $this->uuid = $array['fields']['uuid'];
             }
             if (isset($array['fields']['dateStart'])) {
                 $this->dateStart = $array['fields']['dateStart'] ? new \DateTime($array['fields']['dateStart']) : null;
@@ -86,6 +108,7 @@ class BankStatementMessage extends AbstractMessage
     public function getFields(): array
     {
         return [
+            'uuid' => $this->uuid,
             'dateStart' => $this->dateStart?->format("Y-m-d H:i:s"),
             'dateEnd' => $this->dateEnd?->format("Y-m-d H:i:s"),
             'email' => $this->email,

@@ -2,20 +2,28 @@
 
 namespace IilyukDmitryi\App\Application\Dto;
 
+/**
+ *
+ */
 class TwoNdflRequest
 {
-    private string $numMonth;
-    private string $email;
-
     /**
-     * @param string $dateStart
-     * @param string $dateEnd
+     * @param string $uuid
+     * @param int $numMonth
      * @param string $email
      */
-    public function __construct(int $numMonth, string $email)
+    public function __construct(private string $uuid, private int $numMonth, private string $email)
     {
         $this->numMonth = (int)($numMonth);
         $this->email = trim($email);
+    }
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
     }
 
     /**

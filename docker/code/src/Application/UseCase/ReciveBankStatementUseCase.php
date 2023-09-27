@@ -5,6 +5,8 @@ namespace IilyukDmitryi\App\Application\UseCase;
 use Exception;
 use IilyukDmitryi\App\Application\Contract\Mailer\MailerInterface;
 use IilyukDmitryi\App\Application\Contract\Messenger\MessengerInterface;
+use IilyukDmitryi\App\Application\Contract\Storage\EventStorageInterface;
+use IilyukDmitryi\App\Application\Dto\Event;
 use IilyukDmitryi\App\Application\Dto\MessageReciveResult;
 use IilyukDmitryi\App\Application\Message\BankStatementMessage;
 use IilyukDmitryi\App\Domain\Model\BankStatementModel;
@@ -13,7 +15,7 @@ use IilyukDmitryi\App\Domain\Model\BankStatementModel;
 
 class ReciveBankStatementUseCase
 {
-    public function __construct(protected readonly MessengerInterface $messenger, protected readonly MailerInterface $mailer)
+    public function __construct(protected readonly MessengerInterface $messenger, protected readonly MailerInterface $mailer,protected readonly EventStorageInterface $eventStorage)
     {
     }
 
@@ -28,6 +30,7 @@ class ReciveBankStatementUseCase
         if($this->messenger->recive($messageBankStatement)){
             $isRecive = true;
             $isSendEmail = $this->sendStatementToEmail($messageBankStatement);
+            $this->eventStorage->add(new Event($messageBankStatement->getUuid(),$messageBankStatement->getFields(),true));
         }
 
         return new MessageReciveResult($isRecive, $isSendEmail);

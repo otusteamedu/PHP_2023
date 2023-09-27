@@ -15,6 +15,7 @@ class BankStatementMessageBuilder
      */
     public static function createFromRequest(BankStatementRequest $bankStatementRequest): BankStatementMessage
     {
+        $uuid = $bankStatementRequest->getUuid();
         $dateStartRaw = $bankStatementRequest->getDateStart();
         $dateEndRaw = $bankStatementRequest->getDateEnd();
         $emailRaw = $bankStatementRequest->getEmail();
@@ -38,6 +39,7 @@ class BankStatementMessageBuilder
         }
 
         $bankStatementMessage = new BankStatementMessage();
+        $bankStatementMessage->setUuid($uuid);
         $bankStatementMessage->setDateStart($dateStart);
         $bankStatementMessage->setDateEnd($dateEnd);
         $bankStatementMessage->setEmail($email);

@@ -8,7 +8,25 @@ class TwoNdflMessage extends AbstractMessage
     private const MESSAGE_TYPE = '2ndfl';
     private int $numMonth = 0;
     private string $email = '';
+    private string $uuid = '';
 
+    /**
+     * @return string
+     */
+    public function getUuid(): string
+    {
+        return $this->uuid;
+    }
+
+    /**
+     * @param string $uuid
+     * @return TwoNdflMessage
+     */
+    public function setUuid(string $uuid): TwoNdflMessage
+    {
+        $this->uuid = $uuid;
+        return $this;
+    }
 
     /**
      * @inheritDoc
@@ -42,6 +60,9 @@ class TwoNdflMessage extends AbstractMessage
             if($this->getType() !== $array['type']) {
                throw new \Exception('Message types do not match');
             }
+            if (isset($array['fields']['uuid'])) {
+                $this->uuid = $array['fields']['uuid'];
+            }
             if (isset($array['fields']['numMonth'])) {
                 $this->numMonth = $array['fields']['numMonth'] ? (int)($array['fields']['numMonth']) : 0;
             }
@@ -50,6 +71,7 @@ class TwoNdflMessage extends AbstractMessage
             }
         }
     }
+
 
     /**
      * @param string $email
@@ -89,6 +111,7 @@ class TwoNdflMessage extends AbstractMessage
     public function getFields(): array
     {
         return [
+            'uuid' => $this->uuid,
             'numMonth' => $this->numMonth,
             'email' => $this->email,
         ];

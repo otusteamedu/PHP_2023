@@ -30,6 +30,7 @@ class TwoNdflMessageBuilder
         }
 
         $twoNdflMessage = new TwoNdflMessage();
+        $twoNdflMessage->setUuid($twoNdflRequest->getUuid());
         $twoNdflMessage->setNumMonth($numMonth);
         $twoNdflMessage->setEmail($email);
 

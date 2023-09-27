@@ -35,6 +35,8 @@ from
     tickets t
     join sessions s on s.id = t.session_id
     join movies m on m.id = s.movie_id
+where
+    t.created_at between TO_TIMESTAMP(TO_CHAR(CURRENT_DATE-7, 'YYYY-MM-DD'), 'YYYY-MM-DD') and NOW()
 group by
     m.id
 order by

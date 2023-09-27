@@ -764,3 +764,109 @@ order by
     summa desc
 limit 3  
 ```
+|QUERY PLAN                                                                                                                                                                                                                   |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+|Limit  (cost=42634.32..42634.33 rows=3 width=43)                                                                                                                                                                             |
+|  ->  Sort  (cost=42634.32..42636.82 rows=1000 width=43)                                                                                                                                                                     |
+|        Sort Key: (sum(t.price)) DESC                                                                                                                                                                                        |
+|        ->  Finalize GroupAggregate  (cost=42360.54..42621.39 rows=1000 width=43)                                                                                                                                            |
+|              Group Key: m.id                                                                                                                                                                                                |
+|              ->  Gather Merge  (cost=42360.54..42593.89 rows=2000 width=43)                                                                                                                                                 |
+|                    Workers Planned: 2                                                                                                                                                                                       |
+|                    ->  Sort  (cost=41360.52..41363.02 rows=1000 width=43)                                                                                                                                                   |
+|                          Sort Key: m.id                                                                                                                                                                                     |
+|                          ->  Partial HashAggregate  (cost=41298.19..41310.69 rows=1000 width=43)                                                                                                                            |
+|                                Group Key: m.id                                                                                                                                                                              |
+|                                ->  Hash Join  (cost=25781.33..40860.69 rows=87500 width=16)                                                                                                                                 |
+|                                      Hash Cond: (s.movie_id = m.id)                                                                                                                                                         |
+|                                      ->  Parallel Hash Join  (cost=25749.83..40598.53 rows=87500 width=9)                                                                                                                   |
+|                                            Hash Cond: (t.session_id = s.id)                                                                                                                                                 |
+|                                            ->  Parallel Bitmap Heap Scan on tickets t  (cost=4460.95..16431.96 rows=87500 width=9)                                                                                          |
+|                                                  Recheck Cond: ((created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)) AND (created_at <= now()))    |
+|                                                  ->  Bitmap Index Scan on created_at  (cost=0.00..4408.45 rows=210001 width=0)                                                                                              |
+|                                                        Index Cond: ((created_at >= to_timestamp(to_char(((CURRENT_DATE - 7))::timestamp with time zone, 'YYYY-MM-DD'::text), 'YYYY-MM-DD'::text)) AND (created_at <= now()))|
+|                                            ->  Parallel Hash  (cost=13762.50..13762.50 rows=458750 width=8)                                                                                                                 |
+|                                                  ->  Parallel Seq Scan on sessions s  (cost=0.00..13762.50 rows=458750 width=8)                                                                                             |
+|                                      ->  Hash  (cost=19.00..19.00 rows=1000 width=11)                                                                                                                                       |
+|                                            ->  Seq Scan on movies m  (cost=0.00..19.00 rows=1000 width=11)                                                                                                                  |
+
+Выйгрыш в производительности получили в части выборки строк в tickets. Видим сканирование по индексу.  
+
+---
+
+Для следующего особой разницы не увидим. Разве что незначительная, так как я пересоздал таблицу tickets 
+и в ней, вероятно, немного отличается кол-во записей. 
+
+```
+-- Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+explain select 
+    sa."row" as "ряд",
+    sa.place as "место",
+    case
+        when t.id is null then 'свободно'
+        else 'занято'
+    end as "занятость места"
+from
+    seating_arrangements sa
+    join scheme_halls sh on sh.id = sa.scheme_id
+    join halls h on h.scheme_id = sh.id
+    left join tickets t on t.seating_arrangements_id = sa.id
+where
+    h.id = 1 -- Для зала №1
+```
+|QUERY PLAN                                                                                                    |
+|--------------------------------------------------------------------------------------------------------------|
+|Hash Right Join  (cost=35.61..23210.35 rows=7874 width=40)                                                    |
+|  Hash Cond: (t.seating_arrangements_id = sa.id)                                                              |
+|  ->  Seq Scan on tickets t  (cost=0.00..19346.00 rows=1000000 width=8)                                       |
+|  ->  Hash  (cost=35.48..35.48 rows=10 width=12)                                                              |
+|        ->  Nested Loop  (cost=8.32..35.48 rows=10 width=12)                                                  |
+|              ->  Hash Join  (cost=8.18..34.28 rows=6 width=20)                                               |
+|                    Hash Cond: (sa.scheme_id = h.scheme_id)                                                   |
+|                    ->  Seq Scan on seating_arrangements sa  (cost=0.00..22.70 rows=1270 width=16)            |
+|                    ->  Hash  (cost=8.17..8.17 rows=1 width=4)                                                |
+|                          ->  Index Scan using halls_pkey on halls h  (cost=0.15..8.17 rows=1 width=4)        |
+|                                Index Cond: (id = 1)                                                          |
+|              ->  Index Only Scan using scheme_halls_pkey on scheme_halls sh  (cost=0.14..0.20 rows=1 width=4)|
+|                    Index Cond: (id = sa.scheme_id)                                                           |
+
+Аналогично для
+
+```
+-- Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
+explain select
+    min(t.price),
+    max(t.price)
+from
+    tickets t
+    join sessions s on s.id = t.session_id
+where
+    s.id = 331
+```
+
+|QUERY PLAN                                                                                     |
+|-----------------------------------------------------------------------------------------------|
+|Aggregate  (cost=15678.01..15678.02 rows=1 width=64)                                           |
+|  ->  Nested Loop  (cost=1000.43..15673.00 rows=1002 width=5)                                  |
+|        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.43..8.45 rows=1 width=4)|
+|              Index Cond: (id = 331)                                                           |
+|        ->  Gather  (cost=1000.00..15654.53 rows=1002 width=9)                                 |
+|              Workers Planned: 2                                                               |
+|              ->  Parallel Seq Scan on tickets t  (cost=0.00..14554.33 rows=418 width=9)       |
+|                    Filter: (session_id = 331)                                                 |
+
+Но, если добавить индекс для поля session_id в tickets (не смотря на то, что это внешний ключ, 
+скрипт scheme.sql его не создал), то получем значительный прирост
+
+|QUERY PLAN                                                                                     |
+|-----------------------------------------------------------------------------------------------|
+|Aggregate  (cost=2952.68..2952.69 rows=1 width=64)                                             |
+|  ->  Nested Loop  (cost=20.62..2947.67 rows=1002 width=5)                                     |
+|        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.43..8.45 rows=1 width=4)|
+|              Index Cond: (id = 331)                                                           |
+|        ->  Bitmap Heap Scan on tickets t  (cost=20.19..2929.20 rows=1002 width=9)             |
+|              Recheck Cond: (session_id = 331)                                                 |
+|              ->  Bitmap Index Scan on session_id  (cost=0.00..19.94 rows=1002 width=0)        |
+|                    Index Cond: (session_id = 331)                                             |
+
+

@@ -1,0 +1,93 @@
+#№4 Поиск 3 самых прибыльных фильмов за неделю
+SELECT movies.name, sum(price) as "касса за неделю" FROM sessions
+LEFT JOIN movies ON movie_id = movies.id
+RIGHT JOIN tickets ON sessions.id = tickets.movie_session_id
+WHERE date >= now() - interval '7 days' AND sold
+GROUP BY movies.name
+ORDER BY "касса за неделю" DESC LIMIT 3;
+ name | касса за неделю
+------+-----------------
+ my2  |         9022.00
+(1 row)
+
+                                                    QUERY PLAN
+------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=38.57..38.58 rows=3 width=548)
+   ->  Sort  (cost=38.57..38.86 rows=115 width=548)
+         Sort Key: (sum(tickets.price)) DESC
+         ->  HashAggregate  (cost=35.65..37.09 rows=115 width=548)
+               Group Key: movies.name
+               ->  Hash Left Join  (cost=13.31..35.07 rows=115 width=521)
+                     Hash Cond: (sessions.movie_id = movies.id)
+                     ->  Nested Loop  (cost=0.16..21.61 rows=115 width=9)
+                           ->  Seq Scan on tickets  (cost=0.00..11.75 rows=344 width=9)
+                                 Filter: sold
+                           ->  Memoize  (cost=0.16..0.33 rows=1 width=8)
+                                 Cache Key: tickets.movie_session_id
+                                 Cache Mode: logical
+                                 ->  Index Scan using sessions_pkey on sessions  (cost=0.15..0.32 rows=1 width=8)
+                                       Index Cond: (id = tickets.movie_session_id)
+                                       Filter: (date >= (now() - '7 days'::interval))
+                     ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+                           ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+(18 rows)
+
+ QUERY PLAN 10 000
+------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=368.98..368.98 rows=3 width=548)
+   ->  Sort  (cost=368.98..369.33 rows=140 width=548)
+         Sort Key: (sum(tickets.price)) DESC
+         ->  HashAggregate  (cost=365.42..367.17 rows=140 width=548)
+               Group Key: movies.name
+               ->  Hash Left Join  (cost=13.45..338.57 rows=5369 width=521)
+                     Hash Cond: (sessions.movie_id = movies.id)
+                     ->  Nested Loop  (cost=0.30..310.90 rows=5369 width=9)
+                           ->  Seq Scan on tickets  (cost=0.00..174.75 rows=5371 width=9)
+                                 Filter: sold
+                           ->  Memoize  (cost=0.30..0.39 rows=1 width=8)
+                                 Cache Key: tickets.movie_session_id
+                                 Cache Mode: logical
+                                 ->  Index Scan using sessions_pkey on sessions  (cost=0.29..0.38 rows=1 width=8)
+                                       Index Cond: (id = tickets.movie_session_id)
+                                       Filter: (date >= (now() - '7 days'::interval))
+                     ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+                           ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+(18 rows)
+
+ QUERY PLAN  10 000 000
+------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=180879.76..180879.76 rows=3 width=548)
+   ->  Sort  (cost=180879.76..180880.11 rows=140 width=548)
+         Sort Key: (sum(tickets.price)) DESC
+         ->  Finalize GroupAggregate  (cost=180841.43..180877.95 rows=140 width=548)
+               Group Key: movies.name
+               ->  Gather Merge  (cost=180841.43..180874.10 rows=280 width=548)
+                     Workers Planned: 2
+                     ->  Sort  (cost=179841.40..179841.75 rows=140 width=548)
+                           Sort Key: movies.name
+                           ->  Partial HashAggregate  (cost=179834.66..179836.41 rows=140 width=548)
+                                 Group Key: movies.name
+                                 ->  Hash Left Join  (cost=13.60..169441.38 rows=2078656 width=521)
+                                       Hash Cond: (sessions.movie_id = movies.id)
+                                       ->  Nested Loop  (cost=0.45..163806.58 rows=2078656 width=9)
+                                             ->  Parallel Seq Scan on tickets  (cost=0.00..111838.58 rows=2078656 width=9)
+                                                   Filter: sold
+                                             ->  Memoize  (cost=0.45..0.54 rows=1 width=8)
+                                                   Cache Key: tickets.movie_session_id
+                                                   Cache Mode: logical
+                                                   ->  Index Scan using sessions_pkey on sessions  (cost=0.43..0.53 rows=1 width=8)
+                                                         Index Cond: (id = tickets.movie_session_id)
+                                                         Filter: (date >= (now() - '7 days'::interval))
+                                       ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+                                             ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+ JIT:
+   Functions: 28
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(27 rows)
+
+
+CREATE INDEX ticket_price ON tickets(price); - немного улучшил положение. Кост остался тем же, а количество рядов уменьшилось
+Вывод по индексам:
+индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
+бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
+на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.

@@ -12,6 +12,12 @@ INSERT INTO sessions (id, date, hall_id, movie_id) VALUES
 (generate_series(6, 11), now() - interval '5 days', 1, floor(random()* (5-2 + 1) + 2));
 INSERT INTO sessions (id, date, hall_id, movie_id) VALUES
 (generate_series(12, 18), now() - interval '2 days', 1, floor(random()* (5-2 + 1) + 2));
+INSERT INTO sessions (id, date, hall_id, movie_id) VALUES
+(generate_series(19, 26), now(), 1, floor(random()* (5-2 + 1) + 2));
+INSERT INTO sessions (id, date, hall_id, movie_id) VALUES
+(generate_series(27, 10028), now(), 1, floor(random()* (5-2 + 1) + 2));
+INSERT INTO sessions (id, date, hall_id, movie_id) VALUES
+(generate_series(10029, 10000028), now(), 1, floor(random()* (5-2 + 1) + 2));
 
 select* from sessions;
 #id |             date              | hall_id | movie_id
@@ -25,16 +31,26 @@ select* from sessions;
 #формирование таблички с местами
 INSERT INTO seats (id, seat_number, hall_id) VALUES
 (generate_series(1, 225), generate_series(1, 225), 1);
+INSERT INTO seats (id, seat_number, hall_id) VALUES
+(generate_series(226, 10225), generate_series(1, 10000), 1);
+INSERT INTO seats (id, seat_number, hall_id) VALUES
+(generate_series(10226, 10010225), generate_series(1, 10000000), 1);
 
 #проданные билеты
 INSERT INTO tickets (id, movie_session_id, seat_id, price, sold) VALUES
 (generate_series(1, 225), 1, generate_series(1, 225), floor(random()* (90-57 + 1) + 57), random() > 0.5);
 
 INSERT INTO tickets (id, movie_session_id, seat_id, price, sold) VALUES
-(generate_series(226, 450), 2, generate_series(1, 225), floor(random()* (90-57 + 1) + 57), random() > 0.5);
+(generate_series(226, 450), 3, generate_series(1, 225), floor(random()* (90-57 + 1) + 57), random() > 0.5);
 
 INSERT INTO tickets (id, movie_session_id, seat_id, price, sold) VALUES
 (generate_series(451, 675), 6, generate_series(1, 225), floor(random()* (90-57 + 1) + 57), random() > 0.5);
+
+INSERT INTO tickets (id, movie_session_id, seat_id, price, sold) VALUES
+(generate_series(676, 10675), 4, generate_series(1, 10000), floor(random()* (90-57 + 1) + 57), random() > 0.5);
+
+INSERT INTO tickets (id, movie_session_id, seat_id, price, sold) VALUES
+    (generate_series(10676, 10010675), 4, generate_series(10676, 10010675), floor(random()* (90-57 + 1) + 57), random() > 0.5);
 
 #id  | movie_session_id | seat_id | price
 #-----+------------------+---------+-------

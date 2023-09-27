@@ -1,0 +1,92 @@
+#№1 Выбор всех фильмов на сегодня
+SELECT DISTINCT movies.name FROM sessions
+LEFT JOIN movies ON movie_id = movies.id
+WHERE date >= '2023-09-27 00:00:00'::timestamp AND date <= '2023-09-27 23:59:59'::timestamp;
+ name
+------
+ my
+ my1
+ my2
+ my3
+(4 rows)
+
+                                                                            QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------
+ Unique  (cost=47.70..47.75 rows=8 width=516)
+   ->  Sort  (cost=47.70..47.73 rows=8 width=516)
+         Sort Key: movies.name
+         ->  Hash Right Join  (cost=35.60..47.59 rows=8 width=516)
+               Hash Cond: (movies.id = sessions.movie_id)
+               ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+               ->  Hash  (cost=35.50..35.50 rows=8 width=4)
+                     ->  Seq Scan on sessions  (cost=0.00..35.50 rows=8 width=4)
+                           Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone)
+                           AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+(9 rows)
+
+QUERY PLAN 10 000
+-----------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=279.66..281.06 rows=140 width=516)
+   Group Key: movies.name
+   ->  Hash Left Join  (cost=13.15..254.63 rows=10010 width=516)
+         Hash Cond: (sessions.movie_id = movies.id)
+         ->  Seq Scan on sessions  (cost=0.00..214.41 rows=10010 width=4)
+               Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone)
+                        AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+         ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+               ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+(8 rows)
+
+QUERY PLAN 10 000 000
+----------------------------------------------------------------------------------------------------------------------
+ Unique  (cost=148935.17..148936.57 rows=140 width=516)
+   ->  Sort  (cost=148935.17..148935.87 rows=280 width=516)
+         Sort Key: movies.name
+         ->  Gather  (cost=148894.39..148923.79 rows=280 width=516)
+               Workers Planned: 2
+               ->  HashAggregate  (cost=147894.39..147895.79 rows=140 width=516)
+                     Group Key: movies.name
+                     ->  Hash Left Join  (cost=13.15..137477.60 rows=4166715 width=516)
+                           Hash Cond: (sessions.movie_id = movies.id)
+                           ->  Parallel Seq Scan on sessions  (cost=0.00..126195.72 rows=4166715 width=4)
+                                 Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone)
+)
+                           ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+                                 ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+ JIT:
+   Functions: 15
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(16 rows)
+
+CREATE INDEX sessions_date ON sessions (date, movies); - вообще не помог улучшить производительность;
+CREATE INDEX movies_name ON movies (name); - вообще не помог улучшить производительность
+CREATE INDEX movie_date ON sessions (movie_id, date); - чуть чуть помогло улучшить положение (количество рядов,
+в некоторых случаях стало меньше, но всё равно не вижу, что планировщик использует индексы);
+
+ QUERY PLAN
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+--
+ Unique  (cost=160140.02..160140.06 rows=4 width=516)
+   ->  Sort  (cost=160140.02..160140.04 rows=8 width=516)
+         Sort Key: movies.name
+         ->  Gather  (cost=160139.06..160139.90 rows=8 width=516)
+               Workers Planned: 2
+               ->  HashAggregate  (cost=159139.06..159139.10 rows=4 width=516)
+                     Group Key: movies.name
+                     ->  Hash Left Join  (cost=1.09..148722.37 rows=4166678 width=516)
+                           Hash Cond: (sessions.movie_id = movies.id)
+                           ->  Parallel Seq Scan on sessions  (cost=0.00..126195.17 rows=4166678 width=4)
+                                 Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone)
+)
+                           ->  Hash  (cost=1.04..1.04 rows=4 width=520)
+                                 ->  Seq Scan on movies  (cost=0.00..1.04 rows=4 width=520)
+ JIT:
+   Functions: 15
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(16 rows)
+
+Вывод по индексам:
+индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
+бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
+на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.

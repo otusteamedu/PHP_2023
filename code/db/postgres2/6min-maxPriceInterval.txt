@@ -1,0 +1,47 @@
+#№6 Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
+SELECT concat(min(price), '-', max(price)) as "диапазон цен"
+FROM sessions LEFT JOIN tickets on tickets.movie_session_id = sessions.id WHERE tickets.movie_session_id = 1;
+#диапазон цен
+#--------------
+# 57.00-90.00
+# (1 row)
+
+ QUERY PLAN
+-----------------------------------------------------------------------------------------------
+ Aggregate  (cost=24.98..25.00 rows=1 width=32)
+   ->  Nested Loop  (cost=0.15..23.86 rows=225 width=5)
+         ->  Index Only Scan using sessions_pkey on sessions  (cost=0.15..8.17 rows=1 width=4)
+               Index Cond: (id = 1)
+         ->  Seq Scan on tickets  (cost=0.00..13.44 rows=225 width=9)
+               Filter: (movie_session_id = 1)
+(6 rows)
+
+QUERY PLAN  10 000
+-----------------------------------------------------------------------------------------------
+ Aggregate  (cost=209.12..209.13 rows=1 width=32)
+   ->  Nested Loop  (cost=0.29..207.99 rows=225 width=5)
+         ->  Index Only Scan using sessions_pkey on sessions  (cost=0.29..4.30 rows=1 width=4)
+               Index Cond: (id = 1)
+         ->  Seq Scan on tickets  (cost=0.00..201.44 rows=225 width=9)
+               Filter: (movie_session_id = 1)
+
+QUERY PLAN   10 000 000
+-----------------------------------------------------------------------------------------------
+ Aggregate  (cost=123269.80..123269.81 rows=1 width=32)
+   ->  Nested Loop  (cost=1000.43..123269.79 rows=1 width=5)
+         ->  Index Only Scan using sessions_pkey on sessions  (cost=0.43..4.45 rows=1 width=4)
+               Index Cond: (id = 1)
+         ->  Gather  (cost=1000.00..123265.33 rows=1 width=9)
+               Workers Planned: 2
+               ->  Parallel Seq Scan on tickets  (cost=0.00..122265.23 rows=1 width=9)
+                     Filter: (movie_session_id = 1)
+ JIT:
+   Functions: 8
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(11 rows)
+
+Здесь также используется индекс по primary key
+Вывод по индексам:
+индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
+бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
+на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.

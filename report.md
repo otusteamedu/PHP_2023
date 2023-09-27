@@ -870,4 +870,3 @@ where
 |              ->  Bitmap Index Scan on session_id  (cost=0.00..19.94 rows=1002 width=0)        |
 |                    Index Cond: (session_id = 331)                                             |
 
-

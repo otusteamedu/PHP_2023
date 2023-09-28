@@ -90,3 +90,22 @@ CREATE INDEX movie_date ON sessions (movie_id, date); - чуть чуть пом
 индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
 бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
 на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.
+
+Попробуем поменять тип поля date и проанализировать запрос
+ALTER TABLE sessions ALTER column date TYPE timestamp;
+
+                                                                           QUERY PLAN
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ HashAggregate  (cost=64580.06..64580.10 rows=4 width=516)
+   Group Key: movies.name
+   ->  Hash Left Join  (cost=686.02..64455.06 rows=50000 width=516)
+         Hash Cond: (sessions.movie_id = movies.id)
+         ->  Bitmap Heap Scan on sessions  (cost=684.93..64183.66 rows=50000 width=4)
+               Recheck Cond: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+               ->  Bitmap Index Scan on sessions_date  (cost=0.00..672.43 rows=50000 width=0)
+                     Index Cond: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+         ->  Hash  (cost=1.04..1.04 rows=4 width=520)
+               ->  Seq Scan on movies  (cost=0.00..1.04 rows=4 width=520)
+(10 rows)
+
+После замены типа колонки date на timestamp cost стал в два раза ниже!!

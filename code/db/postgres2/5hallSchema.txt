@@ -50,3 +50,11 @@ QUERY PLAN 10 000 000
 индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
 бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
 на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.
+
+CREATE INDEX ON tickets (movie_session_id); Индекс кардинально улучшил ситуацию.
+ Nested Loop  (cost=0.87..12.91 rows=1 width=36)
+   ->  Index Scan using tickets_movie_session_id_idx on tickets  (cost=0.43..4.45 rows=1 width=5)
+         Index Cond: (movie_session_id = 1)
+   ->  Index Scan using seats_pkey on seats  (cost=0.43..8.45 rows=1 width=8)
+         Index Cond: (id = tickets.seat_id)
+(5 rows)

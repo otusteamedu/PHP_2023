@@ -1,0 +1,168 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Example API",
+        "contact": {
+            "name": "Support Team",
+            "email": "support@example.com"
+        },
+        "version": "1.0"
+    },
+    "paths": {
+        "/api/v1/report/mega_report": {
+            "post": {
+                "tags": [
+                    "mega_report"
+                ],
+                "summary": "Add request to make mega report",
+                "operationId": "/api/v1/report/mega_report",
+                "parameters": [
+                    {
+                        "name": "data1",
+                        "in": "query",
+                        "description": "Parameter data1",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "data2",
+                        "in": "query",
+                        "description": "Parameter data2",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns job_status_id in data array",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": {
+                                                "job_status_id": 123456
+                                            },
+                                            "message": "success",
+                                            "status": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": null,
+                                            "message": "something wrong",
+                                            "status": "error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/check_job_status?id={id}": {
+            "get": {
+                "tags": [
+                    "check_job_status"
+                ],
+                "summary": "Check status of job",
+                "operationId": "/api/v1/check_job_status?id={id}",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Parameter id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns status of job",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": {
+                                                "status": "queued"
+                                            },
+                                            "message": "success",
+                                            "status": "success"
+                                        }
+                                    },
+                                    "result2": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": {
+                                                "status": "executing"
+                                            },
+                                            "message": "success",
+                                            "status": "success"
+                                        }
+                                    },
+                                    "result3": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": {
+                                                "status": "finished"
+                                            },
+                                            "message": "success",
+                                            "status": "success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input",
+                        "content": {
+                            "application/json": {
+                                "schema": {},
+                                "examples": {
+                                    "result": {
+                                        "summary": "some description",
+                                        "value": {
+                                            "errors": null,
+                                            "data": null,
+                                            "message": "not found",
+                                            "status": "error"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

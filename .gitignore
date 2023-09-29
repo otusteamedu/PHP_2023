@@ -1,10 +1,5 @@
 .env
 /.ssh/**
-/mysql/*/data/**
-!/mysql/*/data/.gitkeep
-/mysql/*/logs/**
-/redis/data/**
-!/redis/data/.gitkeep
 /nginx/logs/**
 /php-8-workspace/logs/**
 
@@ -14,3 +9,8 @@
 # Другие файлы
 .idea/
 .DS_Store
+
+vendor/*
+mysql/data
+mysql/logs
+mysql/dump

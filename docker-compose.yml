@@ -1,0 +1,49 @@
+version: "3.8"
+
+networks:
+  default:
+    name: hw20
+
+services:
+
+  nginx-hw20:
+    image: nginx:stable-alpine
+    container_name: nginx-hw20
+    ports:
+      - "9080:80"
+    volumes:
+      - ./app:/var/www/hw20/
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx/
+
+  php-web-hw20:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    working_dir: /var/www
+    container_name: php-hw20
+    volumes:
+      - ./app:/var/www/hw20/
+      - ./php/logs:/var/log/
+
+  db-hw20:
+    image: mysql
+    volumes:
+      - ./mysql/data/:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql/
+      - ./mysql/dump:/dump
+    command: [ 'mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci' ]
+    ports:
+      - "13306:3306"
+    environment:
+      MYSQL_DATABASE: hw20
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_ROOT_PASSWORD: hw20-root
+      MYSQL_USER: hw20
+      MYSQL_PASSWORD: hw20
+    restart: always
+
+  redis-hw20:
+    image: 'bitnami/redis:latest'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

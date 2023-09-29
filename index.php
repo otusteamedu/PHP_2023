@@ -1,5 +1,7 @@
 <?php
 
+use Classes\ListNode;
+
 include __DIR__ . '/vendor/autoload.php';
 
 /**
@@ -7,7 +9,8 @@ include __DIR__ . '/vendor/autoload.php';
  * @param ListNode $list2
  * @return ListNode
  */
-function mergeTwoLists($list1, $list2) {
+function mergeTwoLists($list1, $list2)
+{
     $head = new ListNode();
     $headStart = $head;
 

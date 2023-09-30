@@ -5,10 +5,10 @@ require_once __DIR__ . "/../vendor/autoload.php";
 use App\MyApp;
 
 try {
-    $client = MyApp::createClientES();
-    $myApp = new MyApp($client);
+    $myApp = new MyApp();
     $myApp->init();
-    $myApp->search();
+    $result = $myApp->search();
+    print_r($result);
 } catch (Throwable $th) {
     print_r($th->getMessage());
 }

@@ -6,8 +6,8 @@ use App\MyApp;
 
 try {
     $myApp = new MyApp();
-    $myApp->init();
-    $result = $myApp->search();
+    $myApp->init(); // Создаем индекс, его еще нет
+    $result = $myApp->search(); // Поиск по переданным аргументам
     print_r($result);
 } catch (Throwable $th) {
     print_r($th->getMessage());

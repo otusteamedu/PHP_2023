@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    ports:
+      - 9200:9200
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ES_PORT: ${ES_PORT}
+    deploy:
+      resources:
+        limits:
+          #cpus: "0.50"  # Use at most 50% of one CPU core
+          memory: 4096M  # Use at most 50 MB of RAM
+
+#  php-client:
+#    build:
+#      context: ./fpm
+#      dockerfile: Dockerfile
+#    volumes:
+#      - .:/data
+

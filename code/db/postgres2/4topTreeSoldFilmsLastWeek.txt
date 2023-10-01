@@ -2,7 +2,7 @@
 SELECT movies.name, sum(price) as "касса за неделю" FROM sessions
 LEFT JOIN movies ON movie_id = movies.id
 RIGHT JOIN tickets ON sessions.id = tickets.movie_session_id
-WHERE date >= now() - interval '7 days' AND sold
+WHERE date >= (now() - interval '7 days') AND sold
 GROUP BY movies.name
 ORDER BY "касса за неделю" DESC LIMIT 3;
  name | касса за неделю
@@ -91,5 +91,37 @@ CREATE INDEX ticket_price ON tickets(price); - немного улучшил п�
 индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
 бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
 на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.
-Здесь новые индексы не помогли: tickets.movie_session_id, date, sold
-А Если двойной сделать? CREATE INDEX ON tickets (sold, movie_session_id); Не помогает. И если поменять порядок, тоже
+
+Здесь индекс на дату в таблице sessions тоже улучшил ситуацию, также как и составной индекс на tickets по полям
+(id, session_id);
+ QUERY PLAN
+-------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=172030.19..172030.19 rows=3 width=548)
+   ->  Sort  (cost=172030.19..172030.20 rows=4 width=548)
+         Sort Key: (sum(tickets.price)) DESC
+         ->  Finalize GroupAggregate  (cost=172029.10..172030.15 rows=4 width=548)
+               Group Key: movies.name
+               ->  Gather Merge  (cost=172029.10..172030.04 rows=8 width=548)
+                     Workers Planned: 2
+                     ->  Sort  (cost=171029.08..171029.09 rows=4 width=548)
+                           Sort Key: movies.name
+                           ->  Partial HashAggregate  (cost=171028.99..171029.04 rows=4 width=548)
+                                 Group Key: movies.name
+                                 ->  Hash Left Join  (cost=1.54..167564.18 rows=692961 width=521)
+                                       Hash Cond: (sessions.movie_id = movies.id)
+                                       ->  Nested Loop  (cost=0.45..163816.78 rows=692961 width=9)
+                                             ->  Parallel Seq Scan on tickets  (cost=0.00..111843.15 rows=2078883 width=9)
+                                                   Filter: sold
+                                             ->  Memoize  (cost=0.45..0.53 rows=1 width=8)
+                                                   Cache Key: tickets.movie_session_id
+                                                   Cache Mode: logical
+                                                   ->  Index Scan using sessions_id_date_idx on sessions  (cost=0.43..0.52 rows=1 width=8)
+                                                         Index Cond: ((id = tickets.movie_session_id) AND (date >= 1695243600))
+                                       ->  Hash  (cost=1.04..1.04 rows=4 width=520)
+                                             ->  Seq Scan on movies  (cost=0.00..1.04 rows=4 width=520)
+ JIT:
+   Functions: 26
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(26 rows)
+
+

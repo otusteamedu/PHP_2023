@@ -1,0 +1,70 @@
+#№3 Формирование афиши (фильмы, которые показывают сегодня)
+SELECT movies.name, date FROM sessions
+LEFT JOIN movies ON movie_id = movies.id
+WHERE date >= '2023-09-27 00:00:00'::timestamp AND date <= '2023-09-27 23:59:59'::timestamp;
+ name |             date
+------+-------------------------------
+ my   | 2023-09-27 18:59:33.127801+00
+ my1  | 2023-09-27 18:59:33.127801+00
+ my2  | 2023-09-27 18:59:33.127801+00
+ my2  | 2023-09-27 18:59:33.127801+00
+ my2  | 2023-09-27 18:59:33.127801+00
+ my3  | 2023-09-27 18:59:33.127801+00
+ my3  | 2023-09-27 18:59:33.127801+00
+ my3  | 2023-09-27 18:59:33.127801+00
+(8 rows)
+
+QUERY PLAN
+-----------------------------------------------------------------------------------------------------
+ Hash Right Join  (cost=35.60..47.59 rows=8 width=524)
+   Hash Cond: (movies.id = sessions.movie_id)
+   ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+   ->  Hash  (cost=35.50..35.50 rows=8 width=12)
+         ->  Seq Scan on sessions  (cost=0.00..35.50 rows=8 width=12)
+               Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone)
+                        AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+(6 rows)
+
+ QUERY PLAN 10 000
+-------------------------------------------------------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=13.15..254.63 rows=10010 width=524)
+   Hash Cond: (sessions.movie_id = movies.id)
+   ->  Seq Scan on sessions  (cost=0.00..214.41 rows=10010 width=12)
+         Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+         ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+(6 rows)
+
+QUERY PLAN 10 000 000
+-----------------------------------------------------------------------------------------------
+
+ Hash Left Join  (cost=13.15..240754.82 rows=10000115 width=524)
+   Hash Cond: (sessions.movie_id = movies.id)
+   ->  Seq Scan on sessions  (cost=0.00..213696.73 rows=10000115 width=12)
+         Filter: ((date >= '2023-09-27 00:00:00'::timestamp without time zone)
+                AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+   ->  Hash  (cost=11.40..11.40 rows=140 width=520)
+         ->  Seq Scan on movies  (cost=0.00..11.40 rows=140 width=520)
+ JIT:
+   Functions: 13
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(9 rows)
+
+Здесь индекс на дату не помог. Планировщик не использует индексы
+Вывод по индексам:
+индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
+бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
+на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.
+
+Здесь тоже изменение типа поля date с datetime на timestamp положительно сказалось на стоимости операций и индекс заработал
+
+ QUERY PLAN
+-----------------------------------------------------------------------------------------------------
+ Hash Left Join  (cost=686.02..64455.06 rows=50000 width=524)
+   Hash Cond: (sessions.movie_id = movies.id)
+   ->  Bitmap Heap Scan on sessions  (cost=684.93..64183.66 rows=50000 width=12)
+         Recheck Cond: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+         ->  Bitmap Index Scan on sessions_date  (cost=0.00..672.43 rows=50000 width=0)
+               Index Cond: ((date >= '2023-09-27 00:00:00'::timestamp without time zone) AND (date <= '2023-09-27 23:59:59'::timestamp without time zone))
+   ->  Hash  (cost=1.04..1.04 rows=4 width=520)
+         ->  Seq Scan on movies  (cost=0.00..1.04 rows=4 width=520)

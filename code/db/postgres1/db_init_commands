@@ -22,7 +22,7 @@ CREATE TABLE halls
 CREATE TABLE seats
 (
     id serial,
-    seat_number smallint not null,
+    seat_number integer not null,
     hall_id int not null REFERENCES halls (id) ON DELETE CASCADE,
     PRIMARY KEY(id)
 );
@@ -50,5 +50,6 @@ CREATE TABLE tickets
     movie_session_id int not null REFERENCES sessions (id) ON DELETE CASCADE,
     seat_id int not null REFERENCES seats (id) ON DELETE CASCADE,
     price numeric(4,2) not null,
+    sold boolean DEFAULT false,
     PRIMARY KEY(id)
 );

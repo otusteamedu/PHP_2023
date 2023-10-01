@@ -1,0 +1,60 @@
+#№5 Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
+SELECT seat_number, case when sold then 'занято' else 'свободно' end as статус
+FROM tickets JOIN seats on seats.id = tickets.seat_id WHERE movie_session_id = 1;
+#seat_number |  статус
+#-------------+----------
+#           1 | свободно
+#           2 | занято
+#           3 | свободно
+#           4 | занято
+#           5 | свободно
+#           6 | занято
+#...
+
+ QUERY PLAN
+-------------------------------------------------------------------
+ Hash Join  (cost=7.06..21.10 rows=225 width=34)
+   Hash Cond: (tickets.seat_id = seats.id)
+   ->  Seq Scan on tickets  (cost=0.00..13.44 rows=225 width=5)
+         Filter: (movie_session_id = 1)
+   ->  Hash  (cost=4.25..4.25 rows=225 width=6)
+         ->  Seq Scan on seats  (cost=0.00..4.25 rows=225 width=6)
+(6 rows)
+
+QUERY PLAN 10 000
+-----------------------------------------------------------------------
+ Hash Join  (cost=204.25..441.44 rows=225 width=34)
+   Hash Cond: (seats.id = tickets.seat_id)
+   ->  Seq Scan on seats  (cost=0.00..158.25 rows=10225 width=6)
+   ->  Hash  (cost=201.44..201.44 rows=225 width=5)
+         ->  Seq Scan on tickets  (cost=0.00..201.44 rows=225 width=5)
+               Filter: (movie_session_id = 1)
+(6 rows)
+
+QUERY PLAN 10 000 000
+---------------------------------------------------------------------------------
+ Nested Loop  (cost=1000.43..123273.78 rows=1 width=36)
+   ->  Gather  (cost=1000.00..123265.33 rows=1 width=5)
+         Workers Planned: 2
+         ->  Parallel Seq Scan on tickets  (cost=0.00..122265.23 rows=1 width=5)
+               Filter: (movie_session_id = 1)
+   ->  Index Scan using seats_pkey on seats  (cost=0.43..8.45 rows=1 width=8)
+         Index Cond: (id = tickets.seat_id)
+ JIT:
+   Functions: 8
+   Options: Inlining false, Optimization false, Expressions true, Deforming true
+(10 rows)
+
+Здесь используется индекс по primary key
+Вывод по индексам:
+индексы целесообразно задавать на поля, которые участвуют в фильтрации (WHERE) или в джойнах (foreign key). Индексы
+бесполезны, если значаения в столбце не сильно разнообразны (булевы значения) или когда одно значение приходится где-то
+на 75% строк. В таком случае плапнировщик выбирает последовательный перебор вместо поиска по индексу.
+
+CREATE INDEX ON tickets (movie_session_id); Индекс кардинально улучшил ситуацию.
+ Nested Loop  (cost=0.87..12.91 rows=1 width=36)
+   ->  Index Scan using tickets_movie_session_id_idx on tickets  (cost=0.43..4.45 rows=1 width=5)
+         Index Cond: (movie_session_id = 1)
+   ->  Index Scan using seats_pkey on seats  (cost=0.43..8.45 rows=1 width=8)
+         Index Cond: (id = tickets.seat_id)
+(5 rows)

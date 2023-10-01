@@ -27,13 +27,28 @@ CREATE TABLE TypesAreas (
 );
 
 /*
-  Areas - данные о рядах (например 'ряд 1', 'A')
+  Areas - Данные о облости в зале.(Для отрисовки зала)
 */
 CREATE TABLE Areas (
   id SERIAL PRIMARY KEY,
-  hall_id INTEGER NOT NULL REFERENCES Halls (id), -- Зал 
   type_id INTEGER NOT NULL REFERENCES TypesAreas (id), -- Тип ряда
-  name VARCHAR(100) NOT NULL  -- Назвние ряда
+  name VARCHAR(100) NOT NULL,  -- Назвние ряда
+  x VARCHAR(5) NOT NULL,
+  y VARCHAR(5) NOT NULL,
+  width FLOAT NOT NULL,
+  height FLOAT NOT NULL,
+  description VARCHAR(255) NULL
+);
+
+/*
+  Areas - Данные о облости в зале.(Для отрисовки зала)
+*/
+CREATE TABLE Rows (
+  id SERIAL PRIMARY KEY,
+  area_id INTEGER NOT NULL REFERENCES TypesAreas (id), -- Тип ряда
+  title VARCHAR(100) NOT NULL,  -- Назвние ряда
+  hall_id INTEGER NOT NULL REFERENCES Halls (id),
+  position SMALLINT NOT NULL
 );
 
 /*
@@ -41,8 +56,9 @@ CREATE TABLE Areas (
 */
 CREATE TABLE Places (
 	id SERIAL PRIMARY KEY,
-	area_id INTEGER NOT NULL REFERENCES Areas (id), -- Ряд
-	number VARCHAR(4) NOT NULL  -- Номер места
+	row_id INTEGER NOT NULL REFERENCES Rows (id), -- Ряд
+	number VARCHAR(4) NOT NULL,  -- Номер места
+  active SMALLINT DEFAULT 1
 );
 
 /*
@@ -74,6 +90,8 @@ CREATE TABLE Users (
 	email VARCHAR(100) NOT NULL  -- Email
 );
 
+
+CREATE TYPE status_order AS ENUM ('booked', 'purchased', 'cancelled');
 /*
   Orders - данные о заказах
 */
@@ -81,14 +99,9 @@ CREATE TABLE Orders (
 	id SERIAL PRIMARY KEY,
 	user_id INTEGER NOT NULL REFERENCES Users (id), -- Пользователь
 	session_id INTEGER NOT NULL REFERENCES Sessions (id), -- Сеанс
-	total DECIMAL(10, 2) NOT NULL  -- Общая цена
-);
-
-/*
-  OrdersItems - места в заказах
-*/
-CREATE TABLE OrdersItems (
-	order_id INTEGER NOT NULL REFERENCES Orders (id), -- Заказ
-	place_id INTEGER NOT NULL REFERENCES Places (id), -- Номер места
-  UNIQUE (order_id, place_id)
+  place_id INTEGER NOT NULL REFERENCES Places (id), -- Номер места
+	price DECIMAL(10, 2) NOT NULL,  -- цена
+  status status_order,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP NULL
 );

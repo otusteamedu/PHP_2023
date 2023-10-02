@@ -4,6 +4,11 @@
 
 function pivotInteger($n)
 {
+
+    if($n > 1000 || $n  < 0) {
+        return throw new Exception('Number is greaten than limit [0 - 1000]');
+    }
+
     $leftSum = 0;
     $rightSum = 0;
 

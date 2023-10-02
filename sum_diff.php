@@ -1,4 +1,5 @@
 <?php
+
 function leftRightDifference($nums)
 {
 
@@ -9,9 +10,10 @@ function leftRightDifference($nums)
     }
 
     if ($arrayLength > 0) {
-        $result = [];
-        for ($i = 0; $i < $arrayLength; $i++) {
 
+        $result = [];
+
+        for ($i = 0; $i < $arrayLength; $i++) {
             if ($nums[$i] > 100_000 || $nums[$i] < 0) {
                 return throw new Exception('Provided number is greater than limit [0 - 100.000]');
             }

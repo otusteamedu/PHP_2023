@@ -10,7 +10,6 @@ function leftRightDifference($nums)
     }
 
     if ($arrayLength > 0) {
-
         $result = [];
 
         for ($i = 0; $i < $arrayLength; $i++) {

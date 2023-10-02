@@ -1,4 +1,5 @@
 <?php
+
 // index.php
 
 require 'vendor/autoload.php';

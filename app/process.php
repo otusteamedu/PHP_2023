@@ -1,4 +1,5 @@
 <?php
+
 require 'vendor/autoload.php'; // Подключение Composer автозагрузчика
 
 use PhpAmqpLib\Connection\AMQPConnection;
@@ -6,7 +7,8 @@ use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Message\AMQPMessage;
 
 // Функция для отправки результата в очередь
-function sendResultToQueue($data) {
+function sendResultToQueue($data)
+{
     $connection = new AMQPConnection([
         'host' => 'rabbitmq', // Имя контейнера RabbitMQ из docker-compose.yml
         'port' => 5672,

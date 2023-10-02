@@ -1,4 +1,5 @@
 <?php
+
 // Настройки RabbitMQ
 $rabbitmqHost = 'rabbitmq';
 $rabbitmqPort = 5672;

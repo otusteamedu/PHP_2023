@@ -1,0 +1,12 @@
+{
+    "name": "nikita/queue",
+    "authors": [
+        {
+            "name": "Nikita Menshutin",
+            "email": "info@nikita.global"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
+}

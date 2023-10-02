@@ -1,0 +1,43 @@
+version: '3'
+services:
+  # Контейнер для banking-app (PHP 8.1 + Apache)
+  banking-app:
+    image: php:8.1-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./app:/var/www/html
+      - ./my-php.ini:/usr/local/etc/php/conf.d/my-php.ini
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+  # Контейнер для RabbitMQ
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    networks:
+      - mynetwork
+
+  # Контейнер для queue-worker (PHP 8.1 CLI)
+  queue-worker:
+    image: php:8.1-cli
+    volumes:
+      - ./queue:/var/www/html
+      - ./my-php.ini:/usr/local/etc/php/conf.d/my-php.ini
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+    depends_on:
+      - rabbitmq
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
+

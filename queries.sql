@@ -108,7 +108,7 @@ Planning Time: 1.007 ms
 Execution Time: 3.094 ms
 */
 
---  План 100000 строк до оптимизации
+--  План 1000000 строк до оптимизации
 
 /*
 GroupAggregate  (cost=1000.15..9144.79 rows=1 width=20) (actual time=107.418..113.938 rows=0 loops=1)
@@ -126,7 +126,7 @@ Planning Time: 3.746 ms
 Execution Time: 114.056 ms
 */
 
---  План 100000 строк после оптимизации
+--  План 1000000 строк после оптимизации
 
 /*
 GroupAggregate  (cost=0.58..4.70 rows=13 width=20) (actual time=0.992..0.993 rows=1 loops=1)
@@ -173,7 +173,7 @@ Planning Time: 0.355 ms
 Execution Time: 7.140 ms
 */
 
---  План 100000 строк до оптимизации
+--  План 1000000 строк до оптимизации
 
 /*
 Finalize GroupAggregate  (cost=20215.59..20220.24 rows=18 width=20) (actual time=236.640..245.451 rows=18 loops=1)
@@ -201,7 +201,7 @@ Planning Time: 0.405 ms
 Execution Time: 245.641 ms
 */
 
---  План 100000 строк после оптимизации
+--  План 1000000 строк после оптимизации
 
 /*
 Finalize GroupAggregate  (cost=13939.56..13946.54 rows=18 width=20) (actual time=139.582..144.226 rows=18 loops=1)
@@ -259,7 +259,7 @@ Execution Time: 4.158 ms
 */
 
 
---  План 100000 строк до оптимизации
+--  План 1000000 строк до оптимизации
 
 /*
 Hash Join  (cost=1.41..23960.25 rows=1031548 width=8) (actual time=0.148..321.375 rows=1031548 loops=1)
@@ -272,7 +272,7 @@ Planning Time: 2.000 ms
 Execution Time: 360.372 ms
 */
 
---  План 100000 строк после оптимизации
+--  План 1000000 строк после оптимизации
 
 /*
 Hash Join  (cost=1.83..22328.42 rows=1031548 width=8) (actual time=0.077..232.660 rows=1031548 loops=1)

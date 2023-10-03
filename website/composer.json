@@ -3,7 +3,8 @@
   "type": "project",
   "require": {
     "vlucas/phpdotenv": "^5.5",
-    "elasticsearch/elasticsearch": "^8.9"
+    "elasticsearch/elasticsearch": "^8.9",
+    "symfony/console": "^6.3"
   },
   "license": "MIT",
   "authors": [
@@ -11,6 +12,11 @@
       "name": "Dima Teplukhin"
     }
   ],
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
   "minimum-stability": "stable",
   "require-dev": {
     "squizlabs/php_codesniffer": "^3.7"

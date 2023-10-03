@@ -1,0 +1,31 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Symfony\Component\Console;
+
+if (\PHP_SAPI !== 'cli') {
+    die('Can not run in this mode. Bye!');
+}
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$input = new Console\Input\ArgvInput();
+$output = new Console\Output\ConsoleOutput();
+
+$app = new Console\Application();
+$app->setAutoExit(false);
+
+$client = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
+
+$app->add(new \App\Console\ImportFileCommand(client: $client));
+
+try {
+    $exitCode = $app->run($input, $output);
+} catch (\Throwable $e) {
+    $app->renderThrowable($e, $output->getErrorOutput());
+    $exitCode = 1;
+}
+
+exit(\max(\min((\abs($exitCode)), 255), 0));

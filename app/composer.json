@@ -12,5 +12,8 @@
             "email": "prizman201@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-sockets": "*",
+        "ext-readline": "*"
+    }
 }

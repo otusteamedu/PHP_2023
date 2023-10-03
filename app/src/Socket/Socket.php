@@ -11,11 +11,8 @@ final class Socket
 {
     private ?BaseSocket $socket = null;
     private string $socketFile;
-    private int $maxBytes;
+    private int $maxBytes = 1024;
 
-    /**
-     * @throws RuntimeException
-     */
     public function __construct()
     {
         if (!$config = parse_ini_file(dirname(__DIR__, 2) . '/config/socket.ini', true)) {
@@ -31,22 +28,17 @@ final class Socket
         $this->maxBytes = intval($config['socket']['max_bytes']);
     }
 
-    public function create(bool $recreate = false): bool|BaseSocket
+    public function create(bool $recreate = false): void
     {
         if ($recreate && file_exists($this->socketFile)) {
             unlink($this->socketFile);
         }
-
-        if ($this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0)) {
-            return $this->socket;
+        $this->socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
+        if (!$this->socket) {
+            throw new RuntimeException('Socket cannot be created!');
         }
-
-        throw new RuntimeException('Socket cannot be created!');
     }
 
-    /**
-     * @return false|resource|BaseSocket
-     */
     public function accept()
     {
         return socket_accept($this->socket);
@@ -57,7 +49,7 @@ final class Socket
         return socket_bind($this->socket, $this->socketFile, $port);
     }
 
-    public function connect(?int $port = 0): void
+    public function connect(?int $port = null): void
     {
         if (!isset($this->socket)) {
             throw new RuntimeException('There is no socket to connect!');
@@ -67,13 +59,33 @@ final class Socket
         }
     }
 
-    /**
-     * @throws RuntimeException
-     */
-    public function write($message): void
+    public function read(): string
     {
-        if (!socket_write($this->socket, $message, strlen($message))) {
+        $data = socket_read($this->socket, $this->maxBytes);
+        if ($data === false) {
+            throw new RuntimeException('Cannot read from the socket!');
+        }
+        return $data;
+    }
+
+    public function write($message, $socket = null): void
+    {
+        $socket = $socket ?? $this->socket;
+        if (!socket_write($socket, $message, strlen($message))) {
             throw new RuntimeException('Cannot write to the socket!');
         }
+    }
+
+    public function listen(): void
+    {
+        if (!socket_listen($this->socket)) {
+            throw new RuntimeException('Cannot set listen mode on socket!');
+        }
+    }
+
+    public function receive($socket): string
+    {
+        socket_recv($socket, $message, $this->maxBytes, 0);
+        return $message;
     }
 }

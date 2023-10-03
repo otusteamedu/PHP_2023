@@ -25,3 +25,10 @@ services:
       - ..:/var/www:rw
     depends_on:
       - php-fpm
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"

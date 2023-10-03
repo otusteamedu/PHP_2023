@@ -13,8 +13,11 @@ RUN if [ ${INSTALL_XDEBUG} = true ]; \
 
 COPY ./docker/php-fpm/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
-# Postgres
-RUN apk add --no-cache libpq-dev && docker-php-ext-install pdo_pgsql
+# Rabbitmq
+RUN apk add --no-cache rabbitmq-c-dev && \
+    mkdir -p /usr/src/php/ext/amqp && \
+    curl -fsSL https://pecl.php.net/get/amqp | tar xvz -C "/usr/src/php/ext/amqp" --strip 1 && \
+    docker-php-ext-install amqp bcmath
 
 # Configure non-root user.
 ARG PUID=1000

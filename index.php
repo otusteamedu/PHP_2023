@@ -46,9 +46,3 @@ foreach ($search['hits'] as $key => $hit) {
 }
 
 $table->setIndent(4)->display();
-
-
-
-
-
-

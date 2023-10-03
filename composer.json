@@ -21,7 +21,8 @@
     }
     ,
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3.34"
     },
     "config": {
         "allow-plugins": {

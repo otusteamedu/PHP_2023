@@ -2,7 +2,6 @@
 
 namespace HW11\Elastic;
 
-
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\AuthenticationException;
@@ -11,12 +10,11 @@ use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 use RuntimeException;
 
-
 class ElasticSearch
 {
     public Client $client;
 
-     protected array $searchParams;
+    protected array $searchParams;
 
     public const INDEX_NAME = 'otus-shop';
 

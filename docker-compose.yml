@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./conf/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www
+    container_name: nginx
+    networks:
+      - internal
+    ports:
+      - "80:80"
+
+  php:
+    build:
+      context: ./conf/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/var/www
+    container_name: php
+    networks:
+      - internal
+    env_file:
+      - .env
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge

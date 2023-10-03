@@ -1,0 +1,20 @@
+{
+    "name": "eevstifeev/hw12",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Eevstifeev\\Hw12\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evgeniy Evstifeev",
+            "email": "evstifeevea@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "^2.2",
+        "ext-redis": "*",
+        "ramsey/uuid": "^4.7"
+    }
+}

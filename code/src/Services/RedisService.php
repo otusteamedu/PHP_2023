@@ -26,11 +26,9 @@ class RedisService implements StorageServiceInterface
         $event->setPriority($data['priority']);
         $event->setConditions($data['conditions']);
         $event->setEvent($data['event']);
-
         $this->redis->hmset($this->getEventKey($event->getUuid()), $event->toArray());
 
         return $event;
-
     }
 
     public function clearEvent(mixed $eventUuid): bool

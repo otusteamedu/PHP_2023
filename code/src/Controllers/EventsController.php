@@ -10,7 +10,6 @@ class EventsController
 {
     public function __construct(readonly StorageServiceInterface $service)
     {
-
     }
 
     public function index(): void

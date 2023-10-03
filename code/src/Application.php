@@ -8,6 +8,6 @@ class Application
 {
     public function run(): void
     {
-       Routes::chooseRoute();
+        Routes::chooseRoute();
     }
 }

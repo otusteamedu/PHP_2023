@@ -67,7 +67,7 @@ class Event
     {
         $this->uuid = $data['uuid'];
         $this->priority = (int)$data['priority'];
-        $this->conditions = json_decode($data['conditions'],true);
+        $this->conditions = json_decode($data['conditions'], true);
         $this->event = $data['event'];
     }
 }

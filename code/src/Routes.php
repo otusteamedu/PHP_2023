@@ -10,7 +10,6 @@ use Eevstifeev\Hw12\Views\IndexView;
 
 class Routes
 {
-
     public static function chooseRoute(): void
     {
         $action = $_REQUEST['action'] ?? 'index';

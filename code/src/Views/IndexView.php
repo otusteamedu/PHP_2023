@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace Eevstifeev\Hw12\Views;
 
-class IndexView {
+class IndexView
+{
     public static function notFound(): void
     {
         header("HTTP/1.0 404 Not Found");

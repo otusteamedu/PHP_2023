@@ -32,4 +32,3 @@ class IndexView {
         echo "<br>";
     }
 }
-

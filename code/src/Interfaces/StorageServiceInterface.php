@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Eevstifeev\Hw12\Interfaces;
 
 use Eevstifeev\Hw12\Models\Event;

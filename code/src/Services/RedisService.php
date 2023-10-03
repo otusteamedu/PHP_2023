@@ -89,5 +89,4 @@ class RedisService implements StorageServiceInterface
     {
         return 'event:' . $uuid;
     }
-
 }

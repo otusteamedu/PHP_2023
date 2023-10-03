@@ -1,0 +1,31 @@
+{
+    "name": "sekaiichi/hw11",
+    "description": "hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "HW11\\Elastic\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mehrubon Khusaynov",
+            "email": "husaynov888@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "elasticsearch/elasticsearch": "^8.6",
+        "guzzlehttp/guzzle": "^7.8",
+        "phplucidframe/console-table": "^1.2"
+    }
+    ,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

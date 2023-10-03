@@ -20,6 +20,7 @@ $app->setAutoExit(false);
 $client = \Elastic\Elasticsearch\ClientBuilder::create()->setHosts(['elasticsearch:9200'])->build();
 
 $app->add(new \App\Console\ImportFileCommand(client: $client));
+$app->add(new \App\Console\SearchCommand(client: $client));
 
 try {
     $exitCode = $app->run($input, $output);

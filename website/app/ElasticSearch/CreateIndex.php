@@ -21,7 +21,7 @@ final class CreateIndex
         ];
 
         $result = $this->client->indices()->exists($params);
-        if ($result && $result->asBool()){
+        if ($result && $result->asBool()) {
             $this->client->indices()->delete($params);
         }
 
@@ -36,7 +36,30 @@ final class CreateIndex
             throw new \RuntimeException('File is not found. ' . $file);
         }
 
-        $data = json_decode(file_get_contents($file));
+        $params = [
+            'body' => [],
+            'index' => $this->index,
+            'client' => [
+                'future' => 'lazy'
+            ]
+        ];
+
+        $f = \fopen($file, 'r');
+
+        while (($line = fgets($f)) !== false) {
+            $line = json_decode($line, true);
+            if (isset($line['title'])) {
+                $params['body'][] = $line;
+            } else {
+                $params['body'][] = [
+                    'index' => [
+                        '_id' => (string)$line['create']['_id']
+                    ]
+                ];
+            }
+        }
+        fclose($f);
+        $this->client->bulk($params);
     }
 
 }

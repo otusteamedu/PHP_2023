@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__.'/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new HW11\Elastic\ElasticSearch('https://localhost:9200', 'elastic', 'pass1234');
 

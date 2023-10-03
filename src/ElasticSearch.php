@@ -57,7 +57,7 @@ class ElasticSearch
                 'index' => 'otus-shop',
                 'body'  => file_get_contents($filePath),
             ]);
-        } catch (ClientResponseException|ServerResponseException $e) {
+        } catch (ClientResponseException | ServerResponseException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }
@@ -257,5 +257,4 @@ class ElasticSearch
 
         return $this->client->search($this->searchParams);
     }
-
 }

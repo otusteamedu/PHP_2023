@@ -1,0 +1,10 @@
+{
+    "name": "v-korabelnikov/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VKorabelnikov\\Hw5\\": "src/"
+        }
+    },
+    "require": {}
+} 

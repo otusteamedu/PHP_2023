@@ -1,0 +1,32 @@
+stages:
+  - deploy
+
+before_script:
+  - apt-get update -qq
+  - apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy:
+  stage: deploy
+  environment:
+    name: server
+    url: $SERVER
+  script:
+    - ssh $USER@$SERVER "cd /var/www/html &&
+      git clone https://deploy:vzHuUkyxkFHhtnxsbL9B@gitlab.com/korabelnikov.va/otus_deploy.git $DIR &&
+      ( [ ! -d /var/www/html/current  ] || mv -Tf /var/www/html/current /var/www/html/previous ) &&
+      ln -s /var/www/html/$DIR /var/www/html/current &&
+      ln -s /var/www/html/current/public /home/bitrix/www &&
+      cp composer.phar ./current/ &&
+      cd ./current/ &&
+      php composer.phar dump-autoload &&
+      php composer.phar install &&
+      service httpd restart &&
+      service nginx restart"
+  only:
+    - main

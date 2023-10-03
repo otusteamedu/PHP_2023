@@ -1,0 +1,19 @@
+{
+    "name": "lebedevvr/chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Lebedevvr\\Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Lebedev.vr",
+            "email": "prizman201@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-sockets": "*",
+        "ext-readline": "*"
+    }
+}

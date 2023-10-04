@@ -105,7 +105,6 @@ services:
 
   postgres:
     image: postgres
-    restart: always
     ports:
       - ${POSTGRES_HOST_PORT}:${POSTGRES_LOCAL_PORT}
     environment:
@@ -119,6 +118,30 @@ services:
     image: adminer
     ports:
       - ${ADMINER_HOST_PORT}:${ADMINER_LOCAL_PORT}
+    networks:
+      - otus-app-network
+
+  elasticsearch:
+    image: sebp/elk
+    environment:
+      - ELASTICSEARCH_START=1
+      - LOGSTASH_START=0
+      - KIBANA_START=0
+      - ES_JAVA_OPTS=-Xms2g -Xmx2g
+    ports:
+      - "9200:9200"
+    volumes:
+      - elasticsearch_data:/var/lib/elasticsearch
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+      nproc:
+        soft: 4096
+        hard: 4096
     networks:
       - otus-app-network
 
@@ -150,3 +173,4 @@ volumes:
     driver: local
   postgresql-volume:
     driver: local
+  elasticsearch_data:

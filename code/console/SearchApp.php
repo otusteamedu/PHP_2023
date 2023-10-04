@@ -15,6 +15,7 @@
 declare(strict_types=1);
 
 namespace Amedvedev\code\console;
+
 use Amedvedev\code\services\search\SearchService;
 
 class SearchApp

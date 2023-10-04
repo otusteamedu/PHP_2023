@@ -61,7 +61,6 @@ class ElasticSearchService extends SearchService
             default:
                 $this->help();
         }
-
     }
 
     /**
@@ -154,7 +153,6 @@ class ElasticSearchService extends SearchService
                     ],
                 ],
             ];
-
         }
 
         $params = [

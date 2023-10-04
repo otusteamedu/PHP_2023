@@ -129,7 +129,7 @@ services:
       - KIBANA_START=0
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
     ports:
-      - "9200:9200"
+      - ${ELASTIC_HOST_PORT}:${ELASTIC_LOCAL_PORT}
     volumes:
       - elasticsearch_data:/var/lib/elasticsearch
     ulimits:

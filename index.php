@@ -1,22 +1,54 @@
 <?php
 
-use Egulias\EmailValidator\EmailValidator;
-use Egulias\EmailValidator\Validation\RFCValidation;
+class ListNode
+{
+    
+    public function __construct(public int $val = 0, public ?ListNode $next = null){
 
-require_once __DIR__ . '/vendor/autoload.php';
-
-$emails = include './emails.php';
-
-$validator = new EmailValidator();
-
-try {
-    foreach ($emails as $email) {
-        if ($validator->isValid($email, new RFCValidation())) {
-            echo 'email ' . $email . ' is valid' . PHP_EOL;
-        } else {
-            echo 'email ' . $email . ' is not valid' . PHP_EOL;
-        }
     }
-} catch (Exception $exception) {
-    echo $exception->getMessage();
+}
+
+class MergeArrs {
+
+    public function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode 
+    {
+        $start = $currentListNode = new ListNode();
+
+        while ($list1 && $list2) {
+            if ($list1->val <= $list2->val) {
+                $new = new ListNode($list1->val, null);
+                $currentListNode->next = $new;
+                $currentListNode = $new;
+                $list1 = $list1->next;
+            } else {
+                $new = new ListNode($list2->val, null);
+                $currentListNode->next = $new;
+                $currentListNode = $new;
+                $list2 = $list2->next;
+            }
+        }
+
+        if ($list1 || $list2) {
+            $currentListNode->next = $list1 ?? $list2;
+        }
+
+       return $start->next;
+    }
+}
+
+// 4 - 2 - 1
+$list1 = new ListNode(4);
+$list1 = new ListNode(2, $list1);
+$list1 = new ListNode(1, $list1);
+
+// 5 - 2 - 1
+$list2 = new ListNode(5);
+$list2 = new ListNode(2, $list2);
+$list2 = new ListNode(1, $list2);
+
+$echoList = (new MergeArrs())->mergeTwoLists($list1, $list2);
+
+while ($echoList) {
+    echo $echoList->val . PHP_EOL;
+    $echoList = $echoList->next;
 }

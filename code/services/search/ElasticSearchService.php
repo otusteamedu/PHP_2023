@@ -71,12 +71,13 @@ class ElasticSearchService extends SearchService
     {
         echo PHP_EOL . 'Это консольное приложение для поиска по товарам. ' . PHP_EOL .
             'Команды для работы: ' . PHP_EOL .
-            'init - для построения индекса' . PHP_EOL .
+            'init - для построения индекса по books.json' . PHP_EOL .
+            '-fname init - для построения индекса по name.json' . PHP_EOL .
             'check - проверка соединения с сервисом поиска' . PHP_EOL .
             'параметры search - поиск' . PHP_EOL .
             'параметры: -tтекст -pцена -cкатегория' . PHP_EOL .
             'Пример команды: app.php check' . PHP_EOL .
-            'Пример команды: app.php -tрыцори -p2000 -с"исторический роман"' . PHP_EOL . PHP_EOL;
+            'Пример команды: app.php -tрыцори -p2000 -с"исторический роман" search' . PHP_EOL . PHP_EOL;
     }
 
     /**
@@ -98,10 +99,22 @@ class ElasticSearchService extends SearchService
      */
     public function init(): void
     {
-        $filename = 'books.json';
-        $file = file(Config::get('project_dir') . 'db/json/' . $filename);
+        $filename = 'books';
+
+        $options = getopt('f::');
+        if (!empty($options['f'])) {
+            $filename = $options['f'];
+        }
+
+        $fileExtension = '.json';
+        $file = file(Config::get('project_dir') . 'db/json/' . $filename . $fileExtension);
+
+        if (!$file) {
+            echo 'файл ' . $filename . $fileExtension . ' не существует' . PHP_EOL;
+            exit();
+        }
+
         $params = [];
-        //проверим наличие индекса
         foreach ($file as $string) {
             $json = json_decode($string, true);
             if (str_contains($string, 'create')) {
@@ -110,7 +123,7 @@ class ElasticSearchService extends SearchService
                 continue;
             }
 
-            if (str_contains($string, 'title')) {
+            if (str_contains($string, 'sku')) {
                 $params['body'] = $json;
                 $this->client->index($params);
             }
@@ -133,16 +146,18 @@ class ElasticSearchService extends SearchService
         //php /data/app.php -tрыцори -p1000 -cисторический search
         //php /data/app.php -tрыцори -cисторический search
 
-        $must = [
-            0 => [
+        $must = [];
+
+        if (!empty($options['t'])) {
+            $must[] = [
                 'match' => [
                     'title' => [
-                        'query' => $options['t'] ?? '%',
+                        'query' => $options['t'],
                         'fuzziness' => 'auto',
                     ],
-                ],
-            ],
-        ];
+                ]
+            ];
+        }
 
         if (!empty($options['c'])) {
             $must[] = [

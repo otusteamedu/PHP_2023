@@ -24,44 +24,29 @@ abstract class SearchService
      * @param int $argc
      * @return void
      */
-    public function strategy(array $data, int $argc): void
-    {
-        var_dump($data);
-    }
+    public abstract function strategy(array $data, int $argc): void;
 
     /**
      * Метод инициализации сервиса поиска
      * @return void
      */
-    public function init(): void
-    {
-        echo 'init method';
-    }
+    public abstract function init(): void;
 
     /**
      * Метод поиска
      * @return void
      */
-    public function search(): void
-    {
-        echo 'search method';
-    }
+    public abstract function search(): void;
 
     /**
      * Справка по коммандам
      * @return void
      */
-    public function help(): void
-    {
-        echo 'help method';
-    }
+    public abstract function help(): void;
 
     /**
      * Метод проверки работоспособности сервиса поиска
      * @return void
      */
-    public function check(): void
-    {
-        echo 'check method';
-    }
+    public abstract function check(): void;
 }

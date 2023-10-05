@@ -1,0 +1,10 @@
+news:
+  resource: ./news.yaml
+  prefix: /news
+  name_prefix: news_
+  trailing_slash_on_root: false
+subscriptions:
+  resource: ./subscriptions.yaml
+  prefix: /subscriptions
+  name_prefix: subscriptions_
+  trailing_slash_on_root: false

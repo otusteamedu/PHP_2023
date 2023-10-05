@@ -1,0 +1,5 @@
+api:
+  resource: ./api/routes.yaml
+  prefix: /api
+  name_prefix: api_
+  trailing_slash_on_root: false

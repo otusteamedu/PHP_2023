@@ -1,0 +1,4 @@
+create:
+  methods: POST
+  path: /
+  controller: App\Infrastructure\Controller\Subscription\Create\CreateSubscriptionController::handle

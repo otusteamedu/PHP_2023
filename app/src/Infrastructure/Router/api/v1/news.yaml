@@ -1,0 +1,12 @@
+paginated_list:
+  methods: GET
+  path: /
+  controller: App\Infrastructure\Controller\News\PaginatedList\GetPaginatedListNewsController::handle
+create:
+  methods: POST
+  path: /
+  controller: App\Infrastructure\Controller\News\Create\CreateNewsController::handle
+read:
+  methods: GET
+  path: /{news_id}
+  controller: App\Infrastructure\Controller\News\Read\ReadNewsController::handle

@@ -18,10 +18,7 @@ final class CreateIndex
      * @throws ClientResponseException
      * @throws MissingParameterException
      */
-    public function __construct(
-        private readonly Client $client,
-        private readonly string $index,
-    )
+    public function __construct(private readonly Client $client, private readonly string $index)
     {
         $this->reCreateIndex($this->index);
     }
@@ -83,5 +80,4 @@ final class CreateIndex
         fclose($f);
         $this->client->bulk($params);
     }
-
 }

@@ -10,10 +10,7 @@ use Elastic\Elasticsearch\Exception\ServerResponseException;
 
 final class Search
 {
-    public function __construct(
-        private readonly Client $client,
-        private readonly string $index,
-    )
+    public function __construct(private readonly Client $client, private readonly string $index)
     {
     }
 
@@ -60,7 +57,6 @@ final class Search
             foreach ($result['hits']['hits'] ?: [] as $item) {
                 $output[] = sprintf('%s (%s): %s', $item['_source']['title'], $item['_source']['sku'], $item['_source']['price']);
             }
-
         }
         return $output;
     }

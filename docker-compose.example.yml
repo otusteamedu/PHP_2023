@@ -1,0 +1,24 @@
+# Reference: https://docs.docker.com/compose/compose-file/compose-file-v3/
+
+version: '3.9'
+
+services:
+  php:
+    extra_hosts:
+      - ${ROOT_DOMAIN}:host-gateway
+
+  kibana:
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.services.php_2023-kibana.loadbalancer.server.port=5601'
+      - 'traefik.http.routers.php_2023-kibana.service=php_2023-kibana'
+      - 'traefik.http.routers.php_2023-kibana.rule=HostRegexp(`${ROOT_DOMAIN}`)'
+      - 'traefik.http.routers.php_2023-kibana.priority=50'
+    networks:
+      - default
+      - web
+
+networks:
+  web:
+    external: true
+    name: web

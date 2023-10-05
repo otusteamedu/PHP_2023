@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  php:
+    restart: unless-stopped
+    image: otus-php:lastest
+    build:
+      context: .docker
+      target: php_fpm
+    volumes:
+      - type: bind
+        source: .volumes/php-socket
+        target: /var/run/php
+      - type: bind
+        source: .
+        target: /home/warp/app
+    working_dir: /home/warp/app/website
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
+  elasticsearch:
+    restart: unless-stopped
+    image: elasticsearch:8.9.2
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    volumes:
+      - type: volume
+        source: elasticsearch
+        target: /usr/share/elasticsearch/data
+
+  kibana:
+    restart: unless-stopped
+    image: kibana:8.9.2
+    environment:
+      - ELASTICSEARCH_HOSTS:http://<elasticsearch>:9200
+
+volumes:
+  mysql:
+  elasticsearch:

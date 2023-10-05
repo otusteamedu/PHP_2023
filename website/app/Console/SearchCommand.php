@@ -4,7 +4,12 @@ declare(strict_types=1);
 
 namespace App\Console;
 
+use App\ElasticSearch\Search;
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use InvalidArgumentException;
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -20,7 +25,7 @@ final class SearchCommand extends Command
         parent::__construct($name);
 
         if ($client === null) {
-            throw new \InvalidArgumentException('Not ES Client object');
+            throw new InvalidArgumentException('Not ES Client object');
         }
 
         $this->client = $client;
@@ -30,25 +35,31 @@ final class SearchCommand extends Command
     {
         $this->setName('es:search');
         $this->setDefinition([
-            new InputArgument('query', InputArgument::REQUIRED)
+            new InputArgument('query', InputArgument::REQUIRED),
+            new InputArgument('maxPrice', InputArgument::OPTIONAL)
         ]);
     }
 
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output = $output instanceof SymfonyStyle ? $output : new SymfonyStyle($input, $output);
 
-        $query = \trim((string)$input->getArgument('query'));
+        $query = trim((string)$input->getArgument('query'));
+        $maxPrice = (int)$input->getArgument('maxPrice');
 
         $this->configure();
         if ('' === $query) {
-            throw new \RuntimeException('Query argument is required.');
+            throw new RuntimeException('Query argument is required.');
         }
 
-        $search = new \App\ElasticSearch\Search($this->client, 'otus-shop');
-        $result = $search->search($query);
+        $search = new Search($this->client, 'otus-shop');
+        $result = $search->search($query, $maxPrice);
 
-        $output->comment($result);
+        $output->comment($result ?: ['Not found.']);
         $output->success('Import completed.');
 
         return self::SUCCESS;

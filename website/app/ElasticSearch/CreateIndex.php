@@ -4,16 +4,33 @@ declare(strict_types=1);
 
 namespace App\ElasticSearch;
 
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\MissingParameterException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
+use JsonException;
+use RuntimeException;
+
 final class CreateIndex
 {
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     * @throws MissingParameterException
+     */
     public function __construct(
-        private \Elastic\Elasticsearch\Client $client,
-        private string $index,
+        private readonly Client $client,
+        private readonly string $index,
     )
     {
         $this->reCreateIndex($this->index);
     }
 
+    /**
+     * @throws ClientResponseException
+     * @throws ServerResponseException
+     * @throws MissingParameterException
+     */
     public function reCreateIndex(string $index): void
     {
         $params = [
@@ -30,10 +47,15 @@ final class CreateIndex
         ]);
     }
 
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     * @throws JsonException
+     */
     public function indexFromFile(string $file): void
     {
         if (!file_exists($file)) {
-            throw new \RuntimeException('File is not found. ' . $file);
+            throw new RuntimeException('File is not found. ' . $file);
         }
 
         $params = [
@@ -44,10 +66,10 @@ final class CreateIndex
             ]
         ];
 
-        $f = \fopen($file, 'r');
+        $f = fopen($file, 'rb');
 
         while (($line = fgets($f)) !== false) {
-            $line = json_decode($line, true);
+            $line = json_decode($line, true, 512, JSON_THROW_ON_ERROR);
             if (isset($line['title'])) {
                 $params['body'][] = $line;
             } else {

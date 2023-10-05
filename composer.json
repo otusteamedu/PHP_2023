@@ -1,0 +1,17 @@
+{
+    "name": "acvetkov/composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Acvetkov\\Composer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "acvetkov"
+        }
+    ],
+    "require": {
+        "aleks39/composer-package-test": "^1.0"
+    }
+}

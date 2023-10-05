@@ -1,0 +1,51 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "277fe469107ead034310d86d3307c358",
+    "packages": [
+        {
+            "name": "aleks39/composer-package-test",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Aleks39/composer-package-test.git",
+                "reference": "8ee90a55f1b8e7a3b37830f34715681829ad7dfa"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Aleks39/composer-package-test/zipball/8ee90a55f1b8e7a3b37830f34715681829ad7dfa",
+                "reference": "8ee90a55f1b8e7a3b37830f34715681829ad7dfa",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Aleks39\\ComposerPackageTest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "acvetkov"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Aleks39/composer-package-test/issues",
+                "source": "https://github.com/Aleks39/composer-package-test/tree/v1.0.2"
+            },
+            "time": "2023-10-05T07:25:51+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

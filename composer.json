@@ -1,17 +1,17 @@
 {
-    "name": "acvetkov/otus",
+    "name": "acvetkov/composer",
     "type": "project",
-    "require": {
-        "danielstjules/stringy": "^3.1"
-    },
     "autoload": {
         "psr-4": {
-            "Acvetkov\\Otus\\": "src/"
+            "Acvetkov\\Composer\\": "src/"
         }
     },
     "authors": [
         {
             "name": "acvetkov"
         }
-    ]
+    ],
+    "require": {
+        "aleks39/composer-package-test": "^1.0"
+    }
 }

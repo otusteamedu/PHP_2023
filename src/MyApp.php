@@ -98,25 +98,25 @@ class MyApp
             // Поиск по title
             // php public/index.php гроницы
             case 1:
-                $query = $this->searchArg1($args[1]);
+                $query = $this->queryByTitle($args[1]);
                 break;
 
             // Поиск по title и строгому соответствую категории category
             // php public/index.php гроницы "Любовный роман"
             case 2:
-                $query = $this->searchArg2($args[1], $args[2]);
+                $query = $this->queryByTitleCategory($args[1], $args[2]);
                 break;
 
             // Поиск по title, строгому соответствую категории category и ценой <=|>= указанной
             // php public/index.php гроницы "Любовный роман" \>=9700
             case 3:
-                $query = $this->searchArg3($args[1], $args[2], $args[3]);
+                $query = $this->queryByTitleCategoryPrice($args[1], $args[2], $args[3]);
                 break;
 
             // php public/index.php Штирлиц "Исторический роман" \>=700 1
             // последний аргумент может быть любым
             case 4:
-                $query = $this->searchArg4($args[1], $args[2], $args[3], $args[4]);
+                $query = $this->queryByTitleCategoryPriceAvailability($args[1], $args[2], $args[3]);
                 break;
 
             default:
@@ -137,53 +137,53 @@ class MyApp
         return $results;
     }
 
-    private function searchArg1(string $query): array
+    private function queryByTitle(string $title): array
     {
         return [
             "match" => [
                 "title" => [
-                    "query" => $query,
+                    "query" => $title,
                     "fuzziness" => "auto"
                 ]
             ]
         ];
     }
 
-    private function searchArg2(string $query1, string $query2): array
+    private function queryByTitleCategory(string $title, string $category): array
     {
         return [
             "bool" => [
                 "must" => [
-                    $this->searchArg1($query1)
+                    $this->queryByTitle($title)
                 ],
                 "filter" => [
                     "term" => [
-                        "category" => $query2
+                        "category" => $category
                     ]
                 ]
             ]
         ];
     }
 
-    private function searchArg3(string $query1, string $query2, string $query3): array
+    private function queryByTitleCategoryPrice(string $title, string $category, string $price): array
     {
-        $operation = self::OPERATIONS[substr($query3, 0, 2)];
+        $operation = self::OPERATIONS[substr($price, 0, 2)];
 
         return [
             "bool" => [
                 "must" => [
-                    $this->searchArg1($query1)
+                    $this->queryByTitle($title)
                 ],
                 "filter" => [
                     [
                         "term" => [
-                            "category" => $query2
+                            "category" => $category
                         ]
                     ],
                     [
                         "range" => [
                             "price" => [
-                                $operation => substr($query3, 2)
+                                $operation => substr($price, 2)
                             ]
                         ]
                     ]
@@ -193,9 +193,9 @@ class MyApp
         ];
     }
 
-    private function searchArg4(string $query1, string $query2, string $query3): array
+    private function queryByTitleCategoryPriceAvailability(string $title, string $category, string $price): array
     {
-        $result = $this->searchArg3($query1, $query2, $query3);
+        $result = $this->queryByTitleCategoryPrice($title, $category, $price);
         $result['bool']['filter'][] = [
             "nested" => [
                 "path" => "stock",

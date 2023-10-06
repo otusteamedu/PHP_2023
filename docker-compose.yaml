@@ -9,7 +9,7 @@ services:
       discovery.type: single-node
       xpack.security.enabled: false
       ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
-      ES_PORT: ${ES_PORT}
+      # ES_PORT: ${ES_PORT}
     deploy:
       resources:
         limits:

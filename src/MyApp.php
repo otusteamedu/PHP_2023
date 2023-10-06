@@ -2,26 +2,18 @@
 
 namespace App;
 
-use Elastic\Elasticsearch\{ClientBuilder,
+use Elastic\Elasticsearch\{
     Client,
-    Exception\AuthenticationException,
     Exception\ClientResponseException,
-    Exception\MissingParameterException,
-    Exception\ServerResponseException};
+    Exception\ServerResponseException
+};
 use Exception;
 
 class MyApp
 {
     private Client $client;
 
-    private array $params;
-
-    private string $bulkFileData;
-
-    private string $url;
-
-    /** @var string  */
-    private const DEFAULT_USER = 'elastic';
+    private string $index;
 
     /** @var string[]  */
     private const OPERATIONS = [
@@ -29,52 +21,9 @@ class MyApp
         '<=' => 'lte'
     ];
 
-    /**
-     * @throws AuthenticationException
-     */
-    public function __construct(
-        string $config = 'config_index_es.php',
-        string $bulkFileData = "books.json",
-        string $url = 'http://localhost:9200'
-    ) {
-        $this->params = require_once __DIR__ . "/../config/{$config}";
-        $this->url = $url;
-
-        $env = parse_ini_file(__DIR__ . '/../.env');
-        $this->client = ClientBuilder::create()
-            ->setHosts([$url])
-            ->setBasicAuthentication(self::DEFAULT_USER, $env['ELASTIC_PASSWORD'])
-            ->build();
-        $this->bulkFileData = $bulkFileData;
-    }
-
-    /**
-     * @return void
-     * @throws ClientResponseException
-     * @throws MissingParameterException
-     * @throws ServerResponseException
-     * @throws Exception
-     */
-    public function init(): void
-    {
-        $response = $this->client->indices()->exists(['index' => $this->params['index']]);
-
-        if ($response->getStatusCode() != 200) {
-            $this->client->indices()->create($this->params);
-            $this->bulkLoadData();
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    private function bulkLoadData(): void
-    {
-        if (file_exists(__DIR__ . "/../{$this->bulkFileData}")) {
-            shell_exec("curl --location --request POST '{$this->url}/_bulk' --header 'Content-Type: application/json' --data-binary '@{$this->bulkFileData}'");
-        } else {
-            throw new Exception("File {$this->bulkFileData} not found");
-        }
+    public function __construct(Client $client, string $index) {
+        $this->client = $client;
+        $this->index = $index;
     }
 
     /**
@@ -90,38 +39,27 @@ class MyApp
         $countArgv = count($args);
 
         $params = [
-            'index' => $this->params['index'],
+            'index' => $this->index,
             'body'  => []
         ];
 
-        switch ($countArgv) {
-            // Поиск по title
-            // php public/index.php гроницы
-            case 1:
-                $query = $this->queryByTitle($args[1]);
-                break;
+        $query = match ($countArgv) {
+            // Поиск по title -> php public/index.php гроницы
+            1 => $this->queryByTitle($args[1]),
 
-            // Поиск по title и строгому соответствую категории category
-            // php public/index.php гроницы "Любовный роман"
-            case 2:
-                $query = $this->queryByTitleCategory($args[1], $args[2]);
-                break;
+            // Поиск по title и строгому соответствую категории category -> php public/index.php гроницы "Любовный роман"
+            2 => $this->queryByTitleCategory($args[1], $args[2]),
 
-            // Поиск по title, строгому соответствую категории category и ценой <=|>= указанной
+            // Поиск по title, строгому соответствую категории category и ценой <=|>= указанной ->
             // php public/index.php гроницы "Любовный роман" \>=9700
-            case 3:
-                $query = $this->queryByTitleCategoryPrice($args[1], $args[2], $args[3]);
-                break;
+            3 => $this->queryByTitleCategoryPrice($args[1], $args[2], $args[3]),
 
             // php public/index.php Штирлиц "Исторический роман" \>=700 1
-            // последний аргумент может быть любым
-            case 4:
-                $query = $this->queryByTitleCategoryPriceAvailability($args[1], $args[2], $args[3]);
-                break;
+            // последний аргумент может быть любым, говорит о том, чтобы товар был в наличии
+            4 => $this->queryByTitleCategoryPriceAvailability($args[1], $args[2], $args[3]),
 
-            default:
-                throw new Exception("Incorrect args");
-        }
+            default => throw new Exception("Incorrect args"),
+        };
 
         $params['body']['query'] = $query;
         $results = $this->client->search($params)->asArray();

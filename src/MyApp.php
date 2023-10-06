@@ -21,7 +21,8 @@ class MyApp
         '<=' => 'lte'
     ];
 
-    public function __construct(Client $client, string $index) {
+    public function __construct(Client $client, string $index)
+    {
         $this->client = $client;
         $this->index = $index;
     }

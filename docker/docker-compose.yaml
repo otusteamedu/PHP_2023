@@ -2,67 +2,32 @@
 version: '3'
 
 services:
-
-  #контейнер с Nginx
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    container_name: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./code:/data/mysite.local
-    networks:
-      - app-network
-    depends_on:
-      - app
-
-#Контейнер с php и приложением
-  app:
-    build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    container_name: app
-    volumes:
-      - ./code:/data/mysite.local
-    #command: composer install --no-plugins --no-scripts
-    depends_on:
-      - rabbitmq
-    networks:
-      - app-network
-
-  composer:
-    image: composer:latest
-    volumes:
-      - ./code:/app
-    entrypoint:
-      - composer
-      - dump-autoload
-    depends_on:
-      - app
-
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management-alpine
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - app-network
-
-  #Контейнер с mysql
-  mysql:
-    image: mariadb
-    #image: mysql
-    container_name: ${CONTAINER_NAME}_mysql
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: gitlab.local
+    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 8822
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8822:22"
+    volumes:
+      - ./gitlab/etc/gitlab:/etc/gitlab
+      - ./gitlab/var/opt/gitlab:/var/opt/gitlab
+      - ./gitlab/var/log/gitlab:/var/log/gitlab
+    networks:
+      - app-network
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    restart: unless-stopped
+    depends_on:
+      - gitlab
+    volumes:
+      - ./gitlab/etc/gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - app-network
 

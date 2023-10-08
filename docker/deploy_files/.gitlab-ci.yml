@@ -1,0 +1,18 @@
+stages:
+  - deploy
+
+deploy_files:
+  stage: deploy
+  script:
+    - whoami
+    - ssh $SSH_USER@$SSH_HOST "cd /var/www/hw &&
+      sh ./deploy.sh"
+      
+deploy_docker:
+    stage: deploy
+    script:
+    - whoami
+    - ssh $SSH_USER@$SSH_HOST "cd /var/www/hw &&
+      sh ./docker_compose_rebuild.sh"
+    when:
+     manual

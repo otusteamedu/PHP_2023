@@ -1,0 +1,37 @@
+# версия синтаксиса
+version: '3'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: gitlab.local
+    restart: unless-stopped
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        gitlab_rails['gitlab_shell_ssh_port'] = 8822
+    ports:
+      - "443:443"
+      - "80:80"
+      - "8822:22"
+    volumes:
+      - ./gitlab/etc/gitlab:/etc/gitlab
+      - ./gitlab/var/opt/gitlab:/var/opt/gitlab
+      - ./gitlab/var/log/gitlab:/var/log/gitlab
+    networks:
+      - app-network
+
+  gitlab-runner:
+    image: gitlab/gitlab-runner:alpine
+    restart: unless-stopped
+    depends_on:
+      - gitlab
+    volumes:
+      - ./gitlab/etc/gitlab-runner:/etc/gitlab-runner
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

@@ -1,3 +1,18 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Пример ci/cd
+
+Запустил контейнер из папки `docker`
+
+Добавил проект с прошлого домашнего задания в локальный гит.
+
+Добавил новый раннер executor `shell`, настроил переменные.
+![01](./screenshots/runner and variable.jpg)
+
+Написал деплой срипт, в нем две задача, первая `deploy_files` автоматически запускается при новом комите в 
+ветку `main` и обнволяет файлы проекта. Результат ее работы ![02](./screenshots/job deploy_files.jpg)
+
+
+Вторая `deploy_docker` задача запускается вручную и нужна для пересборки контейнеров.
+! Результат ее работы ![03](./screenshots/job deploy_docker.jpg)
+

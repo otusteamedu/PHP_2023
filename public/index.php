@@ -2,9 +2,13 @@
 
 declare(strict_types=1);
 
-use App\AppValidator;
+use App\App;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$app = new AppValidator();
-$app->runApp();
+try {
+    $app = new App();
+    $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage() . PHP_EOL;
+}

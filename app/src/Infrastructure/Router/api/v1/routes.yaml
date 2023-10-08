@@ -1,0 +1,5 @@
+bank-statements:
+  resource: ./bank-statements.yaml
+  prefix: /bank-statements
+  name_prefix: bank-statements_
+  trailing_slash_on_root: false

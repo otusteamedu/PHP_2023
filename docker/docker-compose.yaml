@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+    php-client:
+        build:
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        container_name: ${PROJECT_NAME}-php-client
+        volumes:
+            - ../:/app
+        working_dir: /app
+        networks:
+            - app-network
+
+    php-server:
+        build:
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        container_name: ${PROJECT_NAME}-php-server
+        volumes:
+            - ../:/app
+        working_dir: /app
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

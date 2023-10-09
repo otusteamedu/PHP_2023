@@ -18,5 +18,5 @@ interface Storage
     public function clear(): void;
 
     /** @throws Exception */
-    public function get(array $params): mixed;
+    public function get(array $params): array;
 }

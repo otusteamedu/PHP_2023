@@ -7,6 +7,7 @@ namespace App\Service;
 use App\Http\Response;
 use App\Model\Event;
 use App\Storage\StorageInterface;
+use RuntimeException;
 
 class PostProcessor
 {
@@ -47,11 +48,14 @@ class PostProcessor
         return new Response('Bad Request', Response::HTTP_BAD_REQUEST, ['content-type' => 'text/html']);
     }
 
+    /**
+     * @throws \JsonException
+     */
     private function addEvent(): bool
     {
         if (isset($_POST['event'], $_POST['priority'], $_POST['conditions'])) {
             if (!is_array($_POST['conditions'])) {
-                echo('Isn`t array!');
+                throw new RuntimeException('Isn`t array!');
             }
 
             $event = new Event($_POST);

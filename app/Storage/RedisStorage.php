@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Storage;
 
 use App\Model\Event;
+use JsonException;
 use Predis\Client;
 
 class RedisStorage implements StorageInterface
@@ -16,10 +17,13 @@ class RedisStorage implements StorageInterface
         $this->redis = new Client($options);
     }
 
+    /**
+     * @throws JsonException
+     */
     public function find(array $params): mixed
     {
         $event = [];
-        if (!($events = $this->redis->smembers(Event::KEY))) {
+        if (!($events = $this->redis->sscan(Event::KEY, 0, ['COUNT' => 1000])[1] ?? [])) {
             return $event;
         }
 
@@ -55,7 +59,7 @@ class RedisStorage implements StorageInterface
     {
         $this->redis->sadd($event::KEY, (array) $event->getId());
         $this->redis->hset($event->getId(), $event::NAME, $event->getName());
-        $this->redis->hset($event->getId(), $event::PRIORITY, $event->getPriority());
+        $this->redis->hset($event->getId(), $event::PRIORITY, (string) $event->getPriority());
         $this->redis->hset($event->getId(), $event::CONDITIONS, $event->getConditions());
 
         return true;

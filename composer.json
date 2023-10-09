@@ -1,0 +1,29 @@
+{
+    "name": "mkhusaynov/hw12",
+    "description": "hw12",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Mehrubon Khusaynov",
+            "email": "husaynov888@gmail.com"
+        }
+    ],
+    "require": {
+        "predis/predis": "2.0.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest"
+        ,
+        "friendsofphp/php-cs-fixer": "^3.34"
+    }
+}

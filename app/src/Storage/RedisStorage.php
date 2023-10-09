@@ -6,64 +6,63 @@
 
 namespace App\Storage;
 
-use Redis;
-use RedisException;
+use Ehann\RediSearch\{AbstractIndex, Index};
+use Ehann\RedisRaw\{RedisRawClientInterface, RedisClientAdapter};
+use Exception;
 
 class RedisStorage implements Storage
 {
-    private Redis $redis;
+    private RedisRawClientInterface $redis;
 
-    private string $key;
+    private AbstractIndex $index;
 
-    /**
-     * @throws RedisException
-     */
-    public function __construct(string $key, string $host)
+    public function __construct(string $host, string $indexName)
     {
-        $this->redis = new Redis();
-        $this->redis->connect($host);
-        $this->key = $key;
+        $this->redis = (new RedisClientAdapter())->connect($host);
+        $this->index = $this->createIndex($this->redis, $indexName);
+    }
+
+    private function createIndex(RedisRawClientInterface $client, string $indexName): AbstractIndex
+    {
+        $index = new Index($client, $indexName);
+        $index->addNumericField('priority')
+            ->addTextField('event')
+            ->addNumericField('param1')
+            ->addNumericField('param2')
+            ->create();
+
+        return $index;
     }
 
     /**
-     * @throws RedisException
+     * @throws Exception
      */
-    public function add(int $priority, array $conditions, mixed $event): void
+    public function add(int $priority, array $conditions, string $event): void
     {
-        $this->redis->zAdd($this->key, $priority, json_encode(['conditions' => $conditions, 'event' => $event]));
+        $this->index->add(array_merge(['priority' => 2000, 'event' => $event], $conditions));
     }
 
     /**
-     * @throws RedisException
+     * @throws Exception
      */
     public function clear(): void
     {
-        $this->redis->del($this->key);
+        $this->index->drop();
     }
 
     /**
-     * @throws RedisException
+     * @throws Exception
      */
-    public function get(array $params): mixed
+    public function get(array $params): array
     {
-        $events = $this->redis->zRevRange($this->key, 0, -1);
+        $builder = $this->index->sortBy('priority', 'DESC');
 
-        foreach ($events as $event) {
-            $eventData = json_decode($event, true);
-            $eventFound = true;
-
-            foreach ($eventData['conditions'] as $k => $v) {
-                if (!isset($params[$k]) || $params[$k] != $v) {
-                    $eventFound = false;
-                    break;
-                }
-            }
-
-            if ($eventFound) {
-                return $eventData['event'];
-            }
+        foreach ($params as $k => $v) {
+            $builder = $builder->numericFilter($k, $v, $v);
         }
 
-        return null;
+        $result = $builder->search('', true);
+
+        return $result->getDocuments()[0] ?? [];
     }
 }

@@ -12,7 +12,7 @@ use Exception;
 interface Storage
 {
     /** @throws Exception */
-    public function add(int $priority, array $conditions, mixed $event): void;
+    public function add(int $priority, array $conditions, string $event): void;
 
     /** @throws Exception */
     public function clear(): void;

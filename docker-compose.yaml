@@ -10,10 +10,10 @@ services:
     restart: always
     environment:
       - REDIS_HOST=${REDIS_HOST}
-      - REDIS_KEY=${REDIS_KEY}
+      - INDEX_NAME=${INDEX_NAME}
 
   redis:
-    image: redis:latest
+    image: redis/redis-stack-server # redis:latest
     ports:
       - "6379:6379"
     restart: always

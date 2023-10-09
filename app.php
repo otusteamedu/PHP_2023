@@ -16,13 +16,13 @@ declare(strict_types=1);
 
 use Amedvedev\code\config\Config;
 use Amedvedev\code\console\SearchApp;
-use Amedvedev\code\services\search\ElasticSearchService;
+use Amedvedev\code\services\search\ConsoleSearchService;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
 try {
     Config::init();
-    $app = new SearchApp($argv, $argc, new ElasticSearchService());
+    $app = new SearchApp($argv, $argc, new ConsoleSearchService());
     $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();

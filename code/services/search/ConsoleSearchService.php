@@ -17,23 +17,19 @@ declare(strict_types=1);
 namespace Amedvedev\code\services\search;
 
 use Amedvedev\code\config\Config;
+use Amedvedev\code\entities\Book;
 use Amedvedev\code\presenters\ConsolePresenter;
-use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\ClientBuilder;
-use Elastic\Elasticsearch\Exception\ClientResponseException;
-use Elastic\Elasticsearch\Exception\MissingParameterException;
-use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Amedvedev\code\storages\ElasticStorage;
+use Amedvedev\code\storages\Storage;
 
-class ElasticSearchService extends SearchService
+class ConsoleSearchService extends SearchService
 {
-    private readonly Client $client;
+    private readonly Storage $storage;
     private readonly ConsolePresenter $presenter;
 
     public function __construct()
     {
-        $this->client = ClientBuilder::create()
-            ->setHosts([Config::get('elastic_container') . ':' . Config::get('elastic_local_port')])
-            ->build();
+        $this->storage = new ElasticStorage();
         $this->presenter = new ConsolePresenter();
     }
 
@@ -42,9 +38,6 @@ class ElasticSearchService extends SearchService
      * @param array $data
      * @param int $argc
      * @return void
-     * @throws ClientResponseException
-     * @throws MissingParameterException
-     * @throws ServerResponseException
      */
     public function strategy(array $data, int $argc): void
     {
@@ -75,27 +68,22 @@ class ElasticSearchService extends SearchService
             '-fname init - для построения индекса по name.json' . PHP_EOL .
             'check - проверка соединения с сервисом поиска' . PHP_EOL .
             'параметры search - поиск' . PHP_EOL .
-            'параметры: -tтекст -pцена -cкатегория' . PHP_EOL .
+            'параметры: -tтекст -pцена -cкатегория -iиндекс' . PHP_EOL .
             'Пример команды: app.php check' . PHP_EOL .
-            'Пример команды: app.php -tрыцори -p2000 -с"исторический роман" search' . PHP_EOL . PHP_EOL;
+            'Пример команды: app.php -tрыцори -p2000 -с"исторический роман" -iotus-shop search' . PHP_EOL . PHP_EOL;
     }
 
     /**
      * Метод проверки работоспособности сервиса поиска
      * @return void
-     * @throws ClientResponseException
-     * @throws ServerResponseException
      */
     public function check(): void
     {
-        $response = $this->client->info();
-        echo $response->getBody();
+        echo $this->storage->info();
     }
 
     /**
-     * @throws ClientResponseException
-     * @throws ServerResponseException
-     * @throws MissingParameterException
+     * @return void
      */
     public function init(): void
     {
@@ -123,78 +111,28 @@ class ElasticSearchService extends SearchService
                 continue;
             }
 
-            if (str_contains($string, 'sku')) {
-                $params['body'] = $json;
-                $this->client->index($params);
-            }
+            $params += $json;
+            //в будущем можно подумать про паттерн абстрактная фабрика для других сущностей
+            $entity = new Book($params);
+            $entity->save($this->storage);
+            $params = [];
         }
 
         echo 'Индекс создан' . PHP_EOL;
     }
 
     /**
-     * @throws ServerResponseException
-     * @throws ClientResponseException
+     * @return void
      */
     public function search(): void
     {
-        $options = getopt('p::t::c::');
-        //php /data/app.php -tрыцори search
-        //php /data/app.php -tрыцори -p1000 search
-        //php /data/app.php -tрыцори -p1000 -cдетектив search
-        //php /data/app.php -tрыцори -p1000 -c"исторический роман" search
-        //php /data/app.php -tрыцори -p1000 -cисторический search
-        //php /data/app.php -tрыцори -cисторический search
-
-        $must = [];
-
-        if (!empty($options['t'])) {
-            $must[] = [
-                'match' => [
-                    'title' => [
-                        'query' => $options['t'],
-                        'fuzziness' => 'auto',
-                    ],
-                ]
-            ];
-        }
-
-        if (!empty($options['c'])) {
-            $must[] = [
-                'match' => [
-                    'category' => [
-                        'query' => $options['c'],
-                        'fuzziness' => 'auto',
-                    ],
-                ],
-            ];
-        }
-
-        $params = [
-            'index' => 'otus-shop',
-            'size' => 100,
-            'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => $must,
-                    ]
-                ]
-            ]
-        ];
-
-        if (!empty($options['p'])) {
-            $params['body']['query']['bool']['filter'] = [
-                'range' => [
-                    'price' => [
-                        'lt' => $options['p']
-                    ]
-                ]
-            ];
-        }
-
-        $result = $this->client->search($params);
-
-        $hits = $result->asArray()['hits']['hits'] ?? '';
+        //php app.php -tрыцори -iotus-shop search
+        //php app.php -tрыцори -p1000 -iotus-shop search
+        //php app.php -tрыцори -p1000 -cдетектив -iotus-shop search
+        //php app.php -tрыцори -p1000 -c"исторический роман" -iotus-shop  search
+        //php app.php -tрыцори -p1000 -cисторический -iotus-shop search
+        //php app.php -tрыцори -cисторический -iotus-shop search
+        $hits = $this->storage->search(getopt('p::t::c::i::'));
 
         if (empty($hits)) {
             echo 'ничего не найдено';

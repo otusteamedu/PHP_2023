@@ -45,9 +45,10 @@ class Book
         $this->setPrice($array['price'] ?? 0);
 
         if (!empty($array['stock'])) {
-            foreach ($array['stock'] as $stock)
+            foreach ($array['stock'] as $stock) {
                 $stockObj = new Stock($stock);
                 $this->addStock($stockObj);
+            }
         }
     }
 

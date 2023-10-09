@@ -39,7 +39,7 @@ class RedisStorage implements Storage
      */
     public function add(int $priority, array $conditions, string $event): void
     {
-        $this->index->add(array_merge(['priority' => 2000, 'event' => $event], $conditions));
+        $this->index->add(array_merge(['priority' => $priority, 'event' => $event], $conditions));
     }
 
     /**

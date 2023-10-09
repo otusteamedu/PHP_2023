@@ -11,10 +11,11 @@ try {
 
     // Добавляем в хранилище события
     $eventSystem->addEvent(2000, ['param1' => 2, 'param2' => 2], 'event2');
-    $eventSystem->addEvent(3000, ['param1' => 1, 'param2' => 2], 'event3');
+    $eventSystem->addEvent(4000, ['param1' => 1, 'param2' => 2], 'event3');
+    $eventSystem->addEvent(3000, ['param1' => 1, 'param2' => 2], 'event4');
 
     // Извлекаем из хранилища событие по параметрам
-    print_r($eventSystem->getEvent(['param1' => 2, 'param2' => 2]));
+    print_r($eventSystem->getEvent(['param1' => 1, 'param2' => 2]));
 
     // Удаляем события (индекс)
     $eventSystem->clearEvents();

@@ -27,7 +27,7 @@ class Stock
     public function __construct(array $array)
     {
         $this->shop = $array['shop'] ?? '';
-        $this->stock= $array['stock'] ?? 0;
+        $this->stock = $array['stock'] ?? 0;
     }
 
     /**

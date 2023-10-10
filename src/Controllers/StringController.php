@@ -12,7 +12,9 @@ class StringController
     public static function validate(string $value): string
     {
         try {
-            if (empty($value)) throw new Exception("Параметр string пустой");
+            if (empty($value)) {
+                throw new Exception("Параметр string пустой");
+            }
             if (!(new StringValidator())->isValidString($value)) {
                 throw new Exception("Строка $value содержит недопустимые круглые скобки");
             }

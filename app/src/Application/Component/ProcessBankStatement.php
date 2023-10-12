@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Component;
 
+use App\Domain\Constant\BankStatementStatus;
+use App\Domain\Repository\BankStatementRepositoryInterface;
 use App\Domain\Repository\ExpenseRepositoryInterface;
+use App\Domain\Repository\FlusherInterface;
 use App\Domain\Repository\IncomeRepositoryInterface;
 use App\Domain\Repository\Pagination;
-use App\Domain\ValueObject\Email;
-use App\Domain\ValueObject\Number;
+use App\Domain\ValueObject\Id;
 
 final class ProcessBankStatement
 {
@@ -16,14 +18,20 @@ final class ProcessBankStatement
         private readonly IncomeRepositoryInterface $incomeRepository,
         private readonly ExpenseRepositoryInterface $expenseRepository,
         private readonly EmailSenderInterface $emailSender,
+        private readonly BankStatementRepositoryInterface $bankStatementRepository,
+        private readonly FlusherInterface $flusher,
     ) {
     }
 
     public function process(
-        Email $email,
+        Id $id,
         \DateTimeInterface $dateFrom,
         \DateTimeInterface $dateTo,
     ): void {
+        $bankStatement = $this->bankStatementRepository->firstById($id);
+        $bankStatement->setStatus(BankStatementStatus::IN_PROCESS);
+        $this->flusher->flush();
+
         $statement = "";
         $pagination = new Pagination(1, 50, null);
 
@@ -59,6 +67,8 @@ final class ProcessBankStatement
             $pagination->incrementPage();
         } while (count($expenses) === $pagination->getPerPage());
 
-        $this->emailSender->send($email, 'Bank Statement', $statement);
+        $this->emailSender->send($bankStatement->getUser()->getEmail(), 'Bank Statement', $statement);
+        $bankStatement->setStatus(BankStatementStatus::WAS_SENT);
+        $this->flusher->flush();
     }
 }

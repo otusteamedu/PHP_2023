@@ -16,7 +16,7 @@ final class ProcessBankStatementCommandHandler
     public function handle(ProcessBankStatementCommand $command): void
     {
         $this->processBankStatement->process(
-            $command->email,
+            $command->id,
             $command->dateFrom,
             $command->dateTo,
         );

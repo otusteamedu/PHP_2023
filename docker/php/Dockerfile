@@ -6,7 +6,7 @@ COPY ./docker/php/config/php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY ./docker/php/config/php.ini /usr/local/etc/php/conf.d/application.ini
 
 RUN  --mount=type=bind,from=mlocati/php-extension-installer,source=/usr/bin/install-php-extensions,target=/usr/local/bin/install-php-extensions \
-    install-php-extensions amqp bcmath sockets \
+    install-php-extensions amqp bcmath pdo_pgsql sockets \
     && apk del --no-cache  ${PHPIZE_DEPS} ${BUILD_DEPENDS}
 
 WORKDIR /var/www/app

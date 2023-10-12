@@ -65,7 +65,7 @@ final class Consumer
         return sprintf(
             '%s(%s, %s, %s)',
             $command::class,
-            $command->email,
+            $command->id,
             $command->dateFrom->format('c'),
             $command->dateTo->format('c'),
         );

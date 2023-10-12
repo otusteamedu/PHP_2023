@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: ./docker/nginx/Dockerfile
     restart: unless-stopped
-    container_name: imitronov_hw19_nginx
+    container_name: imitronov_hw20_nginx
     ports:
       - ${NGINX_PORT:-80}:80
     depends_on:
@@ -21,7 +21,7 @@ services:
       context: ./
       dockerfile: docker/php/Dockerfile
     restart: unless-stopped
-    container_name: imitronov_hw19_app
+    container_name: imitronov_hw20_app
     volumes:
       - ./app:/var/www/app
       - php_fpm_socket:/var/run
@@ -31,7 +31,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.9-management-alpine
     restart: unless-stopped
-    container_name: imitronov_hw19_rabbitmq
+    container_name: imitronov_hw20_rabbitmq
     hostname: ${RABBIT_HOSTNAME:-rabbitmq}
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBIT_USER:-rabbit}
@@ -44,8 +44,18 @@ services:
     volumes:
       - ./data/rabbitmq:/var/lib/rabbitmq
 
+  database:
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+
 networks:
   default:
 
 volumes:
   php_fpm_socket:
+  database_data:

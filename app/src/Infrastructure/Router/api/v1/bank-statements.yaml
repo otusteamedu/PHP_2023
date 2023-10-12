@@ -2,3 +2,7 @@ create:
   methods: POST
   path: /
   controller: App\Infrastructure\Controller\Bank\Create\CreateBankStatementController::handle
+read:
+  methods: GET
+  path: /{bank_statement_id}
+  controller: App\Infrastructure\Controller\Bank\Read\ReadBankStatementController::handle

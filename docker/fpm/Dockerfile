@@ -21,8 +21,7 @@ RUN apt-get update && apt-get install -y \
 	&& chmod +x /usr/local/bin/install-php-extensions  \
 	&& install-php-extensions redis \
 	&& install-php-extensions @composer-2.2.0 \
-	&& install-php-extensions memcached \
-	&& install-php-extensions sockets
+	&& install-php-extensions memcached
 
 COPY docker/fpm/php.ini /usr/local/etc/php/conf.d/php-custom.ini
 

@@ -19,6 +19,6 @@ try {
 
     $client->delete();
     print_r($client);
-} catch(Exception $e) {
+} catch (Exception $e) {
     print $e->getMessage();
 }

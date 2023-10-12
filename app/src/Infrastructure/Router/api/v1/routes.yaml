@@ -1,0 +1,15 @@
+bank-statements:
+  resource: ./bank-statements.yaml
+  prefix: /bank-statements
+  name_prefix: bank-statements_
+  trailing_slash_on_root: false
+users:
+  resource: ./users.yaml
+  prefix: /users
+  name_prefix: users_
+  trailing_slash_on_root: false
+auth:
+  resource: ./auth.yaml
+  prefix: /auth
+  name_prefix: auth_
+  trailing_slash_on_root: false

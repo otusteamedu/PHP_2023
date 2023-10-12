@@ -1,0 +1,237 @@
+nelmio_api_doc:
+    areas: # to filter documented areas
+        path_patterns:
+            - ^/api(?!/doc.json$) # Accepts routes under /api except /api/doc
+    documentation:
+        info:
+            title: 'Otus Homework #20'
+            description: This is an awesome app!
+            version: 1.0.0
+        paths:
+            /api/v1/auth/login:
+                post:
+                    tags:
+                        - Auth
+                    summary: 'Аутентификация и выдача токена.'
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    required:
+                                        - email
+                                        - password
+                                    properties:
+                                        email:
+                                            type: string
+                                            example: 'user@example.com'
+                                        password:
+                                            type: string
+                                            example: 'secretPassword'
+                    responses:
+                        '200':
+                            description: 'success'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            token:
+                                                type: string
+                                                example: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJPUzI1NiJ9.eyJpYXQiOjE2OTcxMzUxNDcs8mV4cCI6MTY5NzEzODc0Nywicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiMSJ9.Bu1CAXy8XLAi87zEqQ4KlUr3Qy9NGJME6TcUs99Ae5H8ex7SOzwqa02FH2tf71TTGYxhU7Z5tXre-4DqhE3gc5ZtPjbnBvWQzl2dEWoc1l6rarnxeS18lvOWAhgiqKgujreCk-r1vMlzejfAYnZxV9eNazzUxk-W5UEO9E7dhWKp8ArQ81Ze-aod-vRhJU7Jd-D0N7l985jOj6PTnn9YZYnGGazsxk6quNy6sbnwtwOUPML0CU02lwrpRn2gav6y2z4Lacqi2-rxa6PynMZE2mbUKEJgYqtT19NJXGVSlE47gPyKZzK5voMtqnLEHZBlg1eV9c66VJxL3U7VNdLiNQ'
+                        '400':
+                            description: 'BadRequest'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/BadRequestException'
+                        '404':
+                            description: 'NotFound'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/NotFoundException'
+
+            /api/v1/bank-statements:
+                post:
+                    tags:
+                        - BankStatement
+                    summary: 'Создать заявку на генерацию банковской выписки.'
+                    security:
+                        - Bearer: []
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    required:
+                                        - email
+                                        - dateFrom
+                                        - dateTo
+                                    properties:
+                                        dateFrom:
+                                            type: string
+                                            example: '2023-10-01'
+                                        dateTo:
+                                            type: string
+                                            example: '2023-10-15'
+                    responses:
+                        '201':
+                            description: 'success'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            data:
+                                                $ref: '#/components/schemas/BankStatement'
+                        '400':
+                            description: 'BadRequest'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/BadRequestException'
+
+            /api/v1/bank-statements/{bank_statement_id}:
+                get:
+                    tags:
+                        - BankStatement
+                    summary: 'Проверить статус заявки на генерацию банковской выписки.'
+                    security:
+                        - Bearer: [ ]
+                    parameters:
+                        - name: 'bank_statement_id'
+                          required: true
+                          in: path
+                          description: 'ID заявки'
+                          schema:
+                              type: string
+                              example: '1'
+                    responses:
+                        '200':
+                            description: 'success'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            data:
+                                                $ref: '#/components/schemas/BankStatement'
+                        '400':
+                            description: 'BadRequest'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/BadRequestException'
+                        '404':
+                            description: 'NotFound'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/NotFoundException'
+
+            /api/v1/users:
+                post:
+                    tags:
+                        - User
+                    summary: 'Регистрация пользователя.'
+                    requestBody:
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    required:
+                                        - email
+                                        - password
+                                    properties:
+                                        email:
+                                            type: string
+                                            example: 'user@example.com'
+                                        password:
+                                            type: string
+                                            example: 'secretPassword'
+                    responses:
+                        '201':
+                            description: 'success'
+                            content:
+                                application/json:
+                                    schema:
+                                        type: object
+                                        properties:
+                                            data:
+                                                $ref: '#/components/schemas/User'
+                        '400':
+                            description: 'BadRequest'
+                            content:
+                                application/json:
+                                    schema:
+                                        $ref: '#/components/schemas/BadRequestException'
+
+        components:
+            securitySchemes:
+                Bearer:
+                    type: http
+                    scheme: bearer
+            schemas:
+                BankStatement:
+                    type: object
+                    properties:
+                        id:
+                            type: 'string'
+                            example: '1'
+                        status:
+                            type: 'string'
+                            example: 'new'
+                            enum: ['new', 'in_process', 'was_sent']
+                    required:
+                        - id
+                        - status
+                User:
+                    type: object
+                    properties:
+                        id:
+                            type: 'string'
+                            example: '1'
+                        email:
+                            type: 'string'
+                            example: 'user@example.com'
+                        roles:
+                            type: 'array'
+                            items:
+                                type: 'string'
+                                example: 'ROLE_USER'
+                    required:
+                        - id
+                        - email
+                        - name
+                        - roles
+                BadRequestException:
+                    type: object
+                    properties:
+                        message:
+                            type: 'string'
+                            example: 'Bad Request'
+                AuthorizationException:
+                    type: object
+                    properties:
+                        message:
+                            type: 'string'
+                            example: 'Unauthorized'
+                ForbiddenException:
+                    type: object
+                    properties:
+                        message:
+                            type: 'string'
+                            example: 'Forbidden'
+                NotFoundException:
+                    type: object
+                    properties:
+                        message:
+                            type: 'string'
+                            example: 'NotFound'
+                ServerException:
+                    type: object
+                    properties:
+                        message:
+                            type: 'string'
+                            example: 'Internal server error'

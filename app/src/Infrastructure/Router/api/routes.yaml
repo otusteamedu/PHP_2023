@@ -1,0 +1,5 @@
+v1:
+  resource: ./v1/routes.yaml
+  prefix: /v1
+  name_prefix: v1_
+  trailing_slash_on_root: false

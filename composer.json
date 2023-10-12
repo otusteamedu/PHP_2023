@@ -1,6 +1,6 @@
 {
   "name": "ivan/php_2023",
-  "description": "Console App",
+  "description": "Console Elastic App",
   "type": "project",
   "autoload": {
     "psr-4": {

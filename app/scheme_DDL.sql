@@ -3,11 +3,35 @@
 */
 CREATE TABLE Films (
 	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) NOT NULL, -- Название фильма
-	type VARCHAR(50) NOT NULL,  -- Тип фильма
-	description TEXT NOT NULL,  -- Описание фильма 
-	hours SMALLINT NOT NULL,    -- Продолжение в часах 
-	minutes SMALLINT NOT NULL   -- Продолжение в минутах
+	name VARCHAR(100) NOT NULL UNIQUE, -- Название фильма
+  type VARCHAR(50) NOT NULL, -- Тип фильма 
+	description TEXT NOT NULL  -- Описание фильма
+);
+
+/*
+  AttributesType
+*/
+CREATE TABLE AttributesType (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL UNIQUE
+);
+
+/*
+  Attributes
+*/
+CREATE TABLE Attributes (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL UNIQUE,
+	attribute_type_id INTEGER REFERENCES AttributesType (id)
+);
+
+/*
+  Values
+*/
+CREATE TABLE Values (
+	film_id INTEGER REFERENCES Films (id),
+  attribute_id INTEGER REFERENCES Attributes (id),
+  value TEXT
 );
 
 /*
@@ -21,7 +45,7 @@ CREATE TABLE Halls (
 /*
   TypesAreas - типы рядов (например 'стандартные', 'vip')
 */
-CREATE TABLE TypesAreas (
+CREATE TABLE TypesRows (
   id SERIAL PRIMARY KEY,
   name VARCHAR(100) NOT NULL -- Название типа
 );
@@ -29,23 +53,9 @@ CREATE TABLE TypesAreas (
 /*
   Areas - Данные о облости в зале.(Для отрисовки зала)
 */
-CREATE TABLE Areas (
-  id SERIAL PRIMARY KEY,
-  type_id INTEGER NOT NULL REFERENCES TypesAreas (id), -- Тип ряда
-  name VARCHAR(100) NOT NULL,  -- Назвние ряда
-  x VARCHAR(5) NOT NULL,
-  y VARCHAR(5) NOT NULL,
-  width FLOAT NOT NULL,
-  height FLOAT NOT NULL,
-  description VARCHAR(255) NULL
-);
-
-/*
-  Areas - Данные о облости в зале.(Для отрисовки зала)
-*/
 CREATE TABLE Rows (
   id SERIAL PRIMARY KEY,
-  area_id INTEGER NOT NULL REFERENCES TypesAreas (id), -- Тип ряда
+  type_id INTEGER NOT NULL REFERENCES TypesRows (id), -- Тип ряда
   title VARCHAR(100) NOT NULL,  -- Назвние ряда
   hall_id INTEGER NOT NULL REFERENCES Halls (id),
   position SMALLINT NOT NULL
@@ -71,12 +81,14 @@ CREATE TABLE Sessions (
   start_at TIMESTAMP NOT NULL  -- Начало сеанса
 );
 
+CREATE INDEX idx_sessions_start_at ON sessions (start_at);
+
 /*
   SessionPrices - данные о ценах на сеансы привязанные к типом рядов
 */
 CREATE TABLE SessionPrices (
 	session_id INTEGER NOT NULL REFERENCES Sessions (id), -- Сеанс
-	type_id INTEGER NOT NULL REFERENCES TypesAreas (id), -- Тип ряда
+	type_id INTEGER NOT NULL REFERENCES TypesRows (id), -- Тип ряда
 	price DECIMAL(10, 2) NOT NULL, -- Цена
 	UNIQUE (session_id, type_id)
 );

@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+
+    php-fpm:
+        build:
+            context: ./..
+            dockerfile: docker/fpm/Dockerfile
+        container_name: ${PROJECT_NAME}-php-client
+        volumes:
+            - ../:/app
+        working_dir: /app
+        networks:
+            - app-network
+
+    nginx:
+        image: nginx:stable-alpine
+        container_name: ${PROJECT_NAME}-nginx
+        volumes:
+            - ../docker/nginx/application.local.conf:/etc/nginx/conf.d/application.local.conf
+            - ../:/app
+        working_dir: /app
+        ports:
+            - "80:80"
+        networks:
+            - app-network
+
+networks:
+    app-network:
+        driver: bridge

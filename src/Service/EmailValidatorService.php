@@ -8,7 +8,7 @@ class EmailValidatorService
 {
     public function validateEmail(string $email): bool
     {
-        if (!$this->isValidEmail($email)) {
+        if (($this->isValidEmail($email)) === false) {
             return false;
         }
 
@@ -21,7 +21,7 @@ class EmailValidatorService
 
     private function isValidEmail(string $email): bool
     {
-        return preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', $email);
+        return (bool) preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/', $email);
     }
 
     private function hasMXRecord(string $email): bool

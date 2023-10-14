@@ -1,20 +1,18 @@
 <?php
 
-declare(strict_types=1);
+require __DIR__ . '/vendor/autoload.php';
 
-require_once __DIR__ . '/vendor/autoload.php';
+use App\Command\CreateDefaultDocumentsCommand;
+use App\Command\CreateDefaultIndexCommand;
+use App\Command\DeleteDefaultIndexCommand;
+use App\Command\SearchBooksCommand;
+use Symfony\Component\Console\Application;
 
-use Elastic\Elasticsearch\ClientBuilder;
+$application = new Application();
 
-$client = ClientBuilder::create()
-    ->setHosts(['https://localhost:9200'])
-    ->setBasicAuthentication('elastic', '123456')
-    ->setCABundle('http_ca.crt')
-    ->build();
+$application->add(new SearchBooksCommand());
+$application->add(new CreateDefaultIndexCommand());
+$application->add(new DeleteDefaultIndexCommand());
+$application->add(new CreateDefaultDocumentsCommand());
 
-// Info API
-$response = $client->info();
-
-echo $response['version']['number'] . "\n"; // 8.0.0
-echo $response->getStatusCode() . "\n"; // 200
-echo $response->getBody(); // Response body in JSON
+$application->run();

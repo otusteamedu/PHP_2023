@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-server
+    volumes:
+      - ./app:/var/www/chat
+      - ./socket:/tmp/socket
+    networks:
+      - internal
+
+  client:
+    build:
+      context: ./docker/fpm
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-client
+    depends_on:
+      - server
+    volumes:
+      - ./app:/var/www/chat
+      - ./socket:/tmp/socket
+    networks:
+      - internal
+
+networks:
+  internal:
+    driver: bridge

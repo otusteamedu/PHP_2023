@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Atsvetkov\Chat\Handler;
 
-use Lebedevvr\Chat\Socket\Socket;
+use Atsvetkov\Chat\Socket\Socket;
 
 interface HandlerInterface
 {

@@ -2,10 +2,10 @@
 
 require __DIR__ . '/vendor/autoload.php';
 
-use App\Command\CreateDefaultDocumentsCommand;
-use App\Command\CreateDefaultIndexCommand;
-use App\Command\DeleteDefaultIndexCommand;
-use App\Command\SearchBooksCommand;
+use App\CliCommand\CreateDefaultDocumentsCommand;
+use App\CliCommand\CreateDefaultIndexCommand;
+use App\CliCommand\DeleteDefaultIndexCommand;
+use App\CliCommand\SearchBooksCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
@@ -15,4 +15,8 @@ $application->add(new CreateDefaultIndexCommand());
 $application->add(new DeleteDefaultIndexCommand());
 $application->add(new CreateDefaultDocumentsCommand());
 
-$application->run();
+try {
+    $application->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
+}

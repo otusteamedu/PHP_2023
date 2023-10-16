@@ -2,40 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Command;
+namespace App\Service;
 
-use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateDefaultDocumentsCommand extends Command
+class DocumentsCreator extends ElasticServiceTemplate
 {
-    private Client $client;
-
-    public function __construct()
-    {
-        $this->client = ClientBuilder::create()
-            ->setHosts(['https://localhost:9200'])
-            ->setBasicAuthentication('elastic', '123456')
-            ->setCABundle('http_ca.crt')
-            ->build();
-
-        parent::__construct();
-    }
-
-    protected function configure()
-    {
-        $this
-            ->setName('create:documents')
-            ->setDescription('Create 10000 default documents');
-    }
-
-    public function run(InputInterface $input, OutputInterface $output): int
+    public function execute(): void
     {
         $file = __DIR__ . '/../../books.json';
         $handle = fopen($file, "r");
@@ -61,21 +36,13 @@ class CreateDefaultDocumentsCommand extends Command
 
                     try {
                         $this->client->index($param);
-                        $output->writeln("<comment>Document {$id} created</comment>");
                     } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
-                        $output->writeln("<comment>{$e->getMessage()}</comment>");
+                        echo $e->getMessage();
                     }
                 }
             }
         }
 
         fclose($handle);
-
-        return 0;
-    }
-
-    public function getClient(): Client
-    {
-        return $this->client;
     }
 }

@@ -11,10 +11,8 @@ services:
       - discovery.type=single-node
       - http.host=0.0.0.0
       - transport.host=localhost
-      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
-      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
-#    volumes:
-#      - ./certs:/usr/share/elasticsearch/config/certs
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=123456
     ports:
       - 9200:9200
     networks:

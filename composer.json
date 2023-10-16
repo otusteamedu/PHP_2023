@@ -1,0 +1,29 @@
+{
+  "name": "ivan/php_2023",
+  "description": "Console Elastic App",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Iva-So",
+      "email": "sochkov1994@mail.ru"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "elasticsearch/elasticsearch": "^8.10",
+    "symfony/console": "^6.3"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^6.3"
+  }
+}

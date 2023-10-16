@@ -26,5 +26,3 @@ class CreateDefaultDocumentsCommand extends CommandTemplate
         return self::SUCCESS_CODE;
     }
 }
-
-

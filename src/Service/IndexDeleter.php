@@ -7,6 +7,7 @@ namespace App\Service;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
+use Elastic\Transport\Exception\NoNodeAvailableException;
 
 class IndexDeleter extends ElasticServiceTemplate
 {
@@ -14,7 +15,7 @@ class IndexDeleter extends ElasticServiceTemplate
     {
         try {
             $this->client->indices()->delete(['index' => $indexName]);
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        } catch (ClientResponseException | MissingParameterException | ServerResponseException $e) {
             echo $e->getMessage();
         }
     }

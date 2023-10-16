@@ -36,7 +36,7 @@ class DocumentsCreator extends ElasticServiceTemplate
 
                     try {
                         $this->client->index($param);
-                    } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+                    } catch (ClientResponseException | MissingParameterException | ServerResponseException $e) {
                         echo $e->getMessage();
                     }
                 }

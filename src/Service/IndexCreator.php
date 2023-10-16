@@ -73,7 +73,7 @@ class IndexCreator extends ElasticServiceTemplate
 
         try {
             $this->client->indices()->create($this->defaultIndex);
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
+        } catch (ClientResponseException | MissingParameterException | ServerResponseException $e) {
             echo $e->getMessage();
         }
     }

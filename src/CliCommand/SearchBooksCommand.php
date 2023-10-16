@@ -49,4 +49,3 @@ class SearchBooksCommand extends CommandTemplate
         return self::SUCCESS_CODE;
     }
 }
-

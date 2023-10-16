@@ -26,4 +26,3 @@ class DeleteDefaultIndexCommand extends CommandTemplate
         return self::SUCCESS_CODE;
     }
 }
-

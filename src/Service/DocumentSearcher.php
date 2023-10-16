@@ -63,7 +63,7 @@ class DocumentSearcher extends ElasticServiceTemplate
 
         try {
             $response = $this->client->search($params);
-        } catch (ClientResponseException|ServerResponseException $e) {
+        } catch (ClientResponseException | ServerResponseException $e) {
             echo $e->getMessage();
         }
 

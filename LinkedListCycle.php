@@ -34,4 +34,3 @@ class LinkedListCycle
         return false;
     }
 }
-

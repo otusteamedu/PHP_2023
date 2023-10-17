@@ -43,7 +43,7 @@ class LetterCombination
         $res = [];
         foreach ($digit1 as $iValue) {
             foreach ($digit2 as $jValue) {
-                $res[] = $iValue.$jValue;
+                $res[] = $iValue . $jValue;
             }
         }
 

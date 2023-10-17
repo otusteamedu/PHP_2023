@@ -9,10 +9,10 @@
  * }
  */
 
-class Solution
+class LinkedListCycle
 {
     /**
-     * @param  ListNode  $head
+     * @param $head
      *
      * @return Boolean
      */

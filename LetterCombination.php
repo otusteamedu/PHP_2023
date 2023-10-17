@@ -1,6 +1,6 @@
 <?php
 
-class Solution
+class LetterCombination
 {
 
     /**
@@ -8,7 +8,7 @@ class Solution
      *
      * @return String[]
      */
-    public function letterCombinations($digits): array
+    public function letterCombinations(string $digits): array
     {
         if ($digits === '') {
             return [];

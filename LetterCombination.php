@@ -1,8 +1,9 @@
 <?php
 
+namespace app\leetcode\LetterCombination;
+
 class LetterCombination
 {
-
     /**
      * @param  String  $digits
      *

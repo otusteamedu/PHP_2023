@@ -1,5 +1,7 @@
 <?php
 
+namespace app\leetcode\linkedListCycle;
+
 /**
  * Definition for a singly-linked list.
  * class ListNode {

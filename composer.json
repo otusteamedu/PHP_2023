@@ -1,0 +1,23 @@
+{
+  "name": "iva-so/otus-2023",
+  "type": "project",
+  "description": "redis app",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Iva-So",
+      "email": "sochkov1994@mail.ru"
+    }
+  ],
+  "require": {
+    "php": "^8.1",
+    "predis/predis": "^2.2"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^6.3"
+  }
+}

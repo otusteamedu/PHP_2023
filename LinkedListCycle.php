@@ -14,6 +14,9 @@ namespace app\leetcode\linkedListCycle;
 class LinkedListCycle
 {
     /**
+     *
+     * Сложность по времени O(n)
+     *
      * @param $head
      *
      * @return Boolean

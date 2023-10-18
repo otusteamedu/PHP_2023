@@ -5,6 +5,9 @@ namespace app\leetcode\LetterCombination;
 class LetterCombination
 {
     /**
+     *
+     * Сложность по времени O(n^2)
+     *
      * @param  String  $digits
      *
      * @return String[]

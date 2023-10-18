@@ -1,0 +1,14 @@
+{
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app",
+            "src\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.0",
+        "ext-sockets": "*",
+        "ext-readline": "*"
+    }
+}

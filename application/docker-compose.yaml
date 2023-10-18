@@ -44,6 +44,18 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
+  postgres:
+    image: postgres
+    restart: always
+    container_name: myapp-postgres${DOCKER_CONTAINER_SUFFIX}
+    volumes:
+      - myapp-psvolume:/var/lib/postgresql
+      - ./postgres/shared:/docker-entrypoint-initdb.d/
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
 volumes:
   # here database will store data
   myapp-dbvolume:
+  # here postgres will store data
+  myapp-psvolume:

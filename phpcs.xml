@@ -15,7 +15,7 @@
 <arg  value="np"/>
 
 <rule  ref="PSR1"/>
-  
+
 <rule  ref="PSR12"/>
 
 </ruleset>

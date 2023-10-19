@@ -1,0 +1,2 @@
+php_value session.save_handler "memcached"
+php_value session.save_path "tcp://127.0.0.1:11211"

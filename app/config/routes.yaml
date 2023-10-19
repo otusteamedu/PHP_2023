@@ -1,0 +1,13 @@
+controllers:
+    resource:
+        path: ../src/Shared/Infrastructure/Controller/
+        namespace: App\Shared\Infrastructure\Controller
+    type: attribute
+
+kernel:
+    resource: ../src/Shared/Infrastructure/Kernel.php
+    type: annotation
+
+bank:
+    resource: ../src/Bank/Infrastructure/Controller/
+    type: annotation

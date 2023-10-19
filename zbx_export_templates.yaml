@@ -1,0 +1,50 @@
+zabbix_export:
+  version: '6.4'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 08aa998ded624208ae230488586c93a2
+      template: 'Check search engines disallow'
+      name: 'Check search engines disallow'
+      groups:
+        - name: Templates
+      httptests:
+        - uuid: 2ff80671aaa74701b25081a1954c6ac2
+          name: 'Check search engines disallow'
+          delay: 1s
+          steps:
+            - name: 'Checking robots.txt step 1'
+              url: '{HOST.CONN}/robots.txt'
+              follow_redirects: 'NO'
+              required: 'User-Agent: *'
+              status_codes: '200'
+            - name: 'Checking robots.txt step 2'
+              url: '{HOST.CONN}/robots.txt'
+              follow_redirects: 'NO'
+              required: 'Disallow: /'
+              status_codes: '200'
+    - uuid: e7321309c21a4f6d93dfd70e3d3c775c
+      template: 'Check website availability'
+      name: 'Check website availability'
+      groups:
+        - name: Templates
+      httptests:
+        - uuid: e2a4a1c5a186408e9d0fce6d2cb42024
+          name: 'Check website availability'
+          delay: 1s
+          agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
+          steps:
+            - name: 'Check main page status'
+              url: '{HOST.CONN}'
+              timeout: 5s
+              status_codes: '200'
+  triggers:
+    - uuid: 60a2edbd4fec48bc963db7cbb411c88a
+      expression: 'last(/Check search engines disallow/web.test.fail[Check search engines disallow])>0 and length(last(/Check search engines disallow/web.test.error[Check search engines disallow]))>0'
+      name: 'search engines disallow trigger'
+      priority: DISASTER
+    - uuid: 59154450e1f046518a19b6856a41bbdf
+      expression: 'last(/Check website availability/web.test.fail[Check website availability])>0 and length(last(/Check website availability/web.test.error[Check website availability]))>0'
+      name: 'Website availability problem'
+      priority: DISASTER

@@ -1,0 +1,4 @@
+/code/vendor/
+/code/composer.lock
+/data/
+/mysqldata/

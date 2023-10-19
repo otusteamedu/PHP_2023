@@ -1,0 +1,33 @@
+zabbix_export:
+  version: '6.4'
+  host_groups:
+    - uuid: a571c0d144b14fd4a87a9d9b2aa9fcd6
+      name: Applications
+  hosts:
+    - host: devenergy.ru
+      name: devenergy.ru
+      templates:
+        - name: 'Check website availability'
+      groups:
+        - name: Applications
+      interfaces:
+        - useip: 'NO'
+          ip: ''
+          dns: devenergy.ru
+          port: '80'
+          interface_ref: if1
+      inventory_mode: DISABLED
+    - host: otus-hw-nginx
+      name: otus-hw-nginx
+      templates:
+        - name: 'Check search engines disallow'
+        - name: 'Check website availability'
+      groups:
+        - name: Applications
+      interfaces:
+        - useip: 'NO'
+          ip: ''
+          dns: otus-hw-nginx
+          port: '80'
+          interface_ref: if1
+      inventory_mode: DISABLED

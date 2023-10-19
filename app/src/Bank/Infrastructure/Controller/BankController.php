@@ -38,7 +38,7 @@ class BankController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/api/v1/rabbitmq/queue")
+     * @Rest\Get("/api/v1/bank/queue")
      * @return Response
      */
     public function queue(): Response

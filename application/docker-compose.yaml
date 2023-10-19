@@ -2,7 +2,7 @@ services:
   web:
     build: config/nginx
     container_name: myapp-server${DOCKER_CONTAINER_SUFFIX}
-    ports: 
+    ports:
       - "80:80"
 
   fpm:
@@ -44,6 +44,18 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
+  postgres:
+    image: postgres
+    restart: always
+    container_name: myapp-postgres${DOCKER_CONTAINER_SUFFIX}
+    volumes:
+      - myapp-pgvolume:/var/lib/postgresql/data
+      - ./database/postgres/pgdump_2023_10_12.sql:/docker-entrypoint-initdb.d/pgdump_2023_10_12.sql
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
 volumes:
   # here database will store data
   myapp-dbvolume:
+  # here postgres will store data
+  myapp-pgvolume:

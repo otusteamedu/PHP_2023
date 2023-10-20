@@ -22,7 +22,7 @@ class Solution2
      * @param string $digits
      * @return string[]
      */
-    function letterCombinations(string $digits): array
+    public function letterCombinations(string $digits): array
     {
         if ($digits == '') {
             return [];

@@ -1,0 +1,7 @@
+controllers:
+    resource: ../src/Infrastructure/api/v1
+    type: attribute
+
+kernel:
+    resource: ../src/Infrastructure/Kernel.php
+    type: annotation

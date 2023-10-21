@@ -1,0 +1,14 @@
+{
+    "name": "root/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Root\\App\\": "src/"
+        }
+    },
+    "require": {
+      "ext-mbstring": "*",
+      "ext-redis": "*",
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}

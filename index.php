@@ -9,7 +9,7 @@ include __DIR__ . '/vendor/autoload.php';
  * @param ListNode $list2
  * @return ListNode
  */
-function mergeTwoLists($list1, $list2)
+function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
 {
     $head = new ListNode();
     $headStart = $head;

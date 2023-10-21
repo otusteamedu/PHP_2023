@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer;
 
 class Response implements \JsonSerializable
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Application\UseCase;
+namespace VKorabelnikov\Hw20\OrderController\Application\UseCase;
 
 class getProcessingStatusUseCase
 {

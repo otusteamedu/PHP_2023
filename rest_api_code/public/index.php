@@ -1,3 +1,5 @@
 <?
 
 echo date("Y");
+
+phpinfo();

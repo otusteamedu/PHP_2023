@@ -2,34 +2,33 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Init;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Init;
 
-use VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer\ErrorResponse;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Config\IniConfig;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\ConnectionManager;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer\ErrorResponse;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Config\IniConfig;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\ConnectionManager;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\OrderController;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\RabbitMqHelper;
 
 class HttpApiInit
 {
-    const HTTP_API_CONTROLLER_NAMESPACE = 'VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\\';
+    const HTTP_API_CONTROLLER_NAMESPACE = 'VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\\';
 
     public function run()
     {
         $requestJson = file_get_contents('php://input');
         $requestData = json_decode($requestJson, true);
         if (
-            ($requestData === false)
-            || (!is_array($requestData))
+            ($_SERVER['REQUEST_METHOD'] !== "GET")
+            && (
+                ($requestData === false)
+                || (!is_array($requestData)
+                )
+            )
         ) {
             die("Incorrect request JSON!");
         }
 
-        session_start();
-        if (
-            ($_REQUEST["path"] != "user/auth/")
-            && empty($_SESSION["userLogin"])
-        ) {
-            die("You do not have access permissions!");
-        }
 
         try {
             $this->runController($requestData);
@@ -39,80 +38,51 @@ class HttpApiInit
                     $e->getMessage()
                 )
             );
-        } catch (\Throwable $e) {
-            $this->output(
-                new ErrorResponse(
-                    "Internal error occured."
-                )
-            );
-        }
-    }
-
-    public function runController__old($requestData)
-    {
-        $pathParts = explode("/", $_REQUEST["path"]);
-        $claccPrefix = ucfirst($pathParts[0]);
-        $method = $pathParts[1];
-
-        $config = new IniConfig();
-        $connection = new ConnectionManager($config->getAllSettings());
-        $pdo = $connection->getPdo();
-
-        $className = self::HTTP_API_CONTROLLER_NAMESPACE . $claccPrefix . "Controller";
-        if (
-            !class_exists($className)
-            || !method_exists($className, $method)
-        ) {
-            http_response_code(404);
-            die();
-        }
-        $controller = new $className($pdo);
-        $this->output(
-            ((object)$controller)->$method($requestData)
-        );
+        } //catch (\Throwable $e) {
+        //     $this->output(
+        //         new ErrorResponse(
+        //             "Internal error occured."
+        //         )
+        //     );
+        // }
     }
 
 
     public function runController($requestData)
     {
-        $pathParts = explode("/", $_REQUEST["path"]);
-        $claccPrefix = ucfirst($pathParts[0]);
-        $className = self::HTTP_API_CONTROLLER_NAMESPACE . $claccPrefix . "Controller";
-
-        $method = $this->getMethodPrefix($_SERVER['REQUEST_METHOD']);
-        for ($i = 1; $i < count($pathParts); $i++) {
-            $method .= ucfirst($pathParts[$i]);
-        }
-
-        var_dump($className, $method);die();
-
-        if (
-            !class_exists($className)
-            || !method_exists($className, $method)
-        ) {
-            http_response_code(404);
-            die();
-        }
+        $arUrlParts = explode("/" , $_REQUEST["path"]);
 
         $config = new IniConfig();
-        $connection = new ConnectionManager($config->getAllSettings());
+        $settingsDTO = $config->getAllSettings();
+        $connection = new ConnectionManager($settingsDTO);
         $pdo = $connection->getPdo();
-        $controller = new $className($pdo);
+
+        $rabbitHelper = new RabbitMqHelper(
+            $connection->getRabbitConnection($settingsDTO)
+        );
+        
+        $controller = new OrderController($pdo, $rabbitHelper);
+        if (
+            stripos($_REQUEST["path"], "/status/")
+            && ($_SERVER['REQUEST_METHOD'] == "GET")
+        ) {
+            $method = "getOrderStatus";
+            $requestData["id"] = $arUrlParts[3];
+        } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
+            $method = "getOrderResults";
+            $requestData["id"] = $arUrlParts[2];
+        } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            $method = "create";
+        } else if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
+            $method = "update";
+            $requestData["id"] = $arUrlParts[2];
+        } else {
+            throw new \Exception("method not implemented yet");
+        }
+
         $this->output(
             ((object)$controller)->$method($requestData)
         );
-    }
-
-    protected function getMethodPrefix(string $requestMethod)
-    {
-        switch ($requestMethod) {
-            case "POST":
-                return "add";
-            case "PUT":
-                return "update";
-            default:
-                return $requestMethod;
-        }
     }
 
     public function output($data)

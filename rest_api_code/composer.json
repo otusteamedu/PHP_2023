@@ -1,11 +1,10 @@
 {
-    "name": "v-korabelnikov/hw16",
+    "name": "v-korabelnikov/hw20",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "VKorabelnikov\\Hw16\\": "src/"
-        },
-        "files": ["src/MusicStreaming/Domain/Model/Functions/Functions.php"]
+            "VKorabelnikov\\Hw20\\": "src/"
+        }
     },
     "config": {
         "allow-plugins": {
@@ -13,6 +12,6 @@
         }
     },
     "require": {
-        "falahati/php-mp3": "dev-master"
+        "php-amqplib/php-amqplib": ">=3.0"
     }
 }

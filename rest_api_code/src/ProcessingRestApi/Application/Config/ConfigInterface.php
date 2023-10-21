@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Application\Config;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\Config;
 
-use VKorabelnikov\Hw16\MusicStreaming\Application\Dto\Config;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\Dto\Config;
 
 interface ConfigInterface
 {

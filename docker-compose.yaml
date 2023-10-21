@@ -22,8 +22,11 @@ services:
       dockerfile: Dockerfile
     image: hw20/rest-api
     container_name: otus-hw-rest-api
+    expose:
+      - "9003"
     volumes:
        - ./rest_api_code:/data/mysite.local
+       - ./data/statements:/data/mysite.local/statements
     networks:
       - app-network
 
@@ -35,6 +38,7 @@ services:
     container_name: otus-hw-worker
     volumes:
        - ./worker_code:/data/mysite.local
+       - ./data/statements:/data/mysite.local/statements
     restart: on-failure
     depends_on:
       - rabbitmq

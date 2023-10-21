@@ -2,19 +2,19 @@
 
 require __DIR__ . "/../vendor/autoload.php";
 
-use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Genre;
-use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Track;
-use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\User;
-use VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Playlist;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\UserMapper;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\GenreMapper;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\TrackMapper;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\DataMapper\PlaylistMapper;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Config\IniConfig;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage\ConnectionManager;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\PlaylistController;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\UserController;
-use VKorabelnikov\Hw16\MusicStreaming\Infrastructure\HttpApiController\TrackController;
+use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Genre;
+use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Track;
+use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\User;
+use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Playlist;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\DataMapper\UserMapper;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\DataMapper\GenreMapper;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\DataMapper\TrackMapper;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\DataMapper\PlaylistMapper;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Config\IniConfig;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\ConnectionManager;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\PlaylistController;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\UserController;
+use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\TrackController;
 
 $config = new IniConfig();
 $connection = new ConnectionManager($config->getAllSettings());

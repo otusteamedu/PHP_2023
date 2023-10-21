@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Config;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Config;
 
-use VKorabelnikov\Hw16\MusicStreaming\Application\Config\ConfigInterface;
-use VKorabelnikov\Hw16\MusicStreaming\Application\Dto\Config;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\Config\ConfigInterface;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\Dto\Config;
 
 class IniConfig implements ConfigInterface
 {
@@ -23,7 +23,11 @@ class IniConfig implements ConfigInterface
             "connectionDbPort",
             "connectionDbName",
             "connectionDbUser",
-            "connectionDbPassword"
+            "connectionDbPassword",
+            "rabbitConnectionHostName",
+            "rabbitConnectionPort",
+            "rabbitConnectionUser",
+            "rabbitConnectionassword"
         ];
 
         $settings = parse_ini_file($sCongigFilePath);

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Application\DataTransfer;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer;
 
-use function VKorabelnikov\Hw16\MusicStreaming\Domain\Model\Functions\convertFromIntToString;
+use function VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Functions\convertFromIntToString;
 
 class EntityListResponse extends Response
 {

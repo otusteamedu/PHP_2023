@@ -10,7 +10,7 @@ class Application
 {
     public function run(): void
     {
-        $queueName = 'account_statement';
+        $queueName = 'orders';
         $rabbitConnection = $this-> getRabbitConnection();
         if (php_sapi_name() == 'cli') {
             $messageReceiver = new MessageReceiver();

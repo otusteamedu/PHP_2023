@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Application\Dto;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\Dto;
 
 class Config
 {
@@ -12,4 +12,9 @@ class Config
     public ?string $connectionDbName;
     public ?string $connectionDbUser;
     public ?string $connectionDbPassword;
+
+    public ?string $rabbitConnectionHostName;
+    public ?string $rabbitConnectionPort;
+    public ?string $rabbitConnectionUser;
+    public ?string $rabbitConnectionassword;
 }

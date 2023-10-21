@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw16\MusicStreaming\Infrastructure\Storage;
+namespace VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;

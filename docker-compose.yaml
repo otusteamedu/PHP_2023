@@ -57,18 +57,20 @@ services:
       - db
 
   db:
-    image: mysql
+    image: postgres
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
     networks:
       - app-network
-  
-  phpMyAdmin:
-    image: phpmyadmin
-    environment:
-      PMA_ARBITRARY: 1
+
+  adminer:
+    image: adminer
+    restart: always
     ports:
-      - "8080:80"
+      - "8081:8080"
     networks:
       - app-network
 

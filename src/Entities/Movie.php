@@ -12,7 +12,8 @@ final class Movie implements EntityInterface
         private ?int $id,
         private string $name,
         private ?string $description,
-    ) {}
+    ) {
+    }
 
     public function getId(): ?int
     {

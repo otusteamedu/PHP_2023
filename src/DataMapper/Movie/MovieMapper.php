@@ -15,16 +15,16 @@ final class MovieMapper extends DataMapper
     {
         parent::__construct($connection);
         $this->selectStatement = $connection->prepare(
-            "select * from ". self::getTableName() ." where id = ?"
+            "select * from " . self::getTableName() . " where id = ?"
         );
         $this->insertStatement = $connection->prepare(
-            "insert into ". self::getTableName() ." (name, description) values (:name, :description)"
+            "insert into " . self::getTableName() . " (name, description) values (:name, :description)"
         );
         $this->updateStatement = $connection->prepare(
-            "update ". self::getTableName() ." set name = :name, description = :description where id = :id",
+            "update " . self::getTableName() . " set name = :name, description = :description where id = :id",
         );
         $this->deleteStatement = $connection->prepare(
-            "delete from ". self::getTableName() ." where id = ?"
+            "delete from " . self::getTableName() . " where id = ?"
         );
         $this->findAllStatement = $connection->prepare(
             "select * from " . self::getTableName()

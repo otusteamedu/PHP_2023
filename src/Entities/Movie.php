@@ -9,12 +9,10 @@ use App\DataMapper\EntityInterface;
 final class Movie implements EntityInterface
 {
     public function __construct(
-        private ?int    $id,
-        private string  $name,
+        private ?int $id,
+        private string $name,
         private ?string $description,
-    )
-    {
-    }
+    ) {}
 
     public function getId(): ?int
     {

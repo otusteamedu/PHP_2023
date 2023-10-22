@@ -6,34 +6,36 @@ require 'vendor/autoload.php';
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-// Подключение к RabbitMQ
-$connection = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
-$channel = $connection->channel();
-
-// Определение очереди
-$queueName = 'banking_queue';
-$channel->queue_declare($queueName, false, false, false, false);
 
 // Обработка POST-запроса от пользователя
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Подключение к RabbitMQ
+    $connection = new AMQPStreamConnection($_ENV['RABBITMQ_HOST'], $_ENV['RABBITMQ_PORT'], $_ENV['RABBITMQ_USER'], $_ENV['RABBITMQ_PASSWORD']);
+    $channel = $connection->channel();
+
+    // Определение очереди
+    $queueName = 'banking_queue';
+    $channel->queue_declare($queueName, false, false, false, false);
+
     // Получите данные из формы
     $startDate = $_POST['start_date'];
     $endDate = $_POST['end_date'];
 
-    // Генерируйте банковскую выписку и сохраните результат в переменной $statement
 
     // Отправьте результат в очередь
-    $message = new AMQPMessage($statement);
+    $message = new AMQPMessage(json_encode([
+        'start_date' => $startDate,
+        'end_date' => $endDate,
+    ]));
     $channel->basic_publish($message, '', $queueName);
 
     echo "Запрос на банковскую выписку отправлен в обработку.";
+    // Закрытие соединения
+    $channel->close();
+    $connection->close();
+    exit();
 }
-
-// Закрытие соединения
-$channel->close();
-$connection->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>

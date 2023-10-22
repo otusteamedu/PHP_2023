@@ -3,6 +3,9 @@ services:
   # Контейнер для banking-app (PHP 8.1 + Apache)
   banking-app:
     image: php:8.1-apache
+    build: 
+      context: .
+      dockerfile: Dockerfile
     ports:
       - "8080:80"
     volumes:
@@ -10,6 +13,9 @@ services:
       - ./my-php.ini:/usr/local/etc/php/conf.d/my-php.ini
     environment:
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_PORT=5672
     depends_on:
       - rabbitmq
     networks:
@@ -30,8 +36,12 @@ services:
     volumes:
       - ./queue:/var/www/html
       - ./my-php.ini:/usr/local/etc/php/conf.d/my-php.ini
+      - ./config.php:/var/www/html/config.php
     environment:
       - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_USER=guest
+      - RABBITMQ_PASSWORD=guest
+      - RABBITMQ_PORT=5672
     depends_on:
       - rabbitmq
     networks:

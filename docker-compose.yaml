@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+
+  php-es:
+    build:
+      context: .docker
+      dockerfile: Dockerfile
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ELASTIC_USER: ${ELASTIC_USER}
+      BULK_FILE: ${BULK_FILE}
+      URL: ${URL}
+      CONFIG_INDEX: ${CONFIG_INDEX}
+    volumes:
+      - ./app:/data

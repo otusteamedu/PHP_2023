@@ -50,8 +50,6 @@ class HttpApiInit
 
     public function runController($requestData)
     {
-        $arUrlParts = explode("/" , $_REQUEST["path"]);
-
         $config = new IniConfig();
         $settingsDTO = $config->getAllSettings();
         $connection = new ConnectionManager($settingsDTO);
@@ -60,28 +58,14 @@ class HttpApiInit
         $rabbitHelper = new RabbitMqHelper(
             $connection->getRabbitConnection($settingsDTO)
         );
-        
-        $controller = new OrderController($pdo, $rabbitHelper);
-        if (
-            stripos($_REQUEST["path"], "/status/")
-            && ($_SERVER['REQUEST_METHOD'] == "GET")
-        ) {
-            $method = "getOrderStatus";
-            $requestData["id"] = $arUrlParts[3];
-        } else if ($_SERVER['REQUEST_METHOD'] == "GET") {
-            $method = "getOrderResults";
-            $requestData["id"] = $arUrlParts[2];
-        } else if ($_SERVER['REQUEST_METHOD'] == "POST") {
-            $method = "create";
-        } else if ($_SERVER['REQUEST_METHOD'] == "PATCH") {
-            $method = "update";
-            $requestData["id"] = $arUrlParts[2];
-        } else {
-            throw new \Exception("method not implemented yet");
-        }
 
+        $routeConfig = $this->getRouteConfig();
+        $controllerClassName = $routeConfig["controllerClass"];
+        $controller = new $controllerClassName($pdo, $rabbitHelper);
+        
+        $controllerMethod = $routeConfig["controllerMethod"];
         $this->output(
-            ((object)$controller)->$method($requestData)
+            ((object)$controller)->$controllerMethod($requestData)
         );
     }
 
@@ -92,5 +76,65 @@ class HttpApiInit
             $data,
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+    public function getRouteConfig()
+    {
+        $routeConfig = $this->getAllRoutesConfig();
+
+        if (!isset($routeConfig[$_SERVER['REQUEST_METHOD']])) {
+            http_response_code(404);
+            exit();
+        }
+        $currentRequestRoutesList = $routeConfig[$_SERVER['REQUEST_METHOD']];
+        if (empty($currentRequestRoutesList)) {
+            http_response_code(404);
+            exit();
+        }
+
+        foreach ($currentRequestRoutesList as $currentRequestRoute) {
+            foreach ($currentRequestRoute as $urlPart) {
+                if ($_REQUEST["path"] != $urlPart) {
+                    break;
+                } else {
+                    return $currentRequestRoute;
+                }
+            }
+        }
+
+        http_response_code(404);
+        exit();
+    }
+
+    public function getAllRoutesConfig(): array
+    {
+        return [
+            "GET" => [
+                [
+                    "requestUrl" => "statement/order/results/",
+                    "controllerClass" => self::HTTP_API_CONTROLLER_NAMESPACE . "OrderController",
+                    "controllerMethod" => "getOrderResults"
+                ],
+                [
+                    "requestUrl" => "statement/order/status/",
+                    "controllerClass" => self::HTTP_API_CONTROLLER_NAMESPACE . "OrderController",
+                    "controllerMethod" => "getOrderStatus"
+                ]
+            ],
+            "POST" => [
+                [
+                    "requestUrl" => "statement/order/",
+                    "controllerClass" => self::HTTP_API_CONTROLLER_NAMESPACE . "OrderController",
+                    "controllerMethod" => "create"
+                ]
+            ],
+            "PATCH" => [
+                [
+                    "requestUrl" => "statement/order/",
+                    "controllerClass" => self::HTTP_API_CONTROLLER_NAMESPACE . "OrderController",
+                    "controllerMethod" => "update"
+                ]
+            ]
+        ];
     }
 }

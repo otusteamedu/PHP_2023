@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage;
 
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\Storage\RabbitMqHelperInterface;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMqHelper
+class RabbitMqHelper implements RabbitMqHelperInterface
 {
     protected AMQPStreamConnection $connection;
 
@@ -45,7 +46,6 @@ class RabbitMqHelper
             echo 'отправляем полученную выписку клиенту' . PHP_EOL;
             echo 'отправляем брокеру подтверждение, что сообщение успешно обработано. Это сообщение будет удалено из очереди.' . PHP_EOL;
             $msg->ack();
-            // curl -X PUT /processing/
         };
 
         $channel->basic_qos(null, 1, null);

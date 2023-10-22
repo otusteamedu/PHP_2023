@@ -5,28 +5,37 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\UseCase;
 
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\Storage\DataMapper\OrderMapperInterface;
-use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\RabbitMqHelper;
-use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Order;
 
 class UpdateOrderUseCase
 {
+    const STATEMENTS_DIRECTORY = "/data/mysite.local/statements/";
+
     protected OrderMapperInterface $orderMapper;
-    protected RabbitMqHelper $rabbitHelper;
 
     public function __construct(
-        OrderMapperInterface $orderMapper,
-        RabbitMqHelper $rabbitHelper
+        OrderMapperInterface $orderMapper
     ) {
         $this->orderMapper = $orderMapper;
-        $this->rabbitHelper = $rabbitHelper;
+    }
+
+    public function validateOrderId($orderId)
+    {
+        if (empty($orderId)) {
+            throw new \Exception("Не передан обязательный параметр orderId");
+        } elseif (
+            !is_int($orderId)
+            && (preg_match("#^\d+$#", $orderId) != 1)
+            ) {
+            throw new \Exception("Некорректно заполнено поле orderId");
+        }
     }
 
     public function update(array $requestParams): void
     {
-        // $order = $this->orderMapper->findByStatementNumber($requestParams["statementNumber"]);
-        $order = $this->orderMapper->findById((int) $requestParams["id"]);
+        $this->validateOrderId($requestParams["orderId"]);
+        $order = $this->orderMapper->findById((int) $requestParams["orderId"]);
         $order->setStatus($requestParams["status"]);
-        $order->setFilePath($requestParams["filePath"]);
+        $order->setFilePath(self::STATEMENTS_DIRECTORY . $requestParams["fileName"]);
         $this->orderMapper->update($order);
     }
 }

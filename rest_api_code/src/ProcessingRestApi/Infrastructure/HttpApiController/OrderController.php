@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController;
 
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer\Response;
-use VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer\StringResponse;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\DataTransfer\AssocArrayResponse;
 use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\RabbitMqHelper;
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\UseCase\CreateOrderUseCase;
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\UseCase\UpdateOrderUseCase;
@@ -28,25 +28,27 @@ class OrderController
     public function create(array $requestParams): Response
     {
         $createOrderUseCase = new CreateOrderUseCase(new OrderMapper($this->pdo), $this->rabbitHelper);
-        $createOrderUseCase->create($requestParams);
-        return new Response(true);
+        return new AssocArrayResponse(
+            [
+                "orderId" => $createOrderUseCase->create($requestParams)
+            ]
+        );
     }
 
-    public function getOrderResults(array $requestParams): Response
+    public function getOrderResults(array $requestParams): void
     {
         $createOrderUseCase = new GetOrderResultsUseCase(new OrderMapper($this->pdo), $this->rabbitHelper);
-        return new StringResponse(
-            "file",
-            $createOrderUseCase->getOrderResults($requestParams)
-        );
+        $createOrderUseCase->getOrderResults($requestParams);
     }
 
     public function getOrderStatus(array $requestParams): Response
     {
         $getOrderStatusUseCase = new GetOrderStatusUseCase(new OrderMapper($this->pdo), $this->rabbitHelper);
-        return new StringResponse(
-            "status",
-            $getOrderStatusUseCase->getOrderStatus($requestParams)
+        return new AssocArrayResponse(
+            [
+                "status" => $getOrderStatusUseCase->getOrderStatus($requestParams),
+                "statementNumber" => $getOrderStatusUseCase->getStatementNumber($requestParams)
+            ]
         );
     }
 

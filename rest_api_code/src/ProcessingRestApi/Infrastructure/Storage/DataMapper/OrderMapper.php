@@ -59,7 +59,7 @@ class OrderMapper implements OrderMapperInterface
         $row = $this->selectByIdStatement->fetch();
 
         if (!$row) {
-            throw new TableRowNotFoundException("order with id not found");
+            throw new TableRowNotFoundException("Заказ с указанным id не найден");
         }
 
         return new Order(
@@ -69,27 +69,6 @@ class OrderMapper implements OrderMapperInterface
             $row['file_path']
         );
     }
-
-    public function findByStatementNumber(string $statementNumber): Order
-    {
-        $this->selectByStatementNumberStatement->setFetchMode(\PDO::FETCH_ASSOC);
-        // var_dump($statementNumber);die("11111");
-        $this->selectByStatementNumberStatement->execute(["statement_number" => $statementNumber]);
-        $row = $this->selectByStatementNumberStatement->fetch();
-
-        if (!$row) {
-            throw new TableRowNotFoundException("order with id not found");
-        }
-
-        return new Order(
-            $row['id'],
-            $row['status'],
-            $row['statement_number'],
-            $row['file_path']
-        );
-    }
-
-    
 
     public function insert(Order $order): void
     {

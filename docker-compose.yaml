@@ -7,7 +7,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: hw20/nginx
-    container_name: otus-hw-nginx
+    container_name: mysite.local
     ports:
       - "80:80"
     volumes:

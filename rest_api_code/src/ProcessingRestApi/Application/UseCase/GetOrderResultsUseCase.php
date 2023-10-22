@@ -5,30 +5,35 @@ declare(strict_types=1);
 namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\UseCase;
 
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\Storage\DataMapper\OrderMapperInterface;
-use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\RabbitMqHelper;
-use VKorabelnikov\Hw20\ProcessingRestApi\Domain\Model\Order;
 
 
 class GetOrderResultsUseCase
 {
     protected OrderMapperInterface $orderMapper;
-    protected RabbitMqHelper $rabbitHelper;
 
     public function __construct(
-        OrderMapperInterface $orderMapper,
-        RabbitMqHelper $rabbitHelper
+        OrderMapperInterface $orderMapper
     ) {
         $this->orderMapper = $orderMapper;
-        $this->rabbitHelper = $rabbitHelper;
     }
 
     public function getOrderResults(array $requestParams): string
     {
-        $order = $this->orderMapper->findById((int) $requestParams["id"]);
+        if (empty($requestParams["orderId"])) {
+            throw new \Exception("Не передан обязательный параметр orderId");
+        } elseif (preg_match("#^\d+$#", $requestParams["orderId"]) != 1) {
+            throw new \Exception("Некорректно заполнено поле orderId");
+        }
+
+        $order = $this->orderMapper->findById((int) $requestParams["orderId"]);
+        if ($order->getStatus() != "completed") {
+            throw new \Exception("Документ еще не готов.");
+        }
+        if (!file_exists($order->getFilePath())) {
+            throw new \Exception("Запрошенный документ не найден на диске.");
+        }
         header("Content-type: application/octet-stream");
         header('Content-Disposition:attachment;filename="statement.txt"');
         exit(readfile($order->getFilePath()));
-       
-        // return $order->getFilePath();
     }
 }

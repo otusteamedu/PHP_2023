@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Storage;
+namespace App\Application\Contracts;
 
-use App\Model\Event;
+use App\Domain\Models\Event;
 
 interface StorageInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Storage;
+namespace App\Domain\Models;
 
-use App\Model\Event;
+use App\Application\Contracts\StorageInterface;
 use JsonException;
 use Predis\Client;
 

@@ -1,6 +1,6 @@
 {
-    "name": "mkhusaynov/hw12",
-    "description": "hw12",
+    "name": "mkhusaynov/hw15",
+    "description": "hw15",
     "type": "project",
     "autoload": {
         "psr-4": {
@@ -22,8 +22,7 @@
         }
     },
     "require-dev": {
-        "roave/security-advisories": "dev-latest"
-        ,
+        "roave/security-advisories": "dev-latest",
         "friendsofphp/php-cs-fixer": "^3.34"
     }
 }

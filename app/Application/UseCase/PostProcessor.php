@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Application\UseCase;
 
-use App\Http\Response;
-use App\Model\Event;
-use App\Storage\StorageInterface;
+use App\Application\Contracts\StorageInterface;
+use App\Domain\Models\Event;
+use App\Domain\Models\Response;
 use RuntimeException;
 
 class PostProcessor

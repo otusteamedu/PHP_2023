@@ -8,8 +8,7 @@ explain analyse
         films as f
         join sessions s on f.id = s.film_id
     where
-        s.day::text = replace(TO_CHAR(CURRENT_DATE, 'day'),' ', '')
-        and s.year = EXTRACT(year FROM now());
+        s.date = CURRENT_DATE;
 
 -- QUERY PLAN
 -- Nested Loop  (cost=0.29..4502.62 rows=2 width=33) (actual time=0.143..80.660 rows=2004 loops=1)
@@ -22,7 +21,7 @@ explain analyse
 -- Execution Time: 80.888 ms
 
 -- Добавил составной ндекс по полю day, year
-CREATE INDEX idx_day_year ON sessions(day, year);
+CREATE INDEX idx_day_year ON sessions(date);
 
 -- QUERY PLAN
 -- Nested Loop  (cost=0.29..4502.62 rows=2 width=33) (actual time=0.070..59.272 rows=2004 loops=1)

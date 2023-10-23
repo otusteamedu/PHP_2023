@@ -13,8 +13,7 @@ explain analyse
         join halls h on s.hall_id = h.id
         join prices p on s.price_id = p.id
     where
-        s.day::text = replace(TO_CHAR(CURRENT_DATE, 'day'),' ', '')
-        and s.year = EXTRACT(year FROM now())
+        s.date = CURRENT_DATE;
  order by
         h.name,
         s.time;
@@ -45,7 +44,7 @@ explain analyse
 
 
 -- Добавил составной индекс по полю day, year
-CREATE INDEX idx_day_year ON sessions(day, year);
+CREATE INDEX idx_day_year ON sessions(date);
 
 -- QUERY PLAN
 -- Sort  (cost=4530.44..4530.45 rows=2 width=263) (actual time=85.962..86.035 rows=2004 loops=1)

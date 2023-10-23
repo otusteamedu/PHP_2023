@@ -7,7 +7,7 @@ use Nikitaglobal\Model\Queues as Queues;
 
 class App
 {
-    function __construct()
+    public function __construct()
     {
     }
 

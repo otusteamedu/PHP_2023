@@ -11,8 +11,6 @@ services:
     image: myapp/redis
     container_name: redis
     command: redis-server --save 20 1 --loglevel warning --requirepass 123
-    ports:
-      - 6379:6379
     networks:
       - hw1-network
   
@@ -23,8 +21,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/memcached
     container_name: memcached
-    ports:
-      - 11211:11211
     networks:
       - hw1-network
 
@@ -68,8 +64,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - 3306:3306
     volumes:
       - mysql-data:/var/lib/mysql
     networks:

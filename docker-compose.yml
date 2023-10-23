@@ -1,0 +1,38 @@
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./_docker/nginx
+      dockerfile: Dockerfile
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его php
+  php:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./_docker/php
+      dockerfile: Dockerfile
+    volumes:
+       - ./:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    ports:
+      - 6379:6379
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

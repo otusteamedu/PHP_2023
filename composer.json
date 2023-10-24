@@ -1,0 +1,19 @@
+{
+    "name": "dkhalikov/hw5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "DKhalikov\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "damir",
+            "email": "khalikov@beta.agency"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*",
+      "ext-readline": "*"
+    }
+}

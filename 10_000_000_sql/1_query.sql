@@ -10,35 +10,37 @@ explain analyse
     where
         s.date = CURRENT_DATE;
 
--- QUERY PLAN
--- Nested Loop  (cost=0.29..4502.62 rows=2 width=33) (actual time=0.143..80.660 rows=2004 loops=1)
---   ->  Seq Scan on sessions s  (cost=0.00..4486.00 rows=2 width=10) (actual time=0.118..69.610 rows=2004 loops=1)
---         Filter: (((year)::double precision = date_part('year'::text, now())) AND ((day)::text = replace(to_char((CURRENT_DATE)::timestamp with time zone, 'day'::text), ' '::text, ''::text)))
---         Rows Removed by Filter: 97996
---   ->  Index Scan using films_pkey on films f  (cost=0.29..8.31 rows=1 width=31) (actual time=0.004..0.004 rows=1 loops=2004)
+--QUERY PLAN                                                               
+-- ---------------------------------------------------------------------------------------------------------------------------------------
+-- Nested Loop  (cost=1000.43..117679.22 rows=1 width=13) (actual time=232.328..239.200 rows=0 loops=1)
+--   ->  Gather  (cost=1000.00..117670.77 rows=1 width=4) (actual time=232.327..239.198 rows=0 loops=1)
+--         Workers Planned: 2
+--         Workers Launched: 2
+--         ->  Parallel Seq Scan on ticket_sales ts  (cost=0.00..116670.67 rows=1 width=4) (actual time=175.479..175.479 rows=0 loops=3)
+--               Filter: (sale_date = CURRENT_DATE)
+--               Rows Removed by Filter: 3336667
+--   ->  Index Scan using movies_pkey on movies m  (cost=0.43..8.45 rows=1 width=17) (never executed)
 --         Index Cond: (id = s.film_id)
--- Planning Time: 0.883 ms
--- Execution Time: 80.888 ms
+-- Planning Time: 0.820 ms
+-- JIT:
+--   Functions: 17
+--   Options: Inlining false, Optimization false, Expressions true, Deforming true
+--   Timing: Generation 1.160 ms, Inlining 0.000 ms, Optimization 0.526 ms, Emission 10.783 ms, Total 12.469 ms
+-- Execution Time: 239.594 ms
+--(15 rows)
 
 -- Добавил составной ндекс по полю day, year
-CREATE INDEX idx_day_year ON sessions(date);
+CREATE INDEX idx_date ON sessions(date);
 
--- QUERY PLAN
--- Nested Loop  (cost=0.29..4502.62 rows=2 width=33) (actual time=0.070..59.272 rows=2004 loops=1)
---   ->  Seq Scan on sessions s  (cost=0.00..4486.00 rows=2 width=10) (actual time=0.058..53.745 rows=2004 loops=1)
---         Filter: (((year)::double precision = date_part('year'::text, now())) AND ((day)::text = replace(to_char((CURRENT_DATE)::timestamp with time zone, 'day'::text), ' '::text, ''::text)))
---         Rows Removed by Filter: 97996
---   ->  Index Scan using films_pkey on films f  (cost=0.29..8.31 rows=1 width=31) (actual time=0.002..0.002 rows=1 loops=2004)
---         Index Cond: (id = s.film_id)
--- Planning Time: 1.301 ms
--- Execution Time: 59.454 ms
+--QUERY PLAN                                                                    
+--------------------------------------------------------------------------------------------------------------------------------------------------
+-- Nested Loop  (cost=0.87..16.91 rows=1 width=13) (actual time=0.056..0.057 rows=0 loops=1)
+--   ->  Index Scan using idx_date on sessions f  (cost=0.44..8.46 rows=1 width=4) (actual time=0.055..0.055 rows=0 loops=1)
+--         Index Cond: (date = CURRENT_DATE)
+--   ->  Index Scan using films_pkey on films f  (cost=0.43..8.45 rows=1 width=17) (never executed)
+--         Index Cond: (id = ts.movie_id)
+-- Planning Time: 0.813 ms
+-- Execution Time: 0.097 ms
+-- (7 rows)
 
-
--- Анализ этого запроса показал, что применение индекса
---  - индекс idx_day_year вообще не применился, postgres выбрал оптимальным последовательное чтение данных 
---  - немного снизилось время получения первой строки
-
--- В таблице sessions время сессии решил разделить на несколько полей - время, день, год. Подумал, что системе будет проще и быстрее 
--- считывать и перебирать данные чем если это было бы в одно поле, например timestamp или datetime - то приходилось мы на лету все подсчитывать
-
--- Вывод: применение индекса не оправданно 
+-- Вывод: индексирование ускоряет запрос в 2 раза

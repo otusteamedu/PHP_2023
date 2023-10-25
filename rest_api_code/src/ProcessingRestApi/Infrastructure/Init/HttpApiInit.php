@@ -17,22 +17,7 @@ class HttpApiInit
     public function run()
     {
         try {
-            $requestJson = file_get_contents('php://input');
-            $requestData = json_decode($requestJson, true);
-            if (
-                ($_SERVER['REQUEST_METHOD'] !== "GET")
-                && (
-                    ($requestData === false)
-                    || (!is_array($requestData)
-                    )
-                )
-            ) {
-                throw new \Exception("Incorrect request JSON!");
-            }
-
-
-        
-            $this->runController($requestData);
+            $this->runController();
         } catch (\Exception $e) {
             $this->output(
                 new ErrorResponse(
@@ -50,8 +35,26 @@ class HttpApiInit
         // }
     }
 
+    public function getRequestInput(): array
+    {
+        $requestData = [];
+        if ($_SERVER['REQUEST_METHOD'] === "GET") {
+            $requestData = $_GET;
+        } else {
+            $requestJson = file_get_contents('php://input');
+            if (!empty(trim($requestJson))) {
+                $requestData = json_decode($requestJson, true);
+                if (!is_array($requestData)) {
+                    throw new \Exception("Некорректный JSON!");
+                }
+            }
+        }
 
-    public function runController($requestData)
+        return $requestData;
+    }
+
+
+    public function runController()
     {
         $config = new IniConfig();
         $settingsDTO = $config->getAllSettings();
@@ -67,6 +70,7 @@ class HttpApiInit
         $controller = new $controllerClassName($pdo, $rabbitHelper);
         
         $controllerMethod = $routeConfig["controllerMethod"];
+        $requestData = $this->getRequestInput();
         $this->output(
             ((object)$controller)->$controllerMethod($requestData),
             200

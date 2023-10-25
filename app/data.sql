@@ -24,15 +24,15 @@ INSERT INTO "attributes_type" ("id", "name") VALUES
 (7,	'integer'),
 (8,	'float');
 
-INSERT INTO "attributes_values" ("id", "film_id", "attribute_id", "value") VALUES
-(1,	1,	4,	'9.1'),
-(2,	1,	5,	'8.6'),
-(3,	8,	4,	'9.0'),
-(4,	8,	5,	'9.3'),
-(5,	7,	12,	'Твой разум - место преступления'),
-(6,	4,	12,	'ТИнтриги. Хаос. Мыло'),
-(7,	3,	13,	'165000000'),
-(8,	6,	13,	'19000000');
+INSERT INTO "attributes_values" ("id", "film_id", "attribute_id", "val_text", "val_date", "val_num", "val_bool", "val_int", "val_money") VALUES
+             (1,	1,	4,	'',	NULL,	9.1,	NULL,	NULL,	NULL),
+             (2,	1,	5,	'',	NULL,	8.6,	NULL,	NULL,	NULL),
+             (3,	8,	4,	'',	NULL,	9,	NULL,	NULL,	NULL),
+             (4,	8,	5,	'',	NULL,	9.3,	NULL,	NULL,	NULL),
+             (5,	7,	12,	'Твой разум - место преступления',	NULL,	NULL,	NULL,	NULL,	NULL),
+             (6,	4,	12,	'Интриги. Хаос. Мыло',	NULL,	NULL,	NULL,	NULL,	NULL),
+             (7,	3,	13,	'',	NULL,	NULL,	NULL,	NULL,	'$165,000,000.00'),
+             (8,	6,	13,	'',	NULL,	NULL,	NULL,	NULL,	'$19,000,000.00');
 
 INSERT INTO "films" ("id", "name", "genre", "year_of_release", "duration") VALUES
 (1,	'The Green Mile',	'drama',	1999,	189),

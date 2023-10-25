@@ -1,12 +1,15 @@
-CREATE VIEW "marketing_view" AS 
-   SELECT films.name AS film_name,
-    attributes_type.name AS attribute_type_name,
-    attributes.name AS attribute_name,
-    attributes_values.value AS attribute_value
-   FROM (((films
-     LEFT JOIN attributes_values ON ((films.id = attributes_values.film_id)))
-     LEFT JOIN attributes ON ((attributes.id = attributes_values.attribute_id)))
-     LEFT JOIN attributes_type ON ((attributes_type.id = attributes.id)));
+CREATE VIEW "marketing_view" AS
+SELECT films.name AS film_name, CONCAT('(' , attributes_type.name, ')', ' ', attributes.name) as attribute,
+       COALESCE(
+               attributes_values.val_num::text,
+               attributes_values.val_money::text,
+               attributes_values.val_text
+           ) AS attr_val
+FROM attributes_values
+         LEFT JOIN films ON films.id = attributes_values.film_id
+         LEFT JOIN attributes ON attributes.id = attributes_values.attribute_id
+         LEFT JOIN attributes_type ON attributes_type.id = attributes.type_id
+ORDER BY attributes_type.name;
 
 CREATE VIEW "sessions_schedule_view" AS WITH sessions_today AS (
          SELECT halls.name AS hall,

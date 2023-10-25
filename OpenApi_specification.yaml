@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: API заказа выписок по счету
+  description: |-
+    Данный API позволяет выполнить заказ выписки по счету. Статус данного заказа можно отслеживать. Когда заказ перейдет в статус "completed", то можно скачать файл выписки.
+  contact:
+    email: developer_email@example.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+  - url: http://mysite.local/api/v1/
+paths:
+  /statement/order/:
+    post:
+      summary: Создать новую заявку
+      description: Создать новую заявку на получение выписки по счету
+      operationId: createOrder
+      requestBody:
+        description: Создать новую заявку на получение выписки по счету
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateOrderRequest'
+        required: true
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateOrderResponse'
+        '400':
+          description: Ответ с ошибкой
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      summary: Обновить свойства заказа
+      description: Обновить свойства заказа
+      operationId: updateOrder
+      requestBody:
+        description: Обновить свойства заказа
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateOrderRequest'
+        required: true
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateOrderResponse'
+        '400':
+          description: Ответ с ошибкой
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /statement/order/status/:
+    get:
+      summary: Получить статус заказа
+      description: Получить статус заказа с переданным значением id
+      operationId: getOrderStatus
+      parameters:
+        - name: orderId
+          in: query
+          description: id заказа
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GetOrderStatusResponse'          
+        '400':
+          description: Ответ с ошибкой
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /statement/order/results/:
+    get:
+      summary: Скачать файл выписки
+      description: Скачать файл выписки заказа с переданным id
+      operationId: getOrderResults
+      parameters:
+        - name: orderId
+          in: query
+          description: id заказа
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Успешный ответ
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Ответ с ошибкой
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    CreateOrderRequest:
+      type: object
+      properties:
+        statementNumber:
+          type: string
+    CreateOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        orderId:
+          type: integer
+    UpdateOrderRequest:
+      type: object
+      properties:
+        fileName:
+          type: string
+        status:
+          type: string
+          enum:
+            - processing
+            - completed
+        orderId:
+          type: integer
+    UpdateOrderResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+    GetOrderStatusResponse:
+      type: object
+      properties:
+        statementNumber:
+          type: string
+        status:
+          type: string
+          enum:
+            - processing
+            - completed
+        success:
+          type: boolean
+    ErrorResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        errorDescription:
+          type: integer

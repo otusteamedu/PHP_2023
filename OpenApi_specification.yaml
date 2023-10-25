@@ -167,4 +167,4 @@ components:
         success:
           type: boolean
         errorDescription:
-          type: integer
+          type: string

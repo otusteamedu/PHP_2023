@@ -23,11 +23,6 @@ services:
       dockerfile: Dockerfile
     image: myapp/php
     container_name: app
-    environment:
-      MYSQL_HOST: ${MYSQL_HOST}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
     volumes:
        - ./src:/data/mysite.local
        - phpsocket:/var/run

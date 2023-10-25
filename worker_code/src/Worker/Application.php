@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw19\AccountStatement;
+namespace VKorabelnikov\Hw20\Worker;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -10,15 +10,11 @@ class Application
 {
     public function run(): void
     {
-        $queueName = 'orders';
-        $rabbitConnection = $this-> getRabbitConnection();
-        if (php_sapi_name() == 'cli') {
-            $messageReceiver = new MessageReceiver();
-            $messageReceiver->run($rabbitConnection, $queueName);
-        } else {
-            $formHandler = new FormHandler();
-            echo $formHandler->run($rabbitConnection, $queueName);
-        }
+        $messageReceiver = new MessageReceiver();
+        $messageReceiver->run(
+            $this->getRabbitConnection(),
+            'orders'
+        );
     }
 
     protected function readConfigFile(): array

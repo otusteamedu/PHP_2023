@@ -1,9 +1,9 @@
 {
-    "name": "v-korabelnikov/hw19",
+    "name": "v-korabelnikov/hw20",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "VKorabelnikov\\Hw19\\": "src/"
+            "VKorabelnikov\\Hw20\\": "src/"
         }
     },
     "config": {

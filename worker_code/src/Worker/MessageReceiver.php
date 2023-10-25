@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace VKorabelnikov\Hw19\AccountStatement;
+namespace VKorabelnikov\Hw20\Worker;
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 

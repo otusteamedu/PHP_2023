@@ -16,33 +16,36 @@ class HttpApiInit
 
     public function run()
     {
-        $requestJson = file_get_contents('php://input');
-        $requestData = json_decode($requestJson, true);
-        if (
-            ($_SERVER['REQUEST_METHOD'] !== "GET")
-            && (
-                ($requestData === false)
-                || (!is_array($requestData)
-                )
-            )
-        ) {
-            die("Incorrect request JSON!");
-        }
-
-
         try {
+            $requestJson = file_get_contents('php://input');
+            $requestData = json_decode($requestJson, true);
+            if (
+                ($_SERVER['REQUEST_METHOD'] !== "GET")
+                && (
+                    ($requestData === false)
+                    || (!is_array($requestData)
+                    )
+                )
+            ) {
+                throw new \Exception("Incorrect request JSON!");
+            }
+
+
+        
             $this->runController($requestData);
         } catch (\Exception $e) {
             $this->output(
                 new ErrorResponse(
                     $e->getMessage()
-                )
+                ),
+                400
             );
         } //catch (\Throwable $e) {
         //     $this->output(
         //         new ErrorResponse(
         //             "Internal error occured."
-        //         )
+        //         ),
+                // 400
         //     );
         // }
     }
@@ -65,17 +68,25 @@ class HttpApiInit
         
         $controllerMethod = $routeConfig["controllerMethod"];
         $this->output(
-            ((object)$controller)->$controllerMethod($requestData)
+            ((object)$controller)->$controllerMethod($requestData),
+            200
         );
     }
 
-    public function output($data)
+    public function output($data, $responseCode = 200)
     {
         header("Content-Type: application/json");
+        http_response_code($responseCode);
         echo json_encode(
             $data,
             JSON_UNESCAPED_UNICODE
         );
+    }
+
+    public function return404Response()
+    {
+        http_response_code(404);
+        exit();
     }
 
     public function getRouteConfig()
@@ -83,13 +94,11 @@ class HttpApiInit
         $routeConfig = $this->getAllRoutesConfig();
 
         if (!isset($routeConfig[$_SERVER['REQUEST_METHOD']])) {
-            http_response_code(404);
-            exit();
+            $this->return404Response();
         }
         $currentRequestRoutesList = $routeConfig[$_SERVER['REQUEST_METHOD']];
         if (empty($currentRequestRoutesList)) {
-            http_response_code(404);
-            exit();
+            $this->return404Response();
         }
 
         foreach ($currentRequestRoutesList as $currentRequestRoute) {
@@ -102,8 +111,7 @@ class HttpApiInit
             }
         }
 
-        http_response_code(404);
-        exit();
+        $this->return404Response();
     }
 
     public function getAllRoutesConfig(): array

@@ -2,7 +2,7 @@
 
 include '/data/mysite.local/vendor/autoload.php';
 
-use VKorabelnikov\Hw19\AccountStatement\Application;
+use VKorabelnikov\Hw20\Worker\Application;
 
 try {
     $app = new Application();

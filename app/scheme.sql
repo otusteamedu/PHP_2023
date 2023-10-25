@@ -24,11 +24,16 @@ DROP SEQUENCE IF EXISTS attributes_values_id_seq;
 CREATE SEQUENCE attributes_values_id_seq INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
 CREATE TABLE "public"."attributes_values" (
-    "id" integer DEFAULT nextval('attributes_values_id_seq') NOT NULL,
-    "film_id" integer NOT NULL,
-    "attribute_id" integer NOT NULL,
-    "value" text,
-    CONSTRAINT "attributes_values_pk" PRIMARY KEY ("id")
+      "id" integer DEFAULT nextval('attributes_values_id_seq') NOT NULL,
+      "film_id" integer NOT NULL,
+      "attribute_id" integer NOT NULL,
+      "val_text" text,
+      "val_date" date,
+      "val_num" real,
+      "val_bool" boolean,
+      "val_int" integer,
+      "val_money" money,
+      CONSTRAINT "attributes_values_pk" PRIMARY KEY ("id")
 ) WITH (oids = false);
 
 DROP TABLE IF EXISTS "films";

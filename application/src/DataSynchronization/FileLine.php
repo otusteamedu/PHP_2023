@@ -57,7 +57,7 @@ class FileLine
         ];
 
         foreach ($fields as $field) {
-            if(!array_key_exists($field, $this->data)) {
+            if (!array_key_exists($field, $this->data)) {
                 throw DataSynchronizationException::invalidElasticSearchOrder($field, $this->data);
             }
         }
@@ -75,7 +75,7 @@ class FileLine
         ];
 
         foreach ($fields as $field) {
-            if(!array_key_exists($field, $this->data['create'])) {
+            if (!array_key_exists($field, $this->data['create'])) {
                 throw DataSynchronizationException::invalidElasticSearchCreate($field, $this->data['create']);
             }
         }

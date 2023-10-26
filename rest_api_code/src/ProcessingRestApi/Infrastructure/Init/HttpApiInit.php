@@ -46,7 +46,7 @@ class HttpApiInit
         $routeConfig = $this->getRouteConfig();
         $controllerClassName = $routeConfig["controllerClass"];
         $controller = new $controllerClassName($pdo, $rabbitHelper);
-        
+
         $controllerMethod = $routeConfig["controllerMethod"];
         $requestData = $this->getRequestInput();
         $this->output(

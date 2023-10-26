@@ -2,6 +2,9 @@ Vagrant.configure("2") do |config|
   # Added OC
   config.vm.box = "ubuntu/focal64"
 
+  # Access to DHCP
+  config.vm.network "public_network"
+
   # set shell script that install necessary packages
   config.vm.provision :shell, path: "bootstrap.sh"
 

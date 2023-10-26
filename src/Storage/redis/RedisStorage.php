@@ -16,9 +16,9 @@ class RedisStorage implements StorageInterface
 
     private AbstractIndex $index;
 
-    public function __construct(string $host, string $indexName)
+    public function __construct(string $indexName)
     {
-        $this->client = (new PredisAdapter())->connect($host);
+        $this->client = (new PredisAdapter())->connect();
         $this->index = (new Index($this->client, $indexName))->createIndex();
     }
 

@@ -18,14 +18,11 @@ class Index
 
     public function createIndex(): AbstractIndex
     {
-        $index = new EhannIndex($this->client, $this->indexName);
-        $index
+        return (new EhannIndex($this->client, $this->indexName))
             ->addNumericField('priority')
             ->addTextField('event')
             ->addNumericField('param1')
             ->addNumericField('param2')
             ->create();
-
-        return $index;
     }
 }

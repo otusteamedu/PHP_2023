@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "23c9fb028896074849d9adffeb44cf0b",
+    "content-hash": "660b46f445e900cd72b09bdd7e06dce1",
     "packages": [
         {
             "name": "ethanhann/redis-raw",
@@ -471,7 +471,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.1"
+        "php": ">=8.1"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

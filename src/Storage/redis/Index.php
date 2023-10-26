@@ -12,7 +12,7 @@ class Index
 {
     public function __construct(
         readonly RedisRawClientInterface $client,
-        readonly string                  $indexName
+        readonly string $indexName
     ) {
     }
 

@@ -17,5 +17,3 @@ try {
 } catch (FieldNotInSchemaException $e) {
     echo $e->getMessage();
 }
-
-

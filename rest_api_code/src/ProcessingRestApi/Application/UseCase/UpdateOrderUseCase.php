@@ -25,7 +25,7 @@ class UpdateOrderUseCase
         } elseif (
             !is_int($orderId)
             && (preg_match("#^\d+$#", $orderId) != 1)
-            ) {
+        ) {
             throw new \Exception("Некорректно заполнено поле orderId");
         }
     }
@@ -39,4 +39,3 @@ class UpdateOrderUseCase
         $this->orderMapper->update($order);
     }
 }
-

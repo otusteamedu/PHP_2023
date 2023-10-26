@@ -25,9 +25,7 @@ class GetOrderStatusUseCase
 
     public function validateOrderId($orderId)
     {
-        if (empty($orderId)) {
-            throw new \Exception("Не передан обязательный параметр orderId");
-        } elseif (preg_match("#^\d+$#", $orderId) != 1) {
+        if (preg_match("#^\d+$#", $orderId) != 1) {
             throw new \Exception("Некорректно заполнено поле orderId");
         }
     }
@@ -35,6 +33,9 @@ class GetOrderStatusUseCase
     public function getOrderStatus(array $requestParams): string
     {
         if (empty($this->order)) {
+            if (empty($requestParams["orderId"])) {
+                throw new \Exception("Не передан обязательный параметр orderId");
+            }
             $this->validateOrderId($requestParams["orderId"]);
             $this->loadOrderById((int) $requestParams["orderId"]);
         }
@@ -44,6 +45,9 @@ class GetOrderStatusUseCase
     public function getStatementNumber(array $requestParams): string
     {
         if (empty($this->order)) {
+            if (empty($requestParams["orderId"])) {
+                throw new \Exception("Не передан обязательный параметр orderId");
+            }
             $this->validateOrderId($requestParams["orderId"]);
             $this->loadOrderById((int) $requestParams["orderId"]);
         }

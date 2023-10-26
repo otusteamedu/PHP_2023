@@ -92,7 +92,7 @@ class MessageReceiver
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_HEADER, 0);
         $response = curl_exec($ch);
-        if(curl_error($ch)) {
+        if (curl_error($ch)) {
             throw new \Exception("Произошла ошибка в отправке запроса через CURL" . curl_error($ch) . PHP_EOL);
         }
         curl_close($ch);
@@ -101,7 +101,7 @@ class MessageReceiver
         if (
             !isset($decodedResponse["success"])
             || ($decodedResponse["success"] != true)
-            ) {
+        ) {
             throw new \Exception("Не удалось поменять статус заказа. Ответ от API:" . $response . PHP_EOL);
         }
     }

@@ -6,7 +6,6 @@ namespace VKorabelnikov\Hw20\ProcessingRestApi\Application\UseCase;
 
 use VKorabelnikov\Hw20\ProcessingRestApi\Application\Storage\DataMapper\OrderMapperInterface;
 
-
 class GetOrderResultsUseCase
 {
     protected OrderMapperInterface $orderMapper;

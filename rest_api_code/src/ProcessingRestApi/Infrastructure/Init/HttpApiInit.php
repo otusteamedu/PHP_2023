@@ -14,27 +14,6 @@ class HttpApiInit
 {
     const HTTP_API_CONTROLLER_NAMESPACE = 'VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\\';
 
-    public function run()
-    {
-        try {
-            $this->runController();
-        } catch (\Exception $e) {
-            $this->output(
-                new ErrorResponse(
-                    $e->getMessage()
-                ),
-                400
-            );
-        } //catch (\Throwable $e) {
-        //     $this->output(
-        //         new ErrorResponse(
-        //             "Internal error occured."
-        //         ),
-                // 400
-        //     );
-        // }
-    }
-
     public function getRequestInput(): array
     {
         $requestData = [];
@@ -53,8 +32,7 @@ class HttpApiInit
         return $requestData;
     }
 
-
-    public function runController()
+    public function run()
     {
         $config = new IniConfig();
         $settingsDTO = $config->getAllSettings();

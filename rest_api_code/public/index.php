@@ -1,5 +1,0 @@
-<?
-
-echo date("Y");
-
-phpinfo();

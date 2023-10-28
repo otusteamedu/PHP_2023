@@ -8,7 +8,7 @@ use VKorabelnikov\Hw20\ProcessingRestApi\Application\Storage\DataMapper\OrderMap
 
 class UpdateOrderUseCase
 {
-    const STATEMENTS_DIRECTORY = "/data/mysite.local/statements/";
+    const STATEMENTS_DIRECTORY = "/data/mysite.local/public/statements/";
 
     protected OrderMapperInterface $orderMapper;
 

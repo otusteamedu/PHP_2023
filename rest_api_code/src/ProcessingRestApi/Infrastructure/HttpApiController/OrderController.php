@@ -35,10 +35,16 @@ class OrderController
         );
     }
 
-    public function getOrderResults(array $requestParams): void
+    public function getOrderResults(array $requestParams): Response
     {
         $createOrderUseCase = new GetOrderResultsUseCase(new OrderMapper($this->pdo), $this->rabbitHelper);
-        $createOrderUseCase->getOrderResults($requestParams);
+        $fileFullPath = $createOrderUseCase->getOrderResults($requestParams);
+        $siteRootFilePath = str_replace($_SERVER['DOCUMENT_ROOT'], "", $fileFullPath);
+        return new AssocArrayResponse(
+            [
+                "downloadFileLink" => $siteRootFilePath
+            ]
+        );
     }
 
     public function getOrderStatus(array $requestParams): Response

@@ -53,8 +53,9 @@ class MessageReceiver
 
     protected function makeStatementFile(int $paymentsNumber, int $orderId, string $statementNumber): string
     {
-        $fileDirectory = "/data/mysite.local/statements/";
-        $fileName = "statement_" . $orderId . ".txt";
+        $fileDirectory = "/data/mysite.local/public/statements/";
+        $fileName = md5(time() . $orderId . rand(0, 100000)) . "_statement_" . $orderId . ".txt";
+        var_dump($fileName);
         $statementFileContents = "Выписка по счёту: " . $statementNumber . PHP_EOL;
         $totalSumm = 0;
         for ($i = 0; $i < $paymentsNumber; $i++) {

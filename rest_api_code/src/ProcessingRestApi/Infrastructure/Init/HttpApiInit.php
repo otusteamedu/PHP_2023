@@ -9,6 +9,7 @@ use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Config\IniConfig;
 use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\ConnectionManager;
 use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\HttpApiController\OrderController;
 use VKorabelnikov\Hw20\ProcessingRestApi\Infrastructure\Storage\RabbitMqHelper;
+use VKorabelnikov\Hw20\ProcessingRestApi\Application\Exceptions\RouteNotFoundException;
 
 class HttpApiInit
 {
@@ -32,6 +33,16 @@ class HttpApiInit
         return $requestData;
     }
 
+    public function sendJsonResponseToClient($data, $responseCode = 200)
+    {
+        header("Content-Type: application/json");
+        http_response_code($responseCode);
+        echo json_encode(
+            $data,
+            JSON_UNESCAPED_UNICODE
+        );
+    }
+
     public function run()
     {
         $config = new IniConfig();
@@ -49,26 +60,7 @@ class HttpApiInit
 
         $controllerMethod = $routeConfig["controllerMethod"];
         $requestData = $this->getRequestInput();
-        $this->output(
-            ((object)$controller)->$controllerMethod($requestData),
-            200
-        );
-    }
-
-    public function output($data, $responseCode = 200)
-    {
-        header("Content-Type: application/json");
-        http_response_code($responseCode);
-        echo json_encode(
-            $data,
-            JSON_UNESCAPED_UNICODE
-        );
-    }
-
-    public function return404Response()
-    {
-        http_response_code(404);
-        exit();
+        return ((object)$controller)->$controllerMethod($requestData);
     }
 
     public function getRouteConfig()
@@ -76,11 +68,11 @@ class HttpApiInit
         $routeConfig = $this->getAllRoutesConfig();
 
         if (!isset($routeConfig[$_SERVER['REQUEST_METHOD']])) {
-            $this->return404Response();
+            throw new RouteNotFoundException();
         }
         $currentRequestRoutesList = $routeConfig[$_SERVER['REQUEST_METHOD']];
         if (empty($currentRequestRoutesList)) {
-            $this->return404Response();
+            throw new RouteNotFoundException();
         }
 
         foreach ($currentRequestRoutesList as $currentRequestRoute) {
@@ -93,7 +85,7 @@ class HttpApiInit
             }
         }
 
-        $this->return404Response();
+        throw new RouteNotFoundException();
     }
 
     public function getAllRoutesConfig(): array

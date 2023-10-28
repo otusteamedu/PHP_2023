@@ -107,10 +107,10 @@ paths:
         '200':
           description: Успешный ответ
           content:
-            application/octet-stream:
+            application/json:
               schema:
-                type: string
-                format: binary
+                items:
+                  $ref: '#/components/schemas/GetOrderResultsResponse'
         '400':
           description: Ответ с ошибкой
           content:
@@ -161,6 +161,13 @@ components:
             - completed
         success:
           type: boolean
+    GetOrderResultsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        downloadFileLink:
+          type: string
     ErrorResponse:
       type: object
       properties:

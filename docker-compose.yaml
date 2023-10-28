@@ -12,6 +12,7 @@ services:
       - "80:80"
     volumes:
        - ./rest_api_code:/data/mysite.local
+       - ./data/statements:/data/mysite.local/public/statements
     networks:
       - app-network
 
@@ -26,7 +27,7 @@ services:
       - "9003"
     volumes:
        - ./rest_api_code:/data/mysite.local
-       - ./data/statements:/data/mysite.local/statements
+       - ./data/statements:/data/mysite.local/public/statements
     networks:
       - app-network
 
@@ -38,7 +39,7 @@ services:
     container_name: otus-hw-worker
     volumes:
        - ./worker_code:/data/mysite.local
-       - ./data/statements:/data/mysite.local/statements
+       - ./data/statements:/data/mysite.local/public/statements
     restart: on-failure
     depends_on:
       - rabbitmq

@@ -31,8 +31,6 @@ class GetOrderResultsUseCase
         if (!file_exists($order->getFilePath())) {
             throw new \Exception("Запрошенный документ не найден на диске.");
         }
-        header("Content-type: application/octet-stream");
-        header('Content-Disposition:attachment;filename="statement.txt"');
-        exit(readfile($order->getFilePath()));
+        return $order->getFilePath();
     }
 }

@@ -1,0 +1,7 @@
+/rest_api_code/public/upload/
+/rest_api_code/vendor/
+/rest_api_code/composer.lock
+/worker_code/public/upload/
+/worker_code/vendor/
+/worker_code/composer.lock
+/data/

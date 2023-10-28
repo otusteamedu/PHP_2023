@@ -8,5 +8,5 @@ use App\Domain\AbstractEventEntity;
 
 abstract class AbstractEventEntityFactory
 {
-    public abstract function createEvent(): AbstractEventEntity;
+    abstract public function createEvent(): AbstractEventEntity;
 }

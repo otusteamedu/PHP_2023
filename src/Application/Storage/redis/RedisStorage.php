@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Storage\redis;
+namespace App\Application\Storage\redis;
 
-use App\Storage\StorageInterface;
-use Ehann\RediSearch\AbstractIndex;
+use App\Application\Storage\StorageInterface;
+use App\Domain\Factory\RedisEventEntityFactory;
+use App\Domain\RedisEventEntity;
 use Ehann\RediSearch\Exceptions\FieldNotInSchemaException;
 use Ehann\RedisRaw\PredisAdapter;
 use Ehann\RedisRaw\RedisRawClientInterface;
@@ -14,12 +15,12 @@ class RedisStorage implements StorageInterface
 {
     private RedisRawClientInterface $client;
 
-    private AbstractIndex $index;
+    private RedisEventEntity $eventEntity;
 
-    public function __construct(string $indexName)
+    public function __construct(string $eventName)
     {
         $this->client = (new PredisAdapter())->connect();
-        $this->index = (new Index($this->client, $indexName))->createIndex();
+        $this->eventEntity = (new RedisEventEntityFactory($this->client, $eventName))->createEvent();
     }
 
     /**
@@ -27,12 +28,12 @@ class RedisStorage implements StorageInterface
      */
     public function set(int $priority, array $conditions, string $event): void
     {
-        $this->index->add(array_merge(['priority' => $priority, 'event' => $event], $conditions));
+        $this->eventEntity->add(array_merge(['priority' => $priority, 'event' => $event], $conditions));
     }
 
     public function get(array $params): array
     {
-        $builder = $this->index->sortBy('priority', 'DESC');
+        $builder = $this->eventEntity->sortBy('priority', 'DESC');
 
         foreach ($params as $key => $value) {
             $builder = $builder->numericFilter($key, $value, $value);
@@ -45,6 +46,6 @@ class RedisStorage implements StorageInterface
 
     public function clear(): void
     {
-        $this->index->drop();
+        $this->eventEntity->drop();
     }
 }

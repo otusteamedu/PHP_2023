@@ -12,17 +12,16 @@ zabbix_export:
       httptests:
         - uuid: 2ff80671aaa74701b25081a1954c6ac2
           name: 'Check search engines disallow'
-          delay: 1s
           steps:
             - name: 'Checking robots.txt step 1'
               url: '{HOST.CONN}/robots.txt'
               follow_redirects: 'NO'
-              required: 'User-Agent: *'
+              required: '^User-Agent: \*'
               status_codes: '200'
             - name: 'Checking robots.txt step 2'
               url: '{HOST.CONN}/robots.txt'
               follow_redirects: 'NO'
-              required: 'Disallow: /'
+              required: '^Disallow: /$'
               status_codes: '200'
     - uuid: e7321309c21a4f6d93dfd70e3d3c775c
       template: 'Check website availability'
@@ -32,7 +31,6 @@ zabbix_export:
       httptests:
         - uuid: e2a4a1c5a186408e9d0fce6d2cb42024
           name: 'Check website availability'
-          delay: 1s
           agent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36'
           steps:
             - name: 'Check main page status'

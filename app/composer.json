@@ -13,5 +13,7 @@
             "email": "info@nikita.global"
         }
     ],
-    "require": {}
+    "require": {
+        "vlucas/phpdotenv": "^5.5"
+    }
 }

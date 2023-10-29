@@ -3,7 +3,6 @@
 namespace Nikitaglobal\Controller;
 
 use Nikitaglobal\View\Web as View;
-use Nikitaglobal\Model\Queues as Queues;
 
 class App
 {
@@ -11,18 +10,33 @@ class App
     {
     }
 
-    public function showForm()
+    public function showTemplate($templateName, $message = '')
     {
-        View::showForm();
+        switch ($templateName) {
+            case 'form':
+                View::showForm();
+                break;
+            case 'success':
+                View::showSuccess($message);
+                break;
+            case 'error':
+                View::showError($message);
+                break;
+            default:
+                View::showError('Неизвестный шаблон');
+                break;
+        }
     }
 
-    public function processForm()
+    public function prepareData()
     {
         $startDate = $_POST['start_date'];
         $endDate = $_POST['end_date'];
         // @TODO: проверить, что даты корректные
         // @TODO: проверить, что даты не больше текущей
-        // @TODO проверить результат добавления в очередь
-        return View::showSuccess('Запрос успешно отправлен в очередь');
+        return [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ];
     }
 }

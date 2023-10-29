@@ -17,7 +17,7 @@ class Web
         $tpl = file_get_contents(__DIR__ . '/../../assets/error.html');
         header('Content-Type: text/html; charset=utf-8');
         header('HTTP/1.1 400 Bad Request');
-        echo str_replace('{{message}}', $message, $tpl);
+        echo str_replace('{{ message }}', $message, $tpl);
         exit();
     }
 
@@ -26,7 +26,7 @@ class Web
         $tpl = file_get_contents(__DIR__ . '/../../assets/success.html');
         header('Content-Type: text/html; charset=utf-8');
         header('HTTP/1.1 200 OK');
-        echo str_replace('{{message}}', $message, $tpl);
+        echo str_replace('{{ message }}', $message, $tpl);
         exit();
     }
 }

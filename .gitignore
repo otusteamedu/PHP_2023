@@ -1,3 +1,5 @@
 #Phpstorm files
 .idea
 
+#Composer packages
+vendor

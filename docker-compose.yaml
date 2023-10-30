@@ -4,8 +4,6 @@ services:
   redis:
     image: redis/redis-stack-server
     container_name: redis
-    ports:
-      - "6379:6379"
     restart: unless-stopped
     networks:
       - app-network

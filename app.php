@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use DKhalikov\Hw5\App;
+use Damir\OtusHw6\App;
 
 require __DIR__ . '/vendor/autoload.php';
 

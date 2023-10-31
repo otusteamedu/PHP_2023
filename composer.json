@@ -1,9 +1,9 @@
 {
-    "name": "dkhalikov/hw5",
+    "name": "damir/otus_hw6",
     "type": "project",
     "autoload": {
         "psr-4": {
-            "DKhalikov\\Hw5\\": "src/"
+            "Damir\\OtusHw6\\": "src/"
         }
     },
     "authors": [
@@ -12,8 +12,5 @@
             "email": "khalikov@beta.agency"
         }
     ],
-    "require": {
-        "ext-sockets": "*",
-      "ext-readline": "*"
-    }
+    "require": {}
 }

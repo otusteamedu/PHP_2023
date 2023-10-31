@@ -1,25 +1,13 @@
 version: '3'
 services:
-  otus_hw5_server:
+  otus_hw6_server:
     build:
       context: ./docker/php
       dockerfile: php.dockerfile
     volumes:
       - ./:/var/www/html
-      - php-fpm-socket:/sockets/php-fpm
-    networks:
-      - app-network
-  otus_hw5_client:
-    build:
-      context: ./docker/php
-      dockerfile: php.dockerfile
-    volumes:
-      - ./:/var/www/html
-      - php-fpm-socket:/sockets/php-fpm
     networks:
       - app-network
 networks:
   app-network:
     driver: bridge
-volumes:
-  php-fpm-socket:

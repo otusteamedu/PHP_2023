@@ -1,6 +1,7 @@
 # версия синтаксиса
 version: '3'
 
+# в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
 
   #контейнер с Nginx
@@ -8,7 +9,8 @@ services:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    container_name: nginx
+    image: el/nginx
+    container_name: ${CONTAINER_NAME}_nginx
     ports:
       - "80:80"
     volumes:
@@ -21,16 +23,21 @@ services:
 #Контейнер с php и приложением
   app:
     build:
-      context: ./fpm
+      #context: ./fpm
+      context: ./php82
       dockerfile: Dockerfile
-    container_name: app
+    #image: tlg/php
+    image: tlg/php82
+    container_name: ${CONTAINER_NAME}_app
     volumes:
       - ./code:/data/mysite.local
     #command: composer install --no-plugins --no-scripts
-    depends_on:
-      - rabbitmq
+    #extra_hosts:
+    #  - "host.docker.internal:host-gateway"
     networks:
       - app-network
+    depends_on:
+      - mysql
 
   composer:
     image: composer:latest
@@ -42,15 +49,28 @@ services:
     depends_on:
       - app
 
-  rabbitmq:
-    container_name: rabbitmq
-    image: rabbitmq:3-management-alpine
-    restart: always
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+  #Контейнер с mysql
+  mysql:
+    image: mariadb
+    container_name: ${CONTAINER_NAME}_mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+    volumes:
+      #- ./dbdata:/var/lib/mysql
+      - dbdata:/var/lib/mysql
+
     networks:
       - app-network
+
+# Тома
+volumes:
+  # Чтобы данные БД не пропадали после выключения создаем именованный том
+  dbdata:
+    driver: local
 
 #Docker Networks
 networks:

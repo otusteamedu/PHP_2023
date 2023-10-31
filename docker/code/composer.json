@@ -16,11 +16,10 @@
   },
   "require": {
     "php": "8.*",
-    "ext-ctype": "*",
-    "ext-iconv": "*",
-    "php-amqplib/php-amqplib": "^3.5",
-    "phpmailer/phpmailer": "^6.8"
-  },
+    "ext-pdo": "*",
+    "longman/telegram-bot": "^0.81",
+    "php-di/php-di": "^7.0"
+},
   "config": {
     "allow-plugins": {
       "php-http/discovery": true

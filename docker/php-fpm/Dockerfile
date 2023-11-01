@@ -21,8 +21,5 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo_mys
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
-#WORKDIR /data
-
-#VOLUME /data
 
 CMD ["php-fpm"]

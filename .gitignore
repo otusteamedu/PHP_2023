@@ -1,3 +1,6 @@
 .idea
 .env
-data/*
+data/mysql/*
+!data/mysql/.gitkeep
+data/redis/*
+!data/redis/.gitkeep

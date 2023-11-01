@@ -18,8 +18,8 @@ services:
     build:
       context: ./docker/php-fpm
       dockerfile: Dockerfile
-    image: web/php
-    container_name: php
+    image: web/php # имя будущего образа
+    container_name: php # имя контейнера после запуска
     volumes:
       - ./www:/var/www/html/
     environment:
@@ -29,10 +29,51 @@ services:
       REDIS_HOST: ${REDIS_HOST}
       MEMCACHED_HOST: ${MEMCACHED_HOST}
 
+    depends_on:
+      - mysql
+      - redis
+      - memcached
     networks:
       - dev-net
 
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    image: web/redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/var/lib/redis
+    networks:
+      - dev-net
 
+  mysql:
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    image: web/mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/db/mysql/mysql
+    networks:
+      - dev-net
+
+  memcached:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: web/memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - dev-net
 
 #Docker Networks
 networks:

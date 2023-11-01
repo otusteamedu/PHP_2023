@@ -1,5 +1,18 @@
 services:
-  
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: web/nginx # имя будущего образа
+    container_name: nginx # имя контейнера после запуска
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html/
+    networks:
+      - dev-net
+
+
 
 #Docker Networks
 networks:

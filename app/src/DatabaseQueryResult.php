@@ -4,14 +4,15 @@ namespace App;
 
 class DatabaseQueryResult implements \Iterator
 {
-    private array $result;
-    private int $position;
+    protected ?array $result;
+    protected int $position;
+    protected Db $db;
 
     public function __construct($query, $params)
     {
         $this->position = 0;
-        $db = Db::getInstance();
-        $this->result = $db->query($query, $params) ?? [];
+        $this->db = Db::getInstance();
+        $this->result = $this->db->query($query, $params);
     }
 
     public function current(): mixed
@@ -31,7 +32,7 @@ class DatabaseQueryResult implements \Iterator
 
     public function valid(): bool
     {
-        return isset($this->array[$this->position]);
+        return isset($this->result[$this->position]);
     }
 
     public function rewind(): void

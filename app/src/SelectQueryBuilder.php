@@ -36,7 +36,7 @@ class SelectQueryBuilder
 
     public function execute(): DatabaseQueryResult
     {
-        $query = "{$this->from} {$this->where} {$this->orderBy}";
-        return new DatabaseQueryResult($query, $this->params);
+        $query = $this->from . ($this->where ?? '') . ($this->orderBy ?? '');
+        return new DatabaseQueryResultProxy($query, $this->params);  // DatabaseQueryResult($query, $this->params);
     }
 }

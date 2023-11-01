@@ -6,5 +6,4 @@ namespace Gesparo\HW\Storage;
 
 abstract class BaseStorageFacade implements AddInterface, GetInterface, ClearInterface
 {
-
 }

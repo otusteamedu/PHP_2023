@@ -75,6 +75,13 @@ services:
     networks:
       - dev-net
 
+  php-cli:
+    build:
+      context: ./docker/php-cli
+      dockerfile: Dockerfile
+    image: php-cli
+    container_name: php-cli
+
 #Docker Networks
 networks:
   dev-net:

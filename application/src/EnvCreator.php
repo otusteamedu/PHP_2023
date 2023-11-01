@@ -25,9 +25,12 @@ class EnvCreator
         $dotenv = Dotenv::createImmutable($this->pathToEvnFile);
 
         $dotenv->load();
-        $dotenv->required(EnvManager::ENV_STORAGE)->allowedValues(['redis']);
+        $dotenv->required(EnvManager::ENV_STORAGE)->allowedValues(['redis', 'mongo']);
         $dotenv->required(EnvManager::ENV_REDIS_HOST)->notEmpty();
-
+        $dotenv->required(EnvManager::ENV_MONGO_HOST)->notEmpty();
+        $dotenv->required(EnvManager::ENV_MONGO_DATABASE)->notEmpty();
+        $dotenv->required(EnvManager::ENV_MONGO_USER)->notEmpty();
+        $dotenv->required(EnvManager::ENV_MONGO_PASSWORD)->notEmpty();
 
         return new EnvManager();
     }

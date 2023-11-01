@@ -2,6 +2,8 @@
 
 namespace App;
 
+use Exception;
+
 class DatabaseQueryResultProxy extends DatabaseQueryResult
 {
     protected ?array $result = null;
@@ -16,9 +18,14 @@ class DatabaseQueryResultProxy extends DatabaseQueryResult
         $this->params = $params;
     }
 
+    /**
+     * @throws Exception
+     */
     public function rewind(): void
     {
         if (is_null($this->result)) $this->result = $this->db->query($this->query, $this->params);
+        if (is_null($this->result)) throw new Exception();
+
         parent::rewind();
     }
 }

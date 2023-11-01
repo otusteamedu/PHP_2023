@@ -2,17 +2,23 @@
 
 namespace App;
 
+use Exception;
+
 class DatabaseQueryResult implements \Iterator
 {
     protected ?array $result;
     protected int $position;
     protected Db $db;
 
+    /**
+     * @throws Exception
+     */
     public function __construct($query, $params)
     {
         $this->position = 0;
         $this->db = Db::getInstance();
         $this->result = $this->db->query($query, $params);
+        if (is_null($this->result)) throw new Exception();
     }
 
     public function current(): mixed

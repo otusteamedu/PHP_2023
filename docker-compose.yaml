@@ -1,0 +1,7 @@
+services:
+  
+
+#Docker Networks
+networks:
+  dev-net:
+    driver: bridge

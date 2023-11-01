@@ -1,0 +1,25 @@
+{
+  "name": "gesparo/hw",
+  "description": "Homework 15",
+  "type": "project",
+  "require": {
+    "symfony/routing": "^5.4",
+    "symfony/http-foundation": "^5.4",
+    "vlucas/phpdotenv": "^5.5"
+  },
+  "autoload": {
+    "psr-4": {
+      "Gesparo\\HW\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Maksym Melnyk"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
+}

@@ -3,12 +3,32 @@ services:
     build:
       context: ./docker/nginx
       dockerfile: Dockerfile
-    image: web/nginx # имя будущего образа
-    container_name: nginx # имя контейнера после запуска
+    image: web/nginx
+    container_name: nginx
     ports:
       - "80:80"
     volumes:
       - ./www:/var/www/html/
+    depends_on:
+      - php
+    networks:
+      - dev-net
+
+  php:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: web/php
+    container_name: php
+    volumes:
+      - ./www:/var/www/html/
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+
     networks:
       - dev-net
 

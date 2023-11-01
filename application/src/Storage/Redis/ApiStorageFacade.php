@@ -34,7 +34,7 @@ class ApiStorageFacade extends BaseStorageFacade
     {
         $eventSetter = new EventSetter($this->redis);
 
-        foreach($list as $event) {
+        foreach ($list as $event) {
             $eventSetter->set($event);
         }
     }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Gesparo\HW\Storage\Mongo;
 
 use Gesparo\HW\Event\Event;
@@ -22,7 +24,7 @@ class ApiStorageFacade extends BaseStorageFacade
     {
         $eventSetter = new EventSetter($this->collection);
 
-        foreach($list as $event) {
+        foreach ($list as $event) {
             $eventSetter->set($event);
         }
     }

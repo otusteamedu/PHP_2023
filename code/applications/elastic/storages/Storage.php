@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Точка входа в приложение
+ * Абстрактный класс хранилища
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,13 +14,18 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\applications\email_and_brackets\EmailValidatorApp;
+namespace Amedvedev\code\applications\elastic\storages;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+abstract class Storage
+{
+    /**
+     * @param array $array
+     * @return bool
+     */
+    abstract public function save(array $array): bool;
 
-try {
-    $app = new EmailValidatorApp();
-    echo $app->run();
-} catch (Exception $e) {
-    echo $e->getMessage();
+    /**
+     * @return mixed
+     */
+    abstract public function info(): mixed;
 }

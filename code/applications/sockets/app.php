@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Точка входа в приложение
+ * Описание класса
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,13 +14,13 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\applications\email_and_brackets\EmailValidatorApp;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+use Amedvedev\code\applications\sockets\Application;
 
+require_once __DIR__ . '/../../../vendor/autoload.php';
 try {
-    $app = new EmailValidatorApp();
-    echo $app->run();
+    $app = new Application($argv);
+    $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

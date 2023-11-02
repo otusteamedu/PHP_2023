@@ -1,0 +1,22 @@
+{
+  "name": "aponomarev/hw1",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "aponomarev"
+    }
+  ],
+  "require": {
+    "php": "^7.2",
+    "ext-memcached": "*",
+    "ext-redis": "*",
+    "ext-pdo": "*",
+    "vlucas/phpdotenv": "^5.5",
+    "predis/predis": "*"
+  }
+}

@@ -1,0 +1,71 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    container_name: app
+    working_dir: /var/www/application.local
+    restart: unless-stopped
+    volumes:
+      - ./:/var/www/application.local
+      - ./docker/php/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - php-fpm-sock:/var/run/
+    networks:
+      - app.network
+
+  app-db:
+    image: postgres
+    container_name: app_db
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: ${DB_USERNAME}
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - app.network
+    restart: unless-stopped
+
+  app-nginx:
+    image: nginx:alpine
+    container_name: app_nginx
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/var/www/application.local
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - php-fpm-sock:/var/run/
+    networks:
+      - app.network
+
+  app-redis:
+    image: redis:alpine
+    container_name: app_redis
+    env_file:
+      - .env
+    ports:
+      - "6379:6379"
+    networks:
+      - app.network
+
+  app-memcached:
+    image: 'memcached:latest'
+    container_name: app_memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app.network
+
+volumes:
+  db-data:
+  php-fpm-sock:
+
+networks:
+  app.network:
+    driver: bridge

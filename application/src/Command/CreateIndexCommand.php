@@ -4,32 +4,30 @@ declare(strict_types=1);
 
 namespace Gesparo\ES\Command;
 
-use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
-use Gesparo\ES\ElasticSearch\ClientCreator;
-use Gesparo\ES\EnvCreator;
-use Gesparo\ES\PathHelper;
 use Gesparo\ES\Service\CreateIndexService;
 
 class CreateIndexCommand extends BaseCommand
 {
+    private CreateIndexService $createIndexService;
+
+    public function __construct(CreateIndexService $createIndexService)
+    {
+        parent::__construct();
+
+        $this->createIndexService = $createIndexService;
+    }
+
     /**
-     * @throws AuthenticationException
      * @throws ClientResponseException
      * @throws MissingParameterException
      * @throws ServerResponseException
      */
     public function run(): void
     {
-        $envManager = (new EnvCreator(PathHelper::getInstance()->getEnvPath()))->create();
-        $elasticClient = (new ClientCreator(
-            $envManager->getElasticPassword(),
-            $envManager->getPathToElasticSearchCertificate()
-        ))->create();
-
-        (new CreateIndexService($elasticClient, $envManager->getElasticIndex()))->createIndex();
+        $this->createIndexService->createIndex();
 
         $this->outputHelper->success('Index was successfully deleted');
     }

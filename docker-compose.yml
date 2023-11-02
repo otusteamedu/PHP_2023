@@ -1,0 +1,90 @@
+version : '3'
+
+services:
+    nginx    :
+        restart       : always
+        build         :
+            context   : ./docker/nginx
+            dockerfile: Dockerfile
+        image         : otus/nginx
+        container_name: nginx
+        ports         :
+            - "30080:80"
+            - "30443:443"
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+        networks      :
+            - otus-network
+
+    app      :
+        restart       : always
+        build         :
+            context   : ./docker/php-fpm
+            dockerfile: Dockerfile
+        image         : otus/php-fpm
+        container_name: app
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+        environment   :
+            - REDIS_PORT=6379
+            - MEMCACHED_PORT=11211
+            - DB_PORT=5432
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_NAME=${DB_NAME}
+        depends_on    :
+            - db
+            - redis
+            - memcached
+        networks      :
+            - otus-network
+
+    db       :
+        restart       : always
+        image         : postgres:16
+        ports         :
+            - "35432:5432"
+        container_name: db
+        environment   :
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+        volumes       :
+            - ./data/db-data:/var/lib/postgresql/data
+        networks      :
+            - otus-network
+
+    cli      :
+        restart       : 'no'
+        build         :
+            context   : ./docker/php-cli
+            dockerfile: Dockerfile
+        command       : composer install --ignore-platform-reqs --no-scripts --no-progress
+        image         : otus/php-cli
+        container_name: cli
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+        networks      :
+            - otus-network
+
+    redis    :
+        image         : redis:latest
+        container_name: redis
+        restart       : always
+        ports         :
+            - '36379:6379'
+        networks      :
+            - otus-network
+
+    memcached:
+        image         : memcached:latest
+        container_name: memcached
+        ports         :
+            - "31211:11211"
+        restart       : always
+        networks      :
+            - otus-network
+
+networks:
+    otus-network:
+        driver: bridge

@@ -2,18 +2,25 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\SelectQueryBuilder;
+use App\Infrastructure\Publisher\Publisher;
+use App\Infrastructure\QueryBuilder\SelectQueryBuilder;
+use App\Infrastructure\Subscriber\HelperService;
 
-$queryBuilder = new SelectQueryBuilder();
-$result = $queryBuilder
-    ->from('clients')
-    ->execute();
+try {
+    $helper = new HelperService();
+    $publisher = new Publisher();
+    $publisher->subscribe($helper);
 
+    $queryBuilder = new SelectQueryBuilder($publisher);
+    $result = $queryBuilder
+        ->from('clients')
+        ->orderBy('middle_name', 'ASC')
+        ->where('first_name', 'test2')
+        ->execute();
 
-//var_dump($result);
-
-foreach ($result as $k => $item) {
-    var_dump($item);
+    foreach ($result as $item) {
+        var_dump($item);
+    }
+} catch (Exception $e) {
+    print_r($e->getMessage());
 }
-
-

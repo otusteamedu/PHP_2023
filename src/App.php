@@ -7,12 +7,12 @@ namespace Damir\OtusHw6;
 class App
 {
     /**
-     * @return void
+     * @return string
      */
-    public function run(): void
+    public function run(): string
     {
         $emailChecker = new Email($_SERVER['argv'][1]);
         $emails = $emailChecker->getValidEmails();
-        echo 'Список валидных email: ' . implode(' ', $emails) . PHP_EOL;
+        return 'Список валидных email: ' . implode(' ', $emails) . PHP_EOL;
     }
 }

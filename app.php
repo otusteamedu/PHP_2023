@@ -8,7 +8,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 try {
     $app = new App();
-    $app->run();
+    echo $app->run();
 } catch (Exception $e) {
     throw new \Exception($e->getMessage());
 }

@@ -33,5 +33,4 @@ class Application
         $socketService = new SocketService();
         $socketService->strategy($this->argv);
     }
-
 }

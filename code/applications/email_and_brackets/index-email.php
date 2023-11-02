@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Класс основной страницы для объединения кода и представления
+ * Точка входа в приложение
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,12 +14,13 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\presenters;
+use Amedvedev\code\applications\email_and_brackets\EmailValidatorApp;
 
-class MainPresenter
-{
-    public function render()
-    {
-        return file_get_contents(__DIR__ . '/../views/index.php');
-    }
+require_once __DIR__ . '/../vendor/autoload.php';
+
+try {
+    $app = new EmailValidatorApp();
+    echo $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
 }

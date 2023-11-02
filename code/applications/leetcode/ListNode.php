@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Точка входа в приложение
+ * Definition for a singly-linked list.
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,13 +14,16 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\applications\email_and_brackets\EmailValidatorApp;
+namespace Amedvedev\code\applications\leetcode;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+class ListNode
+{
+    public $val = 0;
+    public $next = null;
 
-try {
-    $app = new EmailValidatorApp();
-    echo $app->run();
-} catch (Exception $e) {
-    echo $e->getMessage();
+    public function __construct($val = 0, $next = null)
+    {
+        $this->val = $val;
+        $this->next = $next;
+    }
 }

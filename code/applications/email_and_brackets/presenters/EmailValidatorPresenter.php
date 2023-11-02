@@ -14,9 +14,9 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\presenters;
+namespace Amedvedev\code\applications\email_and_brackets\presenters;
 
-use Amedvedev\code\services\EmailValidatorService;
+use Amedvedev\code\applications\email_and_brackets\services\EmailValidatorService;
 
 class EmailValidatorPresenter
 {

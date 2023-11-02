@@ -14,9 +14,9 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\presenters;
+namespace Amedvedev\code\applications\email_and_brackets\presenters;
 
-use Amedvedev\code\helpers\BracketsHelper;
+use Amedvedev\code\applications\email_and_brackets\helpers\BracketsHelper;
 
 class BracketsHandlerPresenter
 {

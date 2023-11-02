@@ -16,6 +16,12 @@
         "amedvedev/first-package": "^1.0",
         "ext-memcached": "*",
         "ext-sockets": "*",
-        "ext-readline": "*"
+        "ext-readline": "*",
+        "elasticsearch/elasticsearch": "^8.10"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
     }
 }

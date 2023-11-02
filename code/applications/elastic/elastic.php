@@ -14,13 +14,16 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\applications\email_and_brackets\EmailValidatorApp;
+use Amedvedev\code\applications\elastic\SearchApp;
+use Amedvedev\code\applications\elastic\services\search\ConsoleSearchService;
+use Amedvedev\code\config\Config;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../../../vendor/autoload.php';
 
 try {
-    $app = new EmailValidatorApp();
-    echo $app->run();
+    Config::init();
+    $app = new SearchApp($argv, $argc, new ConsoleSearchService());
+    $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\services;
+namespace Amedvedev\code\applications\sockets\services;
 
 use Amedvedev\code\config\Config;
 use Socket;

@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\leetcode;
+namespace Amedvedev\code\applications\leetcode;
 
 class TwoListsMerger
 {

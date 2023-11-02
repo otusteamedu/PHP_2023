@@ -14,11 +14,11 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code;
+namespace Amedvedev\code\applications\email_and_brackets;
 
-use Amedvedev\code\presenters\EmailValidatorPresenter;
+use Amedvedev\code\applications\email_and_brackets\presenters\EmailValidatorPresenter;
 
-class App
+class EmailValidatorApp
 {
     /**
      * @return string

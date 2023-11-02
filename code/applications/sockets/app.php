@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Definition for a singly-linked list.
+ * Описание класса
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,16 +14,12 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\leetcode;
+use Amedvedev\code\applications\sockets\Application;
 
-class ListNode
-{
-    public $val = 0;
-    public $next = null;
-
-    public function __construct($val = 0, $next = null)
-    {
-        $this->val = $val;
-        $this->next = $next;
-    }
+require_once __DIR__ . '/../../../vendor/autoload.php';
+try {
+    $app = new Application($argv);
+    $app->run();
+} catch (Exception $e) {
+    echo $e->getMessage();
 }

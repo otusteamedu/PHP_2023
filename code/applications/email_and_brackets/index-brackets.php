@@ -14,13 +14,13 @@
 
 declare(strict_types=1);
 
-use Amedvedev\code\app\App;
+use Amedvedev\code\applications\email_and_brackets\BracketsValidatorApp;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $app = new App($argv);
-    $app->run();
+    $app = new BracketsValidatorApp();
+    echo $app->run();
 } catch (Exception $e) {
     echo $e->getMessage();
 }

@@ -14,7 +14,7 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\helpers;
+namespace Amedvedev\code\applications\email_and_brackets\helpers;
 
 class BracketsHelper
 {

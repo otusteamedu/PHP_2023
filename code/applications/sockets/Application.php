@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Паттерн FrontController (он же - единая точка доступа)
+ * Описание класса
  * php version 8.2.8
  *
  * @category ItIsDepricated
@@ -14,12 +14,12 @@
 
 declare(strict_types=1);
 
-namespace Amedvedev\code\app;
+namespace Amedvedev\code\applications\sockets;
 
+use Amedvedev\code\applications\sockets\services\SocketService;
 use Amedvedev\code\config\Config;
-use Amedvedev\code\services\SocketService;
 
-class App
+class Application
 {
     private readonly array $argv;
     public function __construct(array $argv)

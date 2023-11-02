@@ -42,7 +42,7 @@ class Config
      */
     public static function get(string $key)
     {
-        return self::$config[$key] ?? '';
+        return trim(self::$config[$key]) ?? '';
     }
 
     /**

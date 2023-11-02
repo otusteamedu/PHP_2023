@@ -36,5 +36,3 @@ $memcached->addServer($env['MEMCACHED_HOST'], intval($env['MEMCACHED_PORT'])) or
 $memcached->setOption(Memcached::OPT_BINARY_PROTOCOL, true);
 $memcached->set("test", "test memcache") or print("<br> Key in Memcached can't be created");
 echo "<br>Memcached value: " . $memcached->get("test");
-
-

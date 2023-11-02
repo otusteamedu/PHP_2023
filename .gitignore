@@ -4,3 +4,5 @@ data/mysql/*
 !data/mysql/.gitkeep
 data/redis/*
 !data/redis/.gitkeep
+data/socket/*
+!data/socket/.gitkeep

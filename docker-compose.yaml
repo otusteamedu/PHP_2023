@@ -9,6 +9,7 @@ services:
       - "80:80"
     volumes:
       - ./www:/var/www/html/
+      - ./data/socket:/socket
     depends_on:
       - php
     networks:
@@ -22,6 +23,7 @@ services:
     container_name: php # имя контейнера после запуска
     volumes:
       - ./www:/var/www/html/
+      - ./data/socket:/socket
     environment:
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}

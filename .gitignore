@@ -5,3 +5,7 @@
 .env
 Homestead.json
 Homestead.yaml
+
+/shared
+/nginx/log
+/php/log

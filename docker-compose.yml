@@ -36,7 +36,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-          - redisdata:/var/lib/redis/data"
+      - redisdata:/var/lib/redis/data"
     networks:
       - app-network
   memcached:
@@ -57,4 +57,4 @@ networks:
 volumes:
   phpsocket:
   redisdata:
-      driver: local
+    driver: local

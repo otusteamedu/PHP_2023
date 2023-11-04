@@ -1,0 +1,73 @@
+version: '3.5'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: docker/nginx/Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - 80:80
+    volumes:
+      - ./:/data/application.local
+      - phpsocket:/var/run
+    networks:
+      - app-network
+  app:
+    build:
+      context: docker/app
+      dockerfile: docker/app/Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./:/data/application.local
+      - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/app/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - phpsocket:/var/run
+    networks:
+      - app-network
+  redis:
+    build:
+      context: docker/redis
+      dockerfile: docker/redis/Dockerfile
+    image: myapp/redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - redisdata:/var/lib/redis/data"
+    networks:
+      - app-network
+  memcached:
+    build:
+      context: docker/memcached
+      dockerfile: docker/memcached/Dockerfile
+    image: myapp/memcached
+    container_name: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - app-network
+  db:
+    image: postgres:14.5
+    container_name: db
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
+  redisdata:
+    driver: local
+  dbdata:
+    driver: local

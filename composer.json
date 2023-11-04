@@ -1,0 +1,23 @@
+{
+  "name": "bsalenko/hw1",
+  "type": "project",
+  "description": "BSalenko hw1",
+  "license": "MIT",
+  "require": {
+    "php": "^8.1",
+    "ext-dom": "*",
+    "ext-json": "*",
+    "ext-libxml": "*",
+    "ext-openssl": "*",
+    "ext-pdo": "*",
+    "ext-pdo_pgsql": "*",
+    "ext-pgsql": "*",
+    "ext-simplexml": "*",
+    "ext-memcached": "*",
+    "ext-redis": "*",
+    "ext-zip": "*",
+    "ext-curl": "*",
+    "vlucas/phpdotenv": "^5.5",
+    "predis/predis": "*"
+  }
+}

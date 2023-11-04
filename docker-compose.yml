@@ -4,7 +4,7 @@ services:
   nginx:
     build:
       context: docker/nginx
-      dockerfile: docker/nginx/Dockerfile
+      dockerfile: Dockerfile
     image: myapp/nginx
     container_name: webserver
     ports:
@@ -17,7 +17,7 @@ services:
   app:
     build:
       context: docker/app
-      dockerfile: docker/app/Dockerfile
+      dockerfile: Dockerfile
     image: myapp/php
     container_name: app
     volumes:
@@ -30,7 +30,7 @@ services:
   redis:
     build:
       context: docker/redis
-      dockerfile: docker/redis/Dockerfile
+      dockerfile: Dockerfile
     image: myapp/redis
     container_name: redis
     ports:
@@ -42,7 +42,7 @@ services:
   memcached:
     build:
       context: docker/memcached
-      dockerfile: docker/memcached/Dockerfile
+      dockerfile: Dockerfile
     image: myapp/memcached
     container_name: memcached
     ports:

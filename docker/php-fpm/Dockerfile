@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y \
     && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./config/php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY ./config/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
 
 WORKDIR /var/www/otus-homework.loc
 

@@ -49,6 +49,17 @@ services:
       - 11211:11211
     networks:
       - app-network
+  db:
+    image: postgres:14.5
+    container_name: db
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - dbdata:/var/lib/postgresql/data"
+    ports:
+      - "5432:5432"
 
 networks:
   app-network:
@@ -57,4 +68,6 @@ networks:
 volumes:
   phpsocket:
   redisdata:
+    driver: local
+  dbdata:
     driver: local

@@ -1,0 +1,84 @@
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    image: web/nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html/
+      - ./data/socket:/socket
+    depends_on:
+      - php
+    networks:
+      - dev-net
+
+  php:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: web/php # имя будущего образа
+    container_name: php # имя контейнера после запуска
+    volumes:
+      - ./www:/var/www/html/
+      - ./data/socket:/socket
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+
+    depends_on:
+      - mysql
+      - redis
+      - memcached
+    networks:
+      - dev-net
+
+  redis:
+    build:
+      context: ./docker/redis
+      dockerfile: Dockerfile
+    image: web/redis
+    container_name: redis
+    volumes:
+      - ./data/redis:/var/lib/redis
+    networks:
+      - dev-net
+
+  mysql:
+    build:
+      context: ./docker/mysql
+      dockerfile: Dockerfile
+    image: web/mysql
+    container_name: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: ${MYSQL_ALLOW_EMPTY_PASSWORD}
+    volumes:
+      - ./data/mysql:/var/db/mysql/mysql
+    networks:
+      - dev-net
+
+  memcached:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: web/memcached
+    container_name: memcached
+    networks:
+      - dev-net
+
+  php-cli:
+    build:
+      context: ./docker/php-cli
+      dockerfile: Dockerfile
+    image: php-cli
+    container_name: php-cli
+
+#Docker Networks
+networks:
+  dev-net:
+    driver: bridge

@@ -19,7 +19,7 @@ class Solution17
     {
         foreach ($accs as $accum) {
             foreach ($data as $item) {
-                $accums[] = $accum.$item;
+                $accums[] = $accum . $item;
             }
         }
 
@@ -32,27 +32,26 @@ class Solution17
      */
     public function letterCombinations(string $digits): array
     {
-        if (empty($digits)) {//or null
+        if (empty($digits)) {
             return [];
         }
 
-        //echo PHP_VERSION_ID;//80102vs80118
         $combinations = [];
-        $len = strlen($digits);//
-        for ($i=0;$i<$len;$i++) {
+        $len = strlen($digits);
+        for ($i = 0; $i < $len; $i++) {
             $number = $digits[$i];
             foreach ($this->letters[$number] as $letter) {
-                $combinations[$number.'.'.$i][] = $letter;
+                $combinations[$number . '.' . $i][] = $letter;
             }
         }
 
         $tmp = [];
         $first = array_shift($combinations);
-        $dt = $combinations;//!
+        $dt = $combinations;
         foreach ($first as $firstLetter)
         {
             $combinations = $dt;
-            for ($rst = ['', '', ''];$combinations;) {
+            for ($rst = ['', '', '']; $combinations; ) {
                 $rst = $this->accStr(
                     array_shift($combinations),
                     $rst
@@ -67,10 +66,11 @@ class Solution17
         $combs = [];
         foreach ($tmp as $key => $item) {
             foreach ($item as $subItem) {
-                $combs[$key.$subItem] = $key.$subItem;//optimize
+                $combs[$key . $subItem] = $key . $subItem;
             }
         }
 
         return array_values($combs);
     }
+
 }

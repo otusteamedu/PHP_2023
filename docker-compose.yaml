@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  php-fpm-leetcode:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: php-fpm-leetcode
+    container_name: php-fpm-leetcode
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local

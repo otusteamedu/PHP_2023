@@ -48,11 +48,9 @@ class Solution17
         $tmp = [];
         $first = array_shift($combinations);
         $dt = $combinations;
-        foreach ($first as $firstLetter)
-        {
+        foreach ($first as $firstLetter) {
             $combinations = $dt;
-            for ($rst = ['', '', '']; $combinations;)
-            {
+            for ($rst = ['', '', '']; $combinations;) {
                 $rst = $this->accStr(
                     array_shift($combinations),
                     $rst

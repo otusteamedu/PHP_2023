@@ -1,0 +1,27 @@
+{
+    "name": "ndybnov/hw14-leetcode-practicum-1",
+    "description": "Realization of 1 https://leetcode.com/problems/linked-list-cycle/ and 2 https://leetcode.com/problems/letter-combinations-of-a-phone-number/",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    }
+}

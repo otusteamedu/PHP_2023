@@ -1,0 +1,77 @@
+version: "3.2"
+
+service:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    ports:
+      - 6379:6379
+    container_name: redis
+    volumes:
+      - ./redis-data:/var/lib/redis
+    environment:
+      - REDIS_REPLICATION_MODE={REDIS_REPLICATION_MODE}
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - 11211:11211
+    container_name: memcached
+    command:
+      - '--memory-limit=1024'
+    networks:
+      - app-network
+
+  composer:
+    build:
+      context: ./composer
+      dockerfile: Dockerfile
+    container_name: composer
+    networks:
+      - app-network
+
+  db:
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    container_name: db
+    volumes:
+      - ./dbdata:/var/lib/mariadb
+    environment:
+      MARIADB_DATABASE: {MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: {MARIADB_ROOT_PASSWORD}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

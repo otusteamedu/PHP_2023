@@ -1,0 +1,88 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:latest
+        ports:
+            - "80:80"
+        volumes:
+            - ./nginx/templates:/etc/nginx/templates
+            - ./www:/home/singurix/www
+            - phpsocket:/var/run/
+        working_dir: /home/singurix
+        environment:
+            - NGINX_HOST=application.local
+            - NGINX_PORT=80
+            - NGINX_SITEDIR=/home/singurix/www
+            - PHP_UNIX_SOCKET=/var/run/php-fpm.sock
+        networks:
+            - default
+
+    php-fpm:
+        container_name: php-fpm
+        build:
+            context: .
+            dockerfile_inline: |
+                FROM php:8.2-fpm
+                RUN apt-get update && apt-get install zlib1g-dev \
+                    && pecl install redis \
+                    && pecl install memcache \
+                    && docker-php-ext-enable redis \
+                    && docker-php-ext-enable memcache \
+                    && docker-php-ext-install mysqli
+        image: php-fpm:8.2
+        working_dir: /home/singurix/www
+        volumes:
+            - ./www:/home/singurix/www
+            - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - phpsocket:/var/run/
+        networks:
+            - default
+
+    redis:
+        image: redis:latest
+        networks:
+            - default
+        expose:
+            - 6379
+
+    mysql:
+        image: mysql:latest
+        volumes:
+            -  ./db:/var/lib/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=singurixDB
+            - MYSQL_USER=singurix
+            - MYSQL_PASSWORD=VQu44)wBLQ
+        networks:
+            - default
+        expose:
+            - 3306
+
+    memcached:
+        image: memcached:latest
+        networks:
+            - default
+        expose:
+            - 11211
+
+    composer:
+        build:
+            context: .
+            dockerfile_inline: |
+                FROM php:8.2-cli
+                COPY --from=composer /usr/bin/composer /usr/bin/composer
+        image: composer:latest
+        working_dir: /home/singurix/www
+        volumes:
+            - ./www:/home/singurix/www
+        networks:
+            - default
+
+networks:
+    default:
+        driver: bridge
+
+volumes:
+    phpsocket:

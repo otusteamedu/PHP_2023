@@ -38,7 +38,8 @@ class Solution17
 
         $combinations = [];
         $len = strlen($digits);
-        for ($i = 0; $i < $len; $i++) {
+        for ($i = 0; $i < $len; $i++)
+        {
             $number = $digits[$i];
             foreach ($this->letters[$number] as $letter) {
                 $combinations[$number . '.' . $i][] = $letter;
@@ -51,7 +52,8 @@ class Solution17
         foreach ($first as $firstLetter)
         {
             $combinations = $dt;
-            for ($rst = ['', '', '']; $combinations; ) {
+            for ($rst = ['', '', '']; $combinations;)
+            {
                 $rst = $this->accStr(
                     array_shift($combinations),
                     $rst

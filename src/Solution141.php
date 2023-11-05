@@ -8,7 +8,7 @@ class Solution141
      * @param ListNode141 $head
      * @return Boolean
      */
-    function hasCycle($head): bool
+    public function hasCycle($head): bool
     {
         if (is_null($head)) {
             return false;

@@ -66,6 +66,4 @@ class Solution141Test extends TestCase
         $expect = true;
         $this->assertSame($expect, $hasCycle);
     }
-
 }
-

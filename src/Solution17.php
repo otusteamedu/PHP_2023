@@ -38,8 +38,7 @@ class Solution17
 
         $combinations = [];
         $len = strlen($digits);
-        for ($i = 0; $i < $len; $i++)
-        {
+        for ($i = 0; $i < $len; $i++) {
             $number = $digits[$i];
             foreach ($this->letters[$number] as $letter) {
                 $combinations[$number . '.' . $i][] = $letter;
@@ -74,5 +73,4 @@ class Solution17
 
         return array_values($combs);
     }
-
 }

@@ -30,7 +30,10 @@ RUN apt-get update --allow-releaseinfo-change \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install pdo_pgsql pgsql zip xsl gd intl opcache exif calendar soap \
     && pecl install amqp \
-    && docker-php-ext-enable amqp
+    && docker-php-ext-enable amqp \
+    && rm -rf /tmp/pear
+
+RUN pecl install --force redis && docker-php-ext-enable redis
 
 WORKDIR /data
 

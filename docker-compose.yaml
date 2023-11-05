@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  app-server:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm
+    container_name: otus-php-fpm-server
+    volumes:
+      - ./code:/var/www/application.local
+      - ./php-fpm/socket:/var/run
+
+  app-client:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm
+    container_name: otus-php-fpm-client
+    volumes:
+      - ./code:/var/www/application.local
+      - ./php-fpm/socket:/var/run

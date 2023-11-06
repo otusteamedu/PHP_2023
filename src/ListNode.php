@@ -2,8 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Task1;
-
+namespace User\Php2023;
 class ListNode
 {
     public int $val = 0;
@@ -50,29 +49,3 @@ class ListNode
         return $head;
     }
 }
-
-class Solution
-{
-    public function hasCycle(ListNode $head): bool
-    {
-        $hash = [];
-        while ($head !== null) {
-            $id = spl_object_id($head);
-            if (isset($hash[$id])) {
-                return true;
-            }
-            $hash[$id] = true;
-            $head = $head->next;
-        }
-        return false;
-    }
-}
-
-$solution = new Solution();
-
-//$head = ListNode::createCycle([3, 2, 0, -4], 1);
-//$head = ListNode::createCycle([1, 2], 0);
-$head = ListNode::createCycle([1], -1);
-echo 'Сложность: O(n)' . PHP_EOL;
-echo 'Память: O(n)' . PHP_EOL;
-echo 'Решение: ' . var_export($solution->hasCycle($head), true) . PHP_EOL;

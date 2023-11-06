@@ -4,39 +4,22 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\FactoryCalendarRepository;
-use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
-#[ORM\HasLifecycleCallbacks]
-#[ORM\Entity(repositoryClass: FactoryCalendarRepository::class)]
 class FactoryCalendar
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $workHours = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $calendarDays = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $workDays = null;
 
-    #[ORM\Column(type: Types::SMALLINT)]
     private ?int $weekendHolidaysDays = null;
 
-    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
 
@@ -127,18 +110,5 @@ class FactoryCalendar
         $this->updatedAt = $updatedAt;
 
         return $this;
-    }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtAutomatically(): void
-    {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function setUpdatedAtAutomatically(): void
-    {
-        $this->setUpdatedAt(new \DateTimeImmutable());
     }
 }

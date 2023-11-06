@@ -2,3 +2,5 @@
 conf/
 .idea/
 *.bak
+code/vendor/
+/vendor/

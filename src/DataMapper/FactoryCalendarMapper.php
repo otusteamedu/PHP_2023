@@ -37,7 +37,7 @@ class FactoryCalendarMapper
 
     public function findById(int $id): FactoryCalendar
     {
-        $key = get_class(new FactoryCalendar()) . $id;
+        $key = 'FactoryCalendar' . $id;
         $identityMapFactoryCalendar = $this->identityMap->getByKey($key);
 
         if ($identityMapFactoryCalendar !== null) {

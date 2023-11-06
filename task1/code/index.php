@@ -1,12 +1,14 @@
 <?php
 
-$param = 'string=(()()()())((((()()())) (()()()(((())))) )) )';
+$param_name = 'string';
+$param_value = '(()()()())((((()()())) (()()()(((())))) )) )';
+$url = "nginx";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $count = 0;
     $error = false;
-    foreach (str_split($_POST["string"]) as $char) {
+    foreach (str_split($_POST[$param_name]) as $char) {
         if ($char == '(') {
             $count++;
         } elseif ($char == ')') {
@@ -36,9 +38,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "nginx");
+curl_setopt($ch, CURLOPT_URL, $url);
 curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $param);
+curl_setopt($ch, CURLOPT_POSTFIELDS, "$param_name=$param_value");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HEADER, false);
 $output = curl_exec($ch);

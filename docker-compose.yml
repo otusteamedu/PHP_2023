@@ -5,13 +5,13 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - .:/www
       - ./docker/nginx:/etc/nginx/conf.d
   php:
     build:
       context: ./
       dockerfile: ./docker/php/php.dockerfile
     volumes:
-      - ./:/var/www/html
+      - ./:/www
     ports:
       - "9000:9000"

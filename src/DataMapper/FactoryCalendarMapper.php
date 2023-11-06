@@ -35,6 +35,23 @@ class FactoryCalendarMapper
         $this->identityMap = new IdentityMap();
     }
 
+    public function findAll(): array
+    {
+        $identityMapObjects = $this->identityMap->getObjects();
+        $bdObjectsCount = $this->selectStmt->rowCount();
+
+        if (count($identityMapObjects) === $bdObjectsCount) {
+            return $identityMapObjects;
+        }
+
+        $bdObjects = $this->selectStmt->fetchAll();
+
+        $this->identityMap->resetObjects();
+        $this->identityMap->setObjects($bdObjects);
+
+        return $bdObjects;
+    }
+
     public function findById(int $id): FactoryCalendar
     {
         $key = 'FactoryCalendar' . $id;

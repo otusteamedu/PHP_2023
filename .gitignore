@@ -1,1 +1,16 @@
-.idea
+.env
+/.ssh/**
+/mysql/*/data/**
+!/mysql/*/data/.gitkeep
+/mysql/*/logs/**
+/redis/data/**
+!/redis/data/.gitkeep
+/nginx/logs/**
+/php-8-workspace/logs/**
+
+# Файлы сайта
+/site/**
+
+# Другие файлы
+.idea/
+.DS_Store

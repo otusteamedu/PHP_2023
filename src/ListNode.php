@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace User\Php2023;
+
 class ListNode
 {
     public int $val = 0;

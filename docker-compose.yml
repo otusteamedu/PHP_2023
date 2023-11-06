@@ -1,17 +1,13 @@
 version: '3'
 services:
-  site:
-    image: nginx:stable-alpine
+  db:
+    image: postgres:15.3-alpine3.18
+    restart: unless-stopped
+    tty: true
     ports:
-      - "8080:80"
+      - "5432:5432"
     volumes:
-      - .:/var/www/html
-      - ./docker/nginx:/etc/nginx/conf.d
-  php:
-    build:
-      context: ./
-      dockerfile: ./docker/php/php.dockerfile
-    volumes:
-      - ./:/var/www/html
-    ports:
-      - "9000:9000"
+      - ./docker/db/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}

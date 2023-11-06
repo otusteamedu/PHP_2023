@@ -1,0 +1,10 @@
+{
+    "name": "root/otus",
+    "description": "otus application",
+    "authors": [
+        {
+            "name": "Aleksandra Malykhina"
+        }
+    ],
+    "require": {}
+}

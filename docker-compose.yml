@@ -28,6 +28,8 @@ services:
     container_name: otus-php
     depends_on:
       - otus-mysql
+      - otus-redis
+      - otus-memcached
     volumes:
       - ./www:/data/otus.local
       - ./php/log:/var/log/php
@@ -61,6 +63,23 @@ services:
     networks:
       - otus-network
 
+  # redis service
+  otus-redis:
+    image: redis:latest
+    container_name: otus-redis
+    ports:
+      - '36379:6379'
+    networks:
+      - otus-network
+
+  # memcached service
+  otus-memcached:
+    image: memcached:latest
+    container_name: otus-memcached
+    ports:
+      - "31211:11211"
+    networks:
+      - otus-network
 
 # Docker Network
 networks:

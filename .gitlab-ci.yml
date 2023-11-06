@@ -1,0 +1,42 @@
+stages:
+  - deploy
+  - rollback
+
+before_script:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq git
+  - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+  - eval $(ssh-agent -s)
+  - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+  - mkdir -p ~/.ssh
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+  - export DIR=$(date +%Y%m%d_%H%M%S)
+
+deploy_server:
+  stage: deploy
+  environment:
+    name: server
+    url: $SERVER
+  script:
+    - ssh $USER@$SERVER "cd /var/www/hw21 &&
+      git clone https://deploy:YW94fpuzTRDtqjsRbyBJ@gitlab.com/esaul.work/hw21.git $DIR &&
+      cd /var/www &&
+      chown -R www-data:www-data ./ &&
+      cd /var/www/hw21/$DIR &&
+      sh ./deploy.sh "/var/www/hw21/$DIR/chat.sock" &&
+      cd .. &&
+      ( [ ! -d /var/www/hw21/current ] || mv -Tf /var/www/hw21/current /var/www/hw21/previous ) &&
+      ln -s /var/www/hw21/$DIR /var/www/hw21/current"
+  only:
+    - main
+  
+rollback:
+  stage: rollback
+  script:
+    - ssh $USER@$SERVER "unlink /var/www/hw21/current &&
+      mv -Tf /var/www/hw21/previous /var/www/hw21/current &&
+      cd /var/www/hw21/current &&
+      sh ./rollback.sh"
+  when: manual
+
+

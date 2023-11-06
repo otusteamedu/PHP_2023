@@ -26,6 +26,8 @@ services:
       dockerfile: Dockerfile
     image: otus/php
     container_name: otus-php
+    depends_on:
+      - otus-mysql
     volumes:
       - ./www:/data/otus.local
       - ./php/log:/var/log/php
@@ -45,6 +47,19 @@ services:
     networks:
       - otus-network
 
+  # mysql service
+  otus-mysql:
+    image: mariadb:lts
+    ports:
+      - "3306:3306"
+    container_name: otus-mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=${DB_ALLOW_EMPTY_ROOT_PASSWORD}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - otus-network
 
 
 # Docker Network

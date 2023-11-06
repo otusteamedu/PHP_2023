@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\DataMapper;
+namespace App\Entity;
 
 use App\Repository\FactoryCalendarRepository;
 use Doctrine\DBAL\Types\Types;

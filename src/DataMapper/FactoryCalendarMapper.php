@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\DataMapper;
 
+use App\Entity\FactoryCalendar;
 use App\IdentityMap\IdentityMap;
 
 class FactoryCalendarMapper

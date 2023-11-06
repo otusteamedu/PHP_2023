@@ -1,3 +1,10 @@
-# PHP_2023
+# HW21. Deploy приложений
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Цель:
+Научиться доставлять приложение до указанной среды.
+
+## Решение
+Реализован blue-green деплой с возможностью отката приложения в режиме ручного запуска через pipeline.
+Через gitlab-runner, который на VM, запускается pipeline
+Скрипт деплоя deploy.sh
+Скрипт отката rollback.sh

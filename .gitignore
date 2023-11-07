@@ -1,3 +1,5 @@
 .env
 .vagrant
 .idea
+application/.env
+application/vendor

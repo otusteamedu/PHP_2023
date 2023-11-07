@@ -39,18 +39,18 @@ class FactoryCalendarMapper
     public function findAll(): array
     {
         $identityMapObjects = $this->identityMap->getObjects();
-        $bdObjectsCount = $this->selectStmt->rowCount();
+        $bdObjects = $this->selectStmt->fetchAll();
 
-        if (count($identityMapObjects) === $bdObjectsCount) {
+        $diffObjects = array_diff_key($identityMapObjects, $bdObjects);
+
+        if (empty($diffObjects)) {
             return $identityMapObjects;
         }
-
-        $bdObjects = $this->selectStmt->fetchAll();
 
         $this->identityMap->resetObjects();
         $this->identityMap->setObjects($bdObjects);
 
-        return $bdObjects;
+        return $this->identityMap->getObjects();
     }
 
     public function findById(int $id): FactoryCalendar

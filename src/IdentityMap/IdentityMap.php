@@ -36,6 +36,6 @@ class IdentityMap
 
     public function resetObjects(): void
     {
-        $this->objects = [];
+        unset($this->objects);
     }
 }

@@ -28,8 +28,7 @@ class Film extends BaseEntity
         string $createdAt,
         string $updatedAt,
         ModelRelation $screenings
-    )
-    {
+    ) {
         parent::__construct($id);
 
         $this->name = $name;

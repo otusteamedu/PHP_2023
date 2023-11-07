@@ -19,8 +19,7 @@ class Screening extends BaseEntity
         string $time,
         string $createdAt,
         string $updatedAt
-    )
-    {
+    ) {
         parent::__construct($id);
 
         $this->filmId = $filmId;

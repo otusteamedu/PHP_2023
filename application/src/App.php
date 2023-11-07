@@ -38,11 +38,11 @@ class App
 
     private function getPdo(EnvManager $envManager): \PDO
     {
-        return (new \PDO(
-            "mysql:dbname={$envManager->getMysqlDatabase()};host=mysql",
-            $envManager->getMysqlUser(),
-            $envManager->getMysqlPassword())
-        );
+        $dns = "mysql:dbname={$envManager->getMysqlDatabase()};host=mysql";
+        $user = $envManager->getMysqlUser();
+        $password = $envManager->getMysqlPassword();
+
+        return (new \PDO($dns, $user, $password));
     }
 
     private function getOutputHelper(): OutputHelper

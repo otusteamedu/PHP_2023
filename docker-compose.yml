@@ -2,7 +2,6 @@ version: "3.2"
 
 services:
   app:
-    restart: always
     build:
       context: ./fpm
       dockerfile: Dockerfile
@@ -14,7 +13,6 @@ services:
       - app-network
 
   webserver:
-    restart: always
     build:
       context: ./nginx
       dockerfile: Dockerfile

@@ -124,5 +124,4 @@ class DemonstrationService
 
         return $screenings;
     }
-
 }

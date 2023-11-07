@@ -19,14 +19,14 @@ class Film extends BaseEntity
     private ModelRelation $screenings;
 
     public function __construct(
-        int           $id,
-        string        $name,
-        int           $duration,
-        string        $description,
-        string        $actors,
-        string        $country,
-        string        $createdAt,
-        string        $updatedAt,
+        int $id,
+        string $name,
+        int $duration,
+        string $description,
+        string $actors,
+        string $country,
+        string $createdAt,
+        string $updatedAt,
         ModelRelation $screenings
     )
     {

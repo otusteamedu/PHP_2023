@@ -13,8 +13,8 @@ class Screening extends BaseEntity
     private string $updatedAt;
 
     public function __construct(
-        int    $id,
-        int    $filmId,
+        int $id,
+        int $filmId,
         string $date,
         string $time,
         string $createdAt,

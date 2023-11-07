@@ -74,17 +74,17 @@ class FilmMapper extends BaseMapper
 
     protected function getInsertStmt(): \PDOStatement
     {
-        return $this->pdo->prepare(
-            '
+        $sql = <<<SQL
             INSERT INTO films (name, duration, description, actors, country, created_at, updated_at) 
             VALUES (:name, :duration, :description, :actors, :country, :created_at, :updated_at)
-        ');
+        SQL;
+
+        return $this->pdo->prepare($sql);
     }
 
     protected function getUpdateStmt(): \PDOStatement
     {
-        return $this->pdo->prepare(
-            '
+        $slq = <<<SQL
             UPDATE films 
             SET 
                 name = :name, 
@@ -96,7 +96,9 @@ class FilmMapper extends BaseMapper
                 updated_at = :updated_at 
             WHERE id = :id
             LIMIT 1
-        ');
+        SQL;
+
+        return $this->pdo->prepare($slq);
     }
 
     protected function getDeleteStmt(): \PDOStatement
@@ -106,12 +108,13 @@ class FilmMapper extends BaseMapper
 
     protected function getSelectManyStmt(): \PDOStatement
     {
-        return $this->pdo->prepare(
-            '
+        $sql = <<<SQL
             SELECT id, name, duration, description, actors, country, created_at, updated_at 
             FROM films 
-            WHERE id IN (:ids)
             ORDER BY id DESC 
-        ');
+            LIMIT :limit OFFSET :offset
+        SQL;
+
+        return $this->pdo->prepare($sql);
     }
 }

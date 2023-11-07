@@ -16,12 +16,14 @@ class ScreeningMapper extends BaseMapper
     {
         parent::__construct($pdo);
 
-        $this->selectManyByFilmIdStmt = $this->pdo->prepare('
+        $sql = <<<SQL
             SELECT id, film_id, `date`, `time`, created_at, updated_at 
             FROM screenings 
             WHERE film_id = :film_id
             ORDER BY id DESC
-        ');
+        SQL;
+
+        $this->selectManyByFilmIdStmt = $this->pdo->prepare($sql);
     }
 
     /**
@@ -67,15 +69,17 @@ class ScreeningMapper extends BaseMapper
 
     protected function getInsertStmt(): \PDOStatement
     {
-        return $this->pdo->prepare('
+        $sql = <<<SQL
             INSERT INTO screenings (film_id, `date`, `time`, created_at, updated_at) 
             VALUES (:film_id, :date, :time, :created_at, :updated_at)
-        ');
+        SQL;
+
+        return $this->pdo->prepare($sql);
     }
 
     protected function getUpdateStmt(): \PDOStatement
     {
-        return $this->pdo->prepare('
+        $sql = <<<SQL
             UPDATE screenings 
             SET 
                 film_id = :film_id, 
@@ -85,7 +89,9 @@ class ScreeningMapper extends BaseMapper
                 updated_at = :updated_at 
             WHERE id = :id
             LIMIT 1
-        ');
+        SQL;
+
+        return $this->pdo->prepare($sql);
     }
 
     protected function getDeleteStmt(): \PDOStatement
@@ -95,12 +101,14 @@ class ScreeningMapper extends BaseMapper
 
     protected function getSelectManyStmt(): \PDOStatement
     {
-        return $this->pdo->prepare('
+        $sql = <<<SQL
             SELECT id, film_id, `date`, `time`, created_at, updated_at 
             FROM screenings 
             WHERE id IN (:ids)
             ORDER BY id DESC
-        ');
+        SQL;
+
+        return $this->pdo->prepare($sql);
     }
 
 

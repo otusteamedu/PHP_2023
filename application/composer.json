@@ -1,0 +1,25 @@
+{
+    "name": "gesparo/hw",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gesparo\\HW\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Maxim Melnik",
+            "email": "gesparo1@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "ext-json": "*",
+        "vlucas/phpdotenv": "^5.5"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

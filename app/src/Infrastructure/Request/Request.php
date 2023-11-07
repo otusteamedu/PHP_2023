@@ -15,4 +15,9 @@ class Request
     {
         return json_decode($this->requestJson, true);
     }
+
+    public function validate(): void
+    {
+        //TODO
+    }
 }

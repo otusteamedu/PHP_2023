@@ -1,6 +1,6 @@
 version: "3.2"
 
-service:
+services:
   app:
     build:
       context: ./fpm
@@ -36,7 +36,7 @@ service:
     volumes:
       - ./redis-data:/var/lib/redis
     environment:
-      - REDIS_REPLICATION_MODE={REDIS_REPLICATION_MODE}
+      - REDIS_REPLICATION_MODE=${REDIS_REPLICATION_MODE}
     networks:
       - app-network
 
@@ -62,13 +62,13 @@ service:
     image: mariadb
     restart: always
     ports:
-      - 3306:3306
+      - 3309:3306
     container_name: db
     volumes:
       - ./dbdata:/var/lib/mariadb
     environment:
-      MARIADB_DATABASE: {MARIADB_DATABASE}
-      MARIADB_ROOT_PASSWORD: {MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
     networks:
       - app-network
 

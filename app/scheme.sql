@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS "attributes";
 DROP SEQUENCE IF EXISTS "Attributes_id_seq";
-CREATE SEQUENCE "Attributes_id_seq" INCREMENT  MINVALUE  MAXVALUE  CACHE ;
+CREATE SEQUENCE "Attributes_id_seq" INCREMENT 1 MINVALUE 1 MAXVALUE 2147483647 CACHE 1;
 
 CREATE TABLE "public"."attributes" (
     "id" integer DEFAULT nextval('"Attributes_id_seq"') NOT NULL,

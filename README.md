@@ -30,7 +30,7 @@ vagrant ssh
 
 ## Подготовка и запуск среды
 ```bash
-cd application && cp .env.example .env
+cd /vagrant/application && cp .env.example .env
 ```
 
 Далее, заполните все пустые строки нужными данными в файле `.env`

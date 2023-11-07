@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  pay-service:
+    build:
+      context: .docker
+      dockerfile: Dockerfile
+    volumes:
+      - ./pay_service:/app
+    ports:
+      - "9501:9501"
+

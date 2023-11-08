@@ -23,6 +23,12 @@ class SomeController
      */
     public function someAction(Request $request): Response
     {
-        //TODO
+        try {
+            $request->validate();
+        } catch (\Exception $e) {
+            return new Response(400, $e->getMessage());
+        }
+
+
     }
 }

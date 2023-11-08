@@ -1,4 +1,4 @@
-_docker/tmp/
-.idea
-.gitignore
-.github
+**/tmp
+/.idea
+/.gitignore
+/.github

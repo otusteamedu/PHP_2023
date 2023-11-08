@@ -7,7 +7,7 @@ END;
 $$ language plpgsql STRICT;
 
 --random string function
-CREATE OR REPLACE FUNCTION random_str(length integer) returns text
+CREATE OR REPLACE FUNCTION rand_str(length integer) returns text
     language plpgsql
 as
 $$

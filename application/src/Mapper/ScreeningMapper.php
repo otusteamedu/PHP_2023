@@ -52,7 +52,7 @@ class ScreeningMapper extends BaseMapper
         $screenings = [];
 
         foreach ($rows as $row) {
-            $screening = $this->mapRowToFilm((int)$row['id'], $row);
+            $screening = $this->mapRowToEntity((int)$row['id'], $row);
 
             $this->identityMap->add($screening);
 
@@ -112,7 +112,7 @@ class ScreeningMapper extends BaseMapper
     }
 
 
-    protected function mapRowToFilm(int $id, array $row): BaseEntity
+    protected function mapRowToEntity(int $id, array $row): BaseEntity
     {
         return new Screening(
             $id,

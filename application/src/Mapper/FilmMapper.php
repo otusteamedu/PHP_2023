@@ -19,7 +19,7 @@ class FilmMapper extends BaseMapper
         $this->screeningMapper = $screeningMapper;
     }
 
-    protected function mapRowToFilm(int $id, array $row): Film
+    protected function mapRowToEntity(int $id, array $row): Film
     {
         return new Film(
             $id,

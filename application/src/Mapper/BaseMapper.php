@@ -39,7 +39,7 @@ abstract class BaseMapper
     abstract protected function getDeleteStmt(): \PDOStatement;
     abstract protected function getSelectManyStmt(): \PDOStatement;
 
-    abstract protected function mapRowToFilm(int $id, array $row): BaseEntity;
+    abstract protected function mapRowToEntity(int $id, array $row): BaseEntity;
     abstract protected function getInsertFields(array $raw): array;
     abstract protected function getUpdateFields(BaseEntity $entity): array;
 
@@ -70,7 +70,7 @@ abstract class BaseMapper
             return null;
         }
 
-        $result = $this->mapRowToFilm($id, $row);
+        $result = $this->mapRowToEntity($id, $row);
 
         $this->identityMap->add($result);
 
@@ -117,7 +117,7 @@ abstract class BaseMapper
         }
 
         foreach ($rows as $row) {
-            $films = $this->mapRowToFilm((int)$row['id'], $row);
+            $films = $this->mapRowToEntity((int)$row['id'], $row);
 
             $this->identityMap->add($films);
 
@@ -139,7 +139,7 @@ abstract class BaseMapper
             throw AppException::executeInsertFailed($raw);
         }
 
-        $result = $this->mapRowToFilm((int)$this->pdo->lastInsertId(), $raw);
+        $result = $this->mapRowToEntity((int)$this->pdo->lastInsertId(), $raw);
 
         $this->identityMap->add($result);
 

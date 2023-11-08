@@ -7,7 +7,8 @@ use User\Php2023\Solution;
 
 require 'vendor/autoload.php';
 
-function createLinkedList($values) {
+function createLinkedList($values)
+{
     $dummy = new ListNode(0);
     $current = $dummy;
     foreach ($values as $value) {
@@ -17,7 +18,8 @@ function createLinkedList($values) {
     return $dummy->next;
 }
 
-function getNodeByIndex($head, $index) {
+function getNodeByIndex($head, $index)
+{
     $current = $head;
     for ($i = 0; $i < $index && $current !== null; $i++) {
         $current = $current->next;

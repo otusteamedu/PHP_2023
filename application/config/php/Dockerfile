@@ -7,6 +7,9 @@ RUN apt-get update \
 	&& docker-php-ext-enable redis memcached \
 	&& docker-php-ext-install mysqli \
 	&& docker-php-ext-enable mysqli \
+    && docker-php-ext-install pdo_mysql \
     && apt-get install -y git
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /data/www

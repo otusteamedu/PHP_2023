@@ -8,6 +8,7 @@ services:
     volumes:
        - ./code/:/var/www/
        - ./_docker/nginx/conf.d/:/etc/nginx/conf.d/
+       - ./_docker/nginx/sites-enabled/:/etc/nginx/sites-enabled/
     ports:
       - 666:80
     container_name: webserver
@@ -15,13 +16,14 @@ services:
       - app-network
 
 
+
   app:
     build:
       context: ./_docker/app
       dockerfile: Dockerfile
-    volumes:
-      - ./code/:/var/www
     container_name: project_app
+    volumes:
+      - ./code/:/var/www/
     networks:
       - app-network
 

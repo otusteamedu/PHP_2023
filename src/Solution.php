@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 namespace User\Php2023;
+
 class Solution
 {
-
     public function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode
     {
         $pointerA = $headA;

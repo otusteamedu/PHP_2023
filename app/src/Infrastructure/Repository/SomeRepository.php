@@ -15,5 +15,6 @@ class SomeRepository
     public function setOrderIsPaid(string $orderNumber, float $sum): bool
     {
         //TODO
+        return true;
     }
 }

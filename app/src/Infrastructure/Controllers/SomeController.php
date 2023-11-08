@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Controllers;
 
+use App\Infrastructure\PayService\SomeApiPayService;
+use App\Infrastructure\Repository\SomeRepository;
 use App\Infrastructure\Request\Request;
 use App\Infrastructure\Response\Response;
 
@@ -29,6 +31,21 @@ class SomeController
             return new Response(400, $e->getMessage());
         }
 
+        $data = $request->toArray();
 
+        $payService = new SomeApiPayService();
+        $codeResponse =  $payService->sendRequest();
+
+        if ($codeResponse == 403) {
+            return new Response(403, 'api error');
+        }
+
+        $repository = new SomeRepository();
+
+        if (!$repository->setOrderIsPaid($data['order_number'], $data['sum'])) {
+            return new Response(400, 'the amount has not been debited');
+        }
+
+        return new Response(200, 'the order is paid');
     }
 }

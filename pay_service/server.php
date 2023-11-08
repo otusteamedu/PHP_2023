@@ -7,8 +7,10 @@ $server->on("start", function (OpenSwoole\Http\Server $server) {
 });
 
 $server->on("request", function (OpenSwoole\Http\Request $request, OpenSwoole\Http\Response $response) {
-    $response->header("Content-Type", "text/plain");
-    $response->end("Hello World\n");
+//    $response->header("Content-Type", "text/plain");
+//    $response->end("Hello World\n");
+    $response->status(403);
+    //$response->status(200);
 });
 
 $server->start();

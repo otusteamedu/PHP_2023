@@ -23,7 +23,7 @@ class Solution
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
+    function mergeTwoLists($list1, $list2): ListNode
     {
         $this->lastListValue1 = $list1;
         $this->lastListValue2 = $list2;

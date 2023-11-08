@@ -29,8 +29,6 @@ services:
       - redis
       - memcached
       - mariadb
-    ports:
-      - '9010:9000'
     networks:
       - otusphp-network
 
@@ -39,8 +37,6 @@ services:
     build: ./php-fpm-cli/
     volumes:
       - composervendor:/app/vendor/
-    depends_on:
-      - php-fpm8.2
     networks:
       - otusphp-network
 
@@ -62,16 +58,12 @@ services:
   memcached:
     container_name: otusphp-memcached
     image: memcached
-    ports:
-      - '11222:11211'
     networks:
       - otusphp-network
 
   redis:
     container_name: otusphp-redis
     image: redis
-    ports:
-      - '6399:6379'
     networks:
       - otusphp-network
 

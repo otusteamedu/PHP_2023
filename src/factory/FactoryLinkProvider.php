@@ -12,9 +12,9 @@ class FactoryLinkProvider
 {
     public static function create(): LinkProviderInterface
     {
-         return new LinkArrayProvider(
+        return new LinkArrayProvider(
             //IoCInput::create(LinkDBData::class)
             IoCInput::create(LinkDynamicArrayData::class)
-         );
+        );
     }
 }

@@ -36,7 +36,7 @@ class Sqlite3DriverDBAdapter implements DBAdapterInterface
     {
         $results = $this->dbConn->query($this->query);
         $data = [];
-        while ($res= $results->fetchArray(1)) {
+        while ($res = $results->fetchArray(1)) {
             $data[] = $res;
         }
 

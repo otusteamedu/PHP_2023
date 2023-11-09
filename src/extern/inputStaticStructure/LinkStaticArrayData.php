@@ -21,9 +21,9 @@ class LinkStaticArrayData implements FetchableArrayInterface
             4 => ['src\users\numb\AdminNumb', 'aliases' => ['admin'], 'active' => 1],
             //'админ' => ['src\users\ru\AdminRu'],
 
-            6 => ['src\users\numb\EmperorNumb', 'with_name'=>'+', 'aliases' => ['emperor'], 'active' => 1],
+            6 => ['src\users\numb\EmperorNumb', 'with_name' => '+', 'aliases' => ['emperor'], 'active' => 1],
 
-            5 => ['src\users\numb\UserNumb', 'with_name'=>'+', 'aliases' => ['user'], 'active' => 1],
+            5 => ['src\users\numb\UserNumb', 'with_name' => '+', 'aliases' => ['user'], 'active' => 1],
         ];
     }
 }

@@ -6,7 +6,7 @@ use src\interface\NameableUserInterface;
 
 class NameableUserRu implements NameableUserInterface
 {
-    function __construct(private readonly string $name)
+    public function __construct(private readonly string $name)
     {
     }
 

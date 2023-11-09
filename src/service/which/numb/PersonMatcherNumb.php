@@ -31,6 +31,6 @@ class PersonMatcherNumb
             ->get(
                 $this->typeUser,
                 $this->dtoPerson->setKey($whoseKey)
-        );
+            );
     }
 }

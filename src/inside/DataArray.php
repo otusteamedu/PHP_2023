@@ -30,8 +30,8 @@ class DataArray
      */
     public function addKeyWithValueIndexed(array $keyWithValue): self
     {
-        if(!count($keyWithValue)) {
-            throw new EmptyKeyForDataListException('Method '.__METHOD__.' got empty-array without key!');
+        if (!count($keyWithValue)) {
+            throw new EmptyKeyForDataListException('Method ' . __METHOD__ . ' got empty-array without key!');
         }
         $key = array_key_first($keyWithValue);
         $this->dataArray[ $key ] = $keyWithValue[$key];

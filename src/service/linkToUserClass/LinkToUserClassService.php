@@ -2,7 +2,6 @@
 
 namespace src\service\linkToUserClass;
 
-
 class LinkToUserClassService
 {
     private array $dataSet;
@@ -23,7 +22,7 @@ class LinkToUserClassService
 
     private function filterOnlyActive(array $dt): array
     {
-        return array_filter($dt, fn($val) => $val['active']??false);
+        return array_filter($dt, fn($val) => $val['active'] ?? false);
     }
 
     public function includeAliases(array $dataset, string $name): array
@@ -34,7 +33,7 @@ class LinkToUserClassService
         foreach ($dataset as $key => $value) {
             if (array_key_exists($nameAliasesFiled, $value)) {
                 foreach ($value[$nameAliasesFiled] as $subVal) {
-                    if(array_key_exists($subVal, $acc)) {
+                    if (array_key_exists($subVal, $acc)) {
                         //@todo log rewrite exist value, keep State!
                     }
                     $acc[ $subVal ] = ${$name}; //@fixme exist variable?

@@ -9,18 +9,19 @@ class RoleLink
     public static function detect(StringClass $roleOrName, array $role2key): StringClass
     {
         return StringClass::build()->from(
-          match(true) {
-            self::isUserOrEmperor($roleOrName, $role2key) =>
-                self::isEmperorRole($roleOrName) ?
-                    'emperor' :
-                    'user',
-            default => $roleOrName->get() //@todo UserOrEmperor
-        });
+            match(true) {
+                self::isUserOrEmperor($roleOrName, $role2key) =>
+                    self::isEmperorRole($roleOrName) ?
+                        'emperor' :
+                        'user',
+                default => $roleOrName->get()
+            }
+        );
     }
 
     private static function isUserOrEmperor(StringClass $roleOrName, array $role2key): bool
     {
-        return !array_key_exists($roleOrName->get(), $role2key); //@fixme
+        return !array_key_exists($roleOrName->get(), $role2key);
     }
 
     private static function isEmperorRole(StringClass $roleOrName): bool

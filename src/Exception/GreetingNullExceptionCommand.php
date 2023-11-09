@@ -3,13 +3,13 @@
 namespace src\Exception;
 
 use Exception;
-use Throwable;
 
-class GreetingNullExceptionCommand implements CommandInterface {
+class GreetingNullExceptionCommand implements CommandInterface
+{
     public function do(Exception $exception) {
         echo PHP_EOL;
         echo PHP_EOL;
-        echo 'Oi-Oi-Oi !!! GreetingNullExceptionCommand: '. $exception->getMessage();
+        echo 'Oi-Oi-Oi !!! GreetingNullExceptionCommand: ' . $exception->getMessage();
         echo PHP_EOL;
         echo PHP_EOL;
     }

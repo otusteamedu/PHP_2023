@@ -3,13 +3,13 @@
 namespace src\Exception;
 
 use Exception;
-use Throwable;
 
-class GreetingNonexistentExceptionCommand implements CommandInterface {
+class GreetingNonexistentExceptionCommand implements CommandInterface
+{
     public function do(Exception $exception) {
         echo PHP_EOL;
         echo PHP_EOL;
-        echo 'Ai-Ai-Ai !!! GreetingNonexistentExceptionCommand: '. $exception->getMessage();
+        echo 'Ai-Ai-Ai !!! GreetingNonexistentExceptionCommand: ' . $exception->getMessage();
         echo PHP_EOL;
         echo PHP_EOL;
     }

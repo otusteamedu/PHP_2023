@@ -1,0 +1,87 @@
+version: "3"
+
+
+services:
+
+  # nginx service
+  otus-nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/data/otus.local
+      - ./nginx/log:/var/log/nginx
+      - ./shared:/var/run
+    networks:
+      - otus-network
+
+  # php-fpm service
+  otus-php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: otus/php
+    container_name: otus-php
+    depends_on:
+      - otus-mysql
+      - otus-redis
+      - otus-memcached
+    volumes:
+      - ./www:/data/otus.local
+      - ./php/log:/var/log/php
+      - ./shared:/var/run
+    networks:
+      - otus-network
+
+  # php-cli service
+  otus-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: otus/cli
+    container_name: otus-cli
+    volumes:
+      - ./www:/data/otus.local
+    networks:
+      - otus-network
+
+  # mysql service
+  otus-mysql:
+    image: mariadb:lts
+    ports:
+      - "3306:3306"
+    container_name: otus-mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=${DB_ALLOW_EMPTY_ROOT_PASSWORD}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - otus-network
+
+  # redis service
+  otus-redis:
+    image: redis:latest
+    container_name: otus-redis
+    ports:
+      - '6379:6379'
+    networks:
+      - otus-network
+
+  # memcached service
+  otus-memcached:
+    image: memcached:latest
+    container_name: otus-memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - otus-network
+
+# Docker Network
+networks:
+  otus-network:
+    driver: bridge

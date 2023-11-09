@@ -1,0 +1,21 @@
+{
+	"name": "yalanskiy/otus-homework",
+	"description": "OTUS Homework",
+	"minimum-stability": "stable",
+	"license": "proprietary",
+	"authors": [
+		{
+			"name": "Sergey Yalanskiy",
+			"email": "yalansky@gmail.com"
+		}
+	],
+	"require": {
+		"predis/predis": "^v2.2.2",
+		"ext-mysqli": "*",
+		"ext-memcached": "*"
+	},
+	"autoload": {
+		"psr-4": {
+		}
+	}
+}

@@ -55,6 +55,16 @@ RETURN (filmsList::text[])[ceil(random()*array_length(filmsList::text[], 1))];
 END;
 $$ language plpgsql STRICT;
 
+--random ticket status
+CREATE OR REPLACE FUNCTION rand_ticket_status() RETURNS TEXT AS
+$$
+DECLARE
+ticketStatusList text[] := array['free', 'book', 'reserved'];
+BEGIN
+RETURN (ticketStatusList::text[])[ceil(random()*array_length(ticketStatusList::text[], 1))];
+END;
+$$ language plpgsql STRICT;
+
 --random day of weak function
 CREATE OR REPLACE FUNCTION rand_schedule_day() RETURNS TEXT AS
 $$

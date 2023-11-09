@@ -37,3 +37,6 @@ create index idx_datetime on sessions(datetime);
 --                     Index Cond: (id = sessions.film_id)
 -- Planning Time: 0.734 ms
 -- Execution Time: 1.209 ms
+
+-- Из анализа видно, что планировщик использовал индекс idx_datetime, что позволило ускорить выполнение запроса в 2 раза
+-- Вывод: создание индекса по полю datetime было оправдано

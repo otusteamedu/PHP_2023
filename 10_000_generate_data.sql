@@ -1,4 +1,4 @@
--- Films
+-- films
 insert into films(
     id, name, genre, year_of_release, duration
 )
@@ -11,7 +11,7 @@ select
 from
     generate_series(1, 10000) as gs(id);
 
---Halls
+--halls
 insert into halls(
                   id, name, rows_number, seats_number
 )
@@ -23,7 +23,7 @@ select
 from
     generate_series(1, 10) as gs(id);
 
---Sessions
+--sessions
 insert into sessions(
     id, datetime, hall_id, film_id
 )
@@ -34,3 +34,22 @@ select
     rand_between(1, 10000)
 from
     generate_series(1, 1000) as gs(id);
+
+--rows_seats_categories
+INSERT INTO rows_seats_categories("id", "row", "seat", "hall_id", "seat_category_id")
+select
+    gs.id,
+    rand_between(1, 100),
+    rand_between(1, 100),
+    rand_between(1, 10),
+    rand_between(4,5)
+from generate_series(1, 100) as gs(id);
+
+-- tickets
+INSERT INTO tickets ("id", "rows_seats_categories_id", "session_id", "status")
+select
+    gs.id,
+    rand_between(1, 100),
+    rand_between(1, 1000),
+    rand_ticket_status()
+from generate_series(1, 10000) as gs(id);

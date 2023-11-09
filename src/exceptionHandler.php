@@ -8,8 +8,7 @@ use ReflectionClass;
 
 set_exception_handler(
     /** @throws \ReflectionException */
-    function (Exception $exception): void
-    {
+    function (Exception $exception): void {
         echo PHP_EOL;
         echo 'Uncaught exception class: ' . (new ReflectionClass($exception::class))->getShortName();
         echo PHP_EOL;
@@ -23,8 +22,7 @@ set_exception_handler(
 
 set_error_handler(
     /** @throws ErrorException */
-    function($severity, $message, $filename, $lineno)
-    {
+    function ($severity, $message, $filename, $lineno) {
         throw new ErrorException($message, 0, $severity, $filename, $lineno);
     }
 );

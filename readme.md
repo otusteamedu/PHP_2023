@@ -57,6 +57,18 @@
 возможно так же частично повторится часть функционала, но это уже о будущем функционале, его проектировании и реализации.  
 Мое мнение, что повторение метода и сигнатуры метода - это не то "повторение", которое рекомендуется `don't repeat`.
 
+#### `src/inside/WhichPerson.php`
+Реализован паттерн Строитель (Builder) - см.методы, возвращающие `$this`.
+Пример использования
+```php
+$whichPerson = (new WhichPerson())
+    ->setAliasUser($roleOrName)
+    ->takeAttributes();
+```
+
+#### `src/Exception/IoC.php`
+Реализует паттерн стратегия для выполнения команды по ключу `return $this->getDataList()->getByKey($exception);`
+
 -- --
 #### `tests/IntegrationSystem/UserImitation_full_Test.php`
 Общая идея сервиса:

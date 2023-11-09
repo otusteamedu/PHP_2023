@@ -8,7 +8,7 @@ use src\interface\NameableUserInterface;
 class EmperorNumb implements NameableUserInterface, KeyableUserInterface
 {
     private const key = 6;
-    function __construct(private readonly string $name)
+    public function __construct(private readonly string $name)
     {
     }
 

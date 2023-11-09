@@ -9,7 +9,7 @@ class UserNumb implements NameableUserInterface, KeyableUserInterface
 {
     private const key = 5;
 
-    function __construct(private readonly string $name)
+    public function __construct(private readonly string $name)
     {
     }
 

@@ -9,7 +9,7 @@ class RoleLink
     public static function detect(StringClass $roleOrName, array $role2key): StringClass
     {
         return StringClass::build()->from(
-            match(true) {
+            match (true) {
                 self::isUserOrEmperor($roleOrName, $role2key) =>
                     self::isEmperorRole($roleOrName) ?
                         'emperor' :

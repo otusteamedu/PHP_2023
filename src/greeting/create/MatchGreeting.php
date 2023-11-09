@@ -10,8 +10,10 @@ use src\inside\DataFixedArray;
 use src\inside\typeClass\IntClass;
 use src\interface\GreetingInterface;
 
-class MatchGreeting {
-    public static function create(IntClass $key): GreetingInterface {
+class MatchGreeting
+{
+    public static function create(IntClass $key): GreetingInterface
+    {
         $greetings = DataFixedArray::build(); //@fixme
 
         $greetings->fromArray(Greetings::fetch());

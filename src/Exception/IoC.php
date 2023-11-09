@@ -4,24 +4,29 @@ namespace src\Exception;
 
 use src\inside\DataArray;
 
-class IoC {
+class IoC
+{
     private DataArray $dataList;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->dataList = DataArray::build();
     }
 
-    public static function build():self {
+    public static function build(): self
+    {
         return new self();
     }
 
-    private function getDataList(): DataArray {
+    private function getDataList(): DataArray
+    {
         return $this->dataList;
     }
 
-    public function matchCommand(string $exception): CommandInterface {
+    public function matchCommand(string $exception): CommandInterface
+    {
         $this->make();
-        if(!$this->getDataList()->hasByKey($exception)) {
+        if (!$this->getDataList()->hasByKey($exception)) {
             return (new NonexistentImplementationExceptionCommand());
         }
         //try {
@@ -35,7 +40,8 @@ class IoC {
         return $this->getDataList()->getByKey($exception);
     }
 
-    private function make() {
+    private function make()
+    {
         $this->getDataList()->addByKey(
             NonexistentImplementationException::class,
             new NonexistentImplementationExceptionCommand()

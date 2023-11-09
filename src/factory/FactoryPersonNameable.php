@@ -8,8 +8,10 @@ use src\interface\NameableUserInterface;
 use src\service\which\numb\class\WhoIamNumbClass;
 use src\service\which\numb\PersonMatcherNumb;
 
-class FactoryPersonNameable {
-    public static function create(StringClass $roleOrName): NameableUserInterface {
+class FactoryPersonNameable
+{
+    public static function create(StringClass $roleOrName): NameableUserInterface
+    {
         $whichPerson = (new WhichPerson())
             ->setAliasUser($roleOrName)
             ->takeAttributes();

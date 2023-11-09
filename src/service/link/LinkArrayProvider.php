@@ -9,16 +9,22 @@ use src\interface\NameableUserInterface;
 use src\interface\RoleUserInterface;
 use src\service\linkToUserClass\ServiceWrapper;
 
-class LinkArrayProvider implements LinkProviderInterface {
-    public function __construct(private readonly FetchableArrayInterface $service) {
+class LinkArrayProvider implements LinkProviderInterface
+{
+    public function __construct(private readonly FetchableArrayInterface $service)
+    {
     }
 
-    public function getService(): FetchableArrayInterface {
+    public function getService(): FetchableArrayInterface
+    {
         return $this->service;
     }
 
-    public function get(RoleUserInterface $typeUser,
-                        DTOPerson $person): NameableUserInterface {
+    public function get(
+        RoleUserInterface $typeUser,
+        DTOPerson $person
+    ): NameableUserInterface
+    {
         $data = (new ServiceWrapper())
             //->setFetched($this->getService()->fetch())
             ->getLink2UserClass()
@@ -27,7 +33,8 @@ class LinkArrayProvider implements LinkProviderInterface {
         return $links[$person->getKey()->toString()];
     }
 
-    private function getLink2NameUser(array $data, DTOPerson $person): array {
+    private function getLink2NameUser(array $data, DTOPerson $person): array
+    {
         return array_map(
             fn($item): NameableUserInterface =>
             match (true) {
@@ -38,7 +45,8 @@ class LinkArrayProvider implements LinkProviderInterface {
         );
     }
 
-    private function hasItem($item, string $col = 'with_name'): bool {
+    private function hasItem($item, string $col = 'with_name'): bool
+    {
         return array_key_exists($col, $item);
     }
 }

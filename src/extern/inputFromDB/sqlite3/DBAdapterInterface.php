@@ -2,7 +2,8 @@
 
 namespace src\extern\inputFromDB\sqlite3;
 
-interface DBAdapterInterface {
+interface DBAdapterInterface
+{
     public static function build(): self;
 
     public function setSource(string $source);

@@ -2,7 +2,8 @@
 
 namespace src\interface;
 
-interface RoleUserInterface { //@fixme is role or key
+interface RoleUserInterface
+{
     public static function Guest(): string;
     public static function Mgr(): string;
     public static function Boos(): string;

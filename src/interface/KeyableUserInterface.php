@@ -2,6 +2,7 @@
 
 namespace src\interface;
 
-interface KeyableUserInterface {
+interface KeyableUserInterface
+{
     public function getKey(): string;
 }

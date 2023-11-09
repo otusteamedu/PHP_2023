@@ -8,21 +8,25 @@ use src\inside\typeClass\StringClass;
 use src\interface\NameableUserInterface;
 use src\interface\RoleUserInterface;
 
-class PersonMatcherNumb {
+class PersonMatcherNumb
+{
     private RoleUserInterface $typeUser;
     private DTOPerson $dtoPerson;
 
-    public function __construct(RoleUserInterface $typeUser) {
+    public function __construct(RoleUserInterface $typeUser)
+    {
         $this->typeUser = $typeUser;
         $this->dtoPerson = DTOPerson::build();
     }
 
-    public function setName(StringClass $name): self {
+    public function setName(StringClass $name): self
+    {
         $this->dtoPerson->setName($name);
         return $this;
     }
 
-    public function match(StringClass $whoseKey): NameableUserInterface { //it is extern type!
+    public function match(StringClass $whoseKey): NameableUserInterface
+    {
         return FactoryLinkProvider::create()
             ->get(
                 $this->typeUser,

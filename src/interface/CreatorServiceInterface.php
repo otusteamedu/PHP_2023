@@ -4,7 +4,8 @@ namespace src\interface;
 
 use src\inside\typeClass\StringClass;
 
-interface CreatorServiceInterface {
+interface CreatorServiceInterface
+{
     public function setRoleOrName(StringClass $whoRoleOrName);
 
     public function makeGreeting(): GreetingInterface;

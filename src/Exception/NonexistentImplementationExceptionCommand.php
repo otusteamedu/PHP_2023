@@ -3,9 +3,9 @@
 namespace src\Exception;
 
 use Exception;
-use Throwable;
 
-class NonexistentImplementationExceptionCommand implements CommandInterface {
+class NonexistentImplementationExceptionCommand implements CommandInterface
+{
     public function do(Exception $exception)
     {
         echo PHP_EOL;

@@ -8,11 +8,13 @@ use src\interface\LinkProviderInterface;
 use src\service\link\LinkArrayProvider;
 use src\service\link\source\LinkDynamicArrayData;
 
-class FactoryLinkProvider {
-    public static function create(): LinkProviderInterface {
+class FactoryLinkProvider
+{
+    public static function create(): LinkProviderInterface
+    {
          return new LinkArrayProvider(
-//IoCInput::create(LinkDBData::class)
-IoCInput::create(LinkDynamicArrayData::class)
+            //IoCInput::create(LinkDBData::class)
+            IoCInput::create(LinkDynamicArrayData::class)
          );
     }
 }

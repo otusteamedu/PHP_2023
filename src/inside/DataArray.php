@@ -5,18 +5,22 @@ namespace src\inside;
 use src\Exception\EmptyKeyForDataListException;
 use src\Exception\GreetingNonexistentException;
 
-class DataArray { //@fixme add interface
+class DataArray
+{
     private array $dataArray;
 
-    public static function build(): self {
+    public static function build(): self
+    {
         return new self();
     }
 
-    public function toArray(): array {
+    public function toArray(): array
+    {
         return $this->dataArray;
     }
 
-    public function addByKey($key, $value): self {
+    public function addByKey($key, $value): self
+    {
         $this->dataArray[$key] = $value;
         return $this;
     }
@@ -24,7 +28,8 @@ class DataArray { //@fixme add interface
     /**
      * @throws EmptyKeyForDataListException
      */
-    public function addKeyWithValueIndexed(array $keyWithValue): self {
+    public function addKeyWithValueIndexed(array $keyWithValue): self
+    {
         if(!count($keyWithValue)) {
             throw new EmptyKeyForDataListException('Method '.__METHOD__.' got empty-array without key!');
         }
@@ -33,22 +38,26 @@ class DataArray { //@fixme add interface
         return $this;
     }
 
-    public function hasByKey($key): bool {
+    public function hasByKey($key): bool
+    {
         return array_key_exists($key, $this->dataArray);
     }
 
-    public function getByKey($key) {
+    public function getByKey($key)
+    {
         return $this->dataArray[$key];
     }
 
-    public function getByKeyWithDefault($key, $default) {
+    public function getByKeyWithDefault($key, $default)
+    {
         return $this->dataArray[$key] ?? $default;
     }
 
     /**
      * @throws GreetingNonexistentException
      */
-    public function getByKeyOrException($key) {
+    public function getByKeyOrException($key)
+    {
         return $this->dataArray[$key] ?? throw new GreetingNonexistentException('key::' . $key);
     }
 }

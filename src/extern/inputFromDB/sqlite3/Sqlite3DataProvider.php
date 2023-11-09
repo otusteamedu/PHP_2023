@@ -4,8 +4,10 @@ namespace src\extern\inputFromDB\sqlite3;
 
 use src\PathHomeSource;
 
-class Sqlite3DataProvider implements CreatorDBAdapterInterface {
-    public static function create(): DBAdapterInterface {
+class Sqlite3DataProvider implements CreatorDBAdapterInterface
+{
+    public static function create(): DBAdapterInterface
+    {
         $path = implode(
             DIRECTORY_SEPARATOR,
             [PathHomeSource::get(), '..', 'db', 'cnf.sqlite']

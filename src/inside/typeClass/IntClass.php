@@ -2,7 +2,8 @@
 
 namespace src\inside\typeClass;
 
-class IntClass implements CustomizableInterface {
+class IntClass implements CustomizableInterface
+{
     private int $val;
 
     public static function build(): self // @fixme use trait buildable or creatable
@@ -32,18 +33,21 @@ class IntClass implements CustomizableInterface {
         return $this;
     }
 
-    public static function cast(int $value): self {
+    public static function cast(int $value): self
+    {
         $cast = new self();
         $cast->set($value);
         return $cast;
     }
 
-    public function customize($value): self {
+    public function customize($value): self
+    {
         $this->set($value);
         return $this;
     }
 
-    public function from($value): self {
+    public function from($value): self
+    {
         $this->set($value);
         return $this;
     }

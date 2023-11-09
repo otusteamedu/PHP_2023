@@ -2,6 +2,7 @@
 
 namespace src\interface;
 
-interface GettableArrayInterface {
+interface GettableArrayInterface
+{
     public static function get(): array;
 }

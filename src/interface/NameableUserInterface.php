@@ -2,6 +2,7 @@
 
 namespace src\interface;
 
-interface NameableUserInterface {
+interface NameableUserInterface
+{
     public function getName(): string;
 }

@@ -2,6 +2,7 @@
 
 namespace src\interface;
 
-interface GreetingInterface {
+interface GreetingInterface
+{
     public function getCaption(string $nick): string;
 }

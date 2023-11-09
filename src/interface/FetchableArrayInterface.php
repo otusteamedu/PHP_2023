@@ -2,6 +2,7 @@
 
 namespace src\interface;
 
-interface FetchableArrayInterface {
+interface FetchableArrayInterface
+{
     public function fetch(): array;
 }

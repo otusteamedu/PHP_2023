@@ -6,8 +6,10 @@ use src\greeting\create\IoCGreeting;
 use src\greeting\GreetingEmperor;
 use src\greeting\GreetingPerson;
 
-class Greetings {
-    public static function fetch(): array { // fixme add use DataProvider
+class Greetings
+{
+    public static function fetch(): array
+    { // fixme add use DataProvider
         return [
             0 => IoCGreeting::create(GreetingPerson::class),
             1 => IoCGreeting::create(GreetingEmperor::class),

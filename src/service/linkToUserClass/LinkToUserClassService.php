@@ -3,14 +3,17 @@
 namespace src\service\linkToUserClass;
 
 
-class LinkToUserClassService {
+class LinkToUserClassService
+{
     private array $dataSet;
 
-    public function setFetchedDataSet(array $fetched): void {
+    public function setFetchedDataSet(array $fetched): void
+    {
         $this->dataSet = $fetched;
     }
 
-    public function getLink2UserClass(): array {
+    public function getLink2UserClass(): array
+    {
         $dataSrc = $this->dataSet;
         $dt = $this->filterOnlyActive($dataSrc); //@fixme rename ..WithFilterActive
         $dt = $this->includeAliases($dt, 'value'); //@fixme use like public
@@ -18,11 +21,13 @@ class LinkToUserClassService {
         return $dt;
     }
 
-    private function filterOnlyActive(array $dt): array { //fixme
+    private function filterOnlyActive(array $dt): array
+    {
         return array_filter($dt, fn($val) => $val['active']??false);
     }
 
-    public function includeAliases(array $dataset, string $name): array {
+    public function includeAliases(array $dataset, string $name): array
+    {
         $nameAliasesFiled = 'aliases';
         $acc = [];
         /** `$key => $value` is important names, use in second(string $name) argument */

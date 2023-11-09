@@ -4,8 +4,10 @@ namespace src\extern\inputStaticStructure;
 
 use src\interface\FetchableArrayInterface;
 
-class LinkStaticArrayData implements FetchableArrayInterface {
-    public function fetch(): array {
+class LinkStaticArrayData implements FetchableArrayInterface
+{
+    public function fetch(): array
+    {
         return [
             1 => ['src\users\numb\GuestNumb', 'aliases' => ['guest', 'гость', ''], 'active' => 1],
             //'гость' => ['src\users\ru\GuestRu', 'active' => false],

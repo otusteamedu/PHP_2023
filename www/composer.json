@@ -10,7 +10,9 @@
 		}
 	],
 	"require": {
-		"predis/predis": "^v2.2.2"
+		"predis/predis": "^v2.2.2",
+		"ext-mysqli": "*",
+		"ext-memcached": "*"
 	},
 	"autoload": {
 		"psr-4": {

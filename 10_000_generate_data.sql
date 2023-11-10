@@ -53,3 +53,12 @@ select
     rand_between(1, 1000),
     rand_ticket_status()
 from generate_series(1, 10000) as gs(id);
+
+--prices
+INSERT INTO prices ("id", "session_id", "seat_category_id", "price")
+select
+    gs.id,
+    rand_between(1, 1000),
+    rand_between(4, 5),
+    rand_between(500, 1000)
+from generate_series(1, 10000) as gs(id);

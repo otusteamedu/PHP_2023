@@ -1,3 +1,4 @@
+EXPLAIN ANALYSE
 SELECT
     f.name as "Film name",
     s.datetime as "Datetime",

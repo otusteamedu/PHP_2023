@@ -35,6 +35,16 @@ select
 from
     generate_series(1, 1000) as gs(id);
 
+--seat_categories
+insert into seat_categories(
+                            id, name
+) values (4, '2D');
+
+--seat_categories
+insert into seat_categories(
+    id, name
+) values (5, '3D');
+
 --rows_seats_categories
 INSERT INTO rows_seats_categories("id", "row", "seat", "hall_id", "seat_category_id")
 select

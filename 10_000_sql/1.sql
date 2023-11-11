@@ -1,6 +1,6 @@
 --Выбор фильмов на сегодня
 
-explain analyse
+EXPLAIN ANALYSE
 SELECT DISTINCT films.name
 FROM
     sessions LEFT JOIN films ON films.id = sessions.film_id

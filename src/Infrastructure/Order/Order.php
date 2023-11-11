@@ -8,7 +8,6 @@ use User\Php2023\Domain\Interfaces\Food;
 
 class Order
 {
-
     private $items = [];
 
     public function addItem(Food $item): void

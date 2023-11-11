@@ -10,7 +10,8 @@ use User\Php2023\Domain\Entities\Sandwich;
 use User\Php2023\Domain\Interfaces\Food;
 use User\Php2023\Domain\ObjectValues\FoodType;
 
-class FoodFactory {
+class FoodFactory
+{
     public function createFood(FoodType $type): Food
     {
         return match ($type) {

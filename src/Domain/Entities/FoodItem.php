@@ -7,12 +7,14 @@ namespace User\Php2023\Domain\Entities;
 use User\Php2023\Domain\Interfaces\Food;
 use User\Php2023\Domain\ObjectValues\FoodType;
 
-abstract class FoodItem implements Food {
+abstract class FoodItem implements Food
+{
     private static array $count = [];
     public int $number;
     public FoodType $type;
 
-    public function __construct(FoodType $type) {
+    public function __construct(FoodType $type)
+    {
         $class = static::class;
         if (!isset(self::$count[$class])) {
             self::$count[$class] = 0;

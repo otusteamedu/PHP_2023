@@ -9,10 +9,12 @@ use User\Php2023\Application\Services\CookingProcess;
 use User\Php2023\Domain\Interfaces\Food;
 use User\Php2023\Domain\ObjectValues\PrepareStatus;
 
-class CookingProxy {
+class CookingProxy
+{
     private CookingProcess $cookingProcess;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->cookingProcess = CookingProcess::getInstance();
     }
 

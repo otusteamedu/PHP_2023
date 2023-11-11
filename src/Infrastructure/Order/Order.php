@@ -6,7 +6,8 @@ namespace User\Php2023\Infrastructure\Order;
 
 use User\Php2023\Domain\Interfaces\Food;
 
-class Order {
+class Order
+{
 
     private $items = [];
 
@@ -16,7 +17,8 @@ class Order {
         $item->adding();
     }
 
-    public function getItems(): array {
+    public function getItems(): array
+    {
         return $this->items;
     }
 }

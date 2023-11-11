@@ -7,7 +7,8 @@ namespace User\Php2023\Application\Services;
 use User\Php2023\Domain\Interfaces\Food;
 use User\Php2023\Infrastructure\Order\Order;
 
-class OrderBuilder {
+class OrderBuilder
+{
     private array $foods = [];
 
     public function addFood(Food $food): self

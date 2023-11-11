@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace User\Php2023;
 
-class DIContainer {
+class DIContainer
+{
     private $services = [];
 
     public function set($key, $value): void
@@ -12,7 +13,8 @@ class DIContainer {
         $this->services[$key] = $value;
     }
 
-    public function get($key) {
+    public function get($key)
+    {
         return $this->services[$key]($this);
     }
 }

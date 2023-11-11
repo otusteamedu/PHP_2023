@@ -13,8 +13,8 @@ use User\Php2023\Infrastructure\Cooking\CookingProxy;
 use User\Php2023\Infrastructure\Food\FoodFactory;
 use User\Php2023\Infrastructure\Order\OrderIterator;
 
-class App {
-
+class App
+{
     public function __construct(
         private readonly FoodFactory $foodFactory,
         private readonly OrderBuilder $orderBuilder,
@@ -26,7 +26,8 @@ class App {
     /**
      * @throws Exception
      */
-    public function run(): void {
+    public function run(): void
+    {
         foreach (FoodType::cases() as $foodType) {
             $count = random_int(0, 5);
             for ($i = 0; $i < $count; $i++) {

@@ -1,0 +1,78 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ${SERVER_CONTEXT}
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: server
+    restart: always
+    depends_on:
+      - db
+      - redis
+      - memcached
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    volumes:
+      - ${PROJECT_PATH}
+      - shared-volume:${PROJECT_SOCKET_PATH}
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ${PHP_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/php
+    container_name: php
+    depends_on:
+      - server
+    volumes:
+      - ${PROJECT_PATH}
+      - shared-volume:${PROJECT_SOCKET_PATH}
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:${MEMCACHED_VERSION}
+    container_name: memcached
+    restart: always
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    networks:
+      - app-network
+
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: redis
+    restart: always
+    expose:
+      - ${REDIS_PORT}
+    networks:
+      - app-network
+
+  db:
+    image: mysql:${DB_VERSION}
+    container_name: db
+    restart: always
+    volumes:
+      - ${DB_PATH}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  shared-volume:

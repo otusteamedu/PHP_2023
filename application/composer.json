@@ -6,7 +6,9 @@
     "symfony/routing": "^5.4",
     "symfony/http-foundation": "^5.4",
     "vlucas/phpdotenv": "^5.5",
-    "mongodb/mongodb": "^1.16"
+    "mongodb/mongodb": "^1.16",
+    "ext-redis": "*",
+    "ext-json": "*"
   },
   "autoload": {
     "psr-4": {

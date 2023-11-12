@@ -1,9 +1,9 @@
 <?php
 
-use Gesparo\HW\Controller\AddController;
-use Gesparo\HW\Controller\ClearController;
-use Gesparo\HW\Controller\GetController;
-use Gesparo\HW\Controller\IndexController;
+use Gesparo\HW\Infrastructure\Controller\AddController;
+use Gesparo\HW\Infrastructure\Controller\ClearController;
+use Gesparo\HW\Infrastructure\Controller\GetController;
+use Gesparo\HW\Infrastructure\Controller\IndexController;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
 

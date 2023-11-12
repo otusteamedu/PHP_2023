@@ -9,7 +9,7 @@ $redis->connect('redis', 6379);
 
 if ($redis->get('testkey1')) {
     $messageText = 'found in cache';
-    $value = $redis->get('testkey1'); 
+    $value = $redis->get('testkey1');
 } else {
     $messageText = 'not found in cache';
     $value = (string)date("Y-m-d");

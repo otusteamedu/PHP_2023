@@ -9,7 +9,6 @@ use User\Php2023\Infrastructure\Notification\NotifierInterface;
 
 class QueueConsumeHandler implements QueueConsumeHandlerInterface
 {
-
     public function __construct(readonly private NotifierInterface $notifier)
     {
     }

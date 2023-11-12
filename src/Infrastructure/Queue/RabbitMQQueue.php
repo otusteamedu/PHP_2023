@@ -39,8 +39,10 @@ class RabbitMQQueue implements QueueInterface
      */
     public function push(array $data): void
     {
-        $msg = new AMQPMessage(json_encode($data, JSON_THROW_ON_ERROR),
-            ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]);
+        $msg = new AMQPMessage(
+            json_encode($data, JSON_THROW_ON_ERROR),
+            ['delivery_mode' => AMQPMessage::DELIVERY_MODE_PERSISTENT]
+        );
         $this->channel->basic_publish($msg, '', $this->queueName);
     }
 

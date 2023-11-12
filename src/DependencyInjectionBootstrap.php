@@ -43,6 +43,5 @@ class DependencyInjectionBootstrap
                 $container->get(TelegramNotifier::class)
             );
         });
-
     }
 }

@@ -28,7 +28,7 @@ class TelegramNotifier implements NotifierInterface
     public function sendNotification($message): void
     {
         echo $this->chatId;
-            Request::sendMessage([
+        Request::sendMessage([
             'chat_id' => $this->chatId,
             'text' => $message
         ]);

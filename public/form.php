@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 ?>
 
 <!DOCTYPE html>
@@ -10,6 +11,7 @@ declare(strict_types=1);
     <title>Генерация банковской выписки</title>
 </head>
 <body>
+
 <h1>Запрос на генерацию банковской выписки</h1>
 
 <?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>

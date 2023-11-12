@@ -10,7 +10,6 @@ use User\Php2023\Domain\ValueObject\DateRange;
 
 class StatementController
 {
-
     public function __construct()
     {
     }

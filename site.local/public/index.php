@@ -2,39 +2,35 @@
 
 echo 'dshevchenko homework #1<br><br>';
 
-//phpinfo();
-
 echo 'Redis test: ';
 
 $redis = new \Redis();
 $redis->connect('redis', 6379);
 
-if ($redis->get('testkey1')){
+if ($redis->get('testkey1')) {
     $messageText = 'found in cache';
     $value = $redis->get('testkey1'); 
-}
-else{
+} else {
     $messageText = 'not found in cache';
     $value = (string)date("Y-m-d");
     $redis->set('testkey1', $value);
 }
-echo  "$value ($messageText)<br><br>";
+echo "$value ($messageText)<br><br>";
 
 echo 'Memcached test: ';
 
 $memCache = new \Memcached();
 $memCache->addServer('memcached', 11211);
 
-if ($memCache->get('testkey2')){
+if ($memCache->get('testkey2')) {
     $messageText = 'found in cache';
     $value = $memCache->get('testkey2'); 
-}
-else{
+} else {
     $messageText = 'not found in cache';
     $value = (string)date("Y-m-d");
     $memCache->set('testkey2', $value);
 }
-echo  "$value ($messageText)<br><br>";
+echo "$value ($messageText)<br><br>";
 
 echo 'Mariadb test: ';
 
@@ -45,9 +41,7 @@ $password = getenv('DB_PWD');
 
 try {
     $pdo = new \PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
     echo "successfully!</br>";
 
 } catch (PDOException $e) {
@@ -87,8 +81,6 @@ $statement = $pdo->prepare($query);
 $statement->execute();
 $statement->setFetchMode(\PDO::FETCH_ASSOC);
 
-while($row = $statement->fetch()){
+while ($row = $statement->fetch()) {
     echo $row['name'] . ' # ' . $row['id'] . '<br>';
 }
-
-

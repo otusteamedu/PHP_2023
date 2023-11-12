@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 <h1>Запрос на генерацию банковской выписки</h1>
 
-<?php if ($_SERVER["REQUEST_METHOD"] === "POST"): ?>
+<?php if ($_SERVER["REQUEST_METHOD"] === "POST") : ?>
     <p>Ответ: <?php echo htmlspecialchars($response); ?></p>
 <?php endif; ?>
 

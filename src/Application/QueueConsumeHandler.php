@@ -22,6 +22,7 @@ class QueueConsumeHandler implements QueueConsumeHandlerInterface
         $this->notifier->sendNotification(
             "Сообщение обработано: " . PHP_EOL .
             "Заявка № $requestID" . PHP_EOL .
-            $message);
+            $message
+        );
     }
 }

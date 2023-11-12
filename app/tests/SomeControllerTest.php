@@ -6,7 +6,9 @@ use App\Infrastructure\Controllers\SomeController;
 use App\Infrastructure\PayService\SomeApiPayServiceInterface;
 use App\Infrastructure\Repository\SomeRepositoryInterface;
 use App\Infrastructure\Request\Request;
+use App\Infrastructure\Request\RequestInterface;
 use App\Infrastructure\Response\Response;
+use App\Infrastructure\Response\ResponseInterface;
 use PHPUnit\Framework\TestCase;
 use Tests\PayService\DummyPayServiceNegative;
 use Tests\PayService\DummyPayServicePositive;
@@ -67,13 +69,12 @@ class SomeControllerTest extends TestCase
      * @dataProvider dataProvider
      */
     public function testSomeAction(
-        Request $request,
+        RequestInterface $request,
         SomeRepositoryInterface $repository,
         SomeApiPayServiceInterface $payService,
-        Response $response
+        ResponseInterface $response
     ) {
         $someController = new SomeController();
         $this->assertEquals($response, $someController->someAction($request, $repository, $payService));
     }
 }
-

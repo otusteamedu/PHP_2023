@@ -10,7 +10,7 @@ use App\Infrastructure\Exception\OrderNumberException;
 use App\Infrastructure\Exception\SumException;
 use Exception;
 
-class Request
+class Request implements RequestInterface
 {
     private string $requestJson;
 

@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Response;
 
-class Response
+class Response implements ResponseInterface
 {
     private int $code;
     private string $message;

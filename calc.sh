@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 if ! dpkg -s bc >/dev/null 2>&1
 then
   echo "installing bc package..."

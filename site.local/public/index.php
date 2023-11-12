@@ -24,7 +24,7 @@ $memCache->addServer('memcached', 11211);
 
 if ($memCache->get('testkey2')) {
     $messageText = 'found in cache';
-    $value = $memCache->get('testkey2'); 
+    $value = $memCache->get('testkey2');
 } else {
     $messageText = 'not found in cache';
     $value = (string)date("Y-m-d");
@@ -43,7 +43,6 @@ try {
     $pdo = new \PDO("mysql:host=$host;dbname=$dbname", $username, $password);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     echo "successfully!</br>";
-
 } catch (PDOException $e) {
     echo "failed - " . $e->getMessage();
     die();
@@ -60,7 +59,6 @@ $query = "
 try {
     $pdo->exec($query);
     echo "already exists or created successfully!";
-
 } catch (PDOException $e) {
     echo "error - " . $e->getMessage();
     die();

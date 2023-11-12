@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7c704531140f2efff3e7edb7e6a2f233",
+    "packages": [
+        {
+            "name": "propan/number-extractor",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/propan13/number-extractor.git",
+                "reference": "f8063924c91c9ce8517a6e36bb94588d860afe14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/propan13/number-extractor/zipball/f8063924c91c9ce8517a6e36bb94588d860afe14",
+                "reference": "f8063924c91c9ce8517a6e36bb94588d860afe14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Propan\\NumberExtractor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Дмитрий",
+                    "email": "propan.learning@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/propan13/number-extractor/issues",
+                "source": "https://github.com/propan13/number-extractor/tree/v1.0.0"
+            },
+            "time": "2023-11-12T18:52:56+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

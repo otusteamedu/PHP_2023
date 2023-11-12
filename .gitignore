@@ -1,0 +1,3 @@
+/docker/.env
+/site.local/private/db/*
+/site.local/private/redis/*

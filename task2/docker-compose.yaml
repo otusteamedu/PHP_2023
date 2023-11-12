@@ -60,6 +60,12 @@ services:
     networks:
       - app-network
 
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    networks:
+      - app-network
+
 #Docker Networks
 networks:
   app-network:

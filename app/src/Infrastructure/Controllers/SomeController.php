@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Infrastructure\PayService\SomeApiPayService;
-use App\Infrastructure\Repository\SomeRepository;
+use App\Infrastructure\PayService\SomeApiPayServiceInterface;
+use App\Infrastructure\Repository\SomeRepositoryInterface;
 use App\Infrastructure\Request\Request;
 use App\Infrastructure\Response\Response;
 
@@ -21,10 +21,15 @@ class SomeController
      *   если списание успешно. В случае ошибок выбрасываются различные исключения.
      *
      * @param Request $request
+     * @param SomeRepositoryInterface $repository
+     * @param SomeApiPayServiceInterface $payService
      * @return Response
      */
-    public function someAction(Request $request): Response
-    {
+    public function someAction(
+        Request $request,
+        SomeRepositoryInterface $repository,
+        SomeApiPayServiceInterface $payService
+    ): Response {
         try {
             $request->validate();
         } catch (\Exception $e) {
@@ -32,15 +37,11 @@ class SomeController
         }
 
         $data = $request->toArray();
-
-        $payService = new SomeApiPayService();
-        $codeResponse =  $payService->sendRequest();
+        $codeResponse = $payService->sendRequest();
 
         if ($codeResponse == 403) {
             return new Response(403, 'api error');
         }
-
-        $repository = new SomeRepository();
 
         if (!$repository->setOrderIsPaid($data['order_number'], $data['sum'])) {
             return new Response(400, 'the amount has not been debited');

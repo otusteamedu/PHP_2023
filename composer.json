@@ -1,0 +1,14 @@
+{
+  "name": "otus/php_2023",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=8.1",
+    "ext-pdo": "*",
+    "symfony/dotenv": "^6.3"
+  }
+}

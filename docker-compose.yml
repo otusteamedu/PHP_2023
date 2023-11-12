@@ -29,6 +29,8 @@ services:
             - app.env
         networks:
             - app-network
+        environment:
+           - REDIS_PASSWORD=${REDIS_PASSWORD}
 
     db:
         image: mysql:latest
@@ -42,6 +44,14 @@ services:
             - ./docker/database/data:/var/lib/mysql
         env_file:
             - app.env
+        networks:
+            - app-network
+
+    redis:
+        image: redis:latest
+        container_name: redis
+        ports:
+            - "6379:6379"
         networks:
             - app-network
 

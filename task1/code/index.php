@@ -1,11 +1,9 @@
 <?php
-
 $param_name = 'string';
 $param_value = '(()()()())((((()()())) (()()()(((())))) )) )';
 $url = "nginx";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     $count = 0;
     $error = false;
     foreach (str_split($_POST[$param_name]) as $char) {

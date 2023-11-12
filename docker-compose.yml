@@ -32,9 +32,6 @@ services:
     restart: always
     volumes:
        - ./_docker/tmp/db:/var/lib/mysql
-    environment:
-      MYSQL_DATABASE: basedocker
-      MYSQL_ROOT_PASSWORD: root
     ports:
       - 8102:3306
     container_name: mysql_db

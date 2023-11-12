@@ -1,18 +1,36 @@
-rem: Calc
-NUM1=$1 | grep -E '^(-?)([0-9]+)([.,]?)([0-9]+)$'
-NUM1=$2 | grep -E '^(-?)([0-9]+)([.,]?)([0-9]+)$'
-if [ $1 = NUM1 ]
-then
-  echo NUM1
+#!/bin/env bash
+
+apt-get update && apt-get install bc
+
+re='^-?([0-9]+)([\.][0-9]+)?$'
+if ! [[ $1 =~ $re ]] ; then
+  echo "ARGUMENT 1 " $1 " is not a number"
+  exit 0
 else
- echo "ARGUMENT 1 is not a number"
+  echo "ARGUMENT 1= " $1 " is a number"
 fi
-if [ $2 = NUM2 ]
-then
-  echo NUM2
+
+if ! [[ $2 =~ $re ]] ; then
+  echo "ARGUMENT 2 " $2 " is not a number"
+  exit 0
 else
- echo "ARGUMENT 2 is not a number"
+  echo "ARGUMENT 2= " $2 " is a number"
 fi
-rem: SUM=$(($1+$2))
+# Calculate
+
+sum=$(echo "$1+$2" | bc)
+echo $sum
+
+
+
+
+
+
+
+
+
+
+
+
 
 

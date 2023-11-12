@@ -1,4 +1,7 @@
 .idea
 .env
-.docker_data/mysql/*
 code/vendor
+
+#Ignore docker folders
+.docker_data/redis/*
+.docker_data/mysql/*

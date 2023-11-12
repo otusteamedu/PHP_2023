@@ -1,0 +1,13 @@
+{
+    "name": "radovinetch/code",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Radovinetch\\Code\\": "src/"
+        }
+    },
+    "require": {
+        "predis/predis": "^2.2",
+        "vlucas/phpdotenv": "^5.5"
+    }
+}

@@ -13,7 +13,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable pdo_mysql
 
 COPY ./config/php.conf /usr/local/etc/php-fpm.d/zz-docker.conf
-# COPY ./config/php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
 WORKDIR /data
 VOLUME /data

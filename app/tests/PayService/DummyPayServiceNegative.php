@@ -8,6 +8,6 @@ class DummyPayServiceNegative implements SomeApiPayServiceInterface
 {
     public function sendRequest(): int
     {
-       return 403;
+        return 403;
     }
 }

@@ -1,0 +1,15 @@
+{
+    "name": "propan/hw4",
+    "type": "project",
+    "autoload": {
+        "psr-4": {}
+    },
+    "authors": [
+        {
+            "name": "Dmitry Ivanov"
+        }
+    ],
+    "require": {
+        "propan/number-extractor": "^1.0"
+    }
+}

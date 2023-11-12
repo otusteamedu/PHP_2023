@@ -1,0 +1,2 @@
+FROM composer
+WORKDIR /app

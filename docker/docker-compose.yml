@@ -1,0 +1,93 @@
+version: '3'
+
+services:
+
+  memcached:
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    image: site/memcached
+    container_name: memcached
+    ports:
+      - 11211:11211
+    networks:
+      - site-network   
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: site/redis
+    container_name: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./../site.local/private/redis:/data/redis
+    networks:
+      - site-network
+
+  mariadb:
+    build:
+      context: ./mariadb
+      dockerfile: Dockerfile
+    image: site/mariadb
+    container_name: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PWD}
+      - MARIADB_DATABASE=${DB_NAME}
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PWD}
+    ports: 
+      - 3306:3306
+    volumes:
+      - ./../site.local/private/db:/var/lib/mysql
+    networks:
+      - site-network
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: site/php-fpm
+    container_name: php-fpm
+    environment:
+      - DB_HOST=mariadb
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PWD=${DB_PWD}
+    ports:
+      - 9000:9000
+    volumes:
+      - ./../site.local/public:/data/www
+      - php-fpm-socket:/var/run/php-fpm
+    networks:
+      - site-network     
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: site/nginx
+    container_name: nginx
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./../site.local/public:/data/www
+      - php-fpm-socket:/var/run/php-fpm
+    networks:
+      - site-network
+
+  composer:
+    build:
+      context: ./composer
+      dockerfile: Dockerfile
+    image: site/composer
+    container_name: composer
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  site-network:
+    driver: bridge

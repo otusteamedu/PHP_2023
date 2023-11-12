@@ -8,6 +8,6 @@ class DummyPayServicePositive implements SomeApiPayServiceInterface
 {
     public function sendRequest(): int
     {
-       return 200;
+        return 200;
     }
 }

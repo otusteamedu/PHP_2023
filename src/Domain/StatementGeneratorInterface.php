@@ -6,5 +6,5 @@ namespace User\Php2023\Domain;
 
 interface StatementGeneratorInterface
 {
-    public function generateStatement($startDate, $endDate): Statement;
+    public function generateStatement($startDate, $endDate);
 }

@@ -1,6 +1,6 @@
 <?php
 
-$server = new OpenSwoole\HTTP\Server("localhost", 9501);
+$server = new OpenSwoole\HTTP\Server("localhost", $_ENV['PORT']);
 
 $server->on("start", function (OpenSwoole\Http\Server $server) {
     echo "OpenSwoole http server is started at http://127.0.0.1:9501\n";

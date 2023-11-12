@@ -12,7 +12,6 @@ abstract class DataMapper
     protected PDO $pdo;
     protected PDOStatement $selectStatement;
     protected PDOStatement $insertStatement;
-    protected PDOStatement $updateStatement;
     protected PDOStatement $deleteStatement;
     protected PDOStatement $findAllStatement;
     protected IdentityMap $identityMap;

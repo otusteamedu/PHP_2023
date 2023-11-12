@@ -21,7 +21,9 @@ $pdo = new PDO(
 $mapper = new MovieMapper($pdo);
 
 try {
-    print_r($mapper->findAll()->getMovies());
+    $movie = $mapper->getById(1);
+    $movie->setName('test');
+    $mapper->update($movie, ['name' => $movie->getName()]);
 } catch (Throwable $e) {
     echo $e->getMessage();
 }

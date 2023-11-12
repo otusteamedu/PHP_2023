@@ -20,9 +20,6 @@ final class MovieMapper extends DataMapper
         $this->insertStatement = $connection->prepare(
             "insert into " . self::getTableName() . " (name, description) values (:name, :description)"
         );
-        $this->updateStatement = $connection->prepare(
-            "update " . self::getTableName() . " set name = :name, description = :description where id = :id",
-        );
         $this->deleteStatement = $connection->prepare(
             "delete from " . self::getTableName() . " where id = ?"
         );
@@ -103,14 +100,19 @@ final class MovieMapper extends DataMapper
     /**
      * @throws PDOException
      */
-    public function update(Movie $movie): void
+    public function update(Movie $movie, array $fields): void
     {
-        $data = [
-            'id' => $movie->getId(),
-            'name' => $movie->getName(),
-            'description' => $movie->getDescription()
-        ];
-        if ($this->updateStatement->execute($data) === false) {
+        if (empty($fields)) {
+            return;
+        }
+
+        $updates = [];
+        foreach (array_keys($fields) as $name) {
+            $updates[] = "$name = :$name";
+        }
+
+        $query = "update " . self::getTableName() . " set " . implode(', ', $updates) . ' where id = :id';
+        if ($this->pdo->prepare($query)->execute(['id' => $movie->getId(), ...$fields]) === false) {
             throw new PDOException('Не удалось обновить фильм.');
         }
 

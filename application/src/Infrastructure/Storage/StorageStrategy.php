@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gesparo\HW\Infrastructure\Storage;
 
+use Gesparo\HW\Application\ConditionFactory;
+use Gesparo\HW\Application\EventFactory;
 use Gesparo\HW\Infrastructure\App\AppException;
 use Gesparo\HW\Infrastructure\App\EnvManager;
 use Gesparo\HW\Infrastructure\Storage\Redis\ApiStorageFacade;
@@ -32,7 +34,11 @@ class StorageStrategy
                     throw new \InvalidArgumentException('Redis host not found');
                 }
 
-                return new ApiStorageFacade((new ConnectionCreator($host))->create());
+                return new ApiStorageFacade(
+                    (new ConnectionCreator($host))->create(),
+                    new EventFactory(),
+                    new ConditionFactory()
+                );
             case 'mongo':
                 $host = $this->envManager->getMongoHost();
                 $user = $this->envManager->getMongoUser();
@@ -55,7 +61,11 @@ class StorageStrategy
                     throw new \InvalidArgumentException('Mongo database not found');
                 }
 
-                return new \Gesparo\HW\Infrastructure\Storage\Mongo\ApiStorageFacade((new \Gesparo\HW\Infrastructure\Storage\Mongo\ConnectionCreator($host, $user, $password, $database))->create());
+                return new Mongo\ApiStorageFacade(
+                    (new Mongo\ConnectionCreator($host, $user, $password, $database))->create(),
+                    new EventFactory(),
+                    new ConditionFactory()
+                );
             default:
                 throw AppException::storageIsInvalid($this->envManager->getStorage());
         }

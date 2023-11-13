@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Gesparo\HW\Infrastructure\Storage\Redis;
 
+use Gesparo\HW\Application\ConditionFactory;
+use Gesparo\HW\Application\EventFactory;
 use Gesparo\HW\Domain\Entity\Event;
 use Gesparo\HW\Domain\List\GetConditionList;
-use Gesparo\HW\Domain\ValueObject\Condition;
-use Gesparo\HW\Domain\ValueObject\Name;
-use Gesparo\HW\Domain\ValueObject\Priority;
 
 class EventGetter
 {
     use ConditionNameTrait;
 
     private \Redis $redis;
+    private EventFactory $eventFactory;
+    private ConditionFactory $conditionFactory;
 
-    public function __construct(\Redis $redis)
+    public function __construct(\Redis $redis, EventFactory $eventFactory, ConditionFactory $conditionFactory)
     {
         $this->redis = $redis;
+        $this->eventFactory = $eventFactory;
+        $this->conditionFactory = $conditionFactory;
     }
 
     /**
@@ -65,8 +68,8 @@ class EventGetter
 
     private function convertToEvent(array $eventData): Event
     {
-        $priority = new Priority((int) $eventData['priority']);
-        $eventName = new Name($eventData['event']);
+        $priority = (int) $eventData['priority'];
+        $eventName = $eventData['event'];
 
         unset($eventData['priority'], $eventData['event']);
 
@@ -75,9 +78,9 @@ class EventGetter
         $conditions = [];
 
         foreach ($eventData as $key => $value) {
-            $conditions[] = new Condition(substr($key, $wordLength), (int) $value);
+            $conditions[] = $this->conditionFactory->create(substr($key, $wordLength), (int) $value);
         }
 
-        return new Event($eventName, $priority, $conditions);
+        return $this->eventFactory->create($eventName, $priority, $conditions);
     }
 }

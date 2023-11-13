@@ -4,21 +4,24 @@ declare(strict_types=1);
 
 namespace Gesparo\HW\Infrastructure\Storage\Mongo;
 
+use Gesparo\HW\Application\ConditionFactory;
+use Gesparo\HW\Application\EventFactory;
 use Gesparo\HW\Domain\Entity\Event;
 use Gesparo\HW\Domain\List\GetConditionList;
-use Gesparo\HW\Domain\ValueObject\Condition;
-use Gesparo\HW\Domain\ValueObject\Name;
-use Gesparo\HW\Domain\ValueObject\Priority;
 use MongoDB\Collection;
 use MongoDB\Model\BSONDocument;
 
 class EventGetter
 {
     private Collection $collection;
+    private EventFactory $eventFactory;
+    private ConditionFactory $conditionFactory;
 
-    public function __construct(Collection $collection)
+    public function __construct(Collection $collection, EventFactory $eventFactory, ConditionFactory $conditionFactory)
     {
         $this->collection = $collection;
+        $this->eventFactory = $eventFactory;
+        $this->conditionFactory = $conditionFactory;
     }
 
     public function get(GetConditionList $list): ?Event
@@ -53,9 +56,9 @@ class EventGetter
         $conditions = [];
 
         foreach ($result['conditions']->getArrayCopy() as $param => $value) {
-            $conditions[] = new Condition($param, $value);
+            $conditions[] = $this->conditionFactory->create($param, $value);
         }
 
-        return new Event(new Name($result['event']), new Priority($result['priority']), $conditions);
+        return $this->eventFactory->create($result['event'], $result['priority'], $conditions);
     }
 }

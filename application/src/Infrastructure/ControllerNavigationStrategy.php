@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Gesparo\HW\Infrastructure;
 
+use Gesparo\HW\Application\ConditionFactory;
+use Gesparo\HW\Application\EventFactory;
 use Gesparo\HW\Application\UseCase\AddEventsUseCase;
 use Gesparo\HW\Application\UseCase\ClearEventsUseCase;
 use Gesparo\HW\Application\UseCase\GetEventUseCase;
@@ -43,7 +45,7 @@ class ControllerNavigationStrategy
         return match ($controller) {
             AddController::class => new AddController(
                 new AddEventRequestGetter($this->request),
-                new AddEventsUseCase($this->storageStrategy->getStorage())
+                new AddEventsUseCase($this->storageStrategy->getStorage(), new EventFactory(), new ConditionFactory())
             ),
             GetController::class => new GetController(
                 new GetRequestGetter($this->request),

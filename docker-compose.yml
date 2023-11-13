@@ -29,10 +29,6 @@ services:
             - app.env
         networks:
             - app-network
-        environment:
-           - REDIS_HOST=redis
-           - REDIS_PORT=${REDIS_PORT}
-           - REDIS_PASSWORD=${REDIS_PASSWORD}
 
     db:
         image: mysql:latest
@@ -41,7 +37,7 @@ services:
             - "3307:3306"
         environment:
             MYSQL_DATABASE: ${MYSQL_DATABASE}
-            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
         volumes:
             - ./docker/database/data:/var/lib/mysql
         env_file:

@@ -1,0 +1,4 @@
+/docker/database/data
+/docker/database/dump
+/docker/logs/
+.env

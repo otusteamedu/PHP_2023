@@ -1,3 +1,4 @@
+--Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
 EXPLAIN ANALYSE
 SELECT
     rsc.row,
@@ -21,7 +22,7 @@ WHERE
 -- Planning Time: 0.307 ms
 -- Execution Time: 1.405 ms
 
-CREATE INDEX idx_session_id ON tickets(session_id);
+create index idx_session_id ON tickets(session_id);
 
 -- Hash Left Join  (cost=7.60..33.66 rows=9 width=12) (actual time=0.148..0.192 rows=7 loops=1)
 --   Hash Cond: (t.rows_seats_categories_id = rsc.id)

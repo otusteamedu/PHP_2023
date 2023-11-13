@@ -1,3 +1,4 @@
+--Формирование афиши (фильмы, которые показывают сегодня)
 EXPLAIN ANALYSE
 SELECT
     f.name as "Film name",

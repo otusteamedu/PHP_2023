@@ -4,7 +4,7 @@ insert into films(
 )
 select
     gs.id,
-    rand_film_name() || ' ' || random_str((1 + random()*30)::integer),
+    rand_film_name() || ' ' || rand_str((1 + random()*30)::integer),
     substr(md5(random()::text), 0, 254),
     rand_schedule_year(),
     rand_between(90, 320)

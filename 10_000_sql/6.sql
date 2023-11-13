@@ -1,3 +1,4 @@
+--Вывести диапазон миниальной и максимальной цены за билет на конкретный сеанс
 EXPLAIN ANALYSE
 SELECT
     min(p.price) as min_price,
@@ -14,7 +15,7 @@ WHERE
 -- Planning Time: 0.217 ms
 -- Execution Time: 1.366 ms
 
-CREATE INDEX idx_price ON prices(price);
+create index idx_price ON prices(price);
 
 -- Result  (cost=112.57..112.58 rows=1 width=16) (actual time=1.605..1.607 rows=1 loops=1)
 --   InitPlan 1 (returns $0)

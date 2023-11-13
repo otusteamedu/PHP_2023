@@ -1,5 +1,4 @@
 --Выбор фильмов на сегодня
-
 EXPLAIN ANALYSE
 SELECT DISTINCT films.name
 FROM

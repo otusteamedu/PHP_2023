@@ -30,6 +30,8 @@ services:
         networks:
             - app-network
         environment:
+           - REDIS_HOST=redis
+           - REDIS_PORT=${REDIS_PORT}
            - REDIS_PASSWORD=${REDIS_PASSWORD}
 
     db:
@@ -52,6 +54,16 @@ services:
         container_name: redis
         ports:
             - "6379:6379"
+        networks:
+            - app-network
+
+    memcached:
+        image: memcached
+        container_name: memcached
+        ports:
+            - "11211:11211"
+        command:
+            -m 64
         networks:
             - app-network
 

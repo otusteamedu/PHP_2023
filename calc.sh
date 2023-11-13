@@ -1,15 +1,20 @@
 #!/usr/bin/env bash
+
+BC_INSTALLED=1
+
 if ! dpkg -s bc >/dev/null 2>&1
 then
   echo "installing bc package..."
   if ! sudo apt install -y bc > /dev/null 2>&1 
   then
-    echo "Something went wrong..exiting";
-    exit 1;
+    echo "Something went wrong...use internal methods!";
+    BC_INSTALLED=0
   else
     echo "success!";
   fi
 fi
+
+#BC_INSTALLED=0
 
 if [ $# -ne 2 ]
 then
@@ -17,7 +22,12 @@ then
  exit 1
 fi
 
-regxp="^[+-]?[0-9]+([.][0-9]+)?$"
+if [ $BC_INSTALLED -eq 1 ]
+then
+  regxp="^[+-]?[0-9]+([.][0-9]+)?$"
+else
+  regxp="^[+-]?[0-9]+$"
+fi
 
 if ! [[ $1 =~ $regxp ]]
 then
@@ -31,5 +41,11 @@ then
   exit 1
 fi
 
-sum=$(echo "$1 + $2" | bc)
+if [ $BC_INSTALLED -eq 1 ]
+then
+  sum=$(echo "$1 + $2" | bc)
+else
+  sum=$(($1 + $2))
+fi
+
 echo "sum is: $sum";

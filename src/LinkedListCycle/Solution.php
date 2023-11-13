@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\LinkedListCycle;
 
-namespace App\LinkedListCycle;
-
-class Solution {
+class Solution
+{
     /**
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head) {
+   public function hasCycle($head)
+    {
         $slow = $head;
         $fast = $head;
 

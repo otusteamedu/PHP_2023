@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\LetterCombinationsOfAPhoneNumber;
 
-class Solution {
-
+class Solution
+{
     /**
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations($digits) {
-
+    public function letterCombinations($digits)
+    {
         $mapping = [
             '2' => ['a', 'b', 'c'],
             '3' => ['d', 'e', 'f'],
@@ -30,8 +30,8 @@ class Solution {
         return $this->generateCombinations($digits, $mapping, '', []);
     }
 
-    function generateCombinations($digits, $mapping, $current, $combinations) {
-
+    public function generateCombinations($digits, $mapping, $current, $combinations)
+    {
         if (empty($digits)) {
             $combinations[] = $current;
             return $combinations;

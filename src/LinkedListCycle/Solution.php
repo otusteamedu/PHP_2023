@@ -10,7 +10,7 @@ class Solution
      * @param ListNode $head
      * @return Boolean
      */
-   public function hasCycle($head)
+    public function hasCycle($head)
     {
         $slow = $head;
         $fast = $head;

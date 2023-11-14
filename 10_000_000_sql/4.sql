@@ -9,7 +9,7 @@ FROM
         LEFT JOIN prices p ON s.id = p.session_id
         LEFT JOIN films f ON s.film_id = f.id
 WHERE
-        t.status = 'book' AND (s.datetime::date BETWEEN (CURRENT_DATE - INTERVAL '7 day') AND CURRENT_DATE) AND p.price IS NOT NULL
+        t.status = 'book' AND (s.datetime BETWEEN (CURRENT_DATE - INTERVAL '7 day') AND CURRENT_DATE) AND p.price IS NOT NULL
 GROUP BY
     f.name
 ORDER BY
@@ -59,7 +59,7 @@ LIMIT 3;
 -- "  Timing: Generation 3.720 ms, Inlining 0.000 ms, Optimization 1.624 ms, Emission 40.877 ms, Total 46.221 ms"
 -- Execution Time: 408.601 ms
 
-create index idx_session_datetime ON sessions((datetime::date));
+create index idx_session_datetime ON sessions((datetime));
 create index ticket_book_status on tickets (status)
     where status = 'book';
 

@@ -9,13 +9,12 @@ FROM
         LEFT JOIN prices p ON s.id = p.session_id
         LEFT JOIN films f ON s.film_id = f.id
 WHERE
-    t.status = 'book' AND (s.datetime::date BETWEEN (CURRENT_DATE - INTERVAL '7 day') AND CURRENT_DATE) AND p.price IS NOT NULL
+        t.status = 'book' AND (s.datetime BETWEEN (CURRENT_DATE - INTERVAL '7 day') AND CURRENT_DATE) AND p.price IS NOT NULL
 GROUP BY
     f.name
 ORDER BY
     total_price DESC
 LIMIT 3;
-
 
 -- Limit  (cost=513.29..513.30 rows=3 width=35) (actual time=4.647..4.650 rows=3 loops=1)
 --   ->  Sort  (cost=513.29..513.72 rows=170 width=35) (actual time=4.640..4.642 rows=3 loops=1)
@@ -49,7 +48,9 @@ LIMIT 3;
 -- Planning Time: 0.362 ms
 -- Execution Time: 4.719 ms
 
-create index idx_session_datetime ON sessions((datetime::date));
+create index idx_session_datetime ON sessions((datetime));
+create index ticket_book_status on tickets (status)
+    where status = 'book';
 
 -- Limit  (cost=490.07..490.08 rows=3 width=35) (actual time=4.470..4.474 rows=3 loops=1)
 --   ->  Sort  (cost=490.07..490.50 rows=170 width=35) (actual time=4.469..4.472 rows=3 loops=1)

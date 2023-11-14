@@ -6,8 +6,8 @@ FROM
     tickets
         LEFT JOIN sessions ON tickets.session_id = sessions.id
 WHERE
-    sessions.datetime BETWEEN date_trunc('week', now()::timestamp)::timestamp
-  AND (date_trunc('week', now()::timestamp) + '6 days 23 hours 59 minutes'::interval)::timestamp
+    sessions.datetime BETWEEN date_trunc('week', now())
+  AND (date_trunc('week', now()) + '6 days 23 hours 59 minutes'::interval)
     AND tickets.status = 'book';
 
 -- Finalize Aggregate  (cost=122225.89..122225.90 rows=1 width=8) (actual time=450.436..453.954 rows=1 loops=1)

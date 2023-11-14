@@ -4,11 +4,11 @@ SELECT
     count(tickets.id)
 FROM
     tickets
-    LEFT JOIN sessions ON tickets.session_id = sessions.id
+        LEFT JOIN sessions ON tickets.session_id = sessions.id
 WHERE
-    sessions.datetime BETWEEN date_trunc('week', now()::timestamp)::timestamp
-    AND (date_trunc('week', now()::timestamp) + '6 days 23 hours 59 minutes'::interval)::timestamp
-    AND tickets.status = 'book';
+    sessions.datetime BETWEEN date_trunc('week', now())
+        AND (date_trunc('week', now()) + '6 days 23 hours 59 minutes'::interval)
+  AND tickets.status = 'book';
 
 -- Aggregate  (cost=240.21..240.22 rows=1 width=8) (actual time=21.756..21.780 rows=1 loops=1)
 --   ->  Hash Join  (cost=41.23..239.05 rows=462 width=4) (actual time=1.995..20.767 rows=442 loops=1)

@@ -4,7 +4,7 @@ SELECT DISTINCT films.name
 FROM
     sessions LEFT JOIN films ON films.id = sessions.film_id
 WHERE
-    sessions.datetime BETWEEN current_date::timestamp AND concat(CURRENT_DATE, ' 23:59:59')::timestamp;
+    sessions.datetime BETWEEN current_date AND concat(CURRENT_DATE, ' 23:59:59')::timestamp;
 
 -- Unique  (cost=187.82..187.92 rows=21 width=27) (actual time=2.619..2.807 rows=20 loops=1)
 --   ->  Sort  (cost=187.82..187.87 rows=21 width=27) (actual time=2.612..2.688 rows=20 loops=1)

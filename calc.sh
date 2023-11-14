@@ -7,7 +7,7 @@ then
   echo "installing bc package..."
   if ! sudo apt install -y bc > /dev/null 2>&1 
   then
-    echo "Something went wrong...use internal methods!";
+    echo "Something went wrong...use awk!";
     BC_INSTALLED=0
   else
     echo "success!";
@@ -22,12 +22,7 @@ then
  exit 1
 fi
 
-if [ $BC_INSTALLED -eq 1 ]
-then
-  regxp="^[+-]?[0-9]+([.][0-9]+)?$"
-else
-  regxp="^[+-]?[0-9]+$"
-fi
+regxp="^[+-]?[0-9]+([.][0-9]+)?$"
 
 if ! [[ $1 =~ $regxp ]]
 then
@@ -41,11 +36,13 @@ then
   exit 1
 fi
 
+
 if [ $BC_INSTALLED -eq 1 ]
 then
   sum=$(echo "$1 + $2" | bc)
+  echo "sum is: $sum";
 else
-  sum=$(($1 + $2))
+  awk -v a=$1 -v b=$2 'BEGIN {printf " sum is: %g\n", a + b}'
 fi
 
-echo "sum is: $sum";
+

@@ -1,10 +1,18 @@
 #!/bin/bash
 
+function checkExistCommandBc {
+    if ! command -v bc &> /dev/null
+    then
+        echo "Установите bc"
+        exit 1
+    fi
+}
+
 function checkCountArgs {
     if [ $1 -ne 2 ]
       then
         echo "Должно быть 2 аргумента"
-        exit -1
+        exit 1
     fi
 }
 
@@ -14,7 +22,7 @@ function checkArgumentIsNumber {
   REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
   if [[ ! $ARG_VALUE =~ $REGEX ]];
       then echo "Аргумент #$ARG_COUNT должен быть числом"
-      exit -1
+      exit 1
   fi
 }
 
@@ -32,6 +40,7 @@ function checkArgs {
   checkValidArgs $@
 }
 
+checkExistCommandBc
 checkArgs $@
 
 NUMBER_1=$1

@@ -11,4 +11,4 @@ if ! [[ $1 =~ $re ]] || ! [[ $2 =~ $re ]]; then
     exit 1
 fi
 
-echo $(echo "$1 + $2" | bc)
+echo $(awk "BEGIN { print $1 + $2 }")

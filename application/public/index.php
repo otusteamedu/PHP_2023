@@ -1,34 +1,9 @@
 <?php
 
-// from docs: https://github.com/phpredis/phpredis#class-redis
-$redis = new Redis();
+declare(strict_types=1);
 
-if ($redis->connect('redis')) {
-    echo 'Connected to redis<br />';
-} else {
-    echo 'Cannot connect to redis<br />';
-}
+require __DIR__ . '/../vendor/autoload.php';
 
-$memcached = new Memcached();
-$memcached->addServer('memcached', 11211);
+use Gesparo\HW\App\App;
 
-$memcached->set('test', 100);
-
-if ($memcached->get('test') === 100) {
-    echo 'Memcached connected<br />';
-} else {
-    echo 'Cannot connect to memcached<br />';
-}
-
-$mysqli = new mysqli(
-    "mysql:3306",
-    $_SERVER['MYAPP_MYSQL_USER'],
-    $_SERVER['MYAPP_MYSQL_PASSWORD'],
-    $_SERVER['MYAPP_MYSQL_DATABASE']
-);
-
-if ($mysqli->connect_error) {
-    echo 'Cannot connect to mysql<br />';
-} else {
-    echo 'MySQL connected<br />';
-}
+(new App())->run(__DIR__ . '/../');

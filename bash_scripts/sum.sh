@@ -10,7 +10,8 @@ pattern='/^[0-9]{1,}(\.[0-9]+)?$/'
 
 for i in "$@"
 do
-  if [ -z $(echo "$i" | awk "$pattern") ]; then
+  if [ -z $(echo "$i" | awk "$pattern") ]
+  then
       echo "$i - не число. Введите числовое значение"
       exit 1
   fi

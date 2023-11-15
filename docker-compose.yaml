@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  db1:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"

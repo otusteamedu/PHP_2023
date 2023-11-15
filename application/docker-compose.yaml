@@ -12,6 +12,7 @@ services:
       - ":9000"
     volumes:
       - ./:/data/www
+      - ./config/php/start.sh:/data/config/start.sh
     environment:
       MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYAPP_MYSQL_USER: ${MYSQL_USER}

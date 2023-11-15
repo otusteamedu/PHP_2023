@@ -21,8 +21,7 @@ class ModeStrategy
         ProviderAdapterStrategy $providerAdapterStrategy,
         StoreInterface $store,
         SMSMessageFactory $factory
-    )
-    {
+    ) {
         $this->envManager = $envManager;
         $this->providerAdapterStrategy = $providerAdapterStrategy;
         $this->store = $store;

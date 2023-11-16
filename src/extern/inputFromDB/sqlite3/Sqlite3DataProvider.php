@@ -22,8 +22,7 @@ class Sqlite3DataProvider implements CreatorDBAdapterInterface
     public static function querySubscribersForUser(
         string $userId,
         string $event
-    ): DBAdapterInterface
-    {
+    ): DBAdapterInterface {
         $path = implode(
             DIRECTORY_SEPARATOR,
             [PathHomeSource::get(), 'db', 'cnf.sqlite']
@@ -39,8 +38,7 @@ class Sqlite3DataProvider implements CreatorDBAdapterInterface
         string $userId,
         string $event,
         string $notify
-    ): DBAdapterInterface
-    {
+    ): DBAdapterInterface {
         $path = implode(
             DIRECTORY_SEPARATOR,
             [PathHomeSource::get(), 'db', 'cnf.sqlite']

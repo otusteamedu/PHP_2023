@@ -23,5 +23,11 @@
 
 Для хранения данных можно использовать произвольную БД.
 
-#### diagram
 
+#### Примеры запросов
+
+###### Инициализация события для уведомлений
+`POST /api/event/add?event=concert`
+
+###### Добавление связи подписчика и типа события
+`POST /api/event/addSubscriberByEvent?event=concert&subscriber=facebook`

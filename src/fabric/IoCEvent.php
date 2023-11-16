@@ -23,6 +23,6 @@ class IoCEvent
             throw new NotExistEventException($type);
         }
 
-        return new $events[$type];
+        return new $events[$type]();
     }
 }

@@ -14,10 +14,9 @@ class Repository
 
     public function addSubscriberByEventForUser(
         SubscriberInterface $subscriber,
-        EventInterface      $event,
-        UserInterface       $user
-    ): void
-    {
+        EventInterface $event,
+        UserInterface $user
+    ): void {
         $message = 'Log:: subscriber(' . $subscriber->getType() . ')' . 'event(' . $event->getType() . ')' . 'user(' . $user->getId() . ')';
         Log::info($message);
 
@@ -34,9 +33,8 @@ class Repository
 
     public function getSubscribersForUser(
         EventInterface $event,
-        UserInterface  $user
-    ): array
-    {
+        UserInterface $user
+    ): array {
         $data = ServiceFetchDataQuery::build()
             ->setUserId($user->getId())
             ->setEventType($event->getType())
@@ -48,7 +46,6 @@ class Repository
                     $this->subscribersByEventForUser[$userId][$eventType][] = IoCSubscriber::create($subscriber);
                 }
             }
-
         }
 
         $subscribers = $this->subscribersByEventForUser[$user->getId()][$event->getType()] ?? [];

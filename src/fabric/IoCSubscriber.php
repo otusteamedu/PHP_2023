@@ -23,6 +23,6 @@ class IoCSubscriber
             throw new NotExistSubscriberException($type);
         }
 
-        return new $events[$type];
+        return new $events[$type]();
     }
 }

@@ -2,7 +2,6 @@
 
 namespace src\extern\inputFromDB\sqlite3;
 
-
 use SQLite3;
 
 class Sqlite3DriverDBAdapter implements DBAdapterInterface

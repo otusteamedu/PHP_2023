@@ -2,9 +2,7 @@ version: '3'
 services:
   web:
     container_name: course_nginx
-    build:
-      context: ./deployment/docker/${APP}/nginx
-      dockerfile: Dockerfile
+    image: nginx:stable
     ports:
       - "2095:3000"
     volumes:
@@ -25,9 +23,7 @@ services:
 
   postgres:
     container_name: course_postgres
-    build:
-      context: ./deployment/docker/${APP}/postgres
-      dockerfile: Dockerfile
+    image: postgres
     restart: always
     environment:
       - POSTGRES_USER=postgres

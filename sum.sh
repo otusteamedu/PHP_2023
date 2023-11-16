@@ -1,13 +1,5 @@
 #!/bin/bash
 
-function checkExistCommandBc {
-    if ! command -v bc &> /dev/null
-    then
-        echo "Установите bc"
-        exit 1
-    fi
-}
-
 function checkCountArgs {
     if [ $1 -ne 2 ]
       then
@@ -40,11 +32,10 @@ function checkArgs {
   checkValidArgs $@
 }
 
-checkExistCommandBc
 checkArgs $@
 
 NUMBER_1=$1
 NUMBER_2=$2
-RESULT=$(echo "$NUMBER_1 + $NUMBER_2" | bc)
+RESULT=`echo "$NUMBER_1 $NUMBER_2" | awk '{print $1 + $2}'`
 echo "$NUMBER_1 + $NUMBER_2 = $RESULT"
 exit 0

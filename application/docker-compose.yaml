@@ -43,6 +43,18 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
 
+  mongo:
+    image: mongo:4.4.6
+    restart: always
+    container_name: myapp-mongo${DOCKER_CONTAINER_SUFFIX}
+    volumes:
+      - myapp-mongovolume:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
+
 volumes:
   # here database will store data
   myapp-dbvolume:
+  myapp-mongovolume:

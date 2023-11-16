@@ -1,0 +1,10 @@
+/var/log/*
+!var/log/.gitkeep
+
+src/vendor/
+
+/phpunit.xml
+
+**/.env
+src/db/cnf.sqlite
+src/db/cnf.sqlite*

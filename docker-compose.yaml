@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  nginx-hw:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: image-hw
+    container_name: nginx-hw
+    ports:
+      - ${NGINX_PORT}:80
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+    networks:
+      - network-hw
+
+  php-fpm-hw:
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: image-php-fpm-hw
+    container_name: php-fpm-hw
+    volumes:
+      - ${MY_PATH_SRC}:/data/app.local
+    networks:
+      - network-hw
+
+networks:
+  network-hw:
+    driver: bridge

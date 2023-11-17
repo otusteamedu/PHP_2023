@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7d2e3d0143996c0e094b437729a2334c",
+    "packages": [
+        {
+            "name": "espiktarenko/mortgage",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Gorgona66/mortgage.git",
+                "reference": "0dd6fb4385e523087585b04acdebca9cf2cf31ac"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Gorgona66/mortgage/zipball/0dd6fb4385e523087585b04acdebca9cf2cf31ac",
+                "reference": "0dd6fb4385e523087585b04acdebca9cf2cf31ac",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Espiktarenko\\Mortgage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Елена Спиктаренко",
+                    "email": "elena.spiktarenko@gmail.com"
+                }
+            ],
+            "description": "mortgage calculate",
+            "support": {
+                "issues": "https://github.com/Gorgona66/mortgage/issues",
+                "source": "https://github.com/Gorgona66/mortgage/tree/v1.0.0"
+            },
+            "time": "2023-11-17T14:40:18+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

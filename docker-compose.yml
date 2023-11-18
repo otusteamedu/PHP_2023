@@ -1,0 +1,80 @@
+version: '3.5'
+
+volumes:
+  db:
+    external: true
+    name: ${SHORT_NAME}_db
+  php_socket:
+    name: ${SHORT_NAME}_php_socket
+services:
+
+  nginx:
+    image: nginx:${NGINX_VERSION}
+    container_name: ${SHORT_NAME}-nginx
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_ROOT=${NGINX_ROOT}
+      - PHP_SOCKET=${PHP_SOCKET_PATH}
+    volumes:
+      - ${APPLICATION_ROOT}
+      - ${NGINX_CONF}
+      - php_socket:${PHP_SOCKET_PATH}
+    depends_on:
+      - php
+
+  php:
+    build:
+      context: ${PHP_CONTEXT}
+      args:
+        - UID=${PHP_UID}
+    container_name: ${SHORT_NAME}-php
+    volumes:
+      - ${APPLICATION_ROOT}
+      - ${PHP_INI}
+      - ${PHP_FPM_CONF}
+      - php_socket:${PHP_SOCKET_PATH}
+    extra_hosts:
+      - ${PHP_EXTRA_HOST}
+
+  redis:
+    image: redis:${REDIS_VERSION}
+    container_name: ${SHORT_NAME}-redis
+    expose:
+      - ${REDIS_PORT}
+    depends_on:
+      - php
+
+  memcached:
+    image: memcached:${MEMCACHED_VERSION}
+    container_name: ${SHORT_NAME}-memcached
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    depends_on:
+      - php
+      - mysql
+
+  mysql:
+    image: mysql:${MYSQL_VERSION}
+    container_name: ${SHORT_NAME}-mysql
+    expose:
+      - ${MYSQL_PORT}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - ${MYSQL_DB}
+      - ${MYSQL_CONF}
+
+  php-cli:
+    build:
+      context: ${PHP_CLI_CONTEXT}
+    container_name: ${SHORT_NAME}-php-cli
+    volumes:
+      - ${APPLICATION_ROOT}
+    depends_on:
+      - php

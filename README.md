@@ -27,7 +27,7 @@
 #### Примеры запросов
 
 ###### Инициализация события для уведомлений
-`POST /api/event/add?event=concert`
+`POST /api/emit/concert`
 
 ###### Добавление связи подписчика и типа события
-`POST /api/event/addSubscriberByEvent?event=concert&subscriber=facebook`
+`POST /api/event/concert/subscriber/sms`

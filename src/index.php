@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace src;
 
 use Exception;
-use src\api\AppDesignPatternsAPI;
+use src\application\AppDesignPatternsAPI;
 
 require __DIR__ . '/vendor/autoload.php';
 

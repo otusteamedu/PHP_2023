@@ -1,0 +1,19 @@
+{
+    "name": "espiktarenko/hw4project",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Espiktarenko\\Hw4project\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Елена Спиктаренко",
+            "email": "elena.spiktarenko@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "espiktarenko/mortgage": "^1.0"
+    }
+}

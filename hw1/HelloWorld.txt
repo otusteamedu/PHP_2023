@@ -1,3 +1,0 @@
-Hello World !!!
-My test use nano with app 
-nano from git/usr/bin

@@ -1,5 +1,7 @@
 FROM php:7.4-fpm
 
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+
 # ставим необходимые для нормальной работы модули
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -17,13 +19,14 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install -j$(nproc) gd \
         && pecl install memcached && \
         docker-php-ext-enable memcached \
-        # Создание директории и сокета для php-fpm
-        && mkdir -p /var/run/php-fpm \
-        && touch /var/run/php-fpm/php-fpm.sock \
-        && chown -R www-data:www-data /var/run/php-fpm \
-        && chmod 660 /var/run/php-fpm/php-fpm.sock
+	&& chmod +x /usr/local/bin/install-php-extensions  \
+	&& install-php-extensions redis \
+	&& install-php-extensions @composer-2 \
+	&& install-php-extensions memcached
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
+COPY ./custom.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+# COPY ./pool.d/www.conf /usr/local/etc/php/conf.d/www.conf
 
 WORKDIR /data
 

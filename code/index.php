@@ -30,7 +30,7 @@ try {
 }
 
 echo "<br><br>";
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
+echo "Привет, Otus!<br>" . date("Y-m-d H:i:s") . "<br><br>";
 
 echo "А тут изменился код";
 

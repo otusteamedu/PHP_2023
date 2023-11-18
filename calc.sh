@@ -6,7 +6,7 @@ while [ -z "$NUM1" ]; do
     echo "Вы ничего не ввели";
     read -p "Введите число 1: " NUM1
 done
-while [[ ! ("$NUM1" =~ ^[0-9,-]+$) ]]; do
+while [[ ! ("$NUM1" =~ ^[0-9.-]+$) ]]; do
     echo "Вы ввели не число";
     read -p "Введите число 1: " NUM1
 done
@@ -26,10 +26,9 @@ while [ -z "$NUM2" ]; do
     echo "Вы ничего не ввели";
     read -p "Введите число 2: " NUM2
 done
-while [[ ! ("$NUM2" =~ ^[0-9,-]+$) ]]; do
+while [[ ! ("$NUM2" =~ ^[0-9.-]+$) ]]; do
     echo "Вы ввели не число";
     read -p "Введите число 2: " NUM2
 done
 
-SUM=$(($NUM1 $ACTION $NUM2))
-echo "Ответ - $SUM"
+awk "BEGIN {print $NUM1 $ACTION $NUM2}" | { read answer; echo "Ответ - " $answer; }

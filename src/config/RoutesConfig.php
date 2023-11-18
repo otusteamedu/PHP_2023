@@ -18,7 +18,7 @@ class RoutesConfig
                     'pattern' => '/api/emit/{event}',
                     'callable' =>
                         function (Request $request, Response $response): Response {
-                            return ($this->get(ParameterNames::EventController))
+                            return ($this->get(ParameterNames::EVENT_CONTROLLER))
                                 ->add($request, $response);
                         }
                 ],
@@ -27,7 +27,7 @@ class RoutesConfig
                     'pattern' => '/api/event/{event}/subscriber/{subscriber}',
                     'callable' =>
                         function (Request $request, Response $response): Response {
-                            return ($this->get(ParameterNames::EventController))
+                            return ($this->get(ParameterNames::EVENT_CONTROLLER))
                                 ->addSubscriberByEvent($request, $response);
                         }
                 ]

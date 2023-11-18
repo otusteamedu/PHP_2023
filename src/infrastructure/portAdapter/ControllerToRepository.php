@@ -24,7 +24,8 @@ class ControllerToRepository
         Repository $repository,
         string $user,
         string $event,
-        string $subscriber): void {
+        string $subscriber
+    ): void {
         $repository->addSubscriberByEventForUser(
             IoCSubscriber::create($subscriber),
             IoCEvent::create($event),

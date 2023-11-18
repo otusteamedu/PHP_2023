@@ -71,7 +71,7 @@ class AppWrapper
         $response->withHeader('Content-type', 'application/json');
 
         $response->getBody()->write(
-            json_encode($payload , JSON_UNESCAPED_UNICODE)
+            json_encode($payload, JSON_UNESCAPED_UNICODE)
         );
 
         return $response;

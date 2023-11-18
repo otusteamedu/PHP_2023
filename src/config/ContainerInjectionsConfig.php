@@ -15,19 +15,19 @@ class ContainerInjectionsConfig
     public static function describes(): array
     {
         return [
-            ParameterNames::ConfigStorage =>  function () {
+            ParameterNames::CONFIG_STORAGE =>  function () {
                 return new ConfigStorage();
             },
 
-            ParameterNames::NotifyService => function () {
+            ParameterNames::NOTIFY_SERVICE => function () {
                 return new NotifyService(new Log(new FileLog()));
             },
 
-            ParameterNames::Repository => function () {
+            ParameterNames::REPOSITORY => function () {
                 return new Repository(new Log(new FileLog()));
             },
 
-            ParameterNames::EventController => function () {
+            ParameterNames::EVENT_CONTROLLER => function () {
                 return new EventController(
                     new StringParameterFromRequest(),
                     new Log(new FileLog()),

@@ -19,22 +19,21 @@ class EventController
     public function __construct(
         GetValueInterface $requestService,
         LogInterface $log
-    )
-    {
+    ) {
         $this->requestService = $requestService;
         $this->log = $log;
     }
 
     public function add(Request $request, Response $response): Response
     {
-        $event = $this->requestService->getValue($request, Attrs::EventParameter, '');
-        $user  = $this->requestService->getValue($request, Attrs::UserAttribute, '33');
+        $event = $this->requestService->getValue($request, Attrs::EVENT, '');
+        $user  = $this->requestService->getValue($request, Attrs::USER_ATTRIBUTE, '33');
         $this->log->info('');
         $this->log->info('add-event:' . $event);
         $this->log->info('for-user:' . $user);
 
         /** @var Repository $repository */
-        $repository = $this->requestService->getValue($request, Attrs::RepositoryAttribute);
+        $repository = $this->requestService->getValue($request, Attrs::REPOSITORY_ATTRIBUTE);
 
         try {
             $subscribers = ControllerToRepository::getSubscribers($repository, $user, $event);
@@ -55,7 +54,7 @@ class EventController
         $this->log->info('subscribers-count:' . count($subscribers));
 
         /** @var NotifyService $service */
-        $service = $this->requestService->getValue($request, Attrs::NotifyServiceAttribute);
+        $service = $this->requestService->getValue($request, Attrs::NOTIFY_SERVICE_ATTRIBUTE);
         $service->notify($subscribers);
 
         $this->log->info('ok');
@@ -65,12 +64,12 @@ class EventController
 
     public function addSubscriberByEvent(Request $request, Response $response): Response
     {
-        $event      = $this->requestService->getValue($request, Attrs::EventParameter, '');
-        $subscriber = $this->requestService->getValue($request, Attrs::SubscriberParameter, '');
-        $user       = $this->requestService->getValue($request, Attrs::UserAttribute, '33');
+        $event      = $this->requestService->getValue($request, Attrs::EVENT, '');
+        $subscriber = $this->requestService->getValue($request, Attrs::SUBSCRIBER, '');
+        $user       = $this->requestService->getValue($request, Attrs::USER_ATTRIBUTE, '33');
 
         /** @var Repository $repository */
-        $repository = $this->requestService->getValue($request, Attrs::RepositoryAttribute);
+        $repository = $this->requestService->getValue($request, Attrs::REPOSITORY_ATTRIBUTE);
         try {
             ControllerToRepository::addSubscriberByEventForUser($repository, $user, $event, $subscriber);
 

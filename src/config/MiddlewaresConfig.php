@@ -13,13 +13,13 @@ class MiddlewaresConfig
     {
         return [
             'authUserId' => function (Request $request, $handler) {
-                $configStorage = $this->get(ParameterNames::ConfigStorage)
+                $configStorage = $this->get(ParameterNames::CONFIG_STORAGE)
                     ->fromDotEnvFile([dirname(__DIR__), '.env']);
 
                 $userId = $configStorage->get('USER');
 
                 $request = $request->withAttribute(
-                    ParameterNames::UserAttribute,
+                    ParameterNames::USER_ATTRIBUTE,
                     $userId
                 );
                 return $handler->handle($request);
@@ -28,8 +28,8 @@ class MiddlewaresConfig
             'notifyService' => function (Request $request, $handler) {
                 return $handler->handle(
                     $request->withAttribute(
-                        ParameterNames::NotifyServiceAttribute,
-                        $this->get(ParameterNames::NotifyService)
+                        ParameterNames::NOTIFY_SERVICE_ATTRIBUTE,
+                        $this->get(ParameterNames::NOTIFY_SERVICE)
                     )
                 );
             },
@@ -37,8 +37,8 @@ class MiddlewaresConfig
             'repository' => function (Request $request, $handler) {
                 return $handler->handle(
                     $request->withAttribute(
-                        ParameterNames::RepositoryAttribute,
-                        $this->get(ParameterNames::Repository)
+                        ParameterNames::REPOSITORY_ATTRIBUTE,
+                        $this->get(ParameterNames::REPOSITORY)
                     )
                 );
             }

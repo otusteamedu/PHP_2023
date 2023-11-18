@@ -1,0 +1,8 @@
+**/var/log/*.log
+!var/log/.gitkeep
+
+src/vendor/
+
+**/.env
+src/var/db/cnf.sqlite
+src/var/db/cnf.sqlite*

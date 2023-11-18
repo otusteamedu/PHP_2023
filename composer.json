@@ -1,0 +1,19 @@
+{
+    "name": "ayamaliev/hw3",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ayamaliev\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyrcha",
+            "email": "sevrevdan@yandex.ru"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "artyr-yamaliev/composer-package": "^1.0"
+    }
+}

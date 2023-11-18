@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "aa61e46df0f208fe67c7aa8b6a93776e",
+    "packages": [
+        {
+            "name": "artyr-yamaliev/composer-package",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Artyrcha/composer-package.git",
+                "reference": "e98db8e0c249d66d4c2b49c74b7ecbf6171745b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Artyrcha/composer-package/zipball/e98db8e0c249d66d4c2b49c74b7ecbf6171745b2",
+                "reference": "e98db8e0c249d66d4c2b49c74b7ecbf6171745b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ArtyrYamaliev\\ComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "AYamaliev",
+                    "email": "sevrevdan@yandex.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Artyrcha/composer-package/issues",
+                "source": "https://github.com/Artyrcha/composer-package/tree/v1.0.0"
+            },
+            "time": "2023-11-18T17:44:06+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.4"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

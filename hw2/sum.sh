@@ -19,7 +19,7 @@ then
 fi
 
 # 3. checking each argument for number compliance
-CHECK_REGEX="^-?[0-9]+([.][0-9]+)?$"
+CHECK_REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
 for i in "$@"
 do
     if ! [[ $i =~ $CHECK_REGEX ]]

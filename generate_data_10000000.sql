@@ -1,4 +1,4 @@
-INSERT INTO movies (id, name, age, description, poster, trailer, duration, date_start, date_end)
+INSERT INTO movies (id, name, age, description, poster, trailer, duration)
 SELECT
     gs,
     'Movie ' || gs,
@@ -6,18 +6,15 @@ SELECT
     'Description ' || gs,
     null,
     null,
-    '02:00:00',
-    random_date('2023-09-01', '2023-10-30'),
-    random_date('2023-11-01', '2023-12-31')
+    '02:00:00'
 FROM
     generate_series(1, 10000000) as gs;
 
 
-INSERT INTO sessions (id, time_start, time_end, movie_id, hall_id)
+INSERT INTO sessions (id, date, movie_id, hall_id)
 SELECT
     gs,
-    '12:00:00',
-    '14:00:00',
+    random_date('2023-09-01', '2023-12-31'),
     gs,
     1
 FROM generate_series(1, 10000000) as gs;

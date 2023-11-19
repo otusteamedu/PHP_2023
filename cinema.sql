@@ -33,18 +33,16 @@ CREATE TABLE IF NOT EXISTS movies
     poster      VARCHAR(255),
     trailer     VARCHAR,
     duration    TIME,
-    date_start  DATE,
-    date_end    DATE,
     created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-INSERT INTO movies (name, age, description, poster, trailer, duration, date_start, date_end)
-VALUES ('Movie 1', '18', null, null, null, '02:00:00', '2023-09-24', '2023-10-24'),
-       ('Movie 2', '16', null, null, null, '02:00:00', '2023-09-24', '2023-10-24'),
-       ('Movie 3', '14', null, null, null, '02:00:00', '2023-09-24', '2023-10-24'),
-       ('Movie 4', '12', null, null, null, '02:00:00', '2023-09-24', '2023-10-24'),
-       ('Movie 5', '18', null, null, null, '02:00:00', '2023-09-24', '2023-10-24');
+INSERT INTO movies (name, age, description, poster, trailer, duration)
+VALUES ('Movie 1', '18', null, null, null, '02:00:00'),
+       ('Movie 2', '16', null, null, null, '02:00:00'),
+       ('Movie 3', '14', null, null, null, '02:00:00'),
+       ('Movie 4', '12', null, null, null, '02:00:00'),
+       ('Movie 5', '18', null, null, null, '02:00:00');
 
 -- #####################################################################################################################
 
@@ -79,8 +77,7 @@ VALUES (1, 1, 1),
 CREATE TABLE IF NOT EXISTS sessions
 (
     id   SERIAL PRIMARY KEY,
-    time_start time                                NOT NULL,
-    time_end   time                                NOT NULL,
+    date       TIMESTAMP                           NOT NULL,
     movie_id   INTEGER                             NOT NULL
     constraint sessions_movies_id_fk references movies (id),
     hall_id    INTEGER                             NOT NULL
@@ -89,12 +86,12 @@ CREATE TABLE IF NOT EXISTS sessions
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
-INSERT INTO sessions (time_start, time_end, movie_id, hall_id)
-VALUES ('12:00:00', '14:00:00', 1, 1),
-       ('12:00:00', '14:00:00', 2, 2),
-       ('14:00:00', '16:00:00', 3, 1),
-       ('14:00:00', '16:00:00', 4, 2),
-       ('16:00:00', '18:00:00', 5, 1);
+INSERT INTO sessions (date, movie_id, hall_id)
+VALUES ('2023-12-01 12:00:00', 1, 1),
+       ('2023-12-02 12:00:00', 2, 2),
+       ('2023-12-03 12:00:00', 3, 1),
+       ('2023-12-04 12:00:00', 4, 2),
+       ('2023-12-05 12:00:00', 5, 1);
 
 -- #####################################################################################################################
 

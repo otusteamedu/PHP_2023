@@ -2,89 +2,84 @@
 
 EXPLAIN ANALYZE
 SELECT
-movies.name,
-movies.date_start,
-movies.date_end
+movies.name
 FROM movies
     INNER JOIN sessions ON movies.id = sessions.movie_id
 WHERE
-    (CURRENT_DATE BETWEEN movies.date_start AND movies.date_end)
+    sessions.date = CURRENT_DATE;
 ;
-
 
 -----------------------------------------100000------------------------------------------------------
 --QUERY PLAN
--- Hash Join  (cost=167.47..621.26 rows=1380 width=19) (actual time=5.402..7.898 rows=692 loops=1)
---    Hash Cond: (sessions.movie_id = movies.id)
---    ->  Seq Scan on sessions  (cost=0.00..398.31 rows=21131 width=4) (actual time=1.044..2.035 rows=10000 loops=1)
---    ->  Hash  (cost=166.16..166.16 rows=105 width=23) (actual time=4.319..4.320 rows=692 loops=1)
---          Buckets: 1024  Batches: 1  Memory Usage: 46kB
---          ->  Seq Scan on movies  (cost=0.00..166.16 rows=105 width=23) (actual time=0.023..4.052 rows=692 loops=1)
---                Filter: ((CURRENT_DATE >= date_start) AND (CURRENT_DATE <= date_end))
---                Rows Removed by Filter: 9308
---  Planning Time: 1.228 ms
---  Execution Time: 8.812 ms
+-- Hash Join  (cost=244.68..397.11 rows=53 width=10) (actual time=2.606..5.197 rows=76 loops=1)
+--    Hash Cond: (movies.id = sessions.movie_id)
+--    ->  Seq Scan on movies  (cost=0.00..138.88 rows=1488 width=14) (actual time=0.010..1.680 rows=10000 loops=1)
+--    ->  Hash  (cost=244.02..244.02 rows=53 width=4) (actual time=2.588..2.589 rows=76 loops=1)
+--          Buckets: 1024  Batches: 1  Memory Usage: 11kB
+--          ->  Seq Scan on sessions  (cost=0.00..244.02 rows=53 width=4) (actual time=0.006..1.838 rows=76 loops=1)
+--                Filter: (date = CURRENT_DATE)
+--                Rows Removed by Filter: 9924
+--  Planning Time: 0.122 ms
+--  Execution Time: 5.467 ms
 -- (10 rows)
-
 
 -----------------------------------------10000000----------------------------------------------------
 --QUERY PLAN
--- Gather  (cost=229850.07..443641.26 rows=342000 width=21) (actual time=4464.394..6763.409 rows=333634 loops=1)
+-- Gather  (cost=1000.43..284055.21 rows=52917 width=10) (actual time=9.995..1694.855 rows=82757 loops=1)
 --    Workers Planned: 2
 --    Workers Launched: 2
---    ->  Parallel Hash Join  (cost=228850.07..408441.26 rows=142500 width=21) (actual time=4337.623..5967.986 rows=111211 loops=3)
---          Hash Cond: (sessions.movie_id = movies.id)
---          ->  Parallel Seq Scan on sessions  (cost=0.00..135124.69 rows=4166669 width=4) (actual time=0.308..1005.614 rows=3333333 loops=3)
---          ->  Parallel Hash  (cost=226093.84..226093.84 rows=142498 width=25) (actual time=1883.419..1883.421 rows=111211 loops=3)
---                Buckets: 65536  Batches: 8  Memory Usage: 3200kB
---                ->  Parallel Seq Scan on movies  (cost=0.00..226093.84 rows=142498 width=25) (actual time=33.524..1802.542 rows=111211 loops=3)
---                      Filter: ((CURRENT_DATE >= date_start) AND (CURRENT_DATE <= date_end))
---                      Rows Removed by Filter: 3222122
---  Planning Time: 0.293 ms
+--    ->  Nested Loop  (cost=0.43..277763.51 rows=22049 width=10) (actual time=13.660..1635.992 rows=27586 loops=3)
+--          ->  Parallel Seq Scan on sessions  (cost=0.00..149480.36 rows=22049 width=4) (actual time=13.520..944.574 rows=27586 loops=3)
+--                Filter: (date = CURRENT_DATE)
+--                Rows Removed by Filter: 3305748
+--          ->  Index Scan using movies_pkey on movies  (cost=0.43..5.82 rows=1 width=14) (actual time=0.024..0.024 rows=1 loops=82757)
+--                Index Cond: (id = sessions.movie_id)
+--  Planning Time: 0.144 ms
 --  JIT:
---    Functions: 36
+--    Functions: 24
 --    Options: Inlining false, Optimization false, Expressions true, Deforming true
---    Timing: Generation 6.204 ms, Inlining 0.000 ms, Optimization 3.030 ms, Emission 90.195 ms, Total 99.429 ms
---  Execution Time: 6790.502 ms
--- (17 rows)
+--    Timing: Generation 3.065 ms, Inlining 0.000 ms, Optimization 2.109 ms, Emission 38.304 ms, Total 43.479 ms
+--  Execution Time: 1732.622 ms
+-- (15 rows)
 
-CREATE INDEX ON movies USING btree(date_start, date_end);
+CREATE INDEX ON sessions(date);
 
 -----------------------------------------100000------------------------------------------------------
 --QUERY PLAN
--- Hash Join  (cost=329.72..549.98 rows=349 width=18) (actual time=0.639..2.738 rows=349 loops=1)
---    Hash Cond: (sessions.movie_id = movies.id)
---    ->  Seq Scan on sessions  (cost=0.00..194.00 rows=10000 width=4) (actual time=0.007..0.963 rows=10000 loops=1)
---    ->  Hash  (cost=325.36..325.36 rows=349 width=22) (actual time=0.599..0.601 rows=349 loops=1)
---          Buckets: 1024  Batches: 1  Memory Usage: 28kB
---          ->  Bitmap Heap Scan on movies  (cost=184.38..325.36 rows=349 width=22) (actual time=0.197..0.486 rows=349 loops=1)
---                Filter: ((CURRENT_DATE >= date_start) AND (CURRENT_DATE <= date_end))
---                Heap Blocks: exact=123
---                ->  Bitmap Index Scan on movies_date_start_date_end_idx  (cost=0.00..184.29 rows=349 width=0) (actual time=0.170..0.170 rows=349 loops=1)
---                      Index Cond: ((date_start <= CURRENT_DATE) AND (date_end >= CURRENT_DATE))
---  Planning Time: 0.459 ms
---  Execution Time: 3.023 ms
+-- Hash Join  (cost=82.33..234.73 rows=50 width=10) (actual time=0.231..2.025 rows=76 loops=1)
+--    Hash Cond: (movies.id = sessions.movie_id)
+--    ->  Seq Scan on movies  (cost=0.00..138.88 rows=1488 width=14) (actual time=0.019..1.111 rows=10000 loops=1)
+--    ->  Hash  (cost=81.70..81.70 rows=50 width=4) (actual time=0.206..0.207 rows=76 loops=1)
+--          Buckets: 1024  Batches: 1  Memory Usage: 11kB
+--          ->  Bitmap Heap Scan on sessions  (cost=4.68..81.70 rows=50 width=4) (actual time=0.126..0.186 rows=76 loops=1)
+--                Recheck Cond: (date = CURRENT_DATE)
+--                Heap Blocks: exact=49
+--                ->  Bitmap Index Scan on sessions_date_idx  (cost=0.00..4.66 rows=50 width=0) (actual time=0.114..0.114 rows=76 loops=1)
+--                      Index Cond: (date = CURRENT_DATE)
+--  Planning Time: 0.241 ms
+--  Execution Time: 2.299 ms
 -- (12 rows)
 
 
+
 -----------------------------------------10000000----------------------------------------------------
 --QUERY PLAN
--- Gather  (cost=229851.58..443642.78 rows=342000 width=21) (actual time=4404.167..6515.870 rows=333634 loops=1)
+-- Gather  (cost=1570.97..212483.07 rows=52917 width=10) (actual time=53.966..853.372 rows=82757 loops=1)
 --    Workers Planned: 2
 --    Workers Launched: 2
---    ->  Parallel Hash Join  (cost=228851.58..408442.78 rows=142500 width=21) (actual time=4392.852..6259.983 rows=111211 loops=3)
---          Hash Cond: (sessions.movie_id = movies.id)
---          ->  Parallel Seq Scan on sessions  (cost=0.00..135124.69 rows=4166669 width=4) (actual time=0.138..1290.645 rows=3333333 loops=3)
---          ->  Parallel Hash  (cost=226095.33..226095.33 rows=142500 width=25) (actual time=1979.255..1979.256 rows=111211 loops=3)
---                Buckets: 65536  Batches: 8  Memory Usage: 3200kB
---                ->  Parallel Seq Scan on movies  (cost=0.00..226095.33 rows=142500 width=25) (actual time=30.007..1807.271 rows=111211 loops=3)
---                      Filter: ((CURRENT_DATE >= date_start) AND (CURRENT_DATE <= date_end))
---                      Rows Removed by Filter: 3222122
---  Planning Time: 0.628 ms
+--    ->  Nested Loop  (cost=570.97..206191.37 rows=22049 width=10) (actual time=28.721..785.938 rows=27586 loops=3)
+--          ->  Parallel Bitmap Heap Scan on sessions  (cost=570.54..77908.22 rows=22049 width=4) (actual time=20.835..231.097 rows=27586 loops=3)
+--                Recheck Cond: (date = CURRENT_DATE)
+--                Heap Blocks: exact=18891
+--                ->  Bitmap Index Scan on sessions_date_idx  (cost=0.00..557.31 rows=52917 width=0) (actual time=37.610..37.610 rows=82757 loops=1)
+--                      Index Cond: (date = CURRENT_DATE)
+--          ->  Index Scan using movies_pkey on movies  (cost=0.43..5.82 rows=1 width=14) (actual time=0.018..0.018 rows=1 loops=82757)
+--                Index Cond: (id = sessions.movie_id)
+--  Planning Time: 0.186 ms
 --  JIT:
---    Functions: 36
+--    Functions: 27
 --    Options: Inlining false, Optimization false, Expressions true, Deforming true
---    Timing: Generation 5.313 ms, Inlining 0.000 ms, Optimization 2.973 ms, Emission 85.970 ms, Total 94.256 ms
---  Execution Time: 6562.773 ms
+--    Timing: Generation 4.715 ms, Inlining 0.000 ms, Optimization 2.658 ms, Emission 31.850 ms, Total 39.223 ms
+--  Execution Time: 876.515 ms
 -- (17 rows)
 

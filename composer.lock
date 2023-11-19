@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e59a741604a3aed5284e5465429f3bb7",
+    "packages": [
+        {
+            "name": "ekovalev/livedday",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/knuklus/hw3_otus.git",
+                "reference": "cb979df2874ae7ab8ec1a77d00b0e806fc5a78d5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/knuklus/hw3_otus/zipball/cb979df2874ae7ab8ec1a77d00b0e806fc5a78d5",
+                "reference": "cb979df2874ae7ab8ec1a77d00b0e806fc5a78d5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Ekovalev\\Otus\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Eugene Kovalev",
+                    "email": "knuklus@ya.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/knuklus/hw3_otus/issues",
+                "source": "https://github.com/knuklus/hw3_otus/tree/v1.0.0"
+            },
+            "time": "2023-11-19T08:21:15+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

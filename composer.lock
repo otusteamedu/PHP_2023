@@ -1,0 +1,57 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "74474ec260cdda04bbcd04775c31d77c",
+    "packages": [
+        {
+            "name": "anton-ardyshev/otus-composer-package",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/toni-ardyshev-basket/otus-composer-package.git",
+                "reference": "f05b531b636315895aea3fbf8c69b91d92151dc3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/toni-ardyshev-basket/otus-composer-package/zipball/f05b531b636315895aea3fbf8c69b91d92151dc3",
+                "reference": "f05b531b636315895aea3fbf8c69b91d92151dc3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-mbstring": "*",
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AntonArdyshev\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Anton Ardyshev",
+                    "email": "toni.ardyshev@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/toni-ardyshev-basket/otus-composer-package/issues",
+                "source": "https://github.com/toni-ardyshev-basket/otus-composer-package/tree/v0.1.1"
+            },
+            "time": "2023-11-19T20:12:38+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cc06eaed21dba78ef57752530885cb5a",
+    "packages": [
+        {
+            "name": "vasilaki/phone",
+            "version": "v0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vasilaki-t/phone.git",
+                "reference": "8e93ef660d0cd1c1d34aadbc34ec3b3a4bd17c43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vasilaki-t/phone/zipball/8e93ef660d0cd1c1d34aadbc34ec3b3a4bd17c43",
+                "reference": "8e93ef660d0cd1c1d34aadbc34ec3b3a4bd17c43",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Vasilaki\\Phone\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Vasilaki",
+                    "email": "vasilaki.t@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/vasilaki-t/phone/issues",
+                "source": "https://github.com/vasilaki-t/phone/tree/v0.0.2"
+            },
+            "time": "2023-11-19T14:59:21+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

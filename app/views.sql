@@ -1,12 +1,20 @@
-CREATE VIEW marketing_info AS
-	SELECT films."name" as film_name, CONCAT('(', attributestype."name", ')', ' ', "attributes"."name")  as attribute, "values"."value" as "value"  
-		FROM "values"
-	LEFT JOIN films ON films."id"	= "values".film_id
-	LEFT JOIN "attributes" ON "attributes"."id" = "values".attribute_id
-	LEFT JOIN "attributestype" ON "attributestype"."id" = "attributes".attribute_type_id;
+CREATE OR REPLACE VIEW marketing_info AS
+	SELECT films."name" as film_name, CONCAT('(', attributes."type", ')', ' ', "attributes"."name")  as attribute,
+	CASE
+		 WHEN attributevalues.int_value IS NOT NULL THEN attributevalues.int_value::text
+		 WHEN attributevalues.string_value IS NOT NULL THEN attributevalues.string_value::text
+		 WHEN attributevalues.text_value IS NOT NULL THEN attributevalues.text_value::text
+		 WHEN attributevalues.float_value IS NOT NULL THEN attributevalues.float_value::text
+		 WHEN attributevalues.datetime_value IS NOT NULL THEN attributevalues.datetime_value::text
+		 WHEN attributevalues.date_value IS NOT NULL THEN attributevalues.date_value::text
+		 WHEN attributevalues.bool_value IS NOT NULL THEN attributevalues.bool_value::text
+		 END as value
+	FROM "attributevalues"
+LEFT JOIN films ON films."id"	= "attributevalues".film_id
+LEFT JOIN "attributes" ON "attributes"."id" = attributevalues.attribute_id;
 
 
-CREATE VIEW session_schedule AS
+CREATE OR REPLACE VIEW session_schedule AS
 WITH films_today AS
 	(SELECT halls.name as "hall", films.name as "film", sessions.start_at as "today_time" FROM sessions 
 	LEFT JOIN films ON films."id" = sessions.film_id

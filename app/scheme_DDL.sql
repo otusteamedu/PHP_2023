@@ -8,13 +8,7 @@ CREATE TABLE Films (
 	description TEXT NOT NULL  -- Описание фильма
 );
 
-/*
-  AttributesType
-*/
-CREATE TABLE AttributesType (
-	id SERIAL PRIMARY KEY,
-	name VARCHAR(100) NOT NULL UNIQUE
-);
+CREATE TYPE types_attributes AS ENUM ('int', 'string', 'text', 'float', 'datetime', 'date', 'bool');
 
 /*
   Attributes
@@ -22,17 +16,25 @@ CREATE TABLE AttributesType (
 CREATE TABLE Attributes (
 	id SERIAL PRIMARY KEY,
 	name VARCHAR(100) NOT NULL UNIQUE,
-	attribute_type_id INTEGER REFERENCES AttributesType (id)
+  type types_attributes NOT NULL
 );
 
 /*
   Values
 */
-CREATE TABLE Values (
+CREATE TABLE AttributeValues (
 	film_id INTEGER REFERENCES Films (id),
   attribute_id INTEGER REFERENCES Attributes (id),
-  value TEXT
+  int_value INTEGER NULL,
+  string_value VARCHAR NULL,
+  text_value TEXT NULL,
+  float_value NUMERIC(18, 2),
+  datetime_value TIMESTAMP NULL,
+  date_value DATE NULL,
+  bool_value BOOLEAN NULL
 );
+
+CREATE INDEX idx_attribute_value_film ON AttributeValues (film_id, attribute_id);
 
 /*
   Halls - данные о залах

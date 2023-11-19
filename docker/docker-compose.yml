@@ -3,10 +3,7 @@ version: '3'
 services:
 
   memcached:
-    build:
-      context: ./memcached
-      dockerfile: Dockerfile
-    image: site/memcached
+    image: memcached
     container_name: memcached
     ports:
       - 11211:11211
@@ -27,10 +24,7 @@ services:
       - site-network
 
   mariadb:
-    build:
-      context: ./mariadb
-      dockerfile: Dockerfile
-    image: site/mariadb
+    image: mariadb:latest
     container_name: mariadb
     environment:
       - MARIADB_ROOT_PASSWORD=${DB_ROOT_PWD}

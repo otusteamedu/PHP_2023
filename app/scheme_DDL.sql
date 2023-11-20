@@ -8,7 +8,7 @@ CREATE TABLE Films (
 	description TEXT NOT NULL  -- Описание фильма
 );
 
-CREATE TYPE types_attributes AS ENUM ('int', 'string', 'text', 'float', 'datetime', 'date', 'bool');
+CREATE TYPE types_attributes AS ENUM ('int', 'string', 'float', 'datetime', 'bool');
 
 /*
   Attributes
@@ -27,10 +27,8 @@ CREATE TABLE AttributeValues (
   attribute_id INTEGER REFERENCES Attributes (id),
   int_value INTEGER NULL,
   string_value VARCHAR NULL,
-  text_value TEXT NULL,
   float_value NUMERIC(18, 2),
   datetime_value TIMESTAMP NULL,
-  date_value DATE NULL,
   bool_value BOOLEAN NULL
 );
 

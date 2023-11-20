@@ -6,13 +6,13 @@ INSERT INTO films (name, type, description) VALUES
 INSERT INTO 
     Attributes (name, type) 
 VALUES 
-    ('рецензии критиков', 'text'),    
-    ('отзыв неизвестной киноакадемии', 'text'),    
-    ('отзыв кинопоиск', 'text'),  
-    ('премия оскар', 'date'),
+    ('рецензии критиков', 'string'),    
+    ('отзыв неизвестной киноакадемии', 'string'),    
+    ('отзыв кинопоиск', 'string'),  
+    ('премия оскар', 'datetime'),
     ('премия ника', 'bool'),
-    ('мировая премьера', 'date'),
-    ('премьера в РФ', 'date'),
+    ('мировая премьера', 'datetime'),
+    ('премьера в РФ', 'datetime'),
     ('начала продажи билетов', 'datetime'),
     ('запуск рекламы на TВ', 'datetime'),
     ('продолжительность фильма', 'int'),
@@ -21,16 +21,16 @@ VALUES
     ('возраст', 'int'),
     ('рейтинг', 'float');
 
-INSERT INTO AttributeValues(film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues(film_id, attribute_id, string_value) 
 VALUES (1, 1, 'Я, Франкенштейн - наиболее типичный представитель одноразовых попкорновых блокбастеров, на который даже не стоит тратить время. Но всем желающим посмотреть на очередную интерпретацию войны Добра со Злом - добро пожаловать. История проста - есть у нас монстр Франкенштейна, который доживает аж до наших дней, есть армия демонов, состоящая из 666 легионов (и это не шутка, в фильме это четко оговаривается), и противостоящая им армия горгулий, с гораздо меньшей численностью, но зато более имбовая в плане способностей и мощи. И разумеется обеим сторонам конфликта очень нужен наш главный герой, который просто хочет спокойной жизни вдали от всего этого.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (1, 3, 'Вот такие дела, вечная проблема злодеев в том, что им нужны живые герои, а не мертвые, что собственно делает антагонистов тупыми и немощными, а героев возвышает до уровня “Бог”. Печально, съешьте печенье, ведь (тут должно было быть слово “фильм”) продолжается.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (1, 6, '2014-01-20');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (1, 7, '2014-01-23');
 
 INSERT INTO AttributeValues (film_id, attribute_id, datetime_value) 
@@ -53,16 +53,16 @@ VALUES   (1, 14, '5.2');
     
     
 
-INSERT INTO AttributeValues(film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues(film_id, attribute_id, string_value) 
 VALUES (2, 1, 'Полтора шпиона - весьма неплохой комедийный боевик, который прекрасно справляется со своей первоочередной задачей, а именно - развлекает зрителя. Всем любителям (или нелюбителям) встреч с бывшими одноклассниками - добро пожаловать.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (2, 3, 'Типичная американская комедия. Полная шуток над которыми не всегда хочется смеяться. Шпионская тема, но растолкована недостаточно. Все события не станут для тебя неожиданностью. Половину фильма просидишь с рукой у лица, а другую половину сам не поймешь, над чем смеешься.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (2, 6, '2016-06-10');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (2, 7, '2016-06-01');
 
 INSERT INTO AttributeValues (film_id, attribute_id, datetime_value) 
@@ -84,16 +84,16 @@ INSERT INTO AttributeValues (film_id, attribute_id, string_value)
 VALUES   (2, 11, 'Они попробуют спасти мир: малыш Харт и скала Джонсон');
 
 
-INSERT INTO AttributeValues(film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues(film_id, attribute_id, string_value) 
 VALUES (3, 1, 'Об этом фильме лучше всего говорят сами авторы устами одного из своих персонажей: «Почти 3 часа безудержного самолюбования, заканчивающегося невообразимо плоским финалом». В этой характеристике можно узреть здоровую самоиронию, что, несомненно, достойно повышения итоговой оценки. Но, откровенно говоря, просмотр был скучным.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (3, 3, 'Актеры в лице Тома Хенкса, Холи Бери, и Хью Гранта не спасают. Их актерская игра вымарана калейдоскопным повествованием скучных сюжетов с претензией на лихо закрученную гениальную сказку. Есть чуть-чуть зачем-то вставленного секса (можно было обойтись и без для лучшего рейтинга), есть гей-юноша композитор.');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (3, 6, '2021-06-10');
 
-INSERT INTO AttributeValues (film_id, attribute_id, text_value) 
+INSERT INTO AttributeValues (film_id, attribute_id, string_value) 
 VALUES (3, 7, '2021-06-15');
 
 INSERT INTO AttributeValues (film_id, attribute_id, datetime_value) 

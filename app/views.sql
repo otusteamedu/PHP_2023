@@ -3,10 +3,8 @@ CREATE OR REPLACE VIEW marketing_info AS
 	CASE
 		 WHEN attributevalues.int_value IS NOT NULL THEN attributevalues.int_value::text
 		 WHEN attributevalues.string_value IS NOT NULL THEN attributevalues.string_value::text
-		 WHEN attributevalues.text_value IS NOT NULL THEN attributevalues.text_value::text
 		 WHEN attributevalues.float_value IS NOT NULL THEN attributevalues.float_value::text
 		 WHEN attributevalues.datetime_value IS NOT NULL THEN attributevalues.datetime_value::text
-		 WHEN attributevalues.date_value IS NOT NULL THEN attributevalues.date_value::text
 		 WHEN attributevalues.bool_value IS NOT NULL THEN attributevalues.bool_value::text
 		 END as value
 	FROM "attributevalues"

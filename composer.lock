@@ -1,0 +1,47 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "f341e303eaf6ed283504a5645f2693b7",
+    "packages": [
+        {
+            "name": "radovinetch/my-package",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/radovinetch/my-package.git",
+                "reference": "e0bcaa43d993fede568142219d4ecc9b596c70b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/radovinetch/my-package/zipball/e0bcaa43d993fede568142219d4ecc9b596c70b4",
+                "reference": "e0bcaa43d993fede568142219d4ecc9b596c70b4",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Radovinetch\\MyPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "My package for OTUS",
+            "support": {
+                "issues": "https://github.com/radovinetch/my-package/issues",
+                "source": "https://github.com/radovinetch/my-package/tree/1.0"
+            },
+            "time": "2023-11-20T20:18:05+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

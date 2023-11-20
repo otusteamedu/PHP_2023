@@ -1,2 +1,10 @@
 /.env
 .idea
+*.iml
+/out/
+/import/
+vendor
+fpm
+nginx
+docker-compose.yml
+.DS_Store

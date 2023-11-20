@@ -1,0 +1,14 @@
+{
+    "name": "syalanskiy/hw3",
+    "description": "Homework #3",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Sergey Yalanskiy",
+            "email": "yalansky@gmail.com"
+        }
+    ],
+    "require": {
+        "syalanskiy/simple-stat": "^1.0"
+    }
+}

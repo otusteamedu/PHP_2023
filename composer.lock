@@ -1,0 +1,59 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "336273a6acf9570bbd4a99a6283d618a",
+    "packages": [
+        {
+            "name": "syalanskiy/simple-stat",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Yalanskiy/SimpleStat.git",
+                "reference": "75280c8f85f550dc69361112e69be1482ed31875"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Yalanskiy/SimpleStat/zipball/75280c8f85f550dc69361112e69be1482ed31875",
+                "reference": "75280c8f85f550dc69361112e69be1482ed31875",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Yalanskiy\\SimpleStat\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sergey Yalanskiy",
+                    "email": "yalansky@gmail.com"
+                }
+            ],
+            "description": "Simple Math Stat Library",
+            "support": {
+                "issues": "https://github.com/Yalanskiy/SimpleStat/issues",
+                "source": "https://github.com/Yalanskiy/SimpleStat/tree/v1.0.0"
+            },
+            "time": "2023-11-20T16:09:03+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

@@ -1,0 +1,58 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9e7a0e7a84c42ca04394510b5c98c00b",
+    "packages": [
+        {
+            "name": "daniel-palm/string-generator",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/DanielPalmSie/composer-my.git",
+                "reference": "0da5e4a49ace2e73680300d209ab172c764aeeb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/DanielPalmSie/composer-my/zipball/0da5e4a49ace2e73680300d209ab172c764aeeb4",
+                "reference": "0da5e4a49ace2e73680300d209ab172c764aeeb4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DanielPalm\\StringGenerator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Palm"
+                }
+            ],
+            "description": "A library for generating random strings.",
+            "support": {
+                "issues": "https://github.com/DanielPalmSie/composer-my/issues",
+                "source": "https://github.com/DanielPalmSie/composer-my/tree/v1.0.3"
+            },
+            "time": "2023-11-20T02:02:32+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

@@ -4,5 +4,5 @@
 /import/
 .env
 docker-compose-*.yml
-
-vendor
+db-data/
+vendor/

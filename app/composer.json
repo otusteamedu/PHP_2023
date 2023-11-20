@@ -1,0 +1,20 @@
+{
+    "name": "agrechuha/otus-homework",
+    "description": "otus-homework project",
+    "minimum-stability": "stable",
+    "license": "proprietary",
+    "authors": [
+        {
+            "name": "artyom",
+            "email": "agrechuha@inbox.ru"
+        }
+    ],
+    "require": {
+        "predis/predis": "^2.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "OTUS\\": "."
+        }
+    }
+}

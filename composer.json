@@ -1,0 +1,5 @@
+{
+    "require": {
+        "achugunov/fibonacci": "^1.0"
+    }
+}

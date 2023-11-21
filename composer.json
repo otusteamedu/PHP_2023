@@ -1,0 +1,25 @@
+{
+    "name": "agrechuha/otus_php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Agrechuha\\OtusPhp2023\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyom",
+            "email": "agrechuha@gmail.com"
+        }
+    ],
+    "require": {
+        "agrechuha/utils": "^0.0.2",
+        "php": ">=8.0"
+    },
+    "repositories": [
+        {
+            "url": "https://github.com/agrechuha/utils.git",
+            "type": "git"
+        }
+    ]
+}

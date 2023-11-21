@@ -1,0 +1,19 @@
+{
+    "name": "vyacheslavshabanov/parsing",
+    "type": "project",
+    "require": {
+        "guzzlehttp/guzzle": "^7.8",
+        "php": "^7.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "VyacheslavShabanov\\Parsing\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shabanov Vyacheslav",
+            "email": "saveliy@mail.ru"
+        }
+    ]
+}

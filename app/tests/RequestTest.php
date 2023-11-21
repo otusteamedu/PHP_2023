@@ -102,4 +102,19 @@ class RequestTest extends TestCase
         $request = new Request(json_encode($data));
         $request->validate();
     }
+
+    public function testValidData(): void
+    {
+        $data = [
+            "card_number" => "1111111111111111",
+            "card_holder" => "Test Test",
+            "card_expiration" => "10/25",
+            "cvv" => "123",
+            "order_number" => "213",
+            "sum" => "10"
+        ];
+        $request = new Request(json_encode($data));
+        $request->validate();
+        $this->assertTrue(true);
+    }
 }

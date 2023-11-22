@@ -1,3 +1,13 @@
-# PHP_2023
+# Email verification домашняя работа 5
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Проверка корректности email и проверка MX записи у домена к которому принадлежит данная почта.
+
+## Как запустить?
+
+```bash
+docker-compose up -d
+```
+
+```bash
+docker container run --rm -v ./:/var/www/html php:8.2-cli php /var/www/html/index.php
+```

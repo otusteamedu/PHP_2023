@@ -42,9 +42,7 @@ try {
     if (!check_brackets($input_string)) {
         throw new Exception("Ошибка проверки скобок");
     }
-
     echo "200 OK. Передан параметр \"$input_string\"";
-
 } catch (Exception $e) {
     http_response_code(400);
     echo "400 Bad Request. " . $e->getMessage();

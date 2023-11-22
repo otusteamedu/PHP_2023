@@ -22,9 +22,6 @@ class Sqlite3DriverDBAdapter implements DBAdapterInterface
 
     public function setSource(string $source): Sqlite3DriverDBAdapter
     {
-//        var_dump($source);
-//        exit();
-
         $this->dbConn = new SQLite3($source);
         return $this;
     }

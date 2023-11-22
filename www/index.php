@@ -16,7 +16,7 @@ function check_brackets($str): bool
         }
 
         if ($open_bracket_count < 0) {
-            throw new Exception("Неожиданна закрывающая скобка, позиция: " . ($i + 1));
+            throw new Exception("Неожиданная закрывающая скобка, позиция: " . ($i + 1));
             return false;
         }
     }

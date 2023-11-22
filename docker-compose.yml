@@ -1,6 +1,7 @@
 version: '3'
 services:
-  web:
+
+  nginx-balancer:
     container_name: course_nginx
     image: nginx:stable
     ports:
@@ -8,8 +9,23 @@ services:
     volumes:
       - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
       - ./${PROJECT}:/var/www/html
-    networks:
-      - app-network
+    depends_on:
+      - web1
+      - web2
+      - php1
+      - php2
+
+  web1:
+    image: nginx:latest
+    volumes:
+      - ./deployment/docker/${APP}/conf/course-balancer.conf:/etc/nginx/conf.d/course-balancer.conf
+      - ./${PROJECT}:/var/www/html
+  web2:
+    image: nginx:latest
+    volumes:
+      - ./deployment/docker/${APP}/conf/course-balancer.conf:/etc/nginx/conf.d/$course-balancer.conf
+      - ./${PROJECT}:/var/www/html
+
 
   php1:
     build:
@@ -21,8 +37,7 @@ services:
     # настройка Xdebug
     environment:
       - PHP_IDE_CONFIG=serverName=php
-    networks:
-      - app-network
+
 
   php2:
     build:
@@ -34,8 +49,7 @@ services:
     # настройка Xdebug
     environment:
       - PHP_IDE_CONFIG=serverName=php
-    networks:
-      - app-network
+
 
   postgres:
     container_name: course_postgres
@@ -74,7 +88,3 @@ services:
       - "16543:80"
     depends_on:
       - postgres
-
-networks:
-  app-network:
-    driver: bridge

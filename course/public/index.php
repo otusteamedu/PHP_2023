@@ -9,3 +9,9 @@ echo "This request was processed by PHP in container: $containerId\n";
 
 
 echo "This request was processed by PHP in container: " . gethostname();
+
+
+$logFile = 'request.log';
+$currentDate = date('Y-m-d H:i:s');
+$hostname = gethostname();
+file_put_contents($logFile, "[$currentDate] Request handled by: $hostname\n", FILE_APPEND);

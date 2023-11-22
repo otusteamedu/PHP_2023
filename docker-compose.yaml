@@ -60,6 +60,24 @@ services:
     networks:
       - dev-net
 
+  memcached-1:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: memcached
+    container_name: memcached-1
+    networks:
+      - dev-net
+
+  memcached-2:
+    build:
+      context: ./docker/memcached
+      dockerfile: Dockerfile
+    image: memcached
+    container_name: memcached-2
+    networks:
+      - dev-net
+
 #Docker Networks
 networks:
   dev-net:

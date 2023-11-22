@@ -10,10 +10,10 @@ RUN apt-get update && apt-get install -y \
 
 
 RUN apt-get update && apt-get install -y libmemcached-dev libssl-dev zlib1g-dev \
-	&& pecl install memcached-3.2.0 \
-	&& docker-php-ext-enable memcached
+	&& pecl install memcached && docker-php-ext-enable memcached \
+	&& pecl install memcache && docker-php-ext-enable memcache
 
-RUN apt-get install -y libgmp-dev
+#RUN apt-get install -y libgmp-dev
 
 RUN pecl install redis-5.3.7 && pecl install xdebug-3.2.1 && docker-php-ext-enable redis xdebug
 

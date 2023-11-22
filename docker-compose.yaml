@@ -7,6 +7,9 @@ services:
     container_name: nginx-balancer
     ports:
       - "80:80"
+    depends_on:
+      - nginx-back-1
+      - nginx-back-2
     networks:
       - dev-net
 
@@ -18,8 +21,9 @@ services:
     container_name: nginx-back-1
     volumes:
       - ./www:/var/www/html/
-#    depends_on:
-#      - php
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
     networks:
       - dev-net
 

@@ -15,9 +15,10 @@ $client = ClientBuilder::create()
 $params = [
     'index' => 'otus-shop',
     'body' => [
-//        'query' => [
-//            'nested' => [
-//                'path' => 'stock',
+        'query' => [
+            'nested' => [
+                'path' => 'stock',
+                'ignore_unmapped' => true,
                 'query' => [
                     'bool' => [
                         'filter' => [
@@ -48,8 +49,8 @@ $params = [
                         ],
                     ],
                 ],
-            //],
-        //],
+            ],
+        ],
         'size' => 10,
     ]
 ];

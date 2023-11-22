@@ -16,37 +16,36 @@ $params = [
     'index' => 'otus-shop',
     'body' => [
         'query' => [
-            'nested' => [
-                'path' => 'stock',
-                'ignore_unmapped' => true,
-                'query' => [
-                    'bool' => [
-                        'filter' => [
-                            [
-                                'range' => [
-                                    'price' => [
-                                        'gte' => $price,
-                                    ],
-                                ],
-                            ],
-                            [
-                                'range' => [
-                                    'stock.stock' => [
-                                        'gte' => 0,
-                                    ],
-                                ],
+            'bool' => [
+                'filter' => [
+                    [
+                        'range' => [
+                            'price' => [
+                                'gte' => $price,
                             ],
                         ],
-                        'must' => [
-                            'match' => [
-                                'category' => $category,
-                            ],
-                        ],
-                        'should' => [
-                            'match' => [
-                                'title' => $title,
-                            ],
-                        ],
+                    ],
+                    [
+                        "nested" => [
+                            "path" => "stock",
+                            "query" => [
+                                "range" => [
+                                    "stock.stock" => [
+                                        "gte" => 1
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'must' => [
+                    'match' => [
+                        'category' => $category,
+                    ],
+                ],
+                'should' => [
+                    'match' => [
+                        'title' => $title,
                     ],
                 ],
             ],

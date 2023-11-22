@@ -8,6 +8,7 @@ Homestead.yaml
 /www/vendor
 /www/composer.lock
 /shared
+/balancer/log
 /nginx/log
 /php/log
 /mysql/data

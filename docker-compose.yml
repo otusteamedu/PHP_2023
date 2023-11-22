@@ -1,0 +1,100 @@
+version: "3"
+
+services:
+
+  # balancer service
+  balancer:
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    image: balancer
+    container_name: balancer
+    depends_on:
+      - nginx1
+      - nginx2
+    ports:
+      - "80:80"
+    networks:
+      - otus-network
+
+
+  # nginx services
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx1
+    volumes:
+      - ./www:/data/otus.local
+    networks:
+      - otus-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx2
+    volumes:
+      - ./www:/data/otus.local
+    networks:
+      - otus-network
+
+
+  # php-fpm services
+  php1:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php
+    container_name: php1
+    depends_on:
+      - mysql
+      - memcached
+    volumes:
+      - ./www:/data/otus.local
+    networks:
+      - otus-network
+
+  php2:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: php
+    container_name: php2
+    depends_on:
+      - mysql
+      - memcached
+    volumes:
+      - ./www:/data/otus.local
+    networks:
+      - otus-network
+
+  # mysql service
+  mysql:
+    image: mariadb:lts
+    ports:
+      - "3306:3306"
+    container_name: mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MARIADB_ALLOW_EMPTY_ROOT_PASSWORD=${DB_ALLOW_EMPTY_ROOT_PASSWORD}
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    networks:
+      - otus-network
+
+  # memcached service
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - otus-network
+
+# Docker Network
+networks:
+  otus-network:
+    driver: bridge

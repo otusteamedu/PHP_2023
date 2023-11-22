@@ -1,0 +1,8 @@
+version: '3.5'
+services:
+  php-cli:
+    build:
+      context: ${PHP_CLI_CONTEXT}
+    container_name: ${SHORT_NAME}-php-cli
+    volumes:
+      - ${APPLICATION_ROOT}

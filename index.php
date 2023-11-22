@@ -15,28 +15,42 @@ $client = ClientBuilder::create()
 $params = [
     'index' => 'otus-shop',
     'body' => [
-        'query' => [
-            'bool' => [
-                'filter' => [
-                    'range' => [
-                        'price' => [
-                            'gte' => $price,
+//        'query' => [
+//            'nested' => [
+//                'path' => 'stock',
+                'query' => [
+                    'bool' => [
+                        'filter' => [
+                            [
+                                'range' => [
+                                    'price' => [
+                                        'gte' => $price,
+                                    ],
+                                ],
+                            ],
+                            [
+                                'range' => [
+                                    'stock.stock' => [
+                                        'gte' => 0,
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'must' => [
+                            'match' => [
+                                'category' => $category,
+                            ],
+                        ],
+                        'should' => [
+                            'match' => [
+                                'title' => $title,
+                            ],
                         ],
                     ],
                 ],
-                'must' => [
-                    'match' => [
-                        'title.keyword' => $title,
-                    ],
-                ],
-                'should' => [
-                    'term' => [
-                        'category.keyword' => $category,
-                    ],
-                ],
-            ],
-        ],
-        'size' => 3,
+            //],
+        //],
+        'size' => 10,
     ]
 ];
 $response = $client->search($params)->asArray();

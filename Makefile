@@ -5,7 +5,7 @@
 first-start: build up
 
 # Разборка сборка полностью
-init: down build pull up
+init: down build up
 
 # Остановить запустить
 restart: stop start

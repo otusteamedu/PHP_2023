@@ -1,6 +1,7 @@
 version: '3'
 services:
-  web:
+
+  nginx-balancer:
     container_name: course_nginx
     image: nginx:stable
     ports:
@@ -9,17 +10,46 @@ services:
       - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
       - ./${PROJECT}:/var/www/html
     depends_on:
-      - php
-  php:
-    container_name: course_php
+      - web1
+      - web2
+      - php1
+      - php2
+
+  web1:
+    image: nginx:latest
+    volumes:
+      - ./deployment/docker/${APP}/conf/course-balancer.conf:/etc/nginx/conf.d/course-balancer.conf
+      - ./${PROJECT}:/var/www/html
+  web2:
+    image: nginx:latest
+    volumes:
+      - ./deployment/docker/${APP}/conf/course-balancer.conf:/etc/nginx/conf.d/$course-balancer.conf
+      - ./${PROJECT}:/var/www/html
+
+
+  php1:
     build:
       context: ./deployment/docker/${APP}/php
       dockerfile: php-fpm.docker
+    container_name: php1
     volumes:
       - ./${PROJECT}:/var/www/html
     # настройка Xdebug
     environment:
       - PHP_IDE_CONFIG=serverName=php
+
+
+  php2:
+    build:
+      context: ./deployment/docker/${APP}/php
+      dockerfile: php-fpm.docker
+    container_name: php2
+    volumes:
+      - ./${PROJECT}:/var/www/html
+    # настройка Xdebug
+    environment:
+      - PHP_IDE_CONFIG=serverName=php
+
 
   postgres:
     container_name: course_postgres
@@ -42,7 +72,7 @@ services:
       - "6379:6379"
 
   memcached:
-    container_name: course_memcached
+    container_name: memcached
     image: memcached:latest
     ports:
       - "11211:11211"

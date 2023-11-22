@@ -1,0 +1,92 @@
+version: '3'
+services:
+  nginx-main:
+    container_name: nginx
+    build:
+      context: .
+      dockerfile: conf/nginx/Dockerfile
+    image: balance/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./conf/nginx/hosts/otus.local.conf:/etc/nginx/otus.local.conf
+      - ./code:/var/www/html
+    networks:
+      - app-network
+      - internal
+
+  nginx-1:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-1
+    networks:
+      - internal
+
+  nginx-2:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-2
+    networks:
+      - internal
+
+  nginx-3:
+    build:
+      context: .
+      dockerfile: conf/nginx/hosts/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    container_name: nginx-3
+    networks:
+      - internal
+
+  app1:
+    image: balance/php
+    container_name: app1
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - internal
+
+  app2:
+    image: balance/php
+    container_name: app2
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - internal
+
+  app3:
+    image: balance/php
+    container_name: app3
+    build:
+      context: .
+      dockerfile: ./conf/php/Dockerfile
+    volumes:
+      - ./code:/var/www/html
+    links:
+      - memcache
+    networks:
+      - internal
+
+  memcache:
+    image: memcached:latest
+
+networks:
+  app-network:
+  internal:

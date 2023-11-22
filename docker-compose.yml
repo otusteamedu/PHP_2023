@@ -8,18 +8,34 @@ services:
     volumes:
       - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
       - ./${PROJECT}:/var/www/html
-    depends_on:
-      - php
-  php:
-    container_name: course_php
+    networks:
+      - app-network
+
+  php1:
     build:
       context: ./deployment/docker/${APP}/php
       dockerfile: php-fpm.docker
+    container_name: php1
     volumes:
       - ./${PROJECT}:/var/www/html
     # настройка Xdebug
     environment:
       - PHP_IDE_CONFIG=serverName=php
+    networks:
+      - app-network
+
+  php2:
+    build:
+      context: ./deployment/docker/${APP}/php
+      dockerfile: php-fpm.docker
+    container_name: php2
+    volumes:
+      - ./${PROJECT}:/var/www/html
+    # настройка Xdebug
+    environment:
+      - PHP_IDE_CONFIG=serverName=php
+    networks:
+      - app-network
 
   postgres:
     container_name: course_postgres
@@ -42,7 +58,7 @@ services:
       - "6379:6379"
 
   memcached:
-    container_name: course_memcached
+    container_name: memcached
     image: memcached:latest
     ports:
       - "11211:11211"
@@ -58,3 +74,7 @@ services:
       - "16543:80"
     depends_on:
       - postgres
+
+networks:
+  app-network:
+    driver: bridge

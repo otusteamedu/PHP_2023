@@ -4,6 +4,8 @@ services:
     profiles: [ "services" ]
     build:
       context: ${PHP_CLI_CONTEXT}
+      args:
+        - UID=${PHP_UID}
     container_name: ${SHORT_NAME}-php-cli
     working_dir: ${WORK_DIR}
     tty: true

@@ -16,6 +16,8 @@ services:
     container_name: php-fpm-app1
     volumes:
       - ./../code:/data/www
+    depends_on:
+      - memcached
     networks:
       - app-network
 
@@ -27,6 +29,8 @@ services:
     container_name: php-fpm-app2
     volumes:
       - ./../code:/data/www
+    depends_on:
+      - memcached
     networks:
       - app-network
 
@@ -40,6 +44,9 @@ services:
       - 80:80
     volumes:
       - ./nginx/nginx.balancer.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - nginx-worker1
+      - nginx-worker2
     networks:
       - app-network
 
@@ -52,6 +59,9 @@ services:
     volumes:
       - ./nginx/nginx.worker.conf:/etc/nginx/conf.d/default.conf:ro
       - ./../code:/data/www
+    depends_on:
+      - php-fpm-app1
+      - php-fpm-app2
     networks:
       - app-network
 
@@ -64,6 +74,9 @@ services:
     volumes:
       - ./nginx/nginx.worker.conf:/etc/nginx/conf.d/default.conf:ro
       - ./../code:/data/www
+    depends_on:
+      - php-fpm-app1
+      - php-fpm-app2
     networks:
       - app-network
 

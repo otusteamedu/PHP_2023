@@ -19,7 +19,7 @@ class Validator
         $valueFromCache = $cache->get($source);
         if ($cache->valueFound()) {
             return $valueFromCache;
-        }    
+        }
 
         // Если нет в кэше - выполняем валидацию
         $counter = 0;

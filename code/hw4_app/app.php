@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace DShevchenko\Hw4;
 
-require __DIR__ .'/validator.php';
+require __DIR__ . '/validator.php';
 
 use DShevchenko\Hw4\Validator;
 
@@ -13,7 +13,6 @@ class App
     public function run(): void
     {
         try {
-
             if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
                 http_response_code(405);
                 throw new \Exception("Method Not Allowed. Please use the POST method.");

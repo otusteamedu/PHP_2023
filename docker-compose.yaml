@@ -1,0 +1,96 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx-балансировщиком
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    image: nginx/balancer
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx-back-1
+      - nginx-back-2
+    networks:
+      - app-network
+
+  #контейнер с Nginx-бэк 1
+  nginx-back-1:
+    build:
+      context: ./nginx-back
+      dockerfile: Dockerfile
+    image: nginx/back
+    container_name: nginx-back-1
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #контейнер с Nginx-бэк 2
+  nginx-back-2:
+    build:
+      context: ./nginx-back
+      dockerfile: Dockerfile
+    image: nginx/back
+    container_name: nginx-back-2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+
+  #Контейнер с PHP-FPM 1
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+       - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM 2
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./code:/data/mysite.local
+    networks:
+      - app-network
+
+  db:
+    image: mysql
+    container_name: db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/db:/var/db/mysql/mysql
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

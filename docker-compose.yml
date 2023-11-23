@@ -71,10 +71,11 @@ services:
       - ${MYSQL_CONF}
 
   php-cli:
-    profiles: ["cli-only"]
+    profiles: ["services"]
     build:
       context: ${PHP_CLI_CONTEXT}
     container_name: ${SHORT_NAME}-php-cli
     working_dir: ${WORK_DIR}
+    tty: true
     volumes:
       - ${APPLICATION_ROOT}

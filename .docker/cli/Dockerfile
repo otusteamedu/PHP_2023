@@ -5,5 +5,6 @@ RUN apt-get update  \
     git \
     curl \
     zip \
-    unzip \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+    unzip;
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

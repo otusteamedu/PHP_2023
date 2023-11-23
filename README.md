@@ -1,3 +1,26 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Краткое описание пакета
+
+## Требвания
+
+- PHP 7.4
+
+## Установка
+
+```bash
+$ composer require vladimirpetrov/otus-string-helper
+```
+
+## Использование
+
+```php
+<?php
+use Vladimirpetrov\OtusStringHelper\StringHelper;
+
+// ...
+
+$val = '123 456,78';
+$floatVal = StringHelper::clearFloatVal($val);
+echo $floatVal; // 123456.78
+```

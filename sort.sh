@@ -1,0 +1,1 @@
+echo $(cat cities.txt | sort -r --key 4 --numeric-sort | head -n 3 | awk '{print $3}')

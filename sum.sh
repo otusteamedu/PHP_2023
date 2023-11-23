@@ -10,4 +10,4 @@ do
     read -p 'Второе число: ' NUMBER_2
 done
 
-echo "Сумма: $NUMBER_1 + $NUMBER_2 = $((NUMBER_1 + NUMBER_2))"
+echo "Сумма: $NUMBER_1 + $NUMBER_2 = `echo "$NUMBER_1 + $NUMBER_2" | bc`"

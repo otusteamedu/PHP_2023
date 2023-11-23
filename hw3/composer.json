@@ -1,0 +1,17 @@
+{
+    "name": "salavey/hw3",
+    "autoload": {
+        "psr-4": {
+            "Salavey\\Hw3\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "shabanovvv",
+            "email": "saveliy@mail.ru"
+        }
+    ],
+    "require": {
+        "vyacheslavshabanov/parsing": "^1.0"
+    }
+}

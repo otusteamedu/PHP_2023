@@ -1,0 +1,25 @@
+server {
+    listen ${NGINX_PORT};
+    server_name ${NGINX_HOST};
+
+    root ${NGINX_SITEDIR};
+    index index.php index.html;
+
+    location ~* .(jpg|jpeg|gif|css|png|js|ico|html)$ {
+        access_log off;
+        expires max;
+    }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
+    location ~* .php$ {
+        try_files $uri = 404;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass unix:${PHP_UNIX_SOCKET};
+        fastcgi_index index.php;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}

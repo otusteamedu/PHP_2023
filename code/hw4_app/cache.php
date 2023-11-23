@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace dshevchenko\hw4;
+namespace DShevchenko\Hw4;
 
-class cache {
+class Cache {
 
     private \Memcached $cache;
     private bool $valueFound;

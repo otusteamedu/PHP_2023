@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace dshevchenko\hw4;
+namespace DShevchenko\Hw4;
 
 require __DIR__ .'/validator.php';
 
-use dshevchenko\hw4\validator;
+use DShevchenko\Hw4\Validator;
 
-class app{
+class App{
     
     public function run() : void {
 
@@ -26,7 +26,7 @@ class app{
                 throw new \Exception('Payload is empty.');
             }
         
-            if (!validator::validateString($rawPayload)) {
+            if (!Validator::validateString($rawPayload)) {
                 throw new \Exception('Validation failed.');
             }
         

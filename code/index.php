@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require __DIR__ .'/hw4_app/app.php';
+require __DIR__ . '/hw4_app/app.php';
 
-use dshevchenko\hw4\app;
+use DShevchenko\Hw4\App;
 
-$application = new app();
+$application = new App();
 $application->run();

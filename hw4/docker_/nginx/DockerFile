@@ -1,8 +1,8 @@
 FROM nginx:latest
 
-WORKDIR /data
+WORKDIR /var/www
 
-VOLUME /data
+VOLUME /var/www
 
 EXPOSE 80
 

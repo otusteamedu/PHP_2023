@@ -92,11 +92,12 @@ services:
                 WORKDIR ${HOME_PATH}
                 COPY --from=composer /usr/bin/composer /usr/bin/composer
                 RUN apt-get update && apt-get upgrade \
-                    && apt-get install -y \
+                    && apt-get install -y --fix-missing \
                     libjpeg-dev \
                     libpng-dev \
                     libwebp-dev \
                     libfreetype6-dev \
+                    git \
                     && docker-php-ext-install gd \
                     && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
                 RUN chown www-data:www-data /var/www \

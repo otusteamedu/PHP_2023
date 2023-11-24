@@ -1,0 +1,5 @@
+{
+    "require": {
+        "singurix/webpconverter": "^0.1.1"
+    }
+}

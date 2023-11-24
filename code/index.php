@@ -6,13 +6,10 @@ require_once 'Controllers/StringValidatorController.php';
 
 use Controllers\StringValidatorController;
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $value = $_POST['value'] ?? '';
-
-    $result = StringValidatorController::validate($value);
-
+try{
+    $result = StringValidatorController::validate($_REQUEST['email']);
     echo $result;
-} else {
-    http_response_code(405);
-    echo "Метод не допустим";
+}
+catch (\mysql_xdevapi\Exception $e) {
+    echo $e->getMessage("Метод недопустим");
 }

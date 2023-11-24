@@ -6,7 +6,7 @@ namespace Services;
 
 class StringValidator
 {
-    public function isValidString($str): bool
+    public function isValidString(string $str): bool
     {
         $count = 0;
 

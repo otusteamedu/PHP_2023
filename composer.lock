@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "9bc1ff7a328e5a890660d781bf3525db",
+    "packages": [
+        {
+            "name": "myklon/simple-package",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Myklon/simple-package.git",
+                "reference": "66dbdb2f57f8a113a5cf6e8c07c816c5e642056b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Myklon/simple-package/zipball/66dbdb2f57f8a113a5cf6e8c07c816c5e642056b",
+                "reference": "66dbdb2f57f8a113a5cf6e8c07c816c5e642056b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Myklon\\SimplePackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "NikitaIllarionov",
+                    "email": "livroklon@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/Myklon/simple-package/issues",
+                "source": "https://github.com/Myklon/simple-package/tree/v0.1.0"
+            },
+            "time": "2023-11-21T19:08:45+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

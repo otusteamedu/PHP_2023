@@ -57,6 +57,7 @@ services:
     container_name: app-1
     volumes:
       - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
 
@@ -67,6 +68,7 @@ services:
     container_name: app-2
     volumes:
       - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
     networks:
       - app-network
 
@@ -77,6 +79,7 @@ services:
     container_name: mymemcached
     networks:
       - app-network
+
 
 networks:
   app-network:

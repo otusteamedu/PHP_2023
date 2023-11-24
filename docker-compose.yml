@@ -1,5 +1,4 @@
 version: '3.5'
-
 volumes:
   db:
     external: true
@@ -7,7 +6,6 @@ volumes:
   php_socket:
     name: ${SHORT_NAME}_php_socket
 services:
-
   nginx:
     image: nginx:${NGINX_VERSION}
     container_name: ${SHORT_NAME}-nginx
@@ -24,7 +22,6 @@ services:
       - php_socket:${PHP_SOCKET_PATH}
     depends_on:
       - php
-
   php:
     build:
       context: ${PHP_CONTEXT}
@@ -38,7 +35,6 @@ services:
       - php_socket:${PHP_SOCKET_PATH}
     extra_hosts:
       - ${PHP_EXTRA_HOST}
-
   redis:
     image: redis:${REDIS_VERSION}
     container_name: ${SHORT_NAME}-redis
@@ -46,7 +42,6 @@ services:
       - ${REDIS_PORT}
     depends_on:
       - php
-
   memcached:
     image: memcached:${MEMCACHED_VERSION}
     container_name: ${SHORT_NAME}-memcached
@@ -55,7 +50,6 @@ services:
     depends_on:
       - php
       - mysql
-
   mysql:
     image: mysql:${MYSQL_VERSION}
     container_name: ${SHORT_NAME}-mysql
@@ -69,7 +63,6 @@ services:
     volumes:
       - ${MYSQL_DB}
       - ${MYSQL_CONF}
-
   php-cli:
     profiles: ["services"]
     build:
@@ -78,6 +71,13 @@ services:
         - UID=${PHP_UID}
     container_name: ${SHORT_NAME}-php-cli
     working_dir: ${WORK_DIR}
-    tty: true
+    volumes:
+      - ${APPLICATION_ROOT}
+  composer:
+    profiles: ["services"]
+    image: composer:latest
+    user: ${PHP_UID}:${PHP_UID}
+    container_name: ${SHORT_NAME}-composer
+    working_dir: ${WORK_DIR}
     volumes:
       - ${APPLICATION_ROOT}

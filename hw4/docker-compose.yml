@@ -19,7 +19,7 @@ services:
   nginx-1:
     build:
       context: ./docker_/nginx
-      dockerfile: docker_/nginx/DockerFile
+      dockerfile: DockerFile
     volumes:
       - ./:/var/www/
       - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
@@ -36,7 +36,7 @@ services:
   nginx-2:
     build:
       context: ./docker_/nginx
-      dockerfile: docker_/nginx/DockerFile
+      dockerfile: DockerFile
     volumes:
       - ./:/var/www/
       - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
@@ -53,7 +53,7 @@ services:
   app-1:
     build:
       context: ./docker_/fpm
-      dockerfile: docker_/fpm/DockerFile
+      dockerfile: DockerFile
     container_name: app-1
     volumes:
       - ./:/var/www/
@@ -63,7 +63,7 @@ services:
   app-2:
     build:
       context: ./docker_/fpm
-      dockerfile: docker_/fpm/DockerFile
+      dockerfile: DockerFile
     container_name: app-2
     volumes:
       - ./:/var/www/

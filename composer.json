@@ -1,0 +1,12 @@
+{
+    "name": "myklon/otus-homework",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Myklon\\OtusHomework\\": "src/"
+        }
+    },
+    "require": {
+        "myklon/simple-package": "0.1.0"
+    }
+}

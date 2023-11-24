@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+  php-fpm-app1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw4/php-fpm
+    container_name: php-fpm-app1
+    volumes:
+      - ./../code:/data/www
+    depends_on:
+      - memcached
+    networks:
+      - app-network
+
+  php-fpm-app2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw4/php-fpm
+    container_name: php-fpm-app2
+    volumes:
+      - ./../code:/data/www
+    depends_on:
+      - memcached
+    networks:
+      - app-network
+
+  nginx-balancer:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw4/nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./nginx/nginx.balancer.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - nginx-worker1
+      - nginx-worker2
+    networks:
+      - app-network
+
+  nginx-worker1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw4/nginx
+    container_name: nginx-worker1
+    volumes:
+      - ./nginx/nginx.worker.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./../code:/data/www
+    depends_on:
+      - php-fpm-app1
+      - php-fpm-app2
+    networks:
+      - app-network
+
+  nginx-worker2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw4/nginx
+    container_name: nginx-worker2
+    volumes:
+      - ./nginx/nginx.worker.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./../code:/data/www
+    depends_on:
+      - php-fpm-app1
+      - php-fpm-app2
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

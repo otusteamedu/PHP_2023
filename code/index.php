@@ -6,7 +6,7 @@ require_once 'Controllers/StringValidatorController.php';
 
 use Controllers\StringValidatorController;
 
-try{
+try {
     $result = StringValidatorController::validate($_REQUEST['email']);
     echo $result;
 }

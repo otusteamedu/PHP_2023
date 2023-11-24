@@ -1,2 +1,6 @@
 .idea
 .env
+www/.idea
+www/vendor
+www/composer.lock
+

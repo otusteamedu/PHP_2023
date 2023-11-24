@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    container_name: nginx-balancer
+    ports:
+      - "81:80"
+    depends_on:
+      - webserver1
+      - webserver2
+    networks:
+      - my_network
+
+  webserver1:
+    build:
+      context: ./nginx-service
+      dockerfile: Dockerfile
+    container_name: webserver1
+    depends_on:
+      - php-fpm1
+      - php-fpm2
+    volumes:
+      - ./code:/data
+    networks:
+      - my_network
+
+  php-fpm1:
+    build:
+      context: ./php-fpm-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/data
+    container_name: php-fpm1
+    depends_on:
+      - memcached1
+      - memcached2
+    networks:
+      - my_network
+
+  webserver2:
+    build:
+      context: ./nginx-service
+      dockerfile: Dockerfile
+    container_name: webserver2
+    depends_on:
+      - php-fpm1
+      - php-fpm2
+    volumes:
+      - ./code:/data
+    networks:
+      - my_network
+
+  php-fpm2:
+    build:
+      context: ./php-fpm-service
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/data
+    container_name: php-fpm2
+    depends_on:
+      - memcached1
+      - memcached2
+    networks:
+      - my_network
+
+  memcached1:
+    image: oktec/repcached
+    command: memcached -m 64 -p 11211 -U 0 -x memcached2 -X 11212
+    ports:
+      - "11211:11211"
+    networks:
+      - my_network
+
+  memcached2:
+      image: oktec/repcached
+      command: memcached -m 64 -p 11212 -U 0 -x memcached1 -X 11211
+      ports:
+        - "11212:11212"
+      networks:
+        - my_network
+
+networks:
+  my_network:
+    driver: bridge

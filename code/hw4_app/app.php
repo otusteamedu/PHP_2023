@@ -12,12 +12,13 @@ class App
 {
     public function run(): void
     {
-        try {
-            if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-                http_response_code(405);
-                throw new \Exception("Method Not Allowed. Please use the POST method.");
-            }
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo 'Method Not Allowed. Please use the POST method.';
+            return;
+        }
 
+        try {
             // Получаем payload
             $rawPayload = file_get_contents('php://input');
 
@@ -31,10 +32,7 @@ class App
 
             echo 'Validation success.';
         } catch (\Exception $e) {
-            // Устанавливаем код 400, если до этого не был установлен другой код
-            if (http_response_code() === 200) {
-                http_response_code(400);
-            }
+            http_response_code(400);
             echo $e->getMessage();
         }
     }

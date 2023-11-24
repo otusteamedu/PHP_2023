@@ -1,0 +1,78 @@
+services:
+  nginx-balancer:
+    build:
+      context: ./docker/nginx-balancer
+      dockerfile: Dockerfile
+    image: nginx-balancer
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx-back-1
+      - nginx-back-2
+    networks:
+      - dev-net
+
+  nginx-back-1:
+    build:
+      context: ./docker/nginx-backend
+      dockerfile: Dockerfile
+    image: nginx-server
+    container_name: nginx-back-1
+    volumes:
+      - ./www:/var/www/html/
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+    networks:
+      - dev-net
+
+  nginx-back-2:
+    build:
+      context: ./docker/nginx-backend
+      dockerfile: Dockerfile
+    image: nginx-server
+    container_name: nginx-back-2
+    volumes:
+      - ./www:/var/www/html/
+    networks:
+      - dev-net
+
+  php-fpm-1:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-1
+    volumes:
+      - ./www:/var/www/html/
+    networks:
+      - dev-net
+
+  php-fpm-2:
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-2
+    volumes:
+      - ./www:/var/www/html/
+    networks:
+      - dev-net
+
+  memcached-1:
+    image: memcached
+    container_name: memcached-1
+    networks:
+      - dev-net
+
+  memcached-2:
+    image: memcached
+    container_name: memcached-2
+    networks:
+      - dev-net
+
+#Docker Networks
+networks:
+  dev-net:
+    driver: bridge

@@ -1,60 +1,24 @@
 <?php
+declare(strict_types=1);
+use Ekovalev\Otus\Helpers\Validator;
 
-print 'Redis Check: ';
-try {
-    if (class_exists('Redis')) {
-        $redis = new Redis();
-        $redis->connect('redis', 6379);
-        $info = $redis->info();
-        print 'Redis version ' . $info['redis_version'] . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Redis" not found<br>');
+require_once __DIR__ . '/vendor/autoload.php';
+
+if (isset($_POST['string'])){
+    try {
+        $resValid = Validator::openingClosingChar($_POST['string'], '(', ')');
+        if(is_string($resValid)){
+            throw new \Exception($resValid);
+        }else{
+            echo 'Всё хорошо';
+        }
+
+    } catch (InvalidArgumentException $error) {
+        http_response_code(400);
+        echo $error->getMessage();
     }
-} catch (Exception $e) {
-    print $e->getMessage();
+    exit;
 }
 
-print 'Memcache Check: ';
-try {
-    if (class_exists('Memcache')) {
-        $memcache = new Memcache();
-        $memcache->connect('memcached', 11211);
-        print 'Memcache version ' . $memcache->getVersion() . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Memcache" not found<br>');
-    }
-} catch (Exception $e) {
-    print $e->getMessage();
-}
-
-print 'Mysql Check: ';
-try {
-    if (class_exists('Mysqli')) {
-        $mysqli = new Mysqli(
-            'mysql',
-            'dev',
-            '123456',
-            'loc',
-            3306
-        );
-        print 'Mysql version ' . $mysqli->server_info . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Mysqli" not found<br>');
-    }
-} catch (Exception $e) {
-    print $e->getMessage();
-}
-
-print 'Composer Check: ';
-try {
-    system('composer --version');
-    print '✓';
-} catch (Exception $e) {
-    print $e->getMessage();
-}
-
-
-
-echo date('d-m-Y H:i:s');
-
-phpinfo();
+echo "Привет, Otus!<br>".date("d.m.Y H:i:s")."<br><br>";
+echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];

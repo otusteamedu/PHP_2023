@@ -26,7 +26,7 @@ services:
     build:
       context: ${PHP_CONTEXT}
       args:
-        - UID=${PHP_UID}
+        - UID=${UID}
     container_name: ${SHORT_NAME}-php
     volumes:
       - ${APPLICATION_ROOT}
@@ -67,8 +67,7 @@ services:
     profiles: ["services"]
     build:
       context: ${PHP_CLI_CONTEXT}
-      args:
-        - UID=${PHP_UID}
+    user: ${UID}:${GID}
     container_name: ${SHORT_NAME}-php-cli
     working_dir: ${WORK_DIR}
     volumes:
@@ -76,7 +75,7 @@ services:
   composer:
     profiles: ["services"]
     image: composer:latest
-    user: ${PHP_UID}:${PHP_UID}
+    user: ${UID}:${GID}
     container_name: ${SHORT_NAME}-composer
     working_dir: ${WORK_DIR}
     volumes:

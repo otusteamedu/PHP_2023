@@ -11,4 +11,5 @@ RUN apt-get update  \
 	&& docker-php-ext-install -j$(nproc) gd mysqli opcache \
     && pecl install xdebug-3.2.2 redis memcache \
     && docker-php-ext-enable xdebug redis memcache \
-    && usermod -u $UID www-data;
+    && usermod -u $UID www-data \
+    && groupmod -g $UID www-data;

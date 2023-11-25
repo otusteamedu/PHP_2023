@@ -1,28 +1,20 @@
-# PHP CLI сервис
+# Вэб окружение для dev стенда
 
-Находится в общем конфиге - docker compose
-Служит для запуска скриптов или сервисов (например composer)
+1. Переименовать `.env.example` в `.env`
+2. Обязательно задать свой домен в `.env`
+3. Обязательно задать свой volume в `.env` для бд и сокета
 
-Имеет довольно лаконичную команду для запуска.
+После этого, можно запускать окружение.
 
-Пример запустить файл index.php в корне проекта:
+Важно:
 
-Если `tty = true`, используй
-
-```bash
-docker compose exec php-cli php index.php
-```
-
-Если `tty = false`, используй
+Контейнеры для `php-fpm` и `composer` лежат в отдельном профиле и вызываются когда нужно
 
 ```bash
 docker compose run --rm php-cli php index.php
 ```
-
-# Все сервисы
+или например для инициализации composer
 
 ```bash
-docker-compose up
+docker compose run --rm composer composer init
 ```
-
-Запустит все сервисы

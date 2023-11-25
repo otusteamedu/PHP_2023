@@ -36,7 +36,6 @@ class App
             if (!$checker->checkEmailMxDomain($email)) {
                 throw new Exception("wrong mx domain");
             }
-
         } catch (Exception $e) {
             return $e->getMessage();
         }

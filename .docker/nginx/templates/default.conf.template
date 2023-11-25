@@ -1,3 +1,10 @@
+upstream php-fpm-backend {
+    least_conn;
+    server php:9000;
+    server php2:9000;
+    server php3:9000;
+}
+
 server {
     listen ${NGINX_PORT};
     server_name ${NGINX_HOST};
@@ -9,12 +16,18 @@ server {
         access_log off;
         expires max;
     }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
     location ~ \.php$
     {
-        try_files $uri =404;
+        try_files $uri = 404;
         fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_pass php-fpm-backend;
         #fastcgi_pass php:9000;
-        fastcgi_pass unix:${PHP_SOCKET}docker.sock;
+        #fastcgi_pass unix:${PHP_SOCKET}docker.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;

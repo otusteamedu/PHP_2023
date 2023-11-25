@@ -48,7 +48,7 @@ services:
             - ./www:${HOME_PATH}
             - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
             - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-            - ./php-fpm/log/php-fpm.log:/var/log/php-fpm.log
+            - ./php-fpm/log:/var/log/php-fpm
             - phpsocket:/var/run/
         networks:
             - default
@@ -66,7 +66,6 @@ services:
             - ./db:/var/lib/mysql
             - ./mysql/conf:/etc/mysql/conf.d
             - ./mysql/log:/var/log
-        command: bash -c "touch /var/log/mysql.log && chown mysql:mysql /var/log/mysql.log && mysqld --sql_mode="""
         environment:
             - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
             - MYSQL_DATABASE=${MYSQL_DATABASE}

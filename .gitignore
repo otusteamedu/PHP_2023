@@ -2,3 +2,4 @@
 .env
 /db
 /mysql/log
+/php-fpm/log

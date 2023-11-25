@@ -4,6 +4,11 @@ use Ekovalev\Otus\Helpers\Validator;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
+session_start();
+if (empty($_SESSION['check'])) {
+    $_SESSION['check'] = rand(1000, 5000);
+}
+
 if (isset($_POST['string'])){
     try {
         $resValid = Validator::openingClosingChar($_POST['string'], '(', ')');
@@ -20,5 +25,13 @@ if (isset($_POST['string'])){
     exit;
 }
 
-echo "Привет, Otus!<br>".date("d.m.Y H:i:s")."<br><br>";
-echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'];
+$showRes = [
+    'Привет, Otus',
+    date("d.m.Y H:i:s"),
+    $_SERVER['SERVER_ADDR'],
+    $_SERVER['HOSTNAME'],
+    $_SESSION['check'],
+];
+
+echo '<pre>';
+print_r($showRes);

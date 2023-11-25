@@ -4,8 +4,8 @@ upstream nginx-workers {
 }
 
 server {
-	listen 80;
-	server_name otus.loc;
+	listen ${NGINX_PORT};
+	server_name ${NGINX_HOST};
 
 	location / {
 		proxy_pass http://nginx-workers;

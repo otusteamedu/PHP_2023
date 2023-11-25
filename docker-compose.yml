@@ -10,7 +10,7 @@ services:
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
     volumes:
-      - ./.docker/nginx/templates/balancer.conf.template:/etc/nginx/templates
+      - ./.docker/nginx/templates/balancer.conf.template:/etc/nginx/templates/balancer.conf.template
     depends_on:
       - nginx-worker1
       - nginx-worker2
@@ -23,7 +23,7 @@ services:
       - NGINX_ROOT=${NGINX_ROOT}
     volumes:
       - ${APPLICATION_ROOT}
-      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
+      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
     depends_on:
       - php
       - php2
@@ -36,7 +36,7 @@ services:
       - NGINX_ROOT=${NGINX_ROOT}
     volumes:
       - ${APPLICATION_ROOT}
-      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
+      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates/default.conf.template
     depends_on:
       - php
       - php2

@@ -11,7 +11,6 @@ class App
     {
 
         $this->emailIsWrong($email);
-
     }
 
     public function checkEmailsFromFile($file)

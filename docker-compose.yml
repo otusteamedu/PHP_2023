@@ -1,14 +1,15 @@
 version: '3.5'
-
 services:
-
   nginx-balancer:
     image: nginx:${NGINX_VERSION}
     container_name: ${SHORT_NAME}-nginx-balancer
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_ROOT=${NGINX_ROOT}
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
     volumes:
-      # для этой задачи проброс статикой
       - ./.docker/nginx/templates/balancer.conf.template:/etc/nginx/templates
     depends_on:
       - nginx-worker1
@@ -16,15 +17,12 @@ services:
   nginx-worker1:
     image: nginx:${NGINX_VERSION}
     container_name: ${SHORT_NAME}-nginx-worker1
-    ports:
-      - ${NGINX_PORT}:${NGINX_PORT}
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_ROOT=${NGINX_ROOT}
     volumes:
       - ${APPLICATION_ROOT}
-      # для этой задачи проброс статикой
       - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
     depends_on:
       - php
@@ -32,15 +30,12 @@ services:
   nginx-worker2:
     image: nginx:${NGINX_VERSION}
     container_name: ${SHORT_NAME}-nginx-worker2
-    ports:
-      - ${NGINX_PORT}:${NGINX_PORT}
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_ROOT=${NGINX_ROOT}
     volumes:
       - ${APPLICATION_ROOT}
-      # для этой задачи проброс статикой
       - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
     depends_on:
       - php
@@ -73,7 +68,11 @@ services:
       - memcached
     extra_hosts:
       - ${PHP_EXTRA_HOST}
-
+  memcached:
+    image: memcached:${MEMCACHED_VERSION}
+    container_name: ${SHORT_NAME}-memcached
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
   composer:
     profiles: ["services"]
     image: composer:latest

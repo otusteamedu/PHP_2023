@@ -9,8 +9,9 @@ use Services\StringValidator;
 
 class StringValidatorController
 {
-    public static function validate(string $value): string
+    public static function validate(): string
     {
+        $value = $_REQUEST['email'];
         try {
             if (empty($value)) {
                 throw new Exception("Строковый параметр пуст");

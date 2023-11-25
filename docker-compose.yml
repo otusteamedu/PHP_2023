@@ -1,24 +1,50 @@
 version: '3.5'
-volumes:
-  db:
-    external: true
-    name: ${SHORT_NAME}_db
+
 services:
-  nginx:
+
+  nginx-balancer:
     image: nginx:${NGINX_VERSION}
-    container_name: ${SHORT_NAME}-nginx
+    container_name: ${SHORT_NAME}-nginx-balancer
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    volumes:
+      # для этой задачи проброс статикой
+      - ./.docker/nginx/templates/balancer.conf.template:/etc/nginx/templates
+    depends_on:
+      - nginx-worker1
+      - nginx-worker2
+  nginx-worker1:
+    image: nginx:${NGINX_VERSION}
+    container_name: ${SHORT_NAME}-nginx-worker1
     ports:
       - ${NGINX_PORT}:${NGINX_PORT}
     environment:
       - NGINX_PORT=${NGINX_PORT}
       - NGINX_HOST=${NGINX_HOST}
       - NGINX_ROOT=${NGINX_ROOT}
-      - PHP_SOCKET=${PHP_SOCKET_PATH}
     volumes:
       - ${APPLICATION_ROOT}
-      - ${NGINX_CONF}
+      # для этой задачи проброс статикой
+      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
     depends_on:
       - php
+      - php2
+  nginx-worker2:
+    image: nginx:${NGINX_VERSION}
+    container_name: ${SHORT_NAME}-nginx-worker2
+    ports:
+      - ${NGINX_PORT}:${NGINX_PORT}
+    environment:
+      - NGINX_PORT=${NGINX_PORT}
+      - NGINX_HOST=${NGINX_HOST}
+      - NGINX_ROOT=${NGINX_ROOT}
+    volumes:
+      - ${APPLICATION_ROOT}
+      # для этой задачи проброс статикой
+      - ./.docker/nginx/templates/default.conf.template:/etc/nginx/templates
+    depends_on:
+      - php
+      - php2
   php:
     build:
       context: ${PHP_CONTEXT}
@@ -29,6 +55,8 @@ services:
       - ${APPLICATION_ROOT}
       - ${PHP_INI}
       - ${PHP_FPM_CONF}
+    depends_on:
+      - memcached
     extra_hosts:
       - ${PHP_EXTRA_HOST}
   php2:
@@ -41,20 +69,11 @@ services:
       - ${APPLICATION_ROOT}
       - ${PHP_INI}
       - ${PHP_FPM_CONF}
+    depends_on:
+      - memcached
     extra_hosts:
       - ${PHP_EXTRA_HOST}
-  php3:
-    build:
-      context: ${PHP_CONTEXT}
-      args:
-        - UID=${UID}
-    container_name: ${SHORT_NAME}-php3
-    volumes:
-      - ${APPLICATION_ROOT}
-      - ${PHP_INI}
-      - ${PHP_FPM_CONF}
-    extra_hosts:
-      - ${PHP_EXTRA_HOST}
+
   composer:
     profiles: ["services"]
     image: composer:latest

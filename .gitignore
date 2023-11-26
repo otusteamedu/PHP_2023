@@ -1,0 +1,6 @@
+/logs
+.env
+/mysql
+/app/vendor
+/config/*
+/app/*

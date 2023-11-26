@@ -1,0 +1,6 @@
+.idea/
+.git/
+*.log
+*.txt
+tmp/
+.env

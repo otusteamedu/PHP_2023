@@ -1,15 +1,26 @@
 version: '3'
 
 services:
-    nginx:
+    balancer:
         hostname: ${HOSTNAME}
         image: nginx:1.25.3
         ports:
             - "80:80"
         volumes:
+            - ./balancer/templates:/etc/nginx/templates
+        environment:
+            - NGINX_HOST=${HOSTNAME}
+            - NGINX_PORT=80
+        networks:
+            - default
+
+    nginx1:
+        hostname: ${HOSTNAME}
+        image: nginx:1.25.3
+        volumes:
             - ./nginx/templates:/etc/nginx/templates
             - ./www:${HOME_PATH}
-            - phpsocket:/var/run/
+            - phpsocket1:/var/run/
             - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
         working_dir: /home/singurix
         environment:
@@ -20,8 +31,25 @@ services:
         networks:
             - default
 
-    php-fpm:
-        container_name: php-fpm
+    nginx2:
+        hostname: ${HOSTNAME}
+        image: nginx:1.25.3
+        volumes:
+            - ./nginx/templates:/etc/nginx/templates
+            - ./www:${HOME_PATH}
+            - phpsocket2:/var/run/
+            - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
+        working_dir: /home/singurix
+        environment:
+            - NGINX_HOST=${HOSTNAME}
+            - NGINX_PORT=80
+            - NGINX_SITEDIR=${HOME_PATH}
+            - PHP_UNIX_SOCKET=/var/run/php-fpm.sock
+        networks:
+            - default
+
+    php-fpm1:
+        container_name: php-fpm1
         build:
             context: .
             dockerfile_inline: |
@@ -49,7 +77,40 @@ services:
             - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
             - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
             - ./php-fpm/log:/var/log/php-fpm
-            - phpsocket:/var/run/
+            - phpsocket1:/var/run/
+        networks:
+            - default
+
+    php-fpm2:
+        container_name: php-fpm2
+        build:
+            context: .
+            dockerfile_inline: |
+                FROM php:8.2-fpm
+                RUN apt-get update && apt-get upgrade \
+                    && apt-get install -y \
+                    zlib1g-dev \
+                    libjpeg-dev \
+                    libpng-dev \
+                    libwebp-dev \
+                    libfreetype6-dev \
+                    && pecl install redis \
+                    && pecl install memcache \
+                    && docker-php-ext-enable redis \
+                    && docker-php-ext-enable memcache \
+                    && docker-php-ext-install mysqli \
+                    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp\
+                    && docker-php-ext-install gd \
+                    && docker-php-ext-install opcache
+                RUN usermod -u ${UID} www-data && groupmod -g ${GID} www-data;
+        image: php-fpm:8.2
+        working_dir: ${HOME_PATH}
+        volumes:
+            - ./www:${HOME_PATH}
+            - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
+            - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./php-fpm/log:/var/log/php-fpm
+            - phpsocket2:/var/run/
         networks:
             - default
 
@@ -75,7 +136,14 @@ services:
         ports:
             - "3306:3306"
 
-    memcached:
+    memcached1:
+        image: memcached:latest
+        networks:
+            - default
+        expose:
+            - 11211
+
+    memcached2:
         image: memcached:latest
         networks:
             - default
@@ -114,4 +182,5 @@ networks:
         driver: bridge
 
 volumes:
-    phpsocket:
+    phpsocket1:
+    phpsocket2:

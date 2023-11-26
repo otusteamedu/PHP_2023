@@ -1,54 +1,51 @@
 <?php
 
-print 'Redis Check: ';
-try {
-    if (class_exists('Redis')) {
-        $redis = new Redis();
-        $redis->connect('redis', 6379);
-        $info = $redis->info();
-        print 'Redis version ' . $info['redis_version'] . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Redis" not found<br>');
-    }
-} catch (Exception $e) {
-    print $e->getMessage();
-}
+declare(strict_types=1);
 
-print 'Memcache Check: ';
-try {
-    if (class_exists('Memcache')) {
-        $memcache = new Memcache();
-        $memcache->connect('memcached', 11211);
-        print 'Memcache version ' . $memcache->getVersion() . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Memcache" not found<br>');
-    }
-} catch (Exception $e) {
-    print $e->getMessage();
-}
+use Singurix\Checkinput\CheckData;
 
-print 'Mysql Check: ';
-try {
-    if (class_exists('Mysqli')) {
-        $mysqli = new Mysqli(
-            'mysql',
-            'singurix',
-            'VQu44)wBLQ',
-            'singurixDB',
-            3306
-        );
-        print 'Mysql version ' . $mysqli->server_info . ' ✓<br>';
-    } else {
-        throw new Exception('Class "Mysqli" not found<br>');
-    }
-} catch (Exception $e) {
-    print $e->getMessage();
-}
+if ($_POST) {
+    require(__DIR__ . '/vendor/autoload.php');
 
-print 'Composer Check: ';
-try {
-    system('composer --version');
-    print '✓';
-} catch (Exception $e) {
-    print $e->getMessage();
+    $checker = new CheckData($_POST);
+    $result = $checker->check();
+    header('HTTP/1.1 ' . $result['STATUS']);
+    echo $result['TEXT'];
+    die();
 }
+?>
+<html lang="">
+<header>
+    <title>Home Work 4</title>
+</header>
+<form action="" id="form" method="post">
+    <input type="text" name="string"
+           value="(()()()()))((((()()()))(()()()(((()))))))">
+    <input type="submit" value="Проверить">
+</form>
+<div id="result"></div>
+<script>
+    let status = '';
+    let statusText = '';
+    let form = document.getElementById('form');
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        let string = form.querySelector('input[name="string"]');
+        let formData = new FormData();
+        formData.append('string', string.value);
+        fetch('/', {
+            method: 'POST',
+            body: formData
+        }).then((response) => {
+            status = response.status;
+            statusText = response.statusText;
+            return response.text();
+        }).then((text) => {
+            let nodeHtml = document.createElement('div');
+            nodeHtml.innerHTML = status + ' ' + statusText + ' ' + text;
+            let container = document.getElementById('result');
+            container.appendChild(nodeHtml);
+        })
+    })
+</script>
+</html>

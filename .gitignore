@@ -1,6 +1,9 @@
 .idea/
 .git/
+tmp/
+vendor/
+
 *.log
 *.txt
-tmp/
+
 .env

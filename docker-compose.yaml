@@ -78,6 +78,19 @@ services:
         networks      :
             - app-network
 
+    cli:
+        restart       : 'no'
+        build         :
+            context   : ./docker/php-cli
+            dockerfile: Dockerfile
+        command       : composer install --ignore-platform-reqs --no-scripts --no-progress
+        image         : balance/php-cli
+        container_name: cli
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+        networks      :
+            - app-network
+
     memcached :
         image         : memcached:latest
         container_name: memcached

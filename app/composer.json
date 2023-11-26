@@ -1,0 +1,18 @@
+{
+    "name": "artyom/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Artyom\\Php2023\\": "./src"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyom",
+            "email": "agrechuha@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-mbstring": "*"
+    }
+}

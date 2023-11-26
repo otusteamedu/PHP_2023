@@ -1,0 +1,27 @@
+version: "3"
+services:
+  nginx:
+    container_name: otusphp-nginx
+    image: nginx:latest
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/otusphp.local.conf:/etc/nginx/conf.d/otusphp.local.conf
+      - ./www:/var/www/otusphp.local
+      - ./nginx/logs:/var/logs/nginx
+    depends_on:
+      - php-fpm
+    networks:
+      - otusphp-network
+
+  php-fpm:
+    container_name: otusphp-php-fpm
+    build: ./php-fpm
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otusphp-network
+
+networks:
+  otusphp-network:
+    driver: bridge

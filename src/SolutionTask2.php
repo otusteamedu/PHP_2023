@@ -15,7 +15,9 @@ class SolutionTask2
      */
     public function fractionToDecimal(int $numerator, int $denominator): string
     {
-        if ($numerator == 0) return "0";
+        if ($numerator == 0) {
+            return "0";
+        }
 
         $result = "";
 
@@ -32,7 +34,9 @@ class SolutionTask2
         $result .= floor($divisor / $dividend);
         $divisor %= $dividend;
 
-        if ($divisor === 0) return $result;
+        if ($divisor === 0) {
+            return $result;
+        }
 
         $result .= ".";
 

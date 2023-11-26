@@ -8,4 +8,8 @@ use DimAl\Homework5\Application\App;
 
 $app = new App();
 //$app->run();
-$app->checkEmailsFromFile(__DIR__ . '/testemails.txt');
+$list = $app->checkEmailsFromFile(__DIR__ . '/testemails.txt');
+echo "<pre>";
+foreach ($list as $l) {
+    echo "$l[email] => $l[status]\r\n";
+}

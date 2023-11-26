@@ -9,19 +9,22 @@ class App
 {
     public function run($email)
     {
-
         $this->emailIsWrong($email);
     }
 
-    public function checkEmailsFromFile($file)
+    public function checkEmailsFromFile($file): array
     {
-        echo "<pre>";
+        $ret = [];
         $emls = file($file);
         foreach ($emls as $eml) {
             $eml = trim($eml);
             $check_result = $this->emailIsWrong($eml);
-            echo "$eml =>  " . ($check_result ? $check_result : 'OK') . " \r\n";
+            array_push($ret, [
+                'email' => $eml,
+                'status' => $check_result ? $check_result : 'OK'
+            ]);
         }
+        return $ret;
     }
 
     public function emailIsWrong($email)

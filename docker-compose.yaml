@@ -12,30 +12,6 @@ services:
     networks:
       - otus-network
 
-  app2:
-    build:
-      context: ./php-fpm
-      dockerfile: Dockerfile
-    image: otus/php-fpm
-    container_name: otus-php-fpm2
-    volumes:
-      - ./code:/var/www/application.local
-    networks:
-      - otus-network
-
-  nginx-main:
-    build:
-      context: ./nginx-main
-      dockerfile: Dockerfile
-    image: otus/nginx
-    container_name: otus-nginx-main
-    ports:
-      - "80:80"
-    volumes:
-      - ./code:/var/www/application.local
-    networks:
-      - otus-network
-
   nginx:
     build:
       context: ./nginx
@@ -44,46 +20,8 @@ services:
     container_name: otus-nginx
     volumes:
       - ./code:/var/www/application.local
-    networks:
-      - otus-network
-
-  nginx2:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    image: otus/nginx
-    container_name: otus-nginx2
-    volumes:
-      - ./code:/var/www/application.local
-    networks:
-      - otus-network
-
-  mysql:
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
-    image: otus/mysql
-    container_name: otus-mysql
     ports:
-      - 3306:3306
-    volumes:
-      - ./mysql/dbdata:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - otus-network
-
-  memcached:
-    build:
-      context: ./memcached
-      dockerfile: Dockerfile
-    image: otus/memcached
-    container_name: otus-memcached
-    ports:
-      - 11211:11211
+      - "80:80"
     networks:
       - otus-network
 

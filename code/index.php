@@ -1,26 +1,27 @@
 <?php
-$string = $_POST['string'] ?? null;
-if (!$string) {
-    badRequest();
-    return;
-}
+$emails = $_POST['emails'] ?? null;
 
-while (!empty($string)) {
-    $pos = strripos($string, '()');
-    if ($pos === false) {
-        badRequest();
-        return;
+$emails = explode(',', $emails);
+$validEmails = getValidEmails($emails);
+print_r($validEmails);
+
+function getValidEmails(array $emails = []): array
+{
+    $validEmails = [];
+    foreach ($emails as $email) {
+        $email = trim($email);
+        $isValidEmailString = filter_var($email, FILTER_VALIDATE_EMAIL);
+        if (!$isValidEmailString) {
+            continue;
+        }
+
+        $domain = substr(strrchr($email, "@"), 1);
+        $isExistMxForDomain = getmxrr($domain, $mx_records, $mx_weight);
+        if (!$isExistMxForDomain) {
+           continue;
+        }
+        $validEmails[] = $email;
     }
 
-    $string = str_replace('()', '', $string);
-}
-
-header("{$_SERVER['SERVER_PROTOCOL']} 200 OK");
-echo "Все ок";
-
-
-function badRequest(): void
-{
-    header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request");
-    echo 'Все плохо';
+    return $validEmails;
 }

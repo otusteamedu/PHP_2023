@@ -9,7 +9,30 @@ services:
     container_name: otus-php-fpm
     volumes:
       - ./code:/var/www/application.local
-      - ./php-fpm/socket:/var/run
+    networks:
+      - otus-network
+
+  app2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm
+    container_name: otus-php-fpm2
+    volumes:
+      - ./code:/var/www/application.local
+    networks:
+      - otus-network
+
+  nginx-main:
+    build:
+      context: ./nginx-main
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus-nginx-main
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/var/www/application.local
     networks:
       - otus-network
 
@@ -19,12 +42,19 @@ services:
       dockerfile: Dockerfile
     image: otus/nginx
     container_name: otus-nginx
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
       - ./code:/var/www/application.local
-      - ./php-fpm/socket:/var/run
+    networks:
+      - otus-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: otus/nginx
+    container_name: otus-nginx2
+    volumes:
+      - ./code:/var/www/application.local
     networks:
       - otus-network
 
@@ -43,17 +73,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    networks:
-      - otus-network
-
-  redis:
-    build:
-      context: ./redis
-      dockerfile: Dockerfile
-    image: otus/redis
-    container_name: otus-redis
-    ports:
-      - 6379:6379
     networks:
       - otus-network
 

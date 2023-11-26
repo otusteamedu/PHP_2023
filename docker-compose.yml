@@ -1,0 +1,92 @@
+version: "3.8"
+services:
+  nginx:
+    image: lesson/nginx
+    container_name: lesson_nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ../app:/app
+      - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - fpm
+
+  mysql:
+    image: lesson/mysql
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 1
+    volumes:
+      - ./mysql/db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+      MYSQL_DATABASE: lesson
+    networks:
+      - app-network
+
+  redis:
+    image: lesson/redis
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    networks:
+      - app-network
+
+  memcached:
+    image: lesson/memcached
+    build:
+      context: ./memcached
+      dockerfile: Dockerfile
+    networks:
+      - app-network
+
+  fpm:
+    image: lesson/fpm
+    container_name: lesson-fpm
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    deploy:
+      labels:
+        com.example.description: "Это тестовый fpm сервис"
+    volumes:
+      - ../app:/app
+    networks:
+      - app-network
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mysql
+      - redis
+      - memcached
+
+  cli:
+    image: lesson/cli
+    container_name: lesson_cli
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    deploy:
+      labels:
+        com.example.description: "Это тестовый cli сервис"
+      replicas: 1
+    volumes:
+      - ../app:/app
+    depends_on:
+      - mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

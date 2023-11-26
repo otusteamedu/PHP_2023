@@ -1,4 +1,5 @@
 <?php
+
 /**
  * https://leetcode.com/problems/fraction-to-recurring-decimal/
  */
@@ -15,6 +16,7 @@ class SolutionTask2
     public function fractionToDecimal(int $numerator, int $denominator): string
     {
         if ($numerator == 0) return "0";
+
         $result = "";
 
         if (
@@ -31,6 +33,7 @@ class SolutionTask2
         $divisor %= $dividend;
 
         if ($divisor === 0) return $result;
+
         $result .= ".";
 
         $map = [];

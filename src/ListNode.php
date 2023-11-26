@@ -10,7 +10,7 @@ class ListNode
     /** @var null|ListNode  */
     public $next = null;
 
-    function __construct(int $val)
+    public function __construct(int $val)
     {
         $this->val = $val;
     }

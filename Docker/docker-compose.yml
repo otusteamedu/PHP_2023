@@ -1,0 +1,64 @@
+version: "3"
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: homework/app
+    container_name: app
+    volumes:
+      - ./src:/data/homework.local
+    networks:
+      - app-network
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: homework/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./src:/data/homework.local
+    networks:
+      - app-network
+
+  redis:
+    ports:
+      - "6379:6379"
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    container_name: redis
+    environment:
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_DATABASES: ${REDIS_DATABASES}
+    networks:
+      - app-network
+  db:
+    image: mysql:latest
+    container_name: db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    networks:
+      - app-network
+  memcached:
+    container_name: memcached
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

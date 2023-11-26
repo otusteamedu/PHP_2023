@@ -1,0 +1,16 @@
+{
+    "name": "yevgen87/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yevgen87\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PoisonHawk",
+            "email": "poisonhawk@yandex.ru"
+        }
+    ],
+    "require": {}
+}

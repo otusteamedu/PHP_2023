@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require('./Services/ValidBrackets.php');
+use Yevgen87\App\Services\ValidBrackets;
 
-use app\Services\ValidBrackets;
+require __DIR__ . '/vendor/autoload.php';
 
 $string = $_POST['string'] ?? null;
 

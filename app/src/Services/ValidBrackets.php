@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace app\Services;
+namespace Yevgen87\App\Services;
 
 class ValidBrackets
 {

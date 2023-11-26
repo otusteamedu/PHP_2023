@@ -1,6 +1,3 @@
-<?php
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,12 +6,11 @@
 </head>
 <body>
 
-<form  action = '/src/EmailValidation.php' method="POST">
-    <label for="email">Input EMAIL for validate</label>
+<form  action = '' method="POST">
+    <label for="email">Какой EMAIL проверяем?</label>
     <input type="text" id = "email_str" name="email_str" placeholder="Input EMAIL">
     <button type="submit">Validate</button>
 </form>
 </body>
 </html>
-<?php
-?>
+

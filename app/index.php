@@ -29,7 +29,6 @@ $opened = 0;
 
 try {
     while ($i < strlen($string)) {
-
         if ($string[$i] == '(') {
             $opened++;
         }

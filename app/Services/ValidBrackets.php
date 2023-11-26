@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-class isValidBrackets
+namespace app\Services;
+
+class ValidBrackets
 {
     /**
      * @var string

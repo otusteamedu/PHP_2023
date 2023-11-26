@@ -2,12 +2,14 @@
 
 declare(strict_types=1);
 
-require('./Service/isValidBrackets.php');
+require('./Services/ValidBrackets.php');
+
+use app\Services\ValidBrackets;
 
 $string = $_POST['string'] ?? null;
 
 try {
-    $isValidBrackets = new isValidBrackets($string);
+    $isValidBrackets = new ValidBrackets($string);
     $status = $isValidBrackets->check();
 } catch (Exception $e) {
     http_response_code(400);

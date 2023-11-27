@@ -12,5 +12,7 @@
             "email": "dm@5al.ru"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "*"
+    }
 }

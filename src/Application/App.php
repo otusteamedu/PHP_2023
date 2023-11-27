@@ -4,25 +4,39 @@ namespace DimAl\Homework5\Application;
 
 use Exception;
 use DimAl\Homework5\Services\EmailCheckService;
+use DimAl\Homework5\Services\BeautifulTableOutputService;
 
 class App
 {
-    public function run($email)
+    public function run()
     {
-        $this->emailIsWrong($email);
+        $check_list = $this->checkEmailsFromFile();
+
+        $table = new BeautifulTableOutputService();
+        $table->setTableTitle(
+            [
+            'email' => 'Email',
+            'status' => 'Статус проверки'
+            ]
+        );
+
+        $table->setRows($check_list);
+        $table->showTable();
     }
 
-    public function checkEmailsFromFile($file): array
+    public function checkEmailsFromFile(): array
     {
         $ret = [];
-        $emls = file($file);
+        $emls = file(EMAIL_LIST_PATH);
         foreach ($emls as $eml) {
             $eml = trim($eml);
             $check_result = $this->emailIsWrong($eml);
-            array_push($ret, [
+            array_push(
+                $ret, [
                 'email' => $eml,
                 'status' => $check_result ? $check_result : 'OK'
-            ]);
+                ]
+            );
         }
         return $ret;
     }

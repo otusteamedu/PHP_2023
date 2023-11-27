@@ -60,5 +60,4 @@ do {
             print_r($result['hits']['hits']);
             break;
     }
-
 } while ($flag !== 0 && $flag !== 1 && $flag !== 2 && $flag !== 3);

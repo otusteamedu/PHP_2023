@@ -81,7 +81,7 @@ class IndexCreator
 
         try {
             $this->elasticSearchClient->getClient()->indices()->create($this->defaultIndex);
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException) {
+        } catch (ClientResponseException | MissingParameterException | ServerResponseException) {
             throw new IndexCreateException();
         }
     }

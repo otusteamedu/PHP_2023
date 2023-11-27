@@ -6,9 +6,9 @@ namespace Singurix\Checkinput;
 
 class Input
 {
-    var array $string;
-    var int $openBrackets = 0;
-    var array $chars;
+    private array $string;
+    private int $openBrackets = 0;
+    private array $chars;
 
     public function __construct($postData)
     {
@@ -85,8 +85,6 @@ class Input
                 return self::checkPosition();
             }
         }
-        if ($this->openBrackets != 0) {
-            return false;
-        }
+        return false;
     }
 }

@@ -1,8 +1,8 @@
 <?php
 
-require_once 'app/App.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
-use app\App;
+use App\App;
 
 $app = new App();
 $app->run();

@@ -1,16 +1,5 @@
 {
-    "name": "vladimirpetrov/otus-string-helper",
-    "type": "project",
-    "autoload": {
-        "psr-4": {
-            "VladimirPetrov\\OtusStringHelper\\": "src/"
-        }
-    },
-    "authors": [
-        {
-            "name": "PetrovSpace",
-            "email": "vovapetrov94@gmail.com"
-        }
-    ],
-    "require": {}
+  "require": {
+    "vladimirpetrov/otus-string-helper": "^0.0.1"
+  }
 }

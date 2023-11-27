@@ -32,7 +32,8 @@ class App
             $eml = trim($eml);
             $check_result = $this->emailIsWrong($eml);
             array_push(
-                $ret, [
+                $ret,
+                [
                 'email' => $eml,
                 'status' => $check_result ? $check_result : 'OK'
                 ]

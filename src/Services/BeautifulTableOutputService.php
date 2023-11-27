@@ -31,7 +31,6 @@ class BeautifulTableOutputService
             $body .= "<tr>";
             $class = $r['status'] == 'OK' ? 'table-success' : 'table-danger';
             foreach ($r as $c) {
-
                 $body .= "<td class=\"$class\">$c</td>";
             }
             $body .= "</tr>";

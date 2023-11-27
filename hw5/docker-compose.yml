@@ -1,0 +1,88 @@
+version: '3.0'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./docker_/nginx-balancer
+      dockerfile: DockerFile
+    container_name: nginx-balancer
+    volumes:
+      - ./docker_/nginx-balancer/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - "8080:80"
+    depends_on:
+      - nginx-1
+      - nginx-2
+    networks:
+      - app-network
+
+  nginx-1:
+    build:
+      context: ./docker_/nginx
+      dockerfile: DockerFile
+    volumes:
+      - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker_/nginx/sites-enabled/:/etc/nginx/sites-enabled/
+    container_name: nginx-1
+    ports:
+      - 8081:80
+    depends_on:
+      - app-1
+      - app-2
+    networks:
+      - app-network
+
+  nginx-2:
+    build:
+      context: ./docker_/nginx
+      dockerfile: DockerFile
+    volumes:
+      - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker_/nginx/sites-enabled/:/etc/nginx/sites-enabled/
+    container_name: nginx-2
+    depends_on:
+      - app-1
+      - app-2
+    ports:
+      - 8082:80
+    networks:
+      - app-network
+
+  app-1:
+    build:
+      context: ./docker_/fpm
+      dockerfile: DockerFile
+    container_name: app-1
+    volumes:
+      - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  app-2:
+    build:
+      context: ./docker_/fpm
+      dockerfile: DockerFile
+    container_name: app-2
+    volumes:
+      - ./:/var/www/
+      - ./docker_/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - 11211:11211
+    container_name: mymemcached
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+

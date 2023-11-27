@@ -1,0 +1,14 @@
+{
+    "name": "shabanov/otusphp.local",
+    "autoload": {
+        "psr-4": {
+            "Shabanov\\Otus\\": "lib/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vyacheslav Shabanov"
+        }
+    ],
+    "require": {}
+}

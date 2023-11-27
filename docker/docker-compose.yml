@@ -24,7 +24,7 @@ services:
     deploy:
       replicas: 1
     volumes:
-      - ./mysql/db:/var/lib/mysql
+      - ../db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: example
@@ -61,6 +61,7 @@ services:
         com.example.description: "Это тестовый fpm сервис"
     volumes:
       - ../app:/app
+      - ../vendor:/vendor
     networks:
       - app-network
     ports:
@@ -69,6 +70,7 @@ services:
       - mysql
       - redis
       - memcached
+    # по какой то причине в контенере приходится запускать php-cgi -b 0.0.0.0:9000 иначе получаю 502
 
   cli:
     image: lesson/cli
@@ -81,7 +83,7 @@ services:
         com.example.description: "Это тестовый cli сервис"
       replicas: 1
     volumes:
-      - ../app:/app
+      - ../:/app
     depends_on:
       - mysql
     networks:

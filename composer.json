@@ -1,0 +1,17 @@
+{
+    "name": "dsx90/lesson",
+    "description": "Учебное задание",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dsx90\\Lesson\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MaximIlchenko"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

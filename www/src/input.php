@@ -54,10 +54,10 @@ class Input
     private function checkBrackets(): bool|\Exception
     {
         $brackets = array_count_values(str_split($this->string['string']));
-        if (isset($brackets['(']) && isset($brackets[')'])
+        if (
+            isset($brackets['(']) && isset($brackets[')'])
             && $brackets['('] == $brackets[')']
-        )
-        {
+        ) {
             $this->chars = str_split($this->string['string']);
             if (self::checkPosition()) {
                 return true;

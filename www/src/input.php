@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Singurix\Checkinput;
 
-class CheckData
+class Input
 {
     var array $string;
     var int $openBrackets = 0;
@@ -15,18 +15,17 @@ class CheckData
         $this->string = $postData;
     }
 
-    public function check(): array
+    public function check(): string
     {
         try {
             self::checkIsset();
             self::checkEmpty();
             self::checkBrackets();
-            return [
-                'STATUS' => '200 OK',
-                'TEXT' => 'Все проверки пройдены успешно'
-            ];
+            header('HTTP/1.1 200 OK');
+            return 'Все проверки пройдены успешно';
         } catch (\Exception $e) {
-            return ['STATUS' => '400 Bad Request', 'TEXT' => $e->getMessage()];
+            header('HTTP/1.1 400 Bad Request');
+            return $e->getMessage();
         }
     }
 

@@ -3,3 +3,4 @@
 /db
 /mysql/log
 /php-fpm/log
+/www/vendor

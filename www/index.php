@@ -1,19 +1,3 @@
-<?php
-
-declare(strict_types=1);
-
-use Singurix\Checkinput\CheckData;
-
-if ($_POST) {
-    require(__DIR__ . '/vendor/autoload.php');
-
-    $checker = new CheckData($_POST);
-    $result = $checker->check();
-    header('HTTP/1.1 ' . $result['STATUS']);
-    echo $result['TEXT'];
-    die();
-}
-?>
 <html lang="">
 <header>
     <title>Home Work 4</title>
@@ -33,7 +17,7 @@ if ($_POST) {
         let string = form.querySelector('input[name="string"]');
         let formData = new FormData();
         formData.append('string', string.value);
-        fetch('/', {
+        fetch('/api.php', {
             method: 'POST',
             body: formData
         }).then((response) => {

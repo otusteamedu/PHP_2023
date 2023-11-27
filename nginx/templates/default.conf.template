@@ -1,6 +1,5 @@
 server {
     listen ${NGINX_PORT};
-    server_name ${NGINX_HOST};
 
     root ${NGINX_SITEDIR};
     index index.php index.html;

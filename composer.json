@@ -1,4 +1,17 @@
 {
+    "name": "artem/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "cherepanov.a",
+            "email": "art.cherepan@gmail.com"
+        }
+    ],
     "require": {
         "elasticsearch/elasticsearch": "^8.11"
     },

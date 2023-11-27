@@ -1,10 +1,32 @@
 version: '3'
+
 services:
+
   elasticsearch:
-    image: elasticsearch:8.8.0
+    image: elasticsearch:8.7.0
+    container_name: elasticsearch
+    restart: unless-stopped
+    environment:
+      - node.name=elastic
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=123456
     ports:
       - 9200:9200
-      - 9300:9300
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    image: php-fpm
+    restart: unless-stopped
+    container_name: php
+    networks:
+      - app-network
+
+networks:
+  app-network:

@@ -21,7 +21,6 @@ services:
             - default
 
     php-fpm:
-        container_name: php-fpm
         build:
             context: .
             dockerfile_inline: |

@@ -1,0 +1,15 @@
+{
+    "name": "singurix/emailscheck",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Singurix\\Emailscheck\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Singurix"
+        }
+    ],
+    "require": {}
+}

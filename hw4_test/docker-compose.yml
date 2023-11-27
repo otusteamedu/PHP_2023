@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    container_name: nginx-balancer-otus
+    build: ./nginx/balancer
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx-server
+    networks:
+      - otus-network
+
+  nginx-server:
+    container_name: nginx-server-otus
+    build: ./nginx/server
+    volumes:
+      - ./www:/var/www/otusphp.local
+    depends_on:
+      - php-fpm
+    networks:
+      - otus-network
+
+  php-fpm:
+    container_name: php-fpm-otus
+    build: ./php-fpm
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge

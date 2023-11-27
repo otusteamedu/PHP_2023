@@ -1,71 +1,64 @@
 <?php
 
+use App\DocumentCreator;
+use App\DocumentSearcher;
+use App\ElasticSearchClient;
+use App\Exceptions\DocumentCreateException;
+use App\Exceptions\IndexCreateException;
+use App\Exceptions\IndexDeleteException;
+use App\IndexCreator;
+use App\IndexDeleter;
+
 require __DIR__ . '/vendor/autoload.php';
 
-use App\ElasticSearchClient;
-use App\IndexCreator;
-use Elastic\Elasticsearch\ClientBuilder;
+$flag = -1;
+$price = 0;
+$category = '';
+$title = '';
+$indexName = 'otus-shop';
 
+do {
+    $flag = (int)readline('To delete an index, type 1, to create an index, type 2, to create a document, type 3, to search books, type 4: ');
 
-//$category = (string)readline('Enter book category: ');
-//$price = (float)readline('Enter book price: ');
-//$title = (string)readline('Enter book title: ');
-//
-//$client = ClientBuilder::create()
-//    ->setHosts(['http://localhost:9200'])
-//    ->build();
-//
-//$params = [
-//    'index' => 'otus-shop',
-//    'body' => [
-//        'query' => [
-//            'bool' => [
-//                'filter' => [
-//                    [
-//                        'range' => [
-//                            'price' => [
-//                                'gte' => $price,
-//                            ],
-//                        ],
-//                    ],
-//                    [
-//                        "nested" => [
-//                            "path" => "stock",
-//                            "query" => [
-//                                "range" => [
-//                                    "stock.stock" => [
-//                                        "gte" => 1
-//                                    ]
-//                                ]
-//                            ]
-//                        ]
-//                    ]
-//                ],
-//                'must' => [
-//                    'match' => [
-//                        'category' => $category,
-//                    ],
-//                ],
-//                'should' => [
-//                    'match' => [
-//                        'title' => $title,
-//                    ],
-//                ],
-//            ],
-//        ],
-//        'size' => 10,
-//    ]
-//];
-//$response = $client->search($params)->asArray();
-//var_dump($response);
+    switch ($flag) {
+        case 1:
+            try {
+                $indexDeleter = new IndexDeleter(new ElasticSearchClient());
+                $indexDeleter->execute($indexName);
+            } catch (IndexDeleteException $e) {
+                echo $e->getMessage();
+            }
 
+            echo 'Index ' . $indexName . ' successfully delete';
+            break;
+        case 2:
+            try {
+                $indexCreator = new IndexCreator(new ElasticSearchClient());
+                $indexCreator->execute($indexName);
+            } catch (IndexCreateException $e) {
+                echo $e->getMessage();
+            }
 
-$client = new ElasticSearchClient();
-$creator = new \App\DocumentCreator($client);
-$creator->execute();
+            echo 'Index ' . $indexName . ' successfully create';
+            break;
+        case 3:
+            try {
+                $documentCreator = new DocumentCreator(new ElasticSearchClient());
+                $documentCreator->execute();
+            } catch (DocumentCreateException $e) {
+                echo $e->getMessage();
+            }
 
-//$client->getClient()->indices()->delete(['index' => 'otus-shop']);
+            echo 'Document successfully create';
+            break;
+        case 4:
+            $category = (string)readline('Enter book category: ');
+            $price = (int)readline('Enter max book price: ');
+            $title = (string)readline('Enter book title: ');
+            $documentSearcher = new DocumentSearcher(new ElasticSearchClient());
+            $result = $documentSearcher->execute($indexName, $title, $category, $price);
+            print_r($result['hits']['hits']);
+            break;
+    }
 
-//$indexCreator = new IndexCreator(new ElasticSearchClient());
-//$indexCreator->execute('otus-shop');
-
+} while ($flag !== 0 && $flag !== 1 && $flag !== 2 && $flag !== 3);

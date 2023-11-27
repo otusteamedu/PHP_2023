@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Exceptions\DocumentSearchException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
@@ -15,6 +16,9 @@ class DocumentSearcher
     {
     }
 
+    /**
+     * @throws DocumentSearchException
+     */
     public function execute(string $indexName, string $title, string $category, int $price): Elasticsearch|Promise
     {
         $params = [
@@ -67,8 +71,8 @@ class DocumentSearcher
 
         try {
             $response = $this->elasticSearchClient->getClient()->search($params);
-        } catch (ClientResponseException | ServerResponseException $e) {
-            echo $e->getMessage();
+        } catch (ClientResponseException | ServerResponseException) {
+            throw new DocumentSearchException();
         }
 
         return $response;

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Exceptions\IndexCreateException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
@@ -71,14 +72,17 @@ class IndexCreator
     {
     }
 
+    /**
+     * @throws IndexCreateException
+     */
     public function execute(string $indexName): void
     {
         $this->defaultIndex['index'] = $indexName;
 
         try {
             $this->elasticSearchClient->getClient()->indices()->create($this->defaultIndex);
-        } catch (ClientResponseException|MissingParameterException|ServerResponseException $e) {
-            echo $e->getMessage();
+        } catch (ClientResponseException|MissingParameterException|ServerResponseException) {
+            throw new IndexCreateException();
         }
     }
 }

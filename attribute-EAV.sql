@@ -14,13 +14,12 @@ CREATE TABLE IF NOT EXISTS attributes
 CREATE TABLE IF NOT EXISTS attributes_values
 (
     id            SERIAL PRIMARY KEY,
-    movie_id     SERIAL REFERENCES movies (id),
+    movie_id      SERIAL REFERENCES movies (id),
     attribute_id  SERIAL REFERENCES attributes (id),
     val_text      text,
     val_date      date,
     val_timestamp timestamp,
-    val_num       real,
+    val_float     real,
     val_bool      boolean,
-    val_int       integer,
-    val_money     money
+    val_int       integer
     );

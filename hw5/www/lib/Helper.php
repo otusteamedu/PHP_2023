@@ -4,6 +4,18 @@ namespace Shabanov\Otus;
 class Helper {
     private const REG_EMAIL = '/^(?:[a-z0-9]+(?:[-_.]?[a-z0-9]+)?@[a-z0-9_.-]+(?:\.?[a-z0-9]+)?\.[a-z]{2,5})$/i';
 
+    public static function checkEmails(array $arEmails): string
+    {
+        $return = '';
+        if (!empty($arEmails)) {
+            foreach($arEmails as $email) {
+                $return .= 'Проверка валидности email: ' . self::checkEmail($email) . PHP_EOL;
+                $return .= 'Проверка валидности MX записи домена: ' . self::checkMxDomain($email) . PHP_EOL;
+            }
+        }
+        return $return;
+    }
+
     public static function checkEmail(string $email): bool
     {
         if (preg_match(self::REG_EMAIL, $email)) {

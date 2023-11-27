@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+echo '<pre>';print_r($_SERVER);echo '</pre>';
+
 $str = isset($_POST['string']) ? trim($_POST['string']) : '';
 $error = '';
 if (!empty($str)) {

@@ -14,4 +14,6 @@ RUN apt-get update && apt-get install -y \
     && docker-php-ext-enable mcrypt memcached \
     && docker-php-ext-install -j$(nproc) iconv mbstring zip
 
+COPY php.ini /usr/local/etc/php/conf.d/php-custom.ini
+
 CMD ["php-fpm"]

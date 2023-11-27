@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Singurix\Emailscheck;
 
 class Validator

@@ -31,7 +31,6 @@ class ValidBrackets
         $i = 0;
 
         $opened = 0;
-
         while ($i < strlen($this->string)) {
             if ($this->string[$i] == '(') {
                 $opened++;

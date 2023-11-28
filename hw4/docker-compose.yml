@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    container_name: nginx-balancer-otus
+    build: ./nginx/balancer
+    ports:
+      - "80:80"
+    depends_on:
+      - nginx-server1
+      - nginx-server2
+    networks:
+      - otus-network
+
+  nginx-server1:
+    container_name: nginx-server1-otus
+    build: ./nginx/server
+    volumes:
+      - ./www:/var/www/otusphp.local
+    depends_on:
+      - php-fpm1
+      - php-fpm2
+    networks:
+      - otus-network
+
+  nginx-server2:
+    container_name: nginx-server2-otus
+    build: ./nginx/server
+    volumes:
+      - ./www:/var/www/otusphp.local
+    depends_on:
+      - php-fpm1
+      - php-fpm2
+    networks:
+      - otus-network
+
+  php-fpm1:
+    container_name: php-fpm1-otus
+    build: ./php-fpm
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otus-network
+
+  php-fpm2:
+    container_name: php-fpm2-otus
+    build: ./php-fpm
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otus-network
+
+  memcached:
+    container_name: memcached-otus
+    image: memcached
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge

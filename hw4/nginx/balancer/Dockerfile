@@ -1,6 +1,6 @@
 FROM nginx:latest
 
-COPY ./balance.conf /etc/nginx/nginx.conf
+COPY ./balancer.conf /etc/nginx/nginx.conf
 
 EXPOSE 80
 

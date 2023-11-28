@@ -1,30 +1,8 @@
 <?php
 
-function verifyEmail($email) {
-    $regex = '/^[\w\.\-]+@[\w\.\-]+\.[a-zA-Z]{2,}$/';
+require_once __DIR__ . '/autoload.php';
 
-    if (!preg_match($regex, $email)) {
-        return false;
-    }
-
-    $domain = substr(strrchr($email, "@"), 1);
-
-    if (!checkdnsrr($domain)) {
-        return false;
-    }
-
-    return true;
-}
-
-function verifyEmails(array $emails) {
-    $validEmails = [];
-    foreach ($emails as $email) {
-        if (verifyEmail($email)) {
-            $validEmails[] = $email;
-        }
-    }
-    return $validEmails;
-}
+use App\EmailVerifier;
 
 $emailsToVerify = [
     'test@example.com',
@@ -32,7 +10,8 @@ $emailsToVerify = [
     'valid.email@domain.com'
 ];
 
-$validEmails = verifyEmails($emailsToVerify);
+$emailVerifier = new EmailVerifier();
+$validEmails = $emailVerifier->verifyEmails($emailsToVerify);
 
 echo "Valid emails:\n";
 print_r($validEmails);

@@ -9,7 +9,7 @@ services:
     ports:
       - "81:80"
     volumes:
-      - .:/data/mysite.local
+      - .:/data
     networks:
       - app-network
 

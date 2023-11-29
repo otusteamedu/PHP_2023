@@ -2,7 +2,7 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
-use App\EmailVerifier;
+use Daniel\Otus\EmailVerifier;
 
 $emailsToVerify = [
     'test@example.com',
@@ -11,7 +11,6 @@ $emailsToVerify = [
 ];
 
 $emailVerifier = new EmailVerifier();
-$validEmails = $emailVerifier->verifyEmails($emailsToVerify);
 
-echo "Valid emails:\n";
-print_r($validEmails);
+$emailVerifier->verifyEmails($emailsToVerify);
+$emailVerifier->printValidEmails();

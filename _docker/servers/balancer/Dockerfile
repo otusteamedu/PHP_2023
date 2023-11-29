@@ -1,9 +1,8 @@
 FROM nginx
 
-COPY ./app.local.conf /etc/nginx/conf.d/app.local.conf
+COPY nginx-balancer.conf /etc/nginx/conf.d/nginx-balancer.conf
 
-WORKDIR /data
-VOLUME /data
+WORKDIR /var/www
 
 EXPOSE 80
 

@@ -1,7 +1,7 @@
 .idea/
 .git/
 tmp/
-vendor/
+code/vendor/
 
 *.log
 *.txt

@@ -8,72 +8,56 @@ services:
     image: ${PROJECT_NAME}/server-balancer
     container_name: server-balancer
     restart: always
-    depends_on:
-      - server-1
-      - server-2
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     networks:
       - app-network
-
-  server-main:
+#
+  server-1:
     build:
       context: ${SERVER_NGINX_CONTEXT}
       dockerfile: Dockerfile
-    image: ${PROJECT_NAME}/server-nginx
-    deploy:
-      replicas: 0
-
-
-  server-1:
-    image: ${PROJECT_NAME}/server-nginx
+    image: ${PROJECT_NAME}/server-nginx-1
     container_name: server-1
     restart: always
-    depends_on:
-      - db
-      - memcached
+#   ports:
+#     - "80:80"
     volumes:
       - ${PROJECT_PATH}
     networks:
       - app-network
 
   server-2:
-    image: ${PROJECT_NAME}/server-nginx
+    build:
+      context: ${SERVER_NGINX_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/server-nginx-2
     container_name: server-2
     restart: always
-    depends_on:
-      - db
-      - memcached
+    volumes:
+      - ${PROJECT_PATH}
+#    ports:
+#      - "80:80"
+    networks:
+      - app-network
+
+  app-1:
+    build:
+      context: ${PHP_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/app-1
+    container_name: app-1
     volumes:
       - ${PROJECT_PATH}
     networks:
       - app-network
 
-  app-main:
+  app-2:
     build:
       context: ${PHP_CONTEXT}
       dockerfile: Dockerfile
-    image: ${PROJECT_NAME}/php
-    deploy:
-      replicas: 0
-    networks:
-      - app-network
-
-  app1:
-    image: ${PROJECT_NAME}/php
-    container_name: app1
-    volumes:
-       - ${PROJECT_PATH}
-    depends_on:
-      - server-balancer
-    networks:
-      - app-network
-
-  app2:
-    image: ${PROJECT_NAME}/php
-    container_name: app2
-    depends_on:
-      - server-balancer
+    image: ${PROJECT_NAME}/app-2
+    container_name: app-2
     volumes:
       - ${PROJECT_PATH}
     networks:
@@ -85,23 +69,6 @@ services:
     restart: always
     ports:
       - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
-    networks:
-      - app-network
-
-  db:
-    image: mysql:${DB_VERSION}
-    container_name: db
-    restart: always
-    volumes:
-      - ${DB_PATH}
-    environment:
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-    ports:
-      - ${DB_PORT}:${DB_PORT}
     networks:
       - app-network
 

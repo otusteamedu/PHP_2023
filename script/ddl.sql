@@ -1,60 +1,86 @@
-ddl
 
--- broadcasting definition
+-- "_demostration" definition
 
-CREATE TABLE broadcasting (
+CREATE TABLE "_demostration" (
     id INTEGER NOT NULL,
-    movie_id INTEGER NOT NULL,
-    screening_id INTEGER NOT NULL
+    hall_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
+    film_id INTEGER NOT NULL,
+    attendance_rate INTEGER
 );
 
 
--- client definition
+-- "_film" definition
 
-CREATE TABLE client (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT
+CREATE TABLE "_film" (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    duration_in_minutes INTEGER
 );
 
--- hall definition
+-- "_hall" definition
 
-CREATE TABLE hall (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE "_hall" (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL,
+    seating_capacity INTEGER NOT NULL
+);
+
+-- "_location" definition
+
+CREATE TABLE "_location" (
+    id INTEGER NOT NULL,
     name TEXT,
-    screening_id INTEGER
+    floor INTEGER DEFAULT (1) NOT NULL,
+    "row" INTEGER NOT NULL,
+    number_in_row INTEGER NOT NULL
 );
 
--- movie definition
+-- "_seating_position" definition
 
-CREATE TABLE movie (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT
-);
-
--- screening definition
-
-CREATE TABLE screening (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT
-);
-
--- seat definition
-
-CREATE TABLE seat (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT
-);
-
--- ticket definition
-
-CREATE TABLE ticket (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+CREATE TABLE "_seating_position" (
+    id INTEGER NOT NULL,
     name TEXT,
-    screening_id INTEGER,
-    price REAL,
-    client_id INTEGER,
-    seat_id INTEGER,
-    date TEXT,
-    date_number INTEGER
-, hall_id INTEGER DEFAULT (1));
+    hall_id INTEGER NOT NULL,
+    seat_id INTEGER NOT NULL,
+    attendance_rate INTEGER,
+    location_id INTEGER
+);
 
+-- "_session" definition
+
+CREATE TABLE "_session" (
+    id INTEGER NOT NULL,
+    "text" TEXT NOT NULL
+);
+
+-- "_status" definition
+
+CREATE TABLE "_status" (
+    id INTEGER NOT NULL,
+    name TEXT NOT NULL
+);
+
+-- "_ticket" definition
+
+CREATE TABLE "_ticket" (
+    id INTEGER NOT NULL,
+    demonstation_id INTEGER NOT NULL,
+    status_id INTEGER NOT NULL,
+    price INTEGER NOT NULL,
+    "position_id" INTEGER
+);
+
+-- "_seat" definition
+
+CREATE TABLE "_seat" (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT
+);
+
+-- "_ui_color" definition
+
+CREATE TABLE "_ui_color" (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL
+);

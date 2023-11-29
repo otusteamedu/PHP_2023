@@ -17,20 +17,42 @@ services:
   #   networks:
   #     - app-network
 
-  #контейнер с Nginx
+  #контейнер с Nginx балансировщиком
   webserver:
     build:
-      context: ./docker/nginx
+      context: ./docker/nginx_balancer
       dockerfile: Dockerfile
-    image: myapp/nginx
+    image: myapp/nginx_balancer
     container_name: webserver
     # проброс портов
     ports:
       - "80:80"
+    networks:
+      - app-network
+
+  #nginx контейнеры 
+  nginx_container_1:
+    build:
+      context: ./docker/nginx_container
+      dockerfile: Dockerfile
+    image: myapp/nginx_container
+    container_name: nginx_container_1
     volumes:
       - ./data/web:/data/mysite.local
     networks:
       - app-network
+
+  nginx_container_2:
+    build:
+      context: ./docker/nginx_container
+      dockerfile: Dockerfile
+    image: myapp/nginx_container
+    container_name: nginx_container_2
+    volumes:
+      - ./data/web:/data/mysite.local
+    networks:
+      - app-network
+
 
   #Контейнер с PHP-FPM, назовём его app
   app1:

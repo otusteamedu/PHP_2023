@@ -1,0 +1,33 @@
+version: '3.0'
+
+services:
+
+  app-server:
+    build:
+      context: ./docker_/fpm
+      dockerfile: DockerFile
+    container_name: hw6-app-server
+    volumes:
+      - ./:/app
+    working_dir: /app
+    networks:
+      - app-network
+
+  app-client:
+    build:
+      context: ./docker_/fpm
+      dockerfile: DockerFile
+    container_name: hw6-app-client
+    depends_on:
+      - app-server
+    volumes:
+      - ./:/app
+    working_dir: /app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+

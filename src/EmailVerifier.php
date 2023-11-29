@@ -26,14 +26,11 @@ class EmailVerifier
 
     public function verifyEmails(array $emails): void
     {
-        $validEmails = [];
         foreach ($emails as $email) {
             if ($this->verifyEmail($email)) {
-                $validEmails[] = $email;
+                $this->valid_emails[] = $email;
             }
         }
-
-        $this->valid_emails[] = $validEmails;
     }
 
     public function printValidEmails(): void

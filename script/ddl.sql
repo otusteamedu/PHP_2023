@@ -84,3 +84,10 @@ CREATE TABLE "_ui_color" (
     id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL
 );
+
+-- "_config" definition
+
+CREATE TABLE "_config" (
+    id INTEGER NOT NULL,
+    coefficient REAL
+);

@@ -1,2 +1,4 @@
 .idea
 .env
+/.docker_data/
+/code/vendor/

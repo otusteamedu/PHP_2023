@@ -1,0 +1,124 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #Контейнер с PHP, назовём его app
+  # app:
+  #   # Если нет секции build, то система будет искать образ в репозиториях
+  #   build:
+  #     context: ./docker/php-fpm
+  #     dockerfile: Dockerfile
+  #   image: myapp/php # имя будущего образа
+  #   container_name: app # имя контейнера после запуска
+  #   volumes:
+  #     - ./data/web:/data/mysite.local
+  #   # мы можем создать для контейнеров внутреннюю сеть
+  #   networks:
+  #     - app-network
+
+  #контейнер с Nginx балансировщиком
+  webserver:
+    build:
+      context: ./docker/nginx_balancer
+      dockerfile: Dockerfile
+    image: myapp/nginx_balancer
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  #nginx контейнеры 
+  nginx_container_1:
+    build:
+      context: ./docker/nginx_container
+      dockerfile: Dockerfile
+    image: myapp/nginx_container
+    container_name: nginx_container_1
+    volumes:
+      - ./data/web:/data/mysite.local
+    networks:
+      - app-network
+
+  nginx_container_2:
+    build:
+      context: ./docker/nginx_container
+      dockerfile: Dockerfile
+    image: myapp/nginx_container
+    container_name: nginx_container_2
+    volumes:
+      - ./data/web:/data/mysite.local
+    networks:
+      - app-network
+
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+       - ./data/web:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./docker/php-fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./data/web:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #контейнер с Redis
+  redis:
+    image: redis
+    container_name: redis
+    restart: always
+    volumes:
+      - ./data/redis:/var/lib/redis
+    networks:
+      - app-network
+  # контейнер с MySQL
+  # строим на базе стандартного образа
+
+  db:
+    image: mysql/mysql-server:8.0.23
+    container_name: db
+    ports:
+      - "3306:3306"
+    # описываем, какую БД мы создаём
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - ./data/db:/var/lib/mysql
+    networks:
+      - app-network
+
+  memcached:
+    container_name: memcached
+    image: memcached
+    ports:
+        - "11211:11211"
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

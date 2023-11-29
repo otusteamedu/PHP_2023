@@ -1,0 +1,16 @@
+{
+    "name": "egor-potopakhin/bracket",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "EgorPotopakhin\\Bracket\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Потопахин Егор",
+            "email": "potopakhin.ev@gmail.com"
+        }
+    ],
+    "require": {}
+}

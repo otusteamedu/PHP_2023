@@ -2,7 +2,7 @@
 
 use App\DocumentCreator;
 use App\DocumentSearcher;
-use App\ElasticSearchClient;
+use App\ElasticSearchCommonService;
 use App\Exceptions\DocumentCreateException;
 use App\Exceptions\IndexCreateException;
 use App\Exceptions\IndexDeleteException;
@@ -23,7 +23,7 @@ do {
     switch ($flag) {
         case 1:
             try {
-                $indexDeleter = new IndexDeleter(new ElasticSearchClient());
+                $indexDeleter = new IndexDeleter(new ElasticSearchCommonService());
                 $indexDeleter->execute($indexName);
             } catch (IndexDeleteException $e) {
                 echo $e->getMessage();
@@ -33,7 +33,7 @@ do {
             break;
         case 2:
             try {
-                $indexCreator = new IndexCreator(new ElasticSearchClient());
+                $indexCreator = new IndexCreator(new ElasticSearchCommonService());
                 $indexCreator->execute($indexName);
             } catch (IndexCreateException $e) {
                 echo $e->getMessage();
@@ -43,7 +43,7 @@ do {
             break;
         case 3:
             try {
-                $documentCreator = new DocumentCreator(new ElasticSearchClient());
+                $documentCreator = new DocumentCreator(new ElasticSearchCommonService());
                 $documentCreator->execute();
             } catch (DocumentCreateException $e) {
                 echo $e->getMessage();
@@ -55,7 +55,7 @@ do {
             $category = (string)readline('Enter book category: ');
             $price = (int)readline('Enter max book price: ');
             $title = (string)readline('Enter book title: ');
-            $documentSearcher = new DocumentSearcher(new ElasticSearchClient());
+            $documentSearcher = new DocumentSearcher(new ElasticSearchCommonService());
             $result = $documentSearcher->execute($indexName, $title, $category, $price);
             print_r($result['hits']['hits']);
             break;

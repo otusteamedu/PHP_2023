@@ -7,9 +7,9 @@ namespace App;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 
-class ElasticSearchClient
+class ElasticSearchCommonService
 {
-    private Client $client;
+    protected Client $client;
 
     public function __construct()
     {

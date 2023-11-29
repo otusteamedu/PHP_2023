@@ -9,7 +9,7 @@ use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 
-class IndexCreator
+class IndexCreator extends ElasticSearchCommonService
 {
     private array $defaultIndex = [
         'index' => '....',
@@ -68,10 +68,6 @@ class IndexCreator
         ]
     ];
 
-    public function __construct(private readonly ElasticSearchClient $elasticSearchClient)
-    {
-    }
-
     /**
      * @throws IndexCreateException
      */
@@ -80,7 +76,7 @@ class IndexCreator
         $this->defaultIndex['index'] = $indexName;
 
         try {
-            $this->elasticSearchClient->getClient()->indices()->create($this->defaultIndex);
+            $this->client->indices()->create($this->defaultIndex);
         } catch (ClientResponseException | MissingParameterException | ServerResponseException) {
             throw new IndexCreateException();
         }

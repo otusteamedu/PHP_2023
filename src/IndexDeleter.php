@@ -9,19 +9,15 @@ use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 
-class IndexDeleter
+class IndexDeleter extends ElasticSearchCommonService
 {
-    public function __construct(private readonly ElasticSearchClient $elasticSearchClient)
-    {
-    }
-
     /**
      * @throws IndexDeleteException
      */
     public function execute(string $indexName): void
     {
         try {
-            $this->elasticSearchClient->getClient()->indices()->delete(['index' => $indexName]);
+            $this->client->indices()->delete(['index' => $indexName]);
         } catch (ClientResponseException | MissingParameterException | ServerResponseException) {
             throw new IndexDeleteException();
         }

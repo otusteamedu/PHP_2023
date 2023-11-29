@@ -10,12 +10,8 @@ use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
 use Http\Promise\Promise;
 
-class DocumentSearcher
+class DocumentSearcher extends ElasticSearchCommonService
 {
-    public function __construct(private readonly ElasticSearchClient $elasticSearchClient)
-    {
-    }
-
     /**
      * @throws DocumentSearchException
      */
@@ -70,7 +66,7 @@ class DocumentSearcher
 
 
         try {
-            $response = $this->elasticSearchClient->getClient()->search($params);
+            $response = $this->client->search($params);
         } catch (ClientResponseException | ServerResponseException) {
             throw new DocumentSearchException();
         }

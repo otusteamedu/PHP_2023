@@ -9,13 +9,9 @@ use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 
-class DocumentCreator
+class DocumentCreator extends ElasticSearchCommonService
 {
     private const BOOKS_DATA =  __DIR__ . '/../../books.json';
-
-    public function __construct(private readonly ElasticSearchClient $elasticSearchClient)
-    {
-    }
 
     /**
      * @throws DocumentCreateException
@@ -44,7 +40,7 @@ class DocumentCreator
                     $param = array_merge($indexAndId, $body);
 
                     try {
-                        $this->elasticSearchClient->getClient()->index($param);
+                        $this->client->index($param);
                     } catch (ClientResponseException | MissingParameterException | ServerResponseException) {
                         throw new DocumentCreateException();
                     }

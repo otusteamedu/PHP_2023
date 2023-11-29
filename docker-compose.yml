@@ -1,0 +1,38 @@
+# Версия синтаксиса
+version: '3'
+
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: balancer-nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    #environment:
+    #  - NGINX_HOST=balancer.local
+    #  - NGINX_PORT=80
+    volumes:
+      - ./code:/data/balancer.local
+    networks:
+      - app-network
+    depends_on:
+      - php
+  php:
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    image: php:8.2-fpm
+    container_name: balancer-php
+    volumes:
+      - ./code:/data/balancer.local
+    networks:
+      - app-network
+      
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

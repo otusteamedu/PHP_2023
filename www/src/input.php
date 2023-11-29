@@ -18,9 +18,9 @@ class Input
     public function check(): string
     {
         try {
-            self::checkIsset();
-            self::checkEmpty();
-            self::checkBrackets();
+            $this->checkIsset()
+                ->checkEmpty()
+                ->checkBrackets();
             header('HTTP/1.1 200 OK');
             return 'Все проверки пройдены успешно';
         } catch (\Exception $e) {
@@ -32,10 +32,10 @@ class Input
     /**
      * @throws \Exception
      */
-    private function checkIsset(): bool|\Exception
+    private function checkIsset(): Input|\Exception
     {
         if (isset($this->string['string'])) {
-            return true;
+            return $this;
         }
         throw new \Exception('Переменная отсутствует');
     }
@@ -43,10 +43,10 @@ class Input
     /**
      * @throws \Exception
      */
-    private function checkEmpty(): bool|\Exception
+    private function checkEmpty(): Input|\Exception
     {
         if (!empty($this->string['string'])) {
-            return true;
+            return $this;
         }
         throw new \Exception('Переменная пустая');
     }
@@ -59,7 +59,7 @@ class Input
             && $brackets['('] == $brackets[')']
         ) {
             $this->chars = str_split($this->string['string']);
-            if (self::checkPosition()) {
+            if ($this->checkPosition()) {
                 return true;
             }
         }
@@ -77,13 +77,13 @@ class Input
         $firstChar = array_shift($this->chars);
         if ($firstChar == '(') {
             $this->openBrackets++;
-            return self::checkPosition();
+            return $this->checkPosition();
         } elseif ($firstChar == ')') {
             if ($this->openBrackets == 0) {
                 return false;
             } else {
                 $this->openBrackets--;
-                return self::checkPosition();
+                return $this->checkPosition();
             }
         }
         return false;

@@ -15,21 +15,14 @@ class SolutionTask1
      */
     public function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode
     {
-        $b = $headB;
+        $pointA = $headA;
+        $pointB = $headB;
 
-        do {
-            do {
-                if ($headA === $headB) {
-                    return $headA;
-                } else {
-                    $headB = $headB->next;
-                }
-            } while ($headB !== null);
+        while ($pointA !== $pointB) {
+            $pointA = $pointA === null ? $headB : $pointA->next;
+            $pointB = $pointB === null ? $headA : $pointB->next;
+        }
 
-            $headA = $headA->next;
-            $headB = $b;
-        } while ($headA !== null);
-
-        return null;
+        return $pointA;
     }
 }

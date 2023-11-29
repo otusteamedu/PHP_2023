@@ -1,0 +1,21 @@
+{
+    "name": "syalanskiy/homework5",
+    "description": "O|TUS Homework #5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yalanskiy\\EmailValidator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Yalanskiy",
+            "email": "yalansky@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "ext-mysqli": "*",
+        "ext-memcached": "*"
+    }
+}

@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  server-balancer:
+    build:
+      context: ${SERVER_BALANCER_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/server-balancer
+    container_name: server-balancer
+    restart: always
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - app-network
+#
+  server-1:
+    build:
+      context: ${SERVER_NGINX_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/server-nginx-1
+    container_name: server-1
+    restart: always
+#   ports:
+#     - "80:80"
+    volumes:
+      - ${PROJECT_PATH}
+    networks:
+      - app-network
+
+  server-2:
+    build:
+      context: ${SERVER_NGINX_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/server-nginx-2
+    container_name: server-2
+    restart: always
+    volumes:
+      - ${PROJECT_PATH}
+#    ports:
+#      - "80:80"
+    networks:
+      - app-network
+
+  app-1:
+    build:
+      context: ${PHP_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/app-1
+    container_name: app-1
+    volumes:
+      - ${PROJECT_PATH}
+    networks:
+      - app-network
+
+  app-2:
+    build:
+      context: ${PHP_CONTEXT}
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}/app-2
+    container_name: app-2
+    volumes:
+      - ${PROJECT_PATH}
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:${MEMCACHED_VERSION}
+    container_name: memcached
+    restart: always
+    ports:
+      - ${MEMCACHED_PORT}:${MEMCACHED_PORT}
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

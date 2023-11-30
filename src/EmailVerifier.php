@@ -7,6 +7,13 @@ namespace Daniel\Otus;
 class EmailVerifier
 {
     private array $valid_emails;
+
+    private const VERIFY_EMAILS = [
+        'test@example.com',
+        'invalid-email@',
+        'valid.email@domain.com'
+    ];
+
     public function verifyEmail(string $email): bool
     {
         $regex = '/^[\w\.\-]+@[\w\.\-]+\.[a-zA-Z]{2,}$/';
@@ -24,9 +31,9 @@ class EmailVerifier
         return true;
     }
 
-    public function verifyEmails(array $emails): void
+    public function verifyEmails(): void
     {
-        foreach ($emails as $email) {
+        foreach (self::VERIFY_EMAILS as $email) {
             if ($this->verifyEmail($email)) {
                 $this->valid_emails[] = $email;
             }

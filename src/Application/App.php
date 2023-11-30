@@ -4,7 +4,7 @@ namespace DimAl\Homework5\Application;
 
 use Exception;
 use DimAl\Homework5\Services\EmailCheckService;
-use DimAl\Homework5\Services\BeautifulTableOutputService;
+use DimAl\Homework5\Presentation\EmailStatusHtmlView;
 
 class App
 {
@@ -12,16 +12,16 @@ class App
     {
         $check_list = $this->checkEmailsFromFile();
 
-        $table = new BeautifulTableOutputService();
-        $table->setTableTitle(
+        $view = new EmailStatusHtmlView();
+        $view->setTableTitle(
             [
-            'email' => 'Email',
-            'status' => 'Статус проверки'
+                'email' => 'Email',
+                'status' => 'Статус проверки'
             ]
         );
 
-        $table->setRows($check_list);
-        $table->showTable();
+        $view->setRows($check_list);
+        $view->show();
     }
 
     public function checkEmailsFromFile(): array
@@ -34,8 +34,8 @@ class App
             array_push(
                 $ret,
                 [
-                'email' => $eml,
-                'status' => $check_result ? $check_result : 'OK'
+                    'email' => $eml,
+                    'status' => $check_result ? $check_result : 'OK'
                 ]
             );
         }

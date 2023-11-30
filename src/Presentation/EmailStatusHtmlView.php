@@ -1,8 +1,8 @@
 <?php
 
-namespace DimAl\Homework5\Services;
+namespace DimAl\Homework5\Presentation;
 
-class BeautifulTableOutputService
+class EmailStatusHtmlView
 {
     private array $table_cols_name = [];
     private array $rows = [];
@@ -19,7 +19,7 @@ class BeautifulTableOutputService
         $this->rows = $rows;
     }
 
-    public function showTable()
+    public function show()
     {
         $head = '';
         foreach ($this->table_cols_name as $v) {
@@ -36,19 +36,19 @@ class BeautifulTableOutputService
             $body .= "</tr>";
         }
 
-        echo <<<HEREDOC
-<html>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-<head><title>Check Email service</title></head>
-<body>
-<table class="table table-striped" style="max-width:500px" align="center">
-<thead class="thead-dark">
-<tr>$head</tr>
-</thead>
-<tbody>$body</tbody>
-</table>
-</body>
-</html>
-HEREDOC;
+        $vars = ['head' => $head, 'body' => $body];
+
+        echo $this->render(__DIR__ . '/templates/emailstatus.tpl', $vars);
+    }
+
+    private function render($file, $vars): string
+    {
+        $html = file_get_contents($file);
+
+        foreach ($vars as $n => $v) {
+            $html = str_replace('$' . $n, $v, $html);
+        }
+
+        return $html;
     }
 }

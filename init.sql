@@ -30,7 +30,7 @@ create table public.films
     description VARCHAR(1000) not null,
     image_preview VARCHAR(255) not null,
     teaser_preview VARCHAR(255) not null
-)
+);
 
 INSERT INTO films (title, description, image_preview, teaser_preview) VALUES 
 	('Когти дракона', 'Молодой ученик Тао Цзи сражается за справедливость', 'http://path_to_image', 'http://path_to_teaser'),
@@ -49,7 +49,7 @@ delete
 	foreign key (genre_id) references genres (id) on
 	delete
 		cascade
-)
+);
 
 INSERT INTO film_genres (film_id, genre_id) VALUES (1,1), (2,1), (2,2), (3,1), (3,2), (4,3);
 
@@ -58,7 +58,7 @@ create table public.attribute_type
 (
 	id serial primary key,
 	type varchar(20) not null
-)
+);
 
 insert into attribute_type (type) values ('text'), ('date'), ('boolean'), ('integer');
 
@@ -71,7 +71,7 @@ create table public.attributes
 	foreign key (attribute_type_id) references attribute_type (id) on
 delete
 	cascade
-	)
+	);
 	
 insert into attributes (title, attribute_type_id) values ('Рецензия', 1), ('Отзыв', 1);
 insert into attributes (title, attribute_type_id) values ('Премия Оскар', 3), ('Премия Ника', 3);
@@ -95,7 +95,7 @@ delete
 	foreign key (attribute_id) references attributes (id) on
 	delete
 		cascade
-	)
+	);
 	
 insert into film_attribute (film_id, attribute_id, text_value, date_value, boolean_value, integer_value) values 
 (3, 3, null, null, true, null),
@@ -270,7 +270,7 @@ left join film_attribute fa on
 	f.id = fa.film_id
 left join "attributes" a on
 	a.id = fa.attribute_id
-where a.id in (8,9)
+where a.id in (8,9);
 
 CREATE VIEW marketing_data AS
 select

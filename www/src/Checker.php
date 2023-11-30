@@ -10,7 +10,7 @@ class Checker
 
     public function __construct($emails)
     {
-        $this->emails = self::textToArray(trim($emails));
+        $this->emails = $this->textToArray(trim($emails));
     }
 
     public function check(): array

@@ -91,3 +91,11 @@ CREATE TABLE "_config" (
     id INTEGER NOT NULL,
     coefficient REAL
 );
+
+-- "_film_price" definition
+
+CREATE TABLE "_film_price" (
+    id INTEGER NOT NULL,
+    film_id INTEGER NOT NULL,
+    price INTEGER NOT NULL
+);

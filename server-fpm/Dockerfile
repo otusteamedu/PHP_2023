@@ -8,4 +8,4 @@ RUN docker-php-ext-install sockets
 
 WORKDIR /usr/src/myapp
 
-CMD [ "php", "./server.php" ]
+CMD [ "php", "app.php", "server" ]

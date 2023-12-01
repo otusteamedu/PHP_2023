@@ -25,7 +25,7 @@ $mysqli_homestead_connection = new MySQLi('192.168.56.56', 'homestead', 'secret'
 
 if ($mysqli_homestead_connection->connect_error) {
     echo "MySQL Connected to Homestead";
-}     
+} 
 else {
     echo "MySQL Not connected to Homestead, error: " . $mysqli_homestead_connection->connect_error;
 }

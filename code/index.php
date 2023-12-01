@@ -1,26 +1,10 @@
 <?php
-$string = $_POST['string'] ?? null;
-if (!$string) {
-    badRequest();
-    return;
-}
 
-while (!empty($string)) {
-    $pos = strripos($string, '()');
-    if ($pos === false) {
-        badRequest();
-        return;
-    }
+declare(strict_types=1);
 
-    $string = str_replace('()', '', $string);
-}
+require __DIR__ . '/vendor/autoload.php';
 
-header("{$_SERVER['SERVER_PROTOCOL']} 200 OK");
-echo "Все ок";
+use Gkarman\Balanser\App;
 
-
-function badRequest(): void
-{
-    header("{$_SERVER['SERVER_PROTOCOL']} 400 Bad Request");
-    echo 'Все плохо';
-}
+$app = new App();
+echo $app->run();

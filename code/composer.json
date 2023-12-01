@@ -1,0 +1,15 @@
+{
+    "name": "gkarman/balanser",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gkarman\\Balanser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "gkarman  "
+        }
+    ],
+    "require": {}
+}

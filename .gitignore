@@ -1,3 +1,7 @@
 # Directories
 /.idea/
+/.git/
 /vendor/
+
+# Files
+.env

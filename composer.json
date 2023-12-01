@@ -1,0 +1,25 @@
+{
+    "name": "ddushinov/otus-docker-hw1",
+    "description": "Otus. Learning Docker",
+    "keywords": [
+        "php"
+    ],
+    "type": "project",
+    "license": "",
+    "autoload": {
+        "psr-4": {
+            "Ddushinov\\OtusDockerHw1\\": "src/app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dushinov Dmitry"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "scripts": {
+        "test": "composer -v"
+    }
+}

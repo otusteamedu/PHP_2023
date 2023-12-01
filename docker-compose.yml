@@ -1,0 +1,92 @@
+version: "3.9"
+services:
+    nginx:
+        build:
+            context: docker
+            dockerfile: developer/nginx/Dockerfile
+        container_name: nginx-1.25
+        restart: unless-stopped
+        ports:
+            - "80:80/tcp"
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - shared-socket:/var/run/php-fpm
+        depends_on:
+            - php-fpm
+        networks:
+            - otus-network
+
+    php-fpm:
+        build:
+            context: docker
+            dockerfile: developer/php-fpm/Dockerfile
+        container_name: php-fpm-8.2
+        restart: unless-stopped
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - shared-socket:/var/run/php-fpm
+        depends_on:
+            - memcached
+            - redis
+            - mysql
+        networks:
+            - otus-network
+
+    php-cli:
+        build:
+            context: docker
+            dockerfile: developer/php-cli/Dockerfile
+        container_name: php-cli-8.2
+        working_dir: /app
+        volumes:
+            - ./:/app
+        networks:
+            - otus-network
+
+    # https://github.com/memcached/memcached/wiki/ConfiguringServer
+    memcached:
+        image: memcached:1.6-alpine
+        container_name: memcached-1.6
+        restart: unless-stopped
+        networks:
+            - otus-network
+
+    redis:
+        image: redis:7.2-alpine
+        container_name: redis-7.2
+        restart: unless-stopped
+        networks:
+            - otus-network
+
+    mysql:
+        build:
+          context: docker
+          dockerfile: developer/mysql/Dockerfile
+        container_name: mysql-8.2
+        env_file: .env
+        restart: unless-stopped
+        volumes:
+          - database:/var/lib/mysql
+        ports:
+          - "127.0.0.1:33060:3306/tcp"
+        environment:
+          - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+          - MYSQL_DATABASE=${MYSQL_DATABASE}
+          - MYSQL_USER=${MYSQL_USER}
+          - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+        networks:
+            - otus-network
+
+volumes:
+    public:
+        driver: local
+    shared-socket:
+        driver: local
+    database:
+        driver: local
+
+networks:
+    otus-network:
+        driver: bridge

@@ -1,0 +1,3 @@
+[mysqldump]
+default-character-set = utf8
+default-time-zone = '+03:00'

@@ -21,9 +21,8 @@ class ProjectCostCommand extends Command
 {
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-        readonly LoggerInterface        $logger
-    )
-    {
+        readonly LoggerInterface $logger
+    ) {
         parent::__construct();
     }
 
@@ -34,14 +33,16 @@ class ProjectCostCommand extends Command
         try {
             $projectSalarySaveService->execute();
             $output->writeln(
-                sprintf('<comment>Created projects costs at %s</comment>',
+                sprintf(
+                    '<comment>Created projects costs at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $output->writeln(
-                sprintf('<comment>Did not create projects costs at %s</comment>',
+                sprintf(
+                    '<comment>Did not create projects costs at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );

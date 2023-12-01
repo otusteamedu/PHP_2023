@@ -25,8 +25,7 @@ class ProjectCostSaver implements CostManagerInterface
 
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-    )
-    {
+    ) {
         $this->currentDate = new DateTime();
     }
 

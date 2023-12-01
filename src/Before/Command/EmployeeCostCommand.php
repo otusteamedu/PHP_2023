@@ -21,9 +21,8 @@ class EmployeeCostCommand extends Command
 {
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-        readonly LoggerInterface        $logger
-    )
-    {
+        readonly LoggerInterface $logger
+    ) {
         parent::__construct();
     }
 
@@ -34,14 +33,16 @@ class EmployeeCostCommand extends Command
         try {
             $salarySaveService->execute();
             $output->writeln(
-                sprintf('<comment>Created employee salaries at %s</comment>',
+                sprintf(
+                    '<comment>Created employee salaries at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $output->writeln(
-                sprintf('<comment>Did not create employee salaries at %s</comment>',
+                sprintf(
+                    '<comment>Did not create employee salaries at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );

@@ -23,10 +23,10 @@ class EmployeeCostDto
     public ?HourlyRate $hourlyRate = null;
     public ?CashBonus $cashBonus = null;
     public ?CorrectionSum $correctionSum = null;
-    public ?SumSalary $sumSalary = null;
-    public ?SumCalculatedToPay $sumToPay = null;
-    public ?Checking $checking = null;
-    public ?SumPlannedTax $plannedTax = null;
-    public ?WorkingHours $workingHours = null;
-    public ?SumKpiCashPrize $kpiCashPrize = null;
+    public ?float $sumSalary = null;
+    public ?float $sumToPay = null;
+    public ?float $checking = null;
+    public ?float $plannedTax = null;
+    public ?int $workingHours = null;
+    public ?float $kpiCashPrize = null;
 }

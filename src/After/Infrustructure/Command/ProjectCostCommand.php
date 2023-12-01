@@ -28,14 +28,16 @@ class ProjectCostCommand extends CommandTemplateAbstract
         try {
             $this->projectSalarySaveService->execute();
             $output->writeln(
-                sprintf('<comment>Created projects costs at %s</comment>',
+                sprintf(
+                    '<comment>Created projects costs at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $output->writeln(
-                sprintf('<comment>Did not create projects costs at %s</comment>',
+                sprintf(
+                    '<comment>Did not create projects costs at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );

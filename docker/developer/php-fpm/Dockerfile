@@ -44,6 +44,7 @@ RUN cp /usr/share/zoneinfo/Europe/Moscow /etc/localtime
 ######
 RUN mv $PHP_INI_DIR/php.ini-development $PHP_INI_DIR/php.ini
 COPY ./developer/php-fpm/conf.d /usr/local/etc/php/conf.d
+COPY ./developer/php-fpm/php-fpm.d /usr/local/etc/php-fpm.d
 
 ######
 # workdir

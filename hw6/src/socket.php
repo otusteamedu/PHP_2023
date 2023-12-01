@@ -7,12 +7,17 @@ use Exception;
 
 class Socket
 {
-    private $socketFile = "./socket/socket.sock";
-    private $socketBytes = 1024;
+    public function __construct(){
+        if (!$config = parse_ini_file(dirname(__DIR__, 1).'/config/socket.ini', true)) {
+            throw new RuntimeException('There is no socket configuration file!');
+        }
+        $this->socketFile = dirname(__DIR__, 1).($config['socketFile']??'/socket/socket.sock');
+        $this->socketBytes = intval($config['socketBytes']??'1024');
+        $this->max_connect = intval($config['max_connect']??'10');
 
-    public function create(){
-      // if (file_exists($this->socketFile)) unlink($this->socketFile);
+    }
 
+   public function create(){
         $socket = socket_create(AF_UNIX, SOCK_STREAM, SOL_SOCKET);
         if ($socket === false) {
             throw new Exception('Socket не создан '. socket_strerror(socket_last_error()) .PHP_EOL);
@@ -21,15 +26,20 @@ class Socket
     }
 
     public function bind($socket){
-        if (($sbind = socket_bind($socket, $this->socketFile)) === false){
+
+        if (file_exists( $this->socketFile)) {
+           unlink($this->socketFile);
+        }
+
+       if (($sbind = socket_bind($socket, $this->socketFile)) === false){
             throw new Exception('Socket bind ошибка '. socket_strerror(socket_last_error()) .PHP_EOL);
         }else{
             return $sbind;
         }
     }
 
-    public function listen($max_connect){
-        if (($slisten = socket_listen($this->socket, $max_connect)) === false){
+    public function listen($socket){
+        if (($slisten = socket_listen($socket, $this->max_connect)) === false){
             throw new Exception('Socket listen ошибка '. socket_strerror(socket_last_error()) .PHP_EOL);
         }else{
             return $slisten;
@@ -42,10 +52,10 @@ class Socket
 
     public function connect($socket,$port = null){
         if (!isset($socket)) {
-            throw new Exception('Socket не обозначен'. socket_strerror(socket_last_error()) .PHP_EOL);
+            return false;
         }
-        if (!$conn = socket_connect($socket, $this->socketFile, $port)) {
-            throw new Exception('Нет подключения к Socket'. socket_strerror(socket_last_error()) .PHP_EOL);
+        if (!file_exists($this->socketFile) || !$conn = socket_connect($socket, $this->socketFile, $port)) {
+            return false;
         }
         return $conn;
     }
@@ -60,12 +70,14 @@ class Socket
 
     public function write($socket, $message){
         if (!socket_write($socket, $message, strlen($message))) {
-            throw new Exception('Нельзя записать socket'. socket_strerror(socket_last_error()) .PHP_EOL);
+            return false;
         }
-        return true;
+        else{
+            return $message;
+        }
     }
 
-    public function recv($socket,$message){
+    public function recv($socket){
         socket_recv($socket, $message, $this->socketBytes, 0);
         return $message;
     }

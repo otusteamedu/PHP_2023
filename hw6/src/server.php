@@ -8,23 +8,23 @@ use Exception;
 
 class Server
 {
-    private $max_connect = 10;
 
-    public function action(Socket $socket){
-        $sock = $socket->create();
-        $bind = $socket->bind($sock);
-        $socket->listen($this->max_connect);
-
-        $saccept = $socket->accept($sock);
-        while (true) {
-            $data = $socket->recv($sock, $saccept);
-            echo $data . PHP_EOL;
-            $answer = 'Получено: ' . mb_strlen($data) . PHP_EOL;
-            $socket->write($answer, $sock);
-            echo $answer;
+   public function action(Socket $socket)
+    {
+        $sock = $socket->create(AF_UNIX, SOCK_STREAM, SOL_SOCKET);
+        $socket->bind($sock);
+        $socket->listen($sock);
+        echo "wait". PHP_EOL;
+        $accept = $socket->accept($sock);
+        while(true){
+          $data = $socket->read($accept);
+          echo $data. PHP_EOL;
+          $message = ' Получено ' . mb_strlen($data) . ' байт' . PHP_EOL;
+          $socket->write($accept, $message);
+          echo $message. PHP_EOL;
         }
-        $socket->close();
     }
+
 }
 
 

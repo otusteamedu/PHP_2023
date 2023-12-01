@@ -10,9 +10,7 @@ class Message
     {
         $line = readline("Enter your message : ");
         readline_add_history($line);
-        return readline_list_history()[0] ;
+        return $line;
     }
-
-
 
 }

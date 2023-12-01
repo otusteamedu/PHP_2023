@@ -3,27 +3,22 @@ declare(strict_types=1);
 
 namespace Elena\Hw6;
 
+use Exception;
+
 class Client
 {
-    public function action(Socket $socket){
-
+    public function action(Socket $socket)
+    {
         $message_class = new Message();
-        $message = $message_class->get_message();
-
         $sock = $socket->create();
         $socket->connect($sock);
-        socket_write($sock,$message);
 
-       $socket->listen($sock);
-
-        $socket = $socket->accept();
-        while (true) {
-            $data = $socket->receive($socket);
-            echo $data . PHP_EOL;
-            $answer = 'Получено: ' . mb_strlen($data) . PHP_EOL;
-            $socket->write($answer, $socket);
-            echo $answer;
+        while(true){
+            $message = $message_class->get_message();
+            $socket->write($sock, $message);
+            echo ' Отправлено ' . $message. PHP_EOL;
+            $data = $socket->read($sock);
+            echo ' Ответ сервера: ' . $data . PHP_EOL;
         }
-       $socket->$socket->close();
     }
-}
+ }

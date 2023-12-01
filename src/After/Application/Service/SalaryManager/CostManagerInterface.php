@@ -6,5 +6,5 @@ namespace App\Service\SalaryManager;
 
 interface CostManagerInterface
 {
-   public function execute(): void;
+    public function execute(): void;
 }

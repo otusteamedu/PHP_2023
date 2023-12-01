@@ -7,11 +7,12 @@ namespace App\Command;
 use App\Service\DateGenerator\DateGenerator;
 use App\Service\SalaryManager\EmployeeCostSaver;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use MyBuilder\Bundle\CronosBundle\Annotation\Cron;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * @Cron(minute="*", hour="/1", dayOfMonth="/5")
@@ -20,16 +21,10 @@ class EmployeeCostCommand extends Command
 {
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-        readonly LoggerInterface $logger
-    ) {
-        parent::__construct();
-    }
-
-    protected function configure()
+        readonly LoggerInterface        $logger
+    )
     {
-        $this
-            ->setName('employee-cost:create-employee-salary')
-            ->setDescription('Creating monthly employee salaries');
+        parent::__construct();
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -43,7 +38,7 @@ class EmployeeCostCommand extends Command
                     DateGenerator::getPreviousMonthDate()
                 )
             );
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $output->writeln(
                 sprintf('<comment>Did not create employee salaries at %s</comment>',
@@ -53,5 +48,12 @@ class EmployeeCostCommand extends Command
         }
 
         return 0;
+    }
+
+    protected function configure()
+    {
+        $this
+            ->setName('employee-cost:create-employee-salary')
+            ->setDescription('Creating monthly employee salaries');
     }
 }

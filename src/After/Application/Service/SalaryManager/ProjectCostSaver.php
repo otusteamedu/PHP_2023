@@ -8,6 +8,9 @@ use App\After\Domain\Entity\EmployeeCost;
 use App\After\Domain\Entity\Project;
 use App\After\Domain\Entity\ProjectCost;
 use App\After\Domain\Entity\TypeCost;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 
 class ProjectCostSaver implements CostManagerInterface
 {
@@ -18,30 +21,31 @@ class ProjectCostSaver implements CostManagerInterface
 
     private const TYPE_COST = 'sal';
 
-    private \DateTime $currentDate;
+    private DateTime $currentDate;
 
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-    ) {
-        $this->currentDate = new \DateTime();
+    )
+    {
+        $this->currentDate = new DateTime();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): void
     {
         $dayOfCurrentMonth = $this->currentDate->format('d');
 
         if (self::MONTH_DAY !== $dayOfCurrentMonth) {
-            throw new \Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
+            throw new Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
         }
 
         $this->prepareProjectSalaryCosts();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function prepareProjectSalaryCosts(): void
     {
@@ -53,24 +57,25 @@ class ProjectCostSaver implements CostManagerInterface
 
         foreach ($projects as $project) {
             $sum = $employeeCostRepo->getProjectSalaryCostsForDate($project->getTitle());
-            $this->newProjectCost($project, $typeCost, (float) $sum);
+            $this->newProjectCost($project, $typeCost, (float)$sum);
         }
 
         $this->entityManager->flush();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function newProjectCost(
-        Project $project,
+        Project  $project,
         TypeCost $typeCost,
-        float $sum
-    ): void {
+        float    $sum
+    ): void
+    {
         $projectCost = new ProjectCost();
         $projectCost->setProject($project);
         $projectCost->setTypeCost($typeCost);
-        $projectCost->setDate((new \DateTimeImmutable())->modify('first day of this month'));
+        $projectCost->setDate((new DateTimeImmutable())->modify('first day of this month'));
         $projectCost->setSum($sum);
         $projectCost->setCreatedAtAutomatically();
         $projectCost->setUpdatedAtAutomatically();

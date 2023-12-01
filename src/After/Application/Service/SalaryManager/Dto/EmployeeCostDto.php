@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace App\Service\SalaryManager\Dto;
 
+use App\After\Domain\Entity\CashBonus;
+use App\After\Domain\Entity\ContractType;
+use App\After\Domain\Entity\CorrectionSum;
+use App\After\Domain\Entity\Employee;
+use App\After\Domain\Entity\HourlyRate;
 use App\After\Domain\ValueObject\EmployeeCost\Checking;
 use App\After\Domain\ValueObject\EmployeeCost\SumCalculatedToPay;
 use App\After\Domain\ValueObject\EmployeeCost\SumKpiCashPrize;
 use App\After\Domain\ValueObject\EmployeeCost\SumPlannedTax;
 use App\After\Domain\ValueObject\EmployeeCost\SumSalary;
 use App\After\Domain\ValueObject\EmployeeCost\WorkingHours;
-use App\After\Domain\Entity\CashBonus;
-use App\After\Domain\Entity\ContractType;
-use App\After\Domain\Entity\CorrectionSum;
-use App\After\Domain\Entity\Employee;
-use App\After\Domain\Entity\HourlyRate;
 
 class EmployeeCostDto
 {

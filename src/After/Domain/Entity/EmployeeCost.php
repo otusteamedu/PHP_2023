@@ -18,12 +18,14 @@ use App\After\Domain\ValueObject\EmployeeCost\SumPlannedTax;
 use App\After\Domain\ValueObject\EmployeeCost\SumSalary;
 use App\After\Domain\ValueObject\EmployeeCost\SumSalaryBudgetTax;
 use App\After\Domain\ValueObject\EmployeeCost\WorkingHours;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 class EmployeeCost
 {
     private ?Employee $employee = null;
 
-    private ?\DateTimeInterface $date = null;
+    private ?DateTimeInterface $date = null;
 
     private ?SumSalary $sumSalary = null;
 
@@ -39,9 +41,9 @@ class EmployeeCost
 
     private ?LastSalary $lastSalary = null;
 
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     private ?SumSalaryBudgetTax $sumSalaryBudgetTax = null;
 
@@ -71,12 +73,12 @@ class EmployeeCost
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -167,24 +169,24 @@ class EmployeeCost
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

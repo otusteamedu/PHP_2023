@@ -16,7 +16,7 @@ class EmployeeKpiRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         [$month, $year] = explode('.', $filterDate);
-        $filterDateWithLastDayMonth = date('Y-m-t', strtotime($year.'-'.$month));
+        $filterDateWithLastDayMonth = date('Y-m-t', strtotime($year . '-' . $month));
 
         $subQuery = $em->createQueryBuilder()
             ->select('IDENTITY(ek.employee)')

@@ -6,12 +6,14 @@ use App\Entity\CashBonus;
 use App\Entity\CorrectionSum;
 use App\Entity\Employee;
 use App\Entity\HourlyRate;
+use DateTimeImmutable;
+use DateTimeInterface;
 
 class EmployeeCost
 {
     private ?Employee $employee = null;
 
-    private ?\DateTimeInterface $date = null;
+    private ?DateTimeInterface $date = null;
 
     private ?float $sumSalary = null;
 
@@ -27,9 +29,9 @@ class EmployeeCost
 
     private ?float $lastSalary = null;
 
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?DateTimeImmutable $updatedAt = null;
 
     private float $sumSalaryBudgetTax = 0;
 
@@ -59,12 +61,12 @@ class EmployeeCost
         return $this;
     }
 
-    public function getDate(): ?\DateTimeInterface
+    public function getDate(): ?DateTimeInterface
     {
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(DateTimeInterface $date): self
     {
         $this->date = $date;
 
@@ -155,24 +157,24 @@ class EmployeeCost
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
 

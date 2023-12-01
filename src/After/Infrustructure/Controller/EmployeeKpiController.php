@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\After\Infrustructure\Controller;
 
-use Psr\Log\LoggerInterface;
 use App\After\Application\Service\TableGenerator\EmployeeKpiTableGenerator;
+use Exception;
+use Psr\Log\LoggerInterface;
 
 class EmployeeKpiController extends AbstractCrudController
 {
@@ -32,7 +33,7 @@ class EmployeeKpiController extends AbstractCrudController
                 'columns' => $table['columns'],
                 'rows' => $table['rows'],
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->render('admin/error/exception.html.twig', [
@@ -71,7 +72,7 @@ class EmployeeKpiController extends AbstractCrudController
                 'controller' => EmployeeKpiCrudController::class,
                 'forms' => $forms,
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->render('admin/error/exception.html.twig', [

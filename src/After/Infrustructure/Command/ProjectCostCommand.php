@@ -19,15 +19,9 @@ class ProjectCostCommand extends CommandTemplateAbstract
     public function __construct(
         readonly ProjectCostSaver $projectSalarySaveService,
         readonly LoggerInterface  $logger
-    ) {
-        parent::__construct();
-    }
-
-    protected function configure()
+    )
     {
-        $this
-            ->setName('project-cost:create-employee-salary')
-            ->setDescription('Creating monthly employee salaries');
+        parent::__construct();
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -49,5 +43,12 @@ class ProjectCostCommand extends CommandTemplateAbstract
         }
 
         return self::SUCCESS_CODE;
+    }
+
+    protected function configure()
+    {
+        $this
+            ->setName('project-cost:create-employee-salary')
+            ->setDescription('Creating monthly employee salaries');
     }
 }

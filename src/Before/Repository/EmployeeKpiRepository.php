@@ -6,6 +6,7 @@ use App\Entity\EmployeeKpi;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\DBAL\Exception;
 use Doctrine\Persistence\ManagerRegistry;
+
 class EmployeeKpiRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
@@ -17,7 +18,7 @@ class EmployeeKpiRepository extends ServiceEntityRepository
     {
         $em = $this->getEntityManager();
         [$month, $year] = explode('.', $filterDate);
-        $filterDateWithLastDayMonth = date('Y-m-t', strtotime($year.'-'.$month));
+        $filterDateWithLastDayMonth = date('Y-m-t', strtotime($year . '-' . $month));
 
         $subQuery = $em->createQueryBuilder()
             ->select('IDENTITY(ek.employee)')

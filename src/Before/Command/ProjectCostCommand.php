@@ -10,9 +10,9 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use MyBuilder\Bundle\CronosBundle\Annotation\Cron;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\Command;
 
 /**
  * @Cron(minute="*", hour="/2", dayOfMonth="/5")
@@ -22,15 +22,9 @@ class ProjectCostCommand extends Command
     public function __construct(
         readonly EntityManagerInterface $entityManager,
         readonly LoggerInterface        $logger
-    ) {
-        parent::__construct();
-    }
-
-    protected function configure()
+    )
     {
-        $this
-            ->setName('project-cost:create-employee-salary')
-            ->setDescription('Creating monthly employee salaries');
+        parent::__construct();
     }
 
     public function execute(InputInterface $input, OutputInterface $output): int
@@ -54,6 +48,13 @@ class ProjectCostCommand extends Command
         }
 
         return 0;
+    }
+
+    protected function configure()
+    {
+        $this
+            ->setName('project-cost:create-employee-salary')
+            ->setDescription('Creating monthly employee salaries');
     }
 }
 

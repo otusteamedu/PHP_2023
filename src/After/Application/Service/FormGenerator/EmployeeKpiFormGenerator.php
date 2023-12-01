@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service\FormGenerator;
 
 use App\After\Domain\Entity\EmployeeKpi;
+use DateTime;
 
 class EmployeeKpiFormGenerator implements FormGeneratorInterface
 {
@@ -15,7 +16,7 @@ class EmployeeKpiFormGenerator implements FormGeneratorInterface
     public function generate(string $date): array
     {
         [$month, $year] = explode('.', $date);
-        $kpiDate = \DateTime::createFromFormat('Y-m-d', "$year-$month-01");
+        $kpiDate = DateTime::createFromFormat('Y-m-d', "$year-$month-01");
         $employees = $this->entityManager->getRepository(EmployeeKpi::class)->findEmployeeWithoutKpi($date);
 
         $forms['employee_kpi'] = [];

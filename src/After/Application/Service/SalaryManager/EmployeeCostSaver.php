@@ -4,6 +4,11 @@ declare(strict_types=1);
 
 namespace App\Service\SalaryManager;
 
+use App\After\Application\Service\Calculator\QuarterlyCalculator\CashPrizeCalculator;
+use App\After\Application\Service\Calculator\QuarterlyCalculator\SalaryUpCalculator;
+use App\After\Application\Service\Calculator\TaxCalculator\Tax13Calculator;
+use App\After\Application\Service\Calculator\TaxCalculator\Tax6Calculator;
+use App\After\Application\Service\SalaryManager\Dto\EmployeeCostDto;
 use App\After\Domain\CashBonus;
 use App\After\Domain\ContractType;
 use App\After\Domain\CorrectionSum;
@@ -12,11 +17,9 @@ use App\After\Domain\EmployeeCost;
 use App\After\Domain\EmployeeKpi;
 use App\After\Domain\FactoryCalendar;
 use App\After\Domain\HourlyRate;
-use App\After\Application\Service\Calculator\QuarterlyCalculator\CashPrizeCalculator;
-use App\After\Application\Service\Calculator\QuarterlyCalculator\SalaryUpCalculator;
-use App\After\Application\Service\Calculator\TaxCalculator\Tax13Calculator;
-use App\After\Application\Service\Calculator\TaxCalculator\Tax6Calculator;
-use App\After\Application\Service\SalaryManager\Dto\EmployeeCostDto;
+use DateTime;
+use DateTimeImmutable;
+use Exception;
 
 class EmployeeCostSaver implements CostManagerInterface
 {
@@ -34,16 +37,17 @@ class EmployeeCostSaver implements CostManagerInterface
         '12-05',
     ];
 
-    private \DateTime $currentDate;
+    private DateTime $currentDate;
 
     public function __construct(
         readonly EntityManagerInterface $entityManager
-    ) {
-        $this->currentDate = new \DateTime();
+    )
+    {
+        $this->currentDate = new DateTime();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): void
     {
@@ -55,11 +59,11 @@ class EmployeeCostSaver implements CostManagerInterface
             return;
         }
 
-        throw new \Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
+        throw new Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function calculateMonthlyEmployeeCost(): void
     {
@@ -114,30 +118,11 @@ class EmployeeCostSaver implements CostManagerInterface
         $this->entityManager->flush();
     }
 
-    private function findHourlyRate(float $salaryWithNdfl): HourlyRate
-    {
-        $hourlyRateAll = $this->entityManager->getRepository(HourlyRate::class)->findAll();
-        $standardWorkHours = $this->getWorkHoursFromFactoryCalendar();
-        $standardHourlyRate = (int) ceil($salaryWithNdfl / $standardWorkHours);
-
-        $selectedRate = null;
-        foreach ($hourlyRateAll as $hourlyRate) {
-            if (
-                $hourlyRate->getRate() >= $standardHourlyRate
-                && (null === $selectedRate || $hourlyRate->getRate() < $selectedRate->getRate())
-            ) {
-                $selectedRate = $hourlyRate;
-            }
-        }
-
-        return $selectedRate;
-    }
-
     private function findCashBonus(Employee $employee): ?CashBonus
     {
         return $this->entityManager->getRepository(CashBonus::class)->findOneBy([
             'employee' => $employee,
-            'date' => (new \DateTimeImmutable())->modify('first day of this month'),
+            'date' => (new DateTimeImmutable())->modify('first day of this month'),
         ]);
     }
 
@@ -145,72 +130,13 @@ class EmployeeCostSaver implements CostManagerInterface
     {
         return $this->entityManager->getRepository(CorrectionSum::class)->findOneBy([
             'employee' => $employee,
-            'date' => (new \DateTimeImmutable())->modify('first day of this month'),
+            'date' => (new DateTimeImmutable())->modify('first day of this month'),
         ]);
-    }
-
-    private function isValidHourlyRate(float $sumToPay, HourlyRate $hourlyRate): bool
-    {
-        $rate = $hourlyRate->getRate();
-
-        return !$this->isZeroHourlyRate($rate) && $this->isValidWorkingHours((int) ceil($sumToPay / $rate));
-    }
-
-    private function isValidWorkingHours(int $workHours): bool
-    {
-        return $workHours <= $this->getWorkHoursFromFactoryCalendar();
-    }
-
-    private function isZeroHourlyRate(int $hourlyRate): bool
-    {
-        return 0 === $hourlyRate;
     }
 
     private function isEmployeeOnlyReceiveBonus(float $salaryCurrent, ContractType $contractType): bool
     {
         return 0.0 === $salaryCurrent && in_array($contractType->getTitle(), ['ИП', 'Самозанятый']);
-    }
-
-    private function getWorkHoursFromFactoryCalendar(): ?int
-    {
-        $factoryCalendar = $this->entityManager->getRepository(FactoryCalendar::class)->findOneBy([
-            'date' => (new \DateTimeImmutable())->modify('first day of this month'),
-        ]);
-
-        return $factoryCalendar->getWorkHours();
-    }
-
-    private function updateSalary(float $salaryCurrent, ?CorrectionSum $correctionSum, ?CashBonus $cashBonus): float
-    {
-        $bonus = $cashBonus?->getSum() ?? 0;
-        $correction = $correctionSum?->getSum() ?? 0;
-
-        return $salaryCurrent + $bonus + $correction;
-    }
-
-    /**
-     * @throws \Exception
-     */
-    private function newEmployeeCost(EmployeeCostDto $employeeCostDto): void
-    {
-        $employeeCost = new EmployeeCost();
-        $employeeCost->setEmployee($employeeCostDto->employee);
-        $employeeCost->setDate((new \DateTimeImmutable())->modify('first day of this month'));
-        $employeeCost->setSumSalary($employeeCostDto->sumSalary);
-        $employeeCost->setChecking($employeeCostDto->checking);
-        $employeeCost->setWorkingHours($employeeCostDto->workingHours);
-        $employeeCost->setHourlyRate($employeeCostDto->hourlyRate);
-        $employeeCost->setSumPlannedTax($employeeCostDto->plannedTax);
-        $employeeCost->setCashBonus($employeeCostDto->cashBonus);
-        $employeeCost->setCorrectionSum($employeeCostDto->correctionSum);
-        $employeeCost->setSumKpiCashPrize($employeeCostDto->kpiCashPrize);
-        $employeeCost->setLastSalary($employeeCostDto->sumSalary);
-        $employeeCost->setSumCalculatedToPay($employeeCostDto->sumToPay);
-        $employeeCost->setFullCostAutomatically();
-        $employeeCost->setCreatedAtAutomatically();
-        $employeeCost->setUpdatedAtAutomatically();
-
-        $this->entityManager->persist($employeeCost);
     }
 
     private function calculateSumToPay(EmployeeCostDto $employeeCostDto): float
@@ -231,9 +157,37 @@ class EmployeeCostSaver implements CostManagerInterface
         return $sum;
     }
 
-    private function calculateWorkingHours(HourlyRate $hourlyRate, float $sumToPay): int
+    /**
+     * @throws Exception
+     */
+    private function newEmployeeCost(EmployeeCostDto $employeeCostDto): void
     {
-        return (int) ceil($sumToPay / $hourlyRate->getRate());
+        $employeeCost = new EmployeeCost();
+        $employeeCost->setEmployee($employeeCostDto->employee);
+        $employeeCost->setDate((new DateTimeImmutable())->modify('first day of this month'));
+        $employeeCost->setSumSalary($employeeCostDto->sumSalary);
+        $employeeCost->setChecking($employeeCostDto->checking);
+        $employeeCost->setWorkingHours($employeeCostDto->workingHours);
+        $employeeCost->setHourlyRate($employeeCostDto->hourlyRate);
+        $employeeCost->setSumPlannedTax($employeeCostDto->plannedTax);
+        $employeeCost->setCashBonus($employeeCostDto->cashBonus);
+        $employeeCost->setCorrectionSum($employeeCostDto->correctionSum);
+        $employeeCost->setSumKpiCashPrize($employeeCostDto->kpiCashPrize);
+        $employeeCost->setLastSalary($employeeCostDto->sumSalary);
+        $employeeCost->setSumCalculatedToPay($employeeCostDto->sumToPay);
+        $employeeCost->setFullCostAutomatically();
+        $employeeCost->setCreatedAtAutomatically();
+        $employeeCost->setUpdatedAtAutomatically();
+
+        $this->entityManager->persist($employeeCost);
+    }
+
+    private function updateSalary(float $salaryCurrent, ?CorrectionSum $correctionSum, ?CashBonus $cashBonus): float
+    {
+        $bonus = $cashBonus?->getSum() ?? 0;
+        $correction = $correctionSum?->getSum() ?? 0;
+
+        return $salaryCurrent + $bonus + $correction;
     }
 
     private function calculatePlannedTax(ContractType $contractType, float $sumToPay): float
@@ -243,6 +197,56 @@ class EmployeeCostSaver implements CostManagerInterface
             'ИП', 'Самозанятый' => Tax6Calculator::calc($sumToPay),
             default => 0
         };
+    }
+
+    private function isValidHourlyRate(float $sumToPay, HourlyRate $hourlyRate): bool
+    {
+        $rate = $hourlyRate->getRate();
+
+        return !$this->isZeroHourlyRate($rate) && $this->isValidWorkingHours((int)ceil($sumToPay / $rate));
+    }
+
+    private function isZeroHourlyRate(int $hourlyRate): bool
+    {
+        return 0 === $hourlyRate;
+    }
+
+    private function isValidWorkingHours(int $workHours): bool
+    {
+        return $workHours <= $this->getWorkHoursFromFactoryCalendar();
+    }
+
+    private function getWorkHoursFromFactoryCalendar(): ?int
+    {
+        $factoryCalendar = $this->entityManager->getRepository(FactoryCalendar::class)->findOneBy([
+            'date' => (new DateTimeImmutable())->modify('first day of this month'),
+        ]);
+
+        return $factoryCalendar->getWorkHours();
+    }
+
+    private function findHourlyRate(float $salaryWithNdfl): HourlyRate
+    {
+        $hourlyRateAll = $this->entityManager->getRepository(HourlyRate::class)->findAll();
+        $standardWorkHours = $this->getWorkHoursFromFactoryCalendar();
+        $standardHourlyRate = (int)ceil($salaryWithNdfl / $standardWorkHours);
+
+        $selectedRate = null;
+        foreach ($hourlyRateAll as $hourlyRate) {
+            if (
+                $hourlyRate->getRate() >= $standardHourlyRate
+                && (null === $selectedRate || $hourlyRate->getRate() < $selectedRate->getRate())
+            ) {
+                $selectedRate = $hourlyRate;
+            }
+        }
+
+        return $selectedRate;
+    }
+
+    private function calculateWorkingHours(HourlyRate $hourlyRate, float $sumToPay): int
+    {
+        return (int)ceil($sumToPay / $hourlyRate->getRate());
     }
 
     private function calculateChecking(ContractType $contractType, HourlyRate $hourlyRate, int $workingHours, float $sumToPay): float

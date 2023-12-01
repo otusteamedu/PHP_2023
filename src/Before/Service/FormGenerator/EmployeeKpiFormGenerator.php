@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Before\Service\FormGenerator;
 
 use App\Entity\EmployeeKpi;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 
 class EmployeeKpiFormGenerator
@@ -12,7 +13,7 @@ class EmployeeKpiFormGenerator
     public static function generate(string $date, array $employees): array
     {
         [$month, $year] = explode('.', $date);
-        $kpiDate = \DateTime::createFromFormat('Y-m-d', "$year-$month-01");
+        $kpiDate = DateTime::createFromFormat('Y-m-d', "$year-$month-01");
 
         $forms['employee_kpi'] = [];
         foreach ($employees as $employee) {

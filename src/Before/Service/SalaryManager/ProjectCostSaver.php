@@ -9,7 +9,9 @@ use App\Entity\Project;
 use App\Entity\ProjectCost;
 use App\Entity\TypeCost;
 use App\Service\DateGenerator\DateGenerator;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 
 class ProjectCostSaver
 {
@@ -20,30 +22,31 @@ class ProjectCostSaver
 
     private const TYPE_COST = 'sal';
 
-    private \DateTime $currentDate;
+    private DateTime $currentDate;
 
     public function __construct(
         readonly EntityManagerInterface $entityManager,
-    ) {
-        $this->currentDate = new \DateTime();
+    )
+    {
+        $this->currentDate = new DateTime();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function execute(): void
     {
         $dayOfCurrentMonth = $this->currentDate->format('d');
 
         if (self::MONTH_DAY !== $dayOfCurrentMonth) {
-            throw new \Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
+            throw new Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
         }
 
         $this->prepareProjectSalaryCosts();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function prepareProjectSalaryCosts(): void
     {
@@ -55,24 +58,25 @@ class ProjectCostSaver
 
         foreach ($projects as $project) {
             $sum = $employeeCostRepo->getProjectSalaryCostsForDate($project->getTitle());
-            $this->newProjectCost($project, $typeCost, (float) $sum);
+            $this->newProjectCost($project, $typeCost, (float)$sum);
         }
 
         $this->entityManager->flush();
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     private function newProjectCost(
-        Project $project,
+        Project  $project,
         TypeCost $typeCost,
-        float $sum
-    ): void {
+        float    $sum
+    ): void
+    {
         $projectCost = new ProjectCost();
         $projectCost->setProject($project);
         $projectCost->setTypeCost($typeCost);
-        $projectCost->setDate(\DateTime::createFromFormat('Y-m-d', date('Y-m-d')));
+        $projectCost->setDate(DateTime::createFromFormat('Y-m-d', date('Y-m-d')));
         $projectCost->setSum($sum);
         $projectCost->setCreatedAtAutomatically();
         $projectCost->setUpdatedAtAutomatically();

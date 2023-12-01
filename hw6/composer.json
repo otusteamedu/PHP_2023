@@ -1,0 +1,19 @@
+{
+    "name": "elena/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Elena\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Елена Спиктаренко",
+            "email": "elena.spiktarenko@gmail.com"
+        }
+    ],
+    "require": {
+      "ext-readline": "*",
+      "ext-sockets": "*"
+    }
+}

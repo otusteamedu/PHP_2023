@@ -18,9 +18,8 @@ class ProjectCostCommand extends CommandTemplateAbstract
 {
     public function __construct(
         readonly ProjectCostSaver $projectSalarySaveService,
-        readonly LoggerInterface  $logger
-    )
-    {
+        readonly LoggerInterface $logger
+    ) {
         parent::__construct();
     }
 

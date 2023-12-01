@@ -67,11 +67,10 @@ class ProjectCostSaver implements CostManagerInterface
      * @throws Exception
      */
     private function newProjectCost(
-        Project  $project,
+        Project $project,
         TypeCost $typeCost,
-        float    $sum
-    ): void
-    {
+        float $sum
+    ): void {
         $projectCost = new ProjectCost();
         $projectCost->setProject($project);
         $projectCost->setTypeCost($typeCost);

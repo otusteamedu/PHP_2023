@@ -18,9 +18,8 @@ class EmployeeCostCommand extends CommandTemplateAbstract
 {
     public function __construct(
         readonly EmployeeCostSaver $salarySaveService,
-        readonly LoggerInterface   $logger
-    )
-    {
+        readonly LoggerInterface $logger
+    ) {
         parent::__construct();
     }
 
@@ -29,14 +28,16 @@ class EmployeeCostCommand extends CommandTemplateAbstract
         try {
             $this->salarySaveService->execute();
             $output->writeln(
-                sprintf('<comment>Created employee salaries at %s</comment>',
+                sprintf(
+                    '<comment>Created employee salaries at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );
         } catch (Exception $e) {
             $this->logger->error($e->getMessage());
             $output->writeln(
-                sprintf('<comment>Did not create employee salaries at %s</comment>',
+                sprintf(
+                    '<comment>Did not create employee salaries at %s</comment>',
                     DateGenerator::getPreviousMonthDate()
                 )
             );

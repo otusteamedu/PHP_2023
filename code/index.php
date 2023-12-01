@@ -1,27 +1,10 @@
 <?php
-$emails = $_POST['emails'] ?? null;
 
-$emails = explode(',', $emails);
-$validEmails = getValidEmails($emails);
-print_r($validEmails);
+declare(strict_types=1);
 
-function getValidEmails(array $emails = []): array
-{
-    $validEmails = [];
-    foreach ($emails as $email) {
-        $email = trim($email);
-        $isValidEmailString = filter_var($email, FILTER_VALIDATE_EMAIL);
-        if (!$isValidEmailString) {
-            continue;
-        }
+use GregoryKarman\EmailParser\App;
 
-        $domain = substr(strrchr($email, "@"), 1);
-        $isExistMxForDomain = getmxrr($domain, $mx_records, $mx_weight);
-        if (!$isExistMxForDomain) {
-           continue;
-        }
-        $validEmails[] = $email;
-    }
+require __DIR__ . '/vendor/autoload.php';
 
-    return $validEmails;
-}
+$app = new App();
+echo $app->run();

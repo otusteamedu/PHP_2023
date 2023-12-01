@@ -1,0 +1,16 @@
+{
+    "name": "gregory-karman/email-parser",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "GregoryKarman\\EmailParser\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gregory Karman",
+            "email": "g.karman@mail.ru"
+        }
+    ],
+    "require": {}
+}

@@ -8,11 +8,7 @@ class EmailVerifier
 {
     private array $valid_emails;
 
-    private const VERIFY_EMAILS = [
-        'test@example.com',
-        'invalid-email@',
-        'valid.email@domain.com'
-    ];
+    private array $verify_emails;
 
     public function verifyEmail(string $email): bool
     {
@@ -33,11 +29,16 @@ class EmailVerifier
 
     public function verifyEmails(): void
     {
-        foreach (self::VERIFY_EMAILS as $email) {
+        foreach ($this->verify_emails as $email) {
             if ($this->verifyEmail($email)) {
                 $this->valid_emails[] = $email;
             }
         }
+    }
+
+    public function setVerifyEmails(array $emails): void
+    {
+        $this->verify_emails = $emails;
     }
 
     public function printValidEmails(): void

@@ -8,6 +8,12 @@ class App
     {
         $emailVerifier = new EmailVerifier();
 
+        $emailVerifier->setVerifyEmails([
+            'test@example.com',
+            'invalid-email@',
+            'valid.email@domain.com'
+        ]);
+
         $emailVerifier->verifyEmails();
         $emailVerifier->printValidEmails();
     }

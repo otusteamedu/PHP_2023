@@ -29,7 +29,7 @@ if ($mysqli_homestead_connection->connect_error)
 {
 	echo "MySQL Not connected to Homestead, error: " . $mysqli_homestead_connection->connect_error;
 }
-else
+else 
 {
 	echo "MySQL Connected to Homestead";
 }

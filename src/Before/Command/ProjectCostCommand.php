@@ -58,4 +58,3 @@ class ProjectCostCommand extends Command
             ->setDescription('Creating monthly employee salaries');
     }
 }
-

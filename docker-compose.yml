@@ -1,60 +1,82 @@
 version: '3'
 services:
-  web:
-    container_name: course_nginx
-    image: nginx:stable
-    ports:
-      - "2095:3000"
+  server:
+    container_name: course_server
+    image: php:7.4-cli
     volumes:
-      - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
-      - ./${PROJECT}:/var/www/html
-    depends_on:
-      - php
-  php:
-    container_name: course_php
-    build:
-      context: ./deployment/docker/${APP}/php
-      dockerfile: php-fpm.docker
+      - ./course/public:/var/www/html
+      - socket_volume:/tmp
+    command: php /var/www/html/server.php
+
+  client:
+    container_name: course_client
+    image: php:7.4-cli
     volumes:
-      - ./${PROJECT}:/var/www/html
-    # настройка Xdebug
-    environment:
-      - PHP_IDE_CONFIG=serverName=php
+      - ./course/public:/var/www/html
+      - socket_volume:/tmp
+    stdin_open: true
+    tty: true
+    command: php /var/www/html/client.php
 
-  postgres:
-    container_name: course_postgres
-    image: postgres
-    restart: always
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=root
-    ports:
-      - "54321:5432"
-    # psql -U postgres -d shop
-    volumes:
-      - ./deployment/db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
-      - ./deployment/data/postgres-data:/var/lib/postgresql/data
 
-  redis:
-    image: redis:latest
-    container_name: course_redis
-    ports:
-      - "6379:6379"
+#  web:
+#    container_name: course_nginx
+#    image: nginx:stable
+#    ports:
+#      - "2095:3000"
+#    volumes:
+#      - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
+#      - ./${PROJECT}:/var/www/html
+#    depends_on:
+#      - php
+#  php:
+#    container_name: course_php
+#    build:
+#      context: ./deployment/docker/${APP}/php
+#      dockerfile: php-fpm.docker
+#    volumes:
+#      - ./${PROJECT}:/var/www/html
+#    # настройка Xdebug
+#    environment:
+#      - PHP_IDE_CONFIG=serverName=php
+#
+#  postgres:
+#    container_name: course_postgres
+#    image: postgres
+#    restart: always
+#    environment:
+#      - POSTGRES_USER=postgres
+#      - POSTGRES_PASSWORD=root
+#    ports:
+#      - "54321:5432"
+#    # psql -U postgres -d shop
+#    volumes:
+#      - ./deployment/db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+#      - ./deployment/data/postgres-data:/var/lib/postgresql/data
+#
+#  redis:
+#    image: redis:latest
+#    container_name: course_redis
+#    ports:
+#      - "6379:6379"
+#
+#  memcached:
+#    container_name: course_memcached
+#    image: memcached:latest
+#    ports:
+#      - "11211:11211"
+#
+#  pgadmin:
+#    container_name: course_pgadmin
+#    image: dpage/pgadmin4:7.8
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: "test@mail.ru"
+#      PGADMIN_DEFAULT_PASSWORD: "test@mail.ru"
+#    #IP = 172.17.0.1
+#    ports:
+#      - "16543:80"
+#    depends_on:
+#      - postgres
 
-  memcached:
-    container_name: course_memcached
-    image: memcached:latest
-    ports:
-      - "11211:11211"
-
-  pgadmin:
-    container_name: course_pgadmin
-    image: dpage/pgadmin4:7.8
-    environment:
-      PGADMIN_DEFAULT_EMAIL: "test@mail.ru"
-      PGADMIN_DEFAULT_PASSWORD: "test@mail.ru"
-    #IP = 172.17.0.1
-    ports:
-      - "16543:80"
-    depends_on:
-      - postgres
+volumes:
+  socket_volume:

@@ -5,7 +5,7 @@ services:
       context: ./server-fpm
       dockerfile: Dockerfile
     volumes:
-      - ./code:/usr/src/myapp
+      - ./:/usr/src/myapp
       - socket_volume:/tmp
 
   php-client:
@@ -13,7 +13,7 @@ services:
       context: ./client-fpm
       dockerfile: Dockerfile
     volumes:
-      - ./code:/usr/src/myapp
+      - ./:/usr/src/myapp
       - socket_volume:/tmp
     stdin_open: true
     tty: true

@@ -31,7 +31,7 @@ To start the `server` process, follow these steps:
    ```
 3. Run the server script:
    ```
-   php server.php
+   php UnixSocketServer.php
    ```
 
 The server will now be listening for messages sent to the Unix socket.
@@ -50,7 +50,7 @@ To send messages from the `client`, follow these steps:
    ```
 3. Run the client script:
    ```
-   php client.php
+   php UnixSocketClient.php
    ```
 
 Follow the prompts in the client's console to send messages to the server.

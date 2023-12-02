@@ -1,0 +1,38 @@
+version : '3'
+
+services:
+    server      :
+        restart       : always
+        build         :
+            context   : docker/php-fpm
+            dockerfile: Dockerfile
+        image         : otus/php-cli
+        container_name: socket-server
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+            - ./socket:/tmp/socket
+        environment:
+            - PHP_EXTENSION_XDEBUG=1
+            - PHP_IDE_CONFIG=serverName=Docker
+        networks      :
+            - otus-network
+
+    client      :
+        restart       : always
+        build         :
+            context   : docker/php-fpm
+            dockerfile: Dockerfile
+        image         : otus/php-cli
+        container_name: socket-client
+        volumes       :
+            - ./app:/var/www/otus-homework.loc
+            - ./socket:/tmp/socket
+        networks      :
+            - otus-network
+
+volumes:
+    sock:
+
+networks:
+    otus-network:
+        driver: bridge

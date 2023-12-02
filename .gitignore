@@ -4,5 +4,6 @@
 /import/
 .env
 docker-compose-*.yml
+/socket/
 
 vendor

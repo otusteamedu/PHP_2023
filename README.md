@@ -1,4 +1,3 @@
-```markdown
 # Email Checker Application
 
 Email Checker приложение - это инструмент, позволяющий проверять валидность email адресов. Оно поддерживает два режима работы:
@@ -47,5 +46,4 @@ if ($result) {
   "first@example.com": true,
   "second@example.net": false
 }
-```
 ```

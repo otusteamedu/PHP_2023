@@ -4,17 +4,15 @@ namespace Daniel\Otus;
 
 class App
 {
-    public function init()
+    public function init($postData)
     {
-        $emailVerifier = new EmailVerifier();
-
-        $emailVerifier->setVerifyEmails([
-            'test@example.com',
-            'invalid-email@',
-            'valid.email@domain.com'
-        ]);
-
-        $emailVerifier->verifyEmails();
-        $emailVerifier->printValidEmails();
+        if (isset($postData['emails']) && is_array($postData['emails'])) {
+            $emailVerifier = new EmailVerifier();
+            $emailVerifier->setVerifyEmails($postData['emails']);
+            $emailVerifier->verifyEmails();
+            $emailVerifier->printValidEmails();
+        } else {
+            echo "Invalid input data";
+        }
     }
 }

@@ -8,7 +8,6 @@ use App\After\Domain\Entity\EmployeeCost;
 use App\After\Domain\Entity\Project;
 use App\After\Domain\Entity\ProjectCost;
 use App\After\Domain\Entity\TypeCost;
-use DateTime;
 use DateTimeImmutable;
 use Exception;
 
@@ -21,12 +20,9 @@ class ProjectCostSaver implements CostManagerInterface
 
     private const TYPE_COST = 'sal';
 
-    private DateTime $currentDate;
-
     public function __construct(
         readonly EntityManagerInterface $entityManager,
     ) {
-        $this->currentDate = new DateTime();
     }
 
     /**
@@ -34,10 +30,10 @@ class ProjectCostSaver implements CostManagerInterface
      */
     public function execute(): void
     {
-        $dayOfCurrentMonth = $this->currentDate->format('d');
+        $dayOfCurrentMonth = date('d');
 
         if (self::MONTH_DAY !== $dayOfCurrentMonth) {
-            throw new Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
+            throw new Exception('The current date is not correct: '.date('Y-m-d'));
         }
 
         $this->prepareProjectSalaryCosts();

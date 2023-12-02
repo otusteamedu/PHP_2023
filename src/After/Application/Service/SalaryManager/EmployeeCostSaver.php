@@ -8,16 +8,15 @@ use App\After\Application\Service\Calculator\QuarterlyCalculator\CashPrizeCalcul
 use App\After\Application\Service\Calculator\QuarterlyCalculator\SalaryUpCalculator;
 use App\After\Application\Service\Calculator\TaxCalculator\Tax13Calculator;
 use App\After\Application\Service\Calculator\TaxCalculator\Tax6Calculator;
+use App\After\Application\Service\SalaryManager\ContractType\Contract;
 use App\After\Application\Service\SalaryManager\Dto\EmployeeCostDto;
 use App\After\Domain\CashBonus;
-use App\After\Domain\ContractType;
 use App\After\Domain\CorrectionSum;
 use App\After\Domain\Employee;
 use App\After\Domain\EmployeeCost;
 use App\After\Domain\EmployeeKpi;
 use App\After\Domain\FactoryCalendar;
 use App\After\Domain\HourlyRate;
-use DateTime;
 use DateTimeImmutable;
 use Exception;
 
@@ -37,12 +36,9 @@ class EmployeeCostSaver implements CostManagerInterface
         '12-05',
     ];
 
-    private DateTime $currentDate;
-
     public function __construct(
         readonly EntityManagerInterface $entityManager
     ) {
-        $this->currentDate = new DateTime();
     }
 
     /**
@@ -50,15 +46,15 @@ class EmployeeCostSaver implements CostManagerInterface
      */
     public function execute(): void
     {
-        $monthDayFormat = $this->currentDate->format('m-d');
+        $currentDate = date('m-d');
 
-        if (in_array($monthDayFormat, self::SAVE_MONTHLY_SALARY_DATES)) {
+        if (in_array($currentDate, self::SAVE_MONTHLY_SALARY_DATES)) {
             $this->calculateMonthlyEmployeeCost();
 
             return;
         }
 
-        throw new Exception("The current date is not correct: {$this->currentDate->format('Y-m-d')}");
+        throw new Exception('The current date is not correct: '.date('Y-m-d'));
     }
 
     /**
@@ -192,8 +188,8 @@ class EmployeeCostSaver implements CostManagerInterface
     private function calculatePlannedTax(ContractType $contractType, float $sumToPay): float
     {
         return match ($contractType->getTitle()) {
-            'ТД', 'ГПХ' => Tax13Calculator::calc($sumToPay),
-            'ИП', 'Самозанятый' => Tax6Calculator::calc($sumToPay),
+            Contract::TD, Contract::GPH => Tax13Calculator::calc($sumToPay),
+            Contract::EP, Contract::SELF => Tax6Calculator::calc($sumToPay),
             default => 0
         };
     }
@@ -251,7 +247,7 @@ class EmployeeCostSaver implements CostManagerInterface
     private function calculateChecking(ContractType $contractType, HourlyRate $hourlyRate, int $workingHours, float $sumToPay): float
     {
         return match ($contractType->getTitle()) {
-            'ТД', 'ГПХ' => $workingHours * $hourlyRate->getRate() - $sumToPay,
+            Contract::TD, Contract::GPH => $workingHours * $hourlyRate->getRate() - $sumToPay,
             default => 0
         };
     }

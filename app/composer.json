@@ -1,0 +1,19 @@
+{
+    "name": "agrechuha/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Agrechuha\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyom",
+            "email": "agrechuha@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*",
+        "ext-readline": "*"
+    }
+}

@@ -40,7 +40,7 @@ final class Request
 
         if (is_array($data)) {
             $dataPrepare = [];
-            foreach ($data as $key => $value){
+            foreach ($data as $key => $value) {
                 $dataPrepare[$key] = $this->prepareFields($value);
             }
             return $dataPrepare;

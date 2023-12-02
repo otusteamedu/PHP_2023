@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dshevchenko\Emailchecker\Controllers;
 
 use Dshevchenko\Emailchecker\Checker;

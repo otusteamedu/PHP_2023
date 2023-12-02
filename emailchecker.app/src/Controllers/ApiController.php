@@ -23,9 +23,9 @@ class ApiController
             if (empty($rawPayload)) {
                 throw new \Exception('No payload given.');
             }
-            $arrEmails = json_decode($rawPayload, true);
+            $jsonPayload = json_decode($rawPayload, true);
             $arrResult = [];
-            foreach ($arrEmails as $email) {
+            foreach ($jsonPayload['emails'] as $email) {
                 $arrResult[$email] = $checker->check($email);
             }
             $returnPayload = json_encode($arrResult);

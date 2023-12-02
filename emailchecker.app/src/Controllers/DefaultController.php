@@ -32,7 +32,7 @@ class DefaultController
 
         $rawEmails = $_POST['email_list'];
         $arrEmails = Common::explode($rawEmails);
-        
+
         foreach ($arrEmails as $email) {
             if ($checker->check($email)) {
                 echo "The email is valid: '$email'<br>";

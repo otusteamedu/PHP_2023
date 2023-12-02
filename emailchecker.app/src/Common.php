@@ -24,7 +24,7 @@ class Common
      *
      * @param string $name Исходное имя, которое требуется отформатировать.
      * @param bool $lowerFirst Опционально. Указывает, следует ли преобразовать первый символ в нижний регистр. По умолчанию равно false.
-     * 
+     *
      * @return string Возвращает обработанное и отформатированное имя.
      */
     public static function intoCamelCase(string $name, bool $lowerCamelCase = false): string
@@ -34,7 +34,7 @@ class Common
         $renamed = ucwords($renamed);
         $renamed = str_replace(' ', '', $renamed);
 
-        if ($lowerCamelCase) { 
+        if ($lowerCamelCase) {
             $renamed = lcfirst($renamed);
         }
 

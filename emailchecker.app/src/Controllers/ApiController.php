@@ -7,7 +7,7 @@ use Dshevchenko\Emailchecker\Checker;
 class ApiController
 {
     /**
-     * Проверяет список электронных адресов, полученных из входного потока данных на валидность. 
+     * Проверяет список электронных адресов, полученных из входного потока данных на валидность.
      *
      * @return void
      */
@@ -30,7 +30,6 @@ class ApiController
             }
             $returnPayload = json_encode($arrResult);
             echo $returnPayload;
-
         } catch (\Exception $e) {
             http_response_code(400);
             echo $e->getMessage();

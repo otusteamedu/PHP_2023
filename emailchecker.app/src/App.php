@@ -27,8 +27,8 @@ class App
         $controllerName .= 'Controller';
 
         // Проверка наличия класса запрошенного контроллера
-        $controllerClassName = 'Dshevchenko\\Emailchecker\\Controllers\\' . $controllerName; 
-        if(!class_exists($controllerClassName)) {
+        $controllerClassName = 'Dshevchenko\\Emailchecker\\Controllers\\' . $controllerName;
+        if (!class_exists($controllerClassName)) {
             echo "Endpoint '$controllerClassName' not found.";
             return;
         }

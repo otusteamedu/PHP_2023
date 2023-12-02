@@ -29,7 +29,6 @@ class Checker
         $cachedValue = $this->cache->get($email);
 
         if ($this->cache->getResultCode() === \Memcached::RES_SUCCESS) {
-
             if ($cachedValue === true) {
                 $this->lastDescription = '';
             } else {
@@ -42,7 +41,7 @@ class Checker
 
         try {
             // Проверка формата email
-            if(strpos($email, '@') === false) {
+            if (strpos($email, '@') === false) {
                 throw new \Exception("Email must contain @");
             } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 throw new \Exception('Incorrect format');
@@ -55,7 +54,6 @@ class Checker
             if (!checkdnsrr($domain, 'MX')) {
                 throw new \Exception('Invalid MX-record');
             }
-
         } catch (\Exception $e) {
             // Запоминаем описание проблемы
             $this->lastDescription = $e->getMessage();

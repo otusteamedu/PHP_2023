@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: hw5/php-fpm
+    container_name: php-fpm
+    volumes:
+      - ./../emailchecker.app:/data/www
+      - php-fpm-socket:/var/run/php-fpm
+    depends_on:
+      - memcached
+    networks:
+      - app-network
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: hw5/nginx
+    container_name: nginx
+    ports:
+      - 80:80
+    volumes:
+      - ./../emailchecker.app:/data/www
+      - php-fpm-socket:/var/run/php-fpm
+    depends_on:
+      - php-fpm
+    networks:
+      - app-network
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

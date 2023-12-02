@@ -1,0 +1,16 @@
+{
+    "name": "dshevchenko/emailchecker",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dshevchenko\\Emailchecker\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DShevchenko",
+            "email": "mail@anhost.ru"
+        }
+    ],
+    "require": {}
+}

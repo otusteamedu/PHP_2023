@@ -1,4 +1,4 @@
 /.idea
 .env
 php-fpm/socket/*
-
+/code/vendor

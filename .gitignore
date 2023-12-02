@@ -1,1 +1,2 @@
-vendor
+/emailchecker.app/vendor
+/emailchecker.app/composer.lock

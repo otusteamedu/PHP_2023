@@ -17,15 +17,10 @@ class Solution
             return "0";
         }
 
-        $result = [];
-
-        if ($numerator < 0 || $denominator < 0) {
-            $result[] = "-";
-        }
-
         $result[] = strval(intval($numerator / $denominator));
 
         $remainder = $numerator % $denominator;
+
         if ($remainder === 0) {
             return implode("", $result);
         }
@@ -42,12 +37,13 @@ class Solution
 
             $remainderDict[$remainder] = count($result);
             $remainder *= 10;
-            $result[] = strval(intval($remainder / $denominator));
+            $result[] = strval(abs(intval($remainder / $denominator)));
             $remainder %= $denominator;
         }
 
         return implode("", $result);
     }
 }
+
 
 // Сложность - O(n), где n - количество цифр в дробной части

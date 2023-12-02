@@ -14,6 +14,7 @@ class ApiController
     public function checkEmails()
     {
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
             echo 'Method Not Allowed. Please use the POST method.';
             return;
         }

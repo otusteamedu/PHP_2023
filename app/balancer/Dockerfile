@@ -1,6 +1,6 @@
 FROM nginx
 
-COPY ./hosts /etc/nginx/conf.d
+COPY ./hosts/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 

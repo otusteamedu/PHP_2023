@@ -1,31 +1,66 @@
 version: "3"
 
 services:
-  nginx:
+  nginx-balancer:
     build:
-      context: ./nginx
+      context: ./balancer
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: ${NGINX_CONTAINER}
+    container_name: nginx-balancer
     ports:
       - "80:80"
     volumes:
       - ./nginx/hosts:/etc/nginx/conf.d
-      - ./www:/var/www
-      - phpsocket:/var/run
+    depends_on:
+      - nginx-1
+      - nginx-2
     networks:
       - app-network
 
-  php:
+  nginx-1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-1
+    volumes:
+      - ./www:/var/www
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+    networks:
+      - app-network
+
+  nginx-2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-2
+    volumes:
+      - ./www:/var/www
+    depends_on:
+      - php-fpm-1
+      - php-fpm-2
+    networks:
+      - app-network
+
+  php-fpm-1:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/php
-    container_name: ${PHP_CONTAINER}
+    image: hw4/php-php
+    container_name: php-fpm-1
     volumes:
       - ./www:/var/www
-      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - phpsocket:/var/run
+    networks:
+      - app-network
+
+  php-fpm-2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: hw4/php-php
+    container_name: php-fpm-2
+    volumes:
+      - ./www:/var/www
     networks:
       - app-network
 
@@ -63,6 +98,3 @@ services:
 networks:
   app-network:
     driver: bridge
-
-volumes:
-  phpsocket:

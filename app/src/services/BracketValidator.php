@@ -29,7 +29,7 @@ class BracketValidator
         $lenght = strlen($bracketString);
         $cost = 0;
 
-        for ($i = 0; $i < $lenght; $i++) { 
+        for ($i = 0; $i < $lenght; $i++) {
             if ($bracketString[$i] === "(") {
                 $cost++;
             }

@@ -2,6 +2,8 @@
 
 namespace Cases\Php2023\Application\Command;
 
+use Exception;
+
 class StartClientCommand extends AbstractCommand
 {
 
@@ -12,7 +14,7 @@ class StartClientCommand extends AbstractCommand
         while (true) {
             $client = stream_socket_client("unix:/$socketPath", $errno, $errstr);
             if (!$client) {
-                die("$errstr ($errno)\n");
+                throw new Exception($errstr, $errno);
             }
 
             $line = readline("Enter message: ");

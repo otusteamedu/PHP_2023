@@ -1,18 +1,13 @@
 <?php
 
-use Cases\Php2023\Application\Command\CommandFactory;
+use Cases\Php2023\Application\Command\App;
 
 require __DIR__.'/../vendor/autoload.php';
 
+$app = new App();
 
 try {
-    $commandName = $argv[1] ?? null;
-    if (!$commandName) {
-        throw new Exception("No command specified.");
-    }
-
-    $command = CommandFactory::create($commandName);
-    $command->execute();
-} catch (\Exception $e) {
+    $app->run($argv);
+} catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }

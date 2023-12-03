@@ -2,6 +2,8 @@
 
 namespace Cases\Php2023\Application\Command;
 
+use Exception;
+
 class StartServerCommand extends AbstractCommand
 {
     public function execute()
@@ -14,7 +16,7 @@ class StartServerCommand extends AbstractCommand
 
         $socket = stream_socket_server("unix://$socketPath", $errno, $errstr);
         if (!$socket) {
-            die("$errstr ($errno)\n");
+            throw new Exception($errstr, $errno);
         }
 
         stream_set_blocking($socket, 0);

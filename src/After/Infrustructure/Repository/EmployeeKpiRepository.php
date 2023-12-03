@@ -1,17 +1,11 @@
 <?php
 
-namespace App\Before\Repository;
+namespace App\After\Infrustructure\Repository;
 
-use App\After\Domain\Entity\EmployeeKpi;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\After\Domain\Repository\EmployeeKpiRepositoryInterface;
 
-class EmployeeKpiRepository extends ServiceEntityRepository
+class EmployeeKpiRepository implements EmployeeKpiRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, EmployeeKpi::class);
-    }
-
     public function findEmployeeWithoutKpi(string $filterDate): array
     {
         $em = $this->getEntityManager();

@@ -2,21 +2,25 @@ version: '3'
 services:
   server:
     container_name: course_server
-    image: php:7.4-cli
+    build:
+      context: ./deployment/docker/${APP}/php-cli
+      dockerfile: php-cli.docker
     volumes:
-      - ./course/public:/var/www/html
+      - ./course:/var/www/html
       - socket_volume:/tmp
-    command: php /var/www/html/server.php
+    command: php /var/www/html/bin/app.php StartServer
 
   client:
     container_name: course_client
-    image: php:7.4-cli
+    build:
+      context: ./deployment/docker/${APP}/php-cli
+      dockerfile: php-cli.docker
     volumes:
-      - ./course/public:/var/www/html
+      - ./course:/var/www/html
       - socket_volume:/tmp
     stdin_open: true
     tty: true
-    command: php /var/www/html/client.php
+    command: php /var/www/html/bin/app.php StartClient
 
 
 #  web:

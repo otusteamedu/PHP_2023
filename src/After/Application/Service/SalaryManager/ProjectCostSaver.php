@@ -33,7 +33,7 @@ class ProjectCostSaver implements CostManagerInterface
         $dayOfCurrentMonth = date('d');
 
         if (self::MONTH_DAY !== $dayOfCurrentMonth) {
-            throw new Exception('The current date is not correct: '.date('Y-m-d'));
+            throw new Exception('The current date is not correct: ' . date('Y-m-d'));
         }
 
         $this->prepareProjectSalaryCosts();

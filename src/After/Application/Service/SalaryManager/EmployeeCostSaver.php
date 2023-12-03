@@ -54,7 +54,7 @@ class EmployeeCostSaver implements CostManagerInterface
             return;
         }
 
-        throw new Exception('The current date is not correct: '.date('Y-m-d'));
+        throw new Exception('The current date is not correct: ' . date('Y-m-d'));
     }
 
     /**

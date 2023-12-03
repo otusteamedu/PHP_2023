@@ -19,11 +19,9 @@ RUN apt-get update && apt-get install -y \
         && docker-php-ext-install -j$(nproc) iconv mbstring mysqli pdo_mysql zip \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
         && docker-php-ext-install -j$(nproc) gd
-        
- RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-WORKDIR /data
+COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini        
 
-VOLUME /data
+WORKDIR /var/www/mysite.local
 
 CMD ["php-fpm"]

@@ -1,38 +1,20 @@
 version: '3'
 
 services:
-  app1:
-    build:
-      context: ./images/fpm
-      dockerfile: Dockerfile
-    image: myapp/php
-    container_name: app
-    volumes:
-       - ./code:/data/mysite.local
-    networks:
-      - app-network
-  app2:
-    build:
-      context: ./images/fpm
-      dockerfile: Dockerfile
-    image: myapp/php
-    container_name: app
-    volumes:
-       - ./code:/data/mysite.local
-    networks:
-      - app-network
-
   balancer:
     build:
       context: ./images/nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
+    image: myapp/nginx-balancer
+    container_name: balancer
     ports:
       - "80:80"
-      - "443:443"
     volumes:
-       - ./code:/data/mysite.local
+       - ./app/:/var/www/mysite.local
+       - ./images/nginx/hosts/nginx.balancer.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - webserver1
+      - webserver2
     networks:
       - app-network
   
@@ -40,39 +22,52 @@ services:
     build:
       context: ./images/nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
-    ports:
-      - "80:80"
-      - "443:443"
+    image: myapp/nginx-webserver
+    container_name: webserver1
     volumes:
-       - ./code:/data/mysite.local
+       - ./app/:/var/www/mysite.local
+      #  - ./images/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+       - ./images/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/default.conf
+
+    depends_on:
+      - app1
+      - app2
     networks:
       - app-network
   webserver2:
     build:
       context: ./images/nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: webserver
-    ports:
-      - "80:80"
-      - "443:443"
+    image: myapp/nginx-webserver
+    container_name: webserver2
     volumes:
-       - ./code:/data/mysite.local
+       - ./app/:/var/www/mysite.local
+       #  - ./images/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+       - ./images/nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app1
+      - app2
     networks:
       - app-network
 
-  mysql:
-    image: mysql:8.2.0
-    container_name: mysql
-    ports:
-      - "3306:3306"
-    environment:
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+  app1:
+    build:
+      context: ./images/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app1
     volumes:
-      - ./mysqldata:/var/lib/mysql  
+       - ./app/:/var/www/mysite.local
+    networks:
+      - app-network
+  app2:
+    build:
+      context: ./images/fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app2
+    volumes:
+       - ./app/:/var/www/mysite.local
     networks:
       - app-network
       

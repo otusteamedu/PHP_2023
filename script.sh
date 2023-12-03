@@ -1,12 +1,6 @@
 #!/bin/bash
-# our comment is here
-echo "The current directory is:"
-pwd
-echo "The user logged in is:"
-whoami
 
-
-
+cat citys.txt | awk '{print $3}' | sort | uniq -c | sort -nr | head -3
 
 
 

@@ -12,18 +12,16 @@ class BracketValidator
 
         $pattern = "/[^()]/";
         $bracketString = preg_replace($pattern, "", $_POST['string']);
-       
-        if(empty($bracketString))
-        {
+        if (empty($bracketString)) {
             throw new \Exception("Empty bracket sequence.");
         }
 
         $cachedValue = $cache->getCachedBracketString($bracketString);
         if (isset($cachedValue)) {
-            if($cachedValue === "not valid") {
+            if ($cachedValue === "not valid") {
                 throw new \Exception("Not valid bracket sequence.");
             }
-            if($cachedValue == true) {
+            if ($cachedValue == true) {
                 return;
             }
         }
@@ -31,7 +29,7 @@ class BracketValidator
         $lenght = strlen($bracketString);
         $cost = 0;
 
-        for ($i=0; $i < $lenght; $i++) { 
+        for ($i = 0; $i < $lenght; $i++) { 
             if ($bracketString[$i] === "(") {
                 $cost++;
             }

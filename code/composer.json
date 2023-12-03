@@ -1,0 +1,10 @@
+{
+    "name": "radovinetch/code",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Radovinetch\\Code\\": "src/"
+        }
+    },
+    "require": {}
+}

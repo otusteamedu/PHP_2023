@@ -1,0 +1,27 @@
+version: '3'
+
+volumes:
+  socket_server:
+    external: false
+  socket_client:
+    external: false
+
+services:
+  php_server:
+    container_name: server
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/data
+      - socket_server:/data/server.sock
+      - socket_client:/data/client.sock
+  php_client:
+    container_name: client
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/data
+      - socket_server:/data/server.sock
+      - socket_client:/data/client.sock

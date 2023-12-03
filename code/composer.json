@@ -1,0 +1,10 @@
+{
+    "name": "radovinetch/chat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Radovinetch\\Chat\\": "src/"
+        }
+    },
+    "require": {}
+}

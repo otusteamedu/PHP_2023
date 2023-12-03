@@ -1,2 +1,6 @@
 .idea
 .env
+code/vendor
+
+#Ignore docker folders
+/.docker_data/

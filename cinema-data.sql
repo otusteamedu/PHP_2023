@@ -5,6 +5,7 @@
 -- Dumped from database version 16.1 (Debian 16.1-1.pgdg120+1)
 -- Dumped by pg_dump version 16.1 (Debian 16.1-1.pgdg120+1)
 
+-- Started on 2023-12-04 09:47:28 UTC
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -18,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3396 (class 0 OID 32817)
+-- TOC entry 3400 (class 0 OID 32817)
 -- Dependencies: 221
 -- Data for Name: films; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -41,7 +42,7 @@ COPY public.films (id, name, length) FROM stdin;
 
 
 --
--- TOC entry 3390 (class 0 OID 32768)
+-- TOC entry 3394 (class 0 OID 32768)
 -- Dependencies: 215
 -- Data for Name: halls; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -54,38 +55,107 @@ COPY public.halls (id, name, count_seats, price_ratio) FROM stdin;
 
 
 --
--- TOC entry 3392 (class 0 OID 32800)
+-- TOC entry 3396 (class 0 OID 32800)
 -- Dependencies: 217
--- Data for Name: halls_seat_rates; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: halls_seat_schema; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.halls_seat_rates (seat_num, hall_id, price_ratio) FROM stdin;
-20	2	1.5
-21	2	1.5
-22	2	1.5
-23	2	1.5
-24	2	1.5
-25	2	1.5
-26	2	1.5
-27	2	1.5
-28	2	1.5
-29	2	1.5
-30	2	1.5
-2	2	0.8
-3	2	0.8
-4	2	0.8
-5	2	0.8
-6	2	0.8
-7	2	0.8
-8	2	0.8
-9	2	0.8
-10	2	0.8
-1	2	0.8
+COPY public.halls_seat_schema (seat_num, hall_id, price_ratio, "row", col) FROM stdin;
+11	2	0.8	2	5
+12	2	0.8	2	6
+1	1	1	1	1
+2	1	1	1	2
+3	1	1	1	3
+4	1	1	1	4
+5	1	1	1	5
+6	1	1	2	1
+7	1	1	2	2
+8	1	1	2	3
+9	1	1	2	4
+10	1	1	2	5
+11	1	1	3	1
+12	1	1	3	2
+13	1	1	3	3
+14	1	1	3	4
+15	1	1	3	5
+16	1	1	4	1
+17	1	1	4	2
+18	1	1	4	3
+19	1	1	4	4
+20	1	1	4	5
+1	2	0.8	1	1
+2	2	0.8	1	2
+3	2	0.8	1	3
+4	2	0.8	1	4
+5	2	0.8	1	5
+6	2	0.8	1	6
+7	2	0.8	2	1
+8	2	0.8	2	2
+9	2	0.8	2	3
+10	2	0.8	2	4
+13	2	1	3	1
+14	2	1	3	2
+15	2	1	3	3
+16	2	1	3	4
+17	2	1	3	5
+18	2	1	3	6
+19	2	1	4	1
+20	2	1.5	4	2
+21	2	1.5	4	3
+22	2	1.5	4	4
+23	2	1.5	4	5
+24	2	1.5	4	6
+25	2	1.5	5	1
+26	2	1.5	5	2
+27	2	1.5	5	3
+28	2	1.5	5	4
+29	2	1.5	5	5
+30	2	1.5	5	6
+1	3	1	1	1
+2	3	1	1	2
+3	3	1	1	3
+4	3	1	1	4
+5	3	1	1	5
+6	3	1	1	6
+7	3	1	1	7
+8	3	1	1	8
+9	3	1	2	1
+10	3	1	2	2
+11	3	1	2	3
+12	3	1	2	4
+13	3	1	2	5
+14	3	1	2	6
+15	3	1	2	7
+16	3	1	2	8
+17	3	1	3	1
+18	3	1	3	2
+19	3	1	3	3
+20	3	1	3	4
+21	3	1	3	5
+22	3	1	3	6
+23	3	1	3	7
+24	3	1	3	8
+25	3	1	4	1
+26	3	1	4	2
+27	3	1	4	3
+28	3	1	4	4
+29	3	1	4	5
+30	3	1	4	6
+31	3	1	4	7
+32	3	1	4	8
+33	3	1	5	1
+34	3	1	5	2
+35	3	1	5	3
+36	3	1	5	4
+37	3	1	5	5
+38	3	1	5	6
+39	3	1	5	7
+40	3	1	5	8
 \.
 
 
 --
--- TOC entry 3398 (class 0 OID 32840)
+-- TOC entry 3402 (class 0 OID 32840)
 -- Dependencies: 223
 -- Data for Name: seances; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -109,7 +179,7 @@ COPY public.seances (id, film_id, date, "time", hall_id, base_price) FROM stdin;
 
 
 --
--- TOC entry 3394 (class 0 OID 32808)
+-- TOC entry 3398 (class 0 OID 32808)
 -- Dependencies: 219
 -- Data for Name: users; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -602,7 +672,7 @@ COPY public.users (id, name, email) FROM stdin;
 
 
 --
--- TOC entry 3400 (class 0 OID 32848)
+-- TOC entry 3404 (class 0 OID 32848)
 -- Dependencies: 225
 -- Data for Name: seance_tikets; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -913,7 +983,7 @@ COPY public.seance_tikets (id, seance_id, user_id, seat_num, price) FROM stdin;
 
 
 --
--- TOC entry 3406 (class 0 OID 0)
+-- TOC entry 3410 (class 0 OID 0)
 -- Dependencies: 220
 -- Name: films_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -922,7 +992,7 @@ SELECT pg_catalog.setval('public.films_id_seq', 45, true);
 
 
 --
--- TOC entry 3407 (class 0 OID 0)
+-- TOC entry 3411 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: halls_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -931,7 +1001,7 @@ SELECT pg_catalog.setval('public.halls_id_seq', 3, true);
 
 
 --
--- TOC entry 3408 (class 0 OID 0)
+-- TOC entry 3412 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: seance_tikets_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -940,7 +1010,7 @@ SELECT pg_catalog.setval('public.seance_tikets_id_seq', 302, true);
 
 
 --
--- TOC entry 3409 (class 0 OID 0)
+-- TOC entry 3413 (class 0 OID 0)
 -- Dependencies: 222
 -- Name: seanses_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -949,7 +1019,7 @@ SELECT pg_catalog.setval('public.seanses_id_seq', 52, true);
 
 
 --
--- TOC entry 3410 (class 0 OID 0)
+-- TOC entry 3414 (class 0 OID 0)
 -- Dependencies: 218
 -- Name: users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -957,7 +1027,7 @@ SELECT pg_catalog.setval('public.seanses_id_seq', 52, true);
 SELECT pg_catalog.setval('public.users_id_seq', 1492, true);
 
 
--- Completed on 2023-12-03 08:54:50 UTC
+-- Completed on 2023-12-04 09:47:29 UTC
 
 --
 -- PostgreSQL database dump complete

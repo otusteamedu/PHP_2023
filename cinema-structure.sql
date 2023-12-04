@@ -50,14 +50,16 @@ ALTER TABLE public.halls ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 
 
 
-CREATE TABLE public.halls_seat_rates (
+CREATE TABLE public.halls_seat_schema (
     seat_num integer DEFAULT 0 NOT NULL,
     hall_id integer DEFAULT 0 NOT NULL,
-    price_ratio real NOT NULL
+    price_ratio real NOT NULL,
+    "row" smallint DEFAULT 0 NOT NULL,
+    col smallint DEFAULT 0 NOT NULL
 );
 
 
-ALTER TABLE public.halls_seat_rates OWNER TO postgres;
+ALTER TABLE public.halls_seat_schema OWNER TO postgres;
 
 
 CREATE TABLE public.seance_tikets (
@@ -138,8 +140,18 @@ ALTER TABLE ONLY public.films
 
 
 
-ALTER TABLE ONLY public.halls_seat_rates
+ALTER TABLE ONLY public.halls_seat_schema
     ADD CONSTRAINT halls_seat_rates_pkey PRIMARY KEY (seat_num, hall_id);
+
+
+
+ALTER TABLE ONLY public.halls_seat_schema
+    ADD CONSTRAINT halls_seat_schema_hall_id_row_col_key UNIQUE (hall_id, "row", col);
+
+
+
+ALTER TABLE ONLY public.halls_seat_schema
+    ADD CONSTRAINT halls_seat_schema_seat_num_hall_id_key UNIQUE (seat_num, hall_id);
 
 
 
@@ -170,7 +182,7 @@ CREATE UNIQUE INDEX users_email_idx ON public.users USING btree (email);
 
 
 
-ALTER TABLE ONLY public.halls_seat_rates
+ALTER TABLE ONLY public.halls_seat_schema
     ADD CONSTRAINT halls_seat_rates_hall_id_fkey FOREIGN KEY (hall_id) REFERENCES public.halls(id);
 
 
@@ -192,5 +204,7 @@ ALTER TABLE ONLY public.seances
 
 ALTER TABLE ONLY public.seances
     ADD CONSTRAINT seances_hall_id_fkey FOREIGN KEY (hall_id) REFERENCES public.halls(id);
+
+
 
 

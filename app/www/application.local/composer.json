@@ -11,8 +11,5 @@
       "email": "sevrevdan@yandex.ru"
     }
   ],
-  "require": {
-    "predis/predis": "^2.2",
-    "ext-memcached": "*"
-  }
+  "require": {}
 }

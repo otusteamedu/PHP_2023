@@ -1,0 +1,6 @@
+.github
+.idea
+.env
+vendor
+composer.lock
+http_ca.crt

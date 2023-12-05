@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Contract;
 use App\Repository\ContractRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -57,7 +58,7 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new \Exception('Data no valid');
+                throw new Exception('Data no valid');
             }
 
             $contract = new Contract();
@@ -73,7 +74,7 @@ class ContractController extends AbstractController
                 'status' => 200,
                 'success' => 'Contract added successfully',
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->json([
@@ -81,6 +82,19 @@ class ContractController extends AbstractController
                 'errors' => $e->getMessage(),
             ], 422);
         }
+    }
+
+    protected function decodeJson(Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (null === $data) {
+            return $request;
+        }
+
+        $request->request->replace($data);
+
+        return $request;
     }
 
     #[Route('/contracts/{id}', name: 'contracts_put', methods: 'PUT')]
@@ -107,7 +121,7 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new \Exception('Data no valid');
+                throw new Exception('Data no valid');
             }
 
             $contract->setHeader($request->request->get('header'));
@@ -120,7 +134,7 @@ class ContractController extends AbstractController
                 'status' => 200,
                 'success' => 'Contract updated successfully',
             ]);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->json([
@@ -151,18 +165,5 @@ class ContractController extends AbstractController
             'status' => 200,
             'success' => 'Contract deleted successfully',
         ]);
-    }
-
-    protected function decodeJson(Request $request)
-    {
-        $data = json_decode($request->getContent(), true);
-
-        if (null === $data) {
-            return $request;
-        }
-
-        $request->request->replace($data);
-
-        return $request;
     }
 }

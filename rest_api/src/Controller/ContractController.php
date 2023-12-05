@@ -2,10 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Contract;
+use App\Entity\Builder\ContractBuilder;
 use App\Repository\ContractRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -58,14 +57,16 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new Exception('Data no valid');
+                throw new \Exception('Data no valid');
             }
 
-            $contract = new Contract();
-            $contract->setHeader($request->request->get('header'));
-            $contract->setPreamble($request->request->get('preamble'));
-            $contract->setText($request->request->get('text'));
-            $contract->setSignature($request->request->get('signature'));
+            $contractBuilder = new ContractBuilder();
+            $contract = $contractBuilder
+                    ->setHeader($request->request->get('header'))
+                    ->setPreamble($request->request->get('preamble'))
+                    ->setText($request->request->get('text'))
+                    ->setSignature($request->request->get('signature'))
+                    ->build();
 
             $entityManager->persist($contract);
             $entityManager->flush();
@@ -74,7 +75,7 @@ class ContractController extends AbstractController
                 'status' => 200,
                 'success' => 'Contract added successfully',
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->json([
@@ -121,7 +122,7 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new Exception('Data no valid');
+                throw new \Exception('Data no valid');
             }
 
             $contract->setHeader($request->request->get('header'));
@@ -134,7 +135,7 @@ class ContractController extends AbstractController
                 'status' => 200,
                 'success' => 'Contract updated successfully',
             ]);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 
             return $this->json([

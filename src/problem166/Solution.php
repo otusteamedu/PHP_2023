@@ -11,7 +11,7 @@ class Solution
      */
     public function fractionToDecimal(int $numerator, int $denominator): string
     {
-        $dr = (float)(($numerator / $denominator). '');
+        $dr = (float)(($numerator / $denominator) . '');
         if (((float)($dr * $denominator)) === ((float)$numerator)) {
             return ($numerator / $denominator);
         }
@@ -20,7 +20,7 @@ class Solution
         $denominator = ($denominator < 0) ? $denominator * -1 : $denominator;
         return sprintf(
             "%s%s.%s",
-            ($dr < 0) ? '-': '',
+            ($dr < 0) ? '-' : '',
             intdiv($numerator, $denominator),
             $this->subRecursive(
                 $numerator,

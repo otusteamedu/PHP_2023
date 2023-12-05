@@ -70,61 +70,61 @@ class ElasticService
     public function createIndex(): void
     {
         $defaultIndex = [
-        'index' => '....',
-        'body' => [
-            'mappings' => [
-                'properties' => [
-                    'title' => [
-                        'type' => 'text',
-                    ],
-                    'sku' => [
-                        'type' => 'keyword'
-                    ],
-                    'category' => [
-                        'type' => 'text'
-                    ],
-                    'price' => [
-                        'type' => 'short'
-                    ],
-                    'stock' => [
-                        'type' => 'nested',
-                        'properties' => [
-                            'shop' => [
-                                'type' => 'keyword'
-                            ],
-                            'stock' => [
-                                'type' => 'short'
+            'index' => '....',
+            'body' => [
+                'mappings' => [
+                    'properties' => [
+                        'title' => [
+                            'type' => 'text',
+                        ],
+                        'sku' => [
+                            'type' => 'keyword'
+                        ],
+                        'category' => [
+                            'type' => 'text'
+                        ],
+                        'price' => [
+                            'type' => 'short'
+                        ],
+                        'stock' => [
+                            'type' => 'nested',
+                            'properties' => [
+                                'shop' => [
+                                    'type' => 'keyword'
+                                ],
+                                'stock' => [
+                                    'type' => 'short'
+                                ]
                             ]
                         ]
                     ]
-                ]
-            ],
-            'settings' => [
-                'analysis' => [
-                    'filter' => [
-                        'ru_stop' => [
-                            'type' => 'stop',
-                            'stopwords' => '_russian_'
+                ],
+                'settings' => [
+                    'analysis' => [
+                        'filter' => [
+                            'ru_stop' => [
+                                'type' => 'stop',
+                                'stopwords' => '_russian_'
+                            ],
+                            'ru_stemmer' => [
+                                'type' => 'stemmer',
+                                'language' => 'russian'
+                            ]
                         ],
-                        'ru_stemmer' => [
-                            'type' => 'stemmer',
-                            'language' => 'russian'
-                        ]
-                    ],
-                    "analyzer" => [
-                        "my_russian" => [
-                            'tokenizer' => 'standard',
-                            "filter" => [
-                                "lowercase",
-                                "ru_stop",
-                                "ru_stemmer"
+                        "analyzer" => [
+                            "my_russian" => [
+                                'tokenizer' => 'standard',
+                                "filter" => [
+                                    "lowercase",
+                                    "ru_stop",
+                                    "ru_stemmer"
+                                ]
                             ]
                         ]
                     ]
                 ]
             ]
-        ]
-    ];
+        ];
 
         try {
             $this->client->indices()->create($defaultIndex);

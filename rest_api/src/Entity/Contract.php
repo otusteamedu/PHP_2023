@@ -3,13 +3,14 @@
 namespace App\Entity;
 
 use App\Entity\Builder\ContractBuilder;
+use App\Entity\Decorator\ContractInterface;
 use App\Repository\ContractRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ContractRepository::class)]
-class Contract
+class Contract implements ContractInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -1,3 +1,9 @@
 # Directories
 /.idea/
+/.git/
 /vendor/
+/tmp/
+/data/
+
+# Files
+.env

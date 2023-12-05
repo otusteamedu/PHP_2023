@@ -35,7 +35,7 @@ class ContractController extends AbstractController
         if (!$contract) {
             $data = [
                 'status' => 404,
-                'contract' => "Not found",
+                'contract' => 'Not found',
             ];
 
             return $this->json($data, 404);
@@ -47,7 +47,6 @@ class ContractController extends AbstractController
     #[Route('/contracts', name: 'contracts_add', methods: 'POST')]
     public function addContract(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
-
         try {
             $request = $this->decodeJson($request);
 
@@ -58,7 +57,7 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new \Exception("Data no valid");
+                throw new \Exception('Data no valid');
             }
 
             $contract = new Contract();
@@ -72,9 +71,8 @@ class ContractController extends AbstractController
 
             return $this->json([
                 'status' => 200,
-                'success' => "Contract added successfully",
+                'success' => 'Contract added successfully',
             ]);
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 
@@ -94,8 +92,9 @@ class ContractController extends AbstractController
             if (!$contract) {
                 $data = [
                     'status' => 404,
-                    'errors' => "Contract not found",
+                    'errors' => 'Contract not found',
                 ];
+
                 return $this->json($data, 404);
             }
 
@@ -108,7 +107,7 @@ class ContractController extends AbstractController
                 || !$request->request->get('text')
                 || !$request->request->get('signature')
             ) {
-                throw new \Exception("Data no valid");
+                throw new \Exception('Data no valid');
             }
 
             $contract->setHeader($request->request->get('header'));
@@ -119,9 +118,8 @@ class ContractController extends AbstractController
 
             return $this->json([
                 'status' => 200,
-                'success' => "Contract updated successfully",
+                'success' => 'Contract updated successfully',
             ]);
-
         } catch (\Exception $e) {
             $this->logger->error($e->getMessage());
 
@@ -140,8 +138,9 @@ class ContractController extends AbstractController
         if (!$contract) {
             $data = [
                 'status' => 404,
-                'errors' => "Contract not found",
+                'errors' => 'Contract not found',
             ];
+
             return $this->json($data, 404);
         }
 
@@ -150,7 +149,7 @@ class ContractController extends AbstractController
 
         return $this->json([
             'status' => 200,
-            'success' => "Contract deleted successfully",
+            'success' => 'Contract deleted successfully',
         ]);
     }
 
@@ -158,7 +157,7 @@ class ContractController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
-        if ($data === null) {
+        if (null === $data) {
             return $request;
         }
 

@@ -1,12 +1,11 @@
-select Film.ID, Film.NAME, sum(TicketPrice.PRICE) as sum_price
-from TicketSale
-left join ShowFilm on ShowFilm.ID=TicketSale.ID_SHOW_FILM
-left join Show on ShowFilm.ID_SHOW=SHOW.ID
-left join TicketPrice on
-(TicketPrice.ID_SHOW=Show.ID and ShowFilm.ID_ROOM=TicketPrice.ID_ROOM
-and TicketSale.LINE=TicketPrice.LINE AND extract(dow from ShowFilm.DATA::timestamp) = TicketPrice.WEEKDAY)
-left join Film on Film.ID=ShowFilm.ID_FILM
-GROUP BY Film.ID
+select film.id, film.name, sum(ticketprice.price*film.long) as sum_price
+from ticketsale
+left join showfilm on showfilm.id=ticketsale.id_show_film
+left join ticketprice on
+(ticketprice.id_show=showfilm.id_show and showfilm.id_room =ticketprice.id_room
+and ticketsale.line=ticketprice.line AND extract(dow from showfilm.data::timestamp) = ticketprice.weekday)
+left join film on film.id=showfilm.id_film
+GROUP BY film.id
 ORDER BY sum_price DESC
 LIMIT 1
 

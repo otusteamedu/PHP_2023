@@ -1,25 +1,44 @@
-INSERT INTO Film (name) VALUES
-('Шедевр1'),
-('Шедевр2'),
-('Шедевр3'),
-('Шедевр4'),
-('Туфта1'),
-('Туфрта2');
+INSERT INTO film (name, long) VALUES
+('Шедевр1',1),
+('Шедевр2',1),
+('Шедевр3',2),
+('Шедевр4',1),
+('Туфта1',1),
+('Туфрта2',2);
 
-INSERT INTO Room (name) VALUES
+INSERT INTO room (name) VALUES
 ('Синий зал'),
 ('Красный зал'),
 ('Синий VIP зал'),
 ('Красный VIP зал');
 
-INSERT INTO Show (TIME_START) VALUES
+INSERT INTO show (time_start) VALUES
 ('10-00'),
 ('13-00'),
 ('16-00'),
 ('19-00'),
 ('22-00');
 
-INSERT INTO TicketPrice (ID_ROOM, LINE, ID_SHOW, WEEKDAY, PRICE) VALUES
+INSERT INTO zhanr (name) VALUES
+('Аннимация'),
+('Семейный'),
+('Ужас'),
+('Детектив'),
+('Фэнтэзи'),
+('18+'),
+('Приключения'),
+('Боевик');
+
+
+INSERT INTO zhanrfilm (id_film, id_zhanr) VALUES
+(1,1),
+(1,2),
+(2,6),
+(2,3),
+(2,8);
+
+
+INSERT INTO ticketprice (id_room, line, id_show, weekday, price) VALUES
 (1,1,1,1,150),
 (1,2,1,1,150),
 (1,3,1,1,150),
@@ -79,63 +98,35 @@ INSERT INTO TicketPrice (ID_ROOM, LINE, ID_SHOW, WEEKDAY, PRICE) VALUES
 (3,3,4,0,350),
 (3,1,5,0,300),
 (3,2,5,0,300),
-(3,3,5,0,300);
+(3,3,5,0,300),
+(4,1,2,0,500),
+(4,2,2,0,500),
+(4,3,2,0,500),
+(4,1,4,0,500),
+(4,2,4,0,500),
+(4,3,4,0,500);
+
+INSERT INTO showfilm (id_room, id_show, id_film, data) values
+(1,1,4,  '2023-12-04' ),
+(1,2,4,  '2023-12-04' ),
+(1,3,4,  '2023-12-04' ),
+(1,4,4,  '2023-12-04' ),
+(1,5,4,  '2023-12-04' ),
+(2,1,1,  '2023-12-04' ),
+(2,2,1,  '2023-12-04' ),
+(2,3,1,  '2023-12-04' ),
+(2,4,1,  '2023-12-04' ),
+(2,5,1,  '2023-12-04' ),
+(3,1,2,  '2023-12-04' ),
+(3,2,2,  '2023-12-04' ),
+(3,3,2,  '2023-12-04' ),
+(3,4,2,  '2023-12-04' ),
+(3,5,2,  '2023-12-04' ),
+(4,2,6,  '2023-12-04' ),
+(4,4,6,  '2023-12-04' );
 
 
-INSERT INTO ShowFilm (ID_ROOM, ID_SHOW, ID_FILM, DATA) values
-(1,1,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow'),
-(1,1,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,1,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,1,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,1,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,2,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,2,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,2,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,2,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,2,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,3,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,3,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,3,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,3,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,3,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,4,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,4,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,4,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,4,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,4,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,5,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,5,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,5,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,5,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(1,5,1,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,1,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,1,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,1,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,1,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,1,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,2,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,2,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,2,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,2,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,2,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,3,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,3,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,3,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,3,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,3,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,4,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,4,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,4,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,4,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,4,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,5,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,5,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,5,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,5,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' ),
-(3,5,4,  '2023-12-04'::timestamp at time zone 'Europe/Moscow' );
-
-
-INSERT INTO TicketSale (ID_SHOW_FILM, LINE, PLACE ) values
+INSERT INTO ticketsale (id_show_film, line, place ) values
 (1,1,4 ),
 (1,1,5 ),
 (1,1,6 ),
@@ -148,40 +139,15 @@ INSERT INTO TicketSale (ID_SHOW_FILM, LINE, PLACE ) values
 (4,2,2 ),
 (4,2,3 ),
 (4,2,4 ),
-(1,1,4 ),
-(1,1,5 ),
-(1,1,6 ),
-(2,2,1 ),
-(2,2,3 ),
-(2,2,4 ),
-(3,3,1 ),
-(3,3,3 ),
-(3,3,2 ),
-(4,2,2 ),
-(4,2,3 ),
-(4,2,4 ),
-(31,1,4 ),
-(31,1,5 ),
-(31,1,6 ),
-(32,2,1 ),
-(32,2,3 ),
-(32,2,4 ),
-(33,3,1 ),
-(33,3,3 ),
-(33,3,2 ),
-(34,2,2 ),
-(34,2,3 ),
-(34,2,4 ),
-(31,1,4 ),
-(31,1,5 ),
-(31,1,6 ),
-(32,2,1 ),
-(33,2,3 ),
-(32,2,4 ),
-(33,3,1 ),
-(33,3,3 ),
-(33,3,2 ),
-(34,2,2 ),
-(34,2,3 ),
-(34,2,4 );
-
+(11,1,4 ),
+(11,1,5 ),
+(11,1,6 ),
+(5,2,2 ),
+(5,2,3 ),
+(5,2,4 ),
+(12,1,1),
+(12,1,2),
+(12,1,3),
+(13,2,1),
+(13,2,2),
+(13,2,3);

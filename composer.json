@@ -1,0 +1,28 @@
+{
+    "name": "ndybnov/hw18-leetcode-practicum-2",
+    "description": "Realization of 1 https://leetcode.com/problems/intersection-of-two-linked-lists/ and 2 https://leetcode.com/problems/fraction-to-recurring-decimal/",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    },
+    "require-dev": {
+        "codeception/codeception": "^5",
+        "codeception/module-asserts": "*"
+    }
+}

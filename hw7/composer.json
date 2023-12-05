@@ -1,0 +1,15 @@
+{
+    "name": "elena/hw7",
+    "autoload": {
+        "psr-4": {
+            "Elena\\Hw7\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Елена Спиктаренко",
+            "email": "elena.spiktarenko@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,21 @@
+version: "3"
+
+services:
+
+  # php-cli service
+  otus-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: cli
+    container_name: otus-cli
+    volumes:
+      - ./www:/www
+      - ./shared:/tmp/socket
+    networks:
+      - otus-network
+
+# Docker Network
+networks:
+  otus-network:
+    driver: bridge

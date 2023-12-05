@@ -1,3 +1,11 @@
-# PHP_2023
+# Socket Server/Client
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Run Server:
+```bash
+docker compose run --rm otus-cli php app.php server
+```
+
+### Run Client:
+```bash
+docker compose run --rm otus-cli php app.php client
+```

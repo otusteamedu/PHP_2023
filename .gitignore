@@ -6,7 +6,6 @@ Homestead.json
 Homestead.yaml
 
 /www/vendor
-/www/composer.lock
 /shared
 /nginx/log
 /php/log

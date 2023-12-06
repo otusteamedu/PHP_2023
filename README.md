@@ -1,3 +1,20 @@
-# PHP_2023
+# Консальный чат на сокетах
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Использование
+
+* Cоздаем образ для запуска инстансов чата
+
+``` bash
+docker build -t test-cli  ./docker/
+```
+
+* Запускаем чат в режиме сервера
+
+``` bash
+docker run --rm -it  -v ./:/www test-cli php /www/index.php server
+```
+
+* Отправляем сообщение:
+``` bash
+docker run --rm -it -v ./:/www test-cli php /www/index.php client hello!
+```

@@ -1,0 +1,32 @@
+version: "3"
+services:
+  php-cli-server:
+    container_name: php-cli-server
+    build:
+      context: php-cli
+      dockerfile: Dockerfile-server
+    volumes:
+      - ./www:/var/www/otusphp.local
+      - phpsocket:/var/run/php-cli
+    networks:
+      - otusphp
+
+  php-cli-client:
+    container_name: php-cli-client
+    build:
+      context: php-cli
+      dockerfile: Dockerfile-client
+    volumes:
+      - ./www:/var/www/otusphp.local
+      - phpsocket:/var/run/php-cli
+    depends_on:
+      - php-cli-server
+    networks:
+      - otusphp
+
+networks:
+  otusphp:
+    driver: bridge
+
+volumes:
+  phpsocket:

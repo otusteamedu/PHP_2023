@@ -15,7 +15,7 @@ class App
         global $argv;
         global $argc;
 
-        $this->socket_path = __DIR__ . '/../../socket.sock';
+        $this->socket_path = getenv("SOCKET");
 
         switch ($argv[1]) {
             case 'server':

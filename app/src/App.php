@@ -16,7 +16,7 @@ class App
 
         try {
             http_response_code(200);
-            echo 'Is valid.';
+            echo 'Email is valid.';
         } catch (\Exception $e) {
             http_response_code(400);
             echo $e->getMessage();

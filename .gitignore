@@ -11,3 +11,4 @@ Homestead.yaml
 /nginx/log
 /php/log
 /mysql/data
+/postgres/data

@@ -1,0 +1,19 @@
+{
+  "name": "antonardyshev/app",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Chat\\": "./src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Anton Ardyshev",
+      "email": "toni.ardyshev@mail.ru"
+    }
+  ],
+  "require": {
+    "ext-sockets": "*",
+    "ext-readline": "*"
+  }
+}

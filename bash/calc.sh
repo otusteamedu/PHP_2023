@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 
 if ! which bc > /dev/null; then
-    echo "Пакет bc не установлен. Установка..."
-    sudo apt-get update
-    sudo apt-get install -y bc
+    echo "Пакет bc не установлен"
+    exit
 fi
 
 echo 'Напишите exit в любом чтобы выйти или нажмите CTRL+C'

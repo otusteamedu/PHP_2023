@@ -5,7 +5,7 @@ if ! which bc > /dev/null; then
     exit
 fi
 
-pattern='^-?[0-9]+?.[0-9]+'
+pattern='^-?[0-9]+?.?[0-9]+'
 if ! [[ $1 =~ $pattern || $2 =~ $pattern ]] ; then
     echo "Вы ввели не число, допустивы целые числа, десятичные, положительные и отрицательные"
     exit

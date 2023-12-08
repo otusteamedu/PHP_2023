@@ -13,7 +13,7 @@ if [[ $first_number = "exit"  ]]; then
     exit;
 fi
 
-pattern='^-?[0-9]+?.[0-9]+'
+pattern='^-?[0-9]+?.?[0-9]+'
 if ! [[ $first_number =~ $pattern ]]; then
     echo "Вы ввели не число, допустивы целые числа, десятичные, положительные и отрицательные"
     exit

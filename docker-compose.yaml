@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    image: hw19/nginx
+    container_name: nginx-hw19
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/data
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .docker/fpm
+      dockerfile: Dockerfile
+    image: hw19/php
+    container_name: php-hw18
+    volumes:
+      - ./app:/data

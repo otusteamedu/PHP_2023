@@ -1,2 +1,5 @@
 .idea
 .env
+
+#Ignore docker folders
+/.docker_data

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Chat;
 
 use Exception;
+
 class Client
 {
     /**

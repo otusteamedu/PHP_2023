@@ -22,7 +22,7 @@ class Chat
     {
         $config = parse_ini_file(__DIR__ . '/../config/config.ini', true);
         if (empty($config)) {
-            throw new Exception( "Empty config");
+            throw new Exception("Empty config");
         }
 
         if (empty($config['socket']['file'])) {

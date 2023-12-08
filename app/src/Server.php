@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chat;
 
-use \Exception;
+use Exception;
 
 final class Server
 {
@@ -25,13 +26,13 @@ final class Server
         while (true) {
             $chat->receive();
 
-            if(is_null($chat->buf['message'])) {
+            if (is_null($chat->buf['message'])) {
                 continue;
             }
 
             echo $chat->buf['message'] . PHP_EOL;
 
-            if($chat->buf['message'] == 'exit') {
+            if ($chat->buf['message'] == 'exit') {
                 break;
             }
 

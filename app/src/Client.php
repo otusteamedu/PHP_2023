@@ -1,9 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Chat;
 
-use \Exception;
+use Exception;
 class Client
 {
     /**

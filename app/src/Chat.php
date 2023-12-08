@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Chat;
 
 use Exception;
-use \Socket;
+use Socket;
 
 class Chat
 {
@@ -26,12 +26,12 @@ class Chat
         }
 
         if (empty($config['socket']['file'])) {
-            throw new Exception( "Empty path socket");
+            throw new Exception("Empty path socket");
         }
         $this->file = $config['socket']['file'];
 
         if (empty($config['socket']['max_size'])) {
-            throw new Exception( "Empty path socket");
+            throw new Exception("Empty path socket");
         }
         $this->maxSize = (int)$config['socket']['max_size'];
     }
@@ -44,7 +44,7 @@ class Chat
         $result = socket_create(AF_UNIX, SOCK_STREAM, 0);
         if ($result === false) {
             $errorMessage = socket_strerror(socket_last_error());
-            throw new Exception( "Failed to create a socket! Reason: $errorMessage" . PHP_EOL);
+            throw new Exception("Failed to create a socket! Reason: $errorMessage" . PHP_EOL);
         }
 
         $this->socket = $result;
@@ -62,7 +62,7 @@ class Chat
         $isSocketConnect = socket_bind($this->socket, $this->file);
         if (!$isSocketConnect) {
             $errorMessage = socket_strerror(socket_last_error($this->socket));
-            throw new Exception( "Failed to connect a socket! Reason: $errorMessage" . PHP_EOL);
+            throw new Exception("Failed to connect a socket! Reason: $errorMessage" . PHP_EOL);
         }
     }
 
@@ -73,7 +73,7 @@ class Chat
     {
         if (socket_listen($this->socket, 5) === false) {
             $errorMessage = socket_strerror(socket_last_error($this->socket));
-            throw new Exception( "Failed to listen a socket! Reason: $errorMessage" . PHP_EOL);
+            throw new Exception("Failed to listen a socket! Reason: $errorMessage" . PHP_EOL);
         }
     }
 

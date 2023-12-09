@@ -4,46 +4,102 @@ https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_
 
 # Задание
 
-Docker 
-1. Установить Docker себе на локальную машину
-2. Описать инфраструктуру в Docker-compose, которая включает в себя 
-3. nginx (обрабатывает статику, пробрасывает выполнение скриптов в fpm)
-4. php-fpm (соединяется с nginx через unix-сокет)
-5. redis (соединяется с php по порту)
-6. memcached (соединяется с php по порту)
-7. БД подключать как отдельную VM (можно на базе Homestead), либо как контейнер (но тогда не забудьте про директории с данными)
-8. Не забудьте про Composer
+## Цель
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+https://leetcode.com/problems/fraction-to-recurring-decimal/
 
-# Установка
+## Описание/Пошаговая инструкция выполнения домашнего задания:
+- Решаем задачу
+- Прикладываем код на GitHub
+- Обосновываем сложность
 
-## Изолированное окружение
+## Критерии оценки
+- Решение имеет оптимальную сложность
+- Учтены исключительные случаи
+- Решение проходит тесты
 
-Для развёртывания изолированного окружения пропишите команду
-```bash
-vagrant up
+# Решение
+
+## Задача 1
+
+https://leetcode.com/problems/intersection-of-two-linked-lists/
+
+```php
+class Solution {
+    /**
+     * @param ListNode $headA
+     * @param ListNode $headB
+     * @return ListNode
+     */
+    function getIntersectionNode($headA, $headB) {
+        $hash = [];
+
+        while ($headA) {
+            $hash[spl_object_id($headA)] = true;
+            $headA = $headA->next;
+        }
+
+        while ($headB) {
+            if (array_key_exists(spl_object_id($headB), $hash)) {
+                return $headB;
+            }
+
+            $headB = $headB->next;
+        }
+
+        return null;
+    }
+}
 ```
 
-После установки, зайдите в ОС
-```bash
-vagrant ssh
+Сложность: O(n)
+
+## Задача 2
+
+https://leetcode.com/problems/fraction-to-recurring-decimal/
+
+```php
+class Solution {
+   public static function fractionToDecimal($numerator, $denominator) {
+        if ($numerator === 0) {
+            return '0';
+        }
+
+        if (($numerator < 0 && $denominator > 0) || ($numerator > 0 && $denominator < 0)) {
+            $prefix = '-';
+        } else {
+            $prefix = '';
+        }
+
+        $numerator = abs($numerator);
+        $denominator = abs($denominator);
+
+        $result = $numerator / $denominator;
+        $leftPart = floor($result);
+        $rightPart = $result - $leftPart;
+
+        if ($rightPart === 0.0) {
+            return $prefix . $leftPart;
+        }
+
+        $rightPart = "";
+        $hash = [];
+
+        for($rest = $numerator % $denominator; $rest > 0; $rest %= $denominator) {
+            if (isset($hash[$rest])) {
+                $rightPart = substr($rightPart, 0, $hash[$rest]) . "(" . substr($rightPart, $hash[$rest]) . ")";
+                break;
+            }
+
+            $hash[$rest] = strlen($rightPart);
+            $rest *= 10;
+            $rightPart .= floor($rest / $denominator);
+        }
+
+        return $prefix . $leftPart . '.' . $rightPart;
+   }
+}
 ```
 
-## Подготовка и запуск среды
-```bash
-cd /vagrant/application && cp .env.example .env
-```
+Сложность: O(n)
 
-Далее, заполните все пустые строки нужными данными в файле `.env`
-
-После чего выполните команду
-
-```bash
-sudo docker compose up -d
-```
-
-Добавьте сайт `mysite.local` в файл `hosts`
-```bash
-127.0.0.1 mysite.local
-```
-
-Готово!

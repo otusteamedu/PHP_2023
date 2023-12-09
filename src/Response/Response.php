@@ -9,7 +9,6 @@ class Response
     public function __construct(
         private int $code
     ) {
-
     }
 
     public function setResponseCode(): void

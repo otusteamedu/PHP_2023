@@ -14,7 +14,6 @@ class EmailDNSValidator
     public function __construct(
         private string $email
     ) {
-
     }
 
 

@@ -1,3 +1,3 @@
 <?php
 
-echo "TEST122";
+(require __DIR__ . '/../config/bootstrap.php')->run();

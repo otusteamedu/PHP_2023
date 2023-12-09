@@ -10,6 +10,7 @@ class Response
         private int $code
     )
     {
+
     }
 
     public function setResponseCode(): void

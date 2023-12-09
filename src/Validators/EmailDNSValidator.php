@@ -15,6 +15,7 @@ class EmailDNSValidator
         private string $email
     )
     {
+
     }
 
 

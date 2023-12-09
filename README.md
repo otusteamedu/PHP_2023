@@ -82,18 +82,18 @@ class Solution {
             return $prefix . $leftPart;
         }
 
-        $rightPart = (string) $rightPart;
-        $rightPart = substr($rightPart, 2);
-        $rightPart = rtrim($rightPart, '0');
+        $rightPart = "";
+        $hash = [];
 
-        for($i = 0, $maxSize = floor($rightPart / 2); $i < $maxSize; $i++) {
-            $left = substr($rightPart, 0, $i + 1);
-            $right = substr($rightPart, $i + 1, $i + 1);
-
-            if ($left === $right) {
-                $rightPart = '(' . substr($rightPart, 0, $i + 1) . ')';
+        for($rest = $numerator % $denominator; $rest > 0; $rest %= $denominator) {
+            if (isset($hash[$rest])) {
+                $rightPart = substr($rightPart, 0, $hash[$rest]) . "(" . substr($rightPart, $hash[$rest]) . ")";
                 break;
             }
+
+            $hash[$rest] = strlen($rightPart);
+            $rest *= 10;
+            $rightPart .= floor($rest / $denominator);
         }
 
         return $prefix . $leftPart . '.' . $rightPart;

@@ -1,0 +1,15 @@
+{
+    "name": "vasilaki/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Vasilaki\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vasilaki",
+            "email": "vasilaki.t@gmail.com"
+        }
+    ],
+    "require": {}
+}

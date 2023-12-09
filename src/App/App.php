@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Vasilaki\Php2023\App;
@@ -21,9 +22,9 @@ class App
     {
         $request = new Request();
         $code = 400;
-        if($request->email){
+        if ($request->email) {
             $emailValidator = new EmailDNSValidator($request->email);
-            if($emailValidator->validate()){
+            if ($emailValidator->validate()) {
                 $code = 200;
             }
         }

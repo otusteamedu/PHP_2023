@@ -14,7 +14,8 @@ class EmailDNSValidator
     public function __construct(
         private string $email
     )
-    {}
+    {
+    }
 
 
     public function validate(): bool

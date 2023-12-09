@@ -33,5 +33,4 @@ return [
             (bool) $settings['log_error_details']
         );
     },
-
 ];

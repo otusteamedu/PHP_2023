@@ -11,6 +11,7 @@
  *     }
  * }
  */
+
 class Solution {
 
     /**
@@ -30,13 +31,13 @@ class Solution {
 
         $result = $current = $list1;
         $secondary = $list2;
-        if  ($list1->val < $list2->val) {
+        if ($list1->val < $list2->val) {
             $result = $current = $list2;
             $secondary = $list1;
         }
 
 
-        while(!is_null($current->next)) {
+        while (!is_null($current->next)) {
             if ($current->next->val < $secondary->val) {
                 $current = $current->next;
                 continue;

@@ -1,3 +1,14 @@
-# PHP_2023
+# HW6. Консольный чат
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+
+### Запуск сервера
+
+```bash
+docker compose run server php app.php server
+```
+
+### Запуск клиента
+
+```bash
+docker compose run client php app.php client
+```

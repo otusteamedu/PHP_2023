@@ -1,0 +1,14 @@
+{
+    "name": "ekovalev/otus",
+    "autoload": {
+        "psr-4": {
+            "Ekovalev\\Otus\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "Evgeny Kovalev"
+        }
+    ],
+    "require": {}
+}

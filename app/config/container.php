@@ -1,10 +1,12 @@
 <?php
 
+use App\Infrastructure\Queues\PublisherInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Middleware\ErrorMiddleware;
+use App\Infrastructure\Queues\RabbitMQPublisher;
 
 return [
     'settings' => function () {
@@ -19,6 +21,10 @@ return [
 
     ResponseFactoryInterface::class => function (ContainerInterface $container) {
         return $container->get(App::class)->getResponseFactory();
+    },
+
+    PublisherInterface::class => function (ContainerInterface $container) {
+        return new RabbitMQPublisher();
     },
 
     ErrorMiddleware::class => function (ContainerInterface $container) {

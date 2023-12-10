@@ -6,5 +6,7 @@
             "GregoryKarman\\ChatInUnixSocket\\": "src/"
         }
     },
-    "require": {}
+    "require": {
+        "ext-sockets": "*"
+    }
 }

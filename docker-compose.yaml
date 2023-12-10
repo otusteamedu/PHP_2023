@@ -6,7 +6,7 @@ services:
       context: ./php-fpm
       dockerfile: Dockerfile
     image: otus/php-fpm
-    container_name: otus-php-fpm-server
+    container_name: otus-app-server
     volumes:
       - ./code:/var/www/application.local
       - ./php-fpm/socket:/var/run
@@ -16,7 +16,9 @@ services:
       context: ./php-fpm
       dockerfile: Dockerfile
     image: otus/php-fpm
-    container_name: otus-php-fpm-client
+    container_name: otus-app-client
     volumes:
       - ./code:/var/www/application.local
       - ./php-fpm/socket:/var/run
+    depends_on:
+      - app-server

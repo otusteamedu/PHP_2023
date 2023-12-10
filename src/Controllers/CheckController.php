@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-include_once ROOT . '/models/Check.php';
+namespace Ekovalev\Otus\Controllers;
+
+use Ekovalev\Otus\Models\Check;
 
 class CheckController
 {
@@ -13,7 +15,6 @@ class CheckController
             Check::redisCheck(),
             Check::memcacheCheck()
         ];
-
 
         extract(compact('variable'));
         //return view("home.php",compact('variable'));

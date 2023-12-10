@@ -1,0 +1,16 @@
+{
+    "name": "ekovalev/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ekovalev\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "EKovalev",
+            "email": "knuklus@ya.ru"
+        }
+    ],
+    "require": {}
+}

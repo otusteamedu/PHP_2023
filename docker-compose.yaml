@@ -19,13 +19,34 @@ services:
       context: .docker/fpm
       dockerfile: Dockerfile
     image: hw19/php
-    container_name: php-hw18
+    container_name: php-hw19
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
       QUEUE: ${QUEUE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
     volumes:
       - ./app:/data
+
+  consumer:
+    build:
+      context: .docker/fpm
+      dockerfile: Dockerfile
+    image: hw19/php
+    container_name: php-hw19-consumer
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      QUEUE: ${QUEUE}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+    volumes:
+      - ./consumer:/data
 
   rabbitmq:
     image: rabbitmq:3.7.7-management-alpine
@@ -36,3 +57,15 @@ services:
     ports:
       - "127.0.0.1:5673:5672"
       - "127.0.0.1:15673:15672"
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - data:/var/lib/mysql
+
+volumes:
+  data:

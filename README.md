@@ -3,7 +3,7 @@
 https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus  
 
 В основу задачи легло создание абстрактной заявки, в которой есть сообщение и email.  
-В качестве фремворка используется Slim 4.  
+В качестве фреймворка используется Slim 4.  
 При создании заявки методом POST `http://127.0.0.1/application_form`  
 создается запись в БД и отправляется сообщение в очередь.  
 Схема базы в каталоге `app/database`.  

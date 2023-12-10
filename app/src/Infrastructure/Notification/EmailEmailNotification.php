@@ -35,7 +35,5 @@ class EmailEmailNotification implements EmailNotificationInterface
             ->subject($subject);
         $this->mailer->send($this->email);
         */
-
-        print_r("Отправка сообщения '{$message}' c темой '{$subject}' на '{$email}'");
     }
 }

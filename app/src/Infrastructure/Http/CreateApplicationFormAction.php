@@ -5,6 +5,7 @@ namespace App\Infrastructure\Http;
 use App\Application\UseCase\CreateApplicationForm;
 use App\Application\UseCase\Request\CreateApplicationFormRequest;
 use App\Exception\PublishException;
+use App\Infrastructure\Notification\EmailNotificationInterface;
 use App\Infrastructure\Queues\Publisher\PublisherInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -14,11 +15,14 @@ class CreateApplicationFormAction
 {
     private PublisherInterface $publisher;
     private CreateApplicationForm $useCase;
+    private EmailNotificationInterface $notificator;
 
-    public function __construct(PublisherInterface $publisher, CreateApplicationForm $useCase)
-    {
+    public function __construct(
+        PublisherInterface $publisher, CreateApplicationForm $useCase, EmailNotificationInterface $notificator
+    ) {
         $this->publisher = $publisher;
         $this->useCase = $useCase;
+        $this->notificator = $notificator;
     }
 
     public function __invoke(
@@ -32,6 +36,7 @@ class CreateApplicationFormAction
             $data['id'] = $responseDto->id;
 
             $this->publisher->publish(json_encode($data));
+            $this->notificator->send("The application has been accepted for processing", 'TEST', $data['email']);
 
             $message = "success";
             $code = 201;

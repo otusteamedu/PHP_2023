@@ -1,6 +1,8 @@
 <?php
 
 use App\Domain\Repository\ApplicationFormInterface;
+use App\Infrastructure\Notification\EmailEmailNotification;
+use App\Infrastructure\Notification\EmailNotificationInterface;
 use App\Infrastructure\Queues\Publisher\PublisherInterface;
 use App\Infrastructure\Queues\Publisher\RabbitMQPublisher;
 use App\Infrastructure\Repository\DbRepository;
@@ -31,6 +33,10 @@ return [
 
     ApplicationFormInterface::class => function (ContainerInterface $container) {
         return new DbRepository();
+    },
+
+    EmailNotificationInterface::class => function (ContainerInterface $container) {
+        return new EmailEmailNotification();
     },
 
     ErrorMiddleware::class => function (ContainerInterface $container) {

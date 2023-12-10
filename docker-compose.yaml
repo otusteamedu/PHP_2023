@@ -28,6 +28,7 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}
+      SENDER: ${SENDER}
     volumes:
       - ./app:/data
 
@@ -45,7 +46,6 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_HOST: ${MYSQL_HOST}
       MYSQL_USER: ${MYSQL_USER}
-      SENDER: ${SENDER}
     volumes:
       - ./app:/data
 

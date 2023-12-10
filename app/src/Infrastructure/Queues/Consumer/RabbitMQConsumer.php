@@ -3,6 +3,7 @@
 namespace App\Infrastructure\Queues\Consumer;
 
 use App\Domain\Repository\ApplicationFormInterface;
+use App\Infrastructure\Notification\EmailNotificationInterface;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Message;
@@ -15,12 +16,14 @@ class RabbitMQConsumer implements ConsumerInterface
     private string $queue;
     private PromiseInterface|Channel $channel;
     private ApplicationFormInterface $repository;
+    private EmailNotificationInterface $notificator;
 
     /**
      * @throws Exception
      */
-    public function __construct(ApplicationFormInterface $repository)
+    public function __construct(ApplicationFormInterface $repository, EmailNotificationInterface $notificator)
     {
+        $this->notificator = $notificator;
         $this->repository = $repository;
         $this->client = new Client([
             'host'      => 'rabbitmq',
@@ -44,8 +47,8 @@ class RabbitMQConsumer implements ConsumerInterface
             var_dump($message->content);
 
             $data = json_decode($message->content, true);
-            $email = $this->repository->findOneById($data['id']);
-            var_dump($email);
+            $email = $this->repository->findOneById($data['id'])->getEmail()->getValue();
+            $this->notificator->send("The application has been accepted for processing", $email);
 
             $channel->ack($message);
         }, $this->queue);

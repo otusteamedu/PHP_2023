@@ -9,17 +9,25 @@ server {
         access_log off;
         expires max;
     }
+
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+
     location ~ \.php$
     {
-        try_files $uri =404;
-        fastcgi_split_path_info ^(.+.php)(/.+)$;
-        #fastcgi_pass php:9000;
-        fastcgi_pass unix:${PHP_SOCKET}docker.sock;
-        fastcgi_index index.php;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
         include fastcgi_params;
-        fastcgi_intercept_errors on;
-        fastcgi_send_timeout 900;
-        fastcgi_read_timeout 900;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_pass unix:${PHP_SOCKET}docker.sock;
+        #fastcgi_pass php:9000;
+        fastcgi_split_path_info ^(.+.php)(/.+)$;
+        fastcgi_index index.php;
     }
+
+    error_page 404 /404.php;
+    location = /404.php {
+        internal;
+    }
+    error_page 500 502 503 504 /50x.html;
+    #try_files $uri = 404;
 }

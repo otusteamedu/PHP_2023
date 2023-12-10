@@ -1,6 +1,4 @@
 /.idea
-mysql/dbdata/*
-code/*
 .env
 php-fpm/socket/*
-
+/code/vendor

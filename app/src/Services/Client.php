@@ -54,7 +54,7 @@ class Client
             socket_write($socket, $line);
 
             if ($message = socket_read($socket, 2048)) {
-                echo $message  . PHP_EOL;;
+                echo $message  . PHP_EOL;
             }
         } while (true);
 

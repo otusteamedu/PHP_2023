@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-
-
 namespace Yevgen87\App\Services;
 
 use Exception;
@@ -54,9 +52,7 @@ class Server
 
         socket_listen($socket);
         while (($client = socket_accept($socket))) {
-
             do {
-
                 if ($message = socket_read($client, 1024)) {
                     echo $message;
 

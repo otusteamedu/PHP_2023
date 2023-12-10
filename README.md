@@ -1,3 +1,4 @@
-# PHP_2023
+# Otus. Изучение Composer
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+1. Создание своего пакета и публикация его на https://packagist.org/
+2. Подключение созданного пакета в проект 

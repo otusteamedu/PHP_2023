@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+    nginx:
+        build:
+            context: docker
+            dockerfile: developer/nginx/Dockerfile
+        container_name: nginx-1.25
+        restart: unless-stopped
+        ports:
+            - "80:80/tcp"
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - shared-socket:/var/run/php-fpm
+        depends_on:
+            - php-fpm
+        networks:
+            - otus-network-hw4
+
+    php-fpm:
+        build:
+            context: docker
+            dockerfile: developer/php-fpm/Dockerfile
+        container_name: php-fpm-8.2
+        restart: unless-stopped
+        working_dir: /app
+        volumes:
+            - ./:/app
+            - shared-socket:/var/run/php-fpm
+        networks:
+            - otus-network-hw4
+
+    php-cli:
+        build:
+            context: docker
+            dockerfile: developer/php-cli/Dockerfile
+        container_name: php-cli-8.2
+        working_dir: /app
+        volumes:
+            - ./:/app
+        networks:
+            - otus-network-hw4
+
+volumes:
+    public:
+        driver: local
+    shared-socket:
+        driver: local
+
+networks:
+    otus-network-hw4:
+        driver: bridge

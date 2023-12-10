@@ -1,0 +1,60 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "15d2ce950fe6b27e05f8d365b92431cf",
+    "packages": [
+        {
+            "name": "dimvilkester/otus-composer-package-hw4",
+            "version": "v1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dimvilkester/otus-composer-package-hw4.git",
+                "reference": "4a621137fd85d82996a997a31dac7d05fd6b5a49"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dimvilkester/otus-composer-package-hw4/zipball/4a621137fd85d82996a997a31dac7d05fd6b5a49",
+                "reference": "4a621137fd85d82996a997a31dac7d05fd6b5a49",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dimvilkester\\OtusComposerPackageHw4\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "proprietary"
+            ],
+            "authors": [
+                {
+                    "name": "Dushinov Dmitry"
+                }
+            ],
+            "description": "Otus. Learning composer. Make package",
+            "support": {
+                "issues": "https://github.com/dimvilkester/otus-composer-package-hw4/issues",
+                "source": "https://github.com/dimvilkester/otus-composer-package-hw4/tree/v1.0.2"
+            },
+            "time": "2023-12-10T12:42:39+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": "^8.2"
+    },
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

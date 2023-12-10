@@ -3,32 +3,29 @@
 use Rvoznyi\ComposerHello\ListNode;
 
 /**
- * @param ListNode $list1
- * @param ListNode $list2
- * @return ListNode
+ * @param ListNode $l1
+ * @param ListNode $l2
+ * @return ListNode|null
  */
-function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
+function mergeTwoLists(ListNode $l1, ListNode $l2): ?ListNode
 {
-    $head      = new ListNode();
-    $headStart = $head;
-    while (true) {
-        if ($list1->val < $list2->val) {
-            $head->val = $list1->val;
-            $list1     = $list1->next;
+    $dummy = new ListNode();
+    $current = $dummy;
+
+    while ($l1 !== null && $l2 !== null) {
+        if ($l1->val < $l2->val) {
+            $current->next = $l1;
+            $l1 = $l1->next;
         } else {
-            $head->val = $list2->val;
-            $list2     = $list2->next;
+            $current->next = $l2;
+            $l2 = $l2->next;
         }
-        if ($list1 === null) {
-            $head->next = $list2;
-            break;
-        }
-        if ($list2 === null) {
-            $head->next = $list1;
-            break;
-        }
-        $head->next = new ListNode();
-        $head       = $head->next;
+        $current = $current->next;
     }
-    return $headStart;
+    if ($l1 !== null) {
+        $current->next = $l1;
+    } elseif ($l2 !== null) {
+        $current->next = $l2;
+    }
+    return $dummy->next;
 }

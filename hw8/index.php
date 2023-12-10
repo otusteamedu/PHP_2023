@@ -1,7 +1,7 @@
 <?php
-function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
-{
-    $node = new ListNode();
+declare(strict_types=1);
+function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode {
+    $node = new ListNode(0);
     $current = $node;
     while ($list1 !== null && $list2 !== null) {
         if ($list1->val < $list2->val) {

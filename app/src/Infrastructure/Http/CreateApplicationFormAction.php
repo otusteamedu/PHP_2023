@@ -38,7 +38,11 @@ class CreateApplicationFormAction
             $data['id'] = $responseDto->id;
 
             $this->publisher->publish(json_encode($data));
-            $this->notificator->send("The application has been accepted for processing", 'TEST', $data['email']);
+            $this->notificator->send(
+                "The application has been accepted for processing. № {$data['id']}",
+                'Application Form',
+                $data['email']
+            );
 
             $message = "success";
             $code = 201;

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Infrastructure\Queues;
+namespace App\Infrastructure\Queues\Publisher;
 
+use Bunny\Channel;
 use Bunny\Client;
 use Exception;
 use React\Promise\PromiseInterface;
-use Bunny\Channel;
 
 class RabbitMQPublisher implements PublisherInterface
 {

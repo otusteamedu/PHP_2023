@@ -60,19 +60,19 @@ class DbRepository implements ApplicationFormInterface
     {
         $sql = 'UPDATE ' . static::getTableName() . ' SET ' . '`email` = ?, `message` = ?' . ' WHERE id = ' . $entity->getId();
         $db = Db::getInstance();
-        $db->query($sql, [$entity->getEmail(), $entity->getMessage()]);
+        $db->query($sql, [$entity->getEmail()->getValue(), $entity->getMessage()->getValue()]);
     }
 
     private function insert(ApplicationForm $entity)
     {
         $sql = 'INSERT INTO ' . static::getTableName() . ' (`email`, `message`) VALUES (?, ?);';
         $db = Db::getInstance();
-        $db->query($sql, [$entity->getEmail(), $entity->getMessage()]);
+        $db->query($sql, [$entity->getEmail()->getValue(), $entity->getMessage()->getValue()]);
         $id = $db->getLastInsertId();
 
         $reflectionClass = new ReflectionClass($entity);
         $reflectionProperty = $reflectionClass->getProperty('id');
         $reflectionProperty->setAccessible(true);
-        $reflectionProperty->setValue($id);
+        $reflectionProperty->setValue($entity, $id);
     }
 }

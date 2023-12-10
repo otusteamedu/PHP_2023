@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Infrastructure\Queues;
+namespace App\Infrastructure\Queues\Publisher;
 
 interface PublisherInterface
 {

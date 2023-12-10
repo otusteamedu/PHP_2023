@@ -18,7 +18,9 @@ class CreateApplicationFormAction
     private EmailNotificationInterface $notificator;
 
     public function __construct(
-        PublisherInterface $publisher, CreateApplicationForm $useCase, EmailNotificationInterface $notificator
+        PublisherInterface $publisher,
+        CreateApplicationForm $useCase,
+        EmailNotificationInterface $notificator
     ) {
         $this->publisher = $publisher;
         $this->useCase = $useCase;

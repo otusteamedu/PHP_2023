@@ -1,0 +1,60 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx-otusphp
+    build: nginx
+    ports:
+      - "80:80"
+    restart: always
+    volumes:
+      - ./../www:/var/www/otusphp.local
+    networks:
+      - network-otusphp
+
+  php-fpm:
+    container_name: php-fpm-otusphp
+    build: php-fpm
+    env_file: .env
+    restart: always
+    volumes:
+      - ./../www:/var/www/otusphp.local
+      - vendor:/var/www/otusphp.local/vendor
+    networks:
+      - network-otusphp
+
+  php-cli:
+    container_name: php-cli-otusphp
+    build: php-cli
+    depends_on:
+      - php-fpm
+    volumes:
+      - vendor:/app/vendor
+    networks:
+      - network-otusphp
+
+  postgres:
+    container_name: postgres-otusphp
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - network-otusphp
+
+  adminer:
+    container_name: adminer-otusphp
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    restart: always
+    networks:
+      - network-otusphp
+
+networks:
+  network-otusphp:
+    driver: bridge
+
+volumes:
+  vendor:

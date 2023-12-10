@@ -10,11 +10,11 @@ class Checker
 
     public function start(): void
     {
-        if($_POST) {
+        if ($_POST) {
             $emails = $_POST['emails'];
             $this->emails = $this->textToArray(trim($emails));
             echo json_encode($this->check());
-        }else{
+        } else {
             require_once($_SERVER['DOCUMENT_ROOT'] . '/view.php');
         }
     }

@@ -8,9 +8,15 @@ class Checker
 {
     private array $emails;
 
-    public function __construct($emails)
+    public function start(): void
     {
-        $this->emails = $this->textToArray(trim($emails));
+        if($_POST) {
+            $emails = $_POST['emails'];
+            $this->emails = $this->textToArray(trim($emails));
+            echo json_encode($this->check());
+        }else{
+            require_once($_SERVER['DOCUMENT_ROOT'] . '/view.php');
+        }
     }
 
     public function check(): array

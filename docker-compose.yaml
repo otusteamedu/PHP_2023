@@ -6,6 +6,7 @@ services:
       context: .docker/nginx
       dockerfile: Dockerfile
     image: hw19/nginx
+    restart: always
     container_name: nginx-hw19
     ports:
       - "80:80"
@@ -13,6 +14,7 @@ services:
       - ./app:/data
     depends_on:
       - app
+      - rabbitmq
 
   app:
     build:
@@ -20,6 +22,7 @@ services:
       dockerfile: Dockerfile
     image: hw19/php
     container_name: php-hw19
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
@@ -31,6 +34,9 @@ services:
       SENDER: ${SENDER}
     volumes:
       - ./app:/data
+    depends_on:
+      - mysql
+      - rabbitmq
 
   consumer:
     build:
@@ -38,6 +44,7 @@ services:
       dockerfile: Dockerfile
     image: hw19/php
     container_name: php-hw19-consumer
+    restart: always
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
       RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
@@ -63,6 +70,7 @@ services:
   mysql:
     image: mysql/mysql-server:8.0
     container_name: mysql-hw19
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}

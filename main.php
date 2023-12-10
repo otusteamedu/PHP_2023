@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+use Alexchugun\App;
+
 class Solution
 {
     function mergeTwoLists($list1, $list2)

@@ -48,7 +48,7 @@ class RabbitMQConsumer implements ConsumerInterface
 
             $data = json_decode($message->content, true);
             $email = $this->repository->findOneById($data['id'])->getEmail()->getValue();
-            $this->notificator->send("The application has been accepted for processing", $email);
+            $this->notificator->send("The application has been accepted for processing", 'TEST', $email);
 
             $channel->ack($message);
         }, $this->queue);

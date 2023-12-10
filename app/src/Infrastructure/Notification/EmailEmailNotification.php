@@ -19,20 +19,23 @@ class EmailEmailNotification implements EmailNotificationInterface
         $this->mailer = new Mailer($transport);
 
         $this->email = (new Email())
-            ->from('sender@example.test')
-            ->priority(Email::PRIORITY_HIGHEST)
-            ->subject('TEST');
+            ->from($_ENV['SENDER'])
+            ->priority(Email::PRIORITY_HIGHEST);
     }
 
     /**
      * @throws TransportExceptionInterface
      */
-    public function send(string $message, string $email): void
+    public function send(string $message, string $subject, string $email): void
     {
         /*
-        $this->email->to($email)->text($message);
+        $this->email
+            ->to($email)
+            ->text($message)
+            ->subject($subject);
         $this->mailer->send($this->email);
         */
-        print_r("Отправка сообщения '{$message}' на '{$email}'");
+
+        print_r("Отправка сообщения '{$message}' c темой '{$subject}' на '{$email}'");
     }
 }

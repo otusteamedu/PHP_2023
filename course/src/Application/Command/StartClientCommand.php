@@ -11,7 +11,8 @@ class StartClientCommand extends AbstractCommand
     {
         $socketPath = "/tmp/socket.sock";
 
-        while (true) {
+        $running = true;
+        while ($running) {
             $client = stream_socket_client("unix:/$socketPath", $errno, $errstr);
             if (!$client) {
                 throw new Exception($errstr, $errno);
@@ -21,6 +22,10 @@ class StartClientCommand extends AbstractCommand
             fwrite($client, $line);
             $response = fread($client, 1024);
             echo $response;
+            if (trim($line) === 'exit') {
+                echo "Exiting...\n";
+                $running = false;
+            }
             fclose($client);
         }
     }

@@ -21,7 +21,8 @@ class StartServerCommand extends AbstractCommand
 
         stream_set_blocking($socket, 0);
 
-        while (true) {
+        $running = true;
+        while ($running) {
             $read = [$socket];
             $write = null;
             $except = null;
@@ -29,8 +30,15 @@ class StartServerCommand extends AbstractCommand
                 if (in_array($socket, $read)) {
                     if (($conn = stream_socket_accept($socket, -1)) !== false) {
                         $message = fread($conn, 1024);
-                        echo "Message received: $message\n";
-                        fwrite($conn, "Received " . strlen($message) . " bytes\n");
+
+                        if ($message == 'exit') {
+                            $running = false;
+                            fwrite($conn, "Bye \n");
+                        } else {
+                            echo "Message received: $message\n";
+                            fwrite($conn, "Received " . strlen($message) . " bytes\n");
+                        }
+
                         fclose($conn);
                     }
                 }

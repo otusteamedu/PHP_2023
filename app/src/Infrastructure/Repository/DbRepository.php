@@ -8,6 +8,7 @@ use App\Domain\ValueObject\Email;
 use App\Domain\ValueObject\Message;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use ReflectionClass;
 
 class DbRepository implements ApplicationFormInterface
 {
@@ -38,7 +39,11 @@ class DbRepository implements ApplicationFormInterface
 
     public function save(ApplicationForm $entity): void
     {
-        // TODO: Implement save() method.
+        if ($entity->getId() !== null) {
+            $this->update($entity);
+        } else {
+            $this->insert($entity);
+        }
     }
 
     public function delete(ApplicationForm $entity): void
@@ -49,5 +54,25 @@ class DbRepository implements ApplicationFormInterface
     protected static function getTableName(): string
     {
         return "application_form";
+    }
+
+    private function update(ApplicationForm $entity)
+    {
+        $sql = 'UPDATE ' . static::getTableName() . ' SET ' . '`email` = ?, `message` = ?' . ' WHERE id = ' . $entity->getId();
+        $db = Db::getInstance();
+        $db->query($sql, [$entity->getEmail(), $entity->getMessage()]);
+    }
+
+    private function insert(ApplicationForm $entity)
+    {
+        $sql = 'INSERT INTO ' . static::getTableName() . ' (`email`, `message`) VALUES (?, ?);';
+        $db = Db::getInstance();
+        $db->query($sql, [$entity->getEmail(), $entity->getMessage()]);
+        $id = $db->getLastInsertId();
+
+        $reflectionClass = new ReflectionClass($entity);
+        $reflectionProperty = $reflectionClass->getProperty('id');
+        $reflectionProperty->setAccessible(true);
+        $reflectionProperty->setValue($id);
     }
 }

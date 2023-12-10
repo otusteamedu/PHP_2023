@@ -1,3 +1,3 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Такое решение приводит к O(n), поскольку обход в прямом порядке с переключением ListNode. 

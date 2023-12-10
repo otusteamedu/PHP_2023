@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Ekovalev\Otus\Components;
 
-use Ekovalev\Otus\Controllers;
-
 class Router
 {
     private array $routes;
@@ -34,19 +32,9 @@ class Router
                     include_once ($controllerFile);
                 }
 
-                //$className = 'CheckController';
-                //$controllerObject = new Controllers\CheckController();
+                $controllerNameState = "Ekovalev\Otus\Controllers\\$controllerName";
+                $controllerObject = new $controllerNameState;
 
-               // $className = 'Ekovalev\Otus\Controllers\CheckController()';
-                $controllerObject = new \Ekovalev\Otus\Controllers\CheckController();
-
-
-                //$className = 'CheckController';
-                //$instance = new Controllers\$className();
-
-
-                //$controllerObject = new Controllers\CheckController();
-                //$controllerObject = new \Ekovalev\Otus\Controllers\CheckController;
                 call_user_func_array([$controllerObject, $actionName], $parameters );
                 exit;
             }

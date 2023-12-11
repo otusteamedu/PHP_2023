@@ -14,7 +14,7 @@ docker build -t test-cli  ./docker/
 docker run --rm -it  -v ./:/www test-cli php /www/index.php server
 ```
 
-* Отправляем сообщение:
+* Запускаем чат в режиме клиента:
 ``` bash
-docker run --rm -it -v ./:/www test-cli php /www/index.php client hello!
+docker run --rm -it -v ./:/www test-cli php /www/index.php client
 ```

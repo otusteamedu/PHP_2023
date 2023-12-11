@@ -1,0 +1,17 @@
+{
+    "name": "dimal/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dimal\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DimAL"
+        }
+    ],
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
+}

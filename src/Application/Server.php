@@ -1,45 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dimal\Hw6\Application;
+
+use Dimal\Hw6\Socket;
 
 class Server
 {
-    private string $socket_path = '';
-    private $socket;
+    private Socket $socket;
 
     public function __construct(string $socket)
     {
-        $this->socket_path = $socket;
-    }
-
-    public function __destruct()
-    {
-        if ($this->socket) {
-            socket_close($this->socket);
-        }
-
-        if (file_exists($this->socket_path)) {
-            unlink($this->socket_path);
-        }
-    }
-
-    public function createSocket()
-    {
-        $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
-        if (file_exists($this->socket_path)) {
-            unlink($this->socket_path);
-        }
-
-        socket_bind($this->socket, $this->socket_path);
+        $this->socket = new Socket($socket);
+        $this->socket->createServerSocket();
     }
 
     public function observe()
     {
+        echo "Start listen\n";
         while (true) {
-            $msg = '';
-            $from = '';
-            socket_recvfrom($this->socket, $msg, 1024, 0, $from);
-            echo "\nRECEIVED MSG: \"$msg\"";
+            $ret = $this->socket->listen();
+            echo "Received: $ret\n";
+            $this->socket->sendAnswer("received: " . strlen($ret) . " bytes");
         }
     }
 }

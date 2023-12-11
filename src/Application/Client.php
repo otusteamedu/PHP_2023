@@ -1,27 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dimal\Hw6\Application;
+
+use Dimal\Hw6\Socket;
 
 class Client
 {
-    private string $socket_path = '';
-    private $socket;
+    private Socket $socket;
 
     public function __construct(string $socket)
     {
-        $this->socket_path = $socket;
-        $this->createSocket();
-    }
-
-    private function createSocket()
-    {
-        $this->socket = socket_create(AF_UNIX, SOCK_DGRAM, 0);
-        socket_set_nonblock($this->socket);
+        $this->socket = new Socket($socket);
+        $this->socket->createClientSocket();
     }
 
     public function sendMsg(string $msg)
     {
-        $snd = socket_sendto($this->socket, $msg, strlen($msg), 0, $this->socket_path);
-        echo "SENDED BYTES: $snd\n";
+        $this->socket->sendToServer($msg);
+        $ret = $this->socket->listen();
+        echo "Respone from server: $ret\n";
     }
 }

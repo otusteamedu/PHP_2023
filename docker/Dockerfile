@@ -5,4 +5,4 @@ RUN docker-php-ext-install sockets
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini
 
-ENV SOCKET=/www/socket.sock
+ENV SOCKET=/www/s/

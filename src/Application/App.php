@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Dimal\Hw6\Application;
 
 use Exception;
@@ -10,22 +12,19 @@ class App
 {
     private string $socket_path = '';
 
-    public function run()
+    public function __construct()
     {
-        global $argv;
-        global $argc;
-
         $this->socket_path = getenv("SOCKET");
+    }
 
-        switch ($argv[1]) {
+    public function run($cmd): void
+    {
+        switch ($cmd) {
             case 'server':
                 $this->runServer();
                 break;
             case 'client':
-                if ($argc < 3) {
-                    throw new  Exception("Wrong argument count!");
-                }
-                $this->runClient($argv[2]);
+                $this->runClient();
                 break;
             default:
                 throw new Exception("Wrong run mode! Only client or server allowed");
@@ -35,13 +34,37 @@ class App
 
     private function runServer()
     {
-
         $server = new Server($this->socket_path);
-        $server->createSocket();
         $server->observe();
     }
 
-    private function runClient($msg)
+    private function runClient()
+    {
+        $stdin_handler = fopen("php://stdin", "r");
+        $buf = '';
+        echo "Hello to simple socket chat! (To quit type \"quit\" or \"exit\")\nPlease write message:\n";
+        while ($chr = stream_get_contents($stdin_handler, 1)) {
+            if (ord($chr) == 10) {
+                if (!$buf) {
+                    echo "Empty message!\n";
+                    continue;
+                }
+
+                if ($buf == 'exit' || $buf == 'quit') {
+                    echo("Goodbye!\n");
+                    break;
+                }
+                echo "Send message: $buf\n";
+                $this->sendMsg($buf);
+
+                $buf = '';
+            } else {
+                $buf .= $chr;
+            }
+        }
+    }
+
+    private function sendMsg($msg)
     {
         if (!$msg) {
             throw new Exception("Empty message!");

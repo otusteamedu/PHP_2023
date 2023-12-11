@@ -9,7 +9,7 @@ use Dimal\Hw6\Application\App;
 
 try {
     $app = new App();
-    $app->run();
+    $app->run($argv[1]);
 } catch (Exception $e) {
     var_dump($e->getMessage());
 }

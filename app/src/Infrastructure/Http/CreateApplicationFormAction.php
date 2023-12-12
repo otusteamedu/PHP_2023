@@ -5,7 +5,6 @@ namespace App\Infrastructure\Http;
 use App\Application\UseCase\CreateApplicationForm;
 use App\Application\UseCase\Request\CreateApplicationFormRequest;
 use App\Exception\PublishException;
-use App\Infrastructure\Notification\EmailNotificationInterface;
 use App\Infrastructure\Queues\Publisher\PublisherInterface;
 use Exception;
 use Psr\Http\Message\ResponseInterface;

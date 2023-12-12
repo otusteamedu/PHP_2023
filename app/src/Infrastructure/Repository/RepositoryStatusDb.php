@@ -6,7 +6,6 @@ use App\Domain\Entity\Status;
 use App\Domain\Repository\StatusInterface;
 use App\Domain\ValueObject\Name;
 use App\Infrastructure\DataMapper\StatusMapper;
-use App\Infrastructure\Db\Db;
 use Exception;
 
 class RepositoryStatusDb implements StatusInterface

@@ -21,10 +21,11 @@ class Postgres
             name VARCHAR(255) NOT NULL
         )');
 
-        $this->conn->exec('CREATE TABLE IF NOT EXISTS seats ( 
-            id SERIAL PRIMARY KEY, 
+        $this->conn->exec('CREATE TABLE IF NOT EXISTS seats (
+            id SERIAL PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             hall_id INT NOT NULL,
+            koef NUMERIC(3,2) DEFAULT 1,
             FOREIGN KEY (hall_id) REFERENCES halls (id)
         )');
 
@@ -34,23 +35,22 @@ class Postgres
             duration INT NOT NULL
         )');
 
-        $this->conn->exec('CREATE TABLE IF NOT EXISTS shedule ( 
+        $this->conn->exec('CREATE TABLE IF NOT EXISTS sessions ( 
             id SERIAL PRIMARY KEY, 
             movie_id INT NOT NULL,
             hall_id INT NOT NULL,
-            seat_id INT NOT NULL,
             price DECIMAL(8,2) NOT NULL,
             start_time TIMESTAMP NOT NULL,
             FOREIGN KEY (movie_id) REFERENCES movies (id),
-            FOREIGN KEY (hall_id) REFERENCES halls (id),
-            FOREIGN KEY (seat_id) REFERENCES seats (id)
+            FOREIGN KEY (hall_id) REFERENCES halls (id)
         )');
 
         $this->conn->exec('CREATE TABLE IF NOT EXISTS tickets (
             id SERIAL PRIMARY KEY,
-            shedule_id INT NOT NULL,
+            session_id INT NOT NULL,
             seat_id INT NOT NULL,
-            FOREIGN KEY (shedule_id) REFERENCES shedule (id),
+            price DECIMAL(8,2) NOT NULL,
+            FOREIGN KEY (session_id) REFERENCES sessions (id),
             FOREIGN KEY (seat_id) REFERENCES seats (id)
         )');
 
@@ -65,15 +65,15 @@ class Postgres
             $hallStatement->execute($arHall);
         }
 
-        $querySeat = 'INSERT INTO seats (name, hall_id) VALUES (:name, :hall_id)';
+        $querySeat = 'INSERT INTO seats (name, hall_id, koef) VALUES (:name, :hall_id, :koef)';
         $movieSeat = $this->conn->prepare($querySeat);
         $arSeats = [
-            ['name' => '1', 'hall_id' => 1],
-            ['name' => '10', 'hall_id' => 1],
-            ['name' => '50', 'hall_id' => 1],
-            ['name' => '11', 'hall_id' => 2],
-            ['name' => '22', 'hall_id' => 2],
-            ['name' => '33', 'hall_id' => 2],
+            ['name' => '1', 'hall_id' => 1, 'koef' => 1],
+            ['name' => '10', 'hall_id' => 1, 'koef' => 1],
+            ['name' => '50', 'hall_id' => 1, 'koef' => 1.5],
+            ['name' => '11', 'hall_id' => 2, 'koef' => 1.5],
+            ['name' => '22', 'hall_id' => 2, 'koef' => 1],
+            ['name' => '33', 'hall_id' => 2, 'koef' => 1],
         ];
         foreach($arSeats as $arSeat) {
             $movieSeat->execute($arSeat);
@@ -90,29 +90,29 @@ class Postgres
             $movieStatement->execute($arMovie);
         }
 
-        $querySession = 'INSERT INTO shedule (hall_id, movie_id, seat_id, price, start_time) VALUES (:hall_id, :movie_id, :seat_id, :price, :start_time)';
+        $querySession = 'INSERT INTO sessions (hall_id, movie_id, price, start_time) VALUES (:hall_id, :movie_id, :price, :start_time)';
         $sessionStatement = $this->conn->prepare($querySession);
         $arSessions = [
-            ['hall_id' => 1, 'movie_id' => 1, 'seat_id' => 1, 'price' => 10, 'start_time' => '2023-12-01 10:00:00'],
-            ['hall_id' => 2, 'movie_id' => 2, 'seat_id' => 1, 'price' => 10, 'start_time' => '2023-12-01 10:00:00'],
-            ['hall_id' => 1, 'movie_id' => 3, 'seat_id' => 1, 'price' => 10, 'start_time' => '2023-12-01 12:00:00'],
+            ['hall_id' => 1, 'movie_id' => 1, 'price' => 10, 'start_time' => '2023-12-01 10:00:00'],
+            ['hall_id' => 2, 'movie_id' => 2, 'price' => 20, 'start_time' => '2023-12-01 10:00:00'],
+            ['hall_id' => 1, 'movie_id' => 3, 'price' => 30, 'start_time' => '2023-12-01 12:00:00'],
         ];
         foreach($arSessions as $arSession) {
             $sessionStatement->execute($arSession);
         }
 
-        $queryTicket = 'INSERT INTO tickets (shedule_id, seat_id) VALUES (:shedule_id, :seat_id)';
+        $queryTicket = 'INSERT INTO tickets (session_id, seat_id, price) VALUES (:session_id, :seat_id, :price)';
         $ticketStatement = $this->conn->prepare($queryTicket);
         $arTickets = [
-            ['shedule_id' => 1, 'seat_id' => 1],
-            ['shedule_id' => 1, 'seat_id' => 2],
-            ['shedule_id' => 1, 'seat_id' => 3],
-            ['shedule_id' => 1, 'seat_id' => 4],
-            ['shedule_id' => 1, 'seat_id' => 5],
-            ['shedule_id' => 2, 'seat_id' => 6],
-            ['shedule_id' => 2, 'seat_id' => 1],
-            ['shedule_id' => 2, 'seat_id' => 2],
-            ['shedule_id' => 3, 'seat_id' => 3],
+            ['session_id' => 1, 'seat_id' => 1, 'price' => 10],
+            ['session_id' => 1, 'seat_id' => 2, 'price' => 10],
+            ['session_id' => 1, 'seat_id' => 3, 'price' => 20],
+            ['session_id' => 1, 'seat_id' => 4, 'price' => 20],
+            ['session_id' => 1, 'seat_id' => 5, 'price' => 10],
+            ['session_id' => 2, 'seat_id' => 6, 'price' => 30],
+            ['session_id' => 2, 'seat_id' => 1, 'price' => 30],
+            ['session_id' => 2, 'seat_id' => 2, 'price' => 30],
+            ['session_id' => 3, 'seat_id' => 3, 'price' => 10],
         ];
         foreach($arTickets as $arTicket) {
             $ticketStatement->execute($arTicket);
@@ -124,10 +124,10 @@ class Postgres
     public function getProfitFilm(): string
     {
         $statement = $this->conn->query('
-            SELECT M.name, SUM(S.price) as profit
+            SELECT M.name, SUM(T.price) as profit
             FROM movies M 
-            INNER JOIN shedule S ON S.movie_id = M.id
-            INNER JOIN tickets T ON T.shedule_id = S.id
+            INNER JOIN sessions S ON S.movie_id = M.id
+            INNER JOIN tickets T ON T.session_id = S.id
             GROUP BY M.id
             ORDER BY profit DESC
             LIMIT 1

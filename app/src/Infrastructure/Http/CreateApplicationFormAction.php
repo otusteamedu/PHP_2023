@@ -15,16 +15,13 @@ class CreateApplicationFormAction
 {
     private PublisherInterface $publisher;
     private CreateApplicationForm $useCase;
-    private EmailNotificationInterface $notificator;
 
     public function __construct(
         PublisherInterface $publisher,
-        CreateApplicationForm $useCase,
-        EmailNotificationInterface $notificator
+        CreateApplicationForm $useCase
     ) {
         $this->publisher = $publisher;
         $this->useCase = $useCase;
-        $this->notificator = $notificator;
     }
 
     public function __invoke(
@@ -38,11 +35,6 @@ class CreateApplicationFormAction
             $data['id'] = $responseDto->id;
 
             $this->publisher->publish(json_encode($data));
-            $this->notificator->send(
-                "The application has been accepted for processing. № {$data['id']}",
-                'Application Form',
-                $data['email']
-            );
 
             $message = "success";
             $code = 201;

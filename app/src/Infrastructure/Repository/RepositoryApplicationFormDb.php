@@ -44,11 +44,7 @@ class RepositoryApplicationFormDb implements ApplicationFormInterface
         if ($entity->getId() !== null) {
             $this->mapper->update($entity);
         } else {
-            $this->mapper->insert([
-                "email" => $entity->getEmail()->getValue(),
-                "message" => $entity->getMessage()->getValue(),
-                "status_id" => $entity->getStatus()->getId()
-            ]);
+            $this->mapper->insert($entity);
         }
     }
 

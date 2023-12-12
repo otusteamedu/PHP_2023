@@ -12,4 +12,4 @@ CREATE TABLE IF NOT EXISTS status (
     UNIQUE KEY name (name)
 ) ENGINE=INNODB;
 
-INSERT INTO status (`name`) VALUES ('В обработке'), ('Выполнено');
+INSERT INTO status (`name`) VALUES ('In work'), ('Done');

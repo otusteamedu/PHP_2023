@@ -3,6 +3,9 @@
 namespace App\Infrastructure\DataMapper;
 
 use App\Domain\Entity\Status;
+use App\Domain\ValueObject\Name;
+use App\Infrastructure\Db\Db;
+use Exception;
 use PDO;
 use PDOStatement;
 use ReflectionException;
@@ -23,29 +26,33 @@ class StatusMapper
 
     private PDOStatement $findByNameStmt;
 
-    public function __construct(PDO $pdo)
+    /**
+     * @throws Exception
+     */
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        $this->pdo = Db::getPdo();
 
-        $this->selectStmt = $pdo->prepare(
+        $this->selectStmt = $this->pdo->prepare(
             "select name from status where id = ?"
         );
 
-        $this->insertStmt = $pdo->prepare(
+        $this->insertStmt = $this->pdo->prepare(
             "insert into status (name) values (?)"
         );
 
-        $this->updateStmt = $pdo->prepare(
+        $this->updateStmt = $this->pdo->prepare(
             "update status set name = ? where id = ?"
         );
 
-        $this->deleteStmt = $pdo->prepare("delete from status where id = ?");
+        $this->deleteStmt = $this->pdo->prepare("delete from status where id = ?");
 
-        $this->findByNameStmt = $pdo->prepare("select * from status where name = ?");
+        $this->findByNameStmt = $this->pdo->prepare("select * from status where name = ?");
     }
 
     /**
      * @throws ReflectionException
+     * @throws Exception
      */
     public function findById(int $id): Status
     {
@@ -53,7 +60,7 @@ class StatusMapper
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch();
 
-        $status = new Status($result['name']);
+        $status = new Status(new Name($result['name']));
         self::setId($status, $id);
 
         return $status;
@@ -61,14 +68,15 @@ class StatusMapper
 
     /**
      * @throws ReflectionException
+     * @throws Exception
      */
     public function findByName(string $name): Status
     {
-        $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
-        $this->selectStmt->execute([$name]);
-        $result = $this->selectStmt->fetch();
+        $this->findByNameStmt->setFetchMode(PDO::FETCH_ASSOC);
+        $this->findByNameStmt->execute([$name]);
+        $result = $this->findByNameStmt->fetch();
 
-        $status = new Status($result['name']);
+        $status = new Status(new Name($result['name']));
         self::setId($status, $result['id']);
 
         return $status;
@@ -76,13 +84,13 @@ class StatusMapper
 
     /**
      * @throws ReflectionException
+     * @throws Exception
      */
-    public function insert(array $raw): Status
+    public function insert(Status $status): Status
     {
-        $this->insertStmt->execute([$raw['name']]);
+        $this->insertStmt->execute([$status->getName()->getValue()]);
 
         $id = $this->pdo->lastInsertId();
-        $status = new Status($raw['name']);
         self::setId($status, $id);
 
         return $status;

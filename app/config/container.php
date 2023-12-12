@@ -6,6 +6,7 @@ use App\Infrastructure\Queues\Publisher\PublisherInterface;
 use App\Infrastructure\Queues\Publisher\RabbitMQPublisher;
 use App\Infrastructure\Repository\RepositoryApplicationFormDb;
 use App\Infrastructure\Repository\RepositoryStatusDb;
+use App\Infrastructure\Db\Db;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\App;
@@ -24,6 +25,10 @@ return [
     },
 
     ResponseFactoryInterface::class => function (ContainerInterface $container) {
+        return $container->get(App::class)->getResponseFactory();
+    },
+
+    Db::class => function (ContainerInterface $container) {
         return $container->get(App::class)->getResponseFactory();
     },
 

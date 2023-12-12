@@ -5,6 +5,7 @@ namespace App\Infrastructure\DataMapper;
 use App\Domain\Entity\ApplicationForm;
 use App\Domain\ValueObject\Email;
 use App\Domain\ValueObject\Message;
+use App\Infrastructure\Db\Db;
 use Exception;
 use PDO;
 use PDOStatement;
@@ -24,23 +25,26 @@ class ApplicationFormMapper
 
     private PDOStatement $deleteStmt;
 
-    public function __construct(PDO $pdo)
+    /**
+     * @throws Exception
+     */
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        $this->pdo = Db::getPdo();
 
-        $this->selectStmt = $pdo->prepare(
+        $this->selectStmt = $this->pdo->prepare(
             "select email, message, status_id from application_form where id = ?"
         );
 
-        $this->insertStmt = $pdo->prepare(
+        $this->insertStmt = $this->pdo->prepare(
             "insert into application_form (email, message, status_id) values (?, ?, ?)"
         );
 
-        $this->updateStmt = $pdo->prepare(
+        $this->updateStmt = $this->pdo->prepare(
             "update application_form set email = ?, message = ?, status_id = ?  where id = ?"
         );
 
-        $this->deleteStmt = $pdo->prepare("delete from application_form where id = ?");
+        $this->deleteStmt = $this->pdo->prepare("delete from application_form where id = ?");
     }
 
     /**
@@ -68,17 +72,13 @@ class ApplicationFormMapper
      * @throws ReflectionException
      * @throws Exception
      */
-    public function insert(array $raw): ApplicationForm
+    public function insert(ApplicationForm $applicationForm): ApplicationForm
     {
-        $this->insertStmt->execute([$raw['email'], $raw['message'], $raw['status_id']]);
+        $this->insertStmt->execute(
+            [$applicationForm->getEmail()->getValue(), $applicationForm->getMessage()->getValue(), $applicationForm->getStatus()->getId()]
+        );
 
         $id = $this->pdo->lastInsertId();
-        $status = (new StatusMapper($this->pdo))->findById($raw['status_id']);
-        $applicationForm = new ApplicationForm(
-            new Email($raw['email']),
-            new Message($raw['message']),
-            $status
-        );
         self::setId($applicationForm, $id);
 
         return $applicationForm;

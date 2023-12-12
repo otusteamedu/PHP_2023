@@ -28,7 +28,7 @@ class CreateApplicationForm
      */
     public function __invoke(CreateApplicationFormRequest $request): CreateApplicationFormResponse
     {
-        $status = $this->repositoryStatus->findByName(new Name('В обработке'));
+        $status = $this->repositoryStatus->findByName(new Name('In work'));
         $applicationForm = new ApplicationForm(
             new Email($request->email),
             new Message($request->message),

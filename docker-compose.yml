@@ -1,0 +1,18 @@
+version: '3.5'
+volumes:
+  db:
+    external: true
+    name: ${SHORT_NAME}_postgres
+services:
+  postgres:
+    image: postgres
+    container_name: ${SHORT_NAME}_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - ${PORT_DB}:${PORT_DB}
+    volumes:
+      - ${VOLUME_DB}

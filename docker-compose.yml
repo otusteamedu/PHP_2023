@@ -1,0 +1,30 @@
+version: '3.5'
+volumes:
+  Socket:
+services:
+  server:
+    build:
+      context: ${PHP_CLI_CONTEXT}
+    user: ${UID}:${GID}
+    container_name: ${SHORT_NAME}-server
+    working_dir: ${WORK_DIR}
+    volumes:
+      - ${APPLICATION_ROOT}
+      - Socket:${PHP_SOCKET_PATH}
+  client:
+    build:
+      context: ${PHP_CLI_CONTEXT}
+    user: ${UID}:${GID}
+    container_name: ${SHORT_NAME}-client
+    working_dir: ${WORK_DIR}
+    volumes:
+      - ${APPLICATION_ROOT}
+      - Socket:${PHP_SOCKET_PATH}
+  composer:
+    profiles: ["services"]
+    image: composer:latest
+    user: ${UID}:${GID}
+    container_name: ${SHORT_NAME}-composer
+    working_dir: ${WORK_DIR}
+    volumes:
+      - ${APPLICATION_ROOT}

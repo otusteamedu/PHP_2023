@@ -1,18 +1,19 @@
 {
-  "name": "artyr/application.local",
-  "autoload": {
-    "psr-4": {
-      "App\\": "src/"
+    "name": "artyr/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyrcha",
+            "email": "sevrevdan@yandex.ru"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*",
+        "ext-readline": "*"
     }
-  },
-  "authors": [
-    {
-      "name": "Artyrcha",
-      "email": "sevrevdan@yandex.ru"
-    }
-  ],
-  "require": {
-    "predis/predis": "^2.2",
-    "ext-memcached": "*"
-  }
 }

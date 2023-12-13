@@ -11,7 +11,6 @@ function mergeTwoLists($l1, $l2)
 {
     $dummy   = new ListNode();
     $current = $dummy;
-    
     while ($l1 !== null && $l2 !== null) {
         if ($l1->val < $l2->val) {
             $current->next = $l1;

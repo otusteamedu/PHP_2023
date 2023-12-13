@@ -1,3 +1,3 @@
-# PHP_2023
+# hw8
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Реализация сортировки не использует вложенные циклы или рекурсию, какой длинны пришли списки, такую линейно и обошли. Сложность O(n)

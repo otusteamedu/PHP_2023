@@ -1,28 +1,32 @@
 <?php
 
+namespace YourNamespace; // Replace with your actual namespace
 
 /**
  * Class ListNode
- *
  * Definition for a singly-linked list.
  */
-  class ListNode {
-      public $val = 0;
-      public $next = null;
-      function __construct($val = 0, $next = null) {
-          $this->val = $val;
-          $this->next = $next;
-      }
-  }
+class ListNode {
+    public $val = 0;
+    public $next = null;
 
+    public function __construct($val = 0, $next = null) {
+        $this->val = $val;
+        $this->next = $next;
+    }
+}
+
+// The Solution class should be in its own file
 class Solution {
 
     /**
+     * Merges two lists.
+     *
      * @param ListNode $list1
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2) {
+    public function mergeTwoLists($list1, $list2) {
         // Create a sentinel node to act as the start of the merged list
         $sentinel = new ListNode(0);
         $current = $sentinel;

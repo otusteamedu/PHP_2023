@@ -22,13 +22,10 @@ function mergeTwoLists($l1, $l2)
         }
         $current = $current->next;
     }
-    
-    
     if ($l1 !== null) {
         $current->next = $l1;
     } elseif ($l2 !== null) {
         $current->next = $l2;
     }
-    
     return $dummy->next;
 }

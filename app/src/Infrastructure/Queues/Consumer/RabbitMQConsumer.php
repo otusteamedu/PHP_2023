@@ -3,9 +3,9 @@
 namespace App\Infrastructure\Queues\Consumer;
 
 use App\Domain\Entity\Status;
+use App\Domain\Repository\ApplicationFormInterface;
+use App\Domain\Repository\StatusInterface;
 use App\Domain\ValueObject\Name;
-use App\Infrastructure\Repository\RepositoryApplicationFormDb;
-use App\Infrastructure\Repository\RepositoryStatusDb;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Message;
@@ -17,13 +17,13 @@ class RabbitMQConsumer implements ConsumerInterface
     private Client $client;
     private string $queue;
     private PromiseInterface|Channel $channel;
-    private RepositoryApplicationFormDb $repositoryApplicationForm;
-    private RepositoryStatusDb $repositoryStatus;
+    private ApplicationFormInterface $repositoryApplicationForm;
+    private StatusInterface $repositoryStatus;
 
     /**
      * @throws Exception
      */
-    public function __construct(RepositoryApplicationFormDb $repositoryApplicationForm, RepositoryStatusDb $repositoryStatus)
+    public function __construct(ApplicationFormInterface $repositoryApplicationForm, StatusInterface $repositoryStatus)
     {
         $this->repositoryApplicationForm = $repositoryApplicationForm;
         $this->repositoryStatus = $repositoryStatus;

@@ -11,14 +11,14 @@ VALUES
    ('Комедия'),
    ('Экшн'),
    ('Ужасы'),
-   ('Фантастика')
+   ('Фантастика');
 
 /* Залы */
-INSERT INTO hall (name, max)
+INSERT INTO hall (name, max, shema)
 VALUES
-   ('Зал 1', 10),
-   ('Зал 2', 20),
-   ('Зал 3', 15)
+   ('Зал 1', 10, '{1,5;2,4;1,5;1,5;2,4}'),
+   ('Зал 2', 20, '{1,5;1,5;1,5;1,5;1,5}'),
+   ('Зал 3', 15, '{2,4;2,4;2,5;1,4;2,4}');
 
 /* Фильмы */
 INSERT INTO movie (name, country, genre, time, poster, description, rating)

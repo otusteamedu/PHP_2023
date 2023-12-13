@@ -63,13 +63,15 @@ create table hall
         constraint hall_pk
             primary key,
     name varchar                                        not null,
-    max  smallint                                       not null
+    max  smallint                                       not null,
+    shema  varchar                                       not null,
 );
 
 comment on column hall.name is 'Название зала';
 
-comment on column hall.max is 'Места';
+comment on column hall.max is 'Максимальное количество мест';
 
+comment on column hall.shema is 'Схема зала';
 alter table hall
     owner to ek;
 

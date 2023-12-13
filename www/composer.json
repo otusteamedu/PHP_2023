@@ -1,0 +1,23 @@
+{
+    "name": "syalanskiy/homework8",
+    "description": "OTUS Homework #8",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yalanskiy\\Lists\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Yalanskiy",
+            "email": "yalansky@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "ext-sockets": "*",
+        "ext-mysqli": "*",
+        "ext-memcached": "*",
+        "ext-mbstring": "*"
+    }
+}

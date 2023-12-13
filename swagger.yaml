@@ -1,0 +1,137 @@
+openapi: 3.0.0
+info: 
+  title: Создание условной заявки на что-то
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1/api/v1/
+    description: Dev server
+paths:
+  /application_form:
+    get:
+      summary: Метод получения всех заявок
+      tags:
+        - Application Form
+      operationId: getAllApplicationForm
+      responses:
+        '200':
+          description: Успешный ответ со списком заявок
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationForms"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"     
+    post:
+      summary: Метод создания заявки
+      tags:
+        - Application Form     
+      operationId: createApplicationForm
+      responses:
+        '201':
+          description: Успешный ответ с созданной заявкой
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationForm"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"  
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplicationFormWithoutId"
+  
+  /application_form/{id}:
+    get:
+      summary: Метод получения заявки по идентификатору
+      tags:
+        - Application Form
+      operationId: getApplicationFormById
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор заявки
+          schema:
+            type: integer
+            example: 10
+          
+      responses:
+        '200':
+          description: Успешный ответ с одной заявкой
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApplicationForm"
+        'default':
+          description: Ошибка
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"    
+              
+              
+components:
+  schemas:
+    ApplicationForm:
+      type: object
+      required:
+        - id
+        - email
+        - message
+        - status
+      properties:
+        id:
+          type: integer
+          example: 10
+        email:
+          type: string
+          example: Test
+        message:
+          type: string
+          example: Test
+        status:
+          type: string
+          enum: 
+            - In work
+            - Done
+          description: Статус заказа
+    ApplicationFormWithoutId:
+      type: object
+      required:
+        - email
+        - message
+        - status
+      properties:
+        email:
+          type: string
+          example: Test
+        message:
+          type: string
+          example: Test
+        status:
+          type: string
+          enum: 
+            - In work
+            - Done
+          description: Статус заказа
+    ApplicationForms:
+      type: array
+      items:
+        $ref: "#/components/schemas/ApplicationForm"
+    Error:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string

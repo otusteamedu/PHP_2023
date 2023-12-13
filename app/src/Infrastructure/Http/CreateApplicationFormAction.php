@@ -36,8 +36,10 @@ class CreateApplicationFormAction
             $this->publisher->publish(json_encode($data));
 
             $body = [
-                "id" => $data['id'],
-                "message" => "application form created"
+                "id" => $responseDto->id,
+                "email" => $data['email'],
+                "message" => $data['message'],
+                "status" => $responseDto->status
             ];
             $code = 201;
         } catch (PublishException $e) {

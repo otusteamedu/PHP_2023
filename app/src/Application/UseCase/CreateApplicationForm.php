@@ -37,6 +37,6 @@ class CreateApplicationForm
         );
         $this->repositoryApplicationForm->save($applicationForm);
 
-        return new CreateApplicationFormResponse($applicationForm->getId());
+        return new CreateApplicationFormResponse($applicationForm->getId(), $applicationForm->getStatus()->getName()->getValue());
     }
 }

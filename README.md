@@ -1,3 +1,11 @@
-# PHP_2023
+# Слияние двух сортированных списков
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Запуск скрипта:
+```bash
+docker compose run --rm otus-cli php app.php
+```
+
+Предусмотрена проверка на пустые списки.
+
+Сложность O(m + n)<br />
+m, n - соответственно размеры списков

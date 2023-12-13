@@ -38,6 +38,14 @@ CREATE TABLE sessions (
 
 );
 
+CREATE TABLE prices (
+   id SERIAL PRIMARY KEY,
+   session_id INT NOT NULL,
+   price FLOAT NOT NULL,
+   FOREIGN KEY (session_id)
+       REFERENCES sessions (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE clients (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,

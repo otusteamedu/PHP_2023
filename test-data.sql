@@ -48,6 +48,13 @@ INSERT INTO sessions (hall_id, film_id, date, time) VALUES
     (1, 4, '2023-12-12', '15:00'),
     (1, 4, '2023-12-12', '18:00');
 
+INSERT INTO prices (session_id, price) VALUES
+    (1, 100),
+    (2, 100),
+    (4, 100),
+    (5, 200),
+    (6, 500);
+
 INSERT INTO clients (name, phone, birthday) VALUES
     ('Сергей Иванов', '1234567890', '1990-01-01'),
     ('Егор Петров', '11111111', '1980-10-10'),

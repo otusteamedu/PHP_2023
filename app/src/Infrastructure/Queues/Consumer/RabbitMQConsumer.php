@@ -46,6 +46,8 @@ class RabbitMQConsumer implements ConsumerInterface
     private function consume(): void
     {
         $this->channel->consume(function (Message $message, Channel $channel): void {
+            sleep(30);
+
             $id = json_decode($message->content, true)['id'];
             $applicationForm = $this->repositoryApplicationForm->findOneById($id);
             $status = $this->repositoryStatus->findByName(new Name(Status::DONE));

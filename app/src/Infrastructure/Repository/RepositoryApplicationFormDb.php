@@ -5,6 +5,7 @@ namespace App\Infrastructure\Repository;
 use App\Domain\Entity\ApplicationForm;
 use App\Domain\Repository\ApplicationFormInterface;
 use App\Infrastructure\DataMapper\ApplicationFormMapper;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Exception;
 use ReflectionException;
@@ -30,9 +31,12 @@ class RepositoryApplicationFormDb implements ApplicationFormInterface
         return $this->mapper->findById($id);
     }
 
+    /**
+     * @throws ReflectionException
+     */
     public function findAll(): Collection
     {
-        // TODO: Implement findAll() method.
+        return new ArrayCollection($this->mapper->findAll());
     }
 
     /**

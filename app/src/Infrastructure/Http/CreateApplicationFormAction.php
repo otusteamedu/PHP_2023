@@ -35,17 +35,20 @@ class CreateApplicationFormAction
 
             $this->publisher->publish(json_encode($data));
 
-            $message = "success";
+            $body = [
+                "id" => $data['id'],
+                "message" => "application form created"
+            ];
             $code = 201;
         } catch (PublishException $e) {
-            $message = $e->getMessage();
+            $body = ["message" => $e->getMessage()];
             $code = 500;
         } catch (Exception $e) {
-            $message = $e->getMessage();
+            $body = ["message" => $e->getMessage()];
             $code = 400;
         }
 
-        $response->getBody()->write(json_encode(["message" => $message]));
+        $response->getBody()->write(json_encode($body));
 
         return $response
             ->withHeader('Content-Type', 'application/json')

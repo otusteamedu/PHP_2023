@@ -6,6 +6,12 @@ use App\Domain\ValueObject\Name;
 
 class Status
 {
+    /** @var string  */
+    public const DONE = 'Done';
+
+    /** @var string  */
+    public const IN_WORK = 'In work';
+
     private Name $name;
 
     private ?int $id = null;

@@ -54,11 +54,15 @@ class StatusMapper
      * @throws ReflectionException
      * @throws Exception
      */
-    public function findById(int $id): Status
+    public function findById(int $id): ?Status
     {
         $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch();
+
+        if ($result === false) {
+            return null;
+        }
 
         $status = new Status(new Name($result['name']));
         self::setId($status, $id);
@@ -70,11 +74,15 @@ class StatusMapper
      * @throws ReflectionException
      * @throws Exception
      */
-    public function findByName(string $name): Status
+    public function findByName(string $name): ?Status
     {
         $this->findByNameStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->findByNameStmt->execute([$name]);
         $result = $this->findByNameStmt->fetch();
+
+        if ($result === false) {
+            return null;
+        }
 
         $status = new Status(new Name($result['name']));
         self::setId($status, $result['id']);

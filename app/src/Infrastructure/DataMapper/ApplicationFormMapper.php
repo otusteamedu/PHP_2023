@@ -19,6 +19,8 @@ class ApplicationFormMapper
 
     private PDOStatement $selectStmt;
 
+    private PDOStatement $selectAllStmt;
+
     private PDOStatement $insertStmt;
 
     private PDOStatement $updateStmt;
@@ -36,6 +38,10 @@ class ApplicationFormMapper
             "select email, message, status_id from application_form where id = ?"
         );
 
+        $this->selectAllStmt = $this->pdo->prepare(
+            "select * from application_form"
+        );
+
         $this->insertStmt = $this->pdo->prepare(
             "insert into application_form (email, message, status_id) values (?, ?, ?)"
         );
@@ -51,13 +57,17 @@ class ApplicationFormMapper
      * @throws ReflectionException
      * @throws Exception
      */
-    public function findById(int $id): ApplicationForm
+    public function findById(int $id): ?ApplicationForm
     {
         $this->selectStmt->setFetchMode(PDO::FETCH_ASSOC);
         $this->selectStmt->execute([$id]);
         $result = $this->selectStmt->fetch();
 
-        $status = (new StatusMapper($this->pdo))->findById($result['status_id']);
+        if ($result === false) {
+            return null;
+        }
+
+        $status = (new StatusMapper())->findById($result['status_id']);
         $applicationForm = new ApplicationForm(
             new Email($result['email']),
             new Message($result['message']),
@@ -66,6 +76,35 @@ class ApplicationFormMapper
         self::setId($applicationForm, $id);
 
         return $applicationForm;
+    }
+
+    /**
+     * @throws ReflectionException
+     * @throws Exception
+     */
+    public function findAll(): array
+    {
+        $this->selectAllStmt->setFetchMode(PDO::FETCH_ASSOC);
+        $this->selectAllStmt->execute();
+        $result = $this->selectAllStmt->fetchAll();
+        $applicationFormAll = [];
+
+        if ($result === false) {
+            return $applicationFormAll;
+        }
+
+        foreach ($result as $item) {
+            $status = (new StatusMapper())->findById($item['status_id']);
+            $applicationForm = new ApplicationForm(
+                new Email($item['email']),
+                new Message($item['message']),
+                $status
+            );
+            self::setId($applicationForm, $item['id']);
+            $applicationFormAll[] = $applicationForm;
+        }
+
+        return $applicationFormAll;
     }
 
     /**

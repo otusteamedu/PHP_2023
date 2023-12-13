@@ -53,4 +53,14 @@ class ApplicationForm
     {
         $this->status = $status;
     }
+
+    public function toArray(): array
+    {
+        return [
+            "id" => $this->getId(),
+            "email" => $this->getEmail()->getValue(),
+            "message" => $this->getMessage()->getValue(),
+            "status" => $this->getStatus()->getName()->getValue()
+        ];
+    }
 }

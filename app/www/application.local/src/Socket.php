@@ -41,7 +41,14 @@ class Socket
 
     public function accept()
     {
-        $this->socket = @socket_accept($this->socket);;
+        $_socket = socket_accept($this->socket);
+
+        if ($_socket === false) {
+            $error = socket_last_error();
+            throw new \RuntimeException("Socket accept error: " . socket_strerror($error));
+        }
+
+        $this->socket = $_socket;
     }
 
     public function connect()

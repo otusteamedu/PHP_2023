@@ -17,17 +17,10 @@ class App
             throw new InvalidArgumentException('Usage: php app.php server|client');
         }
 
-        $mode = $argv[1];
+        $this->mode = $argv[1] ?? '';
 
-        switch ($mode) {
-            case 'server':
-                $this->mode = 'server';
-                break;
-            case 'client':
-                $this->mode = 'client';
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid mode. Use "server" or "client".');
+        if (!in_array($this->mode, ['server', 'client'])) {
+            throw new InvalidArgumentException('Invalid mode. Use "server" or "client".');
         }
     }
 

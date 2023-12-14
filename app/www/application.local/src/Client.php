@@ -21,6 +21,7 @@ class Client
 
         while (true) {
             $message = readline("Enter message: ");
+            $this->socket->write($message);
 
             if ($message === 'exit') {
                 $this->socket->write($message);
@@ -28,7 +29,6 @@ class Client
                 break;
             }
 
-            $this->socket->write($message);
             $confirmation = $this->socket->read();
             echo "Server confirmation: {$confirmation}\n";
         }

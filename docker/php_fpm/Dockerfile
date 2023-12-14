@@ -1,5 +1,7 @@
 FROM php:8.2-fpm
 
+ARG UID
+ARG GID
 RUN apt-get update && apt-get install -y \
         libfreetype-dev \
         libjpeg62-turbo-dev \
@@ -13,9 +15,11 @@ RUN apt-get update && apt-get install -y \
     && pecl install redis \
     && docker-php-ext-enable redis
 
-COPY ./php_config/conf.d/php.ini /usr/local/etc/php/conf.d/php_custom.ini
+COPY ./php_fpm/conf.d/zz-docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+COPY ./php_fpm/conf.d/php.ini /usr/local/etc/php/conf.d/php_custom.ini
 
 VOLUME /app
 
 WORKDIR /app
 
+CMD ["php-fpm"]

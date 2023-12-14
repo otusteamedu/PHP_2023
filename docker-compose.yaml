@@ -8,6 +8,7 @@ services:
       dockerfile: nginx/Dockerfile
     volumes:
       - ./:/app/otus.local
+      - php_socket:/var/run/docker.sock
     container_name: "${NGINX_CONTAINER_NAME}"
     depends_on:
       - php-fpm
@@ -20,9 +21,13 @@ services:
     build:
       context: ./docker
       dockerfile: php_fpm/Dockerfile
-    user: '1000:1000'
+      args:
+        - UID=${UID}
+        - GID=${GID}
     volumes:
       - ./:/app/otus.local
+      - php_socket:/var/run/docker.sock
+    working_dir: /app/otus.local
     container_name: "${PHP_FPM_CONTAINER_NAME}"
     environment:
       MEMCACHED_HOST: 'memcached'
@@ -37,10 +42,11 @@ services:
     build:
       context: ./docker
       dockerfile: php_cli/Dockerfile
-    user: '1000:1000'
     volumes:
       - ./:/app/otus.local
-    container_name: "${PHP_CLI_CONTAINER_NAME}"
+    user: ${UID}:${GID}
+    working_dir: /app/otus.local
+    container_name: ${PHP_CLI_CONTAINER_NAME}
     environment:
       MEMCACHED_HOST: 'memcached'
       REDIS_HOST: 'redis'
@@ -54,18 +60,19 @@ services:
     image: redis:5.0.3-alpine
     volumes:
       - redis:/var/lib/redis
-    container_name: "${REDIS_CONTAINER_NAME}"
+    container_name: ${REDIS_CONTAINER_NAME}
     networks:
       - app-network
 
   memcached:
     image: memcached:1.6-alpine
-    container_name: "${MEMCACHED_CONTAINER_NAME}"
+    container_name: ${MEMCACHED_CONTAINER_NAME}
     networks:
       - app-network
 
 volumes:
   redis:
+  php_socket:
 
 networks:
   app-network:

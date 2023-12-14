@@ -1,6 +1,2 @@
 /.idea
-mysql/dbdata/*
-code/*
-.env
-php-fpm/socket/*
 

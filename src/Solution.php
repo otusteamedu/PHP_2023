@@ -1,6 +1,6 @@
 <?php
 
-use Rvoznyi\ComposerHello\ListNode;
+namespace Rvoznyi\ComposerHello;
 
 class Solution
 {
@@ -9,7 +9,7 @@ class Solution
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2)
+    function mergeTwoLists($list1, $list2): ListNode
     {
         $listNode = [];
         $node     = $list1;

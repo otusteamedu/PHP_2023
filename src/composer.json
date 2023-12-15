@@ -1,0 +1,14 @@
+{
+    "name": "klobkovsky/hw1-1",
+    "autoload": {
+        "psr-4": {
+            "Klobkovsky\\Hw11\\": "classes/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kirill.lobkovsky",
+            "email": "kiphirrr@gmail.com"
+        }
+    ]
+}

@@ -16,11 +16,15 @@ VALUES
     (3, 2, 1, 1, 1),
     (4, 2, 2, 1, 2);
 
-
-INSERT INTO movies (id, name, price)
+INSERT INTO genres (id, name)
 VALUES
-    (1, 'Фильм 1', 100),
-    (2, 'Фильм 2', 200);
+    (1, 'Комедия'),
+    (2, 'Драмма');
+
+INSERT INTO movies (id, name, price, genre_id, date_create,)
+VALUES
+    (1, 'Фильм 1', 100, 1, '2001-01-01'),
+    (2, 'Фильм 2', 200, 2, '2002-02-02');
 
 
 

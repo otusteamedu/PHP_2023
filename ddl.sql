@@ -23,11 +23,21 @@ CREATE TABLE seats
     FOREIGN KEY (price_seat_modificator_id) REFERENCES price_seat_modificators (id),
 );
 
+CREATE TABLE genres
+(
+    id   SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+);
+
 CREATE TABLE movies
 (
-    id    SERIAL PRIMARY KEY,
-    name  VARCHAR(255) NOT NULL,
-    price INTEGER      NOT NULL
+    id       SERIAL PRIMARY KEY,
+    genre_id INTEGER NOT NULL,
+    name VARCHAR (255) NOT NULL,
+    price    INTEGER NOT NULL,
+    date_create DATE NOT NULL,
+
+    FOREIGN KEY (genre_id) REFERENCES genres (id),
 );
 
 
@@ -42,7 +52,7 @@ CREATE TABLE price_seance_modificators
 CREATE TABLE users
 (
     id    SERIAL PRIMARY KEY,
-    email VARCHAR(20) NOT NULL
+    email VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE seances
@@ -61,11 +71,11 @@ CREATE TABLE seances
 
 CREATE TABLE tickets
 (
-    id      serial primary key,
-    seat_id integer not null,
-    seance_id  integer not null,
-    user_id integer not null,
-    price   integer not null,
+    id        serial primary key,
+    seat_id   integer not null,
+    seance_id integer not null,
+    user_id   integer not null,
+    price     integer not null,
 
     FOREIGN KEY (seat_id) REFERENCES seats (id),
     FOREIGN KEY (seance_id) REFERENCES seances (id),

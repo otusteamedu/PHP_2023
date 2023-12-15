@@ -1,2 +1,12 @@
-CREATE INDEX idx_values_movie_id ON values(movie_id);
-CREATE INDEX idx_values_attribute_id ON values(attribute_id);
+INSERT INTO attributes_type (name)
+VALUES
+('Text'),
+('Image'),
+('Date'),
+('Date');
+
+INSERT INTO attributes (attribute_name, attribute_type_id) VALUES
+('рецензии', (SELECT id FROM attributes WHERE name = 'text')),
+('премия оскар', (SELECT id FROM attributes WHERE name = 'bool')),
+('важные даты', (SELECT id FROM attributes WHERE name = 'date')),
+('служебные даты', (SELECT id FROM attributes WHERE name = 'date')),

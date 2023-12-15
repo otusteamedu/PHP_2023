@@ -32,6 +32,4 @@ class RedisStorage implements StorageInterface
     {
         $this->redisIndex->drop();
     }
-
-
 }

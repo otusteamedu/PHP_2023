@@ -3,19 +3,11 @@
 namespace App\Storage;
 
 use Ehann\RediSearch\AbstractIndex;
-use Ehann\RediSearch\Index;
-use Ehann\RedisRaw\RedisClientAdapter;
-use Ehann\RedisRaw\RedisRawClientInterface;
 
 class RedisStorage implements StorageInterface
 {
-    private const REDIS_HOST = 'redis';
-
-    private AbstractIndex $redisIndex;
-
-    public function __construct()
+    public function __construct(private readonly AbstractIndex $redisIndex)
     {
-        $this->redisIndex = $this->createRedisIndex((new RedisClientAdapter())->connect(self::REDIS_HOST));
     }
 
     public function add(int $priority, string $event, array $conditions): void
@@ -41,17 +33,5 @@ class RedisStorage implements StorageInterface
         $this->redisIndex->drop();
     }
 
-    private function createRedisIndex(RedisRawClientInterface $client): AbstractIndex
-    {
-        $index = new Index($client);
 
-        $index
-            ->addNumericField('priority')
-            ->addNumericField('param1')
-            ->addNumericField('param2')
-            ->addTextField('event')
-            ->create();
-
-        return $index;
-    }
 }

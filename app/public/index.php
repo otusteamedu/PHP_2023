@@ -1,11 +1,13 @@
 <?php
 
+use App\Factory\RedisIndexFactory;
 use App\Storage\RedisStorage;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
-    $redisStorage = new RedisStorage();
+    $redisIndexFactory = new RedisIndexFactory();
+    $redisStorage = new RedisStorage($redisIndexFactory->create());
     $events = json_decode(file_get_contents(__DIR__ . '/events.json'), true);
 
     foreach ($events as $event) {

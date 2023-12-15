@@ -8,7 +8,7 @@ services:
       dockerfile: nginx/Dockerfile
     volumes:
       - ./:/app/otus.local
-      - php_socket:/var/run/docker.sock
+      - php_socket:/var/run
     container_name: "${NGINX_CONTAINER_NAME}"
     depends_on:
       - php-fpm
@@ -26,13 +26,14 @@ services:
         - GID=${GID}
     volumes:
       - ./:/app/otus.local
-      - php_socket:/var/run/docker.sock
+      - php_socket:/var/run
     working_dir: /app/otus.local
     container_name: "${PHP_FPM_CONTAINER_NAME}"
     environment:
       MEMCACHED_HOST: 'memcached'
       REDIS_HOST: 'redis'
     depends_on:
+      - mysql-db
       - redis
       - memcached
     networks:
@@ -51,8 +52,24 @@ services:
       MEMCACHED_HOST: 'memcached'
       REDIS_HOST: 'redis'
     depends_on:
+      - mysql-db
       - redis
       - memcached
+    networks:
+      - app-network
+
+  mysql-db:
+    image: mysql:8
+    volumes:
+      - ./docker/mysql:/docker-entrypoint-initdb.d
+      - mysql:/var/lib/mysql
+    container_name: ${MYSQL_CONTAINER_NAME}
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${DB_EXTERNAL_PORT}:3306
     networks:
       - app-network
 
@@ -73,6 +90,7 @@ services:
 volumes:
   redis:
   php_socket:
+  mysql:
 
 networks:
   app-network:

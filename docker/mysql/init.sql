@@ -1,0 +1,3 @@
+CREATE DATABASE IF NOT EXISTS `test` CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+
+GRANT ALL PRIVILEGES ON *.* TO 'mysql'@'%';

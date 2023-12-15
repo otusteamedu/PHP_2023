@@ -1,0 +1,5 @@
+{
+    "require": {
+        "working-code/example-package": "^0.1.0"
+    }
+}

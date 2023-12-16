@@ -17,8 +17,7 @@ class IndexController
     (
         private readonly SendMessageService $sendMessageService,
         private readonly Request $request
-    )
-    {
+    ) {
     }
 
     /**

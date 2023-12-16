@@ -84,12 +84,11 @@ class WebApp implements App
     }
 
     private function getSendMessageService(
-        AMQPStreamConnection                       $rabbitConnection,
-        PublisherBankStatementRequestFactory       $bankStatementRequestFactory,
+        AMQPStreamConnection $rabbitConnection,
+        PublisherBankStatementRequestFactory $bankStatementRequestFactory,
         AMQPMessageFromBankStatementRequestFactory $amqMessageFromBankStatementRequestFactory,
-        EnvManager                                 $envManager
-    ): SendMessageService
-    {
+        EnvManager $envManager
+    ): SendMessageService {
         return new SendMessageService(
             $rabbitConnection,
             $bankStatementRequestFactory,
@@ -98,10 +97,7 @@ class WebApp implements App
         );
     }
 
-    private function getController(
-        SendMessageService $sendMessageService,
-        Request $request
-    ): IndexController
+    private function getController(SendMessageService $sendMessageService, Request $request): IndexController
     {
         return new IndexController(
             $sendMessageService,

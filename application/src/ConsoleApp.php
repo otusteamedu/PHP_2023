@@ -74,13 +74,12 @@ class ConsoleApp implements App
     }
 
     private function getReceiveMessageService(
-        EnvManager                           $envManager,
-        AMQPStreamConnection                 $rabbitConnection,
+        EnvManager $envManager,
+        AMQPStreamConnection $rabbitConnection,
         ConsumerBankStatementRequestFactory $bankStatementRequestFactory,
-        TelegramManager                      $telegramManager,
-        OutputInterface                      $output
-    ): ReceiveMessageService
-    {
+        TelegramManager $telegramManager,
+        OutputInterface $output
+    ): ReceiveMessageService {
         return new ReceiveMessageService($envManager, $rabbitConnection, $bankStatementRequestFactory, $telegramManager, $output);
     }
 

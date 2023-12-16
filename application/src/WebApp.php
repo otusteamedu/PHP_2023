@@ -110,4 +110,3 @@ class WebApp implements App
         return new ExceptionHandler();
     }
 }
-

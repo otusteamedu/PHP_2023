@@ -12,7 +12,9 @@ use Gesparo\Homework\Application\Factory\TelegramManagerFactory;
 use Gesparo\Homework\Application\PathHelper;
 use Gesparo\Homework\Application\Service\ReceiveMessageService;
 use Gesparo\Homework\Application\TelegramManager;
+use Gesparo\Homework\Domain\OutputInterface;
 use Gesparo\Homework\Infrastructure\Command\ReceiveMessageCommand;
+use Gesparo\Homework\Infrastructure\ConsoleOutputHelper;
 use Gesparo\Homework\Infrastructure\ExceptionHandler;
 use Longman\TelegramBot\Exception\TelegramException;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
@@ -27,11 +29,13 @@ class ConsoleApp implements App
             $telegramManager = $this->getTelegramManager($envManager);
             $rabbitConnection = $this->getRabbitConnection($envManager);
             $bankStatementRequestFactory = $this->getBankStatementRequestFactory();
+            $output = $this->getOutput();
             $receiveMessageService = $this->getReceiveMessageService(
                 $envManager,
                 $rabbitConnection,
                 $bankStatementRequestFactory,
-                $telegramManager
+                $telegramManager,
+                $output
             );
             $command = $this->getCommand($receiveMessageService);
 
@@ -53,6 +57,9 @@ class ConsoleApp implements App
         return PathHelper::getInstance();
     }
 
+    /**
+     * @throws AppException
+     */
     private function getEnvManager(PathHelper $pathHelper): EnvManager
     {
         return (new EnvManagerFactory($pathHelper))->create();
@@ -70,10 +77,11 @@ class ConsoleApp implements App
         EnvManager                           $envManager,
         AMQPStreamConnection                 $rabbitConnection,
         ConsumerBankStatementRequestFactory $bankStatementRequestFactory,
-        TelegramManager                      $telegramManager
+        TelegramManager                      $telegramManager,
+        OutputInterface                      $output
     ): ReceiveMessageService
     {
-        return new ReceiveMessageService($envManager, $rabbitConnection, $bankStatementRequestFactory, $telegramManager);
+        return new ReceiveMessageService($envManager, $rabbitConnection, $bankStatementRequestFactory, $telegramManager, $output);
     }
 
     private function getCommand(ReceiveMessageService $receiveMessageService): ReceiveMessageCommand
@@ -94,5 +102,10 @@ class ConsoleApp implements App
     private function getExceptionHandler(): ExceptionHandler
     {
         return new ExceptionHandler();
+    }
+
+    private function getOutput(): OutputInterface
+    {
+        return new ConsoleOutputHelper();
     }
 }

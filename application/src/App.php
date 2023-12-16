@@ -8,3 +8,4 @@ interface App
 {
     public function run(string $rootPath): void;
 }
+

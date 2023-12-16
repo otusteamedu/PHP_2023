@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application\Factory;
 
-use Gesparo\Homework\ValueObject\BankStatementRequest;
+use Gesparo\Homework\Domain\ValueObject\PublisherBankStatementRequest;
 use PhpAmqpLib\Message\AMQPMessage;
 
 class AMQPMessageFromBankStatementRequestFactory
@@ -12,7 +12,7 @@ class AMQPMessageFromBankStatementRequestFactory
     /**
      * @throws \JsonException
      */
-    public function create(BankStatementRequest $bankStatementRequest): AMQPMessage
+    public function create(PublisherBankStatementRequest $bankStatementRequest): AMQPMessage
     {
         $message = json_encode(
             [

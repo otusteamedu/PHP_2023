@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application\Factory;
 
 use Dotenv\Dotenv;
+use Gesparo\Homework\AppException;
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\PathHelper;
 
 class EnvManagerFactory
 {

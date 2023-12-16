@@ -4,8 +4,16 @@ declare(strict_types=1);
 
 namespace Gesparo\Homework;
 
-use Gesparo\Homework\Command\ReceiveMessageCommand;
-use Gesparo\Homework\Service\ReceiveMessageService;
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\Factory\ConsumerBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\EnvManagerFactory;
+use Gesparo\Homework\Application\Factory\RabbitConnectionFactory;
+use Gesparo\Homework\Application\Factory\TelegramManagerFactory;
+use Gesparo\Homework\Application\PathHelper;
+use Gesparo\Homework\Application\Service\ReceiveMessageService;
+use Gesparo\Homework\Application\TelegramManager;
+use Gesparo\Homework\Infrastructure\Command\ReceiveMessageCommand;
+use Gesparo\Homework\Infrastructure\ExceptionHandler;
 use Longman\TelegramBot\Exception\TelegramException;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
@@ -59,10 +67,10 @@ class ConsoleApp implements App
     }
 
     private function getReceiveMessageService(
-        EnvManager $envManager,
-        AMQPStreamConnection $rabbitConnection,
-        BankStatementRequestFactory $bankStatementRequestFactory,
-        TelegramManager $telegramManager
+        EnvManager                           $envManager,
+        AMQPStreamConnection                 $rabbitConnection,
+        ConsumerBankStatementRequestFactory $bankStatementRequestFactory,
+        TelegramManager                      $telegramManager
     ): ReceiveMessageService
     {
         return new ReceiveMessageService($envManager, $rabbitConnection, $bankStatementRequestFactory, $telegramManager);
@@ -78,9 +86,9 @@ class ConsoleApp implements App
         return (new RabbitConnectionFactory($envManager))->create();
     }
 
-    private function getBankStatementRequestFactory(): BankStatementRequestFactory
+    private function getBankStatementRequestFactory(): ConsumerBankStatementRequestFactory
     {
-        return new BankStatementRequestFactory();
+        return new ConsumerBankStatementRequestFactory();
     }
 
     private function getExceptionHandler(): ExceptionHandler

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Infrastructure;
 
 use Symfony\Component\HttpFoundation\Response;
 

@@ -2,21 +2,23 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\Service;
+namespace Gesparo\Homework\Application\Service;
 
-use Gesparo\Homework\BankStatementRequestFactory;
-use Gesparo\Homework\EnvManager;
-use Gesparo\Homework\TelegramManager;
-use Gesparo\Homework\ValueObject\BankStatementRequest;
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\Factory\ConsumerBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
+use Gesparo\Homework\Application\TelegramManager;
+use Gesparo\Homework\Domain\ValueObject\ConsumerBankStatementRequest;
+use Gesparo\Homework\Domain\ValueObject\PublisherBankStatementRequest;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ReceiveMessageService
 {
     public function __construct(
-        private readonly EnvManager $envManager,
-        private readonly AMQPStreamConnection $connection,
-        private readonly BankStatementRequestFactory $bankStatementRequestFactory,
-        private readonly TelegramManager $telegramManagerFactory
+        private readonly EnvManager                           $envManager,
+        private readonly AMQPStreamConnection                 $connection,
+        private readonly ConsumerBankStatementRequestFactory $bankStatementRequestFactory,
+        private readonly TelegramManager                      $telegramManagerFactory
     )
     {
     }
@@ -44,7 +46,7 @@ class ReceiveMessageService
         $channel->consume();
     }
 
-    private function getMessageForTelegram(BankStatementRequest $request): string
+    private function getMessageForTelegram(ConsumerBankStatementRequest $request): string
     {
         return sprintf(
             "Request for bank statement with account number '%s' and start date '%s' and end date '%s'",

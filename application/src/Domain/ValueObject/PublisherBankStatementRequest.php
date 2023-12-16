@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\ValueObject;
+namespace Gesparo\Homework\Domain\ValueObject;
 
 use Gesparo\Homework\AppException;
 
-class BankStatementRequest
+class PublisherBankStatementRequest
 {
     private string $accountNumber;
     private \DateTime $startDate;

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\Command;
+namespace Gesparo\Homework\Infrastructure\Command;
 
-use Gesparo\Homework\Service\ReceiveMessageService;
+use Gesparo\Homework\Application\Service\ReceiveMessageService;
 
 class ReceiveMessageCommand
 {

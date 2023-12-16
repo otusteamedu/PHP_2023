@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application;
+
+use Gesparo\Homework\AppException;
 
 class PathHelper
 {

@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\Controller;
+namespace Gesparo\Homework\Infrastructure\Controller;
 
 use Gesparo\Homework\AppException;
-use Gesparo\Homework\Request\SendMessageRequest;
-use Gesparo\Homework\Service\SendMessageService;
+use Gesparo\Homework\Application\Request\SendMessageRequest;
+use Gesparo\Homework\Application\Service\SendMessageService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

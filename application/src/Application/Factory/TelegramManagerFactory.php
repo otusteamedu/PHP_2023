@@ -2,8 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application\Factory;
 
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\TelegramManager;
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Telegram;
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\Request;
+namespace Gesparo\Homework\Application\Request;
 
 class SendMessageRequest
 {

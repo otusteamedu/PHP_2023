@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework\Service;
+namespace Gesparo\Homework\Application\Service;
 
-use Gesparo\Homework\AMQPMessageFromBankStatementRequestFactory;
 use Gesparo\Homework\AppException;
-use Gesparo\Homework\BankStatementRequestFactory;
-use Gesparo\Homework\EnvManager;
-use Gesparo\Homework\Request\SendMessageRequest;
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\Factory\AMQPMessageFromBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
+use Gesparo\Homework\Application\Request\SendMessageRequest;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class SendMessageService
 {
     public function __construct(
-        private readonly AMQPStreamConnection $rabbitConnection,
-        private readonly BankStatementRequestFactory $bankStatementRequestFactory,
+        private readonly AMQPStreamConnection                       $rabbitConnection,
+        private readonly PublisherBankStatementRequestFactory       $bankStatementRequestFactory,
         private readonly AMQPMessageFromBankStatementRequestFactory $amqMessageFromBankStatementRequestFactory,
-        private readonly EnvManager $envManager
+        private readonly EnvManager                                 $envManager
     )
     {
     }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application;
 
 use Longman\TelegramBot\Exception\TelegramException;
 use Longman\TelegramBot\Request;

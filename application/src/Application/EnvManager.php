@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application;
 
 class EnvManager
 {
@@ -32,7 +32,7 @@ class EnvManager
 
     public function getChannelName(): string
     {
-        return 'hello';
+        return 'bank_statement.request.created';
     }
 
     public function getTelegramBotName(): string

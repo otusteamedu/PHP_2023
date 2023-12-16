@@ -4,8 +4,15 @@ declare(strict_types=1);
 
 namespace Gesparo\Homework;
 
-use Gesparo\Homework\Controller\IndexController;
-use Gesparo\Homework\Service\SendMessageService;
+use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\Factory\AMQPMessageFromBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\EnvManagerFactory;
+use Gesparo\Homework\Application\Factory\RabbitConnectionFactory;
+use Gesparo\Homework\Application\PathHelper;
+use Gesparo\Homework\Application\Service\SendMessageService;
+use Gesparo\Homework\Infrastructure\Controller\IndexController;
+use Gesparo\Homework\Infrastructure\ExceptionHandler;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -66,9 +73,9 @@ class WebApp implements App
         return (new RabbitConnectionFactory($envManager))->create();
     }
 
-    private function getBankStatementRequestFactory(): BankStatementRequestFactory
+    private function getBankStatementRequestFactory(): PublisherBankStatementRequestFactory
     {
-        return new BankStatementRequestFactory();
+        return new PublisherBankStatementRequestFactory();
     }
 
     private function getAMQPMessageFromBankStatementRequestFactory(): AMQPMessageFromBankStatementRequestFactory
@@ -77,10 +84,10 @@ class WebApp implements App
     }
 
     private function getSendMessageService(
-        AMQPStreamConnection $rabbitConnection,
-        BankStatementRequestFactory $bankStatementRequestFactory,
+        AMQPStreamConnection                       $rabbitConnection,
+        PublisherBankStatementRequestFactory       $bankStatementRequestFactory,
         AMQPMessageFromBankStatementRequestFactory $amqMessageFromBankStatementRequestFactory,
-        EnvManager $envManager
+        EnvManager                                 $envManager
     ): SendMessageService
     {
         return new SendMessageService(

@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Gesparo\Homework;
+namespace Gesparo\Homework\Application\Factory;
 
+use Gesparo\Homework\Application\EnvManager;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class RabbitConnectionFactory

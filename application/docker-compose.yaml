@@ -12,37 +12,14 @@ services:
       - ":9000"
     volumes:
       - ./:/data/www
+      - ./config/php/start.sh:/data/config/start.sh
     environment:
-      MYAPP_MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYAPP_MYSQL_USER: ${MYSQL_USER}
-      MYAPP_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYAPP_RABBITMQ_USER: ${RABBITMQ_DEFAULT_USER}
+      MYAPP_RABBITMQ_PASS: ${RABBITMQ_DEFAULT_PASS}
 
-  redis:
-    image: redis
-    container_name: myapp-redis${DOCKER_CONTAINER_SUFFIX}
-    ports:
-      - "6379:6379"
-
-  memcached:
-    image: memcached
-    container_name: myapp-memcached${DOCKER_CONTAINER_SUFFIX}
-    ports:
-      - "11211:11211"
-
-  mysql:
-    image: mysql
-    restart: always
-    container_name: myapp-mysql${DOCKER_CONTAINER_SUFFIX}
-    ports:
-      - "3306:3306"
-    volumes:
-      - myapp-dbvolume:/var/lib/mysql
+  queue:
+    image: rabbitmq
+    container_name: myapp-queue${DOCKER_CONTAINER_SUFFIX}
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-
-volumes:
-  # here database will store data
-  myapp-dbvolume:
+        RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+        RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}

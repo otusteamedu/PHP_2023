@@ -15,7 +15,8 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ReceiveMessageService
 {
-    public function __construct(
+    public function __construct
+    (
         private readonly EnvManager                          $envManager,
         private readonly AMQPStreamConnection                $connection,
         private readonly ConsumerBankStatementRequestFactory $bankStatementRequestFactory,

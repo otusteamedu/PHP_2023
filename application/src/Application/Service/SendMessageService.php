@@ -13,7 +13,8 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class SendMessageService
 {
-    public function __construct(
+    public function __construct
+    (
         private readonly AMQPStreamConnection                       $rabbitConnection,
         private readonly PublisherBankStatementRequestFactory       $bankStatementRequestFactory,
         private readonly AMQPMessageFromBankStatementRequestFactory $amqMessageFromBankStatementRequestFactory,

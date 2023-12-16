@@ -6,10 +6,12 @@ namespace Gesparo\Homework\Application\Request;
 
 class SendMessageRequest
 {
-    public function __construct(
+    public function __construct
+    (
         public ?string $accountNumber = null,
         public ?string $startDate = null,
-        public ?string $endDate = null)
+        public ?string $endDate = null
+    )
     {
     }
 }

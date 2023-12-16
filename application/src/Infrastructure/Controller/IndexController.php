@@ -13,7 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class IndexController
 {
-    public function __construct(
+    public function __construct
+    (
         private readonly SendMessageService $sendMessageService,
         private readonly Request $request
     )

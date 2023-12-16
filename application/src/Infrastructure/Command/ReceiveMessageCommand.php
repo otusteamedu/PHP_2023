@@ -8,9 +8,7 @@ use Gesparo\Homework\Application\Service\ReceiveMessageService;
 
 class ReceiveMessageCommand
 {
-    public function __construct(
-        private readonly ReceiveMessageService $receiveMessageService
-    )
+    public function __construct(private readonly ReceiveMessageService $receiveMessageService)
     {
     }
 

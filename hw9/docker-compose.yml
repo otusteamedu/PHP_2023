@@ -1,0 +1,25 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres_otusphp
+    restart: always
+    environment:
+      POSTGRES_DB: "otusphp"
+      POSTGRES_USER: "otusphp"
+      POSTGRES_PASSWORD: "otusphp123"
+    networks:
+      - network-otusphp
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer_otusphp
+    restart: always
+    ports:
+      - "8080:8080"
+    networks:
+      - network-otusphp
+
+networks:
+  network-otusphp:
+    driver: bridge

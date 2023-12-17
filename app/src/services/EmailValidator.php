@@ -8,8 +8,7 @@ class EmailValidator
 {
     public static function validate(): bool
     {
-        foreach ($_POST['emails'] as $email)
-        {
+        foreach ($_POST['emails'] as $email) {
             if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
                 throw new \Exception("$email. Invalid email format.");
             }
@@ -21,6 +20,6 @@ class EmailValidator
                 throw new \Exception("$email. Invalid MX record for the domain of the email address.");
             }
         }
-        return true; 
+        return true;
     }
 }

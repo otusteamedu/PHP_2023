@@ -20,6 +20,7 @@ CREATE VIEW marketing_data AS
                    AV.val_text,
                    AV.val_bool::text,
                    AV.val_int::text,
+                   AV.val_float::text,
                    AV.val_date::text
            ) as "Значение"
     FROM movies M

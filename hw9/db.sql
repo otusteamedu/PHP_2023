@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS attribute_values (
     val_text TEXT,
     val_bool BOOLEAN,
     val_int INT,
+    val_float FLOAT,
     val_date DATE,
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (attribute_id) REFERENCES attributes (id)

@@ -26,7 +26,7 @@ class App
 
     public function run()
     {
-        $config = parse_ini_file('/../config/config.ini', true);
+        $config = parse_ini_file('config/config.ini', true);
         $file = $config['socket']['file'];
 
         $this->socket = new Socket($file);

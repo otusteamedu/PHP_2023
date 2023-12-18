@@ -50,7 +50,7 @@ CREATE TABLE price (
     scheme_id SERIAL NOT NULL,
     seat_type SERIAL NOT NULL,
     time_type SERIAL NOT NULL,
-    price FLOAT NOT NULL DEFAULT 0,
+    price DECIMAL NOT NULL DEFAULT 0,
     UNIQUE (scheme_id, seat_type, time_type)
 );
 
@@ -67,7 +67,7 @@ CREATE TABLE ticket (
     seat_id SERIAL NOT NULL,
     client_id SERIAL,
     date TIMESTAMP NOT NULL,
-    amount FLOAT NOT NULL DEFAULT 0,
+    amount DECIMAL NOT NULL DEFAULT 0,
     UNIQUE (session_id, seat_id)
 );
 

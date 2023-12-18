@@ -20,6 +20,7 @@ SELECT f.title,
            WHEN attr_types.value_column_name = 'attribute_value_date' THEN values.value_date::text
            WHEN attr_types.value_column_name = 'attribute_value_time_tz' THEN values.value_date_tz::text
            WHEN attr_types.value_column_name = 'attribute_value_int' THEN values.value_int::text
+           WHEN attr_types.value_column_name = 'attribute_value_float' THEN values.value_float::text
            END value
 FROM films f
 JOIN attribute_values av ON f.film_id = av.film_id

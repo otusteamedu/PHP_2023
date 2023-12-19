@@ -1,0 +1,16 @@
+{
+    "name": "dshevchenko/brownchat",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dshevchenko\\Brownchat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DShevchenko",
+            "email": "mail@anhost.ru"
+        }
+    ],
+    "require": {}
+}

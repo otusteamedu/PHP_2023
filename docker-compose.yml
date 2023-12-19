@@ -1,0 +1,112 @@
+version: '3'
+
+services:
+    application1:
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        volumes:
+            - ./:/data/application.local
+            - sock1:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+    application2:
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        volumes:
+            - ./:/data/application.local
+            - sock2:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+    application3:
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        volumes:
+            - ./:/data/application.local
+            - sock3:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+    balancer-webserver:
+        image: nginx:alpine3.18
+        depends_on:
+            - webserver1
+            - webserver2
+            - webserver3
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./docker/nginx/balancer.conf:/etc/nginx/conf.d/default.conf
+        networks:
+            - php-hw-network
+
+    webserver1:
+        image: nginx:alpine3.18
+        volumes:
+            - ./:/data/application.local
+            - ./docker/nginx/application.conf:/etc/nginx/conf.d/default.conf
+            - sock1:/sock1
+            - sock2:/sock2
+            - sock3:/sock3
+        networks:
+            - php-hw-network
+
+    webserver2:
+        image: nginx:alpine3.18
+        volumes:
+            - ./:/data/application.local
+            - ./docker/nginx/application.conf:/etc/nginx/conf.d/default.conf
+            - sock1:/sock1
+            - sock2:/sock2
+            - sock3:/sock3
+        networks:
+            - php-hw-network
+
+    webserver3:
+        image: nginx:alpine3.18
+        volumes:
+            - ./:/data/application.local
+            - ./docker/nginx/application.conf:/etc/nginx/conf.d/default.conf
+            - sock1:/sock1
+            - sock2:/sock2
+            - sock3:/sock3
+        networks:
+            - php-hw-network
+
+    memcached:
+        image: memcached:alpine3.18
+        ports:
+            - "11212:11211"
+        networks:
+            - php-hw-network
+
+    db:
+        image: postgres:15.5-alpine3.18
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB:       ${POSTGRES_DB}
+            POSTGRES_USER:     ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        networks:
+            - php-hw-network
+
+volumes:
+    postgres_data:
+    sock1:
+    sock2:
+    sock3:
+
+networks:
+    php-hw-network:
+        driver: bridge

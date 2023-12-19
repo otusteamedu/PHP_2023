@@ -1,0 +1,16 @@
+{
+    "name": "otus/datamapper",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Datamapper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "cherepanov.a",
+            "email": "art.cherepan@gmail.com"
+        }
+    ],
+    "require": {}
+}

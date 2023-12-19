@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -25,9 +25,9 @@ abstract class Socket
         $this->close();
     }
 
-    public abstract function read(): ?string;
+    abstract public function read(): ?string;
 
-    public abstract function write(string $message): void;
+    abstract public function write(string $message): void;
 
     public function close(): void
     {

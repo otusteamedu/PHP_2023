@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -10,14 +10,13 @@ class SocketClient extends Socket
     {
         return socket_connect($this->socket, $this->socketPath);
     }
-    
+
     public function read(): string
     {
-        $result = socket_read($this->socket, $this->bufferSize);    
+        $result = socket_read($this->socket, $this->bufferSize);
         if ($result === false) {
             return '';
-        }
-        else {
+        } else {
             return $result;
         }
     }

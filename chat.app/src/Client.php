@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -16,7 +16,7 @@ class Client
     public function run(): void
     {
         fwrite(STDOUT, 'Connecting to server... ');
-        
+
         if ($this->socket->connect()) {
             echo "OK\n\n";
         } else {

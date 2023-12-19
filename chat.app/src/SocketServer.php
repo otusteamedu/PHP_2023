@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -26,8 +26,7 @@ class SocketServer extends Socket
 
         if (!socket_bind($this->socket, $this->socketPath)) {
             throw new \Exception('Cannot bind socket');
-        } 
-        elseif (!socket_listen($this->socket)) {
+        } elseif (!socket_listen($this->socket)) {
             throw new \Exception('Cannot listen socket');
         }
     }
@@ -53,11 +52,10 @@ class SocketServer extends Socket
 
     public function read(): ?string
     {
-        $result = socket_read($this->client, $this->bufferSize);    
+        $result = socket_read($this->client, $this->bufferSize);
         if ($result === false) {
             return '';
-        }
-        else {
+        } else {
             return $result;
         }
     }

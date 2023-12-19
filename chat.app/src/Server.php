@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -21,7 +21,6 @@ class Server
     public function run(): void
     {
         $this->socket->create();
-       
         $isRunning = true;
 
         while ($isRunning) {
@@ -41,12 +40,10 @@ class Server
                     fwrite(STDOUT, "Client is disconnected\n");
                     $this->socket->drop();
                     $isReading = false;
-                }
-                elseif ($buffer === self::STOP_SERVER) {
+                } elseif ($buffer === self::STOP_SERVER) {
                     fwrite(STDOUT, "Server stopped by client\n");
                     $isRunning = false;
-                } 
-                else {
+                } else {
                     fwrite(STDOUT, ">>> $buffer\n");
                     $this->socket->write('Received ' . (string)strlen($buffer) . ' bytes');
                 }

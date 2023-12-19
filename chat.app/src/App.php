@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types= 1);
+declare(strict_types=1);
 
 namespace Dshevchenko\Brownchat;
 
@@ -17,8 +17,7 @@ class App
             if ($param == 'server') {
                 $startServer = true;
                 break;
-            }
-            elseif ($param == 'client') {
+            } elseif ($param == 'client') {
                 $startClient = true;
                 break;
             }
@@ -31,22 +30,20 @@ class App
                 $settings = parse_ini_file(__DIR__ . '/../config/App.ini');
                 $server = new Server($settings);
                 $server->run();
-            }
-            else if ($startClient) {
+            } else if ($startClient) {
                 fwrite(STDOUT, "\nBROWNCHAT CLIENT\n");
                 fwrite(STDOUT, "----------------\n\n");
                 $settings = parse_ini_file(__DIR__ . '/../config/App.ini');
                 $client = new Client($settings);
                 $client->run();
-            }
-            else {
+            } else {
                 fwrite(STDOUT, "\nUsage: App.php COMMAND\n\n");
                 fwrite(STDOUT, "Commands:\n");
                 fwrite(STDOUT, "  server    start brownchat server\n");
                 fwrite(STDOUT, "  client    start brownchat client\n");
             }
         } catch (\Exception $e) {
-            fwrite(STDOUT, 'ERROR: '. $e->getMessage());
+            fwrite(STDOUT, 'ERROR: ' . $e->getMessage());
         }
     }
 }

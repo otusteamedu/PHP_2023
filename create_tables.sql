@@ -20,9 +20,13 @@ CREATE TABLE names_attributes
 
 CREATE TABLE values_attributes
 (
-    v_movie_id INT,
-    v_attr_id  INT,
-    value      VARCHAR(50),
+    v_movie_id  INT,
+    v_attr_id   INT,
+    value_text  TEXT,
+    value_date  DATE,
+    value_int   INT,
+    value_float FLOAT,
+    value_bool  BOOLEAN,
     FOREIGN KEY (v_movie_id) REFERENCES movies (movie_id),
     FOREIGN KEY (v_attr_id) REFERENCES names_attributes (attr_id)
 );

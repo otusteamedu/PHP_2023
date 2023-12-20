@@ -6,33 +6,32 @@ class IdentityMap
 {
     private array $objects = [];
 
-    public function getObjects(): array
+    /**
+     * @return array<object>
+     */
+    public function getAll(): array
     {
         return $this->objects;
     }
 
-    public function setObjects(array $objects): void
+    public function get(string $classIdentifier, int $id): ?object
     {
-        $this->objects = $objects;
+        return $this->objects[$classIdentifier][$id] ?? null;
     }
 
-    public function addObject(object $object): void
+    public function set(IdentityInterface $object): void
     {
-        $key = get_class($object) . $object->getId();
-        $this->objects[$key] = $object;
+        $this->objects[$object::class][$object->getId()] = $object;
     }
 
-    public function getByKey(string $key): ?object
+    public function remove(IdentityInterface $object): void
     {
-        return $this->objects[$key] ?? null;
+        if (isset($this->objects[$object::class][$object->getId()])) {
+            unset($this->objects[$object::class][$object->getId()]);
+        }
     }
 
-    public function deleteByKey(string $key): void
-    {
-        unset($this->objects[$key]);
-    }
-
-    public function resetObjects(): void
+    public function reset(): void
     {
         unset($this->objects);
     }

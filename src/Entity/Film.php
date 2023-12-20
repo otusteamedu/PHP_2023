@@ -4,19 +4,20 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-class Film
+use App\IdentityInterface;
+
+class Film implements IdentityInterface
 {
-    private ?int $id = null;
+    public function __construct(
+        private readonly int $id,
+        private ?string $name = null,
+        private ?string $genre = null,
+        private ?int $yearOfRelease = null,
+        private ?int $duration = null,
+    ) {
+    }
 
-    private ?string $name = null;
-
-    private ?string $genre = null;
-
-    private ?int $yearOfRelease = null;
-
-    private ?int $duration = null;
-
-    public function getId(): ?int
+    public function getId(): int
     {
         return $this->id;
     }

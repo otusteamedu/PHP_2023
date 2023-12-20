@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "3bb620b6c30fef9a81ed6fed61e4049b",
+    "packages": [
+        {
+            "name": "sherweb/otus-package",
+            "version": "v1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/serverwebb/otus-package.git",
+                "reference": "9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/serverwebb/otus-package/zipball/9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62",
+                "reference": "9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sherweb\\OtusPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "sherweb",
+                    "email": "serverwebb@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/serverwebb/otus-package/issues",
+                "source": "https://github.com/serverwebb/otus-package/tree/v1.0.3"
+            },
+            "time": "2023-12-20T15:33:40+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

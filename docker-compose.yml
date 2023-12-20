@@ -1,0 +1,72 @@
+version: '3.8'
+
+networks:
+  restricted-network:
+    driver: bridge
+
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - restricted-network
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./log/nginx:/var/log/nginx
+      - ./ssl:/etc/nginx/ssl
+    depends_on:
+      - php
+  php:
+    build: images/php8.2
+    volumes:
+      - ./www:/var/www
+    networks:
+      - restricted-network
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+  mysql:
+    image: mariadb
+    hostname: mysql
+    expose:
+      - "3306"
+    ports:
+      - "127.0.0.1:3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./log/mysql:/var/log/mysql
+    env_file:
+      - .env
+    networks:
+      - restricted-network
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    env_file:
+      - .env
+    networks:
+      - restricted-network
+  memcached:
+    image: memcached:latest
+    ports:
+      - "11211:11211"
+    networks:
+      - restricted-network
+  adminer:
+    image: dockette/adminer:mysql
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:81:80"
+    networks:
+      - restricted-network
+
+volumes:
+  mysql-data:

@@ -13,7 +13,7 @@ $host = '127.0.0.1';
 $port = 5432;
 $options = [];
 
-$dsn = "pgsql:host=".$host.";port=".$port.";dbname=".$dbname;
+$dsn = "pgsql:host=" . $host . ";port=" . $port . ";dbname=" . $dbname;
 $db = new PDO($dsn,$username,$password, $options);
 
 $filmDataMapper = new FilmDataMapper($db);

@@ -12,7 +12,7 @@ class Client
     private SocketClient $socket;
 
     public function __construct()
-    {   
+    {
         $settings = new Settings();
         $this->socket = new SocketClient($settings);
     }
@@ -53,7 +53,7 @@ class Client
     {
         Console::write('Disconnecting... ', false);
         try {
-            $this->socket->close(); 
+            $this->socket->close();
             Console::write('SUCCESS');
         } catch (\Exception $e) {
             Console::write('FAIL');
@@ -72,7 +72,7 @@ class Client
 
     private function isClientRunning(string $message, string $result): bool
     {
-        $running = ($result !== '') 
+        $running = ($result !== '')
             && $message !== self::EXIT
             && $message !== self::STOP_SERVER;
 

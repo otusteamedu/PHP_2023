@@ -20,7 +20,7 @@ class App
                 // Do nothing
             } else {
                 Console::write('Unknown command: ' . $param);
-            }            
+            }
         }
 
         if (isset($instance)) {

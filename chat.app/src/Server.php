@@ -26,7 +26,6 @@ class Server
         $isRunning = $this->createSocket();
 
         while ($isRunning) {
-
             $isReading = $this->acceptClient();
             $isRunning = $isReading;
 

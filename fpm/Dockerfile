@@ -13,6 +13,8 @@ RUN apt-get update && apt-get install -y \
 # Устанавливаем Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+#COPY ./docker.conf /usr/local/etc/php-fpm.d/zz-docker.conf
+
 WORKDIR /data
 
 VOLUME /data

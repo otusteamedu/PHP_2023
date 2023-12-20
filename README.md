@@ -1,3 +1,5 @@
-# PHP_2023
+# БД кинотеатра по схеме EAV
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Вьюшки:<br />
+**view_marketing**<br />
+**view_service**

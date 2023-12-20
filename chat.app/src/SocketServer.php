@@ -50,7 +50,7 @@ class SocketServer extends Socket
         $this->client = null;
     }
 
-    public function read(): ?string
+    public function read(): string
     {
         $result = socket_read($this->client, $this->bufferSize);
         if ($result === false) {

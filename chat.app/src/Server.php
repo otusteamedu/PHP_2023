@@ -13,41 +13,93 @@ class Server
 
     private SocketServer $socket;
 
-    public function __construct(array $settings)
+    public function __construct()
     {
+        $settings = new Settings();
         $this->socket = new SocketServer($settings);
     }
 
     public function run(): void
     {
-        $this->socket->create();
-        $isRunning = true;
+        Console::write('Welcome to BrownChat Server!');
+
+        $isRunning = $this->createSocket();
 
         while ($isRunning) {
-            fwrite(STDOUT, 'Waiting for client... ');
-            if ($this->socket->accept()) {
-                fwrite(STDOUT, "CLIENT CONNECTED\n");
-            } else {
-                return;
-            }
 
-            $isReading = true;
+            $isReading = $this->acceptClient();
+            $isRunning = $isReading;
 
             while ($isRunning && $isReading) {
-                $buffer = $this->socket->read();
-
-                if ($buffer === '' || $buffer === self::EXIT) {
-                    fwrite(STDOUT, "Client is disconnected\n");
-                    $this->socket->drop();
-                    $isReading = false;
-                } elseif ($buffer === self::STOP_SERVER) {
-                    fwrite(STDOUT, "Server stopped by client\n");
-                    $isRunning = false;
-                } else {
-                    fwrite(STDOUT, ">>> $buffer\n");
-                    $this->socket->write('Received ' . (string)strlen($buffer) . ' bytes');
+                $message = $this->readFromClient();
+                $isReading = !$this->isClientDisconnected($message);
+                $isRunning = !$this->isServerStopped($message);
+                if ($isRunning && $isReading) {
+                    Console::write('>>> ' . $message);
+                    $this->confirmReading($message);
+                } elseif (!$isReading) {
+                    $this->dropClient();
                 }
             }
         }
+    }
+
+    private function createSocket(): bool
+    {
+        Console::write('Creating socket... ', false);
+        try {
+            $this->socket->create();
+            Console::write('SUCCESS');
+            return true;
+        } catch (\Exception $e) {
+            Console::write('FAIL');
+            return false;
+        }
+    }
+
+    private function acceptClient(): bool
+    {
+        Console::write('Waiting for client... ', false);
+        if ($this->socket->accept()) {
+            Console::write('CONNECTED');
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private function dropClient(): void
+    {
+        $this->socket->drop();
+    }
+
+    private function readFromClient(): string
+    {
+        $incomingMsg = $this->socket->read();
+        return $incomingMsg;
+    }
+
+    private function confirmReading(string $message): void
+    {
+        $messageLen = strlen($message);
+        $this->socket->write('Received ' . (string)$messageLen . ' bytes');
+    }
+
+    private function isClientDisconnected(string $message): bool
+    {
+        $disconnected = ($message === self::EXIT) || ($message === '');
+        if ($disconnected) {
+            Console::write('Client is disconnected');
+        }
+        return $disconnected;
+    }
+
+    private function isServerStopped(string $message): bool
+    {
+        if ($message === self::STOP_SERVER) {
+            Console::write('Server stopped by client');
+            return true;
+        }
+        return false;
     }
 }

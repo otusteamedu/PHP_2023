@@ -8,42 +8,35 @@ class App
 {
     public function run($argv): void
     {
-        $startServer = false;
-        $startClient = false;
         $argc = count($argv);
 
-        for ($i = 1; $i < $argc; $i++) {
-            $param = strtolower($argv[$i]);
+        if ($argc > 0) {
+            $param = strtolower($argv[1]);
             if ($param == 'server') {
-                $startServer = true;
-                break;
+                $instance = new Server();
             } elseif ($param == 'client') {
-                $startClient = true;
-                break;
-            }
+                $instance = new Client();
+            } elseif ($param == 'help') {
+                // Do nothing
+            } else {
+                Console::write('Unknown command: ' . $param);
+            }            
         }
 
-        try {
-            if ($startServer) {
-                fwrite(STDOUT, "\nBROWNCHAT SERVER\n");
-                fwrite(STDOUT, "----------------\n\n");
-                $settings = parse_ini_file(__DIR__ . '/../config/App.ini');
-                $server = new Server($settings);
-                $server->run();
-            } else if ($startClient) {
-                fwrite(STDOUT, "\nBROWNCHAT CLIENT\n");
-                fwrite(STDOUT, "----------------\n\n");
-                $settings = parse_ini_file(__DIR__ . '/../config/App.ini');
-                $client = new Client($settings);
-                $client->run();
-            } else {
-                fwrite(STDOUT, "\nUsage: App.php COMMAND\n\n");
-                fwrite(STDOUT, "Commands:\n");
-                fwrite(STDOUT, "  server    start brownchat server\n");
-                fwrite(STDOUT, "  client    start brownchat client\n");
-            }
-        } catch (\Exception $e) {
-            fwrite(STDOUT, 'ERROR: ' . $e->getMessage());
+        if (isset($instance)) {
+            $instance->run();
+        } else {
+            $this->showHelp();
         }
+    }
+
+    private function showHelp(): void
+    {
+        Console::write('Usage: App.php COMMAND');
+        Console::write('');
+        Console::write('Commands:');
+        Console::write('  help      display brownchat help');
+        Console::write('  server    start brownchat server');
+        Console::write('  client    start brownchat client');
     }
 }

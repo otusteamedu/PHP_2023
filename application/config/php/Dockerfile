@@ -7,6 +7,15 @@ RUN apt-get update \
 	&& docker-php-ext-enable redis memcached \
 	&& docker-php-ext-install mysqli \
 	&& docker-php-ext-enable mysqli \
-    && apt-get install -y git
+    && docker-php-ext-install bcmath \
+    && docker-php-ext-enable bcmath \
+    && docker-php-ext-install sockets \
+    && apt-get install -y git \
+    && mkdir -p /data/config \
+    && chmod 777 /data/config
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /data/www
+
+CMD ["./../config/start.sh"]

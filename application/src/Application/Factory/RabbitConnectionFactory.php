@@ -13,11 +13,14 @@ class RabbitConnectionFactory
     {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function create(): AMQPStreamConnection
     {
         return new AMQPStreamConnection(
             'queue',
-            5672,
+            $this->envManager->getRabbitMqPort(),
             $this->envManager->getRabbitMqUser(),
             $this->envManager->getRabbitMqPassword()
         );

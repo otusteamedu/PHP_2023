@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Gesparo\Homework\Application\Factory;
 
+use Gesparo\Homework\Domain\AMQPMessageCreationInterface;
 use Gesparo\Homework\Domain\ValueObject\PublisherBankStatementRequest;
 use PhpAmqpLib\Message\AMQPMessage;
 
-class AMQPMessageFromBankStatementRequestFactory
+class AMQPMessageFromBankStatementRequestFactory implements AMQPMessageCreationInterface
 {
     /**
      * @throws \JsonException

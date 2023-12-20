@@ -6,9 +6,9 @@ namespace Gesparo\Homework\Application\Service;
 
 use Gesparo\Homework\AppException;
 use Gesparo\Homework\Application\EnvManager;
-use Gesparo\Homework\Application\Factory\AMQPMessageFromBankStatementRequestFactory;
 use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
 use Gesparo\Homework\Application\Request\SendMessageRequest;
+use Gesparo\Homework\Domain\AMQPMessageCreationInterface;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class SendMessageService
@@ -16,14 +16,14 @@ class SendMessageService
     public function __construct(
         private readonly AMQPStreamConnection $rabbitConnection,
         private readonly PublisherBankStatementRequestFactory $bankStatementRequestFactory,
-        private readonly AMQPMessageFromBankStatementRequestFactory $amqMessageFromBankStatementRequestFactory,
+        private readonly AMQPMessageCreationInterface $amqpMessageFactory,
         private readonly EnvManager $envManager
     ) {
     }
 
     /**
      * @throws AppException
-     * @throws \JsonException
+     * @throws \Exception
      */
     public function send(SendMessageRequest $request): void
     {
@@ -36,7 +36,7 @@ class SendMessageService
         );
 
         $channel = $this->rabbitConnection->channel();
-        $message = $this->amqMessageFromBankStatementRequestFactory->create($bankStatementRequest);
+        $message = $this->amqpMessageFactory->create($bankStatementRequest);
 
         $channel->basic_publish($message, '', $this->envManager->getChannelName());
 

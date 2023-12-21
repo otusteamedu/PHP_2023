@@ -1,0 +1,16 @@
+{
+    "name": "working-code/hw5",
+    "description": "home work №5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "WorkingCode\\Hw5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Galushka Vlad <galushka.vp@gmail.com>"
+        }
+    ],
+    "require": {}
+}

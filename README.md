@@ -1,1 +1,16 @@
-[PHP Developer. Professional](https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus)
+## Домашнее задание №5
+
+Описание/Пошаговая инструкция выполнения домашнего задания:
+1. Приложение верификации email
+    1. Реализовать приложение (сервис/функцию) для верификации email.
+    2. Реализация будет в будущем встроена в более крупное решение.
+    3. Минимальный функционал - список строк, которые необходимо проверить на наличие валидных email.
+    4. Валидация по регулярным выражениям и проверке DNS mx записи, без полноценной отправки письма-подтверждения.
+
+Проверить валидацию можно командой:
+```bash
+curl --location 'http://application.local/' \
+--form 'emails[]="seefjkwfb@email.ru"' \
+--form 'emails[]="galushka.vp@gmail.com"' \
+--form 'emails[]="@.ru"'
+```

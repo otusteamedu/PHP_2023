@@ -1,42 +1,51 @@
--- Заполнение таблицы Кинозалов
-INSERT INTO Cinemas (CinemaID, Name, Capacity) VALUES (1, 'Зал 1', 100);
-INSERT INTO Cinemas (CinemaID, Name, Capacity) VALUES (2, 'Зал 2', 150);
-INSERT INTO Cinemas (CinemaID, Name, Capacity) VALUES (3, 'Зал 3', 200);
-INSERT INTO Cinemas (CinemaID, Name, Capacity) VALUES (4, 'Зал 4', 120);
 
--- Заполнение таблицы Фильмов
-INSERT INTO Movies (MovieID, Title, Duration, Director) VALUES (1, 'Космические Рейнджеры', 120, 'Иван Иванов');
-INSERT INTO Movies (MovieID, Title, Duration, Director) VALUES (2, 'Приключения в Джунглях', 90, 'Мария Петрова');
-INSERT INTO Movies (MovieID, Title, Duration, Director) VALUES (3, 'Глубокий Океан', 110, 'Сергей Сидоров');
-INSERT INTO Movies (MovieID, Title, Duration, Director) VALUES (4, 'Город Героев', 95, 'Анна Кузнецова');
+INSERT INTO Movies (name, description, release_date, duration) VALUES
+                                                                   ('Фильм 1', 'Описание фильма 1', '2023-01-01', 120),
+                                                                   ('Фильм 2', 'Описание фильма 2', '2023-01-15', 95),
+                                                                   ('Фильм 3', 'Описание фильма 3', '2023-02-01', 110),
+                                                                   ('Фильм 4', 'Описание фильма 4', '2023-02-20', 90),
+                                                                   ('Фильм 5', 'Описание фильма 5', '2023-03-01', 130),
+                                                                   ('Фильм 6', 'Описание фильма 6', '2023-03-15', 125),
+                                                                   ('Фильм 7', 'Описание фильма 7', '2023-04-01', 105),
+                                                                   ('Фильм 8', 'Описание фильма 8', '2023-04-15', 100),
+                                                                   ('Фильм 9', 'Описание фильма 9', '2023-05-01', 135),
+                                                                   ('Фильм 10', 'Описание фильма 10', '2023-05-15', 140);
 
--- Заполнение таблицы Ценовых Категорий
-INSERT INTO PriceCategories (PriceCategoryID, CategoryName, Price) VALUES (1, 'Стандарт', 250.00);
-INSERT INTO PriceCategories (PriceCategoryID, CategoryName, Price) VALUES (2, 'VIP', 500.00);
-INSERT INTO PriceCategories (PriceCategoryID, CategoryName, Price) VALUES (3, 'Детский', 150.00);
-INSERT INTO PriceCategories (PriceCategoryID, CategoryName, Price) VALUES (4, 'Льготный', 200.00);
 
--- Заполнение таблицы Мест
--- Предполагаем, что в каждом зале по 4 места для простоты
-INSERT INTO Seats (SeatID, CinemaID, SeatNumber, PriceCategoryID) VALUES (1, 1, 'A1', 1);
-INSERT INTO Seats (SeatID, CinemaID, SeatNumber, PriceCategoryID) VALUES (2, 1, 'A2', 2);
-INSERT INTO Seats (SeatID, CinemaID, SeatNumber, PriceCategoryID) VALUES (3, 2, 'B1', 3);
-INSERT INTO Seats (SeatID, CinemaID, SeatNumber, PriceCategoryID) VALUES (4, 2, 'B2', 4);
+INSERT INTO Attribute_Types (type_name) VALUES
+                                            ('Рецензия'),
+                                            ('Премия'),
+                                            ('Важная дата'),
+                                            ('Служебная дата'),
+                                            ('Дополнительный тип 1'),
+                                            ('Дополнительный тип 2'),
+                                            ('Дополнительный тип 3'),
+                                            ('Дополнительный тип 4'),
+                                            ('Дополнительный тип 5'),
+                                            ('Дополнительный тип 6');
 
--- Заполнение таблицы Сеансов
-INSERT INTO Showtimes (ShowtimeID, CinemaID, MovieID, ShowType, StartTime, EndTime) VALUES (1, 1, 1, 'обычный', '2023-01-01 14:00', '2023-01-01 16:00');
-INSERT INTO Showtimes (ShowtimeID, CinemaID, MovieID, ShowType, StartTime, EndTime) VALUES (2, 2, 2, '3D', '2023-01-01 17:00', '2023-01-01 18:30');
-INSERT INTO Showtimes (ShowtimeID, CinemaID, MovieID, ShowType, StartTime, EndTime) VALUES (3, 3, 3, 'IMAX', '2023-01-01 19:00', '2023-01-01 20:50');
-INSERT INTO Showtimes (ShowtimeID, CinemaID, MovieID, ShowType, StartTime, EndTime) VALUES (4, 4, 4, 'обычный', '2023-01-01 21:00', '2023-01-01 22:35');
 
--- Заполнение таблицы Клиентов
-INSERT INTO Customers (CustomerID, Name, Email) VALUES (1, 'Алексей', 'aleksey@example.com');
-INSERT INTO Customers (CustomerID, Name, Email) VALUES (2, 'Елена', 'elena@example.com');
-INSERT INTO Customers (CustomerID, Name, Email) VALUES (3, 'Дмитрий', 'dmitriy@example.com');
-INSERT INTO Customers (CustomerID, Name, Email) VALUES (4, 'Ольга', 'olga@example.com');
+INSERT INTO Attributes (type_id, name, data_type) VALUES
+                                                      (1, 'Рецензия критика', 'text'),
+                                                      (2, 'Оскар', 'boolean'),
+                                                      (3, 'Дата выхода', 'date'),
+                                                      (4, 'Дата начала продаж', 'date'),
+                                                      (5, 'Продолжительность рекламной кампании', 'int'),
+                                                      (6, 'Атрибут 6', 'text'),
+                                                      (7, 'Атрибут 7', 'date'),
+                                                      (8, 'Атрибут 8', 'boolean'),
+                                                      (9, 'Атрибут 9', 'int'),
+                                                      (10, 'Атрибут 10', 'text');
 
--- Заполнение таблицы Билетов
-INSERT INTO Tickets (TicketID, ShowtimeID, SeatID, CustomerID, Price) VALUES (1, 1, 1, 1, 250.00);
-INSERT INTO Tickets (TicketID, ShowtimeID, SeatID, CustomerID, Price) VALUES (2, 2, 2, 2, 500.00);
-INSERT INTO Tickets (TicketID, ShowtimeID, SeatID, CustomerID, Price) VALUES (3, 3, 3, 3, 150.00);
-INSERT INTO Tickets (TicketID, ShowtimeID, SeatID, CustomerID, Price) VALUES (4, 4, 4, 4, 200.00);
+
+INSERT INTO Attribute_Values (movie_id, attribute_id, value) VALUES
+                                                                 (1, 1, 'Отличный фильм с захватывающим сюжетом.'),
+                                                                 (2, 2, 'true'),
+                                                                 (3, 3, '2023-02-01'),
+                                                                 (4, 4, '2023-03-01'),
+                                                                 (5, 5, '45'),
+                                                                 (6, 6, 'Заметка о фильме 6.'),
+                                                                 (7, 7, '2023-04-01'),
+                                                                 (8, 8, 'false'),
+                                                                 (9, 9, '60'),
+                                                                 (10, 10, 'Комментарий к фильму 10.');

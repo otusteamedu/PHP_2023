@@ -1,15 +1,18 @@
 SELECT
-    M.MovieID,
-    M.Title,
-    SUM(T.Price) AS TotalRevenue
+    m.movie_id,
+    m.name AS movie_name,
+    m.description,
+    m.release_date,
+    m.duration,
+    at.type_name AS attribute_type,
+    a.name AS attribute_name,
+    a.data_type,
+    av.value
 FROM
-    Movies M
-        JOIN
-    Showtimes S ON M.MovieID = S.MovieID
-        JOIN
-    Tickets T ON S.ShowtimeID = T.ShowtimeID
-GROUP BY
-    M.MovieID, M.Title
+    movies m
+        LEFT JOIN attribute_values av ON m.movie_id = av.movie_id
+        LEFT JOIN attributes a ON av.attribute_id = a.attribute_id
+        LEFT JOIN attribute_types at ON a.type_id = at.type_id
 ORDER BY
-    TotalRevenue DESC
-    LIMIT 1;
+    m.movie_id,
+    a.attribute_id;

@@ -1,60 +1,33 @@
-CREATE TABLE Cinemas (
-                         CinemaID INT PRIMARY KEY,
-                         Name VARCHAR(100),
-                         Capacity INT
+CREATE TABLE movies (
+                        movie_id SERIAL PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL,
+                        description TEXT,
+                        release_date DATE,
+                        duration INT
 );
 
-CREATE TABLE PriceCategories (
-                                 PriceCategoryID INT PRIMARY KEY,
-                                 CategoryName VARCHAR(50),
-                                 Price DECIMAL(10, 2)
+CREATE TABLE attribute_types (
+                                 type_id SERIAL PRIMARY KEY,
+                                 type_name VARCHAR(255) NOT NULL
 );
 
--- Таблица Мест
-CREATE TABLE Seats (
-                       SeatID INT PRIMARY KEY,
-                       CinemaID INT,
-                       SeatNumber VARCHAR(10),
-                       PriceCategoryID INT,
-                       FOREIGN KEY (CinemaID) REFERENCES Cinemas(CinemaID),
-                       FOREIGN KEY (PriceCategoryID) REFERENCES PriceCategories(PriceCategoryID)
+CREATE TABLE attributes (
+                            attribute_id SERIAL PRIMARY KEY,
+                            type_id INT,
+                            name VARCHAR(255) NOT NULL,
+                            data_type VARCHAR(50) NOT NULL,
+                            FOREIGN KEY (type_id) REFERENCES attribute_types(type_id)
 );
 
--- Таблица Фильмов
-CREATE TABLE Movies (
-                        MovieID INT PRIMARY KEY,
-                        Title VARCHAR(100),
-                        Duration INT,
-                        Director VARCHAR(100)
+CREATE TABLE attribute_values (
+                                  value_id SERIAL PRIMARY KEY,
+                                  movie_id INT,
+                                  attribute_id INT,
+                                  value TEXT,
+                                  FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+                                  FOREIGN KEY (attribute_id) REFERENCES attributes(attribute_id)
 );
 
--- Таблица Сеансов
-CREATE TABLE Showtimes (
-                           ShowtimeID INT PRIMARY KEY,
-                           CinemaID INT,
-                           MovieID INT,
-                           ShowType VARCHAR(50), -- Например, 'обычный', '3D', 'IMAX'
-                           StartTime timestamp,
-                           EndTime timestamp,
-                           FOREIGN KEY (CinemaID) REFERENCES Cinemas(CinemaID),
-                           FOREIGN KEY (MovieID) REFERENCES Movies(MovieID)
-);
+CREATE INDEX idx_movie ON attribute_values (movie_id);
+CREATE INDEX idx_attribute ON attribute_values (attribute_id);
 
--- Таблица Клиентов
-CREATE TABLE Customers (
-                           CustomerID INT PRIMARY KEY,
-                           Name VARCHAR(100),
-                           Email VARCHAR(100)
-);
-
--- Таблица Билетов
-CREATE TABLE Tickets (
-                         TicketID INT PRIMARY KEY,
-                         ShowtimeID INT,
-                         SeatID INT,
-                         CustomerID INT,
-                         Price DECIMAL(10, 2),
-                         FOREIGN KEY (ShowtimeID) REFERENCES Showtimes(ShowtimeID),
-                         FOREIGN KEY (SeatID) REFERENCES Seats(SeatID),
-                         FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID)
-);

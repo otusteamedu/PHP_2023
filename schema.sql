@@ -23,7 +23,11 @@ CREATE TABLE attribute_values (
                                   value_id SERIAL PRIMARY KEY,
                                   movie_id INT,
                                   attribute_id INT,
-                                  value TEXT,
+                                  text_value TEXT,
+                                  float_value FLOAT,
+                                  int_value INT,
+                                  date_value DATE,
+                                  json_value JSON,
                                   FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
                                   FOREIGN KEY (attribute_id) REFERENCES attributes(attribute_id)
 );

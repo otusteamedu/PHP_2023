@@ -7,7 +7,11 @@ SELECT
     at.type_name AS attribute_type,
     a.name AS attribute_name,
     a.data_type,
-    av.value
+    av.text_value,
+    av.float_value,
+    av.int_value,
+    av.date_value,
+    av.json_value
 FROM
     movies m
         LEFT JOIN attribute_values av ON m.movie_id = av.movie_id

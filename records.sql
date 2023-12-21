@@ -1,51 +1,23 @@
+INSERT INTO movies (name, description, release_date, duration)
+VALUES
+    ('Epic Adventure', 'An epic journey across uncharted lands.', '2023-01-01', 120),
+    ('Mystery in the Night', 'A thrilling mystery set in a shadowy city.', '2023-02-15', 95),
+    ('Comedy Central', 'A hilarious tale of unexpected friendship.', '2023-03-10', 110);
 
-INSERT INTO Movies (name, description, release_date, duration) VALUES
-                                                                   ('Фильм 1', 'Описание фильма 1', '2023-01-01', 120),
-                                                                   ('Фильм 2', 'Описание фильма 2', '2023-01-15', 95),
-                                                                   ('Фильм 3', 'Описание фильма 3', '2023-02-01', 110),
-                                                                   ('Фильм 4', 'Описание фильма 4', '2023-02-20', 90),
-                                                                   ('Фильм 5', 'Описание фильма 5', '2023-03-01', 130),
-                                                                   ('Фильм 6', 'Описание фильма 6', '2023-03-15', 125),
-                                                                   ('Фильм 7', 'Описание фильма 7', '2023-04-01', 105),
-                                                                   ('Фильм 8', 'Описание фильма 8', '2023-04-15', 100),
-                                                                   ('Фильм 9', 'Описание фильма 9', '2023-05-01', 135),
-                                                                   ('Фильм 10', 'Описание фильма 10', '2023-05-15', 140);
+INSERT INTO attribute_types (type_name)
+VALUES
+    ('Review'),
+    ('Award'),
+    ('Release Date');
 
+INSERT INTO attributes (type_id, name, data_type)
+VALUES
+    (1, 'Critic Review', 'text'),
+    (2, 'Oscar', 'boolean'),
+    (3, 'World Premiere', 'date');
 
-INSERT INTO Attribute_Types (type_name) VALUES
-                                            ('Рецензия'),
-                                            ('Премия'),
-                                            ('Важная дата'),
-                                            ('Служебная дата'),
-                                            ('Дополнительный тип 1'),
-                                            ('Дополнительный тип 2'),
-                                            ('Дополнительный тип 3'),
-                                            ('Дополнительный тип 4'),
-                                            ('Дополнительный тип 5'),
-                                            ('Дополнительный тип 6');
-
-
-INSERT INTO Attributes (type_id, name, data_type) VALUES
-                                                      (1, 'Рецензия критика', 'text'),
-                                                      (2, 'Оскар', 'boolean'),
-                                                      (3, 'Дата выхода', 'date'),
-                                                      (4, 'Дата начала продаж', 'date'),
-                                                      (5, 'Продолжительность рекламной кампании', 'int'),
-                                                      (6, 'Атрибут 6', 'text'),
-                                                      (7, 'Атрибут 7', 'date'),
-                                                      (8, 'Атрибут 8', 'boolean'),
-                                                      (9, 'Атрибут 9', 'int'),
-                                                      (10, 'Атрибут 10', 'text');
-
-
-INSERT INTO Attribute_Values (movie_id, attribute_id, value) VALUES
-                                                                 (1, 1, 'Отличный фильм с захватывающим сюжетом.'),
-                                                                 (2, 2, 'true'),
-                                                                 (3, 3, '2023-02-01'),
-                                                                 (4, 4, '2023-03-01'),
-                                                                 (5, 5, '45'),
-                                                                 (6, 6, 'Заметка о фильме 6.'),
-                                                                 (7, 7, '2023-04-01'),
-                                                                 (8, 8, 'false'),
-                                                                 (9, 9, '60'),
-                                                                 (10, 10, 'Комментарий к фильму 10.');
+INSERT INTO attribute_values (movie_id, attribute_id, text_value, float_value, int_value, date_value, json_value)
+VALUES
+    (1, 1, 'A breathtaking adventure that keeps you on the edge of your seat.', NULL, NULL, NULL, NULL),
+    (2, 2, NULL, 22.3, NULL, NULL, NULL),
+    (3, 3, NULL, NULL, NULL, '2023-01-01', NULL);

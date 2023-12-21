@@ -42,7 +42,7 @@ class Client
         try {
             $result = $this->socket->connect();
             return $result;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return false;
         }
     }
@@ -53,7 +53,7 @@ class Client
             $this->socket->write($message);
             $confirmation = $this->socket->read();
             return $confirmation;
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             return '';
         }
     }

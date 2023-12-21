@@ -17,7 +17,7 @@ class App
             } elseif ($param == 'client') {
                 $instance = new Client();
             } elseif ($param == 'help') {
-                // Do nothing
+                // Ничего не делаем - далее будет выведена справка
             } else {
                 Console::write('Unknown command: ' . $param);
             }
@@ -33,7 +33,7 @@ class App
     private function showHelp(): void
     {
         Console::write('Usage: App.php COMMAND');
-        Console::write('');
+        Console::write();
         Console::write('Commands:');
         Console::write('  help      display brownchat help');
         Console::write('  server    start brownchat server');

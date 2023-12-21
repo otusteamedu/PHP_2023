@@ -16,7 +16,7 @@ class SocketServer extends Socket
         }
     }
 
-    public function create(): void
+    public function create(): bool
     {
         $this->client = null;
 
@@ -25,23 +25,23 @@ class SocketServer extends Socket
         }
 
         if (!socket_bind($this->socket, $this->socketPath)) {
-            throw new \Exception('Cannot bind socket');
+            return false;
         } elseif (!socket_listen($this->socket)) {
-            throw new \Exception('Cannot listen socket');
+            return false;
         }
+
+        return true;
     }
 
     public function accept(): bool
     {
-        try {
-            $result = socket_accept($this->socket);
-            if ($result !== false) {
-                $this->client = $result;
-            }
-        } catch (\Exception $e) {
-            throw new \Exception('Cannot accept connection');
+        $result = socket_accept($this->socket);
+        if ($result !== false) {
+            $this->client = $result;
+            return true;
+        } else {
+            return false;
         }
-        return ($this->client !== null);
     }
 
     public function drop(): void

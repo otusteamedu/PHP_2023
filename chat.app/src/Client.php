@@ -21,7 +21,9 @@ class Client
     {
         Console::write('Welcome to BrownChat Client!');
 
+        Console::write('Connecting to server... ', false);
         $isRunning = $this->connectToServer();
+        Console::write($isRunning ? 'SUCCESS' : 'FAIL');
 
         while ($isRunning) {
             $message = Console::read('>>> ');
@@ -33,41 +35,27 @@ class Client
                 }
             }
         }
-
-        $this->disconnect();
     }
 
     private function connectToServer(): bool
     {
-        Console::write('Connecting to server... ', false);
-        if ($this->socket->connect()) {
-            Console::write('SUCCESS');
-        } else {
-            Console::write('FAIL');
-            return false;
-        }
-        return true;
-    }
-
-    private function disconnect(): bool
-    {
-        Console::write('Disconnecting... ', false);
         try {
-            $this->socket->close();
-            Console::write('SUCCESS');
-        } catch (\Exception $e) {
-            Console::write('FAIL');
-            Console::write($e->getMessage());
+            $result = $this->socket->connect();
+            return $result;
+        } catch(\Exception $e) {
             return false;
         }
-        return true;
     }
 
     private function sendMessage(string $message): string
     {
-        $this->socket->write($message);
-        $confirmation = $this->socket->read();
-        return $confirmation;
+        try {
+            $this->socket->write($message);
+            $confirmation = $this->socket->read();
+            return $confirmation;
+        } catch(\Exception $e) {
+            return '';
+        }
     }
 
     private function isClientRunning(string $message, string $result): bool

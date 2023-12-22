@@ -13,14 +13,9 @@ use RuntimeException;
 class ElasticSearch
 {
     public Client $client;
-    
     protected array $searchParams;
-    
     public const INDEX_NAME = 'otus-shop';
     
-    /**
-     * @throws AuthenticationException
-     */
     public function __construct(
         private string $host,
         private string $user,
@@ -30,9 +25,6 @@ class ElasticSearch
         $this->initSearch();
     }
     
-    /**
-     * @throws AuthenticationException
-     */
     private function connect(): void
     {
         $client = ClientBuilder::create()
@@ -44,11 +36,6 @@ class ElasticSearch
         $this->client = $client;
     }
     
-    /**
-     * @throws ServerResponseException
-     * @throws ClientResponseException
-     * @throws MissingParameterException
-     */
     public function bulkIndexUpload(string $filePath): void
     {
         $this->createIndex();
@@ -62,11 +49,6 @@ class ElasticSearch
         }
     }
     
-    /**
-     * @throws ServerResponseException
-     * @throws ClientResponseException
-     * @throws MissingParameterException
-     */
     private function createIndex(): void
     {
         if ($this->client->indices()->exists(['index' => 'otus-shop'])->getStatusCode() === 404) {
@@ -233,10 +215,6 @@ class ElasticSearch
         ];
     }
     
-    /**
-     * @throws ClientResponseException
-     * @throws ServerResponseException
-     */
     public function search(array $commands)
     {
         if (array_key_exists('title', $commands)) {

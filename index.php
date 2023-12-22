@@ -35,14 +35,10 @@ $table->setHeaders(['#', 'title', 'sku', 'category', 'price', 'stocks']);
 $stockInline = '';
 foreach ($search['hits'] as $key => $hit) {
     $data = $hit['_source'];
-    
     foreach ($data['stock'] as $stock) {
         $stockInline .= "{$stock['shop']} {$stock['stock']} шт.; ";
     }
-    
     $table->addRow([$key, $data['title'], $data['sku'], $data['category'], $data['price'], $stockInline]);
-    
     $stockInline = '';
 }
-
 $table->setIndent(4)->display();

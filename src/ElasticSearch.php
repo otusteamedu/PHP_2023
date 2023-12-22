@@ -12,10 +12,9 @@ use RuntimeException;
 
 class ElasticSearch
 {
-    public Client $client;
+    public Client   $client;
     protected array $searchParams;
     public const INDEX_NAME = 'otus-shop';
-    
     public function __construct(
         private string $host,
         private string $user,
@@ -24,7 +23,6 @@ class ElasticSearch
         $this->connect();
         $this->initSearch();
     }
-    
     private function connect(): void
     {
         $client = ClientBuilder::create()
@@ -35,7 +33,6 @@ class ElasticSearch
         
         $this->client = $client;
     }
-    
     public function bulkIndexUpload(string $filePath): void
     {
         $this->createIndex();
@@ -48,7 +45,6 @@ class ElasticSearch
             throw new RuntimeException($e->getMessage());
         }
     }
-    
     private function createIndex(): void
     {
         if ($this->client->indices()->exists(['index' => 'otus-shop'])->getStatusCode() === 404) {
@@ -58,7 +54,6 @@ class ElasticSearch
             ]);
         }
     }
-    
     private function map(): array
     {
         return [
@@ -118,7 +113,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function initSearch(): void
     {
         $this->searchParams = [
@@ -146,7 +140,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function setTitle(string $title): void
     {
         $this->searchParams['body']['query']['bool']['must'] = [
@@ -159,7 +152,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function setCategory(string $category): void
     {
         $this->searchParams['body']['query']['bool']['filter'][] = [
@@ -168,7 +160,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function setPrice(string $price): void
     {
         $price = $this->transformCompareOperators($price);
@@ -179,7 +170,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function setStock(string $count): void
     {
         $this->searchParams['body']['query']['bool']['filter'][0]['nested']['query']['bool']['must'] = [
@@ -188,7 +178,6 @@ class ElasticSearch
             ],
         ];
     }
-    
     private function transformCompareOperators(string $string): array
     {
         $digit = str_replace(['>', '<', '='], '', $string);
@@ -214,7 +203,6 @@ class ElasticSearch
             'gte' => $digit,
         ];
     }
-    
     public function search(array $commands)
     {
         if (array_key_exists('title', $commands)) {

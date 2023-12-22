@@ -7,14 +7,12 @@
       "HW11\\Elastic\\": "src/"
     }
   },
-  ],
   "require": {
     "ext-pdo": "*",
     "elasticsearch/elasticsearch": "^8.6",
     "guzzlehttp/guzzle": "^7.8",
     "phplucidframe/console-table": "^1.2"
-  }
-,
+  },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
     "friendsofphp/php-cs-fixer": "^3.34"

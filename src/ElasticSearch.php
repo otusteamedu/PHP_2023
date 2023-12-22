@@ -12,7 +12,7 @@ use RuntimeException;
 
 class ElasticSearch
 {
-    public Client   $client;
+    public Client $client;
     protected array $searchParams;
     public const INDEX_NAME = 'otus-shop';
     public function __construct(
@@ -30,7 +30,6 @@ class ElasticSearch
             ->setSSLVerification(false)
             ->setBasicAuthentication($this->user, $this->password)
             ->build();
-        
         $this->client = $client;
     }
     public function bulkIndexUpload(string $filePath): void
@@ -41,7 +40,7 @@ class ElasticSearch
                 'index' => 'otus-shop',
                 'body'  => file_get_contents($filePath),
             ]);
-        } catch (ClientResponseException|ServerResponseException $e) {
+        } catch (ClientResponseException | ServerResponseException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }
@@ -163,7 +162,6 @@ class ElasticSearch
     private function setPrice(string $price): void
     {
         $price = $this->transformCompareOperators($price);
-        
         $this->searchParams['body']['query']['bool']['filter'][] = [
             'range' => [
                 'price' => $price,
@@ -181,23 +179,18 @@ class ElasticSearch
     private function transformCompareOperators(string $string): array
     {
         $digit = str_replace(['>', '<', '='], '', $string);
-        
         if (str_contains($string, '<=')) {
             return ['lte' => $digit];
         }
-        
         if (str_contains($string, '>=')) {
             return ['gte' => $digit];
         }
-        
         if (str_contains($string, '<')) {
             return ['lt' => $digit];
         }
-        
         if (str_contains($string, '>')) {
             return ['gt' => $digit];
         }
-        
         return [
             'lte' => $digit,
             'gte' => $digit,
@@ -208,19 +201,15 @@ class ElasticSearch
         if (array_key_exists('title', $commands)) {
             $this->setTitle($commands['title']);
         }
-        
         if (array_key_exists('category', $commands)) {
             $this->setCategory($commands['category']);
         }
-        
         if (array_key_exists('price', $commands)) {
             $this->setPrice($commands['price']);
         }
-        
         if (array_key_exists('stock', $commands)) {
             $this->setStock($commands['stock']);
         }
-        
         return $this->client->search($this->searchParams);
     }
 }

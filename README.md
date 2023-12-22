@@ -1,3 +1,5 @@
-# PHP_2023
+# EAV-Модель кинотеатра
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+- ***"Текущая дата"*** задается в таблице **settings** через параметр *curdate*
+
+- Для работы представления *v_marketing* важно указать серверу использовать индексы, т.к. при *seq scan* нарушается порядок проверки *WHERE*, что приводит к ошибке

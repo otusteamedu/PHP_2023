@@ -69,7 +69,10 @@ CREATE TABLE public.film_attributes_vals (
     film_id integer DEFAULT 0 NOT NULL,
     attr_id integer DEFAULT 0 NOT NULL,
     val_text text DEFAULT ''::text NOT NULL,
-    val_float double precision DEFAULT 0 NOT NULL
+    val_float double precision DEFAULT 0 NOT NULL,
+    val_time time without time zone DEFAULT '00:00:00'::time without time zone NOT NULL,
+    val_date date DEFAULT '0001-01-01'::date NOT NULL,
+    val_int integer DEFAULT 0 NOT NULL
 );
 
 
@@ -265,13 +268,13 @@ ALTER TABLE public.users ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
 CREATE VIEW public.v_important_dates AS
  SELECT a.name,
     c.title,
-    to_date(b.val_text, 'YYYY-MM-DD'::text) AS to_date
+    b.val_date AS to_date
    FROM ((public.films a
      JOIN public.film_attributes_vals b ON ((b.film_id = a.id)))
      JOIN public.film_attributes c ON ((c.id = b.attr_id)))
-  WHERE ((c.type_id = 4) AND ((to_date(b.val_text, 'YYYY-MM-DD'::text) = ( SELECT to_date(settings.val, 'YYYY-MM-DD'::text) AS to_date
+  WHERE ((c.type_id = 4) AND ((b.val_date = ( SELECT to_date(settings.val, 'YYYY-MM-DD'::text) AS to_date
            FROM public.settings
-          WHERE ((settings.name)::text = 'curdate'::text))) OR (to_date(b.val_text, 'YYYY-MM-DD'::text) = ( SELECT (to_date(settings.val, 'YYYY-MM-DD'::text) + '20 days'::interval)
+          WHERE ((settings.name)::text = 'curdate'::text))) OR (b.val_date = ( SELECT (to_date(settings.val, 'YYYY-MM-DD'::text) + '20 days'::interval)
            FROM public.settings
           WHERE ((settings.name)::text = 'curdate'::text)))));
 
@@ -288,9 +291,9 @@ CREATE VIEW public.v_marketing AS
     fa.title AS attr,
     fat.type,
         CASE
-            WHEN ((fat.type)::text = 'int'::text) THEN ((fav.val_text)::integer)::text
-            WHEN ((fat.type)::text = 'time'::text) THEN to_char((fav.val_text)::interval, 'HH24:MI:SS'::text)
-            WHEN ((fat.type)::text = 'date'::text) THEN to_char(((fav.val_text)::date)::timestamp with time zone, 'dd.mm.yyyy'::text)
+            WHEN ((fat.type)::text = 'int'::text) THEN (fav.val_int)::text
+            WHEN ((fat.type)::text = 'time'::text) THEN to_char((fav.val_time)::interval, 'HH24:MI:SS'::text)
+            WHEN ((fat.type)::text = 'date'::text) THEN to_char((fav.val_date)::timestamp with time zone, 'dd.mm.yyyy'::text)
             WHEN ((fat.type)::text = 'float'::text) THEN (fav.val_float)::text
             WHEN ((fat.type)::text = 'checkbox'::text) THEN array_to_string(string_to_array(fav.val_text, '|'::text), ', '::text)
             ELSE fav.val_text

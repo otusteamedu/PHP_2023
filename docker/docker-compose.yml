@@ -1,0 +1,36 @@
+services:
+    pgsql:
+        image: 'postgres:15'
+        ports:
+            - '${DB_PORT:-5432}:5432'
+        environment:
+            PGPASSWORD: '${DB_PASSWORD:-secret}'
+            POSTGRES_DB: '${DB_DATABASE}'
+            POSTGRES_USER: '${DB_USERNAME}'
+            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+        volumes:
+            - 'volume-pgsql:/var/lib/postgresql/data'
+            - './pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+        command:
+            - 'postgres'
+            - '-c'
+            - 'work_mem=64MB'
+        networks:
+            - network-pgsql
+        healthcheck:
+            test:
+                - CMD
+                - pg_isready
+                - '-q'
+                - '-d'
+                - '${DB_DATABASE}'
+                - '-U'
+                - '${DB_USERNAME}'
+            retries: 3
+            timeout: 5s
+networks:
+    network-pgsql:
+        driver: bridge
+volumes:
+    volume-pgsql:
+        driver: local

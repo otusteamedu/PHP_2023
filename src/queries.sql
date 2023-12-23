@@ -19,7 +19,7 @@ WHERE
 
 /*4. Поиск 3 самых прибыльных фильмов за неделю*/
 SELECT SUM(o.cost) as total, m.name FROM "order" AS o
-JOIN movie as m ON m.id = o.movie_id
+                                             JOIN movie as m ON m.id = o.movie_id
 WHERE
     DATE(date_pay) >= current_date - EXTRACT(dow FROM current_date)::integer + 1
   AND

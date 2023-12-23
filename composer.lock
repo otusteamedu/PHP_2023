@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "7286886e775244eddbfa0418c973ad2f",
+    "packages": [
+        {
+            "name": "sergey-antonov/otus-composer-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SantitoSB/otus-composer-package.git",
+                "reference": "c076c74bae2675065b8f9f6372598cd55f742823"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SantitoSB/otus-composer-package/zipball/c076c74bae2675065b8f9f6372598cd55f742823",
+                "reference": "c076c74bae2675065b8f9f6372598cd55f742823",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SergeyAntonov\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Sergey Antonov"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/SantitoSB/otus-composer-package/issues",
+                "source": "https://github.com/SantitoSB/otus-composer-package/tree/v1.0.1"
+            },
+            "time": "2023-12-23T15:00:33+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

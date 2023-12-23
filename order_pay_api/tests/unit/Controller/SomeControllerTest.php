@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace unit\Controller;
 
-use ApiServiceInterface;
 use App\Controller\SomeController;
 use App\Repository\SomeRepositoryInterface;
+use App\Service\PaymentApiService\ApiServiceInterface;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;

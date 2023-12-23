@@ -2,8 +2,8 @@
 
 namespace App\Controller;
 
-use ApiServiceInterface;
 use App\Repository\SomeRepositoryInterface;
+use App\Service\PaymentApiService\ApiServiceInterface;
 use App\ValueObject\CardExpiration;
 use App\ValueObject\CardHolder;
 use App\ValueObject\CardNumber;
@@ -45,7 +45,6 @@ class SomeController extends AbstractController
             $cvv = new Cvv($data['cvv']);
             $orderNumber = new OrderNumber($data['order_number']);
             $orderSum = new OrderSum($data['sum']);
-
         } catch (\Exception $e) {
             return $this->json([
                 'status' => 400,

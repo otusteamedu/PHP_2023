@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Service\PaymentApiService;
+
+use App\Service\PaymentApiService\ApiServiceInterface;
+
 class PaymentApiService implements ApiServiceInterface
 {
     public function sendRequest(array $data): int

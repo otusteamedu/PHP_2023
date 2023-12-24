@@ -49,6 +49,7 @@ services:
     volumes:
       - mysql:/var/lib/mysql
       - ${LOG_DIR}:/var/log
+      - ./src/db/auto_parents_init.sql:/docker-entrypoint-initdb.d/auto_parents_init.sql
     env_file:
       - .env
     environment:

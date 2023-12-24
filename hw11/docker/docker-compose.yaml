@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm
+    container_name: otus-php-fpm
+    volumes:
+      - ../code:/var/www/application.local
+    ports:
+      - "9000:9000"
+    networks:
+      - otus-network
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: otus-elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - otus-network
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.3
+    container_name: otus-kibana
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    ports:
+      - "5601:5601"
+    networks:
+      - otus-network
+
+
+networks:
+  otus-network:
+    driver: bridge

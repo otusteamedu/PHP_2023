@@ -19,7 +19,7 @@ abstract class AbstractElasticSearch
         private string $host,
         private string $user,
         private string $password,
-    ){
+    ) {
         $this->connect();
         $this->initSearch();
     }

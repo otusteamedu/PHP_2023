@@ -2,7 +2,7 @@
     "name": "klobkovsky/hw1-1",
     "autoload": {
         "psr-4": {
-            "Klobkovsky\\Hw11\\": "classes/"
+            "Klobkovsky\\App\\": "classes/"
         }
     },
     "authors": [

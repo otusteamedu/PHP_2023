@@ -10,7 +10,7 @@ class DB
     /**
      * @throws Exception
      */
-    function __construct()
+    public function __construct()
     {
         try {
             $this->pdo = new \PDO(

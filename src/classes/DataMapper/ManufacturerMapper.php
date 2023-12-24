@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Klobkovsky\App\DataMapper;
 
 use Klobkovsky\App\DataMapper\Manufacturer;
 use Klobkovsky\App\DataMapper\IdentityMap;
 
-class ManufacturerMapper {
+class ManufacturerMapper
+{
     /**
      * @var \PDO
      */

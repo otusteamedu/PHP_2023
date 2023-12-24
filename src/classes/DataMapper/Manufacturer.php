@@ -1,10 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Klobkovsky\App\DataMapper;
 
-class Manufacturer {
+class Manufacturer
+{
     /**
      * @var int
      */

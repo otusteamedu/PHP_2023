@@ -19,9 +19,6 @@ class OrderNumber
         $this->number = $number;
     }
 
-    /**
-     * @return string
-     */
     public function getNumber(): string
     {
         return $this->number;
@@ -32,7 +29,7 @@ class OrderNumber
      */
     private function assertOrderNumberIsValid(string $number): void
     {
-        if (preg_match('/^[0-9]{1,16}$/', $number) != 1) {
+        if (1 != preg_match('/^[0-9]{1,16}$/', $number)) {
             throw new OrderNumberException("'order_number' is not valid");
         }
     }

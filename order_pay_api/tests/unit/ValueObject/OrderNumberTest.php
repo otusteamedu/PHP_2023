@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class OrderNumberTest extends TestCase
 {
     /**
-     * @return void
      * @dataProvider providerValidOrderNumber
      */
     public function testValidOrderNumber(string $orderNumber): void
@@ -21,8 +20,6 @@ class OrderNumberTest extends TestCase
     }
 
     /**
-     * @param string $orderNumber
-     * @return void
      * @dataProvider providerInvalidOrderNumber
      */
     public function testInvalidOrderNumber(string $orderNumber): void

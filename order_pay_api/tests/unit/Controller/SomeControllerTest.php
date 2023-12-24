@@ -21,10 +21,10 @@ class SomeControllerTest extends TestCase
      * @dataProvider dataProvider
      */
     public function testPayOrder(
-        Request                 $request,
+        Request $request,
         SomeRepositoryInterface $repository,
-        ApiServiceInterface     $payService,
-        JsonResponse            $response
+        ApiServiceInterface $payService,
+        JsonResponse $response
     ): void {
         $someController = new SomeController();
         $this->assertEquals($response, $someController->payOrder($request, $payService, $repository));
@@ -33,20 +33,20 @@ class SomeControllerTest extends TestCase
     public static function dataProvider(): array
     {
         $dataInvalid = [
-            "card_holder" => "Test Test",
-            "card_expiration" => "10/25",
-            "cvv" => "123",
-            "order_number" => "213",
-            "sum" => "10"
+            'card_holder' => 'Test Test',
+            'card_expiration' => '10/25',
+            'cvv' => '123',
+            'order_number' => '213',
+            'sum' => '10',
         ];
 
         $dataValid = [
-            "card_number" => "1111111111111111",
-            "card_holder" => "Test Test",
-            "card_expiration" => "10/25",
-            "cvv" => "123",
-            "order_number" => "213",
-            "sum" => "10"
+            'card_number' => '1111111111111111',
+            'card_holder' => 'Test Test',
+            'card_expiration' => '10/25',
+            'cvv' => '123',
+            'order_number' => '213',
+            'sum' => '10',
         ];
 
         return [
@@ -54,50 +54,45 @@ class SomeControllerTest extends TestCase
                 new Request($dataInvalid),
                 new DummySomeRepositoryPositive(),
                 new DummyPaymentApiServicePositive(),
-                new JsonResponse(json_encode
-                (
+                new JsonResponse(json_encode(
                     [
                         'status' => 400,
                         'error' => 'Data no valid',
                     ]
-                ), 400)
+                ), 400),
             ],
             'dateset 2' => [
                 new Request($dataValid),
                 new DummySomeRepositoryPositive(),
                 new DummyPaymentApiServiceNegative(),
-                new JsonResponse(json_encode
-                (
+                new JsonResponse(json_encode(
                     [
                         'status' => 403,
                         'error' => 'api error',
                     ]
-
-                ), 403)
+                ), 403),
             ],
             'dateset 3' => [
                 new Request($dataValid),
                 new DummySomeRepositoryNegative(),
                 new DummyPaymentApiServicePositive(),
-                new JsonResponse(json_encode
-                (
+                new JsonResponse(json_encode(
                     [
                         'status' => 400,
                         'error' => 'sum has not been debited',
                     ]
-                ), 400)
+                ), 400),
             ],
             'dateset 4' => [
                 new Request($dataValid),
                 new DummySomeRepositoryPositive(),
                 new DummyPaymentApiServicePositive(),
-                new JsonResponse(json_encode
-                (
+                new JsonResponse(json_encode(
                     [
                         'status' => 200,
                         'message' => 'order is paid',
                     ]
-                ), 200)
+                ), 200),
             ],
         ];
     }

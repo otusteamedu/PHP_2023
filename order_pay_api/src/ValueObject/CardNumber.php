@@ -19,9 +19,6 @@ class CardNumber
         $this->number = $number;
     }
 
-    /**
-     * @return string
-     */
     public function getNumber(): string
     {
         return $this->number;
@@ -32,7 +29,7 @@ class CardNumber
      */
     private function assertCardNumberIsValid(string $number): void
     {
-        if (preg_match('/^[0-9]{16}$/', $number) != 1) {
+        if (1 != preg_match('/^[0-9]{16}$/', $number)) {
             throw new CardNumberException("'card_number' is not valid");
         }
     }

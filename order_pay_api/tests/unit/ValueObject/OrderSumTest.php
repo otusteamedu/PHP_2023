@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class OrderSumTest extends TestCase
 {
     /**
-     * @return void
      * @dataProvider providerValidOrderSum
      */
     public function testValidOrderSum(string $sum): void
@@ -21,8 +20,6 @@ class OrderSumTest extends TestCase
     }
 
     /**
-     * @param string $sum
-     * @return void
      * @dataProvider providerInvalidOrderSum
      */
     public function testInvalidOrderSum(string $sum): void

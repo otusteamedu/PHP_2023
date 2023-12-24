@@ -19,9 +19,6 @@ class CardHolder
         $this->holder = $holder;
     }
 
-    /**
-     * @return string
-     */
     public function getHolder(): string
     {
         return $this->holder;
@@ -32,7 +29,7 @@ class CardHolder
      */
     private function assertCardHolderIsValid(string $holder): void
     {
-        if (preg_match('/^[A-Z\s{2,}-]+$/', $holder) != 1) {
+        if (1 != preg_match('/^[A-Z\s{2,}-]+$/', $holder)) {
             throw new CardHolderException("'card_holder' is not valid");
         }
     }

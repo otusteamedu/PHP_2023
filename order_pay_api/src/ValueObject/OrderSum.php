@@ -19,9 +19,6 @@ class OrderSum
         $this->sum = $sum;
     }
 
-    /**
-     * @return string
-     */
     public function getSum(): string
     {
         return $this->sum;
@@ -32,7 +29,7 @@ class OrderSum
      */
     private function assertOrderSumIsValid(string $sum): void
     {
-        if (preg_match('/^[0-9]*,?[0-9]{2,}$/', $sum) != 1) {
+        if (1 != preg_match('/^[0-9]*,?[0-9]{2,}$/', $sum)) {
             throw new OrderSumException("'order_sum' is not valid");
         }
     }

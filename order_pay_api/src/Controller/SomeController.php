@@ -54,14 +54,14 @@ class SomeController extends AbstractController
 
         $codeResponse = $apiService->sendRequest($data);
 
-        if ($codeResponse === 403) {
+        if (403 === $codeResponse) {
             return $this->json([
                 'status' => 403,
                 'error' => 'api error',
             ], 403);
         }
 
-        if (!$objectRepository->setOrderIsPaid($orderNumber->getNumber(), (float)$orderSum->getSum())) {
+        if (!$objectRepository->setOrderIsPaid($orderNumber->getNumber(), (float) $orderSum->getSum())) {
             return $this->json([
                 'status' => 400,
                 'error' => 'sum has not been debited',

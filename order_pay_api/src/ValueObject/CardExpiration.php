@@ -19,9 +19,6 @@ class CardExpiration
         $this->expiration = $expiration;
     }
 
-    /**
-     * @return string
-     */
     public function getExpiration(): string
     {
         return $this->expiration;
@@ -32,7 +29,7 @@ class CardExpiration
      */
     private function assertCardExpirationIsValid(string $expiration): void
     {
-        if (preg_match('/^[0-9]{2}\/[0-9]{2}$/', $expiration) != 1) {
+        if (1 != preg_match('/^[0-9]{2}\/[0-9]{2}$/', $expiration)) {
             throw new CardExpirationException("'card_expiration' is not valid");
         }
     }

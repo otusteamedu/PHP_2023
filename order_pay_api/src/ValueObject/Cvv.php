@@ -19,9 +19,6 @@ class Cvv
         $this->cvv = $cvv;
     }
 
-    /**
-     * @return string
-     */
     public function getCvv(): string
     {
         return $this->cvv;
@@ -32,7 +29,7 @@ class Cvv
      */
     private function assertCvvIsValid(string $cvv): void
     {
-        if (preg_match('/^[0-9]{3}$/', $cvv) != 1) {
+        if (1 != preg_match('/^[0-9]{3}$/', $cvv)) {
             throw new CvvException("'cvv' is not valid");
         }
     }

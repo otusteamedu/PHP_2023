@@ -6,7 +6,7 @@ class SomeRepository implements SomeRepositoryInterface
 {
     public function setOrderIsPaid(string $orderNumber, float $sum): bool
     {
-        //TODO: will add success pay in DB
+        // TODO: will add success pay in DB
         return true;
     }
 }

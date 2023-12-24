@@ -10,9 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class CardExpirationTest extends TestCase
 {
-
     /**
-     * @return void
      * @dataProvider providerValidCardExpiration
      */
     public function testValidCardExpiration(string $expiration): void
@@ -22,8 +20,6 @@ class CardExpirationTest extends TestCase
     }
 
     /**
-     * @param string $expiration
-     * @return void
      * @dataProvider providerInvalidCardExpiration
      */
     public function testInvalidCardExpiration(string $expiration): void

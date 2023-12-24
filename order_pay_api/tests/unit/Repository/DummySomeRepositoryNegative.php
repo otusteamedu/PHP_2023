@@ -8,7 +8,6 @@ use App\Repository\SomeRepositoryInterface;
 
 class DummySomeRepositoryNegative implements SomeRepositoryInterface
 {
-
     public function setOrderIsPaid(string $orderNumber, float $sum): bool
     {
         return false;

@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class CvvTest extends TestCase
 {
     /**
-     * @return void
      * @dataProvider providerValidCvv
      */
     public function testValidCvv(string $cvv): void
@@ -21,8 +20,6 @@ class CvvTest extends TestCase
     }
 
     /**
-     * @param string $cvv
-     * @return void
      * @dataProvider providerInvalidCvv
      */
     public function testInvalidCvv(string $cvv): void

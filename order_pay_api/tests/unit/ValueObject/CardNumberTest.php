@@ -11,7 +11,6 @@ use PHPUnit\Framework\TestCase;
 class CardNumberTest extends TestCase
 {
     /**
-     * @return void
      * @dataProvider providerValidCardNumber
      */
     public function testValidCardNumber(string $number): void
@@ -21,8 +20,6 @@ class CardNumberTest extends TestCase
     }
 
     /**
-     * @param string $number
-     * @return void
      * @dataProvider providerInvalidCardNumber
      */
     public function testInvalidCardNumber(string $number): void

@@ -1,4 +1,5 @@
 <?php
+
 namespace HW11\Elastic;
 
 class SearchExecutor extends AbstractElasticSearch

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$app = new HW11\Elastic\ElasticSearch('https://localhost:9200', 'elastic', 'pass1234');
+$app = new HW11\Elastic\SearchExecutor('https://localhost:9200', 'elastic', 'pass1234');
 
 $getOpt = getopt('s:c:p:q:');
 

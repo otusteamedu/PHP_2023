@@ -10,10 +10,10 @@ class ClickHouseRepository implements RepositoryInterface
     public Client $client;
     private int $size;
 
-    private const array SELECT_FIELDS =
+    private const ARRAY SELECT_FIELDS =
         ['sku', 'title', 'category', 'price', 'stock_json as stock'];
 
-    private const string SELECT_TABLE =
+    private const STRING SELECT_TABLE =
         'books';
 
     public function __construct(

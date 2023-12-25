@@ -114,8 +114,7 @@ class TableResult
         string $category,
         int $price,
         string $stock
-    ): string
-    {
+    ): string {
         return sprintf(
             "|%s|%s|%s|%s|%s|%s|",
             sprintf("%'`{$this->getNumbPlaceSize()}s", $numb),
@@ -141,7 +140,7 @@ class TableResult
         $category = $this->getCategoryPlaceSize();
 
         return sprintf(
-        "*%'={$numb}s=%'={$sku}s=%'={$title}s=%'={$price}s=%'={$stock}s=%'={$category}s*",
+            "*%'={$numb}s=%'={$sku}s=%'={$title}s=%'={$price}s=%'={$stock}s=%'={$category}s*",
             $this::EMPTY_SYMBOL,
             $this::EMPTY_SYMBOL,
             $this::EMPTY_SYMBOL,

@@ -1,7 +1,7 @@
 <?php
 
-
 namespace App\Application\config;
+
 class ElasticSearchConfig
 {
     public static function get(): array
@@ -31,7 +31,6 @@ class ElasticSearchConfig
                                 ]
                             ]
                         ]
-
                     ]
                 ],
                 'mappings' => [

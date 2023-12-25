@@ -10,8 +10,7 @@ class TitleCategoryPriceCriteria implements CriteriaInterface
     private string $category;
     private string $price;
 
-    public
-    function __construct(array $args)
+    public function __construct(array $args)
     {
         $this->title = $args[1];
         $this->category = $args[2];

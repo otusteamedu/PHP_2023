@@ -2,7 +2,6 @@
 
 namespace App\Application\action\titleSearch;
 
-
 use App\Application\action\CriteriaInterface;
 
 class TitleCriteria implements CriteriaInterface

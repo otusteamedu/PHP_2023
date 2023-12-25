@@ -3,13 +3,11 @@
 namespace App\Infrastructure\Repository;
 
 use App\Application\action\bulk\BulkCommand;
-use App\Domain\Entity\Book;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
-
 
 class ElasticSearchRepository implements RepositoryInterface
 {
@@ -30,8 +28,7 @@ class ElasticSearchRepository implements RepositoryInterface
         string $size,
         array $params,
         string $bulkFileName
-    )
-    {
+    ) {
         $this->client = ClientBuilder::create()
             ->setHosts([$url])
             ->setBasicAuthentication($user, $password)
@@ -60,8 +57,7 @@ class ElasticSearchRepository implements RepositoryInterface
         string $title,
         string $category,
         string $price
-    ): array
-    {
+    ): array {
         return $this->search(
             self::queryByTitleCategoryPrice(
                 $title,
@@ -117,8 +113,7 @@ class ElasticSearchRepository implements RepositoryInterface
         string $title,
         string $category,
         string $price
-    ): array
-    {
+    ): array {
         $operations = [
             '>=' => 'gte',
             '<=' => 'lte'

@@ -2,7 +2,6 @@
 
 namespace App\Application\action\bulk;
 
-
 class BulkCommand
 {
     public function run($url, $bulkFileName): void

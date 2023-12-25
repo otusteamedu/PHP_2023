@@ -3,9 +3,7 @@
 namespace App\Infrastructure\Repository;
 
 use App\Application\ReadDataHelper;
-use App\Domain\Entity\Book;
 use ClickHouseDB\Client;
-
 
 class ClickHouseRepository implements RepositoryInterface
 {
@@ -22,8 +20,7 @@ class ClickHouseRepository implements RepositoryInterface
         string $port,
         string $size,
         string $db,
-    )
-    {
+    ) {
         $this->client = new Client([
             'host' => $host,
             'port' => $port,
@@ -50,15 +47,14 @@ class ClickHouseRepository implements RepositoryInterface
         string $title,
         string $category,
         string $price
-    ): array
-    {
+    ): array {
         $firstSubTitle = mb_substr($title, 0, 3);
         $limit = $this->getSize();
         $fields = implode(', ', $this::SELECT_FIELDS);
         $table = $this::SELECT_TABLE;
         $where = "title like '%{$firstSubTitle}%' and category like '%{$category}%' and price {$price}";
         $query = "SELECT {$fields} FROM {$table} where {$where} limit {$limit}";
-var_dump($query);
+
         return $this->searchByQuery($query);
     }
 
@@ -101,8 +97,8 @@ var_dump($query);
     {
         $queryCommand =
             'CREATE TABLE ' . $table .
-            '(id UInt32, sku String, title String, category String, price UInt16, stock_json String)'.
-            'ENGINE = MergeTree() ORDER BY (id);';
+            '(id UInt32, sku String, title String, category String, price UInt16, stock_json String)' .
+            'ENGINE = MergeTree() ORDER BY (id)';
 
         $this->client->write($queryCommand);
     }

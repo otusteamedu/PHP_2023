@@ -8,7 +8,7 @@ class Book
     private string $title;
     private string $category;
     private int $price;
-    private array $stock; //--
+    private array $stock;
 
     public function __construct(
         string $sku,
@@ -16,8 +16,7 @@ class Book
         string $category,
         int $price,
         array $stock
-    )
-    {
+    ) {
         $this->sku = $sku;
         $this->title = $title;
         $this->category = $category;

@@ -27,8 +27,7 @@ class AppSearch
     public function __construct(
         Storage $configStorage,
         array $arguments
-    )
-    {
+    ) {
         $this->config = $configStorage;
         $this->arguments = $arguments;
     }

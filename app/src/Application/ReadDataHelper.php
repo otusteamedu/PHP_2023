@@ -2,7 +2,6 @@
 
 namespace App\Application;
 
-
 class ReadDataHelper
 {
     private function getStockToString(array $stocks): string
@@ -12,7 +11,7 @@ class ReadDataHelper
             array_map(
                 static fn($item): string => sprintf('%s:%2d', $item['shop'], $item['stock']),
                 $stocks
-            ));
+        ));
     }
 
     public function doing(): array

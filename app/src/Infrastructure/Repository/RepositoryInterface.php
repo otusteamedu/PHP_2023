@@ -7,5 +7,4 @@ interface RepositoryInterface extends
     RepositoryQueryInterface,
     RepositoryCommandInterface
 {
-
 }

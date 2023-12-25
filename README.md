@@ -57,24 +57,26 @@
 ```bash
       QUERY PLAN                                                    
 -------------------------------------------------------------------------------------------------
-  Sort  (cost=912.87..912.99 rows=47 width=291) (actual time=10.897..10.924 rows=138 loops=1)
+  Sort  (cost=247.86..248.24 rows=150 width=291) (actual time=8.184..8.269 rows=805 loops=1)
    Sort Key: sessions.start_at
-   Sort Method: quicksort  Memory: 43kB
-   ->  Hash Left Join  (cost=44.20..911.56 rows=47 width=291) (actual time=0.657..10.645 rows=138 loops=1)
+   Sort Method: quicksort  Memory: 130kB
+   ->  Hash Left Join  (cost=49.65..242.44 rows=150 width=291) (actual time=1.429..7.205 rows=805 loops=1)
          Hash Cond: (sessions.hall_id = halls.id)
-         ->  Hash Left Join  (cost=27.00..894.12 rows=47 width=45) (actual time=0.557..10.321 rows=138 loops=1)
+         ->  Hash Left Join  (cost=32.45..224.47 rows=150 width=45) (actual time=1.152..5.481 rows=805 loops=1)
                Hash Cond: (sessions.film_id = films.id)
-               ->  Seq Scan on sessions  (cost=0.00..867.00 rows=47 width=16) (actual time=0.106..9.746 rows=138 loops=1)
-                     Filter: ((start_at > CURRENT_TIMESTAMP) AND (date(start_at) = CURRENT_DATE))
-                     Rows Removed by Filter: 29862
-               ->  Hash  (cost=22.00..22.00 rows=400 width=37) (actual time=0.406..0.407 rows=400 loops=1)
+               ->  Bitmap Heap Scan on sessions  (cost=5.45..197.08 rows=150 width=16) (actual time=0.286..3.347 rows=805 loops=1)
+                     Recheck Cond: (date(start_at) = CURRENT_DATE)
+                     Heap Blocks: exact=189
+                     ->  Bitmap Index Scan on indx_sessions_create_at_to_date  (cost=0.00..5.42 rows=150 width=0) (actual time=0.208..0.208 rows=805 loops=1)
+                           Index Cond: (date(start_at) = CURRENT_DATE)
+               ->  Hash  (cost=22.00..22.00 rows=400 width=37) (actual time=0.752..0.753 rows=400 loops=1)
                      Buckets: 1024  Batches: 1  Memory Usage: 36kB
-                     ->  Seq Scan on films  (cost=0.00..22.00 rows=400 width=37) (actual time=0.013..0.255 rows=400 loops=1)
-         ->  Hash  (cost=13.20..13.20 rows=320 width=222) (actual time=0.023..0.025 rows=3 loops=1)
+                     ->  Seq Scan on films  (cost=0.00..22.00 rows=400 width=37) (actual time=0.025..0.428 rows=400 loops=1)
+         ->  Hash  (cost=13.20..13.20 rows=320 width=222) (actual time=0.096..0.097 rows=3 loops=1)
                Buckets: 1024  Batches: 1  Memory Usage: 9kB
-               ->  Seq Scan on halls  (cost=0.00..13.20 rows=320 width=222) (actual time=0.009..0.010 rows=3 loops=1)
- Planning Time: 1.578 ms
- Execution Time: 11.267 ms
+               ->  Seq Scan on halls  (cost=0.00..13.20 rows=320 width=222) (actual time=0.025..0.027 rows=3 loops=1)
+ Planning Time: 1.830 ms
+ Execution Time: 9.033 ms
 ```
 
 ---

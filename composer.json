@@ -1,0 +1,20 @@
+{
+    "name": "working-code/hw6",
+    "description": "home work №6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "WorkingCode\\Hw6\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Galushka Vlad",
+            "email": "galushka.vp@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "ext-sockets": "*"
+    }
+}

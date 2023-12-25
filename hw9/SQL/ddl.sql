@@ -24,11 +24,10 @@ CREATE TABLE movies_attributes_values
     id                   SERIAL PRIMARY KEY,
     movie_id             INTEGER NOT NULL,
     movies_attributes_id INTEGER NOT NULL,
-    value_string         VARCHAR(255),
+    value_string         VARCHAR(5000),
     value_int            INTEGER,
     value_timestamp      TIMESTAMP,
     value_boolean        BOOLEAN,
-    value_text           TEXT,
     value_float          NUMERIC(15, 4),
 
     FOREIGN KEY (movie_id) REFERENCES movies (id),

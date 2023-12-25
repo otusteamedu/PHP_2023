@@ -34,4 +34,3 @@ CREATE TABLE attribute_values (
 
 CREATE INDEX idx_movie ON attribute_values (movie_id);
 CREATE INDEX idx_attribute ON attribute_values (attribute_id);
-

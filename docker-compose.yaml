@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.11.3
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+#    volumes:
+#      - volume-es:/usr/share/elasticsearch/data
+    healthcheck:
+        test: curl -XGET 'localhost:9200/_cluster/health?pretty' >/dev/null || exit 1
+        interval: 10s
+        timeout: 10s
+        retries: 5
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+
+  clickhouse:
+    image: yandex/clickhouse-server:22.1.3.7-alpine
+    ports:
+      - '8123:8123'
+      - '9000:9000'
+    environment:
+      CLICKHOUSE_USER: ${CLICKHOUSE_USER}
+      CLICKHOUSE_PASSWORD: ${CLICKHOUSE_PASSWORD}
+      CLICKHOUSE_DB: ${CLICKHOUSE_DB:-db}
+      CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: ${CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT:-0}
+
+#repository 3G
+  php-fpm-es:
+    build:
+      context: ./.docker/php-fpm/
+      dockerfile: Dockerfile
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ELASTIC_USER: ${ELASTIC_USER}
+    volumes:
+      - ./app:/data
+    depends_on:
+      - elasticsearch
+      - clickhouse
+
+volumes:
+  volume-es:
+    driver: local
+
+networks:
+  network-es:
+    driver: bridge

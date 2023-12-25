@@ -157,7 +157,8 @@ class TableResult
             array_map(
                 static fn($item): string => sprintf('%s:%2d', $item['shop'], $item['stock']),
                 $stocks
-        ));
+            )
+        );
     }
 
     private function printCLI(string $line): void

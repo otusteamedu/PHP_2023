@@ -63,7 +63,8 @@ class ElasticSearchRepository implements RepositoryInterface
                 $title,
                 $category,
                 $price
-        ));
+            )
+        );
     }
 
     /**

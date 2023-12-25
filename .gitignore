@@ -1,3 +1,4 @@
-/data/web/vendor/
+/data/vendor/
 *.DS_Store
 .env
+.idea

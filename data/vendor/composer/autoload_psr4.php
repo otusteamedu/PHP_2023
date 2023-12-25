@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'EgorPotopakhin\\Web\\' => array($baseDir . '/src'),
+    'Egorpotopakhin\\Emailvalidator\\' => array($baseDir . '/src'),
 );

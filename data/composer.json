@@ -1,10 +1,8 @@
 {
-    "name": "egor-potopakhin/web",
-    "type": "project",
+    "name": "egorpotopakhin/emailvalidator",
     "autoload": {
         "psr-4": {
-            "EgorPotopakhin\\Web\\": "src/"
-        }
+            "Egorpotopakhin\\Emailvalidator\\": "src/"
     },
     "authors": [
         {

@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace EgorPotopakhin\Web;
-require_once "EmailValidator.php";
+namespace Egorpotopakhin\Emailvalidator;
+
 class App {
     public  static  function run(): string {
+
         $emailValidator = new EmailValidator();
 
         if (isset($_POST["input_email"])) {

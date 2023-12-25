@@ -7,7 +7,8 @@ VALUES (1, 'string'),
        (2, 'integer'),
        (3, 'boolean'),
        (4, 'timestamp'),
-       (5, 'text');
+       (5, 'text'),
+       (6, 'float');
 
 
 INSERT INTO movies_attributes (id, name, movies_attributes_type_id)
@@ -21,21 +22,21 @@ VALUES (1, 'Оскар', 3),
        (8, 'Дата запуска рекламы на ТВ', 4);
 
 
-INSERT INTO movies_attributes_values (movie_id, movies_attributes_id, value_string, value_int, value_timestamp, value_boolean, value_text)
-VALUES (1, 1, NULL, NULL, NULL, TRUE, NULL),
-       (1, 2, NULL, NULL, NULL, TRUE, NULL),
-       (1, 3, 'Комедия', NULL, NULL, NULL, NULL),
-       (1, 4, NULL, NULL, NULL, NULL, 'Рецензия к фильму 1'),
-       (1, 5, NULL, NULL, '2024-01-01 10:00:00', NULL, NULL),
-       (1, 6, NULL, NULL, '2024-01-21 10:00:00', NULL, NULL),
-       (1, 7, NULL, NULL, '2024-01-21 00:00:00', NULL, NULL),
-       (1, 8, NULL, NULL, '2024-01-01 00:00:00', NULL, NULL),
+INSERT INTO movies_attributes_values (movie_id, movies_attributes_id, value_string, value_int, value_timestamp, value_boolean, value_text, value_float)
+VALUES (1, 1, NULL, NULL, NULL, TRUE, NULL, NULL),
+       (1, 2, NULL, NULL, NULL, TRUE, NULL, NULL),
+       (1, 3, 'Комедия', NULL, NULL, NULL, NULL, NULL),
+       (1, 4, NULL, NULL, NULL, NULL, 'Рецензия к фильму 1', NULL),
+       (1, 5, NULL, NULL, '2024-01-01 10:00:00', NULL, NULL, NULL),
+       (1, 6, NULL, NULL, '2024-01-21 10:00:00', NULL, NULL, NULL),
+       (1, 7, NULL, NULL, '2024-01-21 00:00:00', NULL, NULL, NULL),
+       (1, 8, NULL, NULL, '2024-01-01 00:00:00', NULL, NULL, NULL),
 
-       (2, 1, NULL, NULL, NULL, FALSE, NULL),
-       (2, 2, NULL, NULL, NULL, FALSE, NULL),
-       (2, 3, 'Мультфильм', NULL, NULL, NULL, NULL),
-       (2, 4, NULL, NULL, NULL, NULL, 'Рецензия к фильму 1'),
-       (2, 5, NULL, NULL, '2024-01-01 10:00:00', NULL, NULL),
-       (2, 6, NULL, NULL, '2024-01-21 10:00:00', NULL, NULL),
-       (2, 7, NULL, NULL, '2024-01-21 00:00:00', NULL, NULL),
-       (2, 8, NULL, NULL, '2024-01-01 00:00:00', NULL, NULL);
+       (2, 1, NULL, NULL, NULL, FALSE, NULL, NULL),
+       (2, 2, NULL, NULL, NULL, FALSE, NULL, NULL),
+       (2, 3, 'Мультфильм', NULL, NULL, NULL, NULL, NULL),
+       (2, 4, NULL, NULL, NULL, NULL, 'Рецензия к фильму 1', NULL),
+       (2, 5, NULL, NULL, '2024-01-01 10:00:00', NULL, NULL, NULL),
+       (2, 6, NULL, NULL, '2024-01-21 10:00:00', NULL, NULL, NULL),
+       (2, 7, NULL, NULL, '2024-01-21 00:00:00', NULL, NULL, NULL),
+       (2, 8, NULL, NULL, '2024-01-01 00:00:00', NULL, NULL, NULL);

@@ -29,6 +29,7 @@ CREATE TABLE movies_attributes_values
     value_timestamp      TIMESTAMP,
     value_boolean        BOOLEAN,
     value_text           TEXT,
+    value_float          NUMERIC(15, 4),
 
     FOREIGN KEY (movie_id) REFERENCES movies (id),
     FOREIGN KEY (movies_attributes_id) REFERENCES movies_attributes (id)

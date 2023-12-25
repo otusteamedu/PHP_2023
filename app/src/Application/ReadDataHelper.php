@@ -40,7 +40,7 @@ class ReadDataHelper
 
                     $strStock = $this->getStockToString($stock);
 
-                    $rows[] = [$id++, $title, $sku, $category, $price, $strStock];
+                    $rows[] = [$id++, $sku, $title, $category, $price, $strStock];
                 }
             }
         }

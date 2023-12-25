@@ -3,8 +3,10 @@
 namespace App\Infrastructure\Repository;
 
 use App\Application\action\bulk\BulkCommand;
+use App\Application\config\ElasticSearchConfig;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
@@ -20,24 +22,25 @@ class ElasticSearchRepository implements RepositoryInterface
     private string $bulkFileName;
     private string $url;
 
+    /**
+     * @throws AuthenticationException
+     */
     public function __construct(
-        string $url,
-        string $user,
-        string $password,
-        string $index,
-        string $size,
-        array $params,
-        string $bulkFileName
+        $config
     ) {
+        $user = $config->get('ES_USER');
+        $password = $config->get('ES_PASSWORD');
         $this->client = ClientBuilder::create()
-            ->setHosts([$url])
+            ->setHosts([$config->get('ES_URL')])
             ->setBasicAuthentication($user, $password)
             ->build();
-        $this->index = $index;
-        $this->size = $size;
+        $params = ElasticSearchConfig::get();
+        $this->index = $params['index'];
+        $this->size = $config->get('DATA_LIMIT');
         $this->params = $params;
-        $this->bulkFileName = $bulkFileName;
-        $this->url = $url;
+        $this->bulkFileName = $config->get('DATA_FILE');
+        $this->url = $config->get('ES_URL');
+        echo 'Start using the ElasticSearch ...' . PHP_EOL;
     }
 
     /**

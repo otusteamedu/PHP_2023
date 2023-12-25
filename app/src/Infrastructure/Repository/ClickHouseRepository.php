@@ -10,25 +10,24 @@ class ClickHouseRepository implements RepositoryInterface
     public Client $client;
     private int $size;
 
-    private const SELECT_FIELDS = ['sku', 'title', 'category', 'price', 'stock_json as stock'];
-    private const SELECT_TABLE = 'qa_book';
+    private const array SELECT_FIELDS =
+        ['sku', 'title', 'category', 'price', 'stock_json as stock'];
+
+    private const string SELECT_TABLE =
+        'books';
 
     public function __construct(
-        string $host,
-        string $user,
-        string $password,
-        string $port,
-        string $size,
-        string $db,
+        $config
     ) {
         $this->client = new Client([
-            'host' => $host,
-            'port' => $port,
-            'username' => $user,
-            'password' => $password,
+            'host' => $config->get('CH_HOST'),
+            'port' => $config->get('CH_PORT'),
+            'username' => $config->get('CH_USER'),
+            'password' => $config->get('CH_PASSWORD'),
         ]);
-        $this->client->database($db);
-        $this->size = $size;
+        $this->client->database($config->get('CH_DB'));
+        $this->size = $config->get('DATA_LIMIT');
+        echo 'Start using the ClickHouse ...' . PHP_EOL;
     }
 
     public function searchByTitle(string $title): array
@@ -79,10 +78,10 @@ class ClickHouseRepository implements RepositoryInterface
      */
     public function isDataValid(): bool
     {
-        $table = $this::SELECT_TABLE;
-        $db = $this->client->settings()->getSetting('database');
-
-        return !empty($this->client->isExists($db, $table));
+        return !empty($this->client->isExists(
+            $this->client->settings()->getSetting('database'),
+            $this::SELECT_TABLE
+        ));
     }
 
     public function init(): void

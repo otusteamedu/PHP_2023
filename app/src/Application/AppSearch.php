@@ -80,60 +80,34 @@ class AppSearch
     {
         $config = $this->config;
         $matchRepository = match (true) {
-            in_array($type, ['clickhouse', 'ch']) => function () use ($config): RepositoryInterface {
-                $clickHouseUser = $config->get('CH_USER');
-                $clickHousePsw = $config->get('CH_PASSWORD');
-                $clickHouseDB = $config->get('CH_DB');
-
-                $clickHouseHost = $config->get('CH_HOST');
-                $clickHousePort = $config->get('CH_PORT');
-
-                $dataLimit = $config->get('DATA_LIMIT');
-
-                echo 'Start using the ClickHouse ...' . PHP_EOL;
-                return new ClickHouseRepository(
-                    $clickHouseHost,
-                    $clickHouseUser,
-                    $clickHousePsw,
-                    $clickHousePort,
-                    $dataLimit,
-                    $clickHouseDB
-                );
-            },
-            in_array($type, ['elasticsearch', 'elastic', 'es']) => function () use ($config): RepositoryInterface {
-                $elasticSearchUrl = $config->get('ES_URL');
-                $elasticSearchUser = $config->get('ES_USER');
-                $elasticSearchPassword = $config->get('ES_PASSWORD');
-                $elasticSearchSize = $config->get('DATA_LIMIT');
-                $bulkFileName = $config->get('DATA_FILE');
-
-                $params = ElasticSearchConfig::get();
-
-                echo 'Start using the ElasticSearch ...' . PHP_EOL;
-                return new ElasticSearchRepository(
-                    $elasticSearchUrl,
-                    $elasticSearchUser,
-                    $elasticSearchPassword,
-                    $params['index'],
-                    $elasticSearchSize,
-                    $params,
-                    $bulkFileName
-                );
-            }
+            $this->isClickHouseType($type) =>
+                ClickHouseRepository::class,
+            $this->isElasticSearchType($type) =>
+                ElasticSearchRepository::class,
         };
 
-        return $matchRepository();
+        return new $matchRepository($config);
     }
 
     private function getRepositoryResultForUITableAdapterByType(string $type): AdapterInterface
     {
         $matchAdapter = match (true) {
-            in_array($type, ['clickhouse', 'ch']) =>
+            $this->isClickHouseType($type) =>
                 ClickHouseRepositoryResultForUITableAdapter::class,
-            in_array($type, ['elasticsearch', 'elastic', 'es']) =>
+            $this->isElasticSearchType($type) =>
                 ElasticSearchRepositoryResultForUITableAdapter::class,
         };
 
         return new $matchAdapter();
+    }
+
+    private function isClickHouseType(string $type): bool
+    {
+        return in_array($type, ['clickhouse', 'ch']);
+    }
+
+    private function isElasticSearchType(string $type): bool
+    {
+        return in_array($type, ['elasticsearch', 'elastic', 'es']);
     }
 }

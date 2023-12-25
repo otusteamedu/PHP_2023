@@ -14,7 +14,7 @@ class IdentityMap
         return $this->objects;
     }
 
-    public function get(string $classIdentifier, int $id): ?object
+    public function get(string $classIdentifier, int $id): ?IdentityInterface
     {
         return $this->objects[$classIdentifier][$id] ?? null;
     }

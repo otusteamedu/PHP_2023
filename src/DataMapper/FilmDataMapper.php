@@ -27,15 +27,12 @@ class FilmDataMapper
         $this->insertStmt = $this->pdo->prepare(
             "insert into films (name, genre, year_of_release, duration) values (?, ?, ?, ?)"
         );
-        $this->updateStmt = $this->pdo->prepare(
-            "update films set name = ?, genre = ?, year_of_release = ?, duration = ? where id = ?"
-        );
         $this->deleteStmt = $pdo->prepare("delete from films where id = ?");
 
         $this->identityMap = new IdentityMap();
     }
 
-    public function findById(int $id): ?object
+    public function findById(int $id): ?Film
     {
         $identityMapFilm = $this->identityMap->get(Film::class, $id);
 
@@ -82,15 +79,20 @@ class FilmDataMapper
         return $film;
     }
 
-    public function update(Film $film): bool
+    public function update(Film $film, array $raws): bool
     {
+        if (empty($raws)) {
+            return false;
+        }
+
+        $this->updateStmt = $this->pdo->prepare(
+            sprintf('update films set %s where id = ?', implode(', ', array_keys($raws))),
+        );
+
         $this->identityMap->set($film);
 
         return $this->updateStmt->execute([
-            $film->getName(),
-            $film->getGenre(),
-            $film->getYearOfRelease(),
-            $film->getDuration(),
+            ...array_values($raws),
             $film->getId(),
         ]);
     }

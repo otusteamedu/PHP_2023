@@ -25,7 +25,10 @@ $film = $filmDataMapper->insert([
 ]);
 
 //Get Film from identity map
-$filmDataMapper->findById($film->getId());
+$filmDataMapper->findById(1);
 
 //Get Film from DB
-$filmDataMapper->refresh()->findById($film->getId());
+$filmFromDb = $filmDataMapper->refresh()->findById($film->getId());
+
+//Update some fields of film
+$filmDataMapper->update($filmFromDb, ['genre = ?' => 'newTestGenre', 'duration = ?' => 121]);

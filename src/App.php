@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Dimal\Hw11;
 
-use \Exception;
+use Exception;
 use Dimal\Hw11\Entity\SearchQuery;
 use Dimal\Hw11\Infrastructure\ElasticSearchStockSearch;
 use Dimal\Hw11\Presentation\ConsoleTableView;

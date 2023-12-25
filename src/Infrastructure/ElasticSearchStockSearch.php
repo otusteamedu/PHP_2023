@@ -6,7 +6,6 @@ use Dimal\Hw11\Entity\Book;
 use Dimal\Hw11\Entity\SearchQuery;
 use Elastic\Elasticsearch\ClientBuilder;
 
-
 class ElasticSearchStockSearch extends AbstractStockSearch
 {
     private $client;
@@ -55,7 +54,6 @@ class ElasticSearchStockSearch extends AbstractStockSearch
             $query['should'] = [
                 'range' => ['price' => $range]
             ];
-
         }
 
         $params = [

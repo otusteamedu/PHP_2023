@@ -33,7 +33,7 @@ class ConsoleTableView
         echo "+" . PHP_EOL;
 
         foreach ($this->cols as $c) {
-            echo "| " . self::mb_str_pad($c['title'], $c['width'] - 1);
+            echo "| " . self::mbStrPad($c['title'], $c['width'] - 1);
         }
         echo "|" . PHP_EOL;
 
@@ -47,7 +47,7 @@ class ConsoleTableView
     {
         foreach ($this->rows as $row) {
             foreach ($this->cols as $col_name => $col) {
-                echo "| " . self::mb_str_pad($row[$col_name], $col['width'] - 1,);
+                echo "| " . self::mbStrPad($row[$col_name], $col['width'] - 1);
             }
 
             echo "|" . PHP_EOL;
@@ -63,7 +63,7 @@ class ConsoleTableView
     }
 
 
-    public static function mb_str_pad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT, $encoding = 'UTF-8'): string
+    public static function mbStrPad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT, $encoding = 'UTF-8'): string
     {
         $input_length = mb_strlen($input, $encoding);
         $pad_string_length = mb_strlen($pad_string, $encoding);

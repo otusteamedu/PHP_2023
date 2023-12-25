@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+    chatServer:
+        build:
+            context: ./docker/php-fpm
+        image: php-hw/php-fpm
+        container_name: chatServer
+        command: "php app.php server"
+        volumes:
+            - ./:/data/application.local
+            - sock:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+    chatClient:
+        depends_on:
+            - chatServer
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        container_name: chatClient
+        volumes:
+            - ./:/data/application.local
+            - sock:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+volumes:
+    sock:
+
+networks:
+    php-hw-network:
+        driver: bridge

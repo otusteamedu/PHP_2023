@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use HW11\Elastic\ConsoleParameters;
 
-require_once DIR . '/vendor/autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 
 $app = new HW11\Elastic\SearchExecutor('https://localhost:9200', 'elastic', 'pass1234');
 

@@ -1,0 +1,14 @@
+{
+    "name": "egorpotopakhin/emailvalidator",
+    "autoload": {
+        "psr-4": {
+            "Egorpotopakhin\\Emailvalidator\\": "src/"
+    },
+    "authors": [
+        {
+            "name": "Потопахин Егор",
+            "email": "potopakhin.ev@gmail.com"
+        }
+    ],
+    "require": {}
+}

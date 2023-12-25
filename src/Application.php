@@ -6,17 +6,14 @@ use WorkingCode\Hw5\Validator\EmailValidator;
 
 class Application
 {
-    public function run(): void
+    public function run(): array
     {
-        $emails = $_POST['emails'] ?? [];
+        $emails         = $_POST['emails'] ?? [];
         $emailValidator = new EmailValidator();
 
-        foreach ($emails as $email){
-            if ($emailValidator->validate($email)){
-                echo "$email валиден\n";
-            } else {
-                echo "$email не валиден\n";
-            }
-        }
+        return array_filter(
+            $emails,
+            fn (string $email) => $emailValidator->validate($email)
+        );
     }
 }

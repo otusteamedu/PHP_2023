@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Chernomordov\App;
 
 use Exception;
 
 class Validation
 {
-
     /**
      * @return void
      * @throws Exception

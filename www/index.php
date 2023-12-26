@@ -1,7 +1,11 @@
 <?php
 
-echo "Привет, Otus!<br>" . date("Y-m-d H:i:s") . "<br><br>";
+declare(strict_types=1);
 
-echo "Что-то еще";
+use Chernomordov\App\App;
 
-phpinfo();
+require __DIR__ . '/vendor/autoload.php';
+
+$app = new App();
+
+$app->run();

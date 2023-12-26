@@ -1,26 +1,59 @@
 version: '3'
 
 services:
-  nginx:
+  nginx-balancer:
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ${SITE_PATH}:/data/balancer.conf
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  nginx-1:
     build:
       context: ./nginx
       dockerfile: Dockerfile
     image: nginx
-    container_name: nginx
-    ports:
-      - "80:80"
+    container_name: nginx-1
     volumes:
       - ${SITE_PATH}:/data/mysite.local
       - php-fpm-socket:/var/run/d-socket
     networks:
       - app-network
+  nginx-2:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile
+      image: nginx
+      container_name: nginx-2
+      volumes:
+        - ${SITE_PATH}:/data/mysite.local
+        - php-fpm-socket:/var/run/d-socket
+      networks:
+        - app-network
 
-  php-fpm:
+  php-fpm-1:
     build:
       context: ./php-fpm
       dockerfile: Dockerfile
     image: php-fpm
-    container_name: php-fpm
+    container_name: php-fpm-1
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  php-fpm-2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-2
     volumes:
       - ${SITE_PATH}:/data/mysite.local
       - php-fpm-socket:/var/run/d-socket

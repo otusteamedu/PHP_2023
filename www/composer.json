@@ -1,0 +1,14 @@
+{
+    "name": "chernomordov/app",
+    "autoload": {
+        "psr-4": {
+            "Chernomordov\\App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Chernomordov"
+        }
+    ],
+    "require": {}
+}

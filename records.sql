@@ -92,3 +92,8 @@ SELECT
     CASE WHEN data_type = 'date' THEN CURRENT_DATE - (attribute_id % 3650 || ' days')::interval ELSE NULL END,
     CASE WHEN data_type = 'text' THEN jsonb_build_object('key', 'value') ELSE NULL END
 FROM attributes;
+
+SELECT count(*) from attribute_types;
+SELECT count(*) from attribute_values;
+SELECT count(*) from attributes;
+SELECT count(*) from movies;

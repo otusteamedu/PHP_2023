@@ -63,7 +63,7 @@ class ConsoleTableView
     }
 
 
-    public static function mbStrPad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT, $encoding = 'UTF-8'): string
+    private static function mbStrPad($input, $pad_length, $pad_string = ' ', $pad_type = STR_PAD_RIGHT, $encoding = 'UTF-8'): string
     {
         $input_length = mb_strlen($input, $encoding);
         $pad_string_length = mb_strlen($pad_string, $encoding);

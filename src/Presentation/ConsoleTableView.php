@@ -7,12 +7,18 @@ class ConsoleTableView
     private array $cols = [];
     private array $rows = [];
 
-    public function setCols($cols): void
+    public function __construct(array $cols, array $rows)
+    {
+        $this->setCols($cols);
+        $this->setRows($rows);
+    }
+
+    private function setCols($cols): void
     {
         $this->cols = $cols;
     }
 
-    public function setRows($rows): void
+    private function setRows($rows): void
     {
         $this->rows = $rows;
     }

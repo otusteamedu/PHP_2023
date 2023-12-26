@@ -94,9 +94,7 @@ class App
             array_push($rows, $row);
         }
 
-        $view = new ConsoleTableView();
-        $view->setCols($cols);
-        $view->setRows($rows);
+        $view = new ConsoleTableView($cols,$rows);
         $view->showTable();
     }
 }

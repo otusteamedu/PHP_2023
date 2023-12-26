@@ -2,9 +2,12 @@ CREATE TABLE movies (
                         movie_id SERIAL PRIMARY KEY,
                         name VARCHAR(255) NOT NULL,
                         description TEXT,
-                        release_date DATE,
+                        day SMALLINT, -- Stores the day of the release date
+                        month SMALLINT, -- Stores the month of the release date
+                        year SMALLINT, -- Stores the year of the release date
                         duration INT
 );
+
 
 CREATE TABLE attribute_types (
                                  type_id SERIAL PRIMARY KEY,

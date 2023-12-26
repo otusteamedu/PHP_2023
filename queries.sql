@@ -1,9 +1,20 @@
 -- Query to retrieve all movies released after a certain date:
 
-EXPLAIN  SELECT name, release_date FROM movies WHERE release_date > '2020-01-01';
+EXPLAIN ANALYSE SELECT name FROM movies WHERE year > 2020 OR (year = 2020 AND month > 1) OR (year = 2020 AND month = 1 AND day > 1);
 
+
+CREATE INDEX idx_movies_day ON movies(day);
+CREATE INDEX idx_movies_month ON movies(month);
+CREATE INDEX idx_movies_year ON movies(year);
+
+CREATE INDEX idx_release_year ON movies ((EXTRACT(YEAR FROM release_date)));
+
+
+CREATE INDEX idx_brin_release_date ON movies USING BRIN (release_date);
+DROP INDEX idx_brin_release_date;
 
 CREATE INDEX idx_movies_release_date ON movies(release_date);
+DROP INDEX idx_movies_release_date;
 
 ANALYSE movies;
 

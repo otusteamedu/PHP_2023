@@ -26,12 +26,15 @@ SELECT
 FROM generate_series(1, 10000) as s(i);
 
 -- Заполнение таблицы movies
-INSERT INTO movies (name, description, release_date, duration)
+-- Insert data into movies with separate day, month, and year
+INSERT INTO movies (name, description, day, month, year, duration)
 SELECT
-    'Movie ' || i,
-    'Description for movie ' || i,
-    CURRENT_DATE - (i % 3650 || ' days')::interval,
-        (random() * 180 + 90)::int
+    'Movie ' || s.i,
+    'Description for movie ' || s.i,
+    EXTRACT(DAY FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
+    EXTRACT(MONTH FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
+    EXTRACT(YEAR FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
+    (random() * 180 + 90)::int
 FROM generate_series(1, 10000) as s(i);
 
 -- Заполнение таблицы attribute_values
@@ -72,14 +75,17 @@ SELECT
         END
 FROM generate_series(1, 10000000) as s(i);
 
--- Заполнение таблицы movies
-INSERT INTO movies (name, description, release_date, duration)
+-- Insert data into movies with separate day, month, and year
+INSERT INTO movies (name, description, day, month, year, duration)
 SELECT
-    'Movie ' || i,
-    'Description for movie ' || i,
-    CURRENT_DATE - (i % 3650 || ' days')::interval,
+    'Movie ' || s.i,
+    'Description for movie ' || s.i,
+    EXTRACT(DAY FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
+    EXTRACT(MONTH FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
+    EXTRACT(YEAR FROM CURRENT_DATE - (s.i % 3650 || ' days')::interval)::INT,
     (random() * 180 + 90)::int
-FROM generate_series(1, 10000000) as s(i);
+FROM generate_series(1, 10000000) as s(i);  -- Adjust the upper limit for 10M records accordingly
+
 
 -- Заполнение таблицы attribute_values
 INSERT INTO attribute_values (movie_id, attribute_id, text_value, float_value, int_value, date_value, json_value)

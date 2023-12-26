@@ -2,11 +2,11 @@
 
 require_once __DIR__ . '/../../vendor/autoload.php';
 
-//use App\ListNode;
+use App\ListNode;
 
-include __DIR__ . '../helpers.php';
+include __DIR__ . '/../helpers.php';
 
-$nodeFist = new \App\ListNode(1);
+$nodeFist = new ListNode(1);
 $nodeSecond = new ListNode(2);
 $nodeThird = new ListNode(3);
 
@@ -17,3 +17,4 @@ $nodeThird->next = $nodeFist;
 $head = $nodeFist;
 
 var_dump(hasCycle($head));
+var_dump(letterCombinations('23'));

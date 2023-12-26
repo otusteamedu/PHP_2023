@@ -1,0 +1,22 @@
+{
+    "name": "dimal/hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dimal\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "DmitryAleynik"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

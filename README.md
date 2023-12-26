@@ -1,3 +1,4 @@
-# PHP_2023
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Пример запуска:
+```
+php index.php --category роман --min-price 2000 --max-price 4000 рыцари
+```

@@ -8,6 +8,7 @@ use Exception;
 use Dimal\Hw11\Entity\SearchQuery;
 use Dimal\Hw11\Infrastructure\ElasticSearchStockSearch;
 use Dimal\Hw11\Presentation\ConsoleTableView;
+use Elastic\Elasticsearch\ClientBuilder;
 
 class App
 {
@@ -57,7 +58,14 @@ class App
     {
         $conf = parse_ini_file(".env");
 
-        $st = new ElasticSearchStockSearch($conf['ELASTIC_HOST'], $conf['ELASTIC_PASSWORD']);
+        $cl = ClientBuilder::create();
+        $cl->setHosts([$conf['ELASTIC_HOST']]);
+        if ($conf['ELASTIC_PASSWORD']) {
+            $cl->setApiKey($conf['ELASTIC_PASSWORD']);
+        }
+        $cl = $cl->build();
+
+        $st = new ElasticSearchStockSearch($cl);
         $book_array = $st->search($sq);
         return $book_array;
     }

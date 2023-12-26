@@ -4,21 +4,24 @@ namespace Dimal\Hw11\Infrastructure;
 
 use Dimal\Hw11\Entity\Book;
 use Dimal\Hw11\Entity\SearchQuery;
+use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 
 class ElasticSearchStockSearch extends AbstractStockSearch
 {
     private $client;
 
-    public function __construct($host, $password)
+    public function __construct(Client $cl)
     {
-        $this->client = ClientBuilder::create();
+        $this->client = $cl;
+        /*
         $this->client->setHosts([$host]);
         if ($password) {
             $this->client->setApiKey($password);
         }
 
         $this->client = $this->client->build();
+        */
     }
 
     public function search(SearchQuery $sq)

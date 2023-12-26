@@ -1,3 +1,4 @@
 .idea/
 /docker/.env
 /www/vendor/
+/docker/var/

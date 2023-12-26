@@ -1,14 +1,17 @@
 {
-    "name": "chernomordov/app",
+    "name": "chernish/www",
     "autoload": {
         "psr-4": {
-            "Chernomordov\\App\\": "app/"
+            "Chernish\\Www\\": "src/"
         }
     },
     "authors": [
         {
-            "name": "Sergey Chernomordov"
+            "name": "Sergey Chernomordov",
+            "email": "Chernomor96@list.ru"
         }
     ],
-    "require": {}
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.7"
+    }
 }

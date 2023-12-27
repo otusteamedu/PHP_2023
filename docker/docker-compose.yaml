@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  php-fpm-client:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-client
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+  php-fpm-server:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-server
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

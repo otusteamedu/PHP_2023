@@ -10,9 +10,5 @@
             "name": "Sergey Chernomordov",
             "email": "Chernomor96@list.ru"
         }
-    ],
-    "require": {
-        "ext-sockets": "*",
-        "ext-readline": "*"
-    }
+    ]
 }

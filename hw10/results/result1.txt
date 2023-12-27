@@ -1,0 +1,67 @@
+Group  (cost=258.28..258.53 rows=50 width=516) (actual time=3.829..3.844 rows=5 loops=1)
+  Group Key: m.name
+  ->  Sort  (cost=258.28..258.40 rows=50 width=516) (actual time=3.824..3.829 rows=18 loops=1)
+        Sort Key: m.name
+        Sort Method: quicksort  Memory: 25kB
+        ->  Nested Loop  (cost=0.15..256.87 rows=50 width=516) (actual time=0.037..3.798 rows=18 loops=1)
+              ->  Seq Scan on sessions s  (cost=0.00..249.00 rows=50 width=4) (actual time=0.016..3.734 rows=18 loops=1)
+                    Filter: (date(start_time) = CURRENT_DATE)
+                    Rows Removed by Filter: 9982
+              ->  Memoize  (cost=0.15..1.13 rows=1 width=520) (actual time=0.003..0.003 rows=1 loops=18)
+                    Cache Key: s.movie_id
+                    Cache Mode: logical
+                    Hits: 13  Misses: 5  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                    ->  Index Scan using movies_pkey on movies m  (cost=0.14..1.12 rows=1 width=520) (actual time=0.005..0.005 rows=1 loops=5)
+                          Index Cond: (id = s.movie_id)
+Planning Time: 0.303 ms
+Execution Time: 3.903 ms
+
+################################################
+После 10 млн записей
+
+Group  (cost=147575.24..147608.61 rows=140 width=516) (actual time=689.075..697.392 rows=5 loops=1)
+  Group Key: m.name
+  ->  Gather Merge  (cost=147575.24..147607.91 rows=280 width=516) (actual time=689.068..697.381 rows=5 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Sort  (cost=146575.22..146575.57 rows=140 width=516) (actual time=659.986..659.988 rows=2 loops=3)
+              Sort Key: m.name
+              Sort Method: quicksort  Memory: 25kB
+              Worker 0:  Sort Method: quicksort  Memory: 25kB
+              Worker 1:  Sort Method: quicksort  Memory: 25kB
+              ->  Partial HashAggregate  (cost=146568.83..146570.23 rows=140 width=516) (actual time=659.804..659.806 rows=2 loops=3)
+                    Group Key: m.name
+                    Batches: 1  Memory Usage: 40kB
+                    Worker 0:  Batches: 1  Memory Usage: 40kB
+                    Worker 1:  Batches: 1  Memory Usage: 40kB
+                    ->  Hash Join  (cost=13.15..146516.74 rows=20833 width=516) (actual time=441.543..659.789 rows=6 loops=3)
+                          Hash Cond: (s.movie_id = m.id)
+                          ->  Parallel Seq Scan on sessions s  (cost=0.00..146447.25 rows=20833 width=4) (actual time=441.459..659.702 rows=6 loops=3)
+                                Filter: (date(start_time) = CURRENT_DATE)
+                                Rows Removed by Filter: 3333328
+                          ->  Hash  (cost=11.40..11.40 rows=140 width=520) (actual time=0.088..0.088 rows=5 loops=1)
+                                Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                                ->  Seq Scan on movies m  (cost=0.00..11.40 rows=140 width=520) (actual time=0.080..0.081 rows=5 loops=1)
+Planning Time: 5.277 ms
+JIT:
+  Functions: 53
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 6.062 ms, Inlining 0.000 ms, Optimization 2.742 ms, Emission 45.062 ms, Total 53.866 ms"
+Execution Time: 857.969 ms
+
+################################################
+Добавил индекс sessions(start_time) и переписал запрос на S.start_time >= CURRENT_DATE AND S.start_time < CURRENT_DATE + INTERVAL '1 days'
+вместо DATE(S.start_time) = CURRENT_DATE
+
+HashAggregate  (cost=22.02..22.19 rows=17 width=516) (actual time=0.077..0.080 rows=5 loops=1)
+  Group Key: m.name
+  Batches: 1  Memory Usage: 24kB
+  ->  Hash Join  (cost=13.59..21.98 rows=17 width=516) (actual time=0.043..0.061 rows=17 loops=1)
+        Hash Cond: (s.movie_id = m.id)
+        ->  Index Scan using ind_sessions_start_time on sessions s  (cost=0.44..8.78 rows=17 width=4) (actual time=0.018..0.026 rows=17 loops=1)
+              Index Cond: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
+        ->  Hash  (cost=11.40..11.40 rows=140 width=520) (actual time=0.017..0.018 rows=5 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB
+              ->  Seq Scan on movies m  (cost=0.00..11.40 rows=140 width=520) (actual time=0.009..0.011 rows=5 loops=1)
+Planning Time: 0.358 ms
+Execution Time: 0.130 ms

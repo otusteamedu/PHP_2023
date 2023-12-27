@@ -1,0 +1,85 @@
+Sort  (cost=262.85..262.97 rows=50 width=1048) (actual time=3.800..3.806 rows=18 loops=1)
+"  Sort Key: s.movie_id, s.start_time, s.hall_id"
+  Sort Method: quicksort  Memory: 26kB
+  ->  Nested Loop  (cost=0.31..261.44 rows=50 width=1048) (actual time=0.042..3.734 rows=18 loops=1)
+        ->  Nested Loop  (cost=0.15..256.87 rows=50 width=532) (actual time=0.032..3.694 rows=18 loops=1)
+              ->  Seq Scan on sessions s  (cost=0.00..249.00 rows=50 width=16) (actual time=0.015..3.634 rows=18 loops=1)
+                    Filter: (date(start_time) = CURRENT_DATE)
+                    Rows Removed by Filter: 9982
+              ->  Memoize  (cost=0.15..1.13 rows=1 width=520) (actual time=0.002..0.002 rows=1 loops=18)
+                    Cache Key: s.movie_id
+                    Cache Mode: logical
+                    Hits: 13  Misses: 5  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                    ->  Index Scan using movies_pkey on movies m  (cost=0.14..1.12 rows=1 width=520) (actual time=0.004..0.004 rows=1 loops=5)
+                          Index Cond: (id = s.movie_id)
+        ->  Memoize  (cost=0.15..1.13 rows=1 width=520) (actual time=0.001..0.001 rows=1 loops=18)
+              Cache Key: s.hall_id
+              Cache Mode: logical
+              Hits: 16  Misses: 2  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+              ->  Index Scan using halls_pkey on halls h  (cost=0.14..1.12 rows=1 width=520) (actual time=0.004..0.005 rows=1 loops=2)
+                    Index Cond: (id = s.hall_id)
+Planning Time: 0.463 ms
+Execution Time: 3.884 ms
+
+########################################
+
+Gather Merge  (cost=148969.54..155614.67 rows=41666 width=1048) (actual time=718.211..728.784 rows=17 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Incremental Sort  (cost=147969.52..149805.36 rows=20833 width=1048) (actual time=682.294..682.297 rows=6 loops=3)
+"        Sort Key: s.movie_id, s.start_time, s.hall_id"
+        Presorted Key: s.movie_id
+        Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 26kB  Peak Memory: 26kB
+        Worker 0:  Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+        Worker 1:  Full-sort Groups: 1  Sort Method: quicksort  Average Memory: 25kB  Peak Memory: 25kB
+        ->  Nested Loop  (cost=147958.21..148790.35 rows=20833 width=1048) (actual time=682.165..682.175 rows=6 loops=3)
+              ->  Merge Join  (cost=147958.05..148271.25 rows=20833 width=532) (actual time=682.109..682.113 rows=6 loops=3)
+                    Merge Cond: (s.movie_id = m.id)
+                    ->  Sort  (cost=147941.66..147993.74 rows=20833 width=16) (actual time=682.085..682.087 rows=6 loops=3)
+                          Sort Key: s.movie_id
+                          Sort Method: quicksort  Memory: 25kB
+                          Worker 0:  Sort Method: quicksort  Memory: 25kB
+                          Worker 1:  Sort Method: quicksort  Memory: 25kB
+                          ->  Parallel Seq Scan on sessions s  (cost=0.00..146447.25 rows=20833 width=16) (actual time=450.998..682.072 rows=6 loops=3)
+                                Filter: (date(start_time) = CURRENT_DATE)
+                                Rows Removed by Filter: 3333328
+                    ->  Sort  (cost=16.39..16.74 rows=140 width=520) (actual time=0.023..0.024 rows=5 loops=1)
+                          Sort Key: m.id
+                          Sort Method: quicksort  Memory: 25kB
+                          ->  Seq Scan on movies m  (cost=0.00..11.40 rows=140 width=520) (actual time=0.011..0.012 rows=5 loops=1)
+              ->  Memoize  (cost=0.15..0.17 rows=1 width=520) (actual time=0.010..0.010 rows=1 loops=17)
+                    Cache Key: s.hall_id
+                    Cache Mode: logical
+                    Hits: 15  Misses: 2  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+                    ->  Index Scan using halls_pkey on halls h  (cost=0.14..0.16 rows=1 width=520) (actual time=0.077..0.077 rows=1 loops=2)
+                          Index Cond: (id = s.hall_id)
+Planning Time: 0.762 ms
+JIT:
+  Functions: 69
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 4.546 ms, Inlining 0.000 ms, Optimization 1.875 ms, Emission 43.216 ms, Total 49.637 ms"
+Execution Time: 730.879 ms
+
+##############################################################################
+Добавил индекс sessions(start_time) и переписал запрос на S.start_time >= CURRENT_DATE AND S.start_time < CURRENT_DATE + INTERVAL '1 days'
+вместо DATE(S.start_time) = CURRENT_DATE
+
+Sort  (cost=31.35..31.39 rows=17 width=1048) (actual time=0.124..0.128 rows=17 loops=1)
+"  Sort Key: s.movie_id, s.start_time, s.hall_id"
+  Sort Method: quicksort  Memory: 26kB
+  ->  Nested Loop  (cost=13.75..31.00 rows=17 width=1048) (actual time=0.058..0.102 rows=17 loops=1)
+        ->  Hash Join  (cost=13.59..21.98 rows=17 width=532) (actual time=0.045..0.066 rows=17 loops=1)
+              Hash Cond: (s.movie_id = m.id)
+              ->  Index Scan using ind_sessions_start_time on sessions s  (cost=0.44..8.78 rows=17 width=16) (actual time=0.019..0.028 rows=17 loops=1)
+                    Index Cond: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
+              ->  Hash  (cost=11.40..11.40 rows=140 width=520) (actual time=0.017..0.017 rows=5 loops=1)
+                    Buckets: 1024  Batches: 1  Memory Usage: 9kB
+                    ->  Seq Scan on movies m  (cost=0.00..11.40 rows=140 width=520) (actual time=0.009..0.011 rows=5 loops=1)
+        ->  Memoize  (cost=0.15..3.00 rows=1 width=520) (actual time=0.001..0.001 rows=1 loops=17)
+              Cache Key: s.hall_id
+              Cache Mode: logical
+              Hits: 15  Misses: 2  Evictions: 0  Overflows: 0  Memory Usage: 1kB
+              ->  Index Scan using halls_pkey on halls h  (cost=0.14..2.99 rows=1 width=520) (actual time=0.005..0.005 rows=1 loops=2)
+                    Index Cond: (id = s.hall_id)
+Planning Time: 0.470 ms
+Execution Time: 0.200 ms

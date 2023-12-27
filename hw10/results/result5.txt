@@ -1,0 +1,53 @@
+Sort  (cost=956.26..956.51 rows=100 width=40) (actual time=6.545..6.556 rows=100 loops=1)
+"  Sort Key: s.""row"", s.number"
+  Sort Method: quicksort  Memory: 30kB
+  ->  Nested Loop Left Join  (cost=0.00..952.94 rows=100 width=40) (actual time=6.324..6.480 rows=100 loops=1)
+        Join Filter: (t.seat_id = s.id)
+        Rows Removed by Join Filter: 396
+        ->  Seq Scan on seats s  (cost=0.00..2.00 rows=100 width=12) (actual time=0.009..0.023 rows=100 loops=1)
+        ->  Materialize  (cost=0.00..943.45 rows=5 width=8) (actual time=0.000..0.064 rows=4 loops=100)
+              ->  Seq Scan on tickets t  (cost=0.00..943.43 rows=5 width=8) (actual time=0.009..6.304 rows=4 loops=1)
+                    Filter: (session_id = 1)
+                    Rows Removed by Filter: 49950
+Planning Time: 0.353 ms
+Execution Time: 6.596 ms
+
+###############################################
+
+Sort  (cost=579853.78..579854.03 rows=100 width=40) (actual time=2052.795..2063.449 rows=100 loops=1)
+"  Sort Key: s.""row"", s.number"
+  Sort Method: quicksort  Memory: 30kB
+  ->  Hash Right Join  (cost=1003.25..579850.45 rows=100 width=40) (actual time=2052.751..2063.412 rows=100 loops=1)
+        Hash Cond: (t.seat_id = s.id)
+        ->  Gather  (cost=1000.00..579847.06 rows=51 width=8) (actual time=1922.195..1932.843 rows=0 loops=1)
+              Workers Planned: 2
+              Workers Launched: 2
+              ->  Parallel Seq Scan on tickets t  (cost=0.00..578841.96 rows=21 width=8) (actual time=1894.544..1894.545 rows=0 loops=3)
+                    Filter: (session_id = 1)
+                    Rows Removed by Filter: 16665329
+        ->  Hash  (cost=2.00..2.00 rows=100 width=12) (actual time=130.506..130.507 rows=100 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 13kB
+              ->  Seq Scan on seats s  (cost=0.00..2.00 rows=100 width=12) (actual time=130.467..130.477 rows=100 loops=1)
+Planning Time: 0.356 ms
+JIT:
+  Functions: 20
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"
+"  Timing: Generation 1.799 ms, Inlining 121.596 ms, Optimization 102.865 ms, Emission 43.549 ms, Total 269.808 ms"
+Execution Time: 2064.739 ms
+
+#################################################################
+Добавил index tickets(session_id)
+
+Sort  (cost=16.05..16.30 rows=100 width=40) (actual time=0.263..0.283 rows=100 loops=1)
+"  Sort Key: s.""row"", s.number"
+  Sort Method: quicksort  Memory: 30kB
+  ->  Hash Right Join  (cost=3.69..12.73 rows=100 width=40) (actual time=0.125..0.172 rows=100 loops=1)
+        Hash Cond: (t.seat_id = s.id)
+        ->  Index Scan using ind_tickets_session_id on tickets t  (cost=0.44..9.33 rows=51 width=8) (actual time=0.019..0.019 rows=0 loops=1)
+              Index Cond: (session_id = 1)
+        ->  Hash  (cost=2.00..2.00 rows=100 width=12) (actual time=0.093..0.094 rows=100 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 13kB
+              ->  Seq Scan on seats s  (cost=0.00..2.00 rows=100 width=12) (actual time=0.017..0.046 rows=100 loops=1)
+Planning Time: 0.400 ms
+Execution Time: 0.346 ms
+

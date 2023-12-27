@@ -1,0 +1,47 @@
+Aggregate  (cost=1299.97..1299.98 rows=1 width=8) (actual time=39.709..39.713 rows=1 loops=1)
+  ->  Hash Join  (cost=349.63..1299.35 rows=250 width=41) (actual time=5.865..39.556 rows=918 loops=1)
+        Hash Cond: (t.session_id = s.id)
+        ->  Seq Scan on tickets t  (cost=0.00..818.54 rows=49954 width=45) (actual time=0.015..25.233 rows=49954 loops=1)
+        ->  Hash  (cost=349.00..349.00 rows=50 width=4) (actual time=5.839..5.840 rows=186 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 15kB
+              ->  Seq Scan on sessions s  (cost=0.00..349.00 rows=50 width=4) (actual time=0.008..5.790 rows=186 loops=1)
+                    Filter: ((date(start_time) >= CURRENT_DATE) AND (date(start_time) <= (CURRENT_DATE + '7 days'::interval)))
+                    Rows Removed by Filter: 9814
+Planning Time: 0.293 ms
+Execution Time: 39.758 ms
+
+########################################################
+
+Finalize Aggregate  (cost=771081.21..771081.22 rows=1 width=8) (actual time=6569.188..6582.907 rows=1 loops=1)
+  ->  Gather  (cost=771081.00..771081.21 rows=2 width=8) (actual time=6568.940..6582.896 rows=3 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  Partial Aggregate  (cost=770081.00..770081.01 rows=1 width=8) (actual time=6543.613..6543.615 rows=1 loops=3)
+              ->  Parallel Hash Join  (cost=188374.66..769820.60 rows=104158 width=41) (actual time=4723.382..6543.581 rows=297 loops=3)
+                    Hash Cond: (t.session_id = s.id)
+                    ->  Parallel Seq Scan on tickets t  (cost=0.00..526762.77 rows=20831677 width=45) (actual time=0.262..4351.684 rows=16665329 loops=3)
+                    ->  Parallel Hash  (cost=188114.25..188114.25 rows=20833 width=4) (actual time=1082.305..1082.306 rows=62 loops=3)
+                          Buckets: 65536  Batches: 1  Memory Usage: 544kB
+                          ->  Parallel Seq Scan on sessions s  (cost=0.00..188114.25 rows=20833 width=4) (actual time=788.494..1082.170 rows=62 loops=3)
+                                Filter: ((date(start_time) >= CURRENT_DATE) AND (date(start_time) <= (CURRENT_DATE + '7 days'::interval)))
+                                Rows Removed by Filter: 3333272
+Planning Time: 1.337 ms
+JIT:
+  Functions: 41
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"
+"  Timing: Generation 2.761 ms, Inlining 274.555 ms, Optimization 191.898 ms, Emission 122.572 ms, Total 591.786 ms"
+Execution Time: 6583.697 ms
+
+################################################
+Добавил индекс tickets(session_id) и sessions(start_time)
+В запросе переписал WHERE DATE(S.start_time) BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL '7 days';
+на WHERE S.start_time >= CURRENT_DATE AND S.start_time < CURRENT_DATE + INTERVAL '7 days';
+
+Aggregate  (cost=1638.82..1638.83 rows=1 width=8) (actual time=1.482..1.483 rows=1 loops=1)
+  ->  Nested Loop  (cost=0.88..1636.76 rows=825 width=41) (actual time=0.039..1.398 rows=783 loops=1)
+        ->  Index Scan using ind_sessions_start_time on sessions s  (cost=0.44..12.74 rows=165 width=4) (actual time=0.024..0.074 rows=161 loops=1)
+              Index Cond: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '7 days'::interval)))
+        ->  Index Scan using ind_tickets_session_id on tickets t  (cost=0.44..9.33 rows=51 width=45) (actual time=0.004..0.007 rows=5 loops=161)
+              Index Cond: (session_id = s.id)
+Planning Time: 0.452 ms
+Execution Time: 1.521 ms

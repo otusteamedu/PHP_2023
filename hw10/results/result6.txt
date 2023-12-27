@@ -1,0 +1,42 @@
+GroupAggregate  (cost=0.29..947.81 rows=1 width=68) (actual time=3.224..3.225 rows=1 loops=1)
+  ->  Nested Loop  (cost=0.29..947.78 rows=5 width=9) (actual time=0.016..3.216 rows=4 loops=1)
+        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.29..4.30 rows=1 width=4) (actual time=0.007..0.010 rows=1 loops=1)
+              Index Cond: (id = 5)
+              Heap Fetches: 0
+        ->  Seq Scan on tickets t  (cost=0.00..943.43 rows=5 width=9) (actual time=0.007..3.203 rows=4 loops=1)
+              Filter: (session_id = 5)
+              Rows Removed by Filter: 49950
+Planning Time: 0.096 ms
+Execution Time: 3.250 ms
+
+##############################################
+
+GroupAggregate  (cost=1000.43..579856.29 rows=1 width=68) (actual time=0.034..0.039 rows=0 loops=1)
+  ->  Nested Loop  (cost=1000.43..579856.02 rows=51 width=9) (actual time=0.032..0.036 rows=0 loops=1)
+        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.43..8.45 rows=1 width=4) (actual time=0.031..0.033 rows=0 loops=1)
+              Index Cond: (id = 5)
+              Heap Fetches: 0
+        ->  Gather  (cost=1000.00..579847.06 rows=51 width=9) (never executed)
+              Workers Planned: 2
+              Workers Launched: 0
+              ->  Parallel Seq Scan on tickets t  (cost=0.00..578841.96 rows=21 width=9) (never executed)
+                    Filter: (session_id = 5)
+Planning Time: 0.228 ms
+JIT:
+  Functions: 8
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"
+"  Timing: Generation 1.407 ms, Inlining 0.000 ms, Optimization 0.000 ms, Emission 0.000 ms, Total 1.407 ms"
+Execution Time: 1.838 ms
+
+##############################################
+Добавил индекс tickets(session_id)
+
+GroupAggregate  (cost=0.88..18.56 rows=1 width=68) (actual time=0.031..0.033 rows=0 loops=1)
+  ->  Nested Loop  (cost=0.88..18.30 rows=51 width=9) (actual time=0.030..0.031 rows=0 loops=1)
+        ->  Index Only Scan using sessions_pkey on sessions s  (cost=0.43..8.45 rows=1 width=4) (actual time=0.030..0.030 rows=0 loops=1)
+              Index Cond: (id = 5)
+              Heap Fetches: 0
+        ->  Index Scan using ind_tickets_session_id on tickets t  (cost=0.44..9.33 rows=51 width=9) (never executed)
+              Index Cond: (session_id = 5)
+Planning Time: 0.240 ms
+Execution Time: 0.089 ms

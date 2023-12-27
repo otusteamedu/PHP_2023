@@ -1,0 +1,103 @@
+version: '3'
+
+services:
+  nginx-balancer:
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ${SITE_PATH}:/data/balancer.conf
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  nginx-1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx-1
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  nginx-2:
+      build:
+        context: ./nginx
+        dockerfile: Dockerfile
+      image: nginx
+      container_name: nginx-2
+      volumes:
+        - ${SITE_PATH}:/data/mysite.local
+        - php-fpm-socket:/var/run/d-socket
+      networks:
+        - app-network
+
+  php-fpm-1:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-1
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  php-fpm-2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm-2
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./var/redis/data:/data/mysite.local/redis
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    volumes:
+      - ./var/memcached/data:/data/mysite.local/memcached
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DB}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./var/mysql:/var/lib/mysql
+    networks:
+      - app-network
+
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

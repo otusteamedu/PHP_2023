@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.3
+    container_name: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    networks:
+      - docker_network
+
+
+networks:
+  docker_network:
+    driver: bridge

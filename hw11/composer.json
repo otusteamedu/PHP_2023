@@ -1,0 +1,18 @@
+{
+    "name": "elena/hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Elena\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Елена Спиктаренко",
+            "email": "elena.spiktarenko@gmail.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^7.0"
+    }
+}

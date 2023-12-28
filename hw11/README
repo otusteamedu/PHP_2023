@@ -1,0 +1,4 @@
+index.php в папке public
+
+ Пример:
+ php index.php -w**рыцори -p**2000 -h**https://localhost:9200 -u**elastic -pass**E4_F2dC_OmRjaPyz8srG

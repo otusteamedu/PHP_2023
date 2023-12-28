@@ -27,7 +27,6 @@ class Config
         $this->user = $config['ELASTIC_USERNAME'];
         $this->password = $config['ELASTIC_PASSWORD'];
         $this->index = $config['ELASTIC_INDEX'];
-
     }
 
     public function getPassword(): string

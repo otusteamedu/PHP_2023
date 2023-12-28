@@ -81,9 +81,8 @@ class ElasticSearchService
 
         try {
             return $this->client->search($this->params)['hits'];
-        } catch (ClientResponseException|ServerResponseException $e) {
+        } catch (ClientResponseException | ServerResponseException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }
-
 }

@@ -37,7 +37,6 @@ class Output
 
             $pt = new Table($columns, $lines, $conf);
             $pt->show();
-
         }
     }
 }

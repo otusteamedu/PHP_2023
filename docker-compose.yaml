@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7.2.3-alpine3.19
+    ports:
+      - "6379:6379"
+
+  mongo:
+    image: mongo:4.4.26-focal
+    ports:
+      - "27017:27017"
+
+  php-fpm-redis:
+    build:
+      context: ./.docker/php-fpm/
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/data
+    depends_on:
+      - redis
+      - mongo
+
+networks:
+  network-redis:
+    driver: bridge

@@ -103,7 +103,7 @@ class MongoNativeClientRepository implements RepositoryInterface
             ['sort' => [$this::FIELD1_PRIORITY => -1], 'limit' => 1]
         );
         $rows = $this->client->executeQuery($this->getNamespace(), $query);
-        foreach($rows as $item) {
+        foreach ($rows as $item) {
             $this->deleteByFilter(['_id' => $item->_id]);
             return $item->event_name;
         }

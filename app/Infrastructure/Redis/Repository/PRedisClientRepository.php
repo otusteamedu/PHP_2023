@@ -97,7 +97,7 @@ class PRedisClientRepository implements RepositoryInterface
             $filter['par1'],
             $filter['par2']
         );
-        if ($respond = $this->client->zrange($queueName, -1 , -1)) {
+        if ($respond = $this->client->zrange($queueName, -1, -1)) {
             $item = reset($respond);
             $this->client->zrem($queueName, $item);
             return $item;

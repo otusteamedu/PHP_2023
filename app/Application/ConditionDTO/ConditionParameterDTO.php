@@ -11,8 +11,7 @@ class ConditionParameterDTO
     public function __construct(
         int $param1,
         int $param2,
-    )
-    {
+    ) {
         $this->data[$this::KEY_PARAM_1] = $param1;
         $this->data[$this::KEY_PARAM_2] = $param2;
     }

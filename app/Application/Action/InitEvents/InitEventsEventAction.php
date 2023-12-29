@@ -20,4 +20,3 @@ class InitEventsEventAction implements EventActionInterface
         return NullResponse::make();
     }
 }
-

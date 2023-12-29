@@ -6,7 +6,7 @@ readonly class ConditionParam
 {
     private int $val;
 
-    public function __construct (int $val)
+    public function __construct(int $val)
     {
         $this->val = $val;
     }

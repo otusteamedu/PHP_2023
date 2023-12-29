@@ -1,0 +1,11 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "require": {
+    "ethanhann/redisearch-php": "^1.9",
+    "cheprasov/php-redis-client": "^1.10"
+  }
+}

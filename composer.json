@@ -1,0 +1,23 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "app"
+    }
+  },
+  "require": {
+    "ndybnov-hw03/cnf-read": "^1.1.0",
+    "predis/predis": "^2.2",
+    "ext-mongodb": "*",
+    "ext-redis": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}

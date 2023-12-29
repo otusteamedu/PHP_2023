@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS cinema
     status INTEGER DEFAULT 1                                   NOT NULL
 );
 
-INSERT INTO cinema (name) VALUES ('first cinema');
+INSERT INTO cinema (id, name) VALUES (1, 'first cinema');
 
 -- #####################################################################################################################
 
@@ -18,9 +18,9 @@ CREATE TABLE IF NOT EXISTS halls
     constraint halls_to_cinema_fk references cinema (id)
 );
 
-INSERT INTO halls (name, cinema_id)
-VALUES ('Красный', 1),
-       ('Зеленый', 1);
+INSERT INTO halls (id, name, cinema_id)
+VALUES (1, 'Красный', 1),
+       (2, 'Зеленый', 1);
 
 -- #####################################################################################################################
 
@@ -106,7 +106,8 @@ CREATE TABLE IF NOT EXISTS tickets
     session_id INTEGER           NOT NULL
     constraint tickets_sessions_id_fk references sessions (id),
     price      double precision  NOT NULL,
-    status     INTEGER DEFAULT 0 NOT NULL
+    status     INTEGER DEFAULT 0 NOT NULL,
+    purchased_at TIMESTAMP DEFAULT NULL
 );
 
 INSERT INTO tickets (seat_id, session_id, price, status)

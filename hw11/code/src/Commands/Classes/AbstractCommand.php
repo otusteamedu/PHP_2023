@@ -1,16 +1,17 @@
 <?php
 
-namespace Gkarman\Otuselastic\Commands;
+namespace Gkarman\Otuselastic\Commands\Classes;
 
-class AbstractCommand
+use Gkarman\Otuselastic\Elastic\ElasticClient;
+
+abstract class AbstractCommand
 {
-    public function __construct(array $args)
-    {
+    protected  $elasticClient;
 
+    public function __construct()
+    {
+        $this->elasticClient = (new ElasticClient())->init();
     }
 
-    public function run(): string
-    {
-
-    }
+    abstract public function run(): string;
 }

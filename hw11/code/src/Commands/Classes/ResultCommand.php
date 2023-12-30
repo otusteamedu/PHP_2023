@@ -2,7 +2,11 @@
 
 namespace Gkarman\Otuselastic\Commands\Classes;
 
-class FillCommand extends AbstractCommand
+class ResultCommand extends AbstractCommand
 {
 
+    public function run(): string
+    {
+        return self::class;
+    }
 }

@@ -6,6 +6,9 @@ use Gkarman\Otuselastic\App;
 
 require __DIR__ . '/vendor/autoload.php';
 
-
-$app = new App();
-echo $app->run();
+try {
+    $app = new App();
+    echo $app->run();
+}catch (Exception $e) {
+    echo $e->getMessage();
+}

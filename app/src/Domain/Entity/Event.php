@@ -7,10 +7,9 @@ use App\Domain\ValueObject\Conditions;
 class Event
 {
     private int $id;
-
-    public function __construct(private string $name, private int $priority, private Conditions $conditions)
-    {
-    }
+    private int $priority = 0;
+    private string $name = '';
+    private ?Conditions $conditions = null;
 
     /**
      * @param int $id

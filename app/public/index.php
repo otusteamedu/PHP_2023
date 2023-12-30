@@ -21,8 +21,17 @@ $repository = new EventRepository($redisIndex);
 $events = json_decode(file_get_contents(__DIR__ . '/events.json'), true);
 
 foreach ($events as $event) {
-    $repository->add(new Event($event['name'], $event['priority'], new Conditions($event['conditions'])));
+    $eventEntity = new Event();
+    $eventEntity->setName($event['name']);
+    $eventEntity->setPriority($event['priority']);
+    $eventEntity->setConditions(new Conditions($event['conditions']));
+    $repository->add($eventEntity);
 }
 
-//$conditionSearch = new Conditions(['param1' => 1, 'param2' => 2]);
-//$repository->get($conditionSearch);
+$conditionSearch = new Conditions(['param1' => 1, 'param2' => 2]);
+
+$event = $repository->get($conditionSearch);
+
+var_dump($event);
+
+$redisIndex->drop();

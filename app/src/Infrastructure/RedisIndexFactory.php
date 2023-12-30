@@ -27,6 +27,8 @@ class RedisIndexFactory implements IndexFactoryInterface
             $index->addNumericField(self::PARAM_FIELD_NAME . $i);
         }
 
+        $index->create();
+
         return $index;
     }
 }

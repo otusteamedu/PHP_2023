@@ -21,10 +21,7 @@ $repository = new EventRepository($redisIndex);
 $events = json_decode(file_get_contents(__DIR__ . '/events.json'), true);
 
 foreach ($events as $event) {
-    $eventEntity = new Event();
-    $eventEntity->setName($event['name']);
-    $eventEntity->setPriority($event['priority']);
-    $eventEntity->setConditions(new Conditions($event['conditions']));
+    $eventEntity = new Event($event['priority'], $event['name'], new Conditions($event['conditions']));
     $repository->add($eventEntity);
 }
 

@@ -6,10 +6,17 @@ use App\Domain\ValueObject\Conditions;
 
 class Event
 {
-    private int $id;
-    private int $priority = 0;
-    private string $name = '';
-    private ?Conditions $conditions = null;
+    private int $id = -1;
+    private int $priority;
+    private string $name;
+    private ?Conditions $conditions;
+
+    public function __construct(int $priority = 0, string $name = '', ?Conditions $conditions = null)
+    {
+        $this->priority = $priority;
+        $this->name = $name;
+        $this->conditions = $conditions;
+    }
 
     /**
      * @param int $id

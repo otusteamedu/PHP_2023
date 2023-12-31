@@ -2,13 +2,14 @@
 
 namespace App\Infrastructure\Repository;
 
+use App\Application\EventGatewayInterface;
 use App\Domain\Entity\Event;
 use App\Domain\ValueObject\Conditions;
 use App\Domain\ValueObject\Exception\ConditionsParamNameNotValidException;
 use App\Domain\ValueObject\Exception\ConditionsParamValueNotValidException;
 use Ehann\RediSearch\AbstractIndex;
 
-class EventRepository
+class EventRepository implements EventGatewayInterface
 {
     public function __construct(private readonly AbstractIndex $index)
     {

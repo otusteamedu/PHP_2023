@@ -4,7 +4,7 @@ namespace Application;
 
 class Validator
 {
-    public function validate(string $string):void
+    public function validate(string $string): void
     {
         $empty = $this->stringIsEmpty($string);
         $bracketsValid = $this->bracketsInStringIsValid($string);
@@ -19,7 +19,7 @@ class Validator
         }
     }
 
-    public function stringIsEmpty(string $string):bool
+    public function stringIsEmpty(string $string): bool
     {
         if(empty($string)) {
             return true;

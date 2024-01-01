@@ -15,7 +15,7 @@ class App
         $this->validator = new Validator();
     }
 
-    public function run():void
+    public function run(): void
     {
         // Сюда будет приходить строка. Раскоментировать для реальных проверок
         //$inputString = $_POST['string'] ?? '';

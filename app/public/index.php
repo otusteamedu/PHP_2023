@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-use App\Domain\Entity\Event;
-use App\Domain\ValueObject\Conditions;
+use App\App;
+use App\Application\Dto\ConditionsDto;
+use App\Application\Dto\EventDto;
 use App\Infrastructure\RedisIndexFactory;
 use App\Infrastructure\Repository\EventRepository;
 use Ehann\RedisRaw\RedisClientAdapter;
@@ -13,22 +14,31 @@ require_once __DIR__ . '/../vendor/autoload.php';
 $client = new RedisClientAdapter();
 $client->connect('redis');
 
-$redisFactory = new RedisIndexFactory($client);
-$redisIndex = $redisFactory->create();
+$redisIndexFactory = new RedisIndexFactory($client);
+$index = $redisIndexFactory->create();
 
-$repository = new EventRepository($redisIndex);
+$app = new App(new EventRepository($index));
 
 $events = json_decode(file_get_contents(__DIR__ . '/events.json'), true);
 
 foreach ($events as $event) {
-    $eventEntity = new Event($event['priority'], $event['name'], new Conditions($event['conditions']));
-    $repository->add($eventEntity);
+    $eventDto = new EventDto($event['priority'], $event['name']);
+    $conditionsDto = new ConditionsDto($event['conditions']);
+
+    try {
+        $app->createEvent($eventDto, $conditionsDto);
+    } catch (Exception $e) {
+        throw new Exception($e->getMessage());
+    }
 }
 
-$conditionSearch = new Conditions(['param1' => 1, 'param2' => 2]);
+$conditionsDto = new ConditionsDto(['param1' => 1, 'param2' => 2]);
 
-$event = $repository->get($conditionSearch);
+try {
+    $event = $app->getEvent($conditionsDto);
+} catch (Exception $e) {
+    throw new Exception($e->getMessage());
+}
 
 var_dump($event);
-
-$redisIndex->drop();
+$index->drop();

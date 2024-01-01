@@ -15,7 +15,7 @@ class EventRepository implements EventGatewayInterface
     {
     }
 
-    public function add(Event $event): void
+    public function create(Event $event): void
     {
         $data = [];
         $data['name'] = $event->getName();
@@ -41,7 +41,6 @@ class EventRepository implements EventGatewayInterface
 
         if (!empty($result->getDocuments()[0])) {
             $event = new Event();
-            $conditions = [];
 
             foreach ($result->getDocuments()[0] as $key => $value) {
                 if (str_starts_with($key, 'priority')) {
@@ -51,16 +50,10 @@ class EventRepository implements EventGatewayInterface
                 if (str_starts_with($key, 'name')) {
                     $event->setName($value);
                 }
-
-                if (str_starts_with($key, 'param')) {
-                    $conditions[$key] = $value;
-                }
             }
 
-            if (count($conditions) > 0) {
-                $conditions = new Conditions($conditions);
-                $event->setConditions($conditions);
-            }
+
+            $event->setConditions($conditions);
 
             return $event;
         }

@@ -9,11 +9,10 @@ class Validator
         $empty = $this->stringIsEmpty($string);
         $bracketsValid = $this->bracketsInStringIsValid($string);
 
-        if(!$empty && $bracketsValid) {
+        if (!$empty && $bracketsValid) {
             http_response_code(200);
             exit('всё хорошо');
-        }
-        else {
+        } else {
             http_response_code(400);
             exit('всё плохо');
         }
@@ -21,7 +20,7 @@ class Validator
 
     public function stringIsEmpty(string $string): bool
     {
-        if(empty($string)) {
+        if (empty($string)) {
             return true;
         }
 

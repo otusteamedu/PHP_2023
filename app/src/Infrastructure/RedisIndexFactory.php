@@ -4,7 +4,7 @@ namespace App\Infrastructure;
 
 use Ehann\RediSearch\AbstractIndex;
 use Ehann\RediSearch\Index;
-use Ehann\RedisRaw\RedisClientAdapter;
+use Ehann\RedisRaw\RedisRawClientInterface;
 
 class RedisIndexFactory implements IndexFactoryInterface
 {
@@ -12,7 +12,7 @@ class RedisIndexFactory implements IndexFactoryInterface
     private const EVENT_FIELD_NAME = 'name';
     private const PARAM_FIELD_NAME = 'param';
 
-    public function __construct(private readonly RedisClientAdapter $client)
+    public function __construct(private readonly RedisRawClientInterface $client)
     {
     }
 

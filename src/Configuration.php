@@ -6,7 +6,6 @@ namespace DanielPalm\Library;
 
 class Configuration
 {
-
     private string $basePath;
 
     public function __construct($basePath)

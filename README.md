@@ -8,7 +8,7 @@ To view the results of the project, follow these steps:
 
 1. Start the Docker containers.
 2. Access the PHP container using the command: `docker exec -it php-console /bin/bash`.
-3. Inside the container, execute the PHP script with the command: `php index.php рыЦори поррручика`.
+3. Inside the container, execute the PHP script with the command: `php index.php рыЦори поррручика otus-shop Исторический роман`.
 
 #### Expected Output
 

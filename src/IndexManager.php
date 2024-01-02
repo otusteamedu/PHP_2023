@@ -2,60 +2,68 @@
 
 namespace DanielPalm\Library;
 
-use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientInterface;
 
 class IndexManager
 {
     private $client;
 
-    public function __construct(Client $client)
+    public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function findHistoricalNovelsUnder2000WithStock($titleFirst, $titleSecond)
+    public function findNovelsWithOptionalParameters($parameters)
     {
         $params = [
-            'index' => 'otus-shop',
+            'index' => $parameters['index'],
             'body' => [
                 'query' => [
                     'bool' => [
-                        'must' => [
-                            [
-                                'fuzzy' => [
-                                    'title' => [
-                                        'value' => $titleFirst,
-                                        'fuzziness' => 'AUTO'
-                                    ]
-                                ]
-                            ],
-                            [
-                                'match' => ['category' => 'Исторический роман']
-                            ],
-                            [
-                                'range' => ['price' => ['lt' => 2000]]
-                            ]
-                        ],
-                        'should' => [
-                            [
-                                'fuzzy' => [
-                                    'title' => [
-                                        'value' => $titleSecond,
-                                        'fuzziness' => 'AUTO'
-                                    ]
-                                ]
-                            ]
-                        ]
+                        'must' => [],
+                        'should' => []
                     ]
                 ]
             ]
         ];
 
+        if (!empty($parameters['titleFirst'])) {
+            $params['body']['query']['bool']['must'][] = [
+                'fuzzy' => [
+                    'title' => [
+                        'value' => $parameters['titleFirst'],
+                        'fuzziness' => 'AUTO'
+                    ]
+                ]
+            ];
+        }
+
+        if (!empty($parameters['titleSecond'])) {
+            $params['body']['query']['bool']['should'][] = [
+                'fuzzy' => [
+                    'title' => [
+                        'value' => $parameters['titleSecond'],
+                        'fuzziness' => 'AUTO'
+                    ]
+                ]
+            ];
+        }
+
+        if (!empty($parameters['category'])) {
+            $params['body']['query']['bool']['must'][] = [
+                'match' => ['category' => $parameters['category']]
+            ];
+        }
+
+        if (!empty($parameters['price'])) {
+            $params['body']['query']['bool']['must'][] = [
+                'range' => ['price' => ['lt' => $parameters['price']]]
+            ];
+        }
 
         $response = $this->client->search($params);
 
         $documents = [];
-
         if (isset($response['hits']['hits'])) {
             foreach ($response['hits']['hits'] as $hit) {
                 $doc = $hit['_source'];

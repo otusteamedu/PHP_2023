@@ -4,7 +4,7 @@ namespace DanielPalm\Library;
 
 class App
 {
-    public function run()
+    public function run(array $argv): array
     {
         $config = new Configuration(__DIR__);
         $config->loadEnv();
@@ -14,10 +14,24 @@ class App
 
         $indexManager = new IndexManager($client);
 
-        $titleFirst = $argv[1] ?? "рыЦори";
-        $titleSecond = $argv[2] ?? "поррручика";
+        $titleFirst = $argv[1] ?? null;
+        $titleSecond = $argv[2] ?? null;
+        $indexName = $argv[3] ?? null;
+        $category = $argv[4] ?? null;
 
-        $result = $indexManager->findHistoricalNovelsUnder2000WithStock($titleFirst, $titleSecond);
-        print_r($result);
+
+        if ($titleFirst === null || $titleSecond === null || $indexName = null) {
+            fwrite(STDERR, "Two book titles and index name need to be provided as arguments.\n");
+            exit(1);
+        }
+
+        $parameters = [
+            'titleFirst' => $titleFirst,
+            'titleSecond' => $titleSecond,
+            'index' => $indexName,
+            'category' => $category
+        ];
+
+        return $indexManager->findNovelsWithOptionalParameters($parameters);
     }
 }

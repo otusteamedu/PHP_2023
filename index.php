@@ -5,4 +5,6 @@ require 'vendor/autoload.php';
 use DanielPalm\Library\App;
 
 $app = new App();
-$app->run();
+$result = $app->run($argv);
+
+print_r($result);

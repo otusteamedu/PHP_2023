@@ -1,0 +1,5 @@
+.idea
+.env
+.github
+/db
+/vendor

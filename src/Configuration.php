@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace DanielPalm\Library;
 
 class Configuration
 {
-    private $basePath;
+    private string $basePath;
 
     public function __construct($basePath)
     {

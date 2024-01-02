@@ -1,19 +1,25 @@
 <?php
+declare(strict_types=1);
 
 namespace DanielPalm\Library;
 
 use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Elastic\Elasticsearch\Client;
 
 class ElasticsearchClientWrapper
 {
-    private $config;
+    private Configuration $config;
 
     public function __construct(Configuration $config)
     {
         $this->config = $config;
     }
 
-    public function buildClient()
+    /**
+     * @throws AuthenticationException
+     */
+    public function buildClient(): Client
     {
         $hosts = [$this->config->get('ELASTICSEARCH_HOST')];
         $username = $this->config->get('ELASTIC_USERNAME', 'elastic');

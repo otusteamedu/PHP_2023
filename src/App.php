@@ -1,9 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielPalm\Library;
+
+use Elastic\Elasticsearch\Exception\AuthenticationException;
 
 class App
 {
+    /**
+     * @throws AuthenticationException
+     */
     public function run(array $argv): array
     {
         $config = new Configuration(__DIR__);

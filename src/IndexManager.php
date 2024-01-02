@@ -1,19 +1,21 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DanielPalm\Library;
 
 use Elastic\Elasticsearch\ClientInterface;
 
 class IndexManager
 {
-    private $client;
+    private ClientInterface $client;
 
     public function __construct(ClientInterface $client)
     {
         $this->client = $client;
     }
 
-    public function findNovelsWithOptionalParameters($parameters)
+    public function findNovelsWithOptionalParameters($parameters): array
     {
         $params = [
             'index' => $parameters['index'],

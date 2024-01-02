@@ -9,6 +9,7 @@ use Elastic\Elasticsearch\Client;
 
 class ElasticsearchClientWrapper
 {
+
     private Configuration $config;
 
     public function __construct(Configuration $config)

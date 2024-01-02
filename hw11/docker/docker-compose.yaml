@@ -19,8 +19,7 @@ services:
     container_name: otus-elasticsearch
     environment:
       discovery.type: single-node
-      ELASTIC_USERNAME: otus
-      ELASTIC_PASSWORD: otus
+      xpack.security.enabled: false
     ports:
       - 9200:9200
       - 9300:9300

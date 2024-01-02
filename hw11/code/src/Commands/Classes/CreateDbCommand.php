@@ -2,11 +2,10 @@
 
 namespace Gkarman\Otuselastic\Commands\Classes;
 
-class ResultCommand extends AbstractCommand
+class CreateDbCommand extends AbstractCommand
 {
-
     public function run(): string
     {
-        return self::class;
+         return $this->repository->createDB();
     }
 }

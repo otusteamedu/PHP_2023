@@ -12,7 +12,8 @@
         }
     ],
     "require": {
-        "elasticsearch/elasticsearch": "^8.11"
+        "elasticsearch/elasticsearch": "^8.11",
+      "ext-curl": "*"
     },
     "config": {
         "allow-plugins": {

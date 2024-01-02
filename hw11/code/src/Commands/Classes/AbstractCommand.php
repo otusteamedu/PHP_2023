@@ -2,15 +2,16 @@
 
 namespace Gkarman\Otuselastic\Commands\Classes;
 
-use Gkarman\Otuselastic\Elastic\ElasticClient;
+use Gkarman\Otuselastic\Repositories\ElasticRepository;
+use Gkarman\Otuselastic\Repositories\RepositoryInterface;
 
 abstract class AbstractCommand
 {
-    protected  $elasticClient;
+    protected RepositoryInterface $repository;
 
     public function __construct()
     {
-        $this->elasticClient = (new ElasticClient())->init();
+        $this->repository = new ElasticRepository();
     }
 
     abstract public function run(): string;

@@ -8,7 +8,6 @@ use Application\Verifier\EmailVerifier;
 
 class App
 {
-
     public function run(): void
     {
         $emailVerifier = new EmailVerifier('test@lompom.ru, test2&rt.ru, job2100@mail.ru, tt@mail.ru');

@@ -12,7 +12,7 @@ class Configuration
         $this->basePath = $basePath;
     }
 
-    public function loadEnv()
+    public function loadEnv(): void
     {
         $envPath = $this->basePath . '/../.env';
 

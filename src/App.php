@@ -5,11 +5,15 @@ declare(strict_types=1);
 namespace DanielPalm\Library;
 
 use Elastic\Elasticsearch\Exception\AuthenticationException;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 
 class App
 {
     /**
      * @throws AuthenticationException
+     * @throws ServerResponseException
+     * @throws ClientResponseException
      */
     public function run(array $argv): array
     {

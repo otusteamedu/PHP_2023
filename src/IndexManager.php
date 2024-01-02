@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace DanielPalm\Library;
 
 use Elastic\Elasticsearch\ClientInterface;
+use Elastic\Elasticsearch\Exception\ClientResponseException;
+use Elastic\Elasticsearch\Exception\ServerResponseException;
 
 class IndexManager
 {
@@ -15,7 +17,11 @@ class IndexManager
         $this->client = $client;
     }
 
-    public function findNovelsWithOptionalParameters($parameters): array
+    /**
+     * @throws ServerResponseException
+     * @throws ClientResponseException
+     */
+    public function findNovelsWithOptionalParameters(array $parameters): array
     {
         $params = [
             'index' => $parameters['index'],

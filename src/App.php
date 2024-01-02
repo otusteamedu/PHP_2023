@@ -6,16 +6,18 @@ class App
 {
     public function run()
     {
-// Load environment and settings
         $config = new Configuration(__DIR__);
         $config->loadEnv();
 
-// Create Elasticsearch client
         $esClientWrapper = new ElasticsearchClientWrapper($config);
         $client = $esClientWrapper->buildClient();
 
         $indexManager = new IndexManager($client);
-        $result = $indexManager->findHistoricalNovelsUnder2000WithStock("рыЦори", "поррручика");
+
+        $titleFirst = $argv[1] ?? "рыЦори";
+        $titleSecond = $argv[2] ?? "поррручика";
+
+        $result = $indexManager->findHistoricalNovelsUnder2000WithStock($titleFirst, $titleSecond);
         print_r($result);
     }
 }

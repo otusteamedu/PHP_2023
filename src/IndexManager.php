@@ -17,7 +17,7 @@ class IndexManager
     {
         $params = [
             'index' => 'otus-shop',
-            'body'  => [
+            'body' => [
                 'query' => [
                     'bool' => [
                         'must' => [
@@ -25,7 +25,7 @@ class IndexManager
                                 'fuzzy' => [
                                     'title' => [
                                         'value' => $titleFirst,
-                                        'fuzziness' => 'AUTO' // Уровень "fuzziness"
+                                        'fuzziness' => 'AUTO'
                                     ]
                                 ]
                             ],
@@ -41,7 +41,7 @@ class IndexManager
                                 'fuzzy' => [
                                     'title' => [
                                         'value' => $titleSecond,
-                                        'fuzziness' => 'AUTO' // Уровень "fuzziness"
+                                        'fuzziness' => 'AUTO'
                                     ]
                                 ]
                             ]
@@ -50,6 +50,7 @@ class IndexManager
                 ]
             ]
         ];
+
 
         $response = $this->client->search($params);
 
@@ -65,7 +66,4 @@ class IndexManager
 
         return $documents;
     }
-
-
-
 }

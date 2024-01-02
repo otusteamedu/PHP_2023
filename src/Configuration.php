@@ -21,7 +21,6 @@ class Configuration
         }
     }
 
-    // You can add more methods to get specific config settings if needed
     public function get($key, $default = null)
     {
         return $_ENV[$key] ?? $default;

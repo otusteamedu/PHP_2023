@@ -1,7 +1,15 @@
 version: '3'
 
 services:
+  php_server:
+    container_name: php
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/home/code
   postgresql:
+    container_name: hw7_database
     image: postgres:latest
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -9,4 +17,9 @@ services:
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
       - ./.docker_data/mysql:/var/lib/mysql
-      - ./.docker/postgres:/home/
+      - ./code:/home/code
+      - ./.docker/postgres:/home/postgres
+
+networks:
+  app-network:
+    driver: bridge

@@ -14,6 +14,17 @@ CREATE TABLE IF NOT EXISTS movies
     price NUMERIC(8,2) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS movie_price_exclusions
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    movie_id INTEGER NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
+    day_of_week SMALLINT NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME DEFAULT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
 CREATE TABLE IF NOT EXISTS places
 (
     place_id INTEGER NOT NULL,
@@ -54,6 +65,7 @@ CREATE TABLE IF NOT EXISTS tickets
     hall_id INTEGER NOT NULL,
     place_id INTEGER NOT NULL,
     session_id INTEGER NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
     FOREIGN KEY (hall_id) REFERENCES halls (id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (hall_id, place_id) REFERENCES places (hall_id, place_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE ON UPDATE CASCADE

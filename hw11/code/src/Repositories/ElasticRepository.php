@@ -58,7 +58,7 @@ class ElasticRepository implements RepositoryInterface
     {
         $data = file_get_contents("src/Storage/books.json");
 
-        $ch = curl_init($this->getElasticHost());
+        $ch = curl_init($this->getElasticHost() . '/_bulk/');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);

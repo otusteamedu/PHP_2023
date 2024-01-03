@@ -2,17 +2,7 @@
 
 declare(strict_types=1);
 
-class ListNode
-{
-    public $val = 0;
-    public $next = null;
-
-    function __construct($val = 0, $next = null)
-    {
-        $this->val = $val;
-        $this->next = $next;
-    }
-}
+use Chernomordov\App\ListNode;
 
 class Solution
 {
@@ -22,7 +12,7 @@ class Solution
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2)
+    public function mergeTwoLists(ListNode $list1, ListNode $list2): ListNode
     {
         $head = $tail = new ListNode();
         while (isset($list1, $list2)) {

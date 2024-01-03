@@ -1,0 +1,8 @@
+version: "3.8"
+services:
+  cli:
+    build:
+      context: ./docker/cli
+      dockerfile: Dockerfile
+    volumes:
+      - ./app/:/app

@@ -1,16 +1,12 @@
 <?php
 
-ini_set('display_errors', 1);
-require "../vendor/autoload.php";
+require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/helpers.php';
 
-$validator = new \Sva\EmailValidator();
-$separator = ',';
+// Run app
+$app = new Common\Application\WebApp(
+    container(),
+    config()
+);
 
-$input = file_get_contents('php://input');
-$emails = explode($separator, $input);
-
-$result = [];
-foreach ($emails as $key => $email) {
-    $result[$email] = $validator->validate($email);
-};
-echo json_encode($result);
+$app->run();

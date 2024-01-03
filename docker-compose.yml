@@ -5,7 +5,6 @@ services:
         build:
             context: ./nginx
             dockerfile: Dockerfile
-        image: myapp/nginx
         container_name: webserver
         environment:
             - APP=app
@@ -23,15 +22,53 @@ services:
             dockerfile: Dockerfile
         depends_on:
             - nginx
-        image: myapp/app
-        container_name: app1
+        container_name: app
         environment:
             - MEMCACHED_HOST=repcached
+            - DATABASE_URL=postgresql://${DB_USER}:${DB_PASSWORD}@127.0.0.1:5432/db?serverVersion=11&charset=utf8
+            - DB_USER=${DB_USER}
+            - DB_PASSWORD=${DB_PASSWORD}
+            - DB_NAME=${DB_NAME}
+            - DB_HOST=${DB_HOST}
         volumes:
             - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php
         networks:
             - app-network
+
+    db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+        volumes:
+            - ./data/db:/var/lib/postgresql/data
+            - ./data/htdocs:/data/default
+        networks:
+            - app-network
+        ports:
+            - ${DB_PORT}:5432
+
+    rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+            - 15672:15672
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+        networks:
+            - app-network
+
+    swagger-ui:
+        image: swaggerapi/swagger-ui
+        container_name: "swagger-ui"
+        ports:
+            - "8082:8080"
+        volumes:
+            - ./data/htdocs/openapi.json:/openapi.json
+        environment:
+            SWAGGER_JSON: /openapi.json
 
 networks:
     app-network:

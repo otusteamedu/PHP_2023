@@ -1,4 +1,4 @@
-vendor
-composer.lock
-.env
-.idea
+/vendor/
+uploads
+var
+logs

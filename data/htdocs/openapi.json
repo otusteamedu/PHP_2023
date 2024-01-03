@@ -1,0 +1,275 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ad API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost",
+            "description": "Development server"
+        }
+    ],
+    "paths": {
+        "/api/v1/ad": {
+            "get": {
+                "operationId": "b11a29482d49b6a90def8f1c83653b28",
+                "responses": {
+                    "200": {
+                        "description": "The data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ads": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ad"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "operationId": "9b0180d3c98215e99a772ad7c1db2370",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "The title of the ad",
+                        "required": true
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "The price of the ad",
+                        "required": true
+                    },
+                    {
+                        "name": "photo[]",
+                        "in": "query",
+                        "description": "The photo of the ad",
+                        "required": true
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "The city of the ad",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The data",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ad"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Main page"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Ad": {
+                "title": "Ad",
+                "description": "Ad model",
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the ad",
+                        "type": "integer"
+                    },
+                    "user": {
+                        "$ref": "#/components/schemas/User"
+                    },
+                    "title": {
+                        "description": "The title of the ad",
+                        "type": "string"
+                    },
+                    "price": {
+                        "description": "The price of the ad",
+                        "type": "string"
+                    },
+                    "description": {
+                        "description": "The description of the ad",
+                        "type": "string"
+                    },
+                    "status": {
+                        "description": "The status of the ad",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The type of the ad",
+                        "type": "string"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/City"
+                    },
+                    "photo": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/AdFile"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "AdFile": {
+                "title": "AdFile",
+                "description": "AdFile model",
+                "properties": {
+                    "file": {
+                        "$ref": "#/components/schemas/File"
+                    },
+                    "ad": {
+                        "$ref": "#/components/schemas/Ad"
+                    }
+                },
+                "type": "object"
+            },
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the user",
+                        "type": "integer"
+                    },
+                    "email": {
+                        "description": "The email of the user",
+                        "type": "string"
+                    },
+                    "phone": {
+                        "description": "The phone of the user",
+                        "type": "string"
+                    },
+                    "username": {
+                        "description": "The username of the user",
+                        "type": "string"
+                    },
+                    "firstName": {
+                        "description": "The first name of the user",
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "The last name of the user",
+                        "type": "string"
+                    },
+                    "city": {
+                        "$ref": "#/components/schemas/City"
+                    }
+                },
+                "type": "object"
+            },
+            "File": {
+                "title": "File",
+                "description": "File model",
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the file",
+                        "type": "integer"
+                    },
+                    "module": {
+                        "description": "The module of the file",
+                        "type": "string"
+                    },
+                    "originalName": {
+                        "description": "The original name of the file",
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The type of the file",
+                        "type": "string"
+                    },
+                    "size": {
+                        "description": "The size of the file",
+                        "type": "string"
+                    },
+                    "path": {
+                        "description": "The path of the file",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "City": {
+                "title": "City",
+                "description": "City model",
+                "properties": {
+                    "id": {
+                        "description": "The unique identifier of the city",
+                        "type": "integer"
+                    },
+                    "name": {
+                        "description": "The name of the city",
+                        "type": "string"
+                    },
+                    "stateId": {
+                        "description": "The state id of the city",
+                        "type": "integer"
+                    },
+                    "stateCode": {
+                        "description": "The state code of the city",
+                        "type": "string"
+                    },
+                    "countryId": {
+                        "description": "The country id of the city",
+                        "type": "integer"
+                    },
+                    "countryCode": {
+                        "description": "The country code of the city",
+                        "type": "string"
+                    },
+                    "latitude": {
+                        "description": "The latitude of the city",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "longitude": {
+                        "description": "The longitude of the city",
+                        "type": "number",
+                        "format": "float"
+                    },
+                    "createdAt": {
+                        "description": "The date when the city was created",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updatedAt": {
+                        "description": "The date when the city was updated",
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "flag": {
+                        "description": "The flag of the city",
+                        "type": "integer"
+                    },
+                    "wikiDataId": {
+                        "description": "The wikiDataId of the city",
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

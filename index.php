@@ -2,11 +2,10 @@
 
 declare(strict_types=1);
 
-use Chernomordov\App\ListNode;
+namespace Chernomordov\App;
 
 class Solution
 {
-
     /**
      * @param ListNode $list1
      * @param ListNode $list2

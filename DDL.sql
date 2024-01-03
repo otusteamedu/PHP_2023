@@ -1,54 +1,65 @@
-CREATE TABLE Movies
-(
-    ID          SERIAL PRIMARY KEY,
-    Title       VARCHAR(255) NOT NULL,
-    Genre       VARCHAR(50),
-    ReleaseDate DATE,
-    Director    VARCHAR(100),
-    Description TEXT
-);
-
--- Таблица "Залы"
+-- Залы
 CREATE TABLE Halls
 (
-    ID       SERIAL PRIMARY KEY,
-    Name     VARCHAR(50) NOT NULL,
-    Capacity INT         NOT NULL,
-    Layout   TEXT
+    HallID   INT PRIMARY KEY,
+    HallName VARCHAR(255),
+    Capacity INT
+    -- Дополнительные поля по необходимости
 );
 
--- Таблица "Сеансы"
-CREATE TABLE Sessions
+-- Фильмы
+CREATE TABLE Movies
 (
-    ID        SERIAL PRIMARY KEY,
-    MovieID   INT REFERENCES Movies (ID),
-    HallID    INT REFERENCES Halls (ID),
-    StartTime TIMESTAMP     NOT NULL,
-    EndTime   TIMESTAMP     NOT NULL,
-    Price     DECIMAL(8, 2) NOT NULL
+    MovieID  INT PRIMARY KEY,
+    Title    VARCHAR(255),
+    Genre    VARCHAR(50),
+    Director VARCHAR(100)
+    -- Дополнительные поля по необходимости
 );
 
--- Таблица "Билеты"
+-- Сеансы
+CREATE TABLE Screenings
+(
+    ScreeningID INT PRIMARY KEY,
+    MovieID     INT,
+    HallID      INT,
+    StartTime   DATETIME,
+    FOREIGN KEY (MovieID) REFERENCES Movies (MovieID),
+    FOREIGN KEY (HallID) REFERENCES Halls (HallID)
+    -- Дополнительные поля по необходимости
+);
+
+-- Цены на сеансы
+CREATE TABLE ScreeningPrices
+(
+    ScreeningID INT PRIMARY KEY,
+    Price       DECIMAL(8, 2),
+    FOREIGN KEY (ScreeningID) REFERENCES Screenings (ScreeningID)
+);
+
+-- Билеты
 CREATE TABLE Tickets
 (
-    ID         SERIAL PRIMARY KEY,
-    SessionID  INT REFERENCES Sessions (ID),
-    SeatNumber INT NOT NULL,
-    IsReserved BOOLEAN DEFAULT FALSE
+    TicketID    INT PRIMARY KEY,
+    ScreeningID INT,
+    SeatNumber  INT,
+    FOREIGN KEY (ScreeningID) REFERENCES Screenings (ScreeningID)
+    -- Дополнительные поля по необходимости
 );
 
+SELECT Movies.Title               AS MovieTitle,
+       SUM(ScreeningPrices.Price) AS TotalRevenue
+FROM Movies
+         JOIN
+     Screenings ON Movies.MovieID = Screenings.MovieID
+         JOIN
+     ScreeningPrices ON Screenings.ScreeningID = ScreeningPrices.ScreeningID
+GROUP BY Movies.Title
+ORDER BY TotalRevenue DESC LIMIT 1;
 
-SELECT
-    M.Title AS MovieTitle,
-    SUM(S.Price) AS TotalRevenue
-FROM
-    Movies M
-        JOIN
-    Sessions S ON M.ID = S.MovieID
-        JOIN
-    Tickets T ON S.ID = T.SessionID
-GROUP BY
-    M.Title
-ORDER BY
-    TotalRevenue DESC
-    LIMIT 1;
+
+-- Проверка свободности места на определенном сеансе
+
+SELECT 1
+FROM Tickets
+WHERE ScreeningID = 10 AND SeatNumber = 15

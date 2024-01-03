@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 8.1.0 dump
+-- Adminer 4.8.1 MySQL 8.2.0 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -65,6 +65,27 @@ INSERT INTO `movies_genres` (`id`, `movie_id`, `genre_id`) VALUES
                                                                (6,	2,	3),
                                                                (7,	2,	4);
 
+DROP TABLE IF EXISTS `seat_map`;
+CREATE TABLE `seat_map` (
+                            `id` int NOT NULL AUTO_INCREMENT,
+                            `hall_id` int NOT NULL,
+                            `row_number` int NOT NULL,
+                            `seat_number` varchar(10) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            UNIQUE KEY `hall_row_seat` (`hall_id`,`row_number`,`seat_number`),
+                            CONSTRAINT `seat_map_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `seat_map` (`id`, `hall_id`, `row_number`, `seat_number`) VALUES
+                                                                          (1,	1,	1,	'A1'),
+                                                                          (2,	1,	1,	'A2'),
+                                                                          (3,	1,	1,	'A3'),
+                                                                          (4,	1,	1,	'A4'),
+                                                                          (5,	2,	1,	'A1'),
+                                                                          (6,	2,	1,	'A2'),
+                                                                          (7,	2,	1,	'A3'),
+                                                                          (8,	2,	1,	'A4');
+
 DROP TABLE IF EXISTS `seats`;
 CREATE TABLE `seats` (
                          `id` int NOT NULL AUTO_INCREMENT,
@@ -126,4 +147,4 @@ INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_id`, `price`) VALUES
                                                                              (8,	2,	'sold',	7,	500),
                                                                              (9,	2,	'sold',	8,	500);
 
--- 2023-12-30 16:49:16
+-- 2024-01-03 13:50:58

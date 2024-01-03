@@ -6,8 +6,6 @@ use Geolocation\Domain\City;
 
 class UserDTO
 {
-
-
     public function __construct(
         private string $email,
         private string $phone,
@@ -17,9 +15,7 @@ class UserDTO
         private string $username = '',
         private string $firstName = '',
         private string $lastName = '',
-    )
-    {
-
+    ) {
     }
 
     /**

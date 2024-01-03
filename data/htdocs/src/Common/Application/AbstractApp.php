@@ -11,8 +11,7 @@ abstract readonly class AbstractApp implements AppInterface
     public function __construct(
         private readonly ContainerInterface $container,
         private readonly ConfigInterface $config
-    )
-    {
+    ) {
         $this->rootDir = dirname(dirname(dirname(__DIR__)));
     }
 

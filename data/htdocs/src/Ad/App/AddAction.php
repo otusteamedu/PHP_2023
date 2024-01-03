@@ -14,9 +14,8 @@ class AddAction
 {
     public function __construct(
         private EntityManagerInterface $em,
-        private MessageBusInterface    $bus
-    )
-    {
+        private MessageBusInterface $bus
+    ) {
     }
 
     public function execute(AdDTO $adDTO): Ad
@@ -32,7 +31,6 @@ class AddAction
             $adFile = new AdFile($ad, $photo);
             $this->em->persist($adFile);
             $ad->getPhoto()->add($adFile);
-
         }
 
         $this->em->persist($ad);

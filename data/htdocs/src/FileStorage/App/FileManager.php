@@ -10,21 +10,22 @@ use Psr\Http\Message\UploadedFileInterface;
 readonly class FileManager
 {
     public function __construct(private EntityManagerInterface $em)
-    {}
+    {
+    }
 
     public function upload(UploadedFileInterface $file): File
     {
         // Формируем путь для сохранения файла (относительно upload_dir)
         $fname = Str::generateRandom(32);
         $dir = $this->getUploadDir() . '/' . $fname;
-        if(!is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir);
         }
 
         $path = '/' . $fname . '/' . $file->getClientFilename();
         $fullPath = $this->getUploadDir() . $path;
 
-        if(file_exists($fullPath)) {
+        if (file_exists($fullPath)) {
             throw new \Exception('File already exists');
         }
 
@@ -51,11 +52,11 @@ readonly class FileManager
     {
         $fullpath = $this->getUploadDir() . $file->getPath();
 
-        if(file_exists($fullpath)) {
+        if (file_exists($fullpath)) {
             unlink($fullpath);
 
             $arFiles = scandir(dirname($fullpath));
-            if(count($arFiles) == 2) {
+            if (count($arFiles) == 2) {
                 rmdir(dirname($fullpath));
             }
         }

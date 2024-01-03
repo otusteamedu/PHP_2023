@@ -48,7 +48,8 @@ final readonly class WebApp extends AbstractApp
     /**
      * @throws Exception
      */
-    private function loadRoutes($collector): void {
+    private function loadRoutes($collector): void
+    {
         $arRoutes = require $this->getRootDir() . '/config/routes.php';
 
         foreach ($arRoutes as $arRoute) {
@@ -59,7 +60,8 @@ final readonly class WebApp extends AbstractApp
     /**
      * @throws Exception
      */
-    private function addRoute(RouteCollector $collector, AbstractRoute $route, ?AbstractRoute $parentRoute = null): void {
+    private function addRoute(RouteCollector $collector, AbstractRoute $route, ?AbstractRoute $parentRoute = null): void
+    {
         if ($route instanceof Route) {
             switch ($route->getMethod()) {
                 case 'get':

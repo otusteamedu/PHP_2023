@@ -6,5 +6,4 @@ use Common\Application\ActionResult;
 
 class AddResult extends ActionResult
 {
-
 }

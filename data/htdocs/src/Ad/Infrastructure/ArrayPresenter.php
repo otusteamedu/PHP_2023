@@ -15,7 +15,7 @@ class ArrayPresenter
             'title' => $ad->getTitle(),
             'price' => $ad->getPrice(),
             'description' => $ad->getDescription(),
-            'photo' => $ad->getPhoto()->map(function(AdFile $adF) {
+            'photo' => $ad->getPhoto()->map(function (AdFile $adF) {
                 $photo = $adF->getFile();
                 return [
                     'id' => $photo->getId(),

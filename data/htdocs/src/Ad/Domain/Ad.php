@@ -33,7 +33,7 @@ class Ad
      * @var int|null
      */
     #[Id, Column(type: 'integer'), GeneratedValue(strategy: 'AUTO')]
-    private ?int   $id;
+    private ?int $id;
 
     /**
      * @OA\Property(

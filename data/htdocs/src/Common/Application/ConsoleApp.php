@@ -12,8 +12,7 @@ final readonly class ConsoleApp extends AbstractApp
     public function __construct(
         ContainerInterface $container,
         ConfigInterface $config
-    )
-    {
+    ) {
         parent::__construct($container, $config);
     }
 

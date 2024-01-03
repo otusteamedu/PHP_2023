@@ -23,6 +23,4 @@ abstract class ActionResult
         $this->success = $success;
         return $this;
     }
-
-
 }

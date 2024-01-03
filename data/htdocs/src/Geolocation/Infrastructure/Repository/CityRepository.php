@@ -11,7 +11,6 @@ use Geolocation\Domain\City;
  * @method City[] findAll()
  * @method City[] findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class
-CityRepository extends EntityRepository
+class CityRepository extends EntityRepository
 {
 }

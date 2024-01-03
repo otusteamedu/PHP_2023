@@ -100,7 +100,7 @@ final class User implements JsonSerializable
     private City $city;
 
     public function __construct(
-        ?int   $id,
+        ?int $id,
         string $email,
         string $phone,
         string $password,
@@ -108,8 +108,7 @@ final class User implements JsonSerializable
         string $username,
         string $firstName,
         string $lastName,
-    )
-    {
+    ) {
         $this->id = $id;
         $this->email = strtolower($email);
         $this->phone = strtolower($phone);

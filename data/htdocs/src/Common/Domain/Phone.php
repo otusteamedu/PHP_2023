@@ -15,7 +15,7 @@ class Phone
     {
         $phone = preg_replace('/[^0-9]/', '', $phone);
 
-        if(str_starts_with($phone, '+7') && mb_strlen($phone) == 12) {
+        if (str_starts_with($phone, '+7') && mb_strlen($phone) == 12) {
             $phone = mb_substr($phone, 2);
         } elseif (str_starts_with($phone, '8') && mb_strlen($phone) == 11) {
             $phone = mb_substr($phone, 1);
@@ -23,7 +23,7 @@ class Phone
             $phone = mb_substr($phone, 1);
         }
 
-        if(mb_strlen($phone) != 10) {
+        if (mb_strlen($phone) != 10) {
             throw new Exception('Неверный формат телефона');
         }
 
@@ -35,17 +35,17 @@ class Phone
         return $this->phone;
     }
 
-    public function getPhoneWithPlusSeven():string
+    public function getPhoneWithPlusSeven(): string
     {
         return '+7' . $this->phone;
     }
 
-    public function getPhoneWithEight():string
+    public function getPhoneWithEight(): string
     {
         return '8' . $this->phone;
     }
 
-    public function getPhoneWithSeven():string
+    public function getPhoneWithSeven(): string
     {
         return '7' . $this->phone;
     }

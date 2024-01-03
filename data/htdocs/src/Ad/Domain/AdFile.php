@@ -87,6 +87,4 @@ class AdFile
         $this->ad = $ad;
         return $this;
     }
-
-
 }

@@ -52,7 +52,6 @@ class EventRepository implements EventGatewayInterface
                 }
             }
 
-
             $event->setConditions($conditions);
 
             return $event;

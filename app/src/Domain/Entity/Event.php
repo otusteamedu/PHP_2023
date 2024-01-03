@@ -6,7 +6,7 @@ use App\Domain\ValueObject\Conditions;
 
 class Event
 {
-    private int $id = -1;
+    private ?int $id = null;
     private int $priority;
     private string $name;
     private ?Conditions $conditions;

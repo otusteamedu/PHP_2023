@@ -15,7 +15,7 @@ class ElasticRepository implements RepositoryInterface
     public function __construct()
     {
         $this->elasticClient = ClientBuilder::create()
-            ->setHosts(['http://elasticsearch:9200'])
+            ->setHosts([$this->getElasticHost()])
             ->build();
     }
 
@@ -58,7 +58,7 @@ class ElasticRepository implements RepositoryInterface
     {
         $data = file_get_contents("src/Storage/books.json");
 
-        $ch = curl_init('http://elasticsearch:9200/_bulk/');
+        $ch = curl_init($this->getElasticHost());
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -121,6 +121,11 @@ class ElasticRepository implements RepositoryInterface
         }
 
         return $books;
+    }
+
+    private function getElasticHost(): string
+    {
+        return (parse_ini_file("src/Configs/elastic.ini"))['host'] ?? '';
     }
 }
 

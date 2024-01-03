@@ -9,9 +9,28 @@ abstract class AbstractCommand
 {
     protected RepositoryInterface $repository;
 
+    /**
+     * @throws \Exception
+     */
     public function __construct()
     {
-        $this->repository = new ElasticRepository();
+        $this->setRepository();
+    }
+
+    /**
+     * @throws \Exception
+     */
+    private function setRepository(): void
+    {
+        $dirIniFile = 'src/Configs/app.ini';
+        $configs = parse_ini_file($dirIniFile);
+        $nameRepository = $configs['repository'] ?? '';
+
+        if ($nameRepository === 'elastic') {
+            $this->repository = new ElasticRepository();
+            return;
+        }
+        throw new \Exception('Ошибка инициализации репозитория');
     }
 
     abstract public function run(): string;

@@ -1,0 +1,81 @@
+CREATE TABLE IF NOT EXISTS halls
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS movies
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    rate NUMERIC(8,2) NOT NULL,
+    duration INT NOT NULL,
+    price NUMERIC(8,2) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS movie_price_exclusions
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    movie_id INTEGER NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
+    day_of_week SMALLINT NOT NULL,
+    start_time TIME NOT NULL,
+    end_time TIME DEFAULT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies (id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS places
+(
+    place_id INTEGER NOT NULL,
+    hall_id INTEGER NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
+    PRIMARY KEY (place_id, hall_id),
+    FOREIGN KEY (hall_id) REFERENCES halls (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS clients
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    surname VARCHAR(255) NOT NULL,
+    fathername VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sessions
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    movie_id INTEGER NOT NULL,
+    date_start TIMESTAMP NOT NULL,
+    date_end TIMESTAMP NOT NULL,
+    FOREIGN KEY (movie_id) REFERENCES movies (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS halls_sessions
+(
+    hall_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
+    PRIMARY KEY (hall_id, session_id),
+    FOREIGN KEY (hall_id) REFERENCES halls (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS tickets
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    hall_id INTEGER NOT NULL,
+    place_id INTEGER NOT NULL,
+    session_id INTEGER NOT NULL,
+    price NUMERIC(8,2) NOT NULL,
+    FOREIGN KEY (hall_id) REFERENCES halls (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (hall_id, place_id) REFERENCES places (hall_id, place_id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (session_id) REFERENCES sessions (id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS clients_tickets
+(
+    client_id INTEGER NOT NULL,
+    ticket_id INTEGER NOT NULL,
+    PRIMARY KEY (client_id, ticket_id),
+    FOREIGN KEY (client_id) REFERENCES clients (id) ON DELETE CASCADE ON UPDATE CASCADE,
+    FOREIGN KEY (ticket_id) REFERENCES tickets (id) ON DELETE CASCADE ON UPDATE CASCADE
+);

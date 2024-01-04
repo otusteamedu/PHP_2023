@@ -106,6 +106,25 @@ INSERT INTO `seats` (`id`, `seat_number`, `hall_id`) VALUES
                                                          (7,	'A3',	2),
                                                          (8,	'A4',	2);
 
+DROP TABLE IF EXISTS `session_price`;
+CREATE TABLE `session_price` (
+                                 `id` int NOT NULL AUTO_INCREMENT,
+                                 `seat_map_id` int NOT NULL,
+                                 `session_id` int NOT NULL,
+                                 `price` decimal(10,0) NOT NULL,
+                                 PRIMARY KEY (`id`),
+                                 KEY `seat_map_id` (`seat_map_id`),
+                                 KEY `session_id` (`session_id`),
+                                 CONSTRAINT `session_price_ibfk_1` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`),
+                                 CONSTRAINT `session_price_ibfk_2` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`) VALUES
+                                                                             (1,	1,	1,	200),
+                                                                             (2,	2,	1,	150),
+                                                                             (3,	3,	1,	100),
+                                                                             (4,	1,	2,	100);
+
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
                             `id` int NOT NULL AUTO_INCREMENT,
@@ -129,7 +148,6 @@ CREATE TABLE `tickets` (
                            `session_id` int NOT NULL,
                            `status` enum('reserved','sold','canceled') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
                            `seat_id` int NOT NULL,
-                           `price` decimal(10,0) NOT NULL,
                            PRIMARY KEY (`id`),
                            KEY `session_id` (`session_id`),
                            KEY `seat_id` (`seat_id`),
@@ -137,14 +155,14 @@ CREATE TABLE `tickets` (
                            CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_id`, `price`) VALUES
-                                                                             (2,	1,	'reserved',	1,	500),
-                                                                             (3,	1,	'sold',	3,	500),
-                                                                             (4,	1,	'sold',	4,	500),
-                                                                             (5,	1,	'canceled',	5,	500),
-                                                                             (6,	2,	'sold',	2,	500),
-                                                                             (7,	2,	'sold',	6,	500),
-                                                                             (8,	2,	'sold',	7,	500),
-                                                                             (9,	2,	'sold',	8,	500);
+INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_id`) VALUES
+                                                                    (2,	1,	'reserved',	1),
+                                                                    (3,	1,	'sold',	3),
+                                                                    (4,	1,	'sold',	4),
+                                                                    (5,	1,	'canceled',	5),
+                                                                    (6,	2,	'sold',	2),
+                                                                    (7,	2,	'sold',	6),
+                                                                    (8,	2,	'sold',	7),
+                                                                    (9,	2,	'sold',	8);
 
--- 2024-01-03 13:50:58
+-- 2024-01-04 14:39:22

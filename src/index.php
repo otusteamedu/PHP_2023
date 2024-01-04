@@ -4,11 +4,7 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Klobkovsky\App\DB;
+use Klobkovsky\App\StringApplication;
 
-try {
-    $DB = new DB();
-
-} catch (Throwable $e) {
-    echo 'Error: ' . $e->getMessage();
-}
+$stringApp = new StringApplication();
+echo $stringApp->run();

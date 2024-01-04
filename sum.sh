@@ -27,9 +27,9 @@ for arg in "$@"; do
     echo "Ошибка: $arg не является числом"
     exit 1
   else
-    arg=${arg//./,}
+    arg=${arg//,/.}
 
-    SUM=$((SUM+arg))
+    SUM=$(echo "$SUM + $arg" | bc)
   fi
 done
 

@@ -4,7 +4,7 @@ namespace Klobkovsky\App;
 
 class ParenthesisValidator
 {
-    static public function validate($string)
+    public static function validate($string)
     {
         try {
             if (empty($string)) {
@@ -31,6 +31,5 @@ class ParenthesisValidator
         } catch (\Throwable $e) {
             throw $e;
         }
-
     }
 }

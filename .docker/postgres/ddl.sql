@@ -27,7 +27,11 @@ CREATE TABLE IF NOT EXISTS entity_attribute_values
 (
     entity_id INTEGER NOT NULL,
     attribute_id INTEGER NOT NULL,
-    value VARCHAR(255) NOT NULL,
+    value_string VARCHAR(255) DEFAULT NULL,
+    value_float NUMERIC(8,2) DEFAULT NULL,
+    value_date DATE DEFAULT NULL,
+    value_timestamp TIMESTAMP DEFAULT NULL,
+    value_boolean BOOLEAN DEFAULT NULL,
     FOREIGN KEY (entity_id) REFERENCES movies(id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (attribute_id) REFERENCES entity_attributes(id) ON DELETE CASCADE ON UPDATE CASCADE
 );

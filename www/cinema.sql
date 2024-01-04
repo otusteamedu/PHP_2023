@@ -1,4 +1,4 @@
--- Adminer 4.8.1 MySQL 8.2.0 dump
+-- Adminer 4.8.1 MySQL 8.1.0 dump
 
 SET NAMES utf8;
 SET time_zone = '+00:00';
@@ -69,42 +69,41 @@ DROP TABLE IF EXISTS `seat_map`;
 CREATE TABLE `seat_map` (
                             `id` int NOT NULL AUTO_INCREMENT,
                             `hall_id` int NOT NULL,
-                            `row_number` int NOT NULL,
-                            `seat_number` varchar(10) NOT NULL,
+                            `seat_id` int NOT NULL,
                             PRIMARY KEY (`id`),
-                            UNIQUE KEY `hall_row_seat` (`hall_id`,`row_number`,`seat_number`),
-                            CONSTRAINT `seat_map_ibfk_1` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                            KEY `seat_id` (`seat_id`),
+                            KEY `hall_id` (`hall_id`),
+                            CONSTRAINT `seat_map_ibfk_2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`) ON DELETE CASCADE,
+                            CONSTRAINT `seat_map_ibfk_4` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `seat_map` (`id`, `hall_id`, `row_number`, `seat_number`) VALUES
-                                                                          (1,	1,	1,	'A1'),
-                                                                          (2,	1,	1,	'A2'),
-                                                                          (3,	1,	1,	'A3'),
-                                                                          (4,	1,	1,	'A4'),
-                                                                          (5,	2,	1,	'A1'),
-                                                                          (6,	2,	1,	'A2'),
-                                                                          (7,	2,	1,	'A3'),
-                                                                          (8,	2,	1,	'A4');
+INSERT INTO `seat_map` (`id`, `hall_id`, `seat_id`) VALUES
+                                                        (1,	1,	1),
+                                                        (2,	1,	2),
+                                                        (3,	1,	3),
+                                                        (4,	1,	4),
+                                                        (5,	2,	1),
+                                                        (6,	2,	2),
+                                                        (7,	2,	3),
+                                                        (8,	2,	4);
 
 DROP TABLE IF EXISTS `seats`;
 CREATE TABLE `seats` (
                          `id` int NOT NULL AUTO_INCREMENT,
                          `seat_number` varchar(10) NOT NULL,
-                         `hall_id` int NOT NULL,
-                         PRIMARY KEY (`id`),
-                         KEY `hall_id` (`hall_id`),
-                         CONSTRAINT `seats_ibfk_2` FOREIGN KEY (`hall_id`) REFERENCES `halls` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+                         `row_number` int NOT NULL,
+                         PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `seats` (`id`, `seat_number`, `hall_id`) VALUES
-                                                         (1,	'А1',	1),
-                                                         (2,	'А2',	2),
-                                                         (3,	'A2',	1),
-                                                         (4,	'A3',	1),
-                                                         (5,	'A4',	1),
-                                                         (6,	'A1',	2),
-                                                         (7,	'A3',	2),
-                                                         (8,	'A4',	2);
+INSERT INTO `seats` (`id`, `seat_number`, `row_number`) VALUES
+                                                            (1,	'А1',	1),
+                                                            (2,	'А2',	1),
+                                                            (3,	'A2',	1),
+                                                            (4,	'A3',	1),
+                                                            (5,	'A4',	1),
+                                                            (6,	'A1',	1),
+                                                            (7,	'A3',	1),
+                                                            (8,	'A4',	1);
 
 DROP TABLE IF EXISTS `session_price`;
 CREATE TABLE `session_price` (
@@ -115,15 +114,14 @@ CREATE TABLE `session_price` (
                                  PRIMARY KEY (`id`),
                                  KEY `seat_map_id` (`seat_map_id`),
                                  KEY `session_id` (`session_id`),
-                                 CONSTRAINT `session_price_ibfk_1` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`),
-                                 CONSTRAINT `session_price_ibfk_2` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON DELETE CASCADE
+                                 CONSTRAINT `session_price_ibfk_3` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                                 CONSTRAINT `session_price_ibfk_5` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`) VALUES
-                                                                             (1,	1,	1,	200),
-                                                                             (2,	2,	1,	150),
-                                                                             (3,	3,	1,	100),
-                                                                             (4,	1,	2,	100);
+                                                                             (5,	1,	1,	200),
+                                                                             (6,	2,	1,	300),
+                                                                             (7,	3,	2,	100);
 
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
@@ -147,22 +145,17 @@ CREATE TABLE `tickets` (
                            `id` int NOT NULL AUTO_INCREMENT,
                            `session_id` int NOT NULL,
                            `status` enum('reserved','sold','canceled') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-                           `seat_id` int NOT NULL,
+                           `seat_map_id` int NOT NULL,
+                           `date_purchase` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
                            PRIMARY KEY (`id`),
                            KEY `session_id` (`session_id`),
-                           KEY `seat_id` (`seat_id`),
-                           CONSTRAINT `tickets_ibfk_1` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON DELETE CASCADE,
-                           CONSTRAINT `tickets_ibfk_2` FOREIGN KEY (`seat_id`) REFERENCES `seats` (`id`) ON DELETE CASCADE
+                           KEY `seat_id` (`seat_map_id`),
+                           CONSTRAINT `tickets_ibfk_4` FOREIGN KEY (`session_id`) REFERENCES `sessions` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+                           CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_id`) VALUES
-                                                                    (2,	1,	'reserved',	1),
-                                                                    (3,	1,	'sold',	3),
-                                                                    (4,	1,	'sold',	4),
-                                                                    (5,	1,	'canceled',	5),
-                                                                    (6,	2,	'sold',	2),
-                                                                    (7,	2,	'sold',	6),
-                                                                    (8,	2,	'sold',	7),
-                                                                    (9,	2,	'sold',	8);
+INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_map_id`, `date_purchase`) VALUES
+                                                                                         (11,	1,	'sold',	1,	'2024-01-04 20:16:40'),
+                                                                                         (12,	1,	'canceled',	2,	'2024-01-04 20:16:48');
 
--- 2024-01-04 14:39:22
+-- 2024-01-04 20:16:59

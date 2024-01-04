@@ -24,7 +24,7 @@ class Controller
                 }
                 if ($symbol == ')') {
                     if ($open == 0) {
-                        $this->errors[] = "Не ожидание закрытие скобок на символе $key";
+                        $this->errors[] = "Неожиданное закрытие скобок на символе $key";
                         $res .= "'$symbol'";
                         continue;
                     }

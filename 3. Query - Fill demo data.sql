@@ -1,15 +1,3 @@
--- Сеансы
-CREATE TABLE show (
-    id SERIAL PRIMARY KEY,
-    room_id INT NOT NULL,
-    movie_id INT NOT NULL,
-    price_id INT NOT NULL,
-    schedule TIMESTAMP WITH TIME ZONE,
-    FOREIGN KEY (room_id) REFERENCES room(id),
-    FOREIGN KEY (movie_id) REFERENCES movie(id),
-    FOREIGN KEY (price_id) REFERENCES price(id)  
-);
-
 -- кинотеатр
 INSERT INTO cinema (name) VALUES ('Ромашка IMAX');
 

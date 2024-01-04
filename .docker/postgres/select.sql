@@ -11,7 +11,7 @@ INNER JOIN entity_attribute_types ON entity_attributes.attribute_type = entity_a
 /* Задачи */
 
 
-SELECT movies.name, STRING_AGG(entity_attributes.name, ',') as today_tasks
+CREATE VIEW today_tasks AS SELECT movies.name, STRING_AGG(entity_attributes.name, ',') as today_tasks
 FROM entity_attribute_values
 INNER JOIN entity_attributes ON entity_attributes.id = entity_attribute_values.attribute_id
 INNER JOIN entity_attribute_types ON entity_attribute_types.id = entity_attributes.attribute_type
@@ -20,7 +20,7 @@ WHERE entity_attribute_types.name = 'Служебные даты'
 AND entity_attribute_values.value_timestamp = CURRENT_DATE
 GROUP BY movies.id;
 
-SELECT movies.name, STRING_AGG(entity_attributes.name, ',') as after_20_days_tasks
+CREATE VIEW after_20_days_tasks AS SELECT movies.name, STRING_AGG(entity_attributes.name, ',') as after_20_days_tasks
 FROM entity_attribute_values
          INNER JOIN entity_attributes ON entity_attributes.id = entity_attribute_values.attribute_id
          INNER JOIN entity_attribute_types ON entity_attribute_types.id = entity_attributes.attribute_type

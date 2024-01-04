@@ -165,6 +165,7 @@ INSERT INTO seat (room_id, seattype_id, line, number)
 SELECT 3, 5, 35, generate_series(1, 12);
 
 
+
 -- Карточки цен
 INSERT INTO price (name) 
 VALUES ('Цены 1'), ('Цены 2'), ('Цены 3'), ('Цены 4'), ('Цены VIP 1'), ('Цены VIP 2'), ('Цены VIP 3');

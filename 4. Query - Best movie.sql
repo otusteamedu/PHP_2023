@@ -9,6 +9,7 @@ LEFT JOIN movie AS mv
     ON mv.id = sh.movie_id
 
 GROUP BY mv.id
+
 ORDER BY totalamount DESC
 
 LIMIT 1

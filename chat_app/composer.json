@@ -1,0 +1,20 @@
+{
+  "name": "vendor_name/chat_app",
+  "description": "description",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "vasilaki",
+      "email": "vasilaki.t@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Vasilaki\\": "app/"
+    }
+  },
+  "require": {
+    "react/socket": "^1.3"
+  }
+}

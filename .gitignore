@@ -1,4 +1,4 @@
-/vendor/
+/course/vendor/
 .idea
 /deployment/data
 /.env

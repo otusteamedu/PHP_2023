@@ -120,45 +120,118 @@ DO $$
 ```
 
 
-# Запросы с explain
+# Запросы
+
+
+### Выбор всех фильмов на сегодня:
+ускорил индексом btree
 ```sql
--- Выбор всех фильмов на сегодня
-explain
-select * FROM sessions
-                  join movies m on m.id = sessions.movies_id
-WHERE start_time >= CURRENT_DATE
-  AND start_time < CURRENT_DATE + INTERVAL '1 day';
+expline SELECT m.title 
+FROM movies m
+JOIN sessions s ON m.id = s.movies_id
+WHERE s.start_time >= CURRENT_DATE
+AND s.start_time < CURRENT_DATE + INTERVAL '1 day';
 
--- Hash Join  (cost=1083.56..4397.18 rows=528 width=576)
---  Hash Cond: (sessions.movies_id = m.id)
---  ->  Seq Scan on sessions  (cost=0.00..3312.24 rows=528 width=44)
---  ->  Hash  (cost=939.36..939.36 rows=11536 width=532)
---        Filter: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
---        ->  Seq Scan on movies m  (cost=0.00..939.36 rows=11536 width=532)
+-- Hash Join  (cost=3203.12..5416.62 rows=1450 width=16)
+--Hash Cond: (m.id = s.movies_id)
+--  ->  Seq Scan on movies m  (cost=0.00..1824.00 rows=100000 width=20)
+--  ->  Hash  (cost=3185.00..3185.00 rows=1450 width=4)
+--        ->  Seq Scan on sessions s  (cost=0.00..3185.00 rows=1450 width=4)
+--              Filter: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
 
-
-create index idx_start_session ON sessions (start_time);
+create index idx_start_time ON sessions (start_time);
 
 
--- Hash Join  (cost=41.57..2247.73 rows=716 width=76)
---  Hash Cond: (m.id = sessions.movies_id)
---  ->  Seq Scan on movies m  (cost=0.00..1824.00 rows=100000 width=32)
---  ->  Hash  (cost=32.62..32.62 rows=716 width=44)
---        ->  Index Scan using idx_start_session on sessions  (cost=0.30..32.62 rows=716 width=44)
+-- Hash Join  (cost=84.42..2297.93 rows=1450 width=16)
+--    Hash Cond: (m.id = s.movies_id)
+--  ->  Seq Scan on movies m  (cost=0.00..1824.00 rows=100000 width=20)
+--  ->  Hash  (cost=66.30..66.30 rows=1450 width=4)
+--        ->  Index Scan using idx_start_time on sessions s  (cost=0.30..66.30 rows=1450 width=4) СТОИМОСТЬ СТАЛА МЕНЬШЕ
 --              Index Cond: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
+
 ```
 
-# Просто запросы
+### Подсчёт проданных билетов за неделю:
+
+start_time уже индекс создал
 ```sql
--- Подсчёт проданных билетов за неделю
-select count(*) from tickets;
+SELECT COUNT(*) 
+FROM tickets t
+JOIN sessions s ON t.session_id = s.id
+WHERE s.start_time >= CURRENT_DATE - INTERVAL '7 days'
+AND s.start_time < CURRENT_DATE;
+```
 
--- Поиск 3 самых прибыльных фильмов за неделю
-select m.title, sum(p.amount) as amount from sessions
-                                                 join prices p on sessions.prices_id = p.id
-                                                 join movies m on m.id = sessions.movies_id WHERE sessions.start_time < CURRENT_DATE + INTERVAL '7 day'
-group by m.title ORDER BY amount DESC;
+### Формирование афиши (фильмы, которые показывают сегодня):
 
--- Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс
-select * from sessions where status = 2 and id = 1; -- status - 2 билет в продаже
+start_time уже индекс создал
+```sql
+SELECT DISTINCT m.title 
+FROM movies m
+JOIN sessions s ON m.id = s.movies_id
+WHERE s.start_time >= CURRENT_DATE
+AND s.start_time < CURRENT_DATE + INTERVAL '1 day';
+```
+
+### Поиск 3 самых прибыльных фильмов за неделю:
+
+start_time уже индекс создал
+```sql
+SELECT m.title, SUM(p.amount) AS total_amount
+FROM movies m
+JOIN sessions s ON m.id = s.movies_id
+JOIN tickets t ON t.session_id = s.id
+JOIN prices p ON s.prices_id = p.id
+WHERE s.start_time >= CURRENT_DATE - INTERVAL '7 days'
+AND s.start_time < CURRENT_DATE
+GROUP BY m.title
+ORDER BY total_amount DESC
+LIMIT 3;
+```
+
+### Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс:
+Ускорил составным индексом btree
+```sql
+expline SELECT 
+    se.hall_id, 
+    se.row_number, 
+    se.seat_number, 
+    CASE WHEN t.id IS NULL THEN 'Free' ELSE 'Occupied' END AS seat_status
+FROM seats se
+LEFT JOIN tickets t ON se.id = t.seat_id AND t.session_id = 3
+ORDER BY se.row_number, se.seat_number;
+
+-- Sort  (cost=15088.34..15338.34 rows=100000 width=44)
+--"  Sort Key: se.row_number, se.seat_number"
+--  ->  Hash Left Join  (cost=1791.01..3707.02 rows=100000 width=44)
+--        Hash Cond: (se.id = t.seat_id)
+--        ->  Seq Scan on seats se  (cost=0.00..1541.00 rows=100000 width=16)
+--        ->  Hash  (cost=1791.00..1791.00 rows=1 width=8)
+--              ->  Seq Scan on tickets t  (cost=0.00..1791.00 rows=1 width=8)
+--                    Filter: (session_id = 3)
+
+CREATE INDEX idx_seats_on_row_number_and_seat_number ON seats(row_number, seat_number);
+CREATE INDEX idx_tickets_on_session_id_and_seat_id ON tickets(session_id, seat_id);
+
+    
+-- Nested Loop Left Join  (cost=0.58..5365.36 rows=100000 width=44)
+--  Join Filter: (se.id = t.seat_id)
+--  ->  Index Scan using idx_seats_on_row_number_and_seat_number on seats se  (cost=0.29..3857.04 rows=100000 width=16)
+--  ->  Materialize  (cost=0.29..8.32 rows=1 width=8)
+--        ->  Index Scan using idx_tickets_on_session_id_and_seat_id on tickets t  (cost=0.29..8.31 rows=1 width=8) СТОИМОСТЬ СТАЛА МЕНЬШЕ
+--              Index Cond: (session_id = 3)
+
+
+
+
+
+```
+
+### Вывести диапазон минимальной и максимальной цены за билет на конкретный сеанс:
+тут нечего ускарять 
+```sql
+SELECT MIN(p.amount) AS min_price, MAX(p.amount) AS max_price
+FROM prices p
+JOIN sessions s ON p.id = s.prices_id
+WHERE s.id = 2;
 ```

@@ -1,0 +1,16 @@
+{
+    "name": "dsx90/lesson5",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Lesson5\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "dsx90"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

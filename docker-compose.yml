@@ -1,0 +1,59 @@
+version: "3.8"
+services:
+  balance:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./docker/nginx/hosts/application.balance.conf:/etc/nginx/conf.d/application.local.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - ngx1
+      - ngx2
+      
+  ngx1:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./docker/nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+    depends_on:
+      - app
+
+  ngx2:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./app:/app
+      - ./docker/nginx/hosts/application2.local.conf:/etc/nginx/conf.d/application.local.conf
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: ./docker/app
+      dockerfile: Dockerfile
+    deploy:
+      replicas: 2
+    volumes:
+      - ./app:/app
+    depends_on:
+      - memcached
+    environment:
+      - CONTAINER_NAME
+
+  memcached:
+    build:
+      context: ./docker/memcache
+      dockerfile: Dockerfile
+
+  cli:
+    build:
+      context: ./docker/cli
+      dockerfile: Dockerfile
+    volumes:
+      - ./app/:/app
+  

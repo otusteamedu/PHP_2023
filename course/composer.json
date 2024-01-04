@@ -1,0 +1,26 @@
+{
+    "name": "cases/php_2023",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Cases\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "igorKAznov",
+            "email": "malverdo@yandex.ru"
+        }
+    ],
+    "require": {
+        "cases/igor-kaznov-libery-otus": "^1.2",
+        "elasticsearch/elasticsearch": "^7.16",
+        "ext-json": "*",
+        "symfony/var-dumper": "^6.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

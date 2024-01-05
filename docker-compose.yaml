@@ -15,6 +15,7 @@ services:
       - "80:80"
     volumes:
        - ./src:/data/mysite.local
+       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
        - socket:/var/run/
     networks:
       - app-network

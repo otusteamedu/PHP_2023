@@ -4,11 +4,11 @@ namespace Klobkovsky\App;
 
 class DB
 {
-    /** @var PDO */
+    /** @var \PDO */
     public $pdo;
 
     /**
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct()
     {
@@ -20,7 +20,7 @@ class DB
             );
             $this->pdo->exec('SET NAMES UTF8');
         } catch (\PDOException $e) {
-            throw new Exception('Ошибка при подключении к базе данных: ' . $e->getMessage());
+            throw new \Exception('Ошибка при подключении к базе данных: ' . $e->getMessage());
         }
     }
 }

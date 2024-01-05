@@ -4,70 +4,84 @@ version: '3'
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
   #контейнер с Nginx
-  nginx:
+  balancer:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: '${COMPOSE_PROJECT_NAME}_nginx'
+    image: myapp/nginx-balancer
+    depends_on:
+      - nginx1
+      - nginx2
+    container_name: balancer
     # проброс портов
     ports:
       - "80:80"
     volumes:
+      - ./nginx/hosts/balancer.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+
+  #контейнер с Nginx
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx1
+    container_name: nginx1
+    volumes:
        - ./src:/data/mysite.local
        - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
-       - socket:/var/run/
+       - socket1:/socket1
+       - socket2:/socket2
+    networks:
+      - app-network
+
+  #контейнер с Nginx
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx2
+    container_name: nginx2
+    volumes:
+       - ./src:/data/mysite.local
+       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
+       - socket1:/socket1
+       - socket2:/socket2
     networks:
       - app-network
 
   #Контейнер с PHP-FPM
-  fpm:
+  fpm1:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: '${COMPOSE_PROJECT_NAME}_fpm' # имя контейнера после запуска
+    image: myapp/php1 # имя будущего образа
+    container_name: '${COMPOSE_PROJECT_NAME}_fpm1' # имя контейнера после запуска
     volumes:
        - ./src:/data/mysite.local
-       - socket:/var/run/
+       - socket1:/var/run/
     env_file:
       - .env
     # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
 
-  mysql:
+  #Контейнер с PHP-FPM
+  fpm2:
+    # Если нет секции build, то система будет искать образ в репозиториях
     build:
-      context: ./mysql8
+      context: ./fpm
       dockerfile: Dockerfile
-    image: mysql8
-    container_name: '${COMPOSE_PROJECT_NAME}_mysql'
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - '${MYSQL_PORT:-3306}:3306'
+    image: myapp/php2 # имя будущего образа
+    container_name: '${COMPOSE_PROJECT_NAME}_fpm2' # имя контейнера после запуска
     volumes:
-      - mysql:/var/lib/mysql
-      - ${LOG_DIR}:/var/log
+       - ./src:/data/mysite.local
+       - socket2:/var/run/
     env_file:
       - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    networks:
-      - app-network
-
-  redis:
-    image: 'redis:alpine'
-    container_name: '${COMPOSE_PROJECT_NAME}_redis'
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    volumes:
-      - 'redis:/data'
+    # мы можем создать для контейнеров внутреннюю сеть
     networks:
       - app-network
 
@@ -80,10 +94,8 @@ services:
       - app-network
 
 volumes:
-  socket:
-  redis:
-  mysql:
-    driver: local
+  socket1:
+  socket2:
 
 #Docker Networks
 networks:

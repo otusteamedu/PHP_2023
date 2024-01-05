@@ -62,7 +62,10 @@ CREATE VIEW MarketingData AS
 SELECT M.Title         AS MovieTitle,
        AT.TypeName     AS AttributeType,
        A.AttributeName AS Attribute,
-       AV.ValueText    AS AttributeValue
+       AV.ValueText    AS AttributeValue,
+       AV.ValueDate    AS ValueDate,
+       AV.ValueBoolean AS ValueBoolean,
+       AV.ValueFloat   AS ValueFloat,
 FROM Movies M
          JOIN
      AttributeValues AV ON M.MovieID = AV.MovieID

@@ -65,7 +65,7 @@ SELECT M.Title         AS MovieTitle,
        AV.ValueText    AS AttributeValue,
        AV.ValueDate    AS ValueDate,
        AV.ValueBoolean AS ValueBoolean,
-       AV.ValueFloat   AS ValueFloat,
+       AV.ValueFloat   AS ValueFloat
 FROM Movies M
          JOIN
      AttributeValues AV ON M.MovieID = AV.MovieID

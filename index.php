@@ -5,7 +5,8 @@ class Solution {
      * @param String $digits
      * @return String[]
      */
-    public static function letterCombinations($digits) {
+    public static function letterCombinations(string $digits): array
+    {
         $keyboard = [
             1 => null,
             2 => ["a","b","c"],
@@ -20,7 +21,7 @@ class Solution {
 
         if($digits == '') {
             return [];
-        };
+        }
 
         $sol = $keyboard[$digits[0]];
 
@@ -39,6 +40,66 @@ class Solution {
         }
         return $sol;
     }
+
+    /**
+     * @param ListNode $head
+     * @return bool
+     */
+    public static function hasCycle(ListNode $head): bool
+    {
+        /*$hash = [];
+        $copy = $head->next;
+        $hash[] = $head;
+        while ($copy->next !== null) {
+            if (in_array($copy, $hash, true)) {
+                return true;
+            }else{
+                $hash[] = $copy;
+                $copy = $copy->next;
+            }
+        }
+        return false;*/
+        // Пробовал через хэштаблицу, но нормальное значение ключа без занесения всего элемента не придумал,
+        // получилось медленно, что-то в районе 420мс
+
+        // Этот вариант, с пометками элементов, 22мс, вероятно тоже не слишком оптимальный
+        $copy = $head;
+        while ($copy->next !== null) {
+            if (isset($copy->index)) {
+                return true;
+            }else{
+                $copy->index = 1;
+                $copy = $copy->next;
+            }
+        }
+        return false;
+    }
 }
 
 print_r(Solution::letterCombinations("234"));
+
+class ListNode
+{
+    public int $val = 0;
+    public ListNode|null $next = null;
+    function __construct($val = 0, $next = null)
+    {
+        $this->val = $val;
+        $this->next = $next;
+    }
+}
+
+$list1 = new ListNode(3,
+         new ListNode(2,
+         new ListNode(0,
+         new ListNode(-4, null))));
+
+$list2 = new ListNode(1,
+         new ListNode(3,
+         new ListNode(4, null)));
+
+$lore = $list1->next;
+
+$list1->next->next->next->next = $lore;
+
+print_r(Solution::hasCycle($list1));

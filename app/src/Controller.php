@@ -47,5 +47,61 @@ class Controller
         return $str;
     }
 
+    /**
+     * curl --location 'http://application.local/verifyEmail' \
+     * --form 'emails[]="test@mail.ru"' \
+     * --form 'emails[]="test@ya.ru"' \
+     * --form 'emails[]="test@em.ru"'
+     *
+     * @return mixed
+     */
+    public function actionVerifiyEmail()
+    {
+        if (count($this->post) == 0){
+            $this->errors[] = "Данный вызов ждет POST параметр";
+            return false;
+        }
 
+        if (isset($this->post['emails']) && count($this->post['emails']) > 0) {
+            $emails = $this->post['emails'];
+
+            $res = [];
+
+            foreach ($emails as $email){
+                if (!is_string($email)){
+                    $this->errors[] = "Email должен быть строкой";
+                    $res[] = "'$email'";
+                    continue;
+                }
+
+                $pattern = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/';
+                if (!preg_match($pattern, $email)) {
+                    $this->errors[] = "Не валидный email";
+                    $res[] = "'$email'";
+                    continue;
+                }
+
+                // Получить домен из email-адреса
+                $domain = explode('@', $email)[1];
+
+                // Получить MX записи для домена
+                $mxRecords = [];
+                if (!getmxrr($domain, $mxRecords)) {
+                    $this->errors[] = "Не валидный DNS MX email";
+                    $res[] = "'$email'";
+                    continue;
+                }
+
+                $res[] = "$email";
+            }
+        } else {
+            $this->errors[] = "emails не может быть пустым";
+        }
+
+        if (count($this->errors) > 0 && isset($res)) {
+            $this->errors[] = implode(', ', $res);
+        }
+
+        return $emails ? implode(', ', $emails) : '';
+    }
 }

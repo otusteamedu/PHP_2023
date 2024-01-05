@@ -8,13 +8,22 @@ class App
     /**
      * @return string
      */
-    public function run()
+    public function run(): string
     {
         $controller = new Controller();
         $controller->get = $_GET;
         $controller->post = $_POST;
 
-        $res = $controller->actionMain();
+        $arrPath = explode('/', $_SERVER['REQUEST_URI']);
+
+        $pathAndParams = explode('?', $arrPath[count($arrPath) - 1]);
+        $uri = $pathAndParams[0];
+
+        if($uri == 'verifyEmail'){
+            $res = $controller->actionVerifiyEmail();
+        } else {
+            $res = $controller->actionMain();
+        }
 
         header('Content-Type: application/json');
         if(count($controller->errors) > 0) {
@@ -29,7 +38,7 @@ class App
      * @param $message
      * @return string
      */
-    function httpBadRequest($message)
+    function httpBadRequest($message): string
     {
         http_response_code(400);
         return "Bad Request: \n$message";

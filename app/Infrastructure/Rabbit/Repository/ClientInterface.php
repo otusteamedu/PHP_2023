@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Rabbit\Repository;
 
-interface ClientInterface {
-
+interface ClientInterface
+{
+    //
 }

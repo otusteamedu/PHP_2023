@@ -29,8 +29,8 @@ class ArgumentsDTO
     {
         $this->arguments = $args;
         if (6 === count($args)) {
-          $this->arguments['start'] = $this->createFromArg($args[3]);
-          $this->arguments['stop'] = $this->createFromArg($args[4]);
+            $this->arguments['start'] = $this->createFromArg($args[3]);
+            $this->arguments['stop'] = $this->createFromArg($args[4]);
         }
     }
 

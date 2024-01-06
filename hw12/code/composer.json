@@ -1,0 +1,17 @@
+{
+    "name": "gkarman/redis",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gkarman\\Redis\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "gkarman"
+        }
+    ],
+    "require": {
+      "ext-redis": "*"
+    }
+}

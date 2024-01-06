@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  nginx:
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - 80:80
+    volumes:
+      - ./:/data/application.local
+      - phpsocket:/var/run
+    networks:
+      - app-network
+  app:
+    build:
+      context: docker/app
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - ./:/data/application.local
+      - ./docker/app/php.ini:/usr/local/etc/php/conf.d/php-custom.ini
+      - ./docker/app/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - phpsocket:/var/run
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
+  redisdata:
+    driver: local
+  dbdata:
+    driver: local

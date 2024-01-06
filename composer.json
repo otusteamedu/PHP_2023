@@ -1,0 +1,17 @@
+{
+    "name": "root/application.local",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "salenko"
+        }
+    ],
+    "require": {
+        "salenko/otus-composer-package": "^1.0"
+    }
+}

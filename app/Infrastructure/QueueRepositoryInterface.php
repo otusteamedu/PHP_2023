@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure;
 
-
 interface QueueRepositoryInterface
 {
     public function add(string $message): void;

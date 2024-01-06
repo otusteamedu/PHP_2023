@@ -55,7 +55,7 @@ class RedisClientQueueRepository implements QueueRepositoryInterface
         $log = $this->log;
         $this->client->subscribe(
             [$this->uniqName],
-            function($redis, $channel, $message) use ($notifier, $log) {
+            function ($redis, $channel, $message) use ($notifier, $log) {
                 $msgCli = sprintf(
                     'Read from Redis message: %s',
                     $message

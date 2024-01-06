@@ -39,8 +39,7 @@ class Notifier implements RunnableInterface
 
     public function run(string $content): void
     {
-        foreach ($this->notifies as $notify)
-        {
+        foreach ($this->notifies as $notify) {
             /** @var NotifyInterface $notify */
             $notify->send($content);
         }

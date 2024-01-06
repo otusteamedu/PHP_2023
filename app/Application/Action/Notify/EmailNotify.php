@@ -11,7 +11,7 @@ class EmailNotify implements NotifyInterface
     private Log $log;
 
     public function __construct(
-        Storage$config
+        Storage $config
     ) {
         $this->config = $config;
         $this->log = new Log();

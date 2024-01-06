@@ -63,7 +63,7 @@ class RabbitMQClient implements ClientInterface
         );
 
         $log = $this->log;
-        $callback = function($message) use ($notifier, $log) {
+        $callback = function ($message) use ($notifier, $log) {
             $msgCli = sprintf(
                 'Read from RabbitMQ message: %s',
                 $message->body
@@ -85,7 +85,7 @@ class RabbitMQClient implements ClientInterface
             $callback
         );
 
-        while(count($channel->callbacks)) {
+        while (count($channel->callbacks)) {
             $channel->wait();
         }
     }

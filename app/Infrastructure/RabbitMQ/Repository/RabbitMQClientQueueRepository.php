@@ -36,7 +36,8 @@ class RabbitMQClientQueueRepository implements QueueRepositoryInterface
         $this->log->useLogStep('RabbitMQ disconnected.');
     }
 
-    public function add(string $message): void {
+    public function add(string $message): void
+    {
         $this->clientMq->publish(
             $this->uniqueName,
             $message

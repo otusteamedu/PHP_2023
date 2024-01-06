@@ -2,7 +2,11 @@
 CREATE VIEW marketing_data as SELECT
     movies.name, entity_attribute_types.datatype as attribute_type,
     entity_attributes.name as attribute_name,
-    entity_attribute_values.value as attribute_value
+    entity_attribute_values.value_string as attribute_value_string,
+    entity_attribute_values.value_float as attribute_value_float,
+    entity_attribute_values.value_date as attribute_value_date,
+    entity_attribute_values.value_timestamp as attribute_value_timestamp,
+    entity_attribute_values.value_boolean as attribute_value_boolean
 FROM movies
 INNER JOIN entity_attribute_values ON movies.id = entity_attribute_values.entity_id
 INNER JOIN entity_attributes ON entity_attribute_values.attribute_id = entity_attributes.id

@@ -1,0 +1,87 @@
+version: '3.8'
+
+services:
+  rmq-nginx:
+    build:
+      context: ./.docker/nginx
+      dockerfile: Dockerfile
+    image: image-nginx-rabbitmq
+    container_name: rmq-nginx
+    ports:
+      - ${NGINX_PORT:-80}:80
+    volumes:
+      - ${MY_PATH_SRC}:/data
+      - ./.docker/nginx/hosts/myapp.local.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - network-rmq
+
+  redis:
+    build:
+      context: ./.docker/redis/
+      dockerfile: Dockerfile
+    image: image-redis
+    ports:
+      - ${OWN_REDIS_PORT:-6379}:6379
+    networks:
+      - network-rmq
+
+  rabbitmq:
+    build:
+      context: ./.docker/rabbitmq/
+      dockerfile: Dockerfile
+    image: image-rabbitmq
+    ports:
+      - ${OWN0_RABBITMQ_PORT:-5672}:5672
+      - ${OWN1_RABBITMQ_PORT:-15672}:15672
+    networks:
+      - network-rmq
+
+  zookeeper:
+    build:
+      context: ./.docker/kafka/zookeeper/
+      dockerfile: Dockerfile
+    image: image-zookeeper
+    container_name: zookeeper
+    ports:
+      - ${OWN_ZOOKEEPER_PORT:-2181}:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    networks:
+      - network-rmq
+
+  kafka:
+    build:
+      context: ./.docker/kafka/kafka/
+      dockerfile: Dockerfile
+    image: image-kafka
+    container_name: kafka
+    ports:
+      - ${OWN_KAFKA_PORT:-9092}:9092
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+    networks:
+      - network-rmq
+
+  rmq-php-fpm:
+    build:
+      context: ./.docker/php-fpm/
+      dockerfile: Dockerfile
+    image: image-rmq-php-fpm
+    container_name: rmq-php-fpm
+    volumes:
+      - ${MY_PATH_SRC}:/data
+    ports:
+      - ${OWN_PHP_FPM_PORT:-8080}:8080
+    depends_on:
+      - rabbitmq
+      - kafka
+    networks:
+      - network-rmq
+
+networks:
+  network-rmq:
+    driver: bridge

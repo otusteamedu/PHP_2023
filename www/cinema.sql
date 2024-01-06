@@ -111,6 +111,7 @@ CREATE TABLE `session_price` (
                                  `seat_map_id` int NOT NULL,
                                  `session_id` int NOT NULL,
                                  `price` decimal(10,0) NOT NULL,
+                                 `date` datetime NOT NULL,
                                  PRIMARY KEY (`id`),
                                  KEY `seat_map_id` (`seat_map_id`),
                                  KEY `session_id` (`session_id`),
@@ -118,10 +119,10 @@ CREATE TABLE `session_price` (
                                  CONSTRAINT `session_price_ibfk_5` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`) VALUES
-                                                                             (5,	1,	1,	200),
-                                                                             (6,	2,	1,	300),
-                                                                             (7,	3,	2,	100);
+INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`, `date`) VALUES
+                                                                                     (5,	1,	1,	200,	'2023-01-01 14:30:00'),
+                                                                                     (6,	2,	1,	300,	'2023-01-01 14:30:00'),
+                                                                                     (7,	3,	2,	100,	'2023-01-01 14:30:00');
 
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
@@ -158,4 +159,4 @@ INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_map_id`, `date_purcha
                                                                                          (11,	1,	'sold',	1,	'2024-01-04 20:16:40'),
                                                                                          (12,	1,	'canceled',	2,	'2024-01-04 20:16:48');
 
--- 2024-01-04 20:16:59
+-- 2024-01-06 20:03:49

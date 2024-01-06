@@ -11,11 +11,10 @@ class Controller
 
     public function actionMain()
     {
+        $res = '';
+
         if (isset($this->get['string']) && $this->get['string'] != '') {
             $str = $this->get['string'];
-            
-            $res = '';
-
             $open = 0;
             foreach (str_split($str) as $key => $symbol) {
                 if ($symbol == '(') {
@@ -44,7 +43,7 @@ class Controller
             $this->errors[] = $res;
         }
         
-        return $str;
+        return $str ?? '';
     }
 
     /**

@@ -1,0 +1,56 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "cbdc32013f41e2fbb9db7dc1a3188aab",
+    "packages": [
+        {
+            "name": "salenko/otus-composer-package",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bobm78/otus-composer-package.git",
+                "reference": "d30856c90aed7e6630d5c846076e0501b8d9842f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bobm78/otus-composer-package/zipball/d30856c90aed7e6630d5c846076e0501b8d9842f",
+                "reference": "d30856c90aed7e6630d5c846076e0501b8d9842f",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Salenko\\OtusComposerPackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "salenko bogdan",
+                    "email": "bobm78@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/bobm78/otus-composer-package/issues",
+                "source": "https://github.com/bobm78/otus-composer-package/tree/v1.0.1"
+            },
+            "time": "2024-01-06T06:18:59+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

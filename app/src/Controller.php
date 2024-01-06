@@ -61,10 +61,10 @@ class Controller
             return false;
         }
 
+        $res = [];
+
         if (isset($this->post['emails']) && count($this->post['emails']) > 0) {
             $emails = $this->post['emails'];
-
-            $res = [];
 
             foreach ($emails as $email){
                 if (!is_string($email)){
@@ -97,7 +97,7 @@ class Controller
             $this->errors[] = "emails не может быть пустым";
         }
 
-        if (count($this->errors) > 0 && isset($res)) {
+        if (count($this->errors) > 0 && $res) {
             $this->errors[] = implode(', ', $res);
         }
 

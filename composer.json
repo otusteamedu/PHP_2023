@@ -1,0 +1,10 @@
+{
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require": {
+        "predis/predis": "^2.2"
+    }
+}

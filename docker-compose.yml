@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  app:
+    build: ./php
+    volumes:
+      - .:/app
+    ports:
+      - "9000:9000"
+    depends_on:
+      - redis
+    environment:
+      - APP_ENV=development
+
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "6379:6379"
+
+  redisinsight:
+      image: "redislabs/redisinsight:latest"
+      ports:
+        - "8001:8001"

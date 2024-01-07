@@ -1,0 +1,79 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./config/nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/data/application.local
+      - ./logs/nginx:/var/log/nginx
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./config/fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    environment:
+      REDIS_HOST: ${REDIS_HOST}
+      MEMCACHED_HOST: ${MEMCACHED_HOST}
+      MYSQL_HOST: ${MYSQL_HOST}
+    volumes:
+      - ./app:/data/application.local
+    ports:
+    - 9000:9000
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  mysql:
+    restart: always
+    build:
+      context: ./config/mysql
+      dockerfile: Dockerfile
+    volumes:
+      - ./mysql:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - 3306:3306
+    container_name: mysql
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    networks:
+      - app-network
+    ports:
+      - 11211:11211
+
+  redis:
+    image: redis
+    container_name: redis
+    networks:
+      - app-network
+    ports:
+      - 6379:6379
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

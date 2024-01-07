@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:8.11.3
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+    environment:
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+
+  php:
+    depends_on:
+      - elasticsearch
+    container_name: php
+    build:
+      context: .docker/php
+      dockerfile: Dockerfile
+    volumes:
+      - ./code:/home/code
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App;
 
 class App
 {
-
     const REDIS_CONFIG = [
         'scheme' => 'tcp',
         'host' => 'redis',

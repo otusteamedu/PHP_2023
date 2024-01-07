@@ -1,0 +1,50 @@
+version: '3.0'
+
+services:
+  nginx:
+    build:
+      context: ./Docker/nginx
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www/
+      - ./Docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./Docker/nginx/sites-enabled/:/etc/nginx/sites-enabled/
+    ports:
+      - "666:80"
+    depends_on:
+      - app
+    container_name: webserver
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./Docker/app
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/var/www
+    container_name: app
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    ports:
+      - 6379:6379
+    volumes:
+      - ./Docker/tmp/redis:/var/lib/redis
+    container_name: redis_db
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached:latest
+    ports:
+      - 11211:11211
+    container_name: mymemcached
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

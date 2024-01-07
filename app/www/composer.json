@@ -1,0 +1,19 @@
+{
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11",
+        "adhocore/cli": "^v1.0.0",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Commands\\": "commands",
+            "Models\\": "models",
+            "App\\Elasticsearch\\": "es"
+        }
+    }
+}

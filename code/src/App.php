@@ -17,11 +17,7 @@ class App
 
     public function run(): void
     {
-        // Сюда будет приходить строка. Раскоментировать для реальных проверок
-        //$inputString = $_POST['string'] ?? '';
-
-        // Для теста иммитрую на входе валидную строку. Для проверки невалидной, можно отредактировать строку на соответсвующую
-        $inputString = '(()()()())';
+        $inputString = $_POST['string'] ?? '';
         $this->validator->validate($inputString);
     }
 }

@@ -1,20 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Application;
 
 class Validator
 {
-    public function validate(string $string): void
+    public function validate(string $string): string
     {
         $empty = $this->stringIsEmpty($string);
         $bracketsValid = $this->bracketsInStringIsValid($string);
 
         if (!$empty && $bracketsValid) {
             http_response_code(200);
-            exit('всё хорошо');
+            return 'всё хорошо';
         } else {
             http_response_code(400);
-            exit('всё плохо');
+            return 'всё плохо';
         }
     }
 

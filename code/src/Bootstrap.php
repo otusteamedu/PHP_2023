@@ -19,6 +19,10 @@ class Bootstrap
     public function init(array $options): void
     {
         try {
+            if (!isset($options['c'])) {
+                throw new RuntimeException('Используйте php index.php -c команда');
+            }
+
             $dotenv = Dotenv::createImmutable(dirname(__DIR__, 2));
             $dotenv->load();
 

@@ -5,7 +5,7 @@ namespace Shabanov\Otusphp;
 use Exception;
 use Shabanov\Otusphp\Es\EsConnection;
 use Shabanov\Otusphp\Es\EsCreateIndex;
-use Shabanov\Otusphp\Es\EsGetData;
+use Shabanov\Otusphp\Es\EsDataHandler;
 use Shabanov\Otusphp\Cli\CliHandler;
 
 class App
@@ -25,10 +25,10 @@ class App
     {
         (new EsCreateIndex($this->esConnection, self::ES_INDEX_NAME))
             ->run();
-        echo (new EsGetData(
+        echo (new EsDataHandler(
             $this->esConnection,
             (new CliHandler())->run(),
             self::ES_INDEX_NAME
-        ))->run();
+        ))->getTable();
     }
 }

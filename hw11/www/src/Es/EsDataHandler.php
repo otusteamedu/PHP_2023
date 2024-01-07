@@ -5,7 +5,7 @@ namespace Shabanov\Otusphp\Es;
 
 use Elastic\Elasticsearch\Client;
 
-class EsGetData
+class EsDataHandler
 {
     private Client $esConnection;
     private string $esIndexName;
@@ -21,7 +21,7 @@ class EsGetData
         $this->esIndexName = $esIndexName;
     }
 
-    public function run(): string
+    public function getTable(): string
     {
         $rStr = 'SKU | Title | Category | Price | Shop | Stock ' . PHP_EOL;
         $response = $this->esConnection->search($this->getQuery());

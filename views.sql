@@ -2,7 +2,7 @@ CREATE VIEW "view_marketing" AS
     SELECT f.name AS film_name,
             at.name AS attribute_type,
             a.name AS attribute_name,
-            COALESCE(v.value_varchar, ((v.value_date)::text)::character varying, ((v.value_money)::text)::character varying, (v.value_text)::character varying) AS attribute_value
+            COALESCE(v.value_string, ((v.value_date)::text)::character varying, ((v.value_float)::text)::character varying, ((v.value_int)::text)::character varying, (v.value_text)::character varying) AS attribute_value
      FROM ((("values" v
          JOIN films f ON ((f.id = v.film_id)))
          JOIN attributes a ON ((a.id = v.attribute_id)))

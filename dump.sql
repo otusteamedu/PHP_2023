@@ -8,8 +8,9 @@ CREATE TABLE IF NOT EXISTS "attribute_types" (
 INSERT INTO "attribute_types" ("id", "name", "value_type") VALUES
     (2, 'Важные даты', 'date'),
     (3, 'Служебные даты', 'date'),
-    (5, 'Финансы', 'money'),
-    (1, 'Характеристики', 'varchar'),
+    (5, 'Финансы', 'float'),
+    (6, 'Счетчики', 'int'),
+    (1, 'Характеристики', 'string'),
     (4, 'Тексты', 'text');
 
 CREATE TABLE IF NOT EXISTS "attributes" (
@@ -52,15 +53,16 @@ INSERT INTO "films" ("id", "name") VALUES
 CREATE TABLE IF NOT EXISTS "values" (
     "film_id" INTEGER NOT NULL,
     "attribute_id" INTEGER NOT NULL,
-    "value_varchar" VARCHAR NULL DEFAULT NULL,
+    "value_string" VARCHAR NULL DEFAULT NULL,
     "value_text" TEXT NULL DEFAULT NULL,
     "value_date" DATE NULL DEFAULT NULL,
-    "value_money" NUMERIC(11,2) NULL DEFAULT NULL,
+    "value_float" NUMERIC(11,2) NULL DEFAULT NULL,
+    "value_int" INTEGER NULL DEFAULT NULL,
     CONSTRAINT "FKvalues_attribute_id" FOREIGN KEY ("attribute_id") REFERENCES "attributes" ("id") ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT "FKvalues_film_id" FOREIGN KEY ("film_id") REFERENCES "films" ("id") ON UPDATE CASCADE ON DELETE CASCADE
 );
 
-INSERT INTO "values" ("film_id", "attribute_id", "value_varchar", "value_text", "value_date", "value_money") VALUES
+INSERT INTO "values" ("film_id", "attribute_id", "value_string", "value_text", "value_date", "value_float") VALUES
                                                                                                                  (1, 1, NULL, 'Пол Эджкомб — начальник блока смертников в тюрьме «Холодная гора», каждый из узников которого однажды проходит «зеленую милю» по пути к месту казни. Пол повидал много заключённых и надзирателей за время работы. Однако гигант Джон Коффи, обвинённый в страшном преступлении, стал одним из самых необычных обитателей блока.', NULL, NULL),
                                                                                                                  (2, 1, NULL, 'Бухгалтер Энди Дюфрейн обвинён в убийстве собственной жены и её любовника. Оказавшись в тюрьме под названием Шоушенк, он сталкивается с жестокостью и беззаконием, царящими по обе стороны решётки. Каждый, кто попадает в эти стены, становится их рабом до конца жизни. Но Энди, обладающий живым умом и доброй душой, находит подход как к заключённым, так и к охранникам, добиваясь их особого к себе расположения.', NULL, NULL),
                                                                                                                  (3, 1, NULL, 'Пострадав в результате несчастного случая, богатый аристократ Филипп нанимает в помощники человека, который менее всего подходит для этой работы, – молодого жителя предместья Дрисса, только что освободившегося из тюрьмы. Несмотря на то, что Филипп прикован к инвалидному креслу, Дриссу удается привнести в размеренную жизнь аристократа дух приключений.', NULL, NULL),

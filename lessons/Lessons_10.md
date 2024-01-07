@@ -155,22 +155,50 @@ create index idx_start_time ON sessions (start_time);
 
 start_time уже индекс создал
 ```sql
-SELECT COUNT(*) 
-FROM tickets t
-JOIN sessions s ON t.session_id = s.id
+explain analyse
+SELECT COUNT(*) FROM tickets t
+                         JOIN sessions s ON t.session_id = s.id
 WHERE s.start_time >= CURRENT_DATE - INTERVAL '7 days'
-AND s.start_time < CURRENT_DATE;
+  AND s.start_time < CURRENT_DATE;
+
+-- Aggregate  (cost=1811.85..1811.86 rows=1 width=8) (actual time=0.010..0.011 rows=1 loops=1)
+--  ->  Hash Join  (cost=8.33..1811.84 rows=1 width=0) (actual time=0.009..0.010 rows=0 loops=1)
+--        Hash Cond: (t.session_id = s.id)
+--        ->  Seq Scan on tickets t  (cost=0.00..1541.00 rows=100000 width=4) (actual time=0.003..0.003 rows=1 loops=1)
+--        ->  Hash  (cost=8.32..8.32 rows=1 width=4) (actual time=0.004..0.004 rows=0 loops=1)
+--              Buckets: 1024  Batches: 1  Memory Usage: 8kB
+--              ->  Index Scan using idx_start_session on sessions s  (cost=0.30..8.32 rows=1 width=4) (actual time=0.003..0.003 rows=0 loops=1)
+--                    Index Cond: ((start_time >= (CURRENT_DATE - '7 days'::interval)) AND (start_time < CURRENT_DATE))
+--Planning Time: 0.234 ms
+--Execution Time: 0.026 ms
+
+
 ```
 
 ### Формирование афиши (фильмы, которые показывают сегодня):
 
 start_time уже индекс создал
 ```sql
+explain analyse
 SELECT DISTINCT m.title 
 FROM movies m
 JOIN sessions s ON m.id = s.movies_id
 WHERE s.start_time >= CURRENT_DATE
 AND s.start_time < CURRENT_DATE + INTERVAL '1 day';
+
+-- HashAggregate  (cost=2266.55..2276.16 rows=961 width=16) (actual time=12.950..13.030 rows=947 loops=1)
+--  Group Key: m.title
+--  Batches: 1  Memory Usage: 129kB
+--  ->  Hash Join  (cost=55.53..2264.14 rows=961 width=16) (actual time=0.342..12.730 rows=947 loops=1)
+--        Hash Cond: (m.id = s.movies_id)
+--        ->  Seq Scan on movies m  (cost=0.00..1824.00 rows=100000 width=20) (actual time=0.004..5.045 rows=100000 loops=1)
+--        ->  Hash  (cost=43.52..43.52 rows=961 width=4) (actual time=0.333..0.334 rows=947 loops=1)
+--              Buckets: 1024  Batches: 1  Memory Usage: 42kB
+--              ->  Index Scan using idx_start_session on sessions s  (cost=0.30..43.52 rows=961 width=4) (actual time=0.019..0.224 rows=947 loops=1)
+--                    Index Cond: ((start_time >= CURRENT_DATE) AND (start_time < (CURRENT_DATE + '1 day'::interval)))
+--Planning Time: 0.213 ms
+--Execution Time: 13.100 ms
+
 ```
 
 ### Поиск 3 самых прибыльных фильмов за неделю:
@@ -187,6 +215,33 @@ AND s.start_time < CURRENT_DATE
 GROUP BY m.title
 ORDER BY total_amount DESC
 LIMIT 3;
+
+-- Limit  (cost=1828.51..1828.51 rows=1 width=48) (actual time=0.045..0.048 rows=0 loops=1)
+--  ->  Sort  (cost=1828.51..1828.51 rows=1 width=48) (actual time=0.043..0.046 rows=0 loops=1)
+--        Sort Key: (sum(p.amount)) DESC
+--        Sort Method: quicksort  Memory: 25kB
+--        ->  GroupAggregate  (cost=1828.47..1828.50 rows=1 width=48) (actual time=0.029..0.032 rows=0 loops=1)
+--              Group Key: m.title
+--              ->  Sort  (cost=1828.47..1828.48 rows=1 width=22) (actual time=0.028..0.030 rows=0 loops=1)
+--                    Sort Key: m.title
+--                    Sort Method: quicksort  Memory: 25kB
+--                    ->  Nested Loop  (cost=8.92..1828.46 rows=1 width=22) (actual time=0.019..0.021 rows=0 loops=1)
+--                          ->  Nested Loop  (cost=8.63..1820.15 rows=1 width=20) (actual time=0.019..0.021 rows=0 loops=1)
+--                                ->  Hash Join  (cost=8.33..1811.84 rows=1 width=8) (actual time=0.018..0.020 rows=0 loops=1)
+--                                      Hash Cond: (t.session_id = s.id)
+--                                      ->  Seq Scan on tickets t  (cost=0.00..1541.00 rows=100000 width=4) (actual time=0.006..0.007 rows=1 loops=1)
+--                                      ->  Hash  (cost=8.32..8.32 rows=1 width=12) (actual time=0.008..0.008 rows=0 loops=1)
+--                                            Buckets: 1024  Batches: 1  Memory Usage: 8kB
+--                                            ->  Index Scan using idx_start_session on sessions s  (cost=0.30..8.32 rows=1 width=12) (actual time=0.007..0.007 rows=0 loops=1)
+--                                                  Index Cond: ((start_time >= (CURRENT_DATE - '7 days'::interval)) AND (start_time < CURRENT_DATE))
+--                                ->  Index Scan using movies_pkey on movies m  (cost=0.29..8.31 rows=1 width=20) (never executed)
+--                                      Index Cond: (id = s.movies_id)
+--                          ->  Index Scan using prices_pkey on prices p  (cost=0.29..8.31 rows=1 width=10) (never executed)
+--                                Index Cond: (id = s.prices_id)
+--Planning Time: 0.498 ms
+--Execution Time: 0.097 ms
+
+
 ```
 
 ### Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс:

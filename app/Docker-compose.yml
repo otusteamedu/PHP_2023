@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  nginx:
+    image: nginx:latest
+    ports: 
+      - "80:80"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/logs:/var/log/nginx
+      - ./www:/var/www
+    links:
+      - php
+
+  elasticsearch:
+    image: elasticsearch:8.11.2
+    container_name: es
+    environment:
+      - xpack.security.enabled=false
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200  
+
+  php:
+    build: ./php
+    container_name: php 
+    hostname: php
+    volumes:
+      - ./www:/var/www
+    links:
+      - elasticsearch  

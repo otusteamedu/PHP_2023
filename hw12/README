@@ -1,0 +1,7 @@
+1) Очистить все
+your_host/clear
+2) Добавить из файла Data/data.json
+your_host/add
+2) Поиск подходящего события
+your_host/select?param1=1
+your_host/select?param1=2&param2=2

@@ -111,8 +111,6 @@ CREATE TABLE `session_price` (
                                  `seat_map_id` int NOT NULL,
                                  `session_id` int NOT NULL,
                                  `price` decimal(10,0) NOT NULL,
-                                 `date` datetime NOT NULL,
-                                 `status` tinyint NOT NULL,
                                  PRIMARY KEY (`id`),
                                  KEY `seat_map_id` (`seat_map_id`),
                                  KEY `session_id` (`session_id`),
@@ -120,10 +118,10 @@ CREATE TABLE `session_price` (
                                  CONSTRAINT `session_price_ibfk_5` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`, `date`, `status`) VALUES
-                                                                                               (5,	1,	1,	200,	'2023-01-01 14:30:00',	1),
-                                                                                               (6,	2,	1,	300,	'2023-01-01 14:30:00',	0),
-                                                                                               (7,	3,	2,	100,	'2023-01-01 14:30:00',	1);
+INSERT INTO `session_price` (`id`, `seat_map_id`, `session_id`, `price`) VALUES
+                                                                             (5,	1,	1,	200),
+                                                                             (6,	2,	1,	300),
+                                                                             (7,	3,	2,	100);
 
 DROP TABLE IF EXISTS `sessions`;
 CREATE TABLE `sessions` (
@@ -149,6 +147,7 @@ CREATE TABLE `tickets` (
                            `status` enum('reserved','sold','canceled') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
                            `seat_map_id` int NOT NULL,
                            `date_purchase` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP,
+                           `price` decimal(10,0) NOT NULL,
                            PRIMARY KEY (`id`),
                            KEY `session_id` (`session_id`),
                            KEY `seat_id` (`seat_map_id`),
@@ -156,8 +155,8 @@ CREATE TABLE `tickets` (
                            CONSTRAINT `tickets_ibfk_5` FOREIGN KEY (`seat_map_id`) REFERENCES `seat_map` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_map_id`, `date_purchase`) VALUES
-                                                                                         (11,	1,	'sold',	1,	'2024-01-04 20:16:40'),
-                                                                                         (12,	1,	'canceled',	2,	'2024-01-04 20:16:48');
+INSERT INTO `tickets` (`id`, `session_id`, `status`, `seat_map_id`, `date_purchase`, `price`) VALUES
+                                                                                                  (11,	1,	'sold',	1,	'2024-01-07 14:19:12',	200),
+                                                                                                  (12,	1,	'canceled',	2,	'2024-01-07 14:19:47',	300);
 
--- 2024-01-06 20:21:28
+-- 2024-01-07 14:20:02

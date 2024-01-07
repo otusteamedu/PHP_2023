@@ -1,0 +1,8 @@
+controllers:
+    resource: ../src/Controller/
+    type: attribute
+
+add_article:
+    path:       /article
+    controller: App\Controller\ArticleController::addArticle
+    methods:    POST

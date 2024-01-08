@@ -13,19 +13,12 @@ services:
     networks:
       - app-network
 
-  elasticsearch:
-    image: elasticsearch:8.7.0
-    container_name: elasticsearch
-    restart: unless-stopped
-    environment:
-      - node.name=elastic
-      - discovery.type=single-node
-      - http.host=0.0.0.0
-      - transport.host=localhost
-      - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=123456
+  redis:
+    image: redis/redis-stack-server
     ports:
-      - 9200:9200
+      - "6379:6379"
+    container_name: redis
+    restart: always
     networks:
       - app-network
 

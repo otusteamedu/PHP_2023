@@ -4,62 +4,19 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-use Chernomordov\App\ElasticsearchService;
 
-$indexSettings = [
-    'mappings' => [
-        'properties' => [
-            'category' => [
-                'type' => 'text',
-                'fields' => [
-                    'keyword' => [
-                        'type' => 'keyword',
-                        'ignore_above' => 256,
-                    ],
-                ],
-            ],
-            'price' => [
-                'type' => 'long',
-            ],
-            'sku' => [
-                'type' => 'text',
-                'fields' => [
-                    'keyword' => [
-                        'type' => 'keyword',
-                        'ignore_above' => 256,
-                    ],
-                ],
-            ],
-            'stock' => [
-                'type' => 'nested',
-                'properties' => [
-                    'shop' => [
-                        'type' => 'text',
-                        'fields' => [
-                            'keyword' => [
-                                'type' => 'keyword',
-                                'ignore_above' => 256,
-                            ],
-                        ],
-                    ],
-                    'stock' => [
-                        'type' => 'long',
-                    ],
-                ],
-            ],
-            'title' => [
-                'type' => 'text',
-                'fields' => [
-                    'keyword' => [
-                        'type' => 'keyword',
-                        'ignore_above' => 256,
-                    ],
-                ],
-            ],
-        ],
-    ],
-];
+$redisStorageService = new Chernomordov\App\Services\RedisStorageService();
 
-$elasticsearchService = new ElasticsearchService('elastic', '123456');
+$redisStorageService->add(1000, ['param1' => 1], ['event' => '::event1::']);
+$redisStorageService->add(2000, ['param1' => 2, 'param2' => 2], ['event' => '::event2::']);
+$redisStorageService->add(3000, ['param1' => 1, 'param2' => 2], ['event' => '::event3::']);
 
-$elasticsearchService->setDataBulk(__DIR__ . '/books.json', 'otus-shop');
+$userQuery = ['param1' => 1, 'param2' => 2];
+
+$matchingEvent = $redisStorageService->get($userQuery);
+
+if ($matchingEvent) {
+    echo "Наиболее подходящее событие: " . json_encode($matchingEvent) . PHP_EOL;
+} else {
+    echo "Нет подходящих событий." . PHP_EOL;
+}

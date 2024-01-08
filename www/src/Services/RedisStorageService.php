@@ -9,7 +9,6 @@ use Redis;
 
 class RedisStorageService implements RedisStorageInterface
 {
-
     private Redis $redisClient;
     private string $eventsKey = 'events';
 

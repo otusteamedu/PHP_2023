@@ -10,8 +10,8 @@ use Redis;
 class RedisStorageService implements RedisStorageInterface
 {
 
-    private $redisClient;
-    private $eventsKey = 'events';
+    private Redis $redisClient;
+    private string $eventsKey = 'events';
 
     /**
      * @throws \RedisException

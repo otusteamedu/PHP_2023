@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
-use App\Repository\ArticleRepository;
+use App\Infrastructure\Repository\ArticleRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,16 +22,16 @@ class Article
     #[ORM\Column]
     private ?DateTimeImmutable $creationDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'articles')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'article')]
     private ?Author $author = null;
 
-    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Category::class)]
-    private Collection $category;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
+    private Collection $categories;
+
 
     public function __construct()
     {
-        $this->category = new ArrayCollection();
+        $this->categories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,16 +78,15 @@ class Article
     /**
      * @return Collection<int, Category>
      */
-    public function getCategory(): Collection
+    public function getCategories(): Collection
     {
-        return $this->category;
+        return $this->categories;
     }
 
     public function addCategory(Category $category): static
     {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-            $category->setArticle($this);
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
         }
 
         return $this;
@@ -95,12 +94,7 @@ class Article
 
     public function removeCategory(Category $category): static
     {
-        if ($this->category->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getArticle() === $this) {
-                $category->setArticle(null);
-            }
-        }
+        $this->categories->removeElement($category);
 
         return $this;
     }

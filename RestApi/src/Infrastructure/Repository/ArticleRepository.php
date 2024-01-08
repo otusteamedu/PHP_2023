@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Repository;
+namespace App\Infrastructure\Repository;
 
-use App\Entity\Author;
+use App\Domain\Entity\Article;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Author>
+ * @extends ServiceEntityRepository<Article>
  *
- * @method Author|null find($id, $lockMode = null, $lockVersion = null)
- * @method Author|null findOneBy(array $criteria, array $orderBy = null)
- * @method Author[]    findAll()
- * @method Author[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Article|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Article|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Article[]    findAll()
+ * @method Article[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AuthorRepository extends ServiceEntityRepository
+class ArticleRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Author::class);
+        parent::__construct($registry, Article::class);
     }
 
 //    /**
-//     * @return Author[] Returns an array of Author objects
+//     * @return Article[] Returns an array of Article objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -36,7 +36,7 @@ class AuthorRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?Author
+//    public function findOneBySomeField($value): ?Article
 //    {
 //        return $this->createQueryBuilder('a')
 //            ->andWhere('a.exampleField = :val')
@@ -45,4 +45,9 @@ class AuthorRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function save(Article $article)
+    {
+        $this->_em->persist($article);
+        $this->_em->flush();
+    }
 }

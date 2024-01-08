@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Symfony\Component\Console\Application;
+use Chernomordov\App\CommandsService;
+
+$application = new Application('Elasticsearch books finder', '0.0.1');
+
+$application->addCommands([
+    $command = new CommandsService(),
+]);
+
+$application->setDefaultCommand($command->getName());
+
+$application->run();

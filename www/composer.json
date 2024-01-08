@@ -1,0 +1,23 @@
+{
+  "name": "chernomordov/app",
+  "autoload": {
+    "psr-4": {
+      "Chernomordov\\App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Sergey Chernomordov",
+      "email": "Chernomor96@list.ru"
+    }
+  ],
+  "require": {
+    "elasticsearch/elasticsearch": "^8.11",
+    "symfony/console": "^v6.4.2"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true
+    }
+  }
+}

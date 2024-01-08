@@ -17,7 +17,7 @@ class AppRestTest extends TestCase
         $host = 'http://' . $configStorage->get('NGINX_DOCKER_HOST');
 
         $tryCount = 2;
-        for ($i=0; $i<$tryCount; $i++) {
+        for ($i = 0; $i < $tryCount; $i++) {
             $req = $httpClient->post(
                 $host . '/add',
                 [

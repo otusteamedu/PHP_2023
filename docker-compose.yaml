@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  server:
+    build:
+      context: _docker/fpm
+      dockerfile: Dockerfile
+    container_name: server
+    image: fpm/server
+    volumes:
+      - ./app:/data/app
+      -  shared-volume:/data/app/socket.d/
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: _docker/fpm
+      dockerfile: Dockerfile
+    container_name: client
+    image: fpm/client
+    depends_on:
+      - server
+    volumes:
+      - ./app:/data/app
+      - shared-volume:/data/app/socket.d/
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  shared-volume:
+
+

@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+
+  server:
+    build:
+      context: ./docker/php-cli
+    image: chat/php-cli
+    container_name: chat-server
+    working_dir: /var/www/
+    volumes:
+      - ./app:/var/www/
+      - chat-socket:/tmp/
+
+  client:
+    build:
+      context: ./docker/php-cli
+    image: chat/php-cli
+    container_name: chat-client
+    working_dir: /var/www/
+    volumes:
+      - ./app:/var/www/
+      - chat-socket:/tmp/
+
+volumes:
+  chat-socket:

@@ -1,0 +1,15 @@
+{
+  "name": "chernomordov/app",
+  "autoload": {
+    "psr-4": {
+      "Chernomordov\\App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Sergey Chernomordov",
+      "email": "Chernomor96@list.ru"
+    }
+  ],
+  "require": {}
+}

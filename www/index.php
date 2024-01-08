@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require __DIR__ . '/vendor/autoload.php';
 
-
 $redisStorageService = new Chernomordov\App\Services\RedisStorageService();
 
 $redisStorageService->add(1000, ['param1' => 1], ['event' => '::event1::']);

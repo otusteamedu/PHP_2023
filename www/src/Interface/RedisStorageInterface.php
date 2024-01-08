@@ -24,5 +24,4 @@ interface RedisStorageInterface
      * @return void
      */
     public function clear(): void;
-
 }

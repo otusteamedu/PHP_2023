@@ -27,7 +27,7 @@ class ConsumerCommand extends Command
     {
         $this->consumer->consume(
             function ($message) {
-                echo $message.PHP_EOL;
+                echo $message . PHP_EOL;
             },
         );
 

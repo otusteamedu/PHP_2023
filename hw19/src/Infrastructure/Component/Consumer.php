@@ -27,7 +27,7 @@ class Consumer
 
     public function consume(\Closure $callback): void
     {
-        $consumerTag = 'consumer'.getmypid();
+        $consumerTag = 'consumer' . getmypid();
         $channel = $this->amqpConnection->channel();
         $channel->queue_declare($this->queue, false, false, false, false);
         $channel->exchange_declare($this->exchange, AMQPExchangeType::FANOUT, false, false, false);

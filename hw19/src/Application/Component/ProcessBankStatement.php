@@ -32,7 +32,7 @@ class ProcessBankStatement
                 $income->getDate()->format('d.m.Y H:i:s'),
                 $income->getAmount(),
                 $income->getCurrency(),
-            ).PHP_EOL;
+            ) . PHP_EOL;
         }
 
         $expenses = $this->expenseRepository->findByBetweenDates($dateFrom, $dateTo);
@@ -42,7 +42,7 @@ class ProcessBankStatement
                 $expense->getDate()->format('d.m.Y H:i:s'),
                 $expense->getAmount(),
                 $expense->getCurrency(),
-            ).PHP_EOL;
+            ) . PHP_EOL;
         }
 
         $this->sender->send($chatId, $statement);

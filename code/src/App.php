@@ -8,14 +8,10 @@ use Application\Verifier\EmailVerifier;
 
 class App
 {
-    public function run(): void
+    public function run(): array
     {
-        $emailVerifier = new EmailVerifier('test@lompom.ru, test2&rt.ru, job2100@mail.ru, tt@mail.ru');
-        $validEmails = $emailVerifier->verify(); // Выведет job2100@mail.ru, tt@mail.ru
-        if (!empty($validEmails)) {
-            echo 'Список валидных email: ' . implode(', ', $validEmails) . PHP_EOL;
-        } else {
-            echo 'Список email адресов не прошёл верификацию';
-        }
+        $emailList = $_REQUEST['emails'] ?? '';
+        $emailVerifier = new EmailVerifier($emailList);
+        return $emailVerifier->verify();
     }
 }

@@ -10,7 +10,6 @@ use PDO;
 use PDOStatement;
 
 class MoviesDataMapper
-
 {
     private PDOStatement $selectStmt;
     private PDOStatement $updateStmt;
@@ -88,7 +87,6 @@ class MoviesDataMapper
 
         return $this->updateStmt->execute($values);
     }
-
 
     public function delete(MoviesTable $movie): bool
     {

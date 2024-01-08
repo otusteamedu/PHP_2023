@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+  elasticsearch:
+    image: elasticsearch:8.7.0
+    container_name: elasticsearch
+    restart: unless-stopped
+    environment:
+      - node.name=elastic
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=localhost
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=123456
+    ports:
+      - 9200:9200
+    networks:
+      - app-network
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

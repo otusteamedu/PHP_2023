@@ -16,10 +16,14 @@ CREATE TABLE attribute_type (
 );
 
 CREATE TABLE value (
-    id           SERIAL PRIMARY KEY,
-    movie_id     SERIAL NOT NULL,
-    attribute_id SERIAL NOT NULL,
-    value        TEXT   NOT NULL
+    id            SERIAL PRIMARY KEY,
+    movie_id      SERIAL NOT NULL,
+    attribute_id  SERIAL NOT NULL,
+    value_text    TEXT,
+    value_boolean BOOLEAN,
+    value_integer INTEGER,
+    value_float   NUMERIC,
+    value_date    DATE
 );
 
 ALTER TABLE attribute
@@ -34,8 +38,5 @@ CREATE INDEX attribute_name_index
 
 CREATE INDEX attribute_type_name_index
     ON attribute_type(name);
-
-CREATE INDEX value_value_index
-    ON value(value);
 
 

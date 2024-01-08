@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+  db:
+    image: mysql:latest
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/otus/hw13/docker/mysql/:/var/lib/mysql
+    networks:
+      - app-network
+  adminer:
+    image: adminer:latest
+    restart: always
+    ports:
+      - 8080:8080
+    container_name: adminer
+    networks:
+      - app-network
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

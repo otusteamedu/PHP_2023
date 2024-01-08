@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  ###> doctrine/doctrine-bundle ###
+  database:
+    container_name: hw19-db
+    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-app}
+      # You should definitely change the password in production
+      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-app}
+    ports:
+      - "5433:5432"
+    volumes:
+#      - database_data:/var/lib/postgresql/data:rw
+      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
+      - ./docker/db/data:/var/lib/postgresql/data:rw
+    ###< doctrine/doctrine-bundle ###
+    networks:
+      - app
+
+  php:
+    container_name: hw19-php
+    build:
+      context: docker/php
+      dockerfile: Dockerfile
+    image: php-fpm
+    restart: unless-stopped
+    networks:
+      - app
+
+  rabbitmq:
+    image: rabbitmq:3.9-management-alpine
+    restart: unless-stopped
+    container_name: hw19-rabbitmq
+    hostname: ${RABBIT_HOSTNAME:-rabbitmq}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBIT_USER:-rabbit}
+      RABBITMQ_DEFAULT_PASS: ${RABBIT_PASS:-carrot}
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbit log_levels [{connection,error},{default,error}] disk_free_limit 2147483648"
+    networks:
+      - app
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    volumes:
+      - ./data/rabbitmq:/var/lib/rabbitmq
+
+networks:
+  app:
+
+volumes:
+  ###> doctrine/doctrine-bundle ###
+  database_data:
+###< doctrine/doctrine-bundle ###

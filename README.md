@@ -18,7 +18,19 @@ curl -s https://api.telegram.org/bot6577760375:AAEEN1QXVU02usGSVqaoBXpgQYaRp2z4K
 cp .env.example .env
 docker-compose up -d --build
 symfony server:start
+```
 
+## Подключение к бд:
+```
+Host: localhost
+Port: 5433
+User: app
+Password: app
+Database: app
+```
+
+
+```
 bin/console doctrine:migrations:migrate
 bin/console doctrine:fixtures:load
 bin/console consume:start-consumer

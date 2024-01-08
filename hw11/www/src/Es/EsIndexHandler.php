@@ -7,7 +7,7 @@ use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ElasticsearchException;
 use Exception;
 
-class EsCreateIndex
+class EsIndexHandler
 {
     private Client $esConnection;
     private string $esIndexName;
@@ -25,7 +25,7 @@ class EsCreateIndex
     /**
      * @throws Exception
      */
-    public function run(): void
+    public function createIndexFromFile(): void
     {
         if ($this->createIndex()) {
             $this->createDataFromFile();

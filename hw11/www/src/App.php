@@ -4,7 +4,7 @@ namespace Shabanov\Otusphp;
 
 use Exception;
 use Shabanov\Otusphp\Es\EsConnection;
-use Shabanov\Otusphp\Es\EsCreateIndex;
+use Shabanov\Otusphp\Es\EsIndexHandler;
 use Shabanov\Otusphp\Es\EsDataHandler;
 use Shabanov\Otusphp\Cli\CliHandler;
 
@@ -23,8 +23,8 @@ class App
      */
     public function run(): void
     {
-        (new EsCreateIndex($this->esConnection, self::ES_INDEX_NAME))
-            ->run();
+        (new EsIndexHandler($this->esConnection, self::ES_INDEX_NAME))
+            ->createIndexFromFile();
         echo (new EsDataHandler(
             $this->esConnection,
             (new CliHandler())->run(),

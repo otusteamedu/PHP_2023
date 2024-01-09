@@ -1,3 +1,6 @@
-# PHP_2023
+# Браузерное приложение и балансировщик
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Тестирование
+1. Переходим в папку с тестами:
+`cd test`
+2. Запускаем bash скрипт, который запускает различные сценарии: `./run_tests.sh`

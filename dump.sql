@@ -12,7 +12,8 @@ INSERT INTO "attribute_types" ("id", "name", "value_type") VALUES
     (6, 'Счетчики', 'int'),
     (1, 'Характеристики', 'string'),
     (4, 'Тексты', 'text'),
-    (7, 'Признаки', 'bool');
+    (7, 'Награды', 'bool'),
+    (8, 'Служебные Признаки', 'bool');
 
 CREATE TABLE IF NOT EXISTS "attributes" (
     "id" SERIAL NOT NULL,
@@ -38,7 +39,7 @@ INSERT INTO "attributes" ("id", "type_id", "name") VALUES
     (3, 4, 'Факты'),
     (16, 7, 'Премия Оскар'),
     (17, 7, 'Премия Золотая пальма'),
-    (18, 7, 'Фильм снят с проката');
+    (18, 8, 'Фильм снят с проката');
 
 
 CREATE TABLE IF NOT EXISTS "films" (

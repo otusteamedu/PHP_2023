@@ -6,12 +6,11 @@ namespace App;
 
 class EventFilter
 {
-    public static function filterEventsBySources(array $allEvents, int $sourceMask, array $sources): array
+    public static function filterEventsBySources(array $events, int $sourceMask): array
     {
         $filteredEvents = [];
-        foreach ($allEvents as $eventJson) {
-            $event = json_decode($eventJson, true);
-            $eventSourceMask = SourceMask::calculateMaskFromSources($event['source'], $sources);
+        foreach ($events as $event) {
+            $eventSourceMask = SourceMask::calculateMaskFromSources($event->getSource());
             if (($eventSourceMask & $sourceMask) === $sourceMask) {
                 $filteredEvents[] = $event;
             }

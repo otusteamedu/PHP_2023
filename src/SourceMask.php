@@ -6,20 +6,20 @@ namespace App;
 
 class SourceMask
 {
-    public static function calculateMaskFromNames(array $sourceNames, array $sources): int
+    public static function calculateMaskFromNames(array $sourceNames): int
     {
         $sourceMask = 0;
         foreach ($sourceNames as $name) {
-            $sourceMask |= $sources[$name];
+            $sourceMask |= Event::SOURCES[$name];
         }
         return $sourceMask;
     }
 
-    public static function calculateMaskFromSources(array $eventSources, array $sources): int
+    public static function calculateMaskFromSources(array $eventSources): int
     {
         $eventSourceMask = 0;
         foreach ($eventSources as $eventSource) {
-            $eventSourceMask |= $sources[$eventSource];
+            $eventSourceMask |= Event::SOURCES[$eventSource];
         }
         return $eventSourceMask;
     }

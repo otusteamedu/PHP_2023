@@ -17,6 +17,11 @@ class EventRepository
 
     public function getAllEvents(): array
     {
-        return $this->redisClient->zRevRange('events', 0, -1);
+        $eventsData = $this->redisClient->zRevRange('events', 0, -1);
+        $events = [];
+        foreach ($eventsData as $eventJson) {
+            $events[] = Event::fromJson($eventJson);
+        }
+        return $events;
     }
 }

@@ -5,13 +5,23 @@ declare(strict_types=1);
 namespace App;
 
 use Predis\Client;
+use Dotenv\Dotenv;
 
 class RedisClient
 {
-    private $client;
+    private Client $client;
 
-    public function __construct(array $config)
+    public function __construct()
     {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+        $dotenv->load();
+
+        $config = [
+            'scheme' => $_ENV['REDIS_SCHEME'],
+            'host'   => $_ENV['REDIS_HOST'],
+            'port'   => (int) $_ENV['REDIS_PORT'],
+        ];
+
         $this->client = new Client($config);
     }
 

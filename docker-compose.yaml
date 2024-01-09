@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+       - ./code:/data/
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

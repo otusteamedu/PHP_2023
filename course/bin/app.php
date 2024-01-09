@@ -7,7 +7,7 @@ require __DIR__.'/../vendor/autoload.php';
 $app = new App();
 
 try {
-    $app->run($argv);
+    echo $app->run($argv);
 } catch (Exception $e) {
     echo "Error: " . $e->getMessage() . "\n";
 }

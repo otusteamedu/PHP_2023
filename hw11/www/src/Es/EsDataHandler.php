@@ -21,20 +21,13 @@ class EsDataHandler
         $this->esIndexName = $esIndexName;
     }
 
-    public function getTable(): string
+    public function getData(): array
     {
-        $rStr = 'SKU | Title | Category | Price | Shop | Stock ' . PHP_EOL;
         $response = $this->esConnection->search($this->getQuery());
         if ($response['hits']['total']['value'] > 0) {
-            foreach ($response['hits']['hits'] as $hit) {
-                $rStr .= $hit['_source']['sku'] . ' | '
-                    . $hit['_source']['title'] . ' | '
-                    . $hit['_source']['category'] . ' | '
-                    . $hit['_source']['price'] . ' | '
-                    . PHP_EOL;
-            }
+            return $response['hits']['hits'];
         }
-        return $rStr;
+        return [];
     }
 
     private function getQuery(): array

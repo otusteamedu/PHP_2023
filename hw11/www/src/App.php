@@ -4,6 +4,7 @@ namespace Shabanov\Otusphp;
 
 use Exception;
 use Shabanov\Otusphp\Es\EsConnection;
+use Shabanov\Otusphp\Es\EsDataRender;
 use Shabanov\Otusphp\Es\EsIndexHandler;
 use Shabanov\Otusphp\Es\EsDataHandler;
 use Shabanov\Otusphp\Cli\CliHandler;
@@ -25,10 +26,11 @@ class App
     {
         (new EsIndexHandler($this->esConnection, self::ES_INDEX_NAME))
             ->createIndexFromFile();
-        echo (new EsDataHandler(
+        $arBooks = (new EsDataHandler(
             $this->esConnection,
             (new CliHandler())->run(),
             self::ES_INDEX_NAME
-        ))->getTable();
+        ))->getData();
+        (new EsDataRender($arBooks))->showBooksTable();
     }
 }

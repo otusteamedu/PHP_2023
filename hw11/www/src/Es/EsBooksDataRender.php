@@ -2,7 +2,9 @@
 
 namespace Shabanov\Otusphp\Es;
 
-class EsDataRender
+use Shabanov\Otusphp\Es\Interface\EsDataRender;
+
+class EsBooksDataRender implements EsDataRender
 {
     private array $data = [];
     public function __construct(array $data)
@@ -10,7 +12,7 @@ class EsDataRender
         $this->data = $data;
     }
 
-    public function showBooksTable(): void
+    public function showTable(): void
     {
         echo 'SKU | Title | Category | Price | Shop | Stock ' . PHP_EOL;
         if (!empty($this->data)) {

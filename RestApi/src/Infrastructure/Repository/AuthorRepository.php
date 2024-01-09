@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Repository;
 
+use App\Domain\Contract\EntityRepositoryInterface;
 use App\Domain\Entity\Author;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Author[]    findAll()
  * @method Author[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AuthorRepository extends ServiceEntityRepository
+class AuthorRepository extends ServiceEntityRepository implements EntityRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

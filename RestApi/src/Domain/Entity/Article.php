@@ -3,7 +3,7 @@
 namespace App\Domain\Entity;
 
 use App\Infrastructure\Repository\ArticleRepository;
-use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -20,13 +20,16 @@ class Article
     private ?string $name = null;
 
     #[ORM\Column]
-    private ?DateTimeImmutable $creationDate = null;
+    private ?DateTimeInterface $creationDate = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'article')]
     private ?Author $author = null;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'articles')]
     private Collection $categories;
+
+    #[ORM\Column(length: 10000)]
+    private ?string $text = null;
 
 
     public function __construct()
@@ -51,12 +54,12 @@ class Article
         return $this;
     }
 
-    public function getCreationDate(): ?DateTimeImmutable
+    public function getCreationDate(): ?DateTimeInterface
     {
         return $this->creationDate;
     }
 
-    public function setCreationDate(DateTimeImmutable $creationDate): static
+    public function setCreationDate(DateTimeInterface $creationDate): static
     {
         $this->creationDate = $creationDate;
 
@@ -95,6 +98,18 @@ class Article
     public function removeCategory(Category $category): static
     {
         $this->categories->removeElement($category);
+
+        return $this;
+    }
+
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
+
+    public function setText(string $text): static
+    {
+        $this->text = $text;
 
         return $this;
     }

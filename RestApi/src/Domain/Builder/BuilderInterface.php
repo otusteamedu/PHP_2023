@@ -2,8 +2,6 @@
 
 namespace App\Domain\Builder;
 
-use App\Domain\Dto\AuthorDto;
-use App\Domain\Dto\CategoryDto;
 use DateTimeInterface;
 
 interface BuilderInterface
@@ -14,7 +12,10 @@ interface BuilderInterface
 
     public function setCreationDate(DateTimeInterface $creationDate): void;
 
-    public function setAuthor(AuthorDto $authorDto): void;
+    public function setAuthor(int $authorId): void;
 
-    public function setCategory(CategoryDto $categoryDto): void;
+    /**
+     * @param int[] $categoriesId
+     */
+    public function setCategories(array $categoriesId): void;
 }

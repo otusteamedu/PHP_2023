@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Dto;
+namespace App\Application\Dto;
 
 use DateTimeInterface;
 use Symfony\Component\Serializer\Annotation\Context;
@@ -13,6 +13,7 @@ class ArticleDto
     private DateTimeInterface $creationDate;
     private int $authorId;
     private int $categoryId;
+    private string $text;
 
     /**
      * @return string
@@ -76,5 +77,21 @@ class ArticleDto
     public function setCategoryId(int $categoryId): void
     {
         $this->categoryId = $categoryId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getText(): string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @param string $text
+     */
+    public function setText(string $text): void
+    {
+        $this->text = $text;
     }
 }

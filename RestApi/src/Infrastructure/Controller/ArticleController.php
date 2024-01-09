@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Controller;
 
-use App\Domain\Dto\ArticleDto;
+use App\Application\Dto\ArticleDto;
 use App\Domain\Entity\Article;
 use App\Infrastructure\Repository\ArticleRepository;
 use App\Infrastructure\Repository\AuthorRepository;
@@ -28,7 +28,7 @@ class ArticleController extends AbstractController
      * @throws Exception
      */
     #[Route('/article', name: 'create_article', methods: ['POST'])]
-    public function addArticle(Request $request): Response
+    public function create(Request $request): Response
     {
         $articleDto = $this->serializer->deserialize($request->getContent(), ArticleDto::class, 'json');
 

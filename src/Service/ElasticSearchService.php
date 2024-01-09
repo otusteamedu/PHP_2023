@@ -39,7 +39,7 @@ class ElasticSearchService
 
         try {
             return $this->client->search($searchBuilder->buildSearchQuery($this->index, ...$searchParameters))['hits'];
-        } catch (ClientResponseException|ServerResponseException $e) {
+        } catch (ClientResponseException | ServerResponseException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }

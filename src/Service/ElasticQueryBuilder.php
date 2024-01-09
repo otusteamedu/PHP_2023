@@ -6,7 +6,6 @@ namespace App\Service;
 
 class ElasticQueryBuilder
 {
-
     public function buildSearchQuery(string $index, array $filter = [], array $must = []): array
     {
         $body = [];

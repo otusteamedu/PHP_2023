@@ -7,14 +7,12 @@ class LogicHandler
     public function handleLogic($searchTerm, $category, $price, $stockQuantity)
     {
         $app = new SearchExecutor('https://localhost:9200', 'elastic', 'pass1234');
-        
         $searchResults = $app->search([
             'title'    => $searchTerm,
             'category' => $category,
             'price'    => $price,
             'stock'    => $stockQuantity,
         ]);
-        
         $this->displayResults($searchResults);
     }
     
@@ -22,7 +20,6 @@ class LogicHandler
     {
         $table = new LucidFrame\Console\ConsoleTable();
         $table->setHeaders(['#', 'title', 'sku', 'category', 'price', 'stocks']);
-        
         foreach ($searchResults['hits'] as $key => $hit) {
             $data        = $hit['_source'];
             $stockInline = '';

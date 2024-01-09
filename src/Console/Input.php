@@ -13,18 +13,39 @@ class Input
         $this->parameters = $parameters;
     }
 
-    public function getQuery()
+    private function getQuery()
     {
         return $this->parameters['q'] ?? null;
     }
 
-    public function getCategory()
+    private function getCategory()
     {
         return $this->parameters['c'] ?? null;
     }
 
-    public function getPrice()
+    private function getPrice()
     {
         return $this->parameters['l'] ?? null;
+    }
+
+    public function getSearchParameters(): array
+    {
+        $must = [];
+        $filter = [];
+
+        if ($this->getQuery()) {
+            $must['match']['title']['query'] = $this->getQuery();
+            $must['match']['title']['fuzziness'] = 'auto';
+        }
+
+        if ($this->getCategory()) {
+            $filter['match']['category'] = $this->getCategory();
+        }
+
+        if ($this->getPrice()) {
+            $filter['range']['price']['lte'] = $this->getPrice();
+        }
+
+        return [$filter, $must];
     }
 }

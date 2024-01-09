@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Config;
-use App\Console\Input;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
 use Elastic\Elasticsearch\Exception\AuthenticationException;
@@ -17,21 +16,11 @@ class ElasticSearchService
 {
     private Client $client;
 
-    private array $params;
+    private string $index;
 
     public function __construct(Config $config)
     {
-        $this->params = [
-            'index' => $config->getIndex(),
-            'body' => [
-                'query' => [
-                    'bool' => [
-                        'must' => [],
-                        'filter' => []
-                    ]
-                ]
-            ]
-        ];
+        $this->index = $config->getIndex();
 
         try {
             $this->client = ClientBuilder::create()
@@ -44,44 +33,13 @@ class ElasticSearchService
         }
     }
 
-    public function search(Input $input)
+    public function search(array $searchParameters)
     {
-        if ($input->getQuery()) {
-            $this->params['body']['query']['bool']['must'] =
-                [
-                    'match' => [
-                        'title' => [
-                            'query' => $input->getQuery(),
-                            'fuzziness' => 'auto'
-
-                        ]
-                    ]
-                ];
-        }
-
-        if ($input->getCategory()) {
-            $this->params['body']['query']['bool']['filter'][] =
-                [
-                    'match' => [
-                        'category' => $input->getCategory()
-                    ]
-                ];
-        }
-
-        if ($input->getPrice()) {
-            $this->params['body']['query']['bool']['filter'][] =
-                [
-                    'range' => [
-                        'price' => [
-                            'lte' => $input->getPrice()
-                        ]
-                    ]
-                ];
-        }
+        $searchBuilder = new ElasticQueryBuilder();
 
         try {
-            return $this->client->search($this->params)['hits'];
-        } catch (ClientResponseException | ServerResponseException $e) {
+            return $this->client->search($searchBuilder->buildSearchQuery($this->index, ...$searchParameters))['hits'];
+        } catch (ClientResponseException|ServerResponseException $e) {
             throw new RuntimeException($e->getMessage());
         }
     }

@@ -6,7 +6,7 @@ use Exception;
 
 class StartServerCommand extends AbstractCommand
 {
-    public function execute()
+    public function execute(...$args)
     {
         $socketPath = "/tmp/socket.sock";
 

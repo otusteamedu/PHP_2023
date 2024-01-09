@@ -1,48 +1,48 @@
 version: '3'
 services:
-  server:
-    container_name: course_server
-    build:
-      context: ./deployment/docker/${APP}/php-cli
-      dockerfile: php-cli.docker
-    volumes:
-      - ./course:/var/www/html
-      - socket_volume:/tmp
-    command: php /var/www/html/bin/app.php StartServer
-
-  client:
-    container_name: course_client
-    build:
-      context: ./deployment/docker/${APP}/php-cli
-      dockerfile: php-cli.docker
-    volumes:
-      - ./course:/var/www/html
-      - socket_volume:/tmp
-    stdin_open: true
-    tty: true
-    command: php /var/www/html/bin/app.php StartClient
-
-
-#  web:
-#    container_name: course_nginx
-#    image: nginx:stable
-#    ports:
-#      - "2095:3000"
-#    volumes:
-#      - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
-#      - ./${PROJECT}:/var/www/html
-#    depends_on:
-#      - php
-#  php:
-#    container_name: course_php
+#  server:
+#    container_name: course_server
 #    build:
-#      context: ./deployment/docker/${APP}/php
-#      dockerfile: php-fpm.docker
+#      context: ./deployment/docker/${APP}/php-cli
+#      dockerfile: php-cli.docker
 #    volumes:
-#      - ./${PROJECT}:/var/www/html
-#    # настройка Xdebug
-#    environment:
-#      - PHP_IDE_CONFIG=serverName=php
+#      - ./course:/var/www/html
+#      - socket_volume:/tmp
+#    command: php /var/www/html/bin/app.php StartServer
+#
+#  client:
+#    container_name: course_client
+#    build:
+#      context: ./deployment/docker/${APP}/php-cli
+#      dockerfile: php-cli.docker
+#    volumes:
+#      - ./course:/var/www/html
+#      - socket_volume:/tmp
+#    stdin_open: true
+#    tty: true
+#    command: php /var/www/html/bin/app.php StartClient
+
+
+  web:
+    container_name: course_nginx
+    image: nginx:stable
+    ports:
+      - "2095:3000"
+    volumes:
+      - ./deployment/docker/${APP}/conf/${PROJECT}.conf:/etc/nginx/conf.d/${PROJECT}.conf
+      - ./${PROJECT}:/var/www/html
+    depends_on:
+      - php
+  php:
+    container_name: course_php
+    build:
+      context: ./deployment/docker/${APP}/php
+      dockerfile: php-fpm.docker
+    volumes:
+      - ./${PROJECT}:/var/www/html
+    # настройка Xdebug
+    environment:
+      - PHP_IDE_CONFIG=serverName=php
 #
 #  postgres:
 #    container_name: course_postgres
@@ -58,11 +58,11 @@ services:
 #      - ./deployment/db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
 #      - ./deployment/data/postgres-data:/var/lib/postgresql/data
 #
-#  redis:
-#    image: redis:latest
-#    container_name: course_redis
-#    ports:
-#      - "6379:6379"
+  redis:
+    image: redis:latest
+    container_name: course_redis
+    ports:
+      - "6379:6379"
 #
 #  memcached:
 #    container_name: course_memcached
@@ -82,5 +82,5 @@ services:
 #    depends_on:
 #      - postgres
 
-volumes:
-  socket_volume:
+#volumes:
+#  socket_volume:

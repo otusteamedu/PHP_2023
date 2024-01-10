@@ -2,7 +2,7 @@
     "name": "otus/elasticsearch",
     "autoload": {
         "psr-4": {
-            "Otus\\Elasticsearch\\": "src/"
+            "src\\": "src/"
         }
     },
     "authors": [

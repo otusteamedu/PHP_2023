@@ -77,8 +77,7 @@ class BookRepository implements BookRepositoryContract
         try {
             $response = $this->client->search($params);
         } catch (ClientResponseException|ServerResponseException $e) {
-            var_dump($e);
-            die();
+            throw new DocumentSearchException();
         }
         return $response;
     }

@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS client (
     surname    varchar(150)       NOT NULL,
     name       varchar(150)       NOT NULL,
     patronymic varchar(150)       NOT NULL,
-    email      varchar(70) UNIQUE NOT NULL,
+    email      varchar(150) UNIQUE NOT NULL,
     phone      varchar(11) UNIQUE NOT NULL,
     created_at timestamptz        NOT NULL
 );

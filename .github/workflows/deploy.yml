@@ -16,7 +16,10 @@ jobs:
       - uses: actions/checkout@v3
       - name: Copy .env
         run: cd app && cp .env.example .env
-        #update values
+      - name: UpdateCopy env.APP_VERSION
+        run: echo 'APP_VERSION=${{ env.APP_VERSION }}' >> app/.env
+      - name: UpdateCopy env.COMMENT
+        run: echo 'COMMENT='$(git log -1 --format='%s') >> app/.env
       - name: Has dotenv file
         run: cd app && ls -a
       - name: Build the Docker image

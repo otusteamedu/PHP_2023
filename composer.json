@@ -1,0 +1,22 @@
+{
+    "name": "otus/elasticsearch",
+    "autoload": {
+        "psr-4": {
+            "Otus\\Elasticsearch\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MBazlov"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

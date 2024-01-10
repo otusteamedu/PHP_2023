@@ -15,6 +15,22 @@ services:
     networks:
       - otus-network
 
+  # ElasticSearch
+  otus-elasticsearch:
+    image: elasticsearch:8.7.0
+    container_name: otus-elasticsearch
+    environment:
+      - ELASTIC_USERNAME=elastic
+      - ELASTIC_PASSWORD=elastic
+      - node.name=otus_elasticsearch
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=localhost
+    ports:
+      - "9200:9200"
+    networks:
+      - otus-network
+
 # Docker Network
 networks:
   otus-network:

@@ -2,11 +2,21 @@
 
 namespace App\Domain\Builder;
 
+use App\Application\Dto\ArticleDto;
+
 class Director
 {
-    public function constructArticle(BuilderInterface $builder): BuilderInterface
+    public function __construct(private readonly BuilderInterface $builder)
     {
-        $builder->reset();
-        $builder->setCreationDate();
+    }
+
+    public function constructArticle(ArticleDto $articleDto): void
+    {
+        $this->builder->reset();
+        $this->builder->setName($articleDto->getName());
+        $this->builder->setCreationDate($articleDto->getCreationDate());
+        $this->builder->setAuthor($articleDto->getAuthorId());
+        $this->builder->setCategories($articleDto->getCategoryIds());
+        $this->builder->setText($articleDto->getText());
     }
 }

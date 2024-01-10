@@ -2,9 +2,7 @@
 
 namespace App\Domain\Contract;
 
-use Doctrine\DBAL\LockMode;
-
-interface EntityRepositoryInterface
+interface AuthorRepositoryInterface
 {
     public function find($id, $lockMode = null, $lockVersion = null);
 }

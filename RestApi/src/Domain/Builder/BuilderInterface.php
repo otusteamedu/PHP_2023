@@ -18,4 +18,6 @@ interface BuilderInterface
      * @param int[] $categoriesId
      */
     public function setCategories(array $categoriesId): void;
+
+    public function setText(string $text): void;
 }

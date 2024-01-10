@@ -2,7 +2,8 @@
 
 namespace App\Domain\Builder;
 
-use App\Domain\Contract\EntityRepositoryInterface;
+use App\Domain\Contract\AuthorRepositoryInterface;
+use App\Domain\Contract\CategoryRepositoryInterface;
 use App\Domain\Entity\Article;
 use DateTimeInterface;
 
@@ -10,8 +11,10 @@ class ArticleBuilder implements BuilderInterface
 {
     private Article $article;
 
-    public function __construct(private EntityRepositoryInterface $entityRepository)
-    {
+    public function __construct(
+        private readonly AuthorRepositoryInterface $authorRepository,
+        private readonly CategoryRepositoryInterface $categoryRepository
+    ) {
     }
 
     public function reset(): void
@@ -31,14 +34,26 @@ class ArticleBuilder implements BuilderInterface
 
     public function setAuthor(int $authorId): void
     {
-        $author = $this->entityRepository->find($authorId);
+        $author = $this->authorRepository->find($authorId);
 
         $this->article->setAuthor($author);
     }
 
+    /**
+     * @param int[] $categoriesId
+     */
     public function setCategories(array $categoriesId): void
     {
+        $categories = $this->categoryRepository->findBy(['id' => $categoriesId]);
 
+        foreach ($categories as $category) {
+            $this->article->addCategory($category);
+        }
+    }
+
+    public function setText(string $text): void
+    {
+        $this->article->setText($text);
     }
 
     public function getResult(): Article

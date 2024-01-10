@@ -19,7 +19,7 @@ class Article
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime')]
     private ?DateTimeInterface $creationDate = null;
 
     #[ORM\ManyToOne(targetEntity: Author::class, inversedBy: 'article')]

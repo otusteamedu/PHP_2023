@@ -8,12 +8,15 @@ use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 
 class ArticleDto
 {
-    private string $name;
+    private string $name = '';
     #[Context([DateTimeNormalizer::FORMAT_KEY => "Y-m-d H:i:s"])]
-    private DateTimeInterface $creationDate;
-    private int $authorId;
-    private int $categoryId;
-    private string $text;
+    private ?DateTimeInterface $creationDate = null;
+    private ?int $authorId = null;
+    /**
+     * @var int[]
+     */
+    private array $categoryIds = [];
+    private string $text = '';
 
     /**
      * @return string
@@ -64,19 +67,19 @@ class ArticleDto
     }
 
     /**
-     * @return int
+     * @return int[]
      */
-    public function getCategoryId(): int
+    public function getCategoryIds(): array
     {
-        return $this->categoryId;
+        return $this->categoryIds;
     }
 
     /**
-     * @param int $categoryId
+     * @param int[] $categoryIds
      */
-    public function setCategoryId(int $categoryId): void
+    public function setCategoryIds(array $categoryIds): void
     {
-        $this->categoryId = $categoryId;
+        $this->categoryIds = $categoryIds;
     }
 
     /**

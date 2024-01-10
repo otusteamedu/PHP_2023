@@ -20,5 +20,13 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    App\Infrastructure\Controller\:
+        resource: '../src/Infrastructure/Controller/'
+        tags:
+            - 'controller.service_arguments'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Domain\Contract\AuthorRepositoryInterface: '@App\Infrastructure\Repository\AuthorRepository'
+    App\Domain\Contract\CategoryRepositoryInterface: '@App\Infrastructure\Repository\CategoryRepository'

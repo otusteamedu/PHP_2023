@@ -3,7 +3,7 @@
 namespace App\Domain\Entity;
 
 use App\Infrastructure\Repository\AuthorRepository;
-use DateTimeImmutable;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,8 +22,8 @@ class Author
     #[ORM\Column(length: 255)]
     private ?string $familyName = null;
 
-    #[ORM\Column]
-    private ?DateTimeImmutable $birthDate = null;
+    #[ORM\Column(nullable: true, options: ['default' => null])]
+    private ?DateTimeInterface $birthDate = null;
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Article::class, orphanRemoval: true)]
     private Collection $articles;
@@ -62,12 +62,12 @@ class Author
         return $this;
     }
 
-    public function getBirthDate(): ?DateTimeImmutable
+    public function getBirthDate(): ?DateTimeInterface
     {
         return $this->birthDate;
     }
 
-    public function setBirthDate(DateTimeImmutable $birthDate): static
+    public function setBirthDate(DateTimeInterface $birthDate): static
     {
         $this->birthDate = $birthDate;
 

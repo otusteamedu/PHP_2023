@@ -14,7 +14,6 @@ class Output
         echo 'Количество найденных записей: ' . $count . PHP_EOL;
 
         if ($count > 0) {
-
             $lines = [];
 
             foreach ($result['hits'] as $value) {

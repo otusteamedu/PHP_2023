@@ -1,0 +1,21 @@
+{
+    "name": "hw/app-deploy",
+    "type": "project",
+    "require": {
+        "ndybnov-hw03/cnf-read": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppDepoy\\": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ]
+}

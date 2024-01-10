@@ -30,4 +30,6 @@ $settings['error'] = [
     'log_error_details' => true,
 ];
 
+$settings['storage'] = 'redis';
+
 return $settings;

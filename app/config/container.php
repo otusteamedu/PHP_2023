@@ -1,10 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
-use Selective\BasePath\BasePathMiddleware;
 
 return [
     'settings' => function () {

@@ -71,7 +71,7 @@
   ```bash
       curl -X GET 'http://mysite.local?param1=1&param2=2'
   ```
-  **Результат:** *Вам доступно событие: event2*
+  **Результат:** *Вам доступно событие: event1*
   
   ```bash
       curl -X GET 'http://mysite.local?param1=1&param2=3'

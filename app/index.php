@@ -23,17 +23,3 @@ $version = sprintf(
 echo $version;
 
 var_dump($_ENV);
-
-
-function dddddd(): int
-{
-    return 0;
-}
-
-
-class Dd {
-    public function ddd(): int
-    {
-        return 0;
-    }
-}

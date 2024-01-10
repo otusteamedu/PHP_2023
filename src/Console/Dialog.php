@@ -26,6 +26,6 @@ class Dialog
         $elasticService = new ElasticSearchService($config);
 
         $result = $elasticService->search($searchParameters);
-        $this->output->printResult($result);
+        $this->output->printResult($result, ['title', 'category', 'price']);
     }
 }

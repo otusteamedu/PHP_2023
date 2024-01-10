@@ -8,29 +8,24 @@ use ConsoleTable\Table;
 
 class Output
 {
-    public function printResult(array $result): void
+    public function printResult(array $result, array $columns): void
     {
         $count = $result['total']['value'];
         echo 'Количество найденных записей: ' . $count . PHP_EOL;
 
         if ($count > 0) {
-            $columns = ['Title', 'Category', 'Price', 'Stock'];
 
             $lines = [];
 
             foreach ($result['hits'] as $value) {
                 $data = $value['_source'];
-                $title = $data['title'];
-                $category = $data['category'];
-                $price = $data['price'];
+                $row = [];
 
-                $stocks = [];
-
-                foreach ($data['stock'] as $stock) {
-                    $stocks[] = $stock['shop'] . ':' . $stock['stock'] . ' шт';
+                foreach ($columns as $column) {
+                    $row[] = $data[$column];
                 }
 
-                $lines[] = [$title, $category, $price, implode('; ', $stocks)];
+                $lines[] = $row;
             }
 
             $conf = ['showNumberRow' => false];

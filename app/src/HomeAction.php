@@ -18,14 +18,14 @@ final class HomeAction
 
         $storage = Storage::connect();
         $key = $storage->getKey($data);
-       
+
         $events = $storage->get($key);
         if ($events) {
             $response->getBody()->write("Вам доступно событие: " . array_key_first($events));
         } else {
             $response->getBody()->write("Нет подходящих событий.");
         }
-    
+
         return $response;
     }
 }

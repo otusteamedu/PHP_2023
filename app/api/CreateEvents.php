@@ -15,7 +15,7 @@ final class CreateEvents
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-       
+
         $data = $request->getParsedBody();
         $validate = $this->validateRequest($data);
         if (!$validate['status']) {
@@ -23,11 +23,11 @@ final class CreateEvents
             $errResponse->getBody()->write($validate['message']);
             return $errResponse;
         }
-    
+
         $storage = Storage::connect();
 
         $key = $storage->getKey($data['conditions']);
-        
+
         if ($storage->hasKey($key, $data['event'])) {
             $response->getBody()->write('События уже добавлено!');
         } else {

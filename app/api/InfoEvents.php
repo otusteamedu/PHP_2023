@@ -15,7 +15,7 @@ final class InfoEvents
         ResponseInterface $response,
         array $args
     ): ResponseInterface {
-       
+
         $storage = Storage::connect();
 
         if (key_exists('key', $args) && $args['key']) {
@@ -26,7 +26,7 @@ final class InfoEvents
 
         $jsonResponse = $response->withHeader('Content-type', 'application/json');
         $jsonResponse->getBody()->write(json_encode($res));
-       
+
         return $jsonResponse;
     }
 }

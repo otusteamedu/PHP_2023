@@ -10,7 +10,7 @@ use Api\DeleteEvents;
 use Api\UpdateEvents;
 
 return function (App $app) {
-    
+
     // Home Page
     $app->get('/', HomeAction::class);
 

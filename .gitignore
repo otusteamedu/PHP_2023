@@ -1,2 +1,4 @@
 vendor/
 .env
+.env.git
+log.txt

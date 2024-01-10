@@ -6,6 +6,7 @@ use Exception;
 use Klobkovsky\App\SocketChat\Socket;
 use Klobkovsky\App\SocketChat\Server;
 use Klobkovsky\App\SocketChat\Client;
+
 class App
 {
     private const CONFIG_PATH = __DIR__ . '/../config.ini';

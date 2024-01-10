@@ -17,10 +17,11 @@ jobs:
       - name: Copy .env
         run: cd app && cp .env.example .env
         #update values
-      - uses: actions/checkout@v3
+      - name: Has dotenv file
+        run: cd app && ls -a
       - name: Build the Docker image
         run: cd app && docker compose build
-      - name: Run Docker images
+      - name: Docker run and detach
         run: cd app && docker compose up --detach
       - name: Install Dependencies
         run: cd app && docker compose exec deploy-php-cli composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist

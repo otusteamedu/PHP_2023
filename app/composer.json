@@ -1,6 +1,8 @@
 {
     "name": "hw/app-deploy",
+    "description": "nothing",
     "type": "project",
+    "license": "proprietary",
     "require": {
         "ndybnov-hw03/cnf-read": "^1.1"
     },

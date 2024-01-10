@@ -1,0 +1,30 @@
+name: Test
+
+on:
+  push:
+    branches:
+      - NDybnov/hw21
+
+env:
+  COMMENT: 'my-comment-env'
+  APP_VERSION: 'v01100600'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build the Docker image
+        run: |
+          docker compose build
+          docker compose up --detach
+      - uses: actions/checkout@v3
+      - name: Copy .env
+        run: docker compose exec deploy-php-cli php -r "file_exists('.env') || copy('.env.example', '.env');"
+        #update values
+      - name: Install Dependencies
+        run: docker compose exec deploy-php-cli composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+      - name: Execute tests (Unit and Feature tests) via PHPUnit
+        run: docker compose exec deploy-php-cli vendor/phpunit/phpunit/phpunit tests
+      - name: Test run vie Curl
+        run: docker compose exec deploy-php-cli curl 0.0.0.0:8000

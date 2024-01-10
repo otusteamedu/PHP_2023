@@ -2,7 +2,6 @@ version: '3'
 
 services:
   deploy-php-cli:
-#    image: php:8.3.1-cli-alpine
     build:
       context: ./.docker/php-cli/
       dockerfile: Dockerfile
@@ -12,4 +11,3 @@ services:
       - ./:/app
     ports:
       - ${OWN_NGINX_PORT}:8000
-#    command: php -S 0.0.0.0:8000 -t /app

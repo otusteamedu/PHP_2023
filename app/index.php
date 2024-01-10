@@ -1,22 +1,39 @@
 <?php
 
-//echo PHP_VERSION_ID;
-echo PHP_VERSION;
-//echo 123;
-// phpinfo();
+require_once __DIR__ . '/vendor/autoload.php';
 
-echo '<br/>';
-print_r($_ENV);
-echo '<br/>';
-var_export($_SERVER);
-echo '<br/>';
+use NdybnovHw03\CnfRead\ConfigStorage;
 
-print_r(getenv());
-echo '<br/>';
 
-putenv('app_version=c3224e0');
+$config = (new ConfigStorage())
+    ->fromDotEnvFile([__DIR__, '.env']);
 
-echo '<br/>';
+$version = $config->get('APP_VERSION');
+$comment = $config->get('COMMENT');
 
-print_r(getenv());
-echo '<br/>';
+putenv('app_version=' . $version);
+putenv('comment=' . $comment);
+
+$version = sprintf(
+    '%s:%s:%s',
+    PHP_VERSION,
+    getenv('app_version'),
+    getenv('comment'),
+);
+echo $version;
+
+var_dump($_ENV);
+
+
+function dddddd(): int
+{
+    return 0;
+}
+
+
+class Dd {
+    public function ddd(): int
+    {
+        return 0;
+    }
+}

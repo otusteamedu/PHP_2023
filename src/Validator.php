@@ -12,7 +12,7 @@ class Validator
         string $close = ')'
     ): bool {
         $stack = [];
-        for($i = 0; $i < strlen($baseString); $i++) {
+        for ($i = 0; $i < strlen($baseString); $i++) {
             if ($baseString[$i] === $open) {
                 $stack[] = $baseString[$i];
                 continue;

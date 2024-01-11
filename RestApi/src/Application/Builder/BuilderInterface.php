@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Builder;
+namespace App\Application\Builder;
 
 use DateTimeInterface;
 

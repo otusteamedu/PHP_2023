@@ -4,7 +4,6 @@ namespace App\Infrastructure\Controller;
 
 use App\Application\Dto\ArticleDto;
 use App\Application\UseCase\CreateArticleUseCase;
-use App\Domain\Entity\Article;
 use App\Infrastructure\Repository\ArticleRepository;
 use App\Infrastructure\Repository\AuthorRepository;
 use App\Infrastructure\Repository\CategoryRepository;
@@ -14,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\expr;
 
 class ArticleController extends AbstractController
 {

@@ -3,8 +3,8 @@
 namespace App\Application\UseCase;
 
 use App\Application\Dto\ArticleDto;
-use App\Domain\Builder\ArticleBuilder;
-use App\Domain\Builder\Director;
+use App\Application\Builder\ArticleBuilder;
+use App\Application\Builder\Director;
 use App\Domain\Contract\AuthorRepositoryInterface;
 use App\Domain\Contract\CategoryRepositoryInterface;
 use App\Domain\Entity\Article;

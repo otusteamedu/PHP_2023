@@ -1,3 +1,12 @@
-# PHP_2023
+# Leetcode практикум.1
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### 141. Linked list cycle
+Сложность O(n)
+
+### 17. Letter combinations of a phone number
+Сложность O(4^n)
+
+### Запуск теста
+```docker compose exec app bash```
+
+```php test.php```

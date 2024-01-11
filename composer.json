@@ -1,0 +1,15 @@
+{
+    "name": "santonov/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Santonov\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Antonov"
+        }
+    ],
+    "require": {}
+}

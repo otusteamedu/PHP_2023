@@ -40,4 +40,9 @@ class PathHelper
     {
         return $this->getRootPath();
     }
+
+    public function getRoutesPath(): string
+    {
+        return $this->getRootPath() . '/routes.php';
+    }
 }

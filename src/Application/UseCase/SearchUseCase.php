@@ -11,7 +11,8 @@ use src\Application\Repositories\BookRepositoryContract;
 class SearchUseCase
 {
     public function __construct(private BookRepositoryContract $bookRepository)
-    {}
+    {
+    }
 
     public function __invoke(string $title, string $category, string $price): Elasticsearch|Promise
     {

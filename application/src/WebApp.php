@@ -7,15 +7,16 @@ namespace Gesparo\Homework;
 use Gesparo\Homework\Application\ControllerGetter;
 use Gesparo\Homework\Application\EnvManager;
 use Gesparo\Homework\Application\Factory\AMQPMessageFromBankStatementRequestFactory;
+use Gesparo\Homework\Application\Factory\ApiDocsServiceFactory;
 use Gesparo\Homework\Application\Factory\CheckFinishedMessageServiceFactory;
 use Gesparo\Homework\Application\Factory\ConsumerBankStatementResponseFactory;
-use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
 use Gesparo\Homework\Application\Factory\EnvManagerFactory;
+use Gesparo\Homework\Application\Factory\PublisherBankStatementRequestFactory;
 use Gesparo\Homework\Application\Factory\RabbitConnectionFactory;
 use Gesparo\Homework\Application\Factory\SendMessageServiceFactory;
 use Gesparo\Homework\Application\Factory\TransactionFactory;
 use Gesparo\Homework\Application\PathHelper;
-use Gesparo\Homework\Infrastructure\AbstractController;
+use Gesparo\Homework\Infrastructure\Controller\AbstractController;
 use Gesparo\Homework\Infrastructure\ExceptionHandler;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,10 +57,12 @@ class WebApp implements App
                 $this->getConsumerBankStatementResponseFactory(),
                 $validator
             );
+            $apiDocsServiceFactory = $this->getApiDocsServiceFactory($pathHelper);
             $controller = $this->getController(
                 $request,
                 $sendMessageServiceFactory,
                 $checkFinishedMessageServiceFactory,
+                $apiDocsServiceFactory,
                 $routeAttributes['_controller']
             );
 
@@ -188,12 +191,19 @@ class WebApp implements App
         Request $request,
         SendMessageServiceFactory $sendMessageServiceFactory,
         CheckFinishedMessageServiceFactory $checkFinishedMessageServiceFactory,
+        ApiDocsServiceFactory $apiDocsServiceFactory,
         string $controllerName
     ): AbstractController {
         return (new ControllerGetter(
             $request,
             $sendMessageServiceFactory,
-            $checkFinishedMessageServiceFactory
+            $checkFinishedMessageServiceFactory,
+            $apiDocsServiceFactory
         ))->get($controllerName);
+    }
+
+    private function getApiDocsServiceFactory(PathHelper $pathHelper): ApiDocsServiceFactory
+    {
+        return new ApiDocsServiceFactory($pathHelper);
     }
 }

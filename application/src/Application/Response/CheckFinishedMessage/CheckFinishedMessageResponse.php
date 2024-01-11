@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace Gesparo\Homework\Application\Response\CheckFinishedMessage;
 
+use OpenApi\Attributes as OAT;
+
+#[OAT\Schema]
 class CheckFinishedMessageResponse
 {
     public const STATUS_PROCESSING = 'processing';
@@ -13,6 +16,45 @@ class CheckFinishedMessageResponse
     /**
      * @param Transaction[] $transactions
      */
+    #[OAT\Property(
+        property: 'status',
+        description: 'Status',
+        type: 'string',
+        enum: [self::STATUS_PROCESSING, self::STATUS_FINISHED, self::STATUS_FAILED],
+        example: self::STATUS_PROCESSING,
+    )]
+    #[OAT\Property(
+        property: 'accountNumber',
+        description: 'Account number',
+        type: 'string',
+        example: '1234567890123456',
+    )]
+    #[OAT\Property(
+        property: 'startDate',
+        description: 'Start date',
+        type: 'string',
+        example: '2021-01-01',
+    )]
+    #[OAT\Property(
+        property: 'endDate',
+        description: 'End date',
+        type: 'string',
+        example: '2022-01-01',
+    )]
+    #[OAT\Property(
+        property: 'reason',
+        description: 'Reason',
+        type: 'string',
+        example: 'Account number is invalid',
+    )]
+    #[OAT\Property(
+        property: 'transactions',
+        description: 'Transactions',
+        type: 'array',
+        items: new OAt\Items(
+            ref: 'components/schemas/Transaction'
+        )
+    )]
     public function __construct(
         public readonly string $status,
         public readonly ?string $accountNumber = null,

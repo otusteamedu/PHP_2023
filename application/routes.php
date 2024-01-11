@@ -1,5 +1,6 @@
 <?php
 
+use Gesparo\Homework\Infrastructure\Controller\ApiDocsController;
 use Gesparo\Homework\Infrastructure\Controller\CheckController;
 use Gesparo\Homework\Infrastructure\Controller\RequestController;
 use Symfony\Component\Routing\Route;
@@ -20,6 +21,14 @@ $routes->add(
     new Route(
         path: '/requests/{messageId}',
         defaults: ['_controller' => CheckController::class, '_method' => 'get'],
+        methods: ['GET']
+    )
+);
+$routes->add(
+    'api-docs',
+    new Route(
+        path: '/api-docs',
+        defaults: ['_controller' => ApiDocsController::class, '_method' => 'get'],
         methods: ['GET']
     )
 );

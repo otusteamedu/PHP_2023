@@ -24,6 +24,7 @@ class AppException extends \Exception
     private const DESCRIPTION_NOT_VALID = 14;
     private const TRANSACTION_MUST_BE_INSTANCE_OF_TRANSACTION_CLASS = 15;
     private const INVALID_CONTROLLER = 16;
+    private const CANNOT_SCAN_PROJECT_FOR_GETTING_DOCUMENTATION = 17;
 
     private array $data;
 
@@ -123,5 +124,10 @@ class AppException extends \Exception
     public static function invalidController(string $controller): self
     {
         return new self(sprintf('Controller %s is not valid', $controller), self::INVALID_CONTROLLER);
+    }
+
+    public static function cannotScanProjectForGettingDocumentation(string $path): self
+    {
+        return new self(sprintf('Cannot scan project for documentation in path %s', $path), self::CANNOT_SCAN_PROJECT_FOR_GETTING_DOCUMENTATION);
     }
 }

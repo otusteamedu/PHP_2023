@@ -11,17 +11,16 @@ services:
     container_name: otus-cli
     volumes:
       - ./www:/www
-      - ./shared:/tmp/socket
     networks:
       - otus-network
 
   # ElasticSearch
   otus-elasticsearch:
     image: elasticsearch:8.7.0
-    container_name: otus-elasticsearch
+    container_name: ${ELASTIC_SERVER}
     environment:
-      - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=elastic
+      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
       - node.name=otus_elasticsearch
       - discovery.type=single-node
       - http.host=0.0.0.0

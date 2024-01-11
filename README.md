@@ -1,1 +1,11 @@
-[PHP Developer. Professional](https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus)
+Решить задачу https://leetcode.com/problems/merge-two-sorted-lists/ на слияние двух списков
+
+### Описание/Пошаговая инструкция выполнения домашнего задания:
+1. Решаем задачу
+2. Прикладываем код на GitHub
+3. Обосновываем сложность
+
+### Критерии оценки:
+- Решение имеет оптимальную сложность
+- Учтены исключительные случаи
+- Решение проходит тесты

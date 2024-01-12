@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  deploy-php-cli:
+    build:
+      context: ./.docker/php-cli/
+      dockerfile: Dockerfile
+    image: image-deploy-php-cli
+    container_name: deploy-php-cli
+    volumes:
+      - ./:/app
+    ports:
+      - ${OWN_NGINX_PORT}:8000
+    command: sh -c "composer install -q --no-ansi --no-interaction --no-scripts --no-progress && php -S 0.0.0.0:8000 -t /app"

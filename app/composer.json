@@ -1,0 +1,24 @@
+{
+    "name": "hw/app-deploy",
+    "description": "nothing",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "ndybnov-hw03/cnf-read": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "AppDeploy\\": "src/",
+            "Tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "DNickolay",
+            "email": "d.niknik@gmail.com"
+        }
+    ]
+}

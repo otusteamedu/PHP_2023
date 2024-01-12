@@ -1,0 +1,58 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - NDybnov/hw21
+
+env:
+  COMMENT: 'my-comment-deploy-file'
+  APP_VERSION: 'v01120720'
+  HOST: '5.35.98.239'
+  PORT: ':8880'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Copy .env
+        run: cd app && cp .env.example .env
+      - name: UpdateCopy env.APP_VERSION
+        run: echo 'APP_VERSION=${{ env.APP_VERSION }}' >> app/.env
+      - name: UpdateCopy env.COMMENT
+        run: echo 'COMMENT='$(git log -1 --format='%s') >> app/.env
+      - name: Has dotenv file
+        run: cd app && ls -a && cat .env
+      - name: Build the Docker image
+        run: cd app && docker compose build
+      - name: Docker run and detach
+        run: cd app && docker compose up --detach
+#      - name: Install Dependencies
+#        run: cd app && docker compose exec deploy-php-cli composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+#      - name: Execute tests (Unit and Feature tests) via PHPUnit
+#        run: cd app && ls -a && docker compose exec deploy-php-cli vendor/phpunit/phpunit/phpunit tests
+#      - name: Test run vie Curl
+#        run: cd app && docker compose exec deploy-php-cli curl 0.0.0.0:8000
+  deployment:
+    needs: tests
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: http://5.35.98.239
+    steps:
+      - name: deploy
+        run: |
+          echo '..deploy...'
+          echo ${{ env.APP_VERSION }}
+          echo ${{ env.COMMENT }}
+      - name: get version Before update
+        run: curl ${{ env.HOST }}
+      - name: run update server
+        run: |
+          curl --data 'app_version=8cab1f951&comment=test-version' ${{ env.HOST }}${{ env.PORT }}/update
+          echo 'done'
+      - name: get version After update
+        run: curl ${{ env.HOST }}
+      - name: Complete
+        run: echo 'Deploy done'

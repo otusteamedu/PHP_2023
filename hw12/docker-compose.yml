@@ -1,0 +1,43 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx-otusphp
+    build: ./.docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - phpsocket:/var/run/php-fpm/
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otusphp
+
+  php-fpm:
+    container_name: php-fpm-otusphp
+    build: ./.docker/php-fpm
+    env_file:
+      - ./.env
+    volumes:
+      - phpsocket:/var/run/php-fpm/
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otusphp
+
+  redis:
+    container_name: redis-otusphp
+    image: redis:latest
+    networks:
+      - otusphp
+
+  redisinsight:
+    image: "redislabs/redisinsight:latest"
+    ports:
+      - "8001:8001"
+    networks:
+      - otusphp
+
+networks:
+  otusphp:
+    driver: bridge
+
+volumes:
+  phpsocket:

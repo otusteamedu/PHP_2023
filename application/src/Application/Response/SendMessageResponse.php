@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 namespace Gesparo\Homework\Application\Response;
+
 use OpenApi\Attributes as OAT;
 
 #[OAT\Schema]

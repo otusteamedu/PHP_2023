@@ -20,8 +20,7 @@ class PublisherBankStatementResponseFactory
         string $status,
         string $reason = '',
         array $transactions = []
-    ): PublisherBankStatementResponse
-    {
+    ): PublisherBankStatementResponse {
         return new PublisherBankStatementResponse(
             $accountNumber,
             $startDate,

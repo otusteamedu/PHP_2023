@@ -8,7 +8,6 @@ class ApiDocsResponse
 {
     public function __construct(
         public array $content
-    )
-    {
+    ) {
     }
 }

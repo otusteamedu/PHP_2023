@@ -62,8 +62,7 @@ class CheckFinishedMessageResponse
         public readonly ?string $endDate = null,
         public readonly ?string $reason = null,
         public readonly array $transactions = []
-    )
-    {
+    ) {
     }
 
     public function toArray(): array

@@ -18,8 +18,7 @@ class SendMessageServiceFactory
         private readonly AMQPMessageCreationInterface $amqpMessageFactory,
         private readonly EnvManager $envManager,
         private readonly ValidatorInterface $validator
-    )
-    {
+    ) {
     }
 
     public function create(): SendMessageService

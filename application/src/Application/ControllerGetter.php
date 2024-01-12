@@ -21,8 +21,7 @@ class ControllerGetter
         private readonly SendMessageServiceFactory $sendMessageServiceFactory,
         private readonly CheckFinishedMessageServiceFactory $checkFinishedMessageServiceFactory,
         private readonly ApiDocsServiceFactory $apiDocsServiceFactory
-    )
-    {
+    ) {
     }
 
     /**

@@ -13,8 +13,7 @@ class StatementManager
 {
     public function __construct(
         private readonly TransactionFactory $transactionFactory
-    )
-    {
+    ) {
     }
 
     /**
@@ -31,7 +30,7 @@ class StatementManager
 
         $result = [];
 
-        for($i = 0; $i < random_int(1, 10); $i++) {
+        for ($i = 0; $i < random_int(1, 10); $i++) {
             $result[] = $this->transactionFactory->create(
                 $request->getAccountNumber(),
                 (string) random_int(100, 1000),

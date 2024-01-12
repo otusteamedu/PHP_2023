@@ -13,8 +13,7 @@ class ApiDocsService
 {
     public function __construct(
         private readonly PathHelper $pathHelper
-    )
-    {
+    ) {
     }
 
     /**

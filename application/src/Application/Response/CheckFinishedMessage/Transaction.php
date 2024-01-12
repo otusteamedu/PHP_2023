@@ -45,8 +45,7 @@ class Transaction
         public readonly string $currency,
         public readonly string $date,
         public readonly string $description,
-    )
-    {
+    ) {
     }
 
     public function toArray(): array

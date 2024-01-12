@@ -11,8 +11,7 @@ class ApiDocsServiceFactory
 {
     public function __construct(
         private readonly PathHelper $pathHelper
-    )
-    {
+    ) {
     }
 
     public function create(): ApiDocsService

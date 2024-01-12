@@ -2,7 +2,6 @@
 
 namespace AppDeploy;
 
-
 class Deploy
 {
     readonly private DeployDTO $dto;
@@ -103,13 +102,13 @@ class Deploy
 
     private function log(string $message): void
     {
-        error_log('log: '. $message, 3, $this->dto->logFile);
+        error_log('log: ' . $message, 3, $this->dto->logFile);
         error_log(PHP_EOL, 3, $this->dto->logFile);
     }
 
     private function logStep(string $message): void
     {
-        error_log('Step: '. $message, 3, $this->dto->logFile);
+        error_log('Step: ' . $message, 3, $this->dto->logFile);
         error_log(PHP_EOL, 3, $this->dto->logFile);
         error_log(PHP_EOL, 3, $this->dto->logFile);
     }

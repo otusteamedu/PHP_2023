@@ -118,7 +118,7 @@ class Deploy
         $pathToEnv = $this->getAbsolutePath(0, $this::ENV_GIT_FILE);
         $appVersion = "echo 'APP_VERSION='$(git log -1 --format='%H') > $pathToEnv";
         $comment = "echo \"COMMENT='\"$(git log -1 --format='%s')\"'\" >> $pathToEnv";
-        $command = "$appVersion && $comment";
+        $command = "cd {$this->getAbsolutePath(0)} && $appVersion && $comment";
 
         return false !== $this->doCommand($command);
     }

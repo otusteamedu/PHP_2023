@@ -32,8 +32,7 @@ class CheckFinishedMessageService
         private readonly TransactionFactory $transactionFactory,
         private readonly ConsumerBankStatementResponseFactory $consumerFactory,
         private readonly ValidatorInterface $validator
-    )
-    {
+    ) {
     }
 
     /**

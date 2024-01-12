@@ -29,8 +29,7 @@ class ConsumerBankStatementResponse
         string $status,
         string $reason = '',
         array $transactions = []
-    )
-    {
+    ) {
         $this->validate($accountNumber, $startDate, $endDate, $status, $reason, $transactions);
 
         $this->accountNumber = $accountNumber;

@@ -20,13 +20,6 @@ class ConsumerBankStatementResponseFactory
         string $reason = '',
         array $transactions = []
     ): ConsumerBankStatementResponse {
-        return new ConsumerBankStatementResponse(
-            $accountNumber,
-            $startDate,
-            $endDate,
-            $status,
-            $reason,
-            $transactions
-        );
+        return new ConsumerBankStatementResponse($accountNumber, $startDate, $endDate, $status, $reason, $transactions);
     }
 }

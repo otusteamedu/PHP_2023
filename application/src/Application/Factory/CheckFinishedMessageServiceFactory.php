@@ -22,12 +22,6 @@ class CheckFinishedMessageServiceFactory
 
     public function create(): CheckFinishedMessageService
     {
-        return new CheckFinishedMessageService(
-            $this->connection,
-            $this->envManager,
-            $this->transactionFactory,
-            $this->consumerFactory,
-            $this->validator
-        );
+        return new CheckFinishedMessageService($this->connection, $this->envManager, $this->transactionFactory, $this->consumerFactory, $this->validator);
     }
 }

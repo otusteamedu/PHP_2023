@@ -32,24 +32,14 @@ class EnvManager
         return $_ENV[self::RABBITMQ_PASSWORD];
     }
 
-    public function getChannelName(): string
+    public function getInputChannelName(): string
     {
-        return 'bank_statement_queue';
+        return 'bank_statement_input';
     }
 
-    public function getTelegramBotName(): string
+    public function getOutputChannelName(): string
     {
-        return $_ENV[self::TELEGRAM_BOT_NAME];
-    }
-
-    public function getTelegramBotToken(): string
-    {
-        return $_ENV[self::TELEGRAM_BOT_TOKEN];
-    }
-
-    public function getTelegramChatId(): string
-    {
-        return $_ENV[self::TELEGRAM_CHAT_ID];
+        return 'bank_statement_output';
     }
 
     public function getRabbitMqPort(): int

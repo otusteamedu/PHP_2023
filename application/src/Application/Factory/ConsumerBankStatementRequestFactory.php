@@ -12,8 +12,8 @@ class ConsumerBankStatementRequestFactory
     /**
      * @throws AppException
      */
-    public function create(string $accountNumber, \DateTime $startDate, \DateTime $endDate): ConsumerBankStatementRequest
+    public function create(string $accountNumber, \DateTime $startDate, \DateTime $endDate, string $messageId): ConsumerBankStatementRequest
     {
-        return new ConsumerBankStatementRequest($accountNumber, $startDate, $endDate);
+        return new ConsumerBankStatementRequest($accountNumber, $startDate, $endDate, $messageId);
     }
 }

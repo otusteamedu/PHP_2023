@@ -5,18 +5,19 @@ declare(strict_types=1);
 namespace Gesparo\Homework;
 
 use Gesparo\Homework\Application\EnvManager;
+use Gesparo\Homework\Application\Factory\AMQPMessageFromBankStatementResponseFactory;
 use Gesparo\Homework\Application\Factory\ConsumerBankStatementRequestFactory;
 use Gesparo\Homework\Application\Factory\EnvManagerFactory;
+use Gesparo\Homework\Application\Factory\PublisherBankStatementResponseFactory;
 use Gesparo\Homework\Application\Factory\RabbitConnectionFactory;
-use Gesparo\Homework\Application\Factory\TelegramManagerFactory;
+use Gesparo\Homework\Application\Factory\TransactionFactory;
 use Gesparo\Homework\Application\PathHelper;
 use Gesparo\Homework\Application\Service\ReceiveMessageService;
-use Gesparo\Homework\Application\TelegramManager;
+use Gesparo\Homework\Application\StatementManager;
 use Gesparo\Homework\Domain\OutputInterface;
 use Gesparo\Homework\Infrastructure\Command\ReceiveMessageCommand;
 use Gesparo\Homework\Infrastructure\ConsoleOutputHelper;
 use Gesparo\Homework\Infrastructure\ExceptionHandler;
-use Longman\TelegramBot\Exception\TelegramException;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 
 class ConsoleApp implements App
@@ -24,18 +25,15 @@ class ConsoleApp implements App
     public function run(string $rootPath): void
     {
         try {
-            $pathHelper = $this->getPathHelper($rootPath);
-            $envManager = $this->getEnvManager($pathHelper);
-            $telegramManager = $this->getTelegramManager($envManager);
-            $rabbitConnection = $this->getRabbitConnection($envManager);
-            $bankStatementRequestFactory = $this->getBankStatementRequestFactory();
-            $output = $this->getOutput();
+            $envManager = $this->getEnvManager($this->getPathHelper($rootPath));
             $receiveMessageService = $this->getReceiveMessageService(
                 $envManager,
-                $rabbitConnection,
-                $bankStatementRequestFactory,
-                $telegramManager,
-                $output
+                $this->getRabbitConnection($envManager),
+                $this->getBankStatementRequestFactory(),
+                $this->getOutput(),
+                $this->getStatementManager($this->getTransactionFactory()),
+                $this->getPublisherBankStatementResponseFactory(),
+                $this->getAMQPMessageFromBankStatementResponseFactory()
             );
             $command = $this->getCommand($receiveMessageService);
 
@@ -65,22 +63,25 @@ class ConsoleApp implements App
         return (new EnvManagerFactory($pathHelper))->create();
     }
 
-    /**
-     * @throws TelegramException
-     */
-    private function getTelegramManager(EnvManager $envManager): TelegramManager
-    {
-        return (new TelegramManagerFactory($envManager))->create();
-    }
 
     private function getReceiveMessageService(
         EnvManager $envManager,
         AMQPStreamConnection $rabbitConnection,
         ConsumerBankStatementRequestFactory $bankStatementRequestFactory,
-        TelegramManager $telegramManager,
-        OutputInterface $output
+        OutputInterface $output,
+        StatementManager $statementManager,
+        PublisherBankStatementResponseFactory $publisherBankStatementResponseFactory,
+        AMQPMessageFromBankStatementResponseFactory $amqpMessageFactory
     ): ReceiveMessageService {
-        return new ReceiveMessageService($envManager, $rabbitConnection, $bankStatementRequestFactory, $telegramManager, $output);
+        return new ReceiveMessageService(
+            $envManager,
+            $rabbitConnection,
+            $bankStatementRequestFactory,
+            $output,
+            $statementManager,
+            $publisherBankStatementResponseFactory,
+            $amqpMessageFactory
+        );
     }
 
     private function getCommand(ReceiveMessageService $receiveMessageService): ReceiveMessageCommand
@@ -88,6 +89,9 @@ class ConsoleApp implements App
         return new ReceiveMessageCommand($receiveMessageService);
     }
 
+    /**
+     * @throws \Exception
+     */
     private function getRabbitConnection(EnvManager $envManager): AMQPStreamConnection
     {
         return (new RabbitConnectionFactory($envManager))->create();
@@ -106,5 +110,25 @@ class ConsoleApp implements App
     private function getOutput(): OutputInterface
     {
         return new ConsoleOutputHelper();
+    }
+
+    private function getTransactionFactory(): TransactionFactory
+    {
+        return new TransactionFactory();
+    }
+
+    private function getStatementManager(TransactionFactory $transactionFactory): StatementManager
+    {
+        return new StatementManager($transactionFactory);
+    }
+
+    private function getPublisherBankStatementResponseFactory(): PublisherBankStatementResponseFactory
+    {
+        return new PublisherBankStatementResponseFactory();
+    }
+
+    private function getAMQPMessageFromBankStatementResponseFactory(): AMQPMessageFromBankStatementResponseFactory
+    {
+        return new AMQPMessageFromBankStatementResponseFactory();
     }
 }

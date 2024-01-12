@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 use Slim\App;
 use App\HomeAction;
-use Api\InfoEvents;
-use Api\CreateEvents;
-use Api\DeleteEvents;
-use Api\UpdateEvents;
+use App\Api\InfoEvents;
+use App\Api\CreateEvents;
+use App\Api\DeleteEvents;
+use App\Api\UpdateEvents;
 
 return function (App $app) {
 

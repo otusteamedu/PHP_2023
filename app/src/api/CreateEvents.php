@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Api;
+namespace App\Api;
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Storage\Storage;
 
-final class UpdateEvents
+final class CreateEvents
 {
     public function __invoke(
         ServerRequestInterface $request,
@@ -28,11 +28,13 @@ final class UpdateEvents
 
         $key = $storage->getKey($data['conditions']);
 
-        if (!$storage->hasKey($key, $data['event'])) {
-            $response->getBody()->write('События не добавлено!');
+        if ($storage->hasKey($key, $data['event'])) {
+            $response->getBody()->write('События уже добавлено!');
         } else {
-            $storage->add($key, $data['priority'], $data['event']);
-            $response->getBody()->write('Событие успешно обновленно!');
+            $res = $storage->add($key, $data['priority'], $data['event']);
+            if ($res > 0) {
+                $response->getBody()->write('Событие успешно добавлено!');
+            }
         }
         return $response;
     }

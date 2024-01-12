@@ -3,7 +3,10 @@
 namespace App\Infrastructure\Controller;
 
 use App\Application\Dto\ArticleDto;
+use App\Application\Dto\UserDto;
+use App\Application\Notifier\ArticlePublisher;
 use App\Application\UseCase\CreateArticleUseCase;
+use App\Domain\Entity\Category;
 use App\Infrastructure\Repository\ArticleRepository;
 use App\Infrastructure\Repository\AuthorRepository;
 use App\Infrastructure\Repository\CategoryRepository;
@@ -20,11 +23,12 @@ class ArticleController extends AbstractController
         private readonly CategoryRepository $categoryRepository,
         private readonly AuthorRepository $authorRepository,
         private readonly ArticleRepository $articleRepository,
+        private readonly ArticlePublisher $articlePublisher,
         private readonly SerializerInterface $serializer
     ) {
     }
 
-    #[Route('/article/{id}', methods: ['GET'])]
+    #[Route('/news/{id}', methods: ['GET'])]
     public function one(int $id): JsonResponse
     {
         $article = $this->articleRepository->find($id);
@@ -42,7 +46,7 @@ class ArticleController extends AbstractController
         return new JsonResponse($serializedArticle, json: true);
     }
 
-    #[Route('/article', methods: ['GET'])]
+    #[Route('/news', methods: ['GET'])]
     public function all(): JsonResponse
     {
         $news = $this->articleRepository->findAll();
@@ -68,7 +72,11 @@ class ArticleController extends AbstractController
     {
         try {
             $articleDto = $this->serializer->deserialize($request->getContent(), ArticleDto::class, 'json');
-            $createArticleUseCase = new CreateArticleUseCase($this->authorRepository, $this->categoryRepository);
+            $createArticleUseCase = new CreateArticleUseCase(
+                $this->authorRepository,
+                $this->categoryRepository,
+                $this->articlePublisher
+            );
             $article = $createArticleUseCase->create($articleDto);
             $this->articleRepository->save($article);
         } catch (Exception $e) {
@@ -76,5 +84,15 @@ class ArticleController extends AbstractController
         }
 
         return new JsonResponse(['result' => 'Article have been created.']);
+    }
+
+    #[Route('/news/{category}/subscribe', requirements: ['category' => '\d+'], methods: ['POST'])]
+    public function subscribe(Request $request, int $category): JsonResponse
+    {
+        $category = $this->categoryRepository->find($category);
+        $userDto = $this->serializer->deserialize($request->getContent(), UserDto::class, 'json');
+        $this->articlePublisher->subscribe($category, $userDto->getEmail);
+
+        return new JsonResponse(["result" => "You've been successfully subscribed."]);
     }
 }

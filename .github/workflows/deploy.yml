@@ -26,8 +26,8 @@ jobs:
         run: cd app && docker compose build
       - name: Docker run and detach
         run: cd app && docker compose up --detach
-      - name: Install Dependencies
-        run: cd app && docker compose exec deploy-php-cli composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+#      - name: Install Dependencies
+#        run: cd app && docker compose exec deploy-php-cli composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         run: cd app && docker compose exec deploy-php-cli vendor/phpunit/phpunit/phpunit tests
       - name: Test run vie Curl

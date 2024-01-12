@@ -52,3 +52,5 @@ jobs:
           echo 'done'
       - name: get version After update
         run: curl 5.35.98.239
+      - name: Complete
+        run: echo 'Deploy done'

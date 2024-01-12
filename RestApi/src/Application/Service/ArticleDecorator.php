@@ -2,26 +2,27 @@
 
 namespace App\Application\Service;
 
-use App\Domain\Entity\TestInterface;
+use App\Domain\Entity\Contract\DecoratorInterface;
 
-class ArticleDecorator implements TestInterface
+class ArticleDecorator implements DecoratorInterface
 {
     private string $text = '';
 
-    public function __construct(private readonly TestInterface $test)
+    public function __construct(private readonly DecoratorInterface $article, int $readingTime)
     {
-        $this->text = $this->test->getText();
+        $this->text = $this->article->getText() . "<p>Reading time: {$readingTime} minutes</p>";
+        $this->setText($this->text);
     }
 
     public function getText(): string
     {
-        return $this->text;
+        return $this->article->getText();
     }
 
-    public function setText()
+    public function setText(string $text): static
     {
-        $this->text .= "<p>Some text</p>";
+        $this->article->setText($text);
 
-        $this->test->setText($this->text);
+        return $this;
     }
 }

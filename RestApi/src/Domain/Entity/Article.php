@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\Entity\Contract\DecoratorInterface;
 use App\Infrastructure\Repository\ArticleRepository;
 use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
-class Article implements TestInterface
+class Article implements DecoratorInterface
 {
     #[Groups('Article')]
     #[ORM\Id]

@@ -8,6 +8,8 @@ on:
 env:
   COMMENT: 'my-comment-deploy-file'
   APP_VERSION: 'v01120720'
+  HOST: '5.35.98.239'
+  PORT: ':8880'
 
 jobs:
   tests:
@@ -45,12 +47,12 @@ jobs:
           echo ${{ env.APP_VERSION }}
           echo ${{ env.COMMENT }}
       - name: get version Before update
-        run: curl 5.35.98.239
+        run: curl ${{ env.HOST }}
       - name: run update server
         run: |
-          curl --data 'app_version=8cab1f951&comment=test-version' 5.35.98.239:8880/update
+          curl --data 'app_version=8cab1f951&comment=test-version' ${{ env.HOST }}${{ env.PORT }}/update
           echo 'done'
       - name: get version After update
-        run: curl 5.35.98.239
+        run: curl ${{ env.HOST }}
       - name: Complete
         run: echo 'Deploy done'

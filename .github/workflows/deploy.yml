@@ -44,7 +44,11 @@ jobs:
           echo '..deploy...'
           echo ${{ env.APP_VERSION }}
           echo ${{ env.COMMENT }}
+      - name: get version Before update
+        run: curl 5.35.98.239
       - name: run update server
         run: |
           curl --data 'app_version=8cab1f951&comment=test-version' 5.35.98.239:8880/update
           echo 'done'
+      - name: get version After update
+        run: curl 5.35.98.239

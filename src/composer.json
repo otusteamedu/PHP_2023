@@ -1,5 +1,5 @@
 {
-    "name": "klobkovsky/hw1-1",
+    "name": "klobkovsky/hw",
     "autoload": {
         "psr-4": {
             "Klobkovsky\\App\\": "classes/"

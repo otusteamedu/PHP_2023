@@ -31,3 +31,5 @@ if ($mysqli->connect_errno) {
     echo "MySQL соединение успешно установлено!<br>";
     $mysqli->close();
 }
+
+echo 'Запрос обработал контейнер: ' . $_SERVER['HOSTNAME'];

@@ -29,24 +29,29 @@ class Controller
     {
         /** @var CityRepositoryInterface $cityRep */
         $cityRep = container()->get(CityRepositoryInterface::class);
-        Table::dropTable();
-        Table::createTable();
+        $cityRep->getAll();
+//        Table::dropTable();
+//        Table::createTable();
+//
+//        $city = new City(
+//            null,
+//            'Moscow',
+//            55.7558,
+//            37.6173,
+//        );
+//
+//        try {
+//            $cityRep->add($city);
+//        } catch (\Exception $e) {
+//            echo $e->getMessage();
+//        }
 
-        $city = new City(
-            null,
-            'Paris',
-            48.8534,
-            2.3488
-        );
-
-        try {
-            $cityRep->add($city);
-        } catch (\Exception $e) {
-            echo $e->getMessage();
+        $rs = $cityRep->getAll();
+        $cities = [];
+        foreach ($rs as $city) {
+            $cities[] = CityPresenter::present($city);
         }
 
-        $city = $cityRep->getByName('Paris');
-
-        return new JsonResponse(200, ['city' => CityPresenter::present($city)]);
+        return new JsonResponse(200, ['city' => $cities]);
     }
 }

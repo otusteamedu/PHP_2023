@@ -13,4 +13,6 @@ interface CityRepositoryInterface
     public function update(City $city): void;
 
     public function delete(City $city): void;
+
+    public function getAll(): \Generator;
 }

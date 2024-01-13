@@ -4,6 +4,7 @@ namespace Geolocation\Infrastructure\Mapper;
 
 use Geolocation\App\CityIdentityMap;
 use Geolocation\Domain\City;
+use Geolocation\Infrastructure\CityFactory;
 
 class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
 {
@@ -28,16 +29,13 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
     {
         $stmt = $this->db->prepare('SELECT * FROM city WHERE name = :name');
         $stmt->execute(['name' => $name]);
-        $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+            $city = $stmt->fetch(\PDO::FETCH_ASSOC);
 
-        $city = new City(
-            $city['id'],
-            $city['name'],
-            $city['latitude'],
-            $city['longitude'],
-            new \DateTime($city['created_at']),
-            new \DateTime($city['updated_at'])
-        );
+        if (!$city) {
+            throw new \Exception('City not found');
+        }
+
+        $city = (new CityFactory())->fromDb($city);
 
         $this->identityMap->set($city->getId(), $city);
         return $city;
@@ -61,12 +59,16 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
 
     public function update(City $city): void
     {
-        $stmt = $this->db->prepare('UPDATE city SET name = :name, country_id = :country_id WHERE id = :id');
-        $stmt->execute([
-            'id' => $city->getId(),
-            'name' => $city->getName(),
-            'country_id' => $city->getCountryId(),
-        ]);
+        $stmt = $this->db->prepare('UPDATE city SET name = :name, latitude = :latitude, longitude = :longitude, updated_at = :updated_at WHERE id = :id');
+        $stmt->execute(
+            [
+                'id' => $city->getId(),
+                'name' => $city->getName(),
+                'latitude' => $city->getLatitude(),
+                'longitude' => $city->getLongitude(),
+                'updated_at' => $city->getUpdatedAt()->format('Y-m-d H:i:s'),
+            ]
+        );
         $this->identityMap->set($city->getId(), $city);
     }
 
@@ -77,12 +79,15 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
         $this->identityMap->remove($city->getId());
     }
 
-    public function getAll(): array
+    public function getAll(): \Generator
     {
         $stmt = $this->db->prepare('SELECT * FROM city');
         $stmt->execute();
-        $cities = $stmt->fetchAll(\PDO::FETCH_CLASS, City::class);
-        $this->identityMap->setAll($cities);
-        return $cities;
+
+        $cities = [];
+        while ($city = $stmt->fetch(\PDO::FETCH_ASSOC)) {
+            $this->identityMap->set($city['id'], $city);
+            yield (new CityFactory())->fromDb($city);
+        }
     }
 }

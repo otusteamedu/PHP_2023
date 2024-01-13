@@ -20,7 +20,8 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
 
         $stmt = $this->db->prepare('SELECT * FROM city WHERE id = :id');
         $stmt->execute(['id' => $id]);
-        $city = $stmt->fetchObject(City::class);
+        $arCity = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $city = (new CityFactory)->fromDb($arCity);
         $this->identityMap->set($id, $city);
         return $city;
     }
@@ -29,7 +30,7 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
     {
         $stmt = $this->db->prepare('SELECT * FROM city WHERE name = :name');
         $stmt->execute(['name' => $name]);
-            $city = $stmt->fetch(\PDO::FETCH_ASSOC);
+        $city = $stmt->fetch(\PDO::FETCH_ASSOC);
 
         if (!$city) {
             throw new \Exception('City not found');
@@ -49,8 +50,6 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
                 'name' => $city->getName(),
                 'latitude' => $city->getLatitude(),
                 'longitude' => $city->getLongitude(),
-                'created_at' => $city->getCreatedAt()->format('Y-m-d H:i:s'),
-                'updated_at' => $city->getUpdatedAt()->format('Y-m-d H:i:s'),
             ]
         );
         $city->setId((int)$this->db->lastInsertId());
@@ -59,12 +58,34 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
 
     public function update(City $city): void
     {
-        $stmt = $this->db->prepare('UPDATE city SET name = :name, latitude = :latitude, longitude = :longitude, updated_at = :updated_at WHERE id = :id');
+        if (empty($city->getChangedFields())) {
+            return;
+        }
+
+        $flds = array_map(
+            function ($fld) {
+                return $fld . ' = :' . $fld;
+            },
+            $city->getChangedFields()
+        );
+
+        $data = [
+            'name' => $city->getName(),
+            'latitude' => $city->getLatitude(),
+            'longitude' => $city->getLongitude()
+        ];
+
+        foreach ($data as $key => $value) {
+            if (!in_array($key, $city->getChangedFields())) {
+                unset($data[$key]);
+            }
+        }
+
+        $stmt = $this->db->prepare('UPDATE city SET ' . implode(', ', $flds) . ' WHERE id = :id');
+
         $stmt->execute(
-            [
-                'name' => $city->getName(),
-                'latitude' => $city->getLatitude(),
-                'longitude' => $city->getLongitude()
+            $data + [
+                'id' => $city->getId()
             ]
         );
         $this->identityMap->set($city->getId(), $city);

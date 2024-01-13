@@ -10,6 +10,8 @@ namespace Geolocation\Domain;
  */
 class City
 {
+    private $changedFields = [];
+
     /**
      * @var int|null The unique identifier of the city
      * @OA\Property(
@@ -108,16 +110,6 @@ class City
     }
 
     /**
-     * @param int|null $id
-     * @return City
-     */
-    public function setId(?int $id): City
-    {
-        $this->id = $id;
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getName(): string
@@ -131,6 +123,7 @@ class City
      */
     public function setName(string $name): City
     {
+        $this->changedFields[] = 'name';
         $this->name = $name;
         return $this;
     }
@@ -149,6 +142,7 @@ class City
      */
     public function setLatitude(float $latitude): City
     {
+        $this->changedFields[] = 'latitude';
         $this->latitude = $latitude;
         return $this;
     }
@@ -167,6 +161,7 @@ class City
      */
     public function setLongitude(float $longitude): City
     {
+        $this->changedFields[] = 'longitude';
         $this->longitude = $longitude;
         return $this;
     }
@@ -180,16 +175,6 @@ class City
     }
 
     /**
-     * @param \DateTime $createdAt
-     * @return City
-     */
-    public function setCreatedAt(\DateTime $createdAt): City
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
-    /**
      * @return \DateTime
      */
     public function getUpdatedAt(): \DateTime
@@ -197,13 +182,13 @@ class City
         return $this->updatedAt;
     }
 
-    /**
-     * @param \DateTime $updatedAt
-     * @return City
-     */
-    public function setUpdatedAt(\DateTime $updatedAt): City
+    public function getChangedFields(): array
     {
-        $this->updatedAt = $updatedAt;
-        return $this;
+        return $this->changedFields;
+    }
+
+    public function setId(int $param): void
+    {
+        $this->id = $param;
     }
 }

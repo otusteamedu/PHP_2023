@@ -62,11 +62,9 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
         $stmt = $this->db->prepare('UPDATE city SET name = :name, latitude = :latitude, longitude = :longitude, updated_at = :updated_at WHERE id = :id');
         $stmt->execute(
             [
-                'id' => $city->getId(),
                 'name' => $city->getName(),
                 'latitude' => $city->getLatitude(),
-                'longitude' => $city->getLongitude(),
-                'updated_at' => $city->getUpdatedAt()->format('Y-m-d H:i:s'),
+                'longitude' => $city->getLongitude()
             ]
         );
         $this->identityMap->set($city->getId(), $city);

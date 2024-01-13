@@ -19,6 +19,13 @@ class City
      */
     private ?int $id;
 
+    /**
+     * @var string
+     * @OA\Property(
+     *      type="string",
+     *      description="The name of the city"
+     *  )
+     */
     private string $name;
 
     /**

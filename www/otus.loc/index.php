@@ -1,35 +1,40 @@
 <?php
-// Подключаем Redis
-$redis = new Redis();
-$redis->connect('redis');
-
-// Проверяем соединение с Redis
-if ($redis->ping()) {
-    echo "Redis соединение успешно установлено!<br>";
-} else {
-    echo "Не удалось установить соединение с Redis.<br>";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if (!empty($_POST["string"]) && checkRequest($_POST["string"])) {
+        header("HTTP/1.1 200 OK");
+        echo "Всё хорошо";
+    } else {
+        header("HTTP/1.1 400 Bad Request");
+        echo "Всё плохо";
+    }
 }
 
-// Подключаем Memcached
-$memcached = new Memcached();
-$memcached->addServer('memcached', 11211);
+function checkRequest(string $string): bool
+{
+    $length = strlen($string);
 
-// Проверяем соединение с Memcached
-if ($memcached->getVersion()) {
-    echo "Memcached соединение успешно установлено!<br>";
-} else {
-    echo "Не удалось установить соединение с Memcached.<br>";
+    // 0. Check string length
+    if ($length % 2 != 0) {
+        return false;
+    }
+
+    // 1. Check first and last characters
+    if ($string[0] !== '(' || $string[$length - 1] !== ')') {
+        return false;
+    }
+
+    // 2. Check balanced parentheses
+    $counter = 0;
+    for ($i = 0; $i < $length; $i++) {
+        if ($string[$i] === '(') {
+            $counter++;
+        } elseif ($string[$i] === ')') {
+            $counter--;
+        }
+        if ($counter < 0) {
+            return false;
+        }
+    }
+
+    return $counter === 0;
 }
-
-// Подключаемся к MySQL
-$mysqli = new mysqli('mysql', 'root', '123456', 'db');
-
-// Проверяем соединение с MySQL
-if ($mysqli->connect_errno) {
-    echo "Не удалось установить соединение с MySQL: " . $mysqli->connect_error . "<br>";
-} else {
-    echo "MySQL соединение успешно установлено!<br>";
-    $mysqli->close();
-}
-
-echo 'Запрос обработал контейнер: ' . $_SERVER['HOSTNAME'];

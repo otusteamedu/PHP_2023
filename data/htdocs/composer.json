@@ -1,0 +1,19 @@
+{
+    "name": "sva/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sva"
+        }
+    ],
+    "require": {
+        "php-di/php-di": "^7.0",
+        "sunrise/http-router": "^2.15",
+        "sunrise/http-message": "^3.0"
+    }
+}

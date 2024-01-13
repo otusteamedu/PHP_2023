@@ -21,7 +21,7 @@ class CityMapper implements \Geolocation\Domain\CityRepositoryInterface
         $stmt = $this->db->prepare('SELECT * FROM city WHERE id = :id');
         $stmt->execute(['id' => $id]);
         $arCity = $stmt->fetch(\PDO::FETCH_ASSOC);
-        $city = (new CityFactory)->fromDb($arCity);
+        $city = (new CityFactory())->fromDb($arCity);
         $this->identityMap->set($id, $city);
         return $city;
     }

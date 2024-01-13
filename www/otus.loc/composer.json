@@ -1,0 +1,17 @@
+{
+    "name": "sherweb/otus",
+    "autoload": {
+        "psr-4": {
+            "Sherweb\\Otus\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "SHERWEB",
+            "email": "serverwebb@gmail.com"
+        }
+    ],
+    "require": {
+        "sherweb/otus-package": "^1.0"
+    }
+}

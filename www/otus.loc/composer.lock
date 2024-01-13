@@ -8,20 +8,17 @@
     "packages": [
         {
             "name": "sherweb/otus-package",
-            "version": "v1.0.3",
+            "version": "v1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/serverwebb/otus-package.git",
-                "reference": "9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62"
+                "reference": "b482c2074f217d1b892837dc37bc9895499f2f26"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/serverwebb/otus-package/zipball/9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62",
-                "reference": "9d1797b6c23ba2d6280b269c7b0c8d7d3a2b0a62",
+                "url": "https://api.github.com/repos/serverwebb/otus-package/zipball/b482c2074f217d1b892837dc37bc9895499f2f26",
+                "reference": "b482c2074f217d1b892837dc37bc9895499f2f26",
                 "shasum": ""
-            },
-            "require": {
-                "php": ">=7.4"
             },
             "type": "library",
             "autoload": {
@@ -36,11 +33,7 @@
                     "email": "serverwebb@gmail.com"
                 }
             ],
-            "support": {
-                "issues": "https://github.com/serverwebb/otus-package/issues",
-                "source": "https://github.com/serverwebb/otus-package/tree/v1.0.3"
-            },
-            "time": "2023-12-20T15:33:40+00:00"
+            "time": "2024-01-13T09:40:19+00:00"
         }
     ],
     "packages-dev": [],
@@ -51,5 +44,5 @@
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "1.1.0"
 }

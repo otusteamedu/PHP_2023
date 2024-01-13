@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\Entity\Contract\PublishAbleInterface;
 use App\Infrastructure\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-class Category
+class Category implements PublishAbleInterface
 {
     #[Groups('Article')]
     #[ORM\Id]

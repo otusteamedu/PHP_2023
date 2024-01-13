@@ -30,3 +30,4 @@ services:
 
     App\Domain\Contract\AuthorRepositoryInterface: '@App\Infrastructure\Repository\AuthorRepository'
     App\Domain\Contract\CategoryRepositoryInterface: '@App\Infrastructure\Repository\CategoryRepository'
+    App\Application\Strategy\StrategyInterface: '@App\Application\Strategy\EmailStrategy'

@@ -1,0 +1,30 @@
+version: '3'
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/php.dockerfile
+    volumes:
+      - ./:/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/php/config/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-xdebug.ini
+    ports:
+      - "9000:9000"
+    networks:
+      - elastic
+  es01:
+    image: elasticsearch:8.11.3
+    container_name: es01
+    platform: linux/x86_64
+    ports:
+      - "9200:9200"
+    environment:
+      - node.name=elastic
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=localhost
+    networks:
+      - elastic
+networks:
+  elastic:
+    driver: bridge

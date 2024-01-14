@@ -1,3 +1,4 @@
-# PHP_2023
+# Alisa
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Немного запустила сдачу дз, постараюсь наверстать. Пока с докером не всё понятно на 100%,
+но буду разбираться.

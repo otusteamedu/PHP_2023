@@ -12,8 +12,8 @@ INSERT INTO typeAttribute (name) VALUES
 ('integer'),
 ('boolean'),
 ('float'),
-('data'),
-('string');
+('data');
+
 
 INSERT INTO Attribute (id_type, name) VALUES
 (1, 'рецензии критиков' ),
@@ -27,27 +27,16 @@ INSERT INTO Attribute (id_type, name) VALUES
 (5,'дата запуска рекламы'),
 (1,'отзыв киноакадемии'),
 (5,'старт проката'),
-(6,'режиссер'),
-(5,'сценарист'),
+(1,'режиссер'),
+(1,'сценарист'),
 (4,'стоимость'),
 (4,'жанр фильма');
-
-CREATE TABLE valueAttribute (
-    id SERIAL PRIMARY KEY,
-    id_attribute INT NOT NULL,
-    id_film INT NOT NULL,
-        int_value INT,
-        bool_value BOOL,
-        text_value TEXT,
-        char_value VARCHAR(255),
-        num_value NUMERIC,
-        time_value TIMESTAMP without time zone NULL,
 
 INSERT INTO valueAttribute(id,id_attribute, id_film)
 select
 gs.id,
-floor(random() * 13 + 1),
-floor(random() * 6 + 1)
+floor(random() * 15 + 1),
+floor(random() * 5 + 1)
 from generate_series(1,1000) as gs(id);
 
 update valueAttribute as va
@@ -63,16 +52,10 @@ where va.id_attribute = a.id
 and a.id_type=3;
 
 update valueAttribute as va
-set text_value=lipsum(25)
+set text_value=lipsum((random() * 20 + 1)::int)
 from ATTRIBUTE as a
 where va.id_attribute = a.id
 and a.id_type=1;
-
-update valueAttribute as va
-set char_value=lipsum(7)
-from ATTRIBUTE as a
-where va.id_attribute = a.id
-and a.id_type=6;
 
 update valueAttribute as va
 set num_value=floor(random() * 10000 + 1)/100
@@ -81,7 +64,7 @@ where va.id_attribute = a.id
 and a.id_type=4;
 
 update valueAttribute as va
-set time_value=to_timestamp(random()* 63158399 + 1672520400)
+set time_value=to_timestamp(random()* 163158399 + 1672520400)
 from ATTRIBUTE as a
 where va.id_attribute = a.id
 and a.id_type=5;

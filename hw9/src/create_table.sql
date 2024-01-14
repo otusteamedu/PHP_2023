@@ -35,8 +35,7 @@ CREATE TABLE valueAttribute (
         int_value INT,
         bool_value BOOL,
         text_value TEXT,
-        char_value VARCHAR(255),
-        num_value NUMERIC,
+        num_value FLOAT,
         time_value TIMESTAMP without time zone NULL,
      FOREIGN KEY (id_attribute)
      REFERENCES Attribute (id) ON UPDATE SET NULL ON DELETE CASCADE,

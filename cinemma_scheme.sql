@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS attribute_values (
     datetime_val DATETIME,
     numeric_val REAL,
     int_val INT(11),
-    price_val DECIMAL(11,2),
+    money_val DECIMAL(11,2),
     PRIMARY KEY (film_id, attribute_id),
     FOREIGN KEY (film_id) REFERENCES films (id),
     FOREIGN KEY (attribute_id) REFERENCES attributes (id)

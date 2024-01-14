@@ -2,54 +2,31 @@
 
 namespace Klobkovsky\App;
 
-use Exception;
+use Klobkovsky\App\Validators;
 
 class App
 {
     /**
      *
-     * @return void
+     * @return string
      * @throws Exception
      */
-    public function run(): void
+    public function run(): string
     {
-        $this->validateCommandLineArguments();
+        Validators::validateCommandLineArguments();
+
+        $result = '';
         $args = $_SERVER['argv'];
         array_shift($args);
 
         foreach ($args as $email) {
-            echo $email . ($this->validateEmail($email) ? ' - корректный email' : ' - некорректный email') . PHP_EOL;
-        }
-    }
-
-    /**
-     *
-     * @throws Exception
-     */
-    private function validateCommandLineArguments(): void
-    {
-        if (count($_SERVER['argv']) < 2) {
-            throw new Exception('Не заданы аргументы');
-        }
-    }
-
-    /**
-     *
-     * @param string $email
-     * @return bool
-     */
-    private function validateEmail(string $email): bool
-    {
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
+            if (Validators::validateEmail($email)) {
+                $result .= $email . ' - корректный email' . PHP_EOL;
+            } else {
+                $result .= $email . ' - некорректный email' . PHP_EOL;
+            }
         }
 
-        list(,$domain) = explode('@', $email);
-
-        if (!getmxrr($domain, $hosts)) {
-            return false;
-        }
-
-        return true;
+        return $result;
     }
 }

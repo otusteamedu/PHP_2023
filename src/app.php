@@ -8,7 +8,7 @@ use Klobkovsky\App\App;
 
 try {
     $app = new App();
-    $app->run();
+    echo $app->run();
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }

@@ -15,14 +15,19 @@ json и сертификат для заполнения начальными д
 Для заполнения данными перейти в docker и выполнить команду
 
 ```
-curl \                                                                                                   
-      --location \
-      --insecure \
-      --request POST 'https://localhost:9200/_bulk' \
-      --cacert http_ca.crt \
-      --header 'Content-Type: application/json' \
-      --data-binary "@books.json" \
-      -u 'elastic:secret'
+	curl \
+	  --location \
+	  --insecure \
+	  --request POST 'https://localhost:9200/_bulk' \
+	  --cacert http_ca.crt \
+	  --header 'Content-Type: application/json' \
+	  --data-binary "@books.json" \
+	  -u "elastic:6GGwJJJkocn+bWspIJqk"
+```
+
+для получения сертификата выпонить
+```
+docker cp es01:/usr/share/elasticsearch/config/certs/http_ca.crt .
 ```
 
 Если при запуске контейнеров es01 завершается с ошибкой 78, то для mac os можно выполнить следующие команды

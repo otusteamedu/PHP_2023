@@ -15,6 +15,7 @@ use src\Application\Repositories\BookRepositoryContract;
 use src\Infrastructure\Repositories\Exceptions\DocumentSearchException;
 
 require __DIR__ . '/../../Application/Repositories/BookRepositoryContract.php';
+require __DIR__ . '/Exceptions/DocumentSearchException.php';
 
 class BookRepository implements BookRepositoryContract
 {

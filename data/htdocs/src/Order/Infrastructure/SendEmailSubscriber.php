@@ -11,7 +11,6 @@ readonly class SendEmailSubscriber implements EventSubscriberInterface
 {
     public function __construct(private MailerInterface $mailer)
     {
-
     }
 
     public static function getSubscribedEvents(): array
@@ -36,6 +35,5 @@ readonly class SendEmailSubscriber implements EventSubscriberInterface
         } catch (\Exception $e) {
             var_dump('error' . $e->getMessage());
         }
-
     }
 }

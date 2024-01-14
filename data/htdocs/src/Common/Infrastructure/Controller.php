@@ -48,13 +48,13 @@ class Controller
 
         $delta = $data['to']->getTimestamp() - $data['from']->getTimestamp();
 
-        if($delta < 24 * 60 * 60) {
+        if ($delta < 24 * 60 * 60) {
             $template = Twig::get('index.twig');
             $response = new HtmlResponse(200, $template->render(['error' => 'Минимальный заказ 24 часа']));
             return $response;
         }
 
-        if(filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
+        if (filter_var($data['email'], FILTER_VALIDATE_EMAIL) === false) {
             $template = Twig::get('index.twig');
             $response = new HtmlResponse(200, $template->render(['error' => 'Неверный email']));
             return $response;

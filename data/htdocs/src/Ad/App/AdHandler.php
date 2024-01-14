@@ -22,6 +22,5 @@ class AdHandler
         $em->flush();
 
         // отправка сообщений по email и sms
-
     }
 }

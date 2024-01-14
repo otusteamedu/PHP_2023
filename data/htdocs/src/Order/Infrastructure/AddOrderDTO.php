@@ -8,8 +8,7 @@ class AddOrderDTO
         public string $email,
         public \DateTime $from,
         public \DateTime $to
-    )
-    {
+    ) {
     }
 
     public function toJson()

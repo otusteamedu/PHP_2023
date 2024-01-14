@@ -51,11 +51,11 @@ return [
         $logger = new \Monolog\Logger('app');
         $p = config()->get('logger.path');
 
-        if(!file_exists(dirname($p))) {
+        if (!file_exists(dirname($p))) {
             mkdir(dirname($p), 0777, true);
         }
 
-        if(!file_exists($p)) {
+        if (!file_exists($p)) {
             touch($p);
         }
 

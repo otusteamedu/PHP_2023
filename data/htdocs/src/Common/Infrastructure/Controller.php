@@ -75,7 +75,7 @@ class Controller
             return $response;
         }
 
-        $response = new HtmlResponse(200, $template->render(['success' => 'Заказ успешно добавлен']));
+        $response = new HtmlResponse(200, $template->render(['success' => 'Заказ успешно добавлен в очередь']));
         return $response;
     }
 }

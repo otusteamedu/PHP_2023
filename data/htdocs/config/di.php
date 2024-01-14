@@ -8,10 +8,8 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\Smtp\Auth\LoginAuthenticator;
-use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;
-use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
 use Symfony\Component\Messenger\Middleware\SendMessageMiddleware;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
@@ -52,6 +50,15 @@ return [
     LoggerInterface::class => DI\factory(function (ContainerInterface $c) {
         $logger = new \Monolog\Logger('app');
         $p = config()->get('logger.path');
+
+        if(!file_exists(dirname($p))) {
+            mkdir(dirname($p), 0777, true);
+        }
+
+        if(!file_exists($p)) {
+            touch($p);
+        }
+
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($p, \Monolog\Logger::DEBUG));
 
         return $logger;

@@ -14,11 +14,11 @@ class App
     public function run(): void
     {
         $this->validateCommandLineArguments();
-        $allArgs = $_SERVER['argv'];
-        array_shift($allArgs);
+        $args = $_SERVER['argv'];
+        array_shift($args);
 
-        foreach ($allArgs as $email) {
-            echo $email . ($this->validateEmail($email) ? ' is email' : ' is not email') . PHP_EOL;
+        foreach ($args as $email) {
+            echo $email . ($this->validateEmail($email) ? ' - корректный email' : ' - некорректный email') . PHP_EOL;
         }
     }
 

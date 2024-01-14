@@ -27,8 +27,11 @@ class App
     public function run(): void
     {
         (new RedisImporter($this->rDm, self::FILE_NAME))->run();
-        (new RedisDataRender(
-            $this->rDm->checkUserParams(self::USER_PARAMS, self::PATTERN_EVENTS)
+        echo (new RedisDataRender(
+            $this->rDm->checkUserParams(
+                self::USER_PARAMS,
+                self::PATTERN_EVENTS
+            )
         ))->show();
     }
 }

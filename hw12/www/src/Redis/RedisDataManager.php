@@ -15,7 +15,7 @@ class RedisDataManager
      */
     public function setZ(string $hash, int $score, ...$values): void
     {
-        echo $this->rClient->zAdd($hash, $score, ...$values);
+        $this->rClient->zAdd($hash, $score, ...$values);
     }
 
     /**

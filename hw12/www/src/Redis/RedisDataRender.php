@@ -10,12 +10,14 @@ class RedisDataRender
         $this->data = $arData;
     }
 
-    public function show(): void
+    public function show(): string
     {
+        $result = '';
         if (!empty($this->data)) {
             foreach($this->data as $k=>$v) {
-                echo 'Под ваши параметры подоходит событие ' . $k . ' с релевантностью ' . $v . PHP_EOL;
+                $result .= 'Под ваши параметры подоходит событие ' . $k . ' с релевантностью ' . $v . PHP_EOL;
             }
         }
+        return $result;
     }
 }

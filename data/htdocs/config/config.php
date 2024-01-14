@@ -13,6 +13,10 @@ return [
 
     'upload_dir' => realpath(__DIR__ . '/../uploads'),
 
+    'twig' => [
+        'root_path' => realpath(__DIR__ . '/../twig'),
+    ],
+
     'doctrine' => [
         // Enables or disables Doctrine metadata caching
         // for either performance or convenience during development.
@@ -43,6 +47,7 @@ return [
             'password' => env('DB_PASSWORD', 'secret'),
         ],
     ],
+
     'rabbit-mq' => [
         'host' => env('RABBITMQ_HOST', 'rabbitmq'),
         'port' => env('RABBITMQ_PORT', '5672'),
@@ -50,4 +55,12 @@ return [
         'password' => env('RABBITMQ_PASSWORD', 'guest'),
         'vhost' => env('RABBITMQ_VHOST', '/'),
     ],
+
+    'email' => [
+        'host' => env('EMAIL_HOST', 'smtp.gmail.com'),
+        'port' => env('EMAIL_PORT', '465'),
+        'user' => env('EMAIL_USER', ''),
+        'from' => env('EMAIL_USER', ''),
+        'password' => env('EMAIL_PASSWORD', ''),
+    ]
 ];

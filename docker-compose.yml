@@ -30,6 +30,10 @@ services:
             - DB_PASSWORD=${DB_PASSWORD}
             - DB_NAME=${DB_NAME}
             - DB_HOST=${DB_HOST}
+            - EMAIL_HOST=${EMAIL_HOST}
+            - EMAIL_PORT=${EMAIL_PORT}
+            - EMAIL_USER=${EMAIL_USER}
+            - EMAIL_PASSWORD=${EMAIL_PASSWORD}
         volumes:
             - ./data/htdocs:/data/default
             - ./data/log/php:/var/log/php
@@ -59,16 +63,6 @@ services:
             RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
         networks:
             - app-network
-
-    swagger-ui:
-        image: swaggerapi/swagger-ui
-        container_name: "swagger-ui"
-        ports:
-            - "8082:8080"
-        volumes:
-            - ./data/htdocs/openapi.json:/openapi.json
-        environment:
-            SWAGGER_JSON: /openapi.json
 
 networks:
     app-network:

@@ -2,10 +2,16 @@
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\ORMSetup;
+use Order\Infrastructure\AddOrderDTO;
 use Psr\Container\ContainerInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\Smtp\Auth\LoginAuthenticator;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
 use Symfony\Component\Messenger\Middleware\SendMessageMiddleware;
 use Symfony\Component\Messenger\Transport\Sender\SendersLocator;
@@ -58,7 +64,7 @@ return [
         $sender = (new SendMessageMiddleware(
             new SendersLocator(
                 [
-                    \Ad\Domain\Ad::class => ['rabbit'],
+                    AddOrderDTO::class => ['rabbit'],
                 ],
                 container()
             )
@@ -67,8 +73,8 @@ return [
 
         $handler = new HandleMessageMiddleware(
             new HandlersLocator([
-                \Ad\Domain\Ad::class => [
-                    new \Ad\App\AdHandler()
+                AddOrderDTO::class => [
+                    new \Order\App\OrderHandler()
                 ]
             ])
         );
@@ -82,7 +88,16 @@ return [
         return $bus;
     }),
 
-    \Psr\EventDispatcher\EventDispatcherInterface::class => DI\create(\Symfony\Component\EventDispatcher\EventDispatcher::class),
+    EventDispatcherInterface::class => DI\factory(function (ContainerInterface $c) {
+        $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
+
+        $dispatcher->addSubscriber(new \Order\Infrastructure\SendEmailSubscriber(
+            $c->get('mailer')
+        ));
+        $dispatcher->addSubscriber(new \Order\Infrastructure\ConsoleSubscriber());
+
+        return $dispatcher;
+    }),
 
     'rabbit-connection' => DI\factory(function (ContainerInterface $c) {
         return new \Symfony\Component\Messenger\Bridge\Amqp\Transport\Connection(
@@ -96,18 +111,11 @@ return [
             [
                 'name' => 'ad',
                 'type' => 'direct',
-//                'auto_setup' => true,
-//                'declare' => true,
-//                'durable' => true,
-//                'binding_keys' => ['messenger'],
             ],
             [
-                'ad' => [
-                    'name' => 'ad'
-                ],
-//                'binding_arguments' => [],
-//                'flags' => 2,
-//                'arguments' => []
+                'order' => [
+                    'name' => 'order'
+                ]
             ]
         );
     }),
@@ -119,4 +127,30 @@ return [
     'receiver' => DI\factory(function (ContainerInterface $c) {
         return new \Symfony\Component\Messenger\Bridge\Amqp\Transport\AmqpReceiver($c->get('rabbit-connection'));
     }),
+
+    'mailer' => DI\factory(function (ContainerInterface $c) {
+
+        $transport = new \Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport(
+            config()->get('email.host'),
+            config()->get('email.port'),
+            config()->get('email.encryption'),
+            null,
+            $c->get(LoggerInterface::class),
+            null,
+            [
+                new LoginAuthenticator()
+            ]
+        );
+
+        $transport->setUsername(config()->get('email.user'));
+        $transport->setPassword(config()->get('email.password'));
+
+        $mailer = new \Symfony\Component\Mailer\Mailer(
+            $transport
+        );
+
+        return $mailer;
+    }),
+
+    MailerInterface::class => DI\get('mailer'),
 ];

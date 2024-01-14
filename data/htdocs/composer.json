@@ -25,6 +25,10 @@
         "symfony/amqp-messenger": "^7.0",
         "symfony/event-dispatcher": "^7.0",
         "zircote/swagger-php": "^4.8",
-        "doctrine/annotations": "^2.0"
+        "doctrine/annotations": "^2.0",
+        "symfony/notifier": "^7.0",
+        "twig/twig": "^3.0",
+        "symfony/console": "^6.4",
+        "symfony/mailer": "^7.0"
     }
 }

@@ -20,5 +20,8 @@ class AdHandler
 
         $ad2->setStatus(Status::PROCESSED);
         $em->flush();
+
+        // отправка сообщений по email и sms
+
     }
 }

@@ -13,6 +13,15 @@ return [
         ],
         'get'
     ),
+    new Route(
+        '/',
+        'order',
+        [
+            \Common\Infrastructure\Controller::class,
+            'order'
+        ],
+        'post'
+    ),
     new RouteGroup(
         '/api',
         'api',

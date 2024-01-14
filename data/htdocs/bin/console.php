@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/local/bin/php
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../config/helpers.php';

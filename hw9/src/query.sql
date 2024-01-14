@@ -1,8 +1,8 @@
 select film.id, film.name, Attribute.name, typeAttribute.name,
 case
 when typeAttribute.id=1 then valueAttribute.text_value
+when typeAttribute.id=2 then valueAttribute.int_value::TEXT
 when typeAttribute.id=3 then valueAttribute.bool_value::TEXT
-when typeAttribute.id=6 then valueAttribute.char_value
 when typeAttribute.id=4 then valueAttribute.num_value::TEXT
 when typeAttribute.id=5 then valueAttribute.time_value::TEXT
 end  attr_value

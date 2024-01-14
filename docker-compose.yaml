@@ -1,0 +1,92 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: ${CONTAINER_NAME_NGINX}
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ${APPLICATION_ROOT}
+       - ./nginx/log:/var/log/nginx
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+       - ${APPLICATION_ROOT}
+       - ./fpm/log:/var/log/php
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+
+  # mysql service
+  mysql:
+    image: mysql
+    #command: --default-authentication-plugin=mysql_native_password
+    command: --default-authentication-plugin=caching_sha2_password
+    volumes:
+      - ./mysql/db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - app-network
+
+
+  # redis service
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: redis:7.2-alpine
+    #Исправление ошибки с vm.overcommit_memory
+    #command: sh -c "./init.sh"
+    privileged: true
+    ports:
+      - '6379:6379'
+    volumes:
+     # - ${APPLICATION_ROOT}
+      - ./redis/:/redis
+    networks:
+      - app-network
+    depends_on:
+      - app
+
+
+  # memcached service
+  memcached:
+    image: memcached:latest
+    container_name: memcached
+    ports:
+      - '11211:11211'
+    networks:
+      - app-network
+    depends_on:
+      - app
+      - mysql
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Santonov\Otus;
 
-class Validator
+final class Validator
 {
     public static function openedClosedBrackets(
         string $baseString,

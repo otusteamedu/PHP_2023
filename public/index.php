@@ -7,5 +7,5 @@ use Santonov\Otus\Application;
 require_once '../vendor/autoload.php';
 
 $app = new Application();
-$result = $app->process();
-echo implode("<br>", $result);
+$response = $app->process();
+echo $response->getMessage();

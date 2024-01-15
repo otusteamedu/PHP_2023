@@ -17,7 +17,7 @@ return [
         '/',
         'order',
         [
-            \Common\Infrastructure\Controller::class,
+            \Order\Infrastructure\Controller::class,
             'order'
         ],
         'post'

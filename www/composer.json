@@ -1,0 +1,23 @@
+{
+    "name": "syalansky/homework11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yalanskiy\\SearchApp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sergey Yalanskiy"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11",
+        "symfony/console": "^7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

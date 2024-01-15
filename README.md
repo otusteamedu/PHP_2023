@@ -9,8 +9,8 @@ docker-compose up
 # Войти в контейнер
 docker compose exec app bash
 
-## Первый запуск
-docker compose exec app composer install 
+## установка composer пакетов
+composer install 
 
 ## Запуск консьюмера
 ./bin/console.php messenger:consume rabbit

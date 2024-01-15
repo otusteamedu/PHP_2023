@@ -15,7 +15,7 @@ class Article
     private ?int $id = null;
     private ?string $title = null;
     private ?string $text = null;
-    private array $tags = [];
+    private ?array $tags = null;
     private PDO $pdo;
     private PDOStatement $selectStatement;
     private PDOStatement $selectAllStatement;
@@ -79,7 +79,10 @@ class Article
 
     public function getTags(): array
     {
-        return (new Tag($this->pdo))->findAllByArticle($this->id);
+        if ($this->tags !== null) {
+            return $this->tags;
+        }
+        return $this->tags = (new Tag($this->pdo))->findAllByArticle($this->id);
     }
 
     public function setId(int $id): self

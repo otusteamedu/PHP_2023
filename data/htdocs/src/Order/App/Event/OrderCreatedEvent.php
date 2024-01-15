@@ -1,8 +1,8 @@
 <?php
 
-namespace Order\App;
+namespace Order\App\Event;
 
-use Order\Infrastructure\AddOrderDTO;
+use Order\App\AddOrderDTO;
 use Symfony\Contracts\EventDispatcher\Event;
 
 class OrderCreatedEvent extends Event

@@ -1,6 +1,6 @@
 <?php
 
-namespace Order\Infrastructure;
+namespace Order\App;
 
 class AddOrderDTO
 {

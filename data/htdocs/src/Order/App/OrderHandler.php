@@ -2,10 +2,9 @@
 
 namespace Order\App;
 
-use Order\Infrastructure\AddOrderDTO;
+use Order\App\Event\OrderCreatedEvent;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Contracts\EventDispatcher\Event;
 
 class OrderHandler
 {

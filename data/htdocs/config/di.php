@@ -2,7 +2,7 @@
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\ORMSetup;
-use Order\Infrastructure\AddOrderDTO;
+use Order\App\AddOrderDTO;
 use Psr\Container\ContainerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Log\LoggerInterface;
@@ -98,10 +98,10 @@ return [
     EventDispatcherInterface::class => DI\factory(function (ContainerInterface $c) {
         $dispatcher = new \Symfony\Component\EventDispatcher\EventDispatcher();
 
-        $dispatcher->addSubscriber(new \Order\Infrastructure\SendEmailSubscriber(
+        $dispatcher->addSubscriber(new \Order\App\SendEmailSubscriber(
             $c->get('mailer')
         ));
-        $dispatcher->addSubscriber(new \Order\Infrastructure\ConsoleSubscriber());
+        $dispatcher->addSubscriber(new \Order\App\ConsoleSubscriber());
 
         return $dispatcher;
     }),

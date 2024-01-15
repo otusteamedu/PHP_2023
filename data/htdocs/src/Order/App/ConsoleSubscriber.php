@@ -1,11 +1,11 @@
 <?php
 
-namespace Order\Infrastructure;
+namespace Order\App;
 
-use Order\App\OrderCreatedEvent;
+use Order\App\Event\OrderCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class ConsoleSubscriber implements EventSubscriberInterface
+readonly class ConsoleSubscriber implements EventSubscriberInterface
 {
     public static function getSubscribedEvents(): array
     {
@@ -14,7 +14,7 @@ class ConsoleSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onOrderCreatedEvent(OrderCreatedEvent $event)
+    public function onOrderCreatedEvent(OrderCreatedEvent $event): void
     {
         echo 'ConsoleSubscriber: ' . $event->getData()->email . ': [' . $event->getData()->from->format('Y-m-d H:i:s') . '] -> [' . $event->getData()->to->format('Y-m-d H:i:s') . ']' . PHP_EOL;
     }

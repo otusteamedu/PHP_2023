@@ -1,8 +1,8 @@
 <?php
 
-namespace Order\Infrastructure;
+namespace Order\App;
 
-use Order\App\OrderCreatedEvent;
+use Order\App\Event\OrderCreatedEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -20,7 +20,7 @@ readonly class SendEmailSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function onOrderCreatedEvent(OrderCreatedEvent $event)
+    public function onOrderCreatedEvent(OrderCreatedEvent $event): void
     {
         $message = 'Новый заказ: ' . $event->getData()->email . ': [' . $event->getData()->from->format('Y-m-d H:i:s') . '] -> [' . $event->getData()->to->format('Y-m-d H:i:s') . ']';
         $email = new Email();

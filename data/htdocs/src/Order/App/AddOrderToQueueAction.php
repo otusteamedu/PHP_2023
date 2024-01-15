@@ -2,10 +2,7 @@
 
 namespace Order\App;
 
-use Order\Infrastructure\AddOrderDTO;
 use Symfony\Component\Messenger\MessageBusInterface;
-
-use function MongoDB\BSON\toJSON;
 
 class AddOrderToQueueAction
 {

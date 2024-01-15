@@ -4,15 +4,11 @@ namespace Common\Infrastructure;
 
 use Common\Infrastructure\Templating\Twig;
 use OpenApi\Annotations as OA;
+use Order\App\AddOrderDTO;
 use Order\App\AddOrderToQueueAction;
-use Order\Infrastructure\AddOrderDTO;
-use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Sunrise\Http\Message\Response\HtmlResponse;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\Mime\Address;
-use Symfony\Component\Mime\Email;
 
 class Controller
 {

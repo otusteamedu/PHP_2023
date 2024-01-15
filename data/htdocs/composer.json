@@ -1,0 +1,34 @@
+{
+    "name": "sva/otus",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Sva"
+        }
+    ],
+    "require": {
+        "php-di/php-di": "^7.0",
+        "monolog/monolog": "^3.5",
+        "sunrise/http-router": "^2.15",
+        "sunrise/http-message": "^3.0",
+        "doctrine/orm": "^2.17",
+        "symfony/cache": "^7.0",
+        "robmorgan/phinx": "^0.13",
+        "fakerphp/faker": "^1.23",
+        "somnambulist/validation": "^1.8",
+        "symfony/messenger": "^7.0",
+        "symfony/amqp-messenger": "^7.0",
+        "symfony/event-dispatcher": "^7.0",
+        "zircote/swagger-php": "^4.8",
+        "doctrine/annotations": "^2.0",
+        "symfony/notifier": "^7.0",
+        "twig/twig": "^3.0",
+        "symfony/console": "^6.4",
+        "symfony/mailer": "^7.0"
+    }
+}

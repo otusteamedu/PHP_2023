@@ -1,0 +1,33 @@
+{% extends "layout/default.twig" %}
+
+{% block body %}
+    {% if(success)  %}
+        <div class="alert alert-success" role="alert">
+            {{ success }}
+        </div>
+    {% elseif(error)  %}
+        <div class="alert alert-danger" role="alert">
+            {{ error }}
+        </div>
+    {% else %}
+        <h1>Форма</h1>
+        <form action="/" method="post">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email">
+            </div>
+
+            <div>
+                <label for="from">От</label>
+                <input type="datetime-local" name="from" id="from">
+            </div>
+
+            <div>
+                <label for="to">До</label>
+                <input type="datetime-local" name="to" id="to">
+            </div>
+
+            <button type="submit">Отправить</button>
+        </form>
+    {% endif %}
+{% endblock %}

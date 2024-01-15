@@ -31,8 +31,7 @@ CREATE TABLE attributevalues (
     id SERIAL PRIMARY KEY,
     movie_id INT,
     attribute_id INT,
-    value_str VARCHAR(512),
-    value_txt TEXT,
+    value_str VARCHAR(10000),
     value_int INT,
     value_dbl DOUBLE PRECISION,
     value_dte DATE,
@@ -77,11 +76,10 @@ SELECT
     a.name AS attribute,
     CASE 
         WHEN a.type_id = 1 THEN av.value_str::TEXT
-        WHEN a.type_id = 2 THEN av.value_txt
-        WHEN a.type_id = 3 THEN av.value_int::TEXT
-        WHEN a.type_id = 4 THEN ROUND(CAST(av.value_dbl AS NUMERIC),2)::TEXT
-        WHEN a.type_id = 5 THEN av.value_dte::TEXT
-        WHEN a.type_id = 6 THEN av.value_bln::TEXT
+        WHEN a.type_id = 2 THEN av.value_int::TEXT
+        WHEN a.type_id = 3 THEN ROUND(CAST(av.value_dbl AS NUMERIC),2)::TEXT
+        WHEN a.type_id = 4 THEN av.value_dte::TEXT
+        WHEN a.type_id = 5 THEN av.value_bln::TEXT
         ELSE NULL
     END AS value
 

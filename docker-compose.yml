@@ -5,7 +5,7 @@ networks:
     driver: bridge
 
 services:
-  nginx:
+  nginx-balancer:
     image: nginx:latest
     ports:
       - "80:80"
@@ -13,22 +13,53 @@ services:
     networks:
       - restricted-network
     volumes:
+      - ./balancer:/etc/nginx/conf.d
+      - ./ssl:/etc/nginx/ssl
+
+  nginx1:
+    image: nginx:latest
+    container_name: nginx1
+    networks:
+      - restricted-network
+    volumes:
       - ./conf.d:/etc/nginx/conf.d
       - ./www:/var/www
       - ./log/nginx:/var/log/nginx
       - ./ssl:/etc/nginx/ssl
-    depends_on:
-      - php
-  php:
+  nginx2:
+    image: nginx:latest
+    container_name: nginx2
+    networks:
+      - restricted-network
+    volumes:
+      - ./conf.d:/etc/nginx/conf.d
+      - ./www:/var/www
+      - ./log/nginx:/var/log/nginx
+      - ./ssl:/etc/nginx/ssl
+
+  app1:
     build: images/php8.2
     volumes:
       - ./www:/var/www
     networks:
       - restricted-network
+    container_name: app1
     depends_on:
       - mysql
     env_file:
       - .env
+  app2:
+    build: images/php8.2
+    volumes:
+      - ./www:/var/www
+    networks:
+      - restricted-network
+    container_name: app2
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+
   mysql:
     image: mariadb
     hostname: mysql

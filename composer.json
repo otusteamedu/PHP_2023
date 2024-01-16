@@ -1,0 +1,20 @@
+{
+  "name": "santonov/otus",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "Santonov\\Otus\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Sergey Antonov"
+    }
+  ],
+  "require": {
+    "egulias/email-validator": "^4.0"
+  },
+  "replace": {
+    "symfony/polyfill-php72": "*"
+  }
+}

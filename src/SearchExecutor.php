@@ -6,7 +6,6 @@ class SearchExecutor implements ElasticSearchInterface
 {
     private ElasticSearch $elasticSearch;
     private array $searchParams;
-    
     public function __construct(string $host, string $user, string $password)
     {
         $this->elasticSearch = new ElasticSearch($host, $user, $password);
@@ -36,7 +35,6 @@ class SearchExecutor implements ElasticSearchInterface
             ],
         ];
     }
-    
     public function setCategory(string $category): void
     {
         $this->searchParams['body']['query']['bool']['filter'][] = [
@@ -45,7 +43,6 @@ class SearchExecutor implements ElasticSearchInterface
             ],
         ];
     }
-    
     public function setTitle(string $title): void
     {
         $this->searchParams['body']['query']['bool']['must'] = [
@@ -58,7 +55,6 @@ class SearchExecutor implements ElasticSearchInterface
             ],
         ];
     }
-    
     public function setPrice(string $price): void
     {
         $price = $this->transformCompareOperators($price);
@@ -68,7 +64,6 @@ class SearchExecutor implements ElasticSearchInterface
             ],
         ];
     }
-    
     private function transformCompareOperators(string $string): array
     {
         $digit = str_replace(['>', '=', '<'], '', $string);
@@ -84,7 +79,6 @@ class SearchExecutor implements ElasticSearchInterface
             'gte' => $digit,
         ];
     }
-    
     public function setStock(string $count): void
     {
         $this->searchParams['body']['query']['bool']['filter'][0]['nested']['query']['bool']['must'] = [
@@ -93,7 +87,6 @@ class SearchExecutor implements ElasticSearchInterface
             ],
         ];
     }
-    
     public function search(array $commands)
     {
         if (array_key_exists('title', $commands)) {

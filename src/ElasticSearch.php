@@ -8,9 +8,8 @@ use Elastic\Elasticsearch\Exception\AuthenticationException;
 use Elastic\Elasticsearch\Exception\ClientResponseException;
 use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
-use RuntimeException;
 
-abstract class AbstractElasticSearch
+class ElasticSearch implements ElasticSearchInterface
 {
     protected array $searchParams;
     protected Client $client;
@@ -18,7 +17,7 @@ abstract class AbstractElasticSearch
     public function __construct(
         private string $host,
         private string $user,
-        private string $password,
+        private string $password
     ) {
         $this->connect();
         $this->initSearch();

@@ -15,6 +15,7 @@ class LogicHandler
         ]);
         $this->displayResults($searchResults);
     }
+    
     public function displayResults(array $searchResults)
     {
         $table = new LucidFrame\Console\ConsoleTable();

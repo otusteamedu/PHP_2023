@@ -4,30 +4,36 @@ namespace HW11\Elastic;
 
 class ConsoleParameters
 {
-    public array $parameters;
-
-    public function __construct(array $parameters)
+    private $searchTerm;
+    private $category;
+    private $price;
+    private $stockQuantity;
+    
+    public function __construct(array $options)
     {
-        $this->parameters = $parameters;
+        $this->searchTerm = $options['s'] ?? null;
+        $this->category = $options['c'] ?? null;
+        $this->price = $options['p'] ?? null;
+        $this->stockQuantity = $options['q'] ?? null;
     }
-
-    public function getSearchTerm(): ?string
+    
+    public function getSearchTerm()
     {
-        return $this->parameters['s'] ?? null;
+        return $this->searchTerm;
     }
-
-    public function getCategory(): ?string
+    
+    public function getCategory()
     {
-        return $this->parameters['c'] ?? null;
+        return $this->category;
     }
-
-    public function getPrice(): ?string
+    
+    public function getPrice()
     {
-        return $this->parameters['p'] ?? null;
+        return $this->price;
     }
-
-    public function getStockQuantity(): ?string
+    
+    public function getStockQuantity()
     {
-        return $this->parameters['q'] ?? null;
+        return $this->stockQuantity;
     }
 }

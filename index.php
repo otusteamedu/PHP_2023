@@ -7,12 +7,13 @@ use HW11\Elastic\LogicHandler;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-$consoleParams = new ConsoleParameters(getopt('s:c:p:q:'));
-
-$searchTerm    = $consoleParams->getSearchTerm();
-$category      = $consoleParams->getCategory();
-$price         = $consoleParams->getPrice();
-$stockQuantity = $consoleParams->getStockQuantity();
+$options       = getopt('s:c:p:q:');
+$consoleParams = new ConsoleParameters($options);
 
 $logicHandler = new LogicHandler();
-$logicHandler->handleLogic($searchTerm, $category, $price, $stockQuantity);
+$logicHandler->handleLogic(
+    $consoleParams->getSearchTerm(),
+    $consoleParams->getCategory(),
+    $consoleParams->getPrice(),
+    $consoleParams->getStockQuantity()
+);

@@ -2,27 +2,27 @@
 
 namespace HW11\Elastic;
 
-class SearchExecutor extends AbstractElasticSearch
+class SearchExecutor implements ElasticSearchInterface
 {
-    protected array $searchParams;
-    public function __construct(
-        string $host,
-        string $user,
-        string $password,
-    ) {
-        parent::__construct($host, $user, $password);
+    private ElasticSearch $elasticSearch;
+    private array $searchParams;
+    
+    public function __construct(string $host, string $user, string $password)
+    {
+        $this->elasticSearch = new ElasticSearch($host, $user, $password);
+        
         $this->searchParams = [
-            'index' => self::INDEX_NAME,
-            'from'  => 0,
-            'size'  => 10,
-            'body'  => [
+            'index' => ElasticSearch::INDEX_NAME,
+            'from' => 0,
+            'size' => 10,
+            'body' => [
                 'query' => [
                     'bool' => [
-                        'must'   => [],
+                        'must' => [],
                         'filter' => [
                             [
                                 'nested' => [
-                                    'path'  => 'stock',
+                                    'path' => 'stock',
                                     'query' => [
                                         'bool' => [
                                             'must' => [],
@@ -36,7 +36,8 @@ class SearchExecutor extends AbstractElasticSearch
             ],
         ];
     }
-    private function setCategory(string $category): void
+    
+    public function setCategory(string $category): void
     {
         $this->searchParams['body']['query']['bool']['filter'][] = [
             'match' => [
@@ -44,19 +45,21 @@ class SearchExecutor extends AbstractElasticSearch
             ],
         ];
     }
+    
     public function setTitle(string $title): void
     {
         $this->searchParams['body']['query']['bool']['must'] = [
             'match' => [
                 'title' => [
-                    'query'     => $title,
+                    'query' => $title,
                     'fuzziness' => 'auto',
-                    'operator'  => 'and',
+                    'operator' => 'and',
                 ],
             ],
         ];
     }
-    private function setPrice(string $price): void
+    
+    public function setPrice(string $price): void
     {
         $price = $this->transformCompareOperators($price);
         $this->searchParams['body']['query']['bool']['filter'][] = [
@@ -65,27 +68,24 @@ class SearchExecutor extends AbstractElasticSearch
             ],
         ];
     }
+    
     private function transformCompareOperators(string $string): array
     {
-        $digit = str_replace(['>', '<', '='], '', $string);
-        if (str_contains($string, '<=')) {
-            return ['lte' => $digit];
-        }
-        if (str_contains($string, '>=')) {
-            return ['gte' => $digit];
+        $digit = str_replace(['>', '=', '<'], '', $string);
+        
+        if (str_contains($string, '>')) {
+            return ['gt' => $digit];
         }
         if (str_contains($string, '<')) {
             return ['lt' => $digit];
-        }
-        if (str_contains($string, '>')) {
-            return ['gt' => $digit];
         }
         return [
             'lte' => $digit,
             'gte' => $digit,
         ];
     }
-    private function setStock(string $count): void
+    
+    public function setStock(string $count): void
     {
         $this->searchParams['body']['query']['bool']['filter'][0]['nested']['query']['bool']['must'] = [
             'range' => [
@@ -93,6 +93,7 @@ class SearchExecutor extends AbstractElasticSearch
             ],
         ];
     }
+    
     public function search(array $commands)
     {
         if (array_key_exists('title', $commands)) {
@@ -107,6 +108,6 @@ class SearchExecutor extends AbstractElasticSearch
         if (array_key_exists('stock', $commands)) {
             $this->setStock($commands['stock']);
         }
-        return $this->client->search($this->searchParams);
+        return $this->elasticSearch->search($this->searchParams);
     }
 }

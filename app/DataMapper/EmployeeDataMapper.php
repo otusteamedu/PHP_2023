@@ -54,7 +54,6 @@ class EmployeeDataMapper extends DataMapper
         }
         return $collection;
     }
-    
     /**
      * @param Employee $employee
      * @return bool
@@ -63,7 +62,6 @@ class EmployeeDataMapper extends DataMapper
     {
         return $this->updateStatement->execute($employee->asArray());
     }
-    
     /**
      * @param Employee $employee
      * @return Employee|null
@@ -73,11 +71,8 @@ class EmployeeDataMapper extends DataMapper
         if (!$this->insertStatement->execute($employee->asArray())) {
             return null;
         }
-        
         return $employee->setId((int)$this->pdo->lastInsertId());
     }
-    
-    
     /**
      * @param Employee $employee
      * @return bool

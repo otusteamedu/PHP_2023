@@ -5,7 +5,6 @@ namespace App\Models;
 class EmployeeCollection
 {
     private array $items = [];
-    
     /**
      * @param Employee $employee
      * @return $this
@@ -15,7 +14,6 @@ class EmployeeCollection
         $this->items[] = $employee;
         return $this;
     }
-    
     /**
      * @return Employee[]
      */

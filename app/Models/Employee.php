@@ -12,7 +12,6 @@ class Employee
     ) {
         //
     }
-    
     /**
      * @return array
      */
@@ -25,7 +24,6 @@ class Employee
             'phone'   => $this->phone,
         ];
     }
-    
     /**
      * @param int $id
      * @return $this
@@ -33,7 +31,6 @@ class Employee
     public function setID(int $id): self
     {
         $this->id = $id;
-        
         return $this;
     }
 }

@@ -9,7 +9,6 @@ class SearchExecutor implements ElasticSearchInterface
     public function __construct(string $host, string $user, string $password)
     {
         $this->elasticSearch = new ElasticSearch($host, $user, $password);
-        
         $this->searchParams = [
             'index' => ElasticSearch::INDEX_NAME,
             'from' => 0,
@@ -67,7 +66,6 @@ class SearchExecutor implements ElasticSearchInterface
     private function transformCompareOperators(string $string): array
     {
         $digit = str_replace(['>', '=', '<'], '', $string);
-        
         if (str_contains($string, '>')) {
             return ['gt' => $digit];
         }

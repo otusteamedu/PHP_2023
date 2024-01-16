@@ -22,19 +22,19 @@ class EmployeeDataMapper extends DataMapper
     {
         parent::__construct($connection);
         $this->selectStatement = $connection->prepare(
-            'select * from self::getTableName() where id = ?'
+            'select * from ' . self::getTableName() . ' where id = ?'
         );
         $this->insertStatement = $connection->prepare(
-            'insert into {self::getTableName()} (:id, :name, :surname, :phone) values (?, ?, ?, ?)'
+            'insert into ' . self::getTableName() . ' (id, name, surname, phone) values (?, ?, ?, ?)'
         );
         $this->updateStatement = $connection->prepare(
-            'update self::getTableName() set name = ?, surname = ?, phone = ? where id = ?',
+            'update ' . self::getTableName() . ' set name = coalesce(?, name), surname = coalesce(?, surname), phone = coalesce(?, phone) where id = ?'
         );
         $this->deleteStatement = $connection->prepare(
-            'delete from self::getTableName() where id = ?'
+            'delete from ' . self::getTableName() . ' where id = ?'
         );
         $this->findAllStatement = $connection->prepare(
-            'select * from self::getTableName()'
+            'select * from ' . self::getTableName()
         );
     }
     /**

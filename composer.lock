@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "5978143fbacd9904dfcb162ba1206d27",
+    "packages": [
+        {
+            "name": "alisakolosova/hw3",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alisaorange/alisa-composer-package.git",
+                "reference": "49a5227159a23d6729279be2c43913b55086d120"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alisaorange/alisa-composer-package/zipball/49a5227159a23d6729279be2c43913b55086d120",
+                "reference": "49a5227159a23d6729279be2c43913b55086d120",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Alisakolosova\\Hw3\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alisa",
+                    "email": "kolosovaalisa@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/alisaorange/alisa-composer-package/issues",
+                "source": "https://github.com/alisaorange/alisa-composer-package/tree/v1.0.0"
+            },
+            "time": "2024-01-16T21:01:34+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.6.0"
+}

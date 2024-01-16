@@ -15,44 +15,35 @@ class EmployeeDataMapper extends DataMapper
     {
         return 'employees';
     }
-    
     /**
      * @param PDO $connection
      */
     public function __construct(PDO $connection)
     {
         parent::__construct($connection);
-        
         $this->selectStatement = $connection->prepare(
             'select * from self::getTableName() where id = ?'
         );
-        
         $this->insertStatement = $connection->prepare(
             'insert into {self::getTableName()} (:id, :name, :surname, :phone) values (?, ?, ?, ?)'
         );
-        
         $this->updateStatement = $connection->prepare(
             'update self::getTableName() set name = ?, surname = ?, phone = ? where id = ?',
         );
-        
         $this->deleteStatement = $connection->prepare(
             'delete from self::getTableName() where id = ?'
         );
-        
         $this->findAllStatement = $connection->prepare(
             'select * from self::getTableName()'
         );
     }
-    
     /**
      * @return EmployeeCollection
      */
     public function findAll(): EmployeeCollection
     {
         $this->findAllStatement->execute();
-        
         $collection = new EmployeeCollection();
-        
         foreach ($this->findAllStatement->fetchAll(PDO::FETCH_ASSOC) as $row) {
             $collection->add(new Employee(
                 $row['id'],
@@ -61,7 +52,6 @@ class EmployeeDataMapper extends DataMapper
                 $row['phone']
             ));
         }
-        
         return $collection;
     }
     

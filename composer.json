@@ -1,0 +1,23 @@
+{
+  "name": "hw13/db",
+  "type": "project",
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Roman Voznyi",
+      "email": "r.voznyi@webpractik.ru"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest"
+  ,
+    "friendsofphp/php-cs-fixer": "^3.34"
+  }
+}

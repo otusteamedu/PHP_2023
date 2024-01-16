@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  elasticsearch:
+    image: elasticsearch:8.8.0
+    ports:
+      - "9200:9200"
+    environment:
+      discovery.type: single-node
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ES_PORT: ${ES_PORT}
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+    networks:
+      - app-network
+
+  php:
+    build:
+      context: ./docker/
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/data/mysite.local
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

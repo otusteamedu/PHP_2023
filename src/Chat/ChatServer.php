@@ -13,7 +13,9 @@ final class ChatServer extends Chat
     public function __construct()
     {
         parent::__construct();
-        if (file_exists($this->socketPath)) unlink($this->socketPath);
+        if (file_exists($this->socketPath)) {
+            unlink($this->socketPath);
+        }
         $this->create();
         $this->bind();
         $this->listen();

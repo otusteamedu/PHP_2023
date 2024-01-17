@@ -19,20 +19,15 @@ services:
     volumes:
       - ./app:/var/www
     links:
-      - redis
-      - mongo  
-
-  redis:
-    image: redis
+      - db
+    
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    container_name: db-server 
     ports:
-      - "127.0.0.1:6379:6379"
-
-  mongo:
-    image: mongo
+      - 3306:3306
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456
-    ports:
-      - 27017:27017  
+      MYSQL_ROOT_PASSWORD: 123456
 
      

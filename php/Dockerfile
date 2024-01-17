@@ -8,18 +8,12 @@ RUN apt-get update && apt-get install -y \
 	&& pecl install memcached-3.2.0 \
 	&& docker-php-ext-enable memcached \
 	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
-	&& docker-php-ext-install -j$(nproc) gd
+	&& docker-php-ext-install -j$(nproc) gd pdo pdo_mysql
 
 RUN apt-get update && apt-get install -y \
 	zip libzip-dev \
 	&& docker-php-ext-configure zip \
 	&& docker-php-ext-install zip	
-
-# Redis
-RUN pecl install redis && docker-php-ext-enable redis
-
-# MongoDB
-RUN pecl install mongodb && docker-php-ext-enable mongodb
 
 # Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

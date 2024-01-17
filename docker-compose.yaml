@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./docker
+      dockerfile: php_cli/Dockerfile
+    volumes:
+      - ./:/app/otus.local
+      - php_socket:/tmp/chat
+    working_dir: /app/otus.local
+    container_name: "${PHP_SERVER_CONTAINER_NAME}"
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./docker
+      dockerfile: php_cli/Dockerfile
+    volumes:
+      - ./:/app/otus.local
+      - php_socket:/tmp/chat
+    working_dir: /app/otus.local
+    container_name: "${PHP_CLIENT_CONTAINER_NAME}"
+    networks:
+      - app-network
+
+volumes:
+  php_socket:
+
+networks:
+  app-network:
+    driver: bridge

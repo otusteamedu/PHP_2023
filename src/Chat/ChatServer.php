@@ -17,7 +17,6 @@ final class ChatServer extends Chat
         $this->create();
         $this->bind();
         $this->listen();
-
     }
 
     public function process(): void

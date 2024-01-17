@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

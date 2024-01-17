@@ -1,3 +1,11 @@
-# PHP_2023
-
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Socket Server/Client
+### Запустить Server:
+```bash
+docker compose run --rm chat php app.php server
+```
+### Запустить Client:
+```bash
+docker compose run --rm chat php app.php client
+```
+### Остановить сервер и клиент
+- в сообщении напечатать /exit

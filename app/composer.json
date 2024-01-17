@@ -1,0 +1,17 @@
+{
+    "name": "root/www",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mt"
+        }
+    ],
+    "require": {
+        "fi1a/collection": "^2.0"
+    }
+}

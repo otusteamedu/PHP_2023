@@ -4,29 +4,36 @@ declare(strict_types=1);
 class Solution {
 
     /**
-     * @param ListNode $list1
-     * @param ListNode $list2
-     * @return ListNode
+     * @param $list1
+     * @param $list2
+     * @return mixed|null
      */
-    function mergeTwoLists($list1, $list2)
+    function mergeTwoLists($list1, $list2): mixed
     {
-        $head = $tail = new ListNode();
+        $mergedList = new ListNode();
+        $pointerToCurrentNode = $mergedList;
 
-        while (isset($list1, $list2)) {
+        while ($list1 !== null && $list2 !== null) {
             if ($list1->val < $list2->val) {
-                $tail->next = $list1;
+                $pointerToCurrentNode->next = $list1;
                 $list1 = $list1->next;
             } else {
-                $tail->next = $list2;
+                $pointerToCurrentNode->next = $list2;
                 $list2 = $list2->next;
             }
 
-            $tail = $tail->next;
+            $pointerToCurrentNode = $pointerToCurrentNode->next;
         }
 
-        $tail->next = $list1 ?? $list2;
+        if ($list1 !== null) {
+            $pointerToCurrentNode->next = $list1;
+        }
 
-        return $head->next;
+        if ($list2 !== null) {
+            $pointerToCurrentNode->next = $list2;
+        }
+
+        return $mergedList->next;
     }
 }
 

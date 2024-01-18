@@ -1,0 +1,83 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  nginx-balancer:
+    build:
+      context: ./balancer
+      dockerfile: Dockerfile
+    container_name: nginx-balancer
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+    depends_on:
+      - nginx-1
+      - nginx-2
+    networks:
+      - app-network
+
+
+  #контейнер с Nginx 1
+  nginx-1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-1
+    volumes:
+       - ./code:/data/mysite.local
+    depends_on:
+      - app1
+      - app2
+    networks:
+      - app-network
+
+
+  #контейнер с Nginx 2
+  nginx-2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx-2
+    volumes:
+      - ./code:/data/mysite.local
+    depends_on:
+      - app1
+      - app2
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app1:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app1 # имя контейнера после запуска
+    volumes:
+       - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app2:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php # имя будущего образа
+    container_name: app2 # имя контейнера после запуска
+    volumes:
+      - ./code:/data/mysite.local
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

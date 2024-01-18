@@ -7,5 +7,5 @@ id user city phone
 6 test6 Saratow 1908213
 7 test7 Saratow 1908214
 8 test8 Saratow 1908215
-9 test6 Saratow 1908216
-10 test6 Saratow 1908217
+9 test9 Saratow 1908216
+10 test10 Saratow 1908217

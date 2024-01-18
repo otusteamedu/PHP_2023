@@ -13,10 +13,10 @@ FROM film f
 ORDER BY av.value;
 
 CREATE VIEW marketing_data AS
-SELECT f.name         AS "Фильм",
-       at.description AS "Тип атрибута",
-       a.name         AS "атрибут",
-       av.value       AS "Значение"
+SELECT f.name                                   AS "Фильм",
+       at.description                           AS "Тип атрибута",
+       a.name                                   AS "атрибут",
+       COALESCE(av.value, av.value_float::text) AS "Значение"
 FROM film f
      INNER JOIN attribute_value av
                 on av.entity_id = f.id

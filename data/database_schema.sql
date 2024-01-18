@@ -22,6 +22,7 @@ CREATE TABLE IF NOT EXISTS attribute_value (
     entity_name varchar(200) NOT NULL,
     entity_id   bigint       NOT NULL,
     attribute   bigint       NOT NULL,
-    value       varchar(3000) NOT NULL,
+    value       varchar(3000),
+    value_float numeric(30, 6),
     FOREIGN KEY (attribute) REFERENCES attribute(id)
 );

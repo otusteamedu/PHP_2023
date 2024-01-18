@@ -1,0 +1,18 @@
+{
+    "name": "mi/test_composer_package",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Mi\\TestComposerPackage\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kanakhin",
+            "email": "anton_kanahin@mail.ru"
+        }
+    ],
+    "require": {
+        "kanakhin/otus-composer-package": "^1.0"
+    }
+}

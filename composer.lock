@@ -1,0 +1,55 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "d3b58f3e3d43524ce543f5bda6f2bd9e",
+    "packages": [
+        {
+            "name": "alexandra-malihina/librarytest",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alexandra-malihina/librarytest.git",
+                "reference": "703f0c3f4d6e6bbc48c1c19b8c5aea25bde47bcb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alexandra-malihina/librarytest/zipball/703f0c3f4d6e6bbc48c1c19b8c5aea25bde47bcb",
+                "reference": "703f0c3f4d6e6bbc48c1c19b8c5aea25bde47bcb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AlexandraMalihina\\Librarytest\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Alexandra M",
+                    "email": "work.mal@mail.ru"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/alexandra-malihina/librarytest/issues",
+                "source": "https://github.com/alexandra-malihina/librarytest/tree/v1.0.0"
+            },
+            "time": "2024-01-19T09:15:16+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

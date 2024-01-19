@@ -23,7 +23,7 @@ validateNumber () {
   return 0
   fi
 
-  numb=$(echo "$numb" | tr -d '0-9.\-')
+  numb=$(echo "$numb" | tr -d '0-9.\-\+')
 
   if [ ${#numb} -gt 0 ]
   then
@@ -45,8 +45,8 @@ then
   exit;
 fi
 
-n1=$(echo $1 | tr "," .)
-n2=$(echo $2 | tr "," .)
+n1=$(echo $1 | tr "," . | tr -d "+")
+n2=$(echo $2 | tr "," . | tr -d "+")
 
 sum=$(echo "$n1 + $n2" | bc)
 echo "Сумма чисел: $sum"

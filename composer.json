@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Kanakhin/WebSockets/": "src/"
+            "Kanakhin\\WebSockets\\": "src/"
         }
     },
     "authors": [
@@ -13,6 +13,7 @@
         }
     ],
     "require": {
+        "php": "^8.1",
         "vlucas/phpdotenv": "^5.6",
         "ext-sockets": "*",
         "ext-readline": "*"

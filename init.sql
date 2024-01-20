@@ -1,4 +1,4 @@
-create database cinema;
+--create database cinema;
 
 drop view if exists marketing_data;
 drop view if exists service_data;
@@ -20,8 +20,14 @@ create table public.genres
     title VARCHAR(255) not null
 );
 
-INSERT INTO genres (title) VALUES ('Боевик'), ('Комедия'), ('Мелодрама'), ('Триллер');
-
+insert
+	into
+	genres (title)
+values ('Мультфильм'),
+('Комедия'),
+('Боевик'),
+('Триллер'),
+('Драма');
 
 create table public.films
 (
@@ -33,11 +39,15 @@ create table public.films
 );
 
 INSERT INTO films (title, description, image_preview, teaser_preview) VALUES 
-	('Когти дракона', 'Молодой ученик Тао Цзи сражается за справедливость', 'http://path_to_image', 'http://path_to_teaser'),
-	('Полицейские под прикрытием', 'Два полицейских работают под прикрытием',  'http://path_to_image', 'http://path_to_teaser'),
-	('Операция «Фортуна»', 'Команда шпионов пытается сорвать продажу супероружия', 'http://path_to_image', 'http://path_to_teaser'),
-	('Отпуск по обмену', 'Отпуск по обмену', 'http://path_to_image', 'http://path_to_teaser');
-
+	('Три богатыря и Пуп Земли', 'По сказкам мы знаем, что было давным-давно, но что было еще давным-давнее? Трем богатырям предстоит узнать ответ на этот вопрос, хоть они его и не задавали. Тут такое началось, что игогошеньки! Горыныч вдруг находит динозаврика, а Алеша Попович с Князем и конем Юлием буквально проваливаются сквозь землю. Теперь надо срочно понять, как вернуть их назад в будущее. А главное, узнать, кто или что такое загадочный Пуп земли.', 'http://path_to_image', 'http://path_to_teaser'),
+	('Бременские музыканты', 'Они снова в сборе — самая легендарная группа бродячих артистов! Трубадур и его друзья-самозванцы — Пес, Кошка, Осел и самовлюбленный Петух — объединились, чтобы совершить подвиг! Бродячие музыканты во главе с новым лидером снова сплотятся, чтобы вернуть смех и радость на мрачные улицы Бремена. И прежде всего они должны рассмешить дочь Короля, но встреча с Принцессой грозит опасным приключением! Против Трубадура и его друзей — коварные враги, интриги и ловушки, но за любовь надо сражаться. А тут еще Принцесса сбежала из дворца! В одном клубке — преступные схемы Разбойников, интриги Сыщика, капризы и тайны королевской семейки, но веселые музыканты с неутомимым Трубадуром заставят всех плясать под свою дудку! На что готовы Бременские музыканты ради подвига?', 'http://path_to_image', 'http://path_to_teaser'),
+	('Холоп 2', 'Главный герой продолжения комедийного блокбастера — Гриша, бывший мажор, побывавший в роли холопа из позапрошлого века, изменившей его к лучшему. После путешествия в «прошлое» он чутко реагирует на любую несправедливость и, конечно же, не может пройти мимо беспредела, который творит наглая и избалованная Катя. Ничего удивительного, что вскоре мажорка обнаруживает себя в другом времени и в другом социальном статусе…', 'http://path_to_image', 'http://path_to_teaser'),
+	('Последний наемник', 'Легендарный наемный убийца Финбар решает, что он уже не так хорош и ему пора отойти от дел. Но однажды в город, где он залег на дно, наведывается банда и начинает беспредел. Финбару ничего не остается, как встать на сторону правосудия и снова взяться за оружие. И на этот раз он рискует не только собой, но и всеми, кто ему дорог.', 'http://path_to_image', 'http://path_to_teaser'),
+	('Феррари', 'Об автомобилях Ferrari мечтают миллионы, а имеют единицы. Это символ роскошной жизни, известный во всем мире. Но блестящий фасад скрывает трагическую историю основателя компании Энцо Феррари. Семейные проблемы, финансовый кризис, ужасные аварии и даже гнев Ватикана — все это в свое время преодолел гениальный конструктор и бизнесмен, чтобы вписать свое имя в историю автопрома навсегда.', 'http://path_to_image', 'http://path_to_teaser'),
+	('Фильм 1', 'DEsc', 'http://path_to_image', 'http://path_to_teaser'),
+	('Фильм 2', 'DEsc', 'http://path_to_image', 'http://path_to_teaser'),
+	('Фильм 3', 'DEsc', 'http://path_to_image', 'http://path_to_teaser'),
+	('Фильм 4', 'DEsc', 'http://path_to_image', 'http://path_to_teaser');
 
 create table public.film_genres
 (
@@ -51,7 +61,11 @@ delete
 		cascade
 );
 
-INSERT INTO film_genres (film_id, genre_id) VALUES (1,1), (2,1), (2,2), (3,1), (3,2), (4,3);
+INSERT INTO film_genres (film_id, genre_id) VALUES (1,1), (1,2);
+INSERT INTO film_genres (film_id, genre_id) VALUES (2,2);
+INSERT INTO film_genres (film_id, genre_id) VALUES (3,2);
+INSERT INTO film_genres (film_id, genre_id) VALUES (4,3), (4,4);
+INSERT INTO film_genres (film_id, genre_id) VALUES (5,5);
 
 
 create table public.attribute_type
@@ -98,33 +112,41 @@ delete
 	);
 	
 insert into film_attribute (film_id, attribute_id, text_value, date_value, boolean_value, integer_value) values 
-(3, 3, null, null, true, null),
-(3, 5, null, '2023-12-20', null, null),
-(3, 7, null, null, null, 16),
-(3, 6, null, null, null, 90);
+(1, 6, null, null, null, 87),
+(1, 5, null, '2024-01-01', null, null),
+(2, 6, null, null, null, 115),
+(2, 5, null, '2023-12-20', null, null),
+(3, 6, null, null, null, 119),
+(3, 5, null, '2024-01-01', null, null),
+(4, 6, null, null, null, 105),
+(4, 5, null, '2023-12-15', null, null),
+(4, 6, null, null, null, 105),
+(4, 5, null, '2023-12-20', null, null);
 
-insert into film_attribute (film_id, attribute_id, text_value, date_value, boolean_value, integer_value) values 
-(1, 3, null, null, false, null),
-(1, 5, null, '2023-12-24', null, null),
-(1, 9, null, '2023-11-30', null, null),
-(1, 8, null, '2023-12-20', null, null),
-(1, 6, null, null, null, 110),
-(3, 7, null, null, null, 12);
 
 create table public.halls
 (
     id serial primary key,
 	title VARCHAR(255) not null,
+	rows integer not null,
 	seats INTEGER not null
 );
 
-INSERT INTO halls (title, seats) VALUES ('Зал 1', 200), ('Зал 2', 300), ('Зал 3', 250);
+INSERT INTO halls (title, rows, seats) VALUES 
+	('Зал 1', 11, 15), 
+	('Зал 2', 11, 15), 
+	('Зал 3', 12, 15), 
+	('Зал 4', 12, 15), 
+	('Зал 5', 10, 15), 
+	('Зал 6', 11, 15), 
+	('Зал 7', 11, 15), 
+	('Зал 8', 11, 15);
 
 create table public.seances
 (
     id serial primary key,
-    start_at DATE not null,
-    finish_at DATE not null,    
+    start_at Timestamp not null,
+    finish_at Timestamp not null,    
     hall_id INT,
     film_id INT,
     foreign key (hall_id) references halls (id) on
@@ -135,20 +157,41 @@ delete
 		cascade
 );
 
-INSERT INTO seances (start_at, finish_at, hall_id, film_id) VALUES
-	('2023-11-30 09:00', '2023-11-30 10:50', 1, 2),
-	('2023-11-30 10:00', '2023-11-30 11:50', 2, 4),
-	('2023-11-30 11:20', '2023-11-30 13:30', 3, 2),
-	('2023-11-30 12:00', '2023-11-30 14:50', 1, 4),
-	('2023-11-30 13:10', '2023-11-30 15:00', 2, 2),
-	('2023-11-30 14:20', '2023-11-30 15:50', 3, 4),
-	('2023-11-30 15:30', '2023-11-30 17:20', 1, 2),
-	('2023-11-30 17:00', '2023-11-30 18:50', 2, 4),
-	('2023-11-30 19:00', '2023-11-30 20:50', 3, 2),
-	('2023-11-30 20:00', '2023-11-30 21:50', 1, 4),
-	('2023-11-30 21:00', '2023-11-30 22:50', 2, 2),
-	('2023-11-30 22:00', '2023-11-30 23:50', 3, 4),
-	('2023-11-30 23:00', '2023-12-01 00:50', 1, 2);
+CREATE or replace PROCEDURE insert_data(film_id integer, hall_id integer, start_date date, days integer, hours text[])
+LANGUAGE plpgsql
+AS $$
+declare 
+	i integer := 0;
+	date date;
+	start_at timestamp;
+	finish_at timestamp;
+	h text;
+	duration integer;
+begin
+		
+	i := 0;
+	for i in 0..days loop
+		date := (select start_date::DATE + i);
+
+		FOREACH h IN ARRAY hours
+		  loop
+		    start_at := (date || ' ' || h);
+			finish_at := (select start_at + interval '90 minutes' );
+			INSERT INTO seances(start_at, finish_at, hall_id, film_id) VALUES (start_at, finish_at, hall_id, film_id);
+		  END LOOP;
+		
+	end loop;
+end;
+$$;
+
+call insert_data(1, 1, '2024-01-07', 30, array['10:40', '12:10', '16:35', '19:30', '22:30']::text[]);
+call insert_data(2, 2, '2023-12-20', 30, array['10:40', '12:50', '15:10', '17:30', '19:50', '23:30']::text[]);
+call insert_data(2, 3, '2024-01-07', 30, array['11:40', '14:00', '16:20', '18:40', '21:00']::text[]);
+call insert_data(3, 4, '2024-01-07', 30, array['10:15', '12:45', '15:15', '17:45', '20:15', '23:30']::text[]);
+call insert_data(3, 5, '2024-01-07', 30, array['11:30', '14:00', '16:30', '19:00', '21:30']::text[]);
+call insert_data(4, 6, '2023-12-15', 30, array['09:15', '11:45', '13:50', '17:00', '19:10', '22:00']::text[]);
+call insert_data(5, 7, '2023-12-20', 30, array['09:15', '11:45', '13:50', '17:00', '19:10', '22:00']::text[]);
+call insert_data(6, 8, '2024-01-02', 30, array['09:15', '11:45', '13:50', '17:00', '19:10', '22:00']::text[]);
 
 create table public.tickets
 (
@@ -166,97 +209,40 @@ delete
 comment on
 column public.tickets.status is 'доступные значения: available, paid, inactive, booked';
 
-INSERT INTO tickets (seance_id, row, seat, price, status) VALUES
-(1,1, 1, 100.00, 'paid'),
-(1,2, 1, 100.00, 'inactive'),
-(1,3, 1, 100.00, 'paid'),
-(1,4, 1, 100.00, 'paid'),
-(1,5, 2, 100.00, 'inactive'),
-(1,6, 2, 100.00, 'paid'),
-(1,7, 2, 100.00, 'paid'),
-(1,8, 4, 150.00, 'inactive'),
-(1,9, 5, 150.00, 'paid'),
-(1,10, 10, 160.00, 'inactive'),
-(2,1, 4, 100.00, 'paid'),
-(2,2, 4, 100.00, 'inactive'),
-(2,3, 6, 100.00, 'inactive'),
-(2,4, 10, 100.00, 'paid'),
-(2,5, 3, 100.00, 'inactive'),
-(2,6, 5, 100.00, 'paid'),
-(2,7, 4, 100.00, 'inactive'),
-(2,8, 10, 150.00, 'paid'),
-(2,9, 7, 150.00, 'paid'),
-(2,10, 8, 160.00, 'paid'),
-(3,5,5, 100.00, 'paid'),
-(3,5,6, 100.00, 'inactive'),
-(3,5,7, 100.00, 'paid'),
-(3,5,8, 100.00, 'paid'),
-(3,6,5, 100.00, 'paid'),
-(3,6,6, 100.00, 'paid'),
-(3,5,9, 100.00, 'paid'),
-(3,7,4, 150.00, 'paid'),
-(3,5,1, 100.00, 'paid'),
-(3,9,3, 150.00, 'inactive'),
-(5,4,5, 130.00, 'paid'),
-(5,4,6, 130.00, 'inactive'),
-(5,4,7, 130.00, 'inactive'),
-(5,4,8, 130.00, 'paid'),
-(5,5,4, 130.00, 'inactive'),
-(5,5,6, 130.00, 'inactive'),
-(5,7,6, 170.00, 'paid'),
-(5,8,8, 170.00, 'inactive'),
-(5,8,9, 170.00, 'paid'),
-(5,10,5, 190.00, 'inactive'),
-(6,5,1, 130.00, 'paid'),
-(6,5,2, 130.00, 'paid'),
-(6,5,3, 130.00, 'paid'),
-(6,5,4, 130.00, 'paid'),
-(6,5,5, 130.00, 'paid'),
-(6,5,6, 130.00, 'paid'),
-(6,5,7, 130.00, 'paid'),
-(6,5,8, 130.00, 'paid'),
-(6,5,9, 130.00, 'paid'),
-(6,5,10, 130.00, 'inactive'),
-(8,5,5, 130.00, 'inactive'),
-(8,5,6, 130.00, 'inactive'),
-(8,5,7, 130.00, 'paid'),
-(8,6,4, 130.00, 'paid'),
-(8,6,5, 130.00, 'inactive'),
-(8,6,6, 130.00, 'paid'),
-(8,7,5, 150.00, 'inactive'),
-(8,8,5, 170.00, 'inactive'),
-(8,8,5, 170.00, 'paid'),
-(8,8,10, 170.00, 'inactive'),
-(10, 4,1, 130.00, 'inactive'),
-(10, 4,2, 130.00, 'inactive'),
-(10, 5,3, 130.00, 'paid'),
-(10, 6,4, 150.00, 'paid'),
-(10, 6,5, 150.00, 'paid'),
-(10, 7,6, 150.00, 'paid'),
-(10, 8,7, 170.00, 'paid'),
-(10, 8,8, 170.00, 'inactive'),
-(10, 8,9, 170.00, 'paid'),
-(10, 8,10, 170.00, 'inactive'),
-(12, 6,1, 160.00, 'paid'),
-(12, 6,2, 160.00, 'available'),
-(12, 6,3, 160.00, 'paid'),
-(12, 7,4, 160.00, 'paid'),
-(12, 7,5, 160.00, 'booked'),
-(12, 7,6, 160.00, 'available'),
-(12, 7,7, 160.00, 'available'),
-(12, 8,8, 190.00, 'available'),
-(12, 8,9, 190.00, 'paid'),
-(12, 8,10, 190.00, 'booked'),
-(13, 4, 6, 160.00, 'paid'),
-(13, 7,5, 160.00, 'available'),
-(13, 5,3, 160.00, 'paid'),
-(13, 5,4, 160.00, 'paid'),
-(13, 9,5, 190.00, 'booked'),
-(13, 9,6, 190.00, 'available'),
-(13, 9,7, 190.00, 'available'),
-(13, 10,6, 2010.00, 'available'),
-(13, 10,7, 210.00, 'paid'),
-(13, 10,8, 210.00, 'booked');
+CREATE or replace PROCEDURE insert_tickets()
+LANGUAGE plpgsql
+AS $$
+declare 
+	seance seances;
+	hall halls;
+	row integer;
+	seat integer;
+	price integer := 250;
+	statuses text[] := array['paid', 'booked', 'inactive'];
+	index integer;
+	status text;
+begin		
+	FOR seance IN 
+  		SELECT * FROM seances
+   	loop   		
+   		select * into hall from halls where id = seance.hall_id;
+   		for row in 1..hall.rows loop
+	   		for seat in 1..hall.seats loop
+	   			index := (SELECT round(random() * 2 + 1));
+	   			status := statuses[index];
+	   			
+	   			INSERT INTO tickets(seance_id, row, seat, price, status) VALUES (seance.id, row,seat, price, status);
+	   		end loop;
+   		end loop;
+   		
+
+   	END LOOP;
+
+end;
+$$;
+
+call insert_tickets();
+
 
 CREATE VIEW service_data AS
 select

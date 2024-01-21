@@ -1,0 +1,18 @@
+{
+    "name": "kanakhin/email-validation",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Kanakhin\\EmailValidation\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "kanakhin",
+            "email": "anton_kanahin@mail.ru"
+        }
+    ],
+    "require": {
+        "php": "^8.1"
+    }
+}

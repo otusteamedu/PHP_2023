@@ -1,0 +1,68 @@
+# Версия синтаксиса
+version: '3'
+
+services:
+  balancer:
+    build:
+      context: ./nginx-balancer
+      dockerfile: Dockerfile
+    image: balancer/nginx
+    container_name: balancer-nginx
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+
+  nginx1:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx/nginx
+    container_name: nginx1
+    volumes:
+      - ./../balancer.local:/data/balancer.local
+    networks:
+      - app-network
+
+  nginx2:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: nginx/nginx
+    container_name: nginx2
+    volumes:
+      - ./../balancer.local:/data/balancer.local
+    networks:
+      - app-network
+
+  app1:
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: app1
+    volumes:
+      - ./../balancer.local:/data/balancer.local
+    networks:
+      - app-network
+  app2:
+    build: 
+      context: ./php
+      dockerfile: Dockerfile
+    image: balancer/php
+    container_name: app2
+    volumes:
+      - ./../balancer.local:/data/balancer.local
+    networks:
+      - app-network
+
+  memcached:
+    image: memcached
+    container_name: memcached
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

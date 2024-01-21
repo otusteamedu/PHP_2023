@@ -4,7 +4,6 @@ namespace VladimirPetrov\EmailValidator\validator;
 
 class EmailValidator
 {
-
     /**
      * @param array $emails
      * @return bool

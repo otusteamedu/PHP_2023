@@ -2,11 +2,8 @@
 
 namespace VladimirPetrov\EmailValidator\helpers;
 
-use http\Client\Response;
-
 class ResponseHelper
 {
-
     /**
      * @return void
      */

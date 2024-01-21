@@ -1,0 +1,10 @@
+{
+    "name": "vladimirpetrov/email-validator",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "VladimirPetrov\\EmailValidator\\": "src/"
+        }
+    },
+    "require": {}
+}

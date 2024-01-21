@@ -1,0 +1,7 @@
+SELECT ID, NAME 
+FROM
+	films 
+WHERE
+	ID IN (
+	SELECT film_id FROM seances WHERE DATE = '2023-12-03'
+	)

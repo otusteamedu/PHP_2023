@@ -10,8 +10,7 @@ class Route
         private readonly string $uri,
         private readonly string $method,
         private $action
-    )
-    {
+    ) {
     }
 
     public static function get(string $uri, $action): static

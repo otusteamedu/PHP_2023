@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/data/mysite.local
+    networks:
+      - app-network
+
+  php-fpm:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: php-fpm
+    volumes:
+      - ./:/data/mysite.local
+    networks:
+      - app-network
+
+  postgres:
+    image: postgres
+    container_name: ${HOST}
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      POSTGRES_DB: ${DB}
+      POSTGRES_USER: ${USER}
+      POSTGRES_PASSWORD: ${PASSWORD}
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

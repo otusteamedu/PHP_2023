@@ -1,0 +1,16 @@
+{
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Alex Chugunov",
+      "email": "alexchugunov@mail.ru"
+    }
+  ],
+  "require": {
+    "ext-pdo": "*"
+  }
+}

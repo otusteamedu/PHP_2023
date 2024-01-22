@@ -3,10 +3,12 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "src\\": "src/"
+            "src\\": "src/",
+            "App\\": "App/"
         }
     },
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "predis/predis": "^2.2"
     }
 }

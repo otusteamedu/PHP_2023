@@ -1,12 +1,5 @@
 version: '3'
 services:
-  site:
-    image: nginx:stable-alpine
-    ports:
-      - "8080:80"
-    volumes:
-      - .:/www
-      - ./docker/nginx:/etc/nginx/conf.d
   php:
     build:
       context: ./
@@ -15,3 +8,9 @@ services:
       - ./:/www
     ports:
       - "9000:9000"
+  redis:
+    image: redis:7.0.9
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/cache:/data

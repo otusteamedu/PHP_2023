@@ -35,23 +35,26 @@ class TableGatewayMovieController extends Controller implements MovieControllerI
 
     public function insert(): void
     {
-        if (!array_key_exists('title', $this->getRequest()->body())
+        if (
+            !array_key_exists('title', $this->getRequest()->body())
             || !array_key_exists('genre_id', $this->getRequest()->body())
             || !array_key_exists('duration', $this->getRequest()->body())
-            || !array_key_exists('rating', $this->getRequest()->body())) {
+            || !array_key_exists('rating', $this->getRequest()->body()))
+        {
             $this->wrongBody();
         }
 
         echo 'InsertId: ' . $this->movie->insert(
-                (int)$this->getRequest()->body()['genre_id'],
-                $this->getRequest()->body()['title'],
-                (int)$this->getRequest()->body()['duration'],
-                (int)$this->getRequest()->body()['rating']);
+            (int)$this->getRequest()->body()['genre_id'],
+            $this->getRequest()->body()['title'],
+            (int)$this->getRequest()->body()['duration'],
+            (int)$this->getRequest()->body()['rating']);
     }
 
     public function update(): void
     {
-        if (!array_key_exists('id', $this->getRequest()->body())
+        if (
+            !array_key_exists('id', $this->getRequest()->body())
             || !array_key_exists('title', $this->getRequest()->body())
             || !array_key_exists('genre_id', $this->getRequest()->body())
             || !array_key_exists('duration', $this->getRequest()->body())

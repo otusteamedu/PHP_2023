@@ -45,10 +45,11 @@ class TableGatewayMovieController extends Controller implements MovieControllerI
         }
 
         $lastId = $this->movie->insert(
-        (int)$this->getRequest()->body()['genre_id'],
-        $this->getRequest()->body()['title'],
-        (int)$this->getRequest()->body()['duration'],
-        (int)$this->getRequest()->body()['rating']);
+            (int)$this->getRequest()->body()['genre_id'],
+            $this->getRequest()->body()['title'],
+            (int)$this->getRequest()->body()['duration'],
+            (int)$this->getRequest()->body()['rating']
+        );
 
         echo 'InsertId: ' . $lastId;
     }
@@ -66,11 +67,12 @@ class TableGatewayMovieController extends Controller implements MovieControllerI
         }
 
         $this->movie->update(
-        (int)$this->getRequest()->body()['genre_id'],
-        $this->getRequest()->body()['title'],
-        (int)$this->getRequest()->body()['duration'],
-        (int)$this->getRequest()->body()['rating'],
-        (int)$this->getRequest()->body()['movie_id']);
+            (int)$this->getRequest()->body()['genre_id'],
+            $this->getRequest()->body()['title'],
+            (int)$this->getRequest()->body()['duration'],
+            (int)$this->getRequest()->body()['rating'],
+            (int)$this->getRequest()->body()['movie_id']
+        );
     }
 
     public function delete(): void

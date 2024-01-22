@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  php:
+    image: php:7.4-fpm
+    container_name: php
+    networks:
+      - app-network
+    volumes:
+      - ./data/htdocs:/var/www/html
+
+  postgres:
+    build:
+      context: ./postgresql
+      dockerfile: Dockerfile
+    image: myapp/postgresql
+    container_name: postgresql
+    ports:
+      - ${POSTGRES_PORT}:5432
+    networks:
+      - app-network
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./data/postgresql/:/var/lib/postgresql/data
+      - ./data/htdocs:/var/www/html
+
+networks:
+  app-network:
+    driver: bridge

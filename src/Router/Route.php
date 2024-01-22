@@ -9,8 +9,9 @@ class Route
     public function __construct(
         private readonly string $uri,
         private readonly string $method,
-        private                 $action
-    ) {
+        private $action
+    )
+    {
     }
 
     public static function get(string $uri, $action): static

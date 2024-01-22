@@ -1,0 +1,46 @@
+version: "3.0"
+services:
+  php-fpm:
+    container_name: php-fpm-utusphp
+    build: ./.docker/php-fpm
+    env_file:
+      - ./.env
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otusphp
+
+  pg:
+    container_name: pg
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - otusphp
+
+  adminer:
+    container_name: adminer-otusphp
+    image: adminer:latest
+    ports:
+      - "8080:8080"
+    networks:
+      - otusphp
+
+  redis:
+    container_name: redis
+    image: redis:latest
+    networks:
+      - otusphp
+
+  redisinsight:
+    image: "redislabs/redisinsight:latest"
+    ports:
+      - "8001:8001"
+    networks:
+      - otusphp
+
+networks:
+  otusphp:
+    driver: bridge

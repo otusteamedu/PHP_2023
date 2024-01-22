@@ -145,8 +145,7 @@ class Movie extends BaseMovie
 
     public function getMostDurationMovie(): self
     {
-        $mostDurationMovieStatement = $this->pdo->prepare(
-            'SELECT * FROM movies ORDER BY duration DESC LIMIT 1');
+        $mostDurationMovieStatement = $this->pdo->prepare('SELECT * FROM movies ORDER BY duration DESC LIMIT 1');
 
         $mostDurationMovieStatement->execute();
 

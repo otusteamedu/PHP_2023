@@ -22,19 +22,19 @@ abstract class BaseMovie
             FROM movies m
             INNER JOIN genres g
             ON	m.genre_id = g.genre_id
-            WHERE movie_id = ?');
+            WHERE movie_id = ?'
+        );
 
         $this->selectAllStatement = $this->pdo->prepare(
             'SELECT	m.movie_id,	m.title, g.genre_id, g.title AS genre,	m.duration , m.rating
             FROM movies m
             INNER JOIN genres g
-            ON	m.genre_id = g.genre_id');
+            ON	m.genre_id = g.genre_id'
+        );
 
-        $this->insertStatement = $this->pdo->prepare(
-            'INSERT INTO movies (genre_id, title, duration, rating) VALUES (?,?,?,?)');
+        $this->insertStatement = $this->pdo->prepare('INSERT INTO movies (genre_id, title, duration, rating) VALUES (?,?,?,?)');
 
-        $this->updateStatement = $this->pdo->prepare(
-            'UPDATE movies SET genre_id = ?, title = ?, duration = ?, rating = ? WHERE movie_id = ?'
+        $this->updateStatement = $this->pdo->prepare('UPDATE movies SET genre_id = ?, title = ?, duration = ?, rating = ? WHERE movie_id = ?'
         );
 
         $this->deleteStatement = $this->pdo->prepare('DELETE FROM movies WHERE movie_id = ?');

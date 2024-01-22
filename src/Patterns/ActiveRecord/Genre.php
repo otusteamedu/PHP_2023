@@ -106,7 +106,8 @@ class Genre extends BaseGenre
 	            genres.genre_id
             ORDER BY
 	            count DESC
-            LIMIT 1');
+            LIMIT 1'
+        );
 
         $mostGenreStatement->execute();
 

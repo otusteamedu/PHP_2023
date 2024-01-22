@@ -40,9 +40,7 @@ class GenreMapper extends BaseGenre
         $genres = [];
 
         foreach ($result as $value) {
-            $genres[] = new Genre(
-                $value['genre_id'],
-                $value['title']);
+            $genres[] = new Genre($value['genre_id'], $value['title']);
         }
 
         return $genres;

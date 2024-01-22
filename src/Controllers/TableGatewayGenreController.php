@@ -48,9 +48,7 @@ class TableGatewayGenreController extends Controller implements GenreControllerI
             $this->wrongBody();
         }
 
-        $this->genre->update(
-            (int)$this->getRequest()->body()['id'],
-            $this->getRequest()->body()['title']);
+        $this->genre->update((int)$this->getRequest()->body()['id'], $this->getRequest()->body()['title']);
     }
 
     public function delete(): void

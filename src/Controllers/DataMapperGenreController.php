@@ -71,9 +71,7 @@ class DataMapperGenreController extends Controller implements GenreControllerInt
             $this->wrongBody();
         }
 
-        $this->genreMapper->update(
-            new Genre((int)$this->getRequest()->body()['id'],
-                $this->getRequest()->body()['title']));
+        $this->genreMapper->update(new Genre((int)$this->getRequest()->body()['id'], $this->getRequest()->body()['title']));
     }
 
     public function delete(): void

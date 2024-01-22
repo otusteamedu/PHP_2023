@@ -1,5 +1,5 @@
 <?php
-// generating sql for filling db
+
 require __DIR__ . '/_const.php';
 $sessions = [];
 
@@ -15,7 +15,7 @@ for ($hall = 1; $hall <= $hallsCount; $hall++) {
         $film = rand(1, $filmsCount);
         $sql .= " ({$i}, {$film}, {$hall}, '" . date('Y-m-d', $date) . "', '[" . date('Y-m-d H:i:s', $date) . "," . date('Y-m-d H:i:s', $date + $seanceDuration - 1) . ")')," . PHP_EOL;
 
-        if($i >= $sessionCount) {
+        if ($i >= $sessionCount) {
             break;
         }
     }

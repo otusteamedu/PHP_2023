@@ -1,4 +1,5 @@
 <?php
+
 $hallsCount = 10;
 $rowsCount = 20;
 $seatsPerRowCount = 10;

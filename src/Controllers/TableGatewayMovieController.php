@@ -39,16 +39,17 @@ class TableGatewayMovieController extends Controller implements MovieControllerI
             !array_key_exists('title', $this->getRequest()->body())
             || !array_key_exists('genre_id', $this->getRequest()->body())
             || !array_key_exists('duration', $this->getRequest()->body())
-            || !array_key_exists('rating', $this->getRequest()->body()))
-        {
+            || !array_key_exists('rating', $this->getRequest()->body())) {
             $this->wrongBody();
         }
 
-        echo 'InsertId: ' . $this->movie->insert(
+        $lastId = $this->movie->insert(
             (int)$this->getRequest()->body()['genre_id'],
             $this->getRequest()->body()['title'],
             (int)$this->getRequest()->body()['duration'],
             (int)$this->getRequest()->body()['rating']);
+
+        echo 'InsertId: ' . $lastId;
     }
 
     public function update(): void

@@ -34,8 +34,7 @@ abstract class BaseMovie
 
         $this->insertStatement = $this->pdo->prepare('INSERT INTO movies (genre_id, title, duration, rating) VALUES (?,?,?,?)');
 
-        $this->updateStatement = $this->pdo->prepare('UPDATE movies SET genre_id = ?, title = ?, duration = ?, rating = ? WHERE movie_id = ?'
-        );
+        $this->updateStatement = $this->pdo->prepare('UPDATE movies SET genre_id = ?, title = ?, duration = ?, rating = ? WHERE movie_id = ?');
 
         $this->deleteStatement = $this->pdo->prepare('DELETE FROM movies WHERE movie_id = ?');
     }

@@ -43,12 +43,7 @@ class MovieMapper extends BaseMovie
         $movies = [];
 
         foreach ($result as $value) {
-            $movies[] = new Movie(
-                $value['movie_id'],
-                $value['genre_id'],
-                $value['title'],
-                $value['duration'],
-                $value['rating']);
+            $movies[] = new Movie($value['movie_id'], $value['genre_id'], $value['title'], $value['duration'], $value['rating']);
         }
 
         return $movies;

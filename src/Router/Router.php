@@ -19,7 +19,7 @@ class Router implements RouterInterface
     ];
 
     public function __construct(
-        private readonly RequestInterface  $request,
+        private readonly RequestInterface $request,
         private readonly DatabaseInterface $database
     )
     {

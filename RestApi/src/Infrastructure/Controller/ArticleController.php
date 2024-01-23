@@ -6,7 +6,6 @@ use App\Application\Dto\ArticleDto;
 use App\Application\Dto\UserDto;
 use App\Application\Notifier\ArticlePublisher;
 use App\Application\UseCase\CreateArticleUseCase;
-use App\Domain\Entity\Category;
 use App\Infrastructure\Repository\ArticleRepository;
 use App\Infrastructure\Repository\AuthorRepository;
 use App\Infrastructure\Repository\CategoryRepository;

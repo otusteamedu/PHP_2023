@@ -1,0 +1,15 @@
+table_schema |      table_name       | rows_n
+--------------+-----------------------+--------
+ public       | seance_tikets         | 217467
+ public       | seances               |  10000
+ public       | users                 |    483
+ public       | film_attributes_vals  |    113
+ public       | v_marketing           |    113
+ public       | halls_seat_schema     |     90
+ public       | films                 |     13
+ public       | v_important_dates     |     12
+ public       | film_attributes       |      9
+ public       | film_attributes_types |      7
+ public       | halls                 |      3
+ public       | settings              |      1
+(12 rows)

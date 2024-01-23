@@ -202,7 +202,8 @@ CREATE TABLE public.seances (
     date date DEFAULT '1999-01-01'::date NOT NULL,
     "time" time(6) without time zone DEFAULT '00:00:00'::time without time zone NOT NULL,
     hall_id integer DEFAULT 0 NOT NULL,
-    base_price numeric(10,2) DEFAULT 0 NOT NULL
+    base_price numeric(10,2) DEFAULT 0 NOT NULL,
+    date_unix_ts integer DEFAULT 0 NOT NULL
 );
 
 
@@ -380,6 +381,14 @@ ALTER TABLE ONLY public.seance_tikets
 
 
 --
+-- Name: seances seances_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.seances
+    ADD CONSTRAINT seances_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: settings settings_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -416,10 +425,31 @@ CREATE INDEX film_attributes_vals_film_id_idx ON public.film_attributes_vals USI
 
 
 --
--- Name: seance_tikets_seance_id_seat_id_idx; Type: INDEX; Schema: public; Owner: postgres
+-- Name: seance_tikets_seance_id_idx; Type: INDEX; Schema: public; Owner: postgres
 --
 
-CREATE UNIQUE INDEX seance_tikets_seance_id_seat_id_idx ON public.seance_tikets USING btree (seance_id, seat_num);
+CREATE INDEX seance_tikets_seance_id_idx ON public.seance_tikets USING btree (seance_id);
+
+
+--
+-- Name: seances_date_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX seances_date_id_idx ON public.seances USING btree (date);
+
+
+--
+-- Name: seances_date_unix_ts; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX seances_date_unix_ts ON public.seances USING btree (date_unix_ts);
+
+
+--
+-- Name: seances_film_id_idx; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX seances_film_id_idx ON public.seances USING btree (film_id);
 
 
 --

@@ -17,3 +17,14 @@ services:
       - ./docker/php/config/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-xdebug.ini
     ports:
       - "9000:9000"
+  db:
+    image: postgres:15.3-alpine3.18
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./docker/db/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}

@@ -1,0 +1,30 @@
+Insert on tickets  (cost=2641821.31..2642359.04 rows=0 width=0)
+  CTE tickets_data
+    ->  Recursive Union  (cost=71776.06..2641820.88 rows=31 width=20)
+          ->  Result  (cost=71776.06..71776.07 rows=1 width=20)
+                InitPlan 1 (returns $1)
+                  ->  Limit  (cost=2.79..2.79 rows=1 width=16)
+                        ->  Sort  (cost=2.79..3.04 rows=102 width=16)
+                              Sort Key: (random())
+                              ->  Seq Scan on viewers  (cost=0.00..2.27 rows=102 width=16)
+                InitPlan 2 (returns $2)
+                  ->  Limit  (cost=71773.27..71773.27 rows=1 width=16)
+                        ->  Sort  (cost=71773.27..78719.02 rows=2778301 width=16)
+                              Sort Key: (random())
+                              ->  Seq Scan on sessions sessions_1  (cost=0.00..57881.76 rows=2778301 width=16)
+          ->  WorkTable Scan on tickets_data tickets_data_1  (cost=0.00..257004.45 rows=3 width=20)
+                Filter: (tickets_count < 2000000)
+"  ->  Subquery Scan on ""*SELECT*""  (cost=0.43..538.16 rows=31 width=20)"
+        ->  Nested Loop Left Join  (cost=0.43..537.85 rows=31 width=24)
+              ->  CTE Scan on tickets_data  (cost=0.00..0.62 rows=31 width=16)
+              ->  Index Scan using sessions_pkey on sessions  (cost=0.43..8.45 rows=1 width=12)
+                    Index Cond: (id = tickets_data.session_id)
+              SubPlan 6
+                ->  Limit  (cost=8.88..8.88 rows=1 width=16)
+                      ->  Sort  (cost=8.88..9.09 rows=84 width=16)
+                            Sort Key: (random())
+                            ->  Seq Scan on seats  (cost=0.00..8.46 rows=84 width=16)
+                                  Filter: (hall_id = sessions.hall_id)
+JIT:
+  Functions: 27
+"  Options: Inlining true, Optimization true, Expressions true, Deforming true"

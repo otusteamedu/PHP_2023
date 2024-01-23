@@ -1,0 +1,47 @@
+Limit  (cost=352.50..352.51 rows=3 width=524)
+  InitPlan 1 (returns $0)
+    ->  Result  (cost=0.00..0.02 rows=1 width=8)
+  InitPlan 2 (returns $1)
+    ->  Result  (cost=0.00..0.02 rows=1 width=8)
+  ->  Sort  (cost=352.47..352.79 rows=130 width=524)
+"        Sort Key: (sum(((((films.price * (COALESCE(zones.coefficient, '1'::numeric))::double precision) * (COALESCE(halls.coefficient, '1'::numeric))::double precision) * (COALESCE(hall_types.coefficient, '1'::numeric))::double precision) * (COALESCE(session_types.coefficient, '1'::numeric))::double precision))) DESC"
+        ->  HashAggregate  (cost=349.49..350.79 rows=130 width=524)
+              Group Key: films.name
+              ->  Hash Left Join  (cost=200.06..342.44 rows=282 width=572)
+                    Hash Cond: (hall_types_halls.hall_id = hall_types.id)
+                    ->  Nested Loop Left Join  (cost=186.91..328.53 rows=282 width=564)
+                          ->  Nested Loop Left Join  (cost=186.75..308.53 rows=25 width=568)
+                                ->  Nested Loop Left Join  (cost=186.60..306.30 rows=25 width=560)
+                                      ->  Nested Loop Left Join  (cost=186.33..298.91 rows=25 width=560)
+                                            ->  Hash Left Join  (cost=186.17..287.41 rows=25 width=544)
+                                                  Hash Cond: (sessions.film_id = films.id)
+                                                  ->  Nested Loop Left Join  (cost=173.25..274.41 rows=25 width=24)
+                                                        ->  Hash Join  (cost=173.09..268.31 rows=25 width=16)
+                                                              Hash Cond: (tickets.session_id = sessions.id)
+                                                              ->  Seq Scan on tickets  (cost=0.00..82.07 rows=5007 width=8)
+                                                              ->  Hash  (cost=172.74..172.74 rows=28 width=20)
+                                                                    ->  Seq Scan on sessions  (cost=0.00..172.74 rows=28 width=20)
+                                                                          Filter: (((time_start)::date >= $0) AND ((time_start)::date <= $1))
+                                                        ->  Memoize  (cost=0.15..1.89 rows=1 width=20)
+                                                              Cache Key: sessions.session_type
+                                                              Cache Mode: logical
+                                                              ->  Index Scan using session_types_pkey on session_types  (cost=0.14..1.88 rows=1 width=20)
+                                                                    Index Cond: (id = sessions.session_type)
+                                                  ->  Hash  (cost=11.30..11.30 rows=130 width=532)
+                                                        ->  Seq Scan on films  (cost=0.00..11.30 rows=130 width=532)
+                                            ->  Memoize  (cost=0.15..1.89 rows=1 width=20)
+                                                  Cache Key: sessions.hall_id
+                                                  Cache Mode: logical
+                                                  ->  Index Scan using halls_pkey on halls  (cost=0.14..1.88 rows=1 width=20)
+                                                        Index Cond: (id = sessions.hall_id)
+                                      ->  Index Scan using seats_pkey on seats  (cost=0.27..0.30 rows=1 width=12)
+                                            Index Cond: (id = tickets.seat_id)
+                                ->  Memoize  (cost=0.15..0.29 rows=1 width=20)
+                                      Cache Key: seats.zone_id
+                                      Cache Mode: logical
+                                      ->  Index Scan using zones_pkey on zones  (cost=0.14..0.28 rows=1 width=20)
+                                            Index Cond: (id = seats.zone_id)
+                          ->  Index Only Scan using hall_types_halls_pkey on hall_types_halls  (cost=0.15..0.69 rows=11 width=4)
+                                Index Cond: (hall_id = halls.id)
+                    ->  Hash  (cost=11.40..11.40 rows=140 width=20)
+                          ->  Seq Scan on hall_types  (cost=0.00..11.40 rows=140 width=20)

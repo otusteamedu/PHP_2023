@@ -1,0 +1,14 @@
+Sort  (cost=184.13..184.20 rows=28 width=1104)
+"  Sort Key: (ROW(films.name, sessions.time_start))"
+  ->  Nested Loop Left Join  (cost=13.08..183.46 rows=28 width=1104)
+        ->  Hash Join  (cost=12.93..171.77 rows=28 width=560)
+              Hash Cond: (sessions.film_id = films.id)
+              ->  Seq Scan on sessions  (cost=0.00..158.77 rows=28 width=16)
+                    Filter: ((time_start)::date = CURRENT_DATE)
+              ->  Hash  (cost=11.30..11.30 rows=130 width=556)
+                    ->  Seq Scan on films  (cost=0.00..11.30 rows=130 width=556)
+        ->  Memoize  (cost=0.15..1.89 rows=1 width=524)
+              Cache Key: sessions.hall_id
+              Cache Mode: logical
+              ->  Index Scan using halls_pkey on halls  (cost=0.14..1.88 rows=1 width=524)
+                    Index Cond: (id = sessions.hall_id)

@@ -10,8 +10,7 @@ class AddNewEventRequest
         private string $event,
         private int    $priority,
         private ?int   $param1,
-        private ?int   $param2,
-    )
+        private ?int   $param2)
     {
     }
 

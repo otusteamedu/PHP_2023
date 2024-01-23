@@ -1,0 +1,18 @@
+               oid               | pg_relation_size
+---------------------------------+------------------
+ seance_tikets                   |         11354112
+ seance_tikets_pkey              |          4907008
+ seance_tikets_seance_id_idx     |          1720320
+ pg_proc                         |           802816
+ seances                         |           688128
+ pg_attribute                    |           557056
+ pg_toast.pg_toast_2618          |           548864
+ pg_description                  |           368640
+ pg_proc_proname_args_nsp_index  |           262144
+ seances_pkey                    |           245760
+ pg_statistic                    |           229376
+ pg_description_o_c_o_index      |           221184
+ pg_attribute_relid_attnam_index |           147456
+ pg_type                         |           122880
+ pg_depend                       |           122880
+(15 rows)

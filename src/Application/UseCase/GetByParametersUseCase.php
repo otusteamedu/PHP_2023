@@ -9,9 +9,7 @@ use src\Application\UseCase\Response\GetByParametersResponse;
 
 class GetByParametersUseCase
 {
-    public function __construct(
-        private RepositoryInterface $repository
-    )
+    public function __construct(private RepositoryInterface $repository)
     {
     }
 
@@ -19,7 +17,7 @@ class GetByParametersUseCase
     {
         $event = $this->repository->getByParameters($param1, $param2);
 
-        if(!$event){
+        if (!$event) {
             return null;
         }
         return new GetByParametersResponse(

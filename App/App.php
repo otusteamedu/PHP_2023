@@ -63,8 +63,7 @@ class App
         $events = json_decode($json, true);
         $useCase = new AddNewEventUseCase($this->getRepository());
 
-        foreach ($events as $event)
-        {
+        foreach ($events as $event) {
             $useCase(
                 new AddNewEventRequest(
                     event: $event['event'],

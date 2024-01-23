@@ -10,9 +10,7 @@ use src\Domain\Event;
 
 class AddNewEventUseCase
 {
-    public function __construct(
-        private RepositoryInterface $repository
-    )
+    public function __construct(private RepositoryInterface $repository)
     {
     }
 

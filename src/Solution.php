@@ -1,5 +1,7 @@
 <?php
 
+namespace HW11\Elastic;
+
 /**
  * Definition for a singly-linked list.
  * class ListNode {
@@ -18,7 +20,7 @@ class Solution
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head)
+    public function hasCycle($head): bool
     {
         if ($head === null) {
             return false;

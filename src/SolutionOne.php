@@ -1,5 +1,7 @@
 <?php
 
+namespace HW11\Elastic;
+
 /**
  * временная сложность O(n × m)
  * название файла изменил чтобы не было повторов, а сам класс оставил чтобы при проверке на литкоде не возникало ошибок
@@ -7,7 +9,6 @@
 
 class Solution
 {
-    
     public function letterCombinations(string $digits): array
     {
         $output = [];
@@ -16,7 +17,6 @@ class Solution
         }
         return $this->getLettersCombinations((string)$digits);
     }
-    
     public function getLettersCombinations(string $digits = '', string $initialSet = null): array
     {
         $mapping = [

@@ -59,17 +59,25 @@ class MovieMapper extends BaseMovie
             $rawMovieData['rating']
         ]);
 
-        return new Movie(
-            (int)$this->pdo->lastInsertId(),
+        $movieId = (int)$this->pdo->lastInsertId();
+
+        $movie = new Movie(
+            $movieId,
             $rawMovieData['genre_id'],
             $rawMovieData['title'],
             $rawMovieData['duration'],
             $rawMovieData['rating']
         );
+
+        $this->identityMap[$movieId] = $movie;
+
+        return $movie;
     }
 
     public function update(Movie $movie): bool
     {
+        $this->identityMap[$movie->getMovieId()] = $movie;
+
         return $this->updateStatement->execute([
             $movie->getGenreId(),
             $movie->getTitle(),
@@ -81,6 +89,8 @@ class MovieMapper extends BaseMovie
 
     public function delete(Movie $movie): bool
     {
+        unset($this->identityMap[$movie->getMovieId()]);
+
         return $this->deleteStatement->execute([$movie->getMovieId()]);
     }
 }

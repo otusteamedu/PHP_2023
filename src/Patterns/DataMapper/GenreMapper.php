@@ -52,14 +52,22 @@ class GenreMapper extends BaseGenre
             $rawGenreData['title']
         ]);
 
-        return new Genre(
-            (int)$this->pdo->lastInsertId(),
+        $id = (int)$this->pdo->lastInsertId();
+
+        $genre = new Genre(
+            $id,
             $rawGenreData['title']
         );
+
+        $this->identityMap[$id] = $genre;
+
+        return $genre;
     }
 
     public function update(Genre $genre): bool
     {
+        $this->identityMap[$genre->getGenreId()] = $genre;
+
         return $this->updateStatement->execute([
             $genre->getTitle(),
             $genre->getGenreId()
@@ -68,6 +76,8 @@ class GenreMapper extends BaseGenre
 
     public function delete(Genre $genre): bool
     {
+        unset($this->identityMap[$genre->getGenreId()]);
+
         return $this->deleteStatement->execute([$genre->getGenreId()]);
     }
 }

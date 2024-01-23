@@ -6,11 +6,7 @@ namespace src\Application\UseCase\Request;
 
 class AddNewEventRequest
 {
-    public function __construct(
-        private string $event,
-        private int    $priority,
-        private ?int   $param1,
-        private ?int   $param2)
+    public function __construct(private string $event, private int $priority, private ?int $param1, private ?int $param2)
     {
     }
 

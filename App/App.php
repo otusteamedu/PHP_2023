@@ -18,7 +18,8 @@ class App
         match ($argv[1]) {
             'add' => $this->add($argv),
             'clear' => $this->clear(),
-            'get' => $this->get($argv)
+            'get' => $this->get($argv),
+            'json' => $this->fillWithBaseValuesFromJson()
         };
     }
 
@@ -27,7 +28,10 @@ class App
         $useCase = new AddNewEventUseCase($this->getRepository());
         $useCase(
             new AddNewEventRequest(
-                priority: (int)$argv[2], param1: (int)$argv[3], param2: (int)$argv[4], event: $argv[5]
+                event: $argv[2],
+                priority: (int)$argv[3],
+                param1: isset($argv[4]) ? (int)$argv[4] : null,
+                param2: isset($argv[5]) ? (int)$argv[5] : null,
             )
         );
     }
@@ -41,12 +45,36 @@ class App
     private function get(array $argv): void
     {
         $useCase = new GetByParametersUseCase($this->getRepository());
-        $response = $useCase($argv[2], $argv[3]);
+        $response = $useCase(
+            isset($argv[2]) ? (int)$argv[2] : null,
+            isset($argv[3]) ? (int)$argv[3] : null,
+        );
         var_dump($response);
     }
 
     private function getRepository(): RepositoryInterface
     {
         return new RedisRepository();
+    }
+
+    private function fillWithBaseValuesFromJson(): void
+    {
+        $json = file_get_contents(__DIR__ . '/../docker/data/events.json');
+        $events = json_decode($json, true);
+        $useCase = new AddNewEventUseCase($this->getRepository());
+
+        foreach ($events as $event)
+        {
+            $useCase(
+                new AddNewEventRequest(
+                    event: $event['event'],
+                    priority: $event['priority'],
+                    param1: isset($event['conditions']['param1']) ? (int)$event['conditions']['param1'] : null,
+                    param2: isset($event['conditions']['param2']) ? (int)$event['conditions']['param2'] : null,
+                )
+            );
+        }
+
+        var_dump($events);
     }
 }

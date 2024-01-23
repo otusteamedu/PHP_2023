@@ -11,6 +11,8 @@ use src\Domain\Event;
 class RedisRepository implements RepositoryInterface
 {
     private Client $client;
+    const KEY = 'events:priority:';
+
     public function __construct()
     {
         $host = 'redis';
@@ -26,24 +28,48 @@ class RedisRepository implements RepositoryInterface
 
     public function addNewEvent(Event $event): void
     {
-         $values = [
-          'priority' => $event->getPriority(),
-          'param1' => $event->getConditions()->getParam1(),
-          'param2' => $event->getConditions()->getParam2()
-        ];
-        $this->client->hmset($event->getEvent(), $values);
+        $jsonEvent = json_encode([
+            'priority' => $event->getPriority(),
+            'param1' => $event->getConditions()->getParam1(),
+            'param2' => $event->getConditions()->getParam2(),
+            'event' => $event->getEvent()
+        ]);
+
+        $this->client->zadd(
+            self::KEY
+            . $event->getConditions()->getParam1()
+            . ':' . $event->getConditions()->getParam2(),
+            [
+                $jsonEvent => $event->getPriority()
+            ]
+        );
     }
 
     public function clearAllEvent(): void
     {
-        $this->client->del($this->client->keys('*'));
-
+        $keys = $this->client->keys('*');
+        if ($keys) {
+            $this->client->del($keys);
+        }
     }
 
-    public function getByParameters(int $param1, int $param2): Event
+    public function getByParameters(?int $param1 = null, ?int $param2 = null): ?Event
     {
+        $response = $this->client->zrange(self::KEY . "$param1:$param2", -1, -1);
+
+        if (!$response) {
+            return null;
+        }
+
+        $redisEvent = json_decode($response[0], true);
+
         return new Event(
-            priority: 100, event: '', conditions: []
+            priority: $redisEvent['priority'],
+            event: $redisEvent['event'],
+            conditions: [
+                'param1' => isset($redisEvent['param1']) ? (int)$redisEvent['param1'] : null,
+                'param2' => isset($redisEvent['param2']) ? (int)$redisEvent['param2'] : null
+            ]
         );
     }
 }

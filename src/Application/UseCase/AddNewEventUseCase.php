@@ -23,8 +23,8 @@ class AddNewEventUseCase
                 priority: $request->getPriority(),
                 event: $request->getEvent(),
                 conditions: [
-                    $request->getParam1(),
-                    $request->getParam2()
+                    'param1' => $request->getParam1(),
+                    'param2' => $request->getParam2()
                 ]
             )
         );

@@ -12,5 +12,5 @@ interface RepositoryInterface
 
     public function clearAllEvent(): void;
 
-    public function getByParameters(int $param1, int $param2): Event;
+    public function getByParameters(int $param1, int $param2): ?Event;
 }

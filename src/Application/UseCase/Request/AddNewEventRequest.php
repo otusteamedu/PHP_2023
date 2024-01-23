@@ -7,12 +7,17 @@ namespace src\Application\UseCase\Request;
 class AddNewEventRequest
 {
     public function __construct(
+        private string $event,
         private int    $priority,
         private ?int   $param1,
         private ?int   $param2,
-        private string $event,
     )
     {
+    }
+
+    public function getEvent(): string
+    {
+        return $this->event;
     }
 
     public function getPriority(): int
@@ -28,10 +33,5 @@ class AddNewEventRequest
     public function getParam2(): ?int
     {
         return $this->param2;
-    }
-
-    public function getEvent(): string
-    {
-        return $this->event;
     }
 }

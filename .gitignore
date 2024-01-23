@@ -3,3 +3,4 @@
 .env
 docker/db
 vendor
+docker/cache

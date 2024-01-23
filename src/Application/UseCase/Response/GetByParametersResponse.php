@@ -7,11 +7,11 @@ namespace src\Application\UseCase\Response;
 class GetByParametersResponse
 {
     private int $priority;
-    private int $param1;
-    private int $param2;
+    private ?int $param1;
+    private ?int $param2;
     private string $event;
 
-    public function __construct(int $priority, int $param1, int $param2, string $event)
+    public function __construct(int $priority, ?int $param1, ?int $param2, string $event)
     {
         $this->priority = $priority;
         $this->param1 = $param1;

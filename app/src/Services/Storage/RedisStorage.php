@@ -66,7 +66,7 @@ class RedisStorage implements StorageInterface
 
             $conditions = $event['conditions'];
 
-            try {  
+            try {
                 foreach ($conditions as $key => $value) {
                     if (!isset($params[$key]) or $params[$key] != $value) {
                         throw new Exception();

@@ -14,7 +14,6 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($path == '/events') {
-
             $controller = new EventController();
 
             if ($method == 'POST') {

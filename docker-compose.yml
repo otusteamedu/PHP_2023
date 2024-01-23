@@ -1,0 +1,15 @@
+version : '3'
+
+services:
+    db       :
+        restart       : always
+        image         : postgres:16
+        ports         :
+            - "35432:5432"
+        container_name: db
+        environment   :
+            - POSTGRES_USER=${DB_USER}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+            - POSTGRES_DB=${DB_NAME}
+        volumes       :
+            - ./data/db-data:/var/lib/postgresql/data

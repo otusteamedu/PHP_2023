@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Dimal\Hw13;
 
-use \PDO;
-use \PDOStatement;
+use PDO;
+use PDOStatement;
 
 class News
 {
@@ -47,8 +47,8 @@ class News
         string $author,
         string $date,
         string $content,
-        string $category): int
-    {
+        string $category
+    ): int {
         $this->query_insert->bindParam('title', $title);
         $this->query_insert->bindParam('author', $author);
         $this->query_insert->bindParam('date', $date);
@@ -62,13 +62,13 @@ class News
     }
 
     public function update(
-        int    $id,
+        int $id,
         string $title,
         string $author,
         string $date,
         string $content,
-        string $category): bool
-    {
+        string $category
+    ): bool {
 
         unset($this->identity_map[$id]);
 

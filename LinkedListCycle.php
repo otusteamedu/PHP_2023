@@ -1,6 +1,5 @@
 <?php
 
-
 /**
  * Definition for a singly-linked list.
  * class ListNode {

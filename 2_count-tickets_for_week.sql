@@ -50,6 +50,7 @@ Finalize GroupAggregate  (cost=4692.44..4696.57 rows=30 width=556) (actual time=
 Planning Time: 0.420 ms                                                                                                                                    |
 Execution Time: 42.541 ms                                                                                                                                  |
 
+1-st step
 
 create index status_idx on tickets (status);
 create index start_at_idx on seances (DATE(start_at));
@@ -81,3 +82,40 @@ HashAggregate  (cost=3501.77..3502.14 rows=30 width=556) (actual time=29.799..29
               ->  Seq Scan on films f  (cost=0.00..10.30 rows=30 width=520) (actual time=0.006..0.008 rows=9 loops=1)                           |
 Planning Time: 0.409 ms                                                                                                                         |
 Execution Time: 29.856 ms                                                                                                                       |
+
+2-nd step
+
+remove ::date from s.start_at::date
+
+select f.title, count(t.id), sum(t.price) from seances s
+join tickets t on t.seance_id = s.id
+join films f on f.id = s.film_id 
+where s.start_at > current_date - interval '1 week'
+and t.status = 'paid'
+group by f.title 
+
+
+QUERY PLAN                                                                                                                                   |
+---------------------------------------------------------------------------------------------------------------------------------------------+
+HashAggregate  (cost=3555.90..3556.28 rows=30 width=556) (actual time=29.648..29.652 rows=5 loops=1)                                         |
+  Group Key: f.title                                                                                                                         |
+  Batches: 1  Memory Usage: 24kB                                                                                                             |
+  ->  Hash Join  (cost=708.86..3375.01 rows=24119 width=525) (actual time=2.445..23.639 rows=23981 loops=1)                                  |
+        Hash Cond: (s.film_id = f.id)                                                                                                        |
+        ->  Hash Join  (cost=698.19..3292.08 rows=24119 width=13) (actual time=2.430..19.392 rows=23981 loops=1)                             |
+              Hash Cond: (t.seance_id = s.id)                                                                                                |
+              ->  Bitmap Heap Scan on tickets t  (cost=655.55..3096.17 rows=58210 width=13) (actual time=1.609..10.507 rows=58383 loops=1)   |
+                    Recheck Cond: ((status)::text = 'paid'::text)                                                                            |
+                    Heap Blocks: exact=1713                                                                                                  |
+                    ->  Bitmap Index Scan on status_idx  (cost=0.00..641.00 rows=58210 width=0) (actual time=1.378..1.379 rows=58383 loops=1)|
+                          Index Cond: ((status)::text = 'paid'::text)                                                                        |
+              ->  Hash  (cost=35.41..35.41 rows=578 width=8) (actual time=0.278..0.279 rows=573 loops=1)                                     |
+                    Buckets: 1024  Batches: 1  Memory Usage: 31kB                                                                            |
+                    ->  Seq Scan on seances s  (cost=0.00..35.41 rows=578 width=8) (actual time=0.010..0.213 rows=573 loops=1)               |
+                          Filter: (start_at > (CURRENT_DATE - '7 days'::interval))                                                           |
+                          Rows Removed by Filter: 822                                                                                        |
+        ->  Hash  (cost=10.30..10.30 rows=30 width=520) (actual time=0.010..0.010 rows=9 loops=1)                                            |
+              Buckets: 1024  Batches: 1  Memory Usage: 9kB                                                                                   |
+              ->  Seq Scan on films f  (cost=0.00..10.30 rows=30 width=520) (actual time=0.005..0.006 rows=9 loops=1)                        |
+Planning Time: 0.247 ms                                                                                                                      |
+Execution Time: 29.690 ms                                                                                                                    |

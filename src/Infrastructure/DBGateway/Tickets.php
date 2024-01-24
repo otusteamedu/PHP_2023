@@ -18,7 +18,7 @@ class Tickets
         $this->pdo = $pdo;
 
         $this->selectStmt = $pdo->prepare(
-            "select price, showtime_id, customer_id, seat_in_hall_id from tikets where id = ?"
+            "select price, showtime_id, customer_id, seat_in_hall_id from tickets where id = ?"
         );
         $this->insertStmt = $pdo->prepare(
             "insert into tickets (price, showtime_id, customer_id, seat_in_hall_id) values (?, ?, ?, ?)"

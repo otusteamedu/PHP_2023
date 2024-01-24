@@ -1,0 +1,18 @@
+version: '3'
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: ./docker/php/php.dockerfile
+    volumes:
+      - ./:/www
+      - ./docker/php/php.ini:/usr/local/etc/php/conf.d/php.ini
+      - ./docker/php/config/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-xdebug.ini
+    ports:
+      - "9000:9000"
+  redis:
+    image: redis:7.0.9
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./docker/cache:/data

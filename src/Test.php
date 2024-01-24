@@ -6,7 +6,10 @@ namespace src;
 
 class Test
 {
+    private \PDO $pdo;
+
     public function test()
     {
+        $this->pdo = new \PDO();
     }
 }

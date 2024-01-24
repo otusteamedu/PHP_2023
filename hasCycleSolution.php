@@ -1,12 +1,15 @@
 <?php
 
-class Solution {
+namespace RYuzyuk\Hw14;
+
+class Solution
+{
     /**
      * @param ListNode $head
      * @return Boolean
      */
-    function hasCycle($head) {
-        if($head === null) {
+    public function hasCycle($head) {
+        if ($head === null) {
             return false;
         }
 
@@ -16,7 +19,7 @@ class Solution {
         while ($fast != null && $fast->next !=null) {
             $slow = $slow->next;
             $fast = $fast->next->next;
-            if($fast === $slow) {
+            if ($fast === $slow) {
                 return true;
             }
         }

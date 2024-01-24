@@ -1,12 +1,15 @@
 <?php
 
+namespace RYuzyuk\Hw14;
+
 class Solution
 {
     /**
      * @param String $digits
      * @return String[]
      */
-    function letterCombinations($digits) {
+    public function letterCombinations($digits)
+    {
         if ($digits === '') {
             return [];
         }

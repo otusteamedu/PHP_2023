@@ -4,3 +4,4 @@ postgres/dbdata/*
 code/*
 .env
 hw13/code/vendor
+hw13/docker/postgres/dbdata

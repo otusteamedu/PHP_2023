@@ -1,0 +1,28 @@
+version: '3.0'
+
+services:
+
+  # redis
+  otus-redis:
+    image: redis:alpine
+    container_name: ${REDIS_HOST}
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    networks:
+      - otus-network
+
+  # php-cli service
+  otus-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: cli
+    container_name: otus-cli
+    volumes:
+      - ./www:/www
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge

@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use App\ListNode;
+
 class Functions
 {
     /**
@@ -9,7 +11,7 @@ class Functions
      * @param Integer $denominator
      * @return String
      */
-    public function fractionToDecimal(int $numerator, int $denominator): string
+    public function fractionToDecimal(int $numerator, int $denominator): string // Сложность - O(n), где n соответвует количество цифр в дробной части
     {
         if ($numerator === 0) {
             return '0';
@@ -41,5 +43,18 @@ class Functions
         }
 
         return implode('', $result);
+    }
+
+    public function getIntersectionNode(ListNode $headA, ListNode $headB): ?ListNode // Сложность - O(n + m), где n,m - длины списков
+    {
+        $pointerA = $headA;
+        $pointerB = $headB;
+
+        while ($pointerA !== $pointerB) {
+            $pointerA = ($pointerA === null) ? $headB : $pointerA->next;
+            $pointerB = ($pointerB === null) ? $headA : $pointerB->next;
+        }
+
+        return $pointerA;
     }
 }

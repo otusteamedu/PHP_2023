@@ -1,0 +1,41 @@
+version: '3'
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: propan/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
+    volumes:
+      - ./code:/data/mysite.local
+    links:
+      - php
+    networks:
+      - app-network
+  elasticsearch:
+    image: elasticsearch:8.11.2
+    container_name: elastic
+    environment:
+      - xpack.security.enabled=true
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"
+    networks:
+      - app-network
+  php:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: propan/php
+    container_name: php
+    volumes:
+       - ./code:/data/mysite.local
+    links:
+      - elasticsearch
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

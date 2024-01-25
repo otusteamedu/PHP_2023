@@ -1,3 +1,8 @@
-# PHP_2023
+# Поиск по книжному интернет-магазину с помощью Elasticsearch
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+### Запуск поиска из консоли
+```
+php index.php app:search --query=рыцОри --lt=2000
+```
+
+

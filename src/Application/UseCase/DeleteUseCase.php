@@ -8,9 +8,7 @@ use src\Domain\Repository\TicketRepositoryContract;
 
 class DeleteUseCase
 {
-    public function __construct(
-        private TicketRepositoryContract $ticketRepository
-    )
+    public function __construct(private TicketRepositoryContract $ticketRepository)
     {
     }
 

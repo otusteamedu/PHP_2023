@@ -14,16 +14,10 @@ class TicketRepository implements TicketRepositoryContract
     private TicketsDBGateway $ticketsDBGateway;
     private TicketBuilder $ticketBuilder;
 
-    public function __construct(
-        TicketsDBGateway $ticketsDBGateway,
-        TicketBuilder    $ticketBuilder
-    )
+    public function __construct(TicketsDBGateway $ticketsDBGateway, TicketBuilder $ticketBuilder)
     {
-        //$this->ticketsDBGateway = $ticketsDBGateway;
+        $this->ticketsDBGateway = $ticketsDBGateway;
         $this->ticketBuilder = $ticketBuilder;
-        $this->ticketsDBGateway = new TicketsDBGateway(
-            new \PDO("pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres")
-        );
     }
 
     public function getById(int $id): Ticket

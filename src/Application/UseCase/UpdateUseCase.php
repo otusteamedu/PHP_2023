@@ -10,9 +10,7 @@ use src\Domain\Repository\TicketRepositoryContract;
 
 class UpdateUseCase
 {
-    public function __construct(
-        private TicketRepositoryContract $ticketRepository
-    )
+    public function __construct(private TicketRepositoryContract $ticketRepository)
     {
     }
 

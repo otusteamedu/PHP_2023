@@ -10,9 +10,7 @@ use src\Domain\Repository\TicketRepositoryContract;
 
 class InsertUseCase
 {
-    public function __construct(
-        private TicketRepositoryContract $ticketRepository
-    )
+    public function __construct(private TicketRepositoryContract $ticketRepository)
     {
     }
 

@@ -54,5 +54,4 @@ class Tickets
     {
         return $this->deleteStmt->execute([$id]);
     }
-
 }

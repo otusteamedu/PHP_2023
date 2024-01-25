@@ -11,7 +11,7 @@
 docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_otus-network -it cli php console.php analytic:import
 ````
 
-Поиск записи с максимальным рейтингом и заданными параметрами:
+Поиск записей с заданными параметрами, отсортированы по рейтингу:
 ````
 docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_otus-network -it cli php console.php analytic:search
 ````

@@ -13,7 +13,6 @@ class News
     private PDOStatement $query_select;
     private PDOStatement $query_delete;
     private PDOStatement $query_insert;
-    private PDOStatement $query_update;
 
     private array $identity_map = [];
 
@@ -33,12 +32,6 @@ class News
         $this->query_delete = $this->pdo->prepare(
             "DELETE FROM news
             WHERE id = ?"
-        );
-
-        $this->query_update = $this->pdo->prepare(
-            "UPDATE news
-            SET title = :title, author = :author, date = :date, content = :content, category = :category
-            WHERE id = :id"
         );
     }
 
@@ -61,25 +54,25 @@ class News
         return intval($id);
     }
 
-    public function update(
-        int $id,
-        string $title,
-        string $author,
-        string $date,
-        string $content,
-        string $category
-    ): bool {
-
+    public function update(int $id, array $fields): bool
+    {
         unset($this->identity_map[$id]);
 
-        $this->query_update->bindParam('id', $id, PDO::PARAM_INT);
-        $this->query_update->bindParam('title', $title);
-        $this->query_update->bindParam('author', $author);
-        $this->query_update->bindParam('date', $date);
-        $this->query_update->bindParam('content', $content);
-        $this->query_update->bindParam('category', $category);
+        $sql = "UPDATE news SET";
+        foreach ($fields as $f_name => $f_val) {
+            $sql .= " $f_name = ? ";
+            if ($f_name != array_key_last($fields)) {
+                $sql .= ', ';
+            }
+        }
 
-        $ret = $this->query_update->execute();
+        $sql .= " WHERE id = ? ";
+
+        $params = array_values($fields);
+        array_push($params, $id);
+
+        $query_update = $this->pdo->prepare($sql);
+        $ret = $query_update->execute($params);
         return $ret;
     }
 

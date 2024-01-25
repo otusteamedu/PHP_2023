@@ -21,12 +21,12 @@ $news_object = $newsTableGw->getById($news_item_id);
 
 //update news item
 $newsTableGw->update(
-    10,
-    'updated title',
-    'new author name',
-    $news_object['date'],
-    $news_object['content'],
-    $news_object['category']
+    $news_item_id,
+    [
+        'title' => 'new titlez!',
+        'content' => 'This is a new text',
+        'date' => '2023-12-12'
+    ]
 );
 
 //delete news item by id

@@ -15,6 +15,10 @@ docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_ot
 ````
 docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_otus-network -it cli php console.php analytic:search
 ````
+Запрос с указанием кол-ва возвращаемых событий:
+````
+docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_otus-network -it cli php console.php analytic:search --limit=2
+````
 ![img.png](img.png)
 
 Параметры задаются в console.php.

@@ -50,7 +50,7 @@ class RedisService implements AnalyticInterface
     /**
      * @throws RedisException
      */
-    public function search(array $params): array
+    public function search(array $params, int $limit = 0): array
     {
         $length = $this->redis->zCard(self::SET_NAME);
         $events = $this->redis->zRevRange(self::SET_NAME, 0, $length - 1);
@@ -67,13 +67,15 @@ class RedisService implements AnalyticInterface
                 }
             }
             if ($allParamsFound) {
-                $found = [
+                $found[] = [
                     'event' => $event,
                     'score' => $this->redis->zScore(self::SET_NAME, $event),
                     'params' => $params
                 ];
 
-                break;
+                if ($limit !== 0 && count($found) >= $limit) {
+                    break;
+                }
             }
         }
 

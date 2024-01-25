@@ -4,13 +4,19 @@ declare(strict_types=1);
 
 namespace App;
 
-use src\Infrastructure\DBGateway\Tickets;
+use src\Infrastructure\Controller\TicketController;
 
 class App
 {
     public function run(array $argv)
     {
-        $tickets = new Tickets(new \PDO( "pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres"));
-        $ticket = $tickets->getById(4);
+        $controller = new TicketController();
+
+        match ($argv[1]) {
+            'create' => $controller->create($argv),
+            'get' => $controller->get($argv),
+            'update' => $controller->update($argv),
+            'delete' => $controller->delete($argv),
+        };
     }
 }

@@ -7,6 +7,7 @@ class Solution
     /**
      * @param ListNode $head
      * @return Boolean
+     * Сложность O(n)
      */
     public function hasCycle($head)
     {

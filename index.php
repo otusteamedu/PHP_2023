@@ -2,9 +2,9 @@
 
 require 'vendor/autoload.php';
 
-use App\App;
+use Daniel\Pattern\App;
 
 $app = new App();
-$result = $app->run($argv);
+$result = $app->run();
 
 print_r($result);

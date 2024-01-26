@@ -1,16 +1,18 @@
 {
-    "config": {
-        "allow-plugins": {
-            "php-http/discovery": true
-        }
-    },
-    "require": {
-        "predis/predis": "^2.2",
-        "vlucas/phpdotenv": "^5.6"
-    },
+    "name": "daniel/pattern",
+    "type": "project",
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Daniel\\Pattern\\": "src/"
         }
+    },
+    "authors": [
+        {
+            "name": "Daniel Palm"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

@@ -1,23 +1,46 @@
-version: '3.8'
-
+version: '3'
 services:
-  app:
-    build: ./php
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    ports:
+      - "80:80"
     volumes:
-      - .:/app
-    ports:
-      - "9000:9000"
-    depends_on:
-      - redis
+      - .:/data
+    networks:
+      - app-network
+
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: app
+    volumes:
+      - .:/data
+    networks:
+      - app-network
+
+  postgres:
+    container_name: postgresql
+    image: postgres:latest
     environment:
-      - APP_ENV=development
-
-  redis:
-    image: "redis:alpine"
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
-      - "6379:6379"
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
 
-  redisinsight:
-      image: "redislabs/redisinsight:latest"
-      ports:
-        - "8001:8001"
+volumes:
+  postgres_data:
+
+networks:
+  app-network:
+    driver: bridge

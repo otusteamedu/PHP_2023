@@ -1,24 +1,20 @@
 <?php
 
-declare(strict_types=1);
+namespace Daniel\Pattern;
 
-namespace App;
+class App {
+    private UserDataMapper $userDataMapper;
 
-class App
-{
-    public function run($argv)
-    {
-        $redisClient = new RedisClient();
-        $eventRepository = new EventRepository($redisClient);
+    public function __construct(
+    ) {
+        $dbConnection = new DatabaseConnection();
+        $pdo = $dbConnection->connect();
 
-        $allEvents = $eventRepository->getAllEvents();
+        $identityMap = new IdentityMap();
+        $this->userDataMapper = new UserDataMapper($pdo, $identityMap);
+    }
 
-        if (count($argv) > 1) {
-            $sourceNames = array_slice($argv, 1);
-            $sourceMask = SourceMask::calculateMaskFromNames($sourceNames);
-            return EventFilter::filterEventsBySources($allEvents, $sourceMask);
-        } else {
-            echo "Использование: php index.php [источники]\n";
-        }
+    public function run(): array {
+        return $this->userDataMapper->findAll();
     }
 }

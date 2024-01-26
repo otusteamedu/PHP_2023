@@ -30,6 +30,7 @@ services:
     container_name: '${COMPOSE_PROJECT_NAME}_fpm' # имя контейнера после запуска
     volumes:
        - ./src:/data/mysite.local
+       - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
        - socket:/var/run/
     env_file:
       - .env

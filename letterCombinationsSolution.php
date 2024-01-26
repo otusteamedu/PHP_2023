@@ -32,8 +32,8 @@ class Solution
 
     private function generateCombinations(string $digits, string $combine = '', int $index = 0): array
     {
-        foreach($this->buttons[$digits[$index]] as $currentButton) {
-            if($this->buttons[$digits[$index + 1]]) {
+        foreach ($this->buttons[$digits[$index]] as $currentButton) {
+            if ($this->buttons[$digits[$index + 1]]) {
                 $this->generateCombinations($digits, $combine . $currentButton, $index + 1);
             } else {
                 $this->result[] = $combine . $currentButton;

@@ -23,18 +23,16 @@ class Search extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $settings = Settings::getSettings();
-
         $client = ClientBuilder::create()
-            ->setHosts([$settings['host']])
+            ->setHosts([$_ENV['ELASTIC_HOST']])
             ->setBasicAuthentication(
-                $settings['elastic']['login'],
-                $settings['elastic']['pass']
+                $_ENV['ELASTIC_LOGIN'],
+                $_ENV['ELASTIC_PASSWORD']
             )
             ->build();
 
         $params = new BodyBuilder();
-        $params->setIndex($settings['index']);
+        $params->setIndex($_ENV['ELASTIC_INDEX']);
         $params->setQuery($input->getOption('query'));
         $params->setLt($input->getOption('lt'));
 

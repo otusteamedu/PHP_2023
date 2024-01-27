@@ -8,7 +8,7 @@ $dateFrom = '2024-01-01 00:00:00';
 $dateTo = '2025-01-05 23:59:59';
 $seanceDuration = 3 * 60 * 60;
 //$sessionCount = $hallsCount * (\DateTime::createFromFormat('Y-m-d H:i:s', $dateTo)->getTimestamp() - \DateTime::createFromFormat('Y-m-d H:i:s', $dateFrom)->getTimestamp()) / $seanceDuration;
-$sessionCount = 100;
+$sessionCount = 10000;
 $customersCount = 100;
 
 

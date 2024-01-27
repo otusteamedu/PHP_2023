@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__ . '/_const.php';
+require __DIR__ . '/10000000/_const.php';
 
 $sql = 'TRUNCATE TABLE tickets;' . PHP_EOL;
 $sql .= 'INSERT INTO tickets (session_id, seat_id, customer_id, sale_price) VALUES ' . PHP_EOL;

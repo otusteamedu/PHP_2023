@@ -10,8 +10,13 @@ class UserDataMapper {
         private readonly IdentityMap $identityMap
     ) {}
 
-    public function findAll(): array {
-        $stmt = $this->pdo->query("SELECT * FROM users");
+    public function findAll(int $page = 1, int $pageSize = 10): array {
+        $offset = ($page - 1) * $pageSize;
+        $stmt = $this->pdo->prepare("SELECT * FROM users LIMIT :limit OFFSET :offset");
+        $stmt->bindParam(':limit', $pageSize, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+
         $users = [];
 
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -28,4 +33,5 @@ class UserDataMapper {
 
         return $users;
     }
+
 }

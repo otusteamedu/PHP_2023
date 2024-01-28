@@ -20,6 +20,8 @@ services:
     depends_on:
       - php
   php:
+    environment:
+      - COMPOSE_CONVERT_WINDOWS_PATHS=1
     build: images/php8.2
     volumes:
       - ./www:/var/www

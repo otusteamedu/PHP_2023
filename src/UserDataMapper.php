@@ -10,11 +10,15 @@ class UserDataMapper {
         private readonly IdentityMap $identityMap
     ) {}
 
-    public function findAll(int $page = 1, int $pageSize = 10): array {
-        $offset = ($page - 1) * $pageSize;
-        $stmt = $this->pdo->prepare("SELECT * FROM users LIMIT :limit OFFSET :offset");
+    public function findAll(?int $lastId = null, int $pageSize = 10): array {
+        if ($lastId) {
+            $stmt = $this->pdo->prepare("SELECT * FROM users WHERE id > :lastId ORDER BY id ASC LIMIT :limit");
+            $stmt->bindParam(':lastId', $lastId, PDO::PARAM_INT);
+        } else {
+            $stmt = $this->pdo->prepare("SELECT * FROM users ORDER BY id ASC LIMIT :limit");
+        }
+
         $stmt->bindParam(':limit', $pageSize, PDO::PARAM_INT);
-        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
 
         $users = [];

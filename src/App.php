@@ -14,7 +14,7 @@ class App {
         $this->userDataMapper = new UserDataMapper($pdo, $identityMap);
     }
 
-    public function run(int $page = 1, int $pageSize = 10): array {
-        return $this->userDataMapper->findAll($page, $pageSize);
+    public function run(?int $lastId = null, int $pageSize = 10): array {
+        return $this->userDataMapper->findAll($lastId, $pageSize);
     }
 }

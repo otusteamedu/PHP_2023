@@ -4,10 +4,10 @@ require 'vendor/autoload.php';
 
 use Daniel\Pattern\App;
 
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$lastId = isset($_GET['lastId']) ? (int)$_GET['lastId'] : null;
 $pageSize = isset($_GET['pageSize']) ? (int)$_GET['pageSize'] : 10;
 
 $app = new App();
-$result = $app->run($page, $pageSize);
+$result = $app->run($lastId, $pageSize);
 
 print_r($result);

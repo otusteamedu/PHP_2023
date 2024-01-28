@@ -7,7 +7,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ExchangeCommand extends Command
+class CreateExchangeCommand extends Command
 {
     public function __construct() {
         parent::__construct();
@@ -16,7 +16,7 @@ class ExchangeCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('rabbitMQ:start-exchange');
+            ->setName('rabbitMQ:exchange-create');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

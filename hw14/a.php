@@ -12,18 +12,18 @@ class Solution {
         $hash=[];
         $i = -1;
         $one=$head;
-     
-         while (is_null($one->next)==false && isset($one->next) )
-            {  
-               $hash[$one->next->pos]++;            
-                if( $hash[$one->next->pos]>1){
-                    return true;
-                    break;
-                }
-                $one=$one->next;
-                                
+
+        while (is_null($one->next)==false && isset($one->next) )
+        {
+            $hash[$one->next->pos]++;
+            if( $hash[$one->next->pos]>1){
+                return true;
+                break;
             }
-                
-                return false;
-       }
+            $one=$one->next;
+
+        }
+
+        return false;
     }
+}

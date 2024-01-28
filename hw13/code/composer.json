@@ -1,0 +1,17 @@
+{
+    "name": "gkarman/datamaper",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gkarman\\Datamaper\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "gkarman"
+        }
+    ],
+    "require": {
+      "ext-pdo": "*"
+    }
+}

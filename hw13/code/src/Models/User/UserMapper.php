@@ -69,7 +69,7 @@ class UserMapper
             $fieldsForUpdate .= "{$key} = ?, ";
         }
 
-        $this->updateStatement =  $this->pdo->prepare("UPDATE users SET {$fieldsForUpdate} WHERE id = {$id}");
+        $this->updateStatement = $this->pdo->prepare("UPDATE users SET {$fieldsForUpdate} WHERE id = {$id}");
 
         $values = array_values($rawUserData);
         $values[] = $id;

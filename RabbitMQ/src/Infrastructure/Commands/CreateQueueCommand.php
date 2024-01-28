@@ -2,7 +2,9 @@
 
 namespace App\Infrastructure\Commands;
 
+use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\Client;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -19,18 +21,13 @@ class CreateQueueCommand extends Command
             ->setName('rabbitMQ:queue-create');
     }
 
+    /**
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $bunny = new Client([
-            'host'      => 'rabbitmq',
-            'vhost'     => '/',
-            'user'      => 'guest',
-            'password'  => 'guest',
-        ]);
-
-        $bunny->connect();
-
-        $channel = $bunny->channel();
+        $client = RabbitMqClientFactory::create();
+        $channel = $client->channel();
 
         $channel->queueDeclare('events.analytics-service', durable: true);
         $channel->queueBind('events.analytics-service', 'events', 'payment_succeeded');

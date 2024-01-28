@@ -2,9 +2,11 @@
 
 namespace App\Infrastructure\Commands;
 
+use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\Channel;
 use Bunny\Client;
 use Bunny\Message;
+use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -21,19 +23,13 @@ class CreateConsumerCommand extends Command
             ->setName('rabbitMQ:consumer-create');
     }
 
+    /**
+     * @throws Exception
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $client = new Client([
-            'host'      => 'rabbitmq',
-            'vhost'     => '/',
-            'user'      => 'guest',
-            'password'  => 'guest',
-        ]);
-
-        $client->connect();
-
+        $client = RabbitMqClientFactory::create();
         $channel = $client->channel();
-
         $channel->qos(prefetchCount: 1);
 
         $channel->consume(function (Message $message, Channel $channel): void {

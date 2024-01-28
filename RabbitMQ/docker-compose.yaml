@@ -25,8 +25,11 @@ services:
       - ${MY_PATH_SRC}:/data
     ports:
       - ${OWN_PHP_FPM_PORT:-8080}:8080
+    links:
+      - database
     depends_on:
       - rabbitmq
+      - database
     networks:
       - network-rmq
 

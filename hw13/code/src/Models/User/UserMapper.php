@@ -27,9 +27,6 @@ class UserMapper
         $this->insertStatement = $pdo->prepare(
             'INSERT INTO users (email, first_name, last_name) VALUES (?, ?, ?)'
         );
-        $this->updateStatement = $pdo->prepare(
-            'UPDATE users SET email = ?, first_name = ?, last_name = ? WHERE id = ?'
-        );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM users WHERE id = ?'
         );
@@ -62,14 +59,21 @@ class UserMapper
         );
     }
 
-    public function update(User $user): bool
+    public function update(array $rawUserData): bool
     {
-        return $this->updateStatement->execute([
-            $user->getEmail(),
-            $user->getFirstName(),
-            $user->getLastName(),
-            $user->getId(),
-        ]);
+        $id = $rawUserData['id'];
+        unset($rawUserData['id']);
+
+        $fieldsForUpdate = '';
+        foreach ($rawUserData as $key => $value) {
+            $fieldsForUpdate .= "{$key} = ?, ";
+        }
+
+        $this->updateStatement =  $this->pdo->prepare("UPDATE users SET {$fieldsForUpdate} WHERE id = {$id}");
+
+        $values = array_values($rawUserData);
+        $values[] = $id;
+        return $this->updateStatement->execute($values);
     }
 
     public function delete(User $user): bool

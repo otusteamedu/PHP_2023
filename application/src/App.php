@@ -8,7 +8,6 @@ use Exception;
 
 class App
 {
-
     public const SERVER = 'server';
     public const CLIENT = 'client';
     public const VALID_PARAMS = [

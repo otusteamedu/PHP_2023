@@ -6,7 +6,6 @@ use Redis;
 
 class RedisEventStorage extends EventStorage
 {
-
     private $r;
     private $key = 'events';
 

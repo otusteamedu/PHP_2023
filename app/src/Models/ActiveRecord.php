@@ -36,13 +36,13 @@ abstract class ActiveRecord implements ActiveRecordInterface
         $this->pdo = $pdo;
     }
 
-    abstract function fetchAll();
+    abstract public function fetchAll();
 
-    abstract function fetchById(int $id);
+    abstract public function fetchById(int $id);
 
-    abstract function insert(array $data);
+    abstract public function insert(array $data);
 
-    abstract function update(int $id, array $data);
+    abstract public function update(int $id, array $data);
 
-    abstract function delete(int $id);
+    abstract public function delete(int $id);
 }

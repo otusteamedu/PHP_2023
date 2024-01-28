@@ -14,7 +14,6 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($path == '/films') {
-
             $controller = new FilmController();
 
             $filmId = $_GET['film_id'] ?? null;

@@ -41,7 +41,6 @@ class Film extends ActiveRecord
         $films = [];
 
         foreach ($res as $row) {
-
             $films[] = $this->getFilm($row);
         }
 

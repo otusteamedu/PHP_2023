@@ -6,13 +6,13 @@ namespace Yevgen87\App\Models;
 
 interface ActiveRecordInterface
 {
-    function fetchAll();
+    public function fetchAll();
 
-    function fetchById(int $id);
+    public function fetchById(int $id);
 
-    function insert(array $data);
+    public function insert(array $data);
 
-    function update(int $id, array $data);
+    public function update(int $id, array $data);
 
-    function delete(int $id);
+    public function delete(int $id);
 }

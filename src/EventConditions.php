@@ -15,5 +15,4 @@ class EventConditions
     {
         return $this->conditions;
     }
-
 }

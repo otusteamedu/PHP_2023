@@ -6,11 +6,13 @@ namespace Yevgen87\App\Services\Storage;
 
 interface StorageInterface
 {
-    public function store(int $priority, array $conditions, string $event);
+    public function findAll();
 
-    public function deleteAll();
+    public function store(array $data);
 
-    public function delete(string $key);
+    public function getById($id);
 
-    public function getRelevant(array $conditions);
+    public function update(int $id, array $data);
+
+    public function delete(string $id);
 }

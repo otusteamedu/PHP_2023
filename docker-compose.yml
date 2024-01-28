@@ -6,7 +6,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile
     image: myapp/nginx
-    container_name: nginx
+    container_name: nginx_app
     ports:
       - "80:80"
     volumes:
@@ -19,17 +19,23 @@ services:
       context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php
-    container_name: app
+    container_name: fpm_app
     volumes:
       - ./app:/data/application.local
     networks:
       - app-network
-
-  redis:
-    image: redis:alpine
-    container_name: redis
+  
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_DB: "cinema"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "postgres"
+    container_name: postgres_app
     ports:
-        - "6379:6379"
+        - "5432:5432"
+    volumes:
+      - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
 

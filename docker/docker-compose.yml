@@ -1,0 +1,37 @@
+# Версия синтаксиса
+version: '3'
+
+services:
+
+  server:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: server
+    volumes:
+      - ./../application:/data/application
+      - shared-volume:/data/application/socket.d/
+    networks:
+      - app-network
+
+  client:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: chat/php
+    container_name: client
+    depends_on:
+      - server
+    volumes:
+      - ./../application:/data/application
+      - shared-volume:/data/application/socket.d/
+    networks:
+      - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  shared-volume:

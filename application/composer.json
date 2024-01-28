@@ -1,0 +1,17 @@
+{
+    "name": "vpetrov/chat-app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Chat\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vladimir Petrov"
+        }
+    ],
+    "require": {
+        "php": ">=8.0"
+    }
+}

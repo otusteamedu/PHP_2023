@@ -1,0 +1,25 @@
+[
+  {
+    "priority": 1000,
+    "conditions": {
+      "param1": 1
+    },
+    "name": "event1"
+  },
+  {
+    "priority": 2000,
+    "conditions": {
+      "param1": 1,
+      "param2": 2
+    },
+    "name": "event2"
+  },
+  {
+    "priority": 3000,
+    "conditions": {
+      "param1": 1,
+      "param2": 2
+    },
+    "name": "event3"
+  }
+]

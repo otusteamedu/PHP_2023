@@ -1,0 +1,18 @@
+{
+    "name": "khalikovdn/hw12",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Khalikovdn\\Hw12\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "damir",
+            "email": "khalikov@beta.agency"
+        }
+    ],
+    "require": {
+        "ext-redis": "*"
+    }
+}

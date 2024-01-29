@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  php-fpm:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: php-fpm
+    container_name: php-fpm
+    volumes:
+      - ${SITE_PATH}:/data/mysite.local
+      - php-fpm-socket:/var/run/d-socket
+    networks:
+      - app-network
+
+  redis:
+    image: redis/redis-stack-server
+    ports:
+      - "6379:6379"
+    container_name: redis
+    restart: always
+    networks:
+      - app-network
+
+volumes:
+  php-fpm-socket:
+
+networks:
+  app-network:
+    driver: bridge

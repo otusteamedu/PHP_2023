@@ -18,22 +18,18 @@ class Chat
     /**
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(array $params = [])
     {
-        $config = parse_ini_file(__DIR__ . '/../config/config.ini', true);
-        if (empty($config)) {
-            throw new Exception("Empty config");
+        if (empty($params['file'])) {
+            throw new Exception('File is empty!');
         }
 
-        if (empty($config['socket']['file'])) {
-            throw new Exception("Empty path socket");
+        if (empty($params['maxLength'])) {
+            throw new Exception('Max length is empty!');
         }
-        $this->file = $config['socket']['file'];
 
-        if (empty($config['chat']['max_length'])) {
-            throw new Exception("Empty max length message");
-        }
-        $this->maxLength = (int)$config['chat']['max_length'];
+        $this->file = $params['file'];
+        $this->maxLength = $params['maxLength'];
     }
 
     /**

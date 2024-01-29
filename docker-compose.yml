@@ -3,6 +3,7 @@ version: '3'
 services:
     db:
         image: postgres:15.5-alpine3.18
+        command: postgres -c work_mem=16MB -c shared_buffers=1024MB
         ports:
             - "5432:5432"
         volumes:

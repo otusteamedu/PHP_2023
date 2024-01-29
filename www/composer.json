@@ -1,0 +1,24 @@
+{
+    "name": "khalokovdn/hw11",
+    "type": "poject",
+    "autoload": {
+        "psr-4": {
+            "Khalokovdn\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "damir",
+            "email": "khalikov@beta.agency"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.12",
+        "symfony/console": "^6.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

@@ -182,7 +182,7 @@ CREATE TABLE public.tickets
     id integer NOT NULL,
     session_id integer NOT NULL,
     status character(20) DEFAULT 'new'::bpchar NOT NULL,
-    date_purchase timestamp without time zone DEFAULT CURRENT_DATE NOT NULL,
+    date_purchase integer NOT NULL,
     seat_map_id integer
 );
 

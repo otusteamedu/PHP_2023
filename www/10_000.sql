@@ -55,6 +55,6 @@ INSERT INTO tickets (session_id, status, date_purchase, seat_map_id)
 SELECT
     rand_between(1, 1000),
     rand_ticket_status(),
-    rand_date_time('2023-12-01', '2024-01-01'),
+    rand_between('1701388800', '1704067200'),
     rand_between(1, 900)
 FROM generate_series(1, 10000) as gs(id);

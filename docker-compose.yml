@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+    db:
+        image: postgres:15.5-alpine3.18
+        command: postgres -c work_mem=16MB -c shared_buffers=1024MB -c maintenance_work_mem=1024MB
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data_hw10:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        networks:
+            - php-hw-network
+
+volumes:
+    postgres_data_hw10:
+
+networks:
+    php-hw-network:
+        driver: bridge

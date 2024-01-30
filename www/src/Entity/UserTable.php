@@ -49,12 +49,12 @@ class UserTable
     }
 
     /**
-     * @param string|null $name
+     * @param string|null $value
      * @return void
      */
-    public function setName(?string $name): void
+    public function setName(?string $value): void
     {
-        $this->name = $name;
+        $this->name = $value;
     }
 
     /**
@@ -62,16 +62,16 @@ class UserTable
      */
     public function getLastName(): ?string
     {
-        return $this->name;
+        return $this->lastName;
     }
 
     /**
-     * @param string|null $name
+     * @param string|null $value
      * @return void
      */
-    public function setLstName(?string $name): void
+    public function setLastName(?string $value): void
     {
-        $this->name = $name;
+        $this->lastName = $value;
     }
 
     /**
@@ -79,16 +79,16 @@ class UserTable
      */
     public function getSecondName(): ?string
     {
-        return $this->name;
+        return $this->secondName;
     }
 
     /**
-     * @param string|null $name
+     * @param string|null $value
      * @return void
      */
-    public function setSecondName(?string $name): void
+    public function setSecondName(?string $value): void
     {
-        $this->name = $name;
+        $this->name = $value;
     }
 
     /**
@@ -96,16 +96,16 @@ class UserTable
      */
     public function getGender(): ?string
     {
-        return $this->name;
+        return $this->gender;
     }
 
     /**
-     * @param string|null $name
+     * @param string|null $value
      * @return void
      */
-    public function setGender(?string $name): void
+    public function setGender(?string $value): void
     {
-        $this->name = $name;
+        $this->name = $value;
     }
 
     /**
@@ -113,15 +113,15 @@ class UserTable
      */
     public function getBirthday(): ?string
     {
-        return $this->name;
+        return $this->birthday;
     }
 
     /**
-     * @param string|null $name
+     * @param string|null $value
      * @return void
      */
-    public function setBirthday(?string $name): void
+    public function setBirthday(?strinig $value): void
     {
-        $this->name = $name;
+        $this->name = $value;
     }
 }

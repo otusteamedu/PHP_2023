@@ -5,8 +5,8 @@ FROM
     tickets
         LEFT JOIN sessions ON tickets.session_id = sessions.id
 WHERE
-    tickets.date_purchase BETWEEN date_trunc('week', now())
-        AND (date_trunc('week', now()) + '6 days 23 hours 59 minutes'::interval)
+    tickets.date_purchase >= '1701388800'
+  AND tickets.date_purchase <= '1701907200'
   AND tickets.status = 'sold';
 
 

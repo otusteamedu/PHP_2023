@@ -120,7 +120,7 @@ class UserTable
      * @param string|null $value
      * @return void
      */
-    public function setBirthday(?strinig $value): void
+    public function setBirthday(?string $value): void
     {
         $this->name = $value;
     }

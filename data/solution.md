@@ -86,6 +86,57 @@ Execution Time: 1036.591 ms
 
 Ни один индекс для timestamptz не уменьшает время запроса.
 
+Меняем тип date на int:
+```sql
+ALTER TABLE seance ADD COLUMN date_int int;
+UPDATE seance SET date_int = cast(extract(epoch from date) as integer);
+ALTER TABLE seance DROP COLUMN date;
+ALTER TABLE seance RENAME COLUMN date_int TO date;
+ALTER TABLE seance ALTER COLUMN date SET NOT NULL;
+```
+
+Добавляем индекс:
+```sql
+CREATE INDEX CONCURRENTLY IF NOT EXISTS seance_date__ind ON seance(to_timestamp(date));
+
+SELECT DISTINCT f.name as film
+FROM seance s
+     JOIN public.film f
+          on f.id = s.film_id
+WHERE  to_timestamp(s.date) BETWEEN '2024.01.22' AND '2024.01.22 23:59:59';
+```
+
+EXPLAIN ANALYSE:
+```
+HashAggregate  (cost=299685.07..300226.73 rows=54166 width=44) (actual time=820.916..874.563 rows=284866 loops=1)
+  Group Key: f.name
+  Batches: 5  Memory Usage: 32817kB  Disk Usage: 7448kB
+  ->  Gather  (cost=293862.23..299549.66 rows=54166 width=44) (actual time=694.404..716.886 rows=287581 loops=1)
+        Workers Planned: 2
+        Workers Launched: 2
+        ->  HashAggregate  (cost=292862.23..293133.06 rows=27083 width=44) (actual time=682.755..692.373 rows=95860 loops=3)
+              Group Key: f.name
+              Batches: 1  Memory Usage: 17425kB
+              Worker 0:  Batches: 1  Memory Usage: 13329kB
+              Worker 1:  Batches: 1  Memory Usage: 12305kB
+              ->  Nested Loop  (cost=891.12..292794.52 rows=27083 width=44) (actual time=24.467..641.387 rows=96316 loops=3)
+                    ->  Parallel Bitmap Heap Scan on seance s  (cost=890.68..137636.22 rows=27083 width=8) (actual time=24.387..150.735 rows=96316 loops=3)
+                          Recheck Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-22 23:59:59+00'::timestamp with time zone))
+                          Heap Blocks: exact=38669
+                          ->  Bitmap Index Scan on seance_date__ind  (cost=0.00..874.43 rows=65000 width=0) (actual time=17.080..17.080 rows=288947 loops=1)
+                                Index Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-22 23:59:59+00'::timestamp with time zone))
+                    ->  Index Scan using film_pkey on film f  (cost=0.43..5.73 rows=1 width=52) (actual time=0.005..0.005 rows=1 loops=288947)
+                          Index Cond: (id = s.film_id)
+Planning Time: 0.189 ms
+JIT:
+  Functions: 49
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.133 ms, Inlining 0.000 ms, Optimization 1.110 ms, Emission 18.814 ms, Total 22.058 ms"
+Execution Time: 883.129 ms
+```
+
+
+
 # 2. Подсчёт проданных билетов за неделю
 ## Запрос:
 ```sql
@@ -253,6 +304,36 @@ Execution Time: 1120.233 ms
 ```
 
 Время выполнения запроса ускорено в 1,4 раза.
+
+После изменения типа даты, время выполнения запроса увеличилось на 100мс
+```
+Gather Merge  (cost=429750.23..436070.04 rows=54166 width=66) (actual time=1179.205..1218.606 rows=288947 loops=1)
+  Workers Planned: 2
+  Workers Launched: 2
+  ->  Sort  (cost=428750.21..428817.91 rows=27083 width=66) (actual time=1167.383..1169.903 rows=96316 loops=3)
+        Sort Key: s.date
+        Sort Method: quicksort  Memory: 14645kB
+        Worker 0:  Sort Method: quicksort  Memory: 13097kB
+        Worker 1:  Sort Method: quicksort  Memory: 13151kB
+        ->  Nested Loop  (cost=891.55..426756.21 rows=27083 width=66) (actual time=24.915..1144.759 rows=96316 loops=3)
+              ->  Nested Loop  (cost=891.12..291727.87 rows=27083 width=56) (actual time=24.881..673.061 rows=96316 loops=3)
+                    ->  Parallel Bitmap Heap Scan on seance s  (cost=890.68..137636.22 rows=27083 width=20) (actual time=24.817..148.616 rows=96316 loops=3)
+                          Recheck Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-22 23:59:59+00'::timestamp with time zone))
+                          Heap Blocks: exact=36797
+                          ->  Bitmap Index Scan on seance_date__ind  (cost=0.00..874.43 rows=65000 width=0) (actual time=17.543..17.544 rows=288947 loops=1)
+                                Index Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-22 23:59:59+00'::timestamp with time zone))
+                    ->  Index Scan using film_pkey on film f  (cost=0.43..5.69 rows=1 width=52) (actual time=0.005..0.005 rows=1 loops=288947)
+                          Index Cond: (id = s.film_id)
+              ->  Index Scan using hall_pkey on hall h  (cost=0.43..4.98 rows=1 width=18) (actual time=0.005..0.005 rows=1 loops=288947)
+                    Index Cond: (id = s.hall_id)
+Planning Time: 0.312 ms
+JIT:
+  Functions: 42
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.098 ms, Inlining 0.000 ms, Optimization 0.989 ms, Emission 17.632 ms, Total 20.719 ms"
+Execution Time: 1226.883 ms
+```
+
 &nbsp;
 
 # 4. Поиск 3 самых прибыльных фильмов за неделю
@@ -396,6 +477,76 @@ Execution Time: 9162.218 ms
 
 Есть незначительное улучшение на 304мс. Оставляем так
 
+Меняем тип даты на int:
+```sql
+ALTER TABLE ticket ADD COLUMN date_int int;
+UPDATE ticket SET date_int = cast(extract(epoch from date) as integer);
+ALTER TABLE ticket DROP COLUMN date;
+ALTER TABLE ticket RENAME COLUMN date_int TO date;
+ALTER TABLE ticket ALTER COLUMN date SET NOT NULL;
+```
+
+Добавляем индекс:
+```sql
+CREATE INDEX CONCURRENTLY IF NOT EXISTS ticket_date__ind ON ticket(to_timestamp(date));
+
+SELECT f.name,
+       SUM(p.price) as "price"
+FROM ticket t
+     JOIN public.price p
+          on p.id = t.price
+     JOIN public.seance s
+          on s.id = p.seance_id
+     JOIN public.film f
+          on f.id = s.film_id
+WHERE to_timestamp(t.date) >= '2024.01.22'
+  AND to_timestamp(t.date) <= '2024.01.22'::date + INTERVAL '7 days'
+GROUP BY f.name
+ORDER BY price DESC
+LIMIT 3;
+```
+
+EXPLAIN ANALYSE:
+```
+Limit  (cost=354763.21..354763.22 rows=3 width=76) (actual time=8849.329..8880.857 rows=3 loops=1)
+  ->  Sort  (cost=354763.21..354888.21 rows=50000 width=76) (actual time=8839.309..8870.835 rows=3 loops=1)
+        Sort Key: (sum(p.price)) DESC
+        Sort Method: top-N heapsort  Memory: 25kB
+        ->  Finalize GroupAggregate  (cost=347953.53..354116.97 rows=50000 width=76) (actual time=6797.832..8736.715 rows=810853 loops=1)
+              Group Key: f.name
+              ->  Gather Merge  (cost=347953.53..353179.48 rows=41666 width=76) (actual time=6797.822..7687.113 rows=1365622 loops=1)
+                    Workers Planned: 2
+                    Workers Launched: 2
+                    ->  Partial GroupAggregate  (cost=346953.51..347370.17 rows=20833 width=76) (actual time=6749.231..7250.588 rows=455207 loops=3)
+                          Group Key: f.name
+                          ->  Sort  (cost=346953.51..347005.59 rows=20833 width=49) (actual time=6749.199..7009.545 rows=629642 loops=3)
+                                Sort Key: f.name
+                                Sort Method: external merge  Disk: 37976kB
+                                Worker 0:  Sort Method: external merge  Disk: 35824kB
+                                Worker 1:  Sort Method: external merge  Disk: 36240kB
+                                ->  Nested Loop  (cost=686.24..345459.09 rows=20833 width=49) (actual time=56.053..5550.764 rows=629642 loops=3)
+                                      ->  Nested Loop  (cost=685.80..285808.52 rows=20833 width=13) (actual time=56.023..2806.230 rows=629642 loops=3)
+                                            ->  Nested Loop  (cost=685.37..219649.18 rows=20833 width=13) (actual time=55.980..1114.060 rows=629642 loops=3)
+                                                  ->  Parallel Bitmap Heap Scan on ticket t  (cost=684.93..105873.92 rows=20833 width=8) (actual time=55.902..208.483 rows=629642 loops=3)
+                                                        Recheck Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-29 00:00:00'::timestamp without time zone))
+                                                        Heap Blocks: exact=28704
+                                                        ->  Bitmap Index Scan on ticket_date__ind  (cost=0.00..672.43 rows=50000 width=0) (actual time=50.482..50.482 rows=1888927 loops=1)
+                                                              Index Cond: ((to_timestamp((date)::double precision) >= '2024-01-22 00:00:00+00'::timestamp with time zone) AND (to_timestamp((date)::double precision) <= '2024-01-29 00:00:00'::timestamp without time zone))
+                                                  ->  Index Scan using price_pkey on price p  (cost=0.43..5.46 rows=1 width=21) (actual time=0.001..0.001 rows=1 loops=1888927)
+                                                        Index Cond: (id = t.price)
+                                            ->  Index Scan using seance_pkey on seance s  (cost=0.43..3.18 rows=1 width=16) (actual time=0.002..0.002 rows=1 loops=1888927)
+                                                  Index Cond: (id = p.seance_id)
+                                      ->  Index Scan using film_pkey on film f  (cost=0.43..2.86 rows=1 width=52) (actual time=0.004..0.004 rows=1 loops=1888927)
+                                            Index Cond: (id = s.film_id)
+Planning Time: 0.714 ms
+JIT:
+  Functions: 79
+"  Options: Inlining false, Optimization false, Expressions true, Deforming true"
+"  Timing: Generation 2.847 ms, Inlining 0.000 ms, Optimization 1.336 ms, Emission 28.187 ms, Total 32.370 ms"
+Execution Time: 8886.017 ms
+```
+
+Время выполнения запроса уменьшилось.
 &nbsp;
 
 # 5. Сформировать схему зала и показать на ней свободные и занятые места на конкретный сеанс

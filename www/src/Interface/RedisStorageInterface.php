@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace KhalikovDn\Hw12\Interface;
+namespace Khalikovdn\Hw12\Interface;
 
 interface RedisStorageInterface
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace KhalikovDn\Hw12\Services;
+namespace Khalikovdn\Hw12\Services;
 
-use KhalikovDn\Hw12\Interface\RedisStorageInterface;
+use Khalikovdn\Hw12\Interface\RedisStorageInterface;
 use Redis;
 
 class RedisStorageService implements RedisStorageInterface

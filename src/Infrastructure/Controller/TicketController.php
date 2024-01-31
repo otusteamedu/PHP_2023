@@ -10,23 +10,41 @@ use src\Application\UseCase\GetByIdUseCase;
 use src\Application\UseCase\InsertUseCase;
 use src\Application\UseCase\Request\InsertTicketRequest;
 use src\Application\UseCase\Request\UpdateTicketRequest;
-use src\Application\UseCase\Response\GetByIdTicketResponse;
 use src\Application\UseCase\UpdateUseCase;
+use src\Domain\Repository\TicketRepositoryContract;
 use src\Infrastructure\DBGateway\Tickets as TicketsDBGateway;
 use src\Infrastructure\Repository\TicketRepository;
 
 class TicketController
 {
+    private TicketRepositoryContract $ticketRepository;
+
+    public function __construct()
+    {
+        $env = parse_ini_file(__DIR__ . '/../../../.env');
+
+        var_dump("pgsql:host=postgreSQL;dbname=" . $env['DB_DATABASE']);
+
+        $dbHost = $env['DB_HOST'];
+        $dbName = $env['DB_DATABASE'];
+        $dbUserName = $env['DB_USERNAME'];
+        $dbPassword = $env['DB_PASSWORD'];
+
+        $this->ticketRepository = new TicketRepository(
+            new TicketsDBGateway(
+                new \PDO(
+                    dsn: "pgsql:host=$dbHost;dbname=$dbName",
+                    username: $dbUserName,
+                    password: $dbPassword
+                )
+            ),
+            new TicketBuilder()
+        );
+    }
+
     public function create(array $argv): void
     {
-        $insertUseCase = new InsertUseCase(
-            new TicketRepository(
-                new TicketsDBGateway(
-                    new \PDO("pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres")
-                ),
-                new TicketBuilder()
-            )
-        );
+        $insertUseCase = new InsertUseCase($this->ticketRepository);
 
         $insertUseCase(
             new InsertTicketRequest(
@@ -40,28 +58,14 @@ class TicketController
 
     public function get(array $argv): void
     {
-        $getByIdUseCase = new GetByIdUseCase(
-            new TicketRepository(
-                new TicketsDBGateway(
-                    new \PDO("pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres")
-                ),
-                new TicketBuilder()
-            )
-        );
+        $getByIdUseCase = new GetByIdUseCase($this->ticketRepository);
 
         var_dump($getByIdUseCase((int)$argv[2]));
     }
 
     public function update(array $argv): void
     {
-        $updateUseCase = new UpdateUseCase(
-            new TicketRepository(
-                new TicketsDBGateway(
-                    new \PDO("pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres")
-                ),
-                new TicketBuilder()
-            )
-        );
+        $updateUseCase = new UpdateUseCase($this->ticketRepository);
 
         $updateUseCase(
             new UpdateTicketRequest(
@@ -76,14 +80,7 @@ class TicketController
 
     public function delete(array $argv): void
     {
-        $deleteUseCase = new DeleteUseCase(
-            new TicketRepository(
-                new TicketsDBGateway(
-                    new \PDO("pgsql:host=postgreSQL;dbname=postgres", "postgres", "postgres")
-                ),
-                new TicketBuilder()
-            )
-        );
+        $deleteUseCase = new DeleteUseCase($this->ticketRepository);
 
         $deleteUseCase((int)$argv[2]);
     }

@@ -39,6 +39,15 @@ class IdentityMap
      * @param $object
      * @return void
      */
+    public function update($object): void
+    {
+        $this->set($object);
+    }
+
+    /**
+     * @param $object
+     * @return void
+     */
     public function remove($object): void
     {
         if (isset($this->objects[$object::class][$object->getId()])) {

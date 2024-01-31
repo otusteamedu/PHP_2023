@@ -10,6 +10,7 @@ declare(strict_types=1);
 // SOLID Класс EmailValidator следует принципу единственной ответственности: один класс отвечает только за валидацию email.
 
 // Таким образом, внесенные изменения в код помогают сделать его более читаемым, поддерживаемым и соответствующим стандартам.
+
 namespace Rvoznyi\ComposerHello\Services;
 
 class EmailValidator

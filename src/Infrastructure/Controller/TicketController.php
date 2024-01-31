@@ -23,8 +23,6 @@ class TicketController
     {
         $env = parse_ini_file(__DIR__ . '/../../../.env');
 
-        var_dump("pgsql:host=postgreSQL;dbname=" . $env['DB_DATABASE']);
-
         $dbHost = $env['DB_HOST'];
         $dbName = $env['DB_DATABASE'];
         $dbUserName = $env['DB_USERNAME'];

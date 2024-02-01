@@ -1,0 +1,47 @@
+[
+	{
+		"event": "event:1",
+		"priority": 1000,
+		"conditions": {
+			"param1": 1
+		}
+	},
+	{
+		"event": "event:2",
+		"priority": 2000,
+		"conditions": {
+			"param1": 2,
+			"param2": 2
+		}
+	},
+	{
+		"event": {
+			"var1": "event:3",
+			"var2": "some variable"
+		},
+		"priority": 3000,
+		"conditions": {
+			"param1": 1,
+			"param2": 2
+		}
+	},
+	{
+		"event": "event:4",
+		"priority": 1500,
+		"conditions": {
+			"param1": 1,
+			"param2": 2
+		}
+	},
+	{
+		"event": {
+			"name": "event:5",
+			"data": "some data"
+		},
+		"priority": 5000,
+		"conditions": {
+			"param1": 1,
+			"param2": 2
+		}
+	}
+]

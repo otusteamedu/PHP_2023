@@ -15,7 +15,10 @@
 		}
 	},
 	{
-		"event": "event:3",
+		"event": {
+			"var1": "event:3",
+			"var2": "some variable"
+		},
 		"priority": 3000,
 		"conditions": {
 			"param1": 1,
@@ -31,7 +34,10 @@
 		}
 	},
 	{
-		"event": "event:5",
+		"event": {
+			"name": "event:5",
+			"data": "some data"
+		},
 		"priority": 5000,
 		"conditions": {
 			"param1": 1,

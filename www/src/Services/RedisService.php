@@ -6,12 +6,12 @@ namespace Yalanskiy\HomeworkRedis\Services;
 
 use Redis;
 use RedisException;
-use Yalanskiy\HomeworkRedis\AnalyticInterface;
+use Yalanskiy\HomeworkRedis\StorageInterface;
 
 /**
  * RedisService Class
  */
-class RedisService implements AnalyticInterface
+class RedisService implements StorageInterface
 {
     private Redis $redis;
     private const SET_NAME = 'events';

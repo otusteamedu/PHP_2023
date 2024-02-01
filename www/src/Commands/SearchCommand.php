@@ -9,20 +9,21 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yalanskiy\HomeworkRedis\Services\RedisService;
+use Yalanskiy\HomeworkRedis\Services\EventService;
+use Yalanskiy\HomeworkRedis\StorageInterface;
 
 /**
  * SearchCommand console command
  */
 class SearchCommand extends Command
 {
-    private RedisService $redis;
+    private StorageInterface $storage;
 
-    public function __construct(RedisService $redis)
+    public function __construct(StorageInterface $storage)
     {
         parent::__construct();
 
-        $this->redis = $redis;
+        $this->storage = $storage;
     }
 
     protected function configure(): void
@@ -42,14 +43,15 @@ class SearchCommand extends Command
     {
         $limit = (int)$input->getOption('limit');
 
-        $events = $this->redis->search(REDIS_SEARCH_PARAMS, $limit);
+        $events = $this->storage->search(REDIS_SEARCH_PARAMS, $limit);
         if (empty($events)) {
             echo 'Events not found!' . PHP_EOL;
         } else {
             echo '======================================' . PHP_EOL;
             foreach ($events as $event) {
-                echo 'Event: ' . $event['event'] . PHP_EOL;
                 echo 'Score: ' . $event['score'] . PHP_EOL;
+                $eventObj = EventService::createFromString($event['event']);
+                echo 'Event: ' . PHP_EOL . $eventObj->print() . PHP_EOL;
                 echo '======================================' . PHP_EOL;
             }
         }

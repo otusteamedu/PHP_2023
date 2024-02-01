@@ -7,7 +7,7 @@ namespace Yalanskiy\HomeworkRedis;
 /**
  * AnalyticInterface
  */
-interface AnalyticInterface
+interface StorageInterface
 {
     /**
      * Clear all data in DB

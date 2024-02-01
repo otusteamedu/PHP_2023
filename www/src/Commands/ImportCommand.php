@@ -9,20 +9,21 @@ use RedisException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yalanskiy\HomeworkRedis\Services\RedisService;
+use Yalanskiy\HomeworkRedis\Services\EventService;
+use Yalanskiy\HomeworkRedis\StorageInterface;
 
 /**
  * ImportCommand console command
  */
 class ImportCommand extends Command
 {
-    private RedisService $redis;
+    private StorageInterface $storage;
 
-    public function __construct(RedisService $redis)
+    public function __construct(StorageInterface $storage)
     {
         parent::__construct();
 
-        $this->redis = $redis;
+        $this->storage = $storage;
     }
 
     protected function configure(): void
@@ -49,9 +50,10 @@ class ImportCommand extends Command
             throw new JsonException("Incorrect data.json file.");
         }
 
-        $this->redis->clear();
+        $this->storage->clear();
         foreach ($json as $item) {
-            $this->redis->add($item['event'], (int)$item['priority'], $item['conditions']);
+            $event = new EventService($item['event']);
+            $this->storage->add($event->serialize(), (int)$item['priority'], $item['conditions']);
         }
 
         echo 'Imported: ' . count($json) . ' items' . PHP_EOL;

@@ -21,5 +21,6 @@ docker run --rm -v ${PWD}/www:/www --env-file ${PWD}/.env  --network homework_ot
 ````
 ![img.png](img.png)
 
+
 Параметры задаются в console.php.
 

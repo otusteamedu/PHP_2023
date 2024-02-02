@@ -42,7 +42,27 @@ class BankStatementController extends AbstractController
     {
         $dateTo = new DateTime($request->get('dateTo'));
         $dateFrom = new DateTime($request->get('dateFrom'));
-        dd($this->expensiveRepository->findByBetweenDates($dateTo, $dateFrom));
+
+        $statement = '';
+        $incomes = $this->incomeRepository->findByBetweenDates($dateFrom, $dateTo);
+        foreach ($incomes as $income) {
+            $statement .= sprintf(
+                    '%s: +%s %s',
+                    $income->getDate()->format('d.m.Y H:i:s'),
+                    $income->getAmount(),
+                    $income->getCurrency(),
+                ) . PHP_EOL;
+        }
+
+        $expenses = $this->expensiveRepository->findByBetweenDates($dateFrom, $dateTo);
+        foreach ($expenses as $expense) {
+            $statement .= sprintf(
+                    '%s: %s %s',
+                    $expense->getDate()->format('d.m.Y H:i:s'),
+                    $expense->getAmount(),
+                    $expense->getCurrency(),
+                ) . PHP_EOL;
+        }
 
         $channel = $this->client->channel();
         $channel->publish('{"paymentId": 1}', exchange: 'events', routingKey: 'payment_succeeded');

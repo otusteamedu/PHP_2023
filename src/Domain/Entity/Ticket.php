@@ -45,4 +45,40 @@ class Ticket
     {
         return $this->seatInHallId;
     }
+
+    public function setPrice(?float $price): Ticket
+    {
+        if ($price === null) {
+            return $this;
+        }
+        $this->price = $price;
+        return $this;
+    }
+
+    public function setShowtimeId(?int $showtimeId): Ticket
+    {
+        if ($showtimeId === null) {
+            return $this;
+        }
+        $this->showtimeId = $showtimeId;
+        return $this;
+    }
+
+    public function setCustomerId(?int $customerId): Ticket
+    {
+        if ($customerId === null) {
+            return $this;
+        }
+        $this->customerId = $customerId;
+        return $this;
+    }
+
+    public function setSeatInHallId(?int $seatInHallId): Ticket
+    {
+        if ($seatInHallId === null) {
+            return $this;
+        }
+        $this->seatInHallId = $seatInHallId;
+        return $this;
+    }
 }

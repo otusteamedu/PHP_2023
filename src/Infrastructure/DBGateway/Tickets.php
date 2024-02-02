@@ -40,21 +40,55 @@ class Tickets
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function update(int $id, float $price, int $showtime_id, int $customer_id, int $seat_in_hall_id): bool
+    public function update(
+        int $id,
+        float $price = null,
+        int $showtime_id = null,
+        int $customer_id = null,
+        int $seat_in_hall_id = null
+    ): bool
     {
+        $dictionaryValues = array_filter(
+            [
+                'price' => $price,
+                'showtime_id' => $showtime_id,
+                'customer_id' => $customer_id,
+                'seat_in_hall_id' => $seat_in_hall_id
+            ],
+            fn($value) => $value !== null
+        );
+
+        $stringValues = $this->getQueryString($dictionaryValues);
+
         $this->updateStmt = $this->pdo->prepare(
-            "update tickets set price = ?, showtime_id = ?, customer_id = ?, seat_in_hall_id = ? where id = ?"
+            "update tickets set " . $stringValues . " where id = ?"
         );
 
         $this->updateStmt->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $this->updateStmt->execute([$price, $showtime_id, $customer_id, $seat_in_hall_id, $id]);
+        $arrayValues = array_values($dictionaryValues);
+        $arrayValues[] = $id;
+        return $this->updateStmt->execute($arrayValues);
     }
 
-    private function getQueryString(): string
+    private function getQueryString(array $values): string
     {
+        $stringValues = '';
 
-        return "select id, price, showtime_id, customer_id, seat_in_hall_id from tickets where id = ?";
+        for ($i = 0; $i < count($values); $i++) {
+            $value = key($values);
+            next($values);
+            if ($values[$value] === null) {
+                break;
+            }
+            if ($i == count($values) - 1) {
+                $stringValues .= $value . ' = ? ';
+                break;
+            }
+            $stringValues .= $value . ' = ?, ';
+        }
+
+        return $stringValues;
     }
 
     public function delete(int $id): bool

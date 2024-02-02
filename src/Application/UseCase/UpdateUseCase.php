@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace src\Application\UseCase;
 
 use src\Application\UseCase\Request\UpdateTicketRequest;
-use src\Domain\Entity\Ticket;
 use src\Domain\Repository\TicketRepositoryContract;
 
 class UpdateUseCase
@@ -16,14 +15,12 @@ class UpdateUseCase
 
     public function __invoke(UpdateTicketRequest $request): void
     {
-        $this->ticketRepository->update(
-            new Ticket(
-                id: $request->getId(),
-                price: $request->getPrice(),
-                showtimeId: $request->getShowtimeId(),
-                customerId: $request->getCustomerId(),
-                seatInHallId: $request->getSeatInHallId()
-            )
-        );
+        $ticket = $this->ticketRepository->getById($request->getId());
+        $ticket->setPrice($request->getPrice())
+            ->setShowtimeId($request->getShowtimeId())
+            ->setCustomerId($request->getCustomerId())
+            ->setSeatInHallId($request->getSeatInHallId());
+
+        $this->ticketRepository->update($ticket);
     }
 }

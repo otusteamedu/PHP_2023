@@ -68,10 +68,10 @@ class TicketController
         $updateUseCase(
             new UpdateTicketRequest(
                 id: (int)$argv[2],
-                price: (float)$argv[3],
-                showtimeId: (int)$argv[4],
-                customerId: (int)$argv[5],
-                seatInHallId: (int)$argv[6]
+                price: isset($argv[3]) ? (float)$argv[3] : null,
+                showtimeId: isset($argv[4]) ? (int)$argv[4] : null,
+                customerId: isset($argv[5]) ? (int)$argv[5] : null,
+                seatInHallId: isset($argv[6]) ? (int)$argv[6] : null
             )
         );
     }

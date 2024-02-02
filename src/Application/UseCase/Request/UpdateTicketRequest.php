@@ -7,12 +7,12 @@ namespace src\Application\UseCase\Request;
 class UpdateTicketRequest
 {
     private int $id;
-    private float $price;
-    private int $showtimeId;
-    private int $customerId;
-    private int $seatInHallId;
+    private ?float $price;
+    private ?int $showtimeId;
+    private ?int $customerId;
+    private ?int $seatInHallId;
 
-    public function __construct(int $id, float $price, int $showtimeId, int $customerId, int $seatInHallId)
+    public function __construct(int $id, ?float $price, ?int $showtimeId, ?int $customerId, ?int $seatInHallId)
     {
         $this->id = $id;
         $this->price = $price;
@@ -26,22 +26,22 @@ class UpdateTicketRequest
         return $this->id;
     }
 
-    public function getPrice(): float
+    public function getPrice(): ?float
     {
         return $this->price;
     }
 
-    public function getShowtimeId(): int
+    public function getShowtimeId(): ?int
     {
         return $this->showtimeId;
     }
 
-    public function getCustomerId(): int
+    public function getCustomerId(): ?int
     {
         return $this->customerId;
     }
 
-    public function getSeatInHallId(): int
+    public function getSeatInHallId(): ?int
     {
         return $this->seatInHallId;
     }

@@ -46,7 +46,8 @@ class Tickets
         int $showtime_id = null,
         int $customer_id = null,
         int $seat_in_hall_id = null
-    ): bool{
+    ): bool
+    {
         $dictionaryValues = array_filter(
             [
                 'price' => $price,

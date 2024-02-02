@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Infrastructure\Factory\RabbitMqClientFactory;
+use App\Repository\ExpenseRepository;
+use App\Repository\IncomeRepository;
 use Bunny\AbstractClient;
 use DateTime;
 use Exception;
@@ -16,8 +18,15 @@ class BankStatementController extends AbstractController
     /**
      * @throws Exception
      */
-    public function __construct(private AbstractClient $client)
-    {
+    private AbstractClient $client;
+
+    /**
+     * @throws Exception
+     */
+    public function __construct(
+        private readonly ExpenseRepository $expensiveRepository,
+        private readonly IncomeRepository $incomeRepository
+    ) {
         try {
             $this->client = RabbitMqClientFactory::create();
         } catch (Exception $e) {
@@ -33,6 +42,7 @@ class BankStatementController extends AbstractController
     {
         $dateTo = new DateTime($request->get('dateTo'));
         $dateFrom = new DateTime($request->get('dateFrom'));
+        dd($this->expensiveRepository->findByBetweenDates($dateTo, $dateFrom));
 
         $channel = $this->client->channel();
         $channel->publish('{"paymentId": 1}', exchange: 'events', routingKey: 'payment_succeeded');

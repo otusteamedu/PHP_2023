@@ -11,10 +11,10 @@ class RabbitMqClientFactory
     /**
      * @throws Exception
      */
-    static function create(): AbstractClient
+    static function create(): Client
     {
         $client = new Client([
-            'host'      => $_ENV['RABBITMQ_HOST'],
+            'host'      => 'localhost:5673',
             'vhost'     => $_ENV['RABBITMQ_VHOST'],
             'user'      => $_ENV['RABBITMQ_USER'],
             'password'  => $_ENV['RABBITMQ_PASSWORD'],

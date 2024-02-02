@@ -4,7 +4,6 @@ namespace App\Infrastructure\Commands;
 
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\Channel;
-use Bunny\Client;
 use Bunny\Message;
 use Exception;
 use Symfony\Component\Console\Command\Command;

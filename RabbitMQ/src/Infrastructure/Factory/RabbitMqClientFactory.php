@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Factory;
 
-use Bunny\AbstractClient;
 use Bunny\Client;
 use Exception;
 
@@ -11,7 +10,7 @@ class RabbitMqClientFactory
     /**
      * @throws Exception
      */
-    static function create(): AbstractClient
+    static function create(): Client
     {
         $client = new Client([
             'host'      => $_ENV['RABBITMQ_HOST'],

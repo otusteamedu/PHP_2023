@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Income;
+use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -45,4 +46,16 @@ class IncomeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function findByBetweenDates(DateTimeInterface $start, DateTimeInterface $end): array
+    {
+        return $this->createQueryBuilder('i')
+            ->where('i.date >= :startDate')
+            ->andWhere('i.date <= :endDate')
+            ->orderBy('i.date')
+            ->setParameter('startDate', $start)
+            ->setParameter('endDate', $end)
+            ->getQuery()
+            ->getResult();
+    }
 }

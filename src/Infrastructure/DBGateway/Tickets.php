@@ -40,13 +40,8 @@ class Tickets
         return (int)$this->pdo->lastInsertId();
     }
 
-    public function update(
-        int $id,
-        float $price = null,
-        int $showtime_id = null,
-        int $customer_id = null,
-        int $seat_in_hall_id = null
-    ): bool {
+    public function update(int $id, ?float $price, ?int $showtime_id, ?int $customer_id, ?int $seat_in_hall_id): bool
+    {
         $dictionaryValues = array_filter(
             [
                 'price' => $price,

@@ -2,13 +2,19 @@
 
 declare(strict_types=1);
 
-namespace Dimal\Hw11;
+namespace Dimal\Hw11\Application;
 
-use Exception;
-use Dimal\Hw11\Entity\SearchQuery;
+use Dimal\Hw11\Domain\Entity\Book;
+use Dimal\Hw11\Domain\Entity\SearchQuery;
+use Dimal\Hw11\Domain\ValueObject\Category;
+use Dimal\Hw11\Domain\ValueObject\Price;
+use Dimal\Hw11\Domain\ValueObject\Title;
+use Dimal\Hw11\Infrastructure\BookRepository;
 use Dimal\Hw11\Infrastructure\ElasticSearchStockSearch;
 use Dimal\Hw11\Presentation\ConsoleTableView;
 use Elastic\Elasticsearch\ClientBuilder;
+use Exception;
+
 
 class App
 {
@@ -24,37 +30,38 @@ class App
 
     private function getSearchQuery(array $params): SearchQuery
     {
-        $min_price = 0;
-        $max_price = 0;
-        $category = '';
+        $minPrice = new Price();
+        $maxPrice = new Price();
+        $category = new Category();
         $name = '';
         for ($i = 1; $i < count($params); $i++) {
             if ($params[$i] == '--min-price') {
-                $min_price = (float)trim(str_replace(',', '.', $params[$i + 1]));
+                $minPrice->setPrice((float)trim(str_replace(',', '.', $params[$i + 1])));
                 $i++;
                 continue;
             }
 
             if ($params[$i] == '--max-price') {
-                $max_price = (float)trim(str_replace(',', '.', $params[$i + 1]));
+                $maxPrice->setPrice((float)trim(str_replace(',', '.', $params[$i + 1])));
                 $i++;
                 continue;
             }
 
             if ($params[$i] == '--category') {
-                $category = trim($params[$i + 1]);
+                $category->setName(trim($params[$i + 1]));
                 $i++;
                 continue;
             }
 
             $name .= ' ' . trim($params[$i]);
         }
-        $name = trim($name);
 
-        return new SearchQuery($name, $category, $min_price, $max_price);
+        $title = new Title(trim($name));
+
+        return new SearchQuery($title, $category, $minPrice, $maxPrice);
     }
 
-    private function search(SearchQuery $sq): array
+    private function search(SearchQuery $sq): BookRepository
     {
         $conf = parse_ini_file(".env");
 
@@ -66,11 +73,11 @@ class App
         $cl = $cl->build();
 
         $st = new ElasticSearchStockSearch($cl);
-        $book_array = $st->search($sq);
-        return $book_array;
+        $bookRepository = $st->search($sq);
+        return $bookRepository;
     }
 
-    private function show($books): void
+    private function show(BookRepository $booksRepository): void
     {
 
         $cols = [
@@ -82,13 +89,15 @@ class App
         ];
 
         $rows = [];
+        $books = $booksRepository->getAll();
         foreach ($books as $book) {
+            /** @var Book $book */
             $row = [
-                'category' => $book->getCategory(),
-                'title' => $book->getTitle(),
-                'id' => $book->getId(),
-                'price' => $book->getPrice(),
-                'avail' => $book->getAvailToString()
+                'category' => $book->getCategory()->getName(),
+                'title' => $book->getTitle()->getTitle(),
+                'id' => $book->getId()->getId(),
+                'price' => $book->getPrice()->getFormattedPrice(),
+                'avail' => $book->getAvailiable()->getShopCountToString()
             ];
 
             array_push($rows, $row);

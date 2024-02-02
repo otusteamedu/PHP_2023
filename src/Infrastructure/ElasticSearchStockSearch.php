@@ -2,10 +2,14 @@
 
 namespace Dimal\Hw11\Infrastructure;
 
-use Dimal\Hw11\Entity\Book;
-use Dimal\Hw11\Entity\SearchQuery;
+use Dimal\Hw11\Domain\Entity\Book;
+use Dimal\Hw11\Domain\Entity\BookAvailable;
+use Dimal\Hw11\Domain\Entity\SearchQuery;
+use Dimal\Hw11\Domain\ValueObject\Category;
+use Dimal\Hw11\Domain\ValueObject\Id;
+use Dimal\Hw11\Domain\ValueObject\Price;
+use Dimal\Hw11\Domain\ValueObject\Title;
 use Elastic\Elasticsearch\Client;
-use Elastic\Elasticsearch\ClientBuilder;
 
 class ElasticSearchStockSearch extends AbstractStockSearch
 {
@@ -24,35 +28,35 @@ class ElasticSearchStockSearch extends AbstractStockSearch
         */
     }
 
-    public function search(SearchQuery $sq)
+    public function search(SearchQuery $sq): BookRepository
     {
         $query = [
             'must' => [
                 'match' => [
                     'title' => [
-                        "query" => $sq->getTitle(),
+                        "query" => $sq->getTitle()->getTitle(),
                         'fuzziness' => "auto"
                     ]
                 ],
             ]
         ];
 
-        if ($sq->getCategory()) {
+        if ($sq->getCategory()->getName()) {
             $query['filter'] = [
                 'term' => [
-                    'category' => $sq->getCategory()
+                    'category' => $sq->getCategory()->getName()
                 ],
             ];
         }
 
-        if ($sq->getMinPrice() || $sq->getMaxPrice()) {
+        if ($sq->getMinPrice()->getPrice() || $sq->getMaxPrice()->getPrice()) {
             $range = [];
-            if ($sq->getMinPrice()) {
-                $range['gte'] = $sq->getMinPrice();
+            if ($sq->getMinPrice()->getPrice()) {
+                $range['gte'] = $sq->getMinPrice()->getPrice();
             }
 
-            if ($sq->getMaxPrice()) {
-                $range['lte'] = $sq->getMaxPrice();
+            if ($sq->getMaxPrice()->getPrice()) {
+                $range['lte'] = $sq->getMaxPrice()->getPrice();
             }
             $query['should'] = [
                 'range' => ['price' => $range]
@@ -70,19 +74,26 @@ class ElasticSearchStockSearch extends AbstractStockSearch
         ];
 
         $results = $this->client->search($params);
-        $search_result = [];
+
+        $bookRepository = new BookRepository();
+
         foreach ($results['hits']['hits'] as $item) {
             $source = $item['_source'];
-            $avail = [];
+            //$book = new Book($source['sku'], $source['title'], $source['category'], $source['price'], $avail);
+            //array_push($search_result, $book);
 
-            foreach ($source['stock'] as $s) {
-                $avail[$s['shop']] = $s['stock'];
-            }
 
-            $book = new Book($source['sku'], $source['title'], $source['category'], $source['price'], $avail);
-            array_push($search_result, $book);
+            $book = new Book(
+                new Id($source['sku']),
+                new Title($source['title']),
+                new Category($source['category']),
+                new Price($source['price']),
+                new BookAvailable($source['stock'])
+            );
+
+            $bookRepository->add($book);
         }
 
-        return $search_result;
+        return $bookRepository;
     }
 }

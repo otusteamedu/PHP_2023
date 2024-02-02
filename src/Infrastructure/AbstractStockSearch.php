@@ -2,7 +2,7 @@
 
 namespace Dimal\Hw11\Infrastructure;
 
-use Dimal\Hw11\Entity\SearchQuery;
+use Dimal\Hw11\Domain\Entity\SearchQuery;
 
 abstract class AbstractStockSearch
 {

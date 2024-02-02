@@ -17,13 +17,8 @@ if (isset($_REQUEST['email'])) {
         // Добавляем различные стратегии валидации
         $emailValidator->addValidator(new FilterVarEmailValidator());
         $emailValidator->addValidator(new MxRecordEmailValidator());
-        $validationResults = $emailValidator->validateAll($email);
-        // Пример вывода результатов валидации
-        foreach ($validationResults as $index => $result) {
-            echo 'Validator ' . ($index + 1) . ': ' . ($result ? 'Valid' : 'Invalid') . '<br>';
-        }
-        // Пример вывода общего результата
-        echo 'Overall Result: ' . $emailValidator->validate($email);
+        // Вывод результатов валидации
+        $emailValidator->displayValidationResults($email);
     }
 } else {
     echo 'Нет параметра email';

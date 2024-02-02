@@ -45,8 +45,7 @@ class Tickets
         float $price = null,
         int $showtime_id = null,
         int $customer_id = null,
-        int $seat_in_hall_id = null
-    ): bool
+        int $seat_in_hall_id = null): bool
     {
         $dictionaryValues = array_filter(
             [
@@ -60,9 +59,7 @@ class Tickets
 
         $stringValues = $this->getQueryString($dictionaryValues);
 
-        $this->updateStmt = $this->pdo->prepare(
-            "update tickets set " . $stringValues . " where id = ?"
-        );
+        $this->updateStmt = $this->pdo->prepare("update tickets set " . $stringValues . " where id = ?");
 
         $this->updateStmt->setFetchMode(\PDO::FETCH_ASSOC);
 

@@ -1,0 +1,14 @@
+{
+    "name": "mbazlov/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/",
+            "App\\": "App/"
+        }
+    },
+    "require": {
+        "php": ">=8.0",
+        "ext-pdo": "*"
+    }
+}

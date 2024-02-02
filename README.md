@@ -1,3 +1,19 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+Команды для проверки:
+
+```
+php public/index.php get (id)
+```
+
+```
+php public/index.php create (price) (showtimeId) (customerId) (seatInHallId)
+```
+
+```
+php public/index.php update (id) (price) (showtimeId) (customerId) (seatInHallId)
+```
+
+```
+php public/index.php delete (id)
+```

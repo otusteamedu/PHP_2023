@@ -23,9 +23,6 @@ class Tickets
         $this->insertStmt = $pdo->prepare(
             "insert into tickets (price, showtime_id, customer_id, seat_in_hall_id) values (?, ?, ?, ?)"
         );
-        $this->updateStmt = $pdo->prepare(
-            "update tickets set price = ?, showtime_id = ?, customer_id = ?, seat_in_hall_id = ? where id = ?"
-        );
         $this->deleteStmt = $pdo->prepare("delete from tickets where id = ?");
     }
 
@@ -45,9 +42,19 @@ class Tickets
 
     public function update(int $id, float $price, int $showtime_id, int $customer_id, int $seat_in_hall_id): bool
     {
+        $this->updateStmt = $this->pdo->prepare(
+            "update tickets set price = ?, showtime_id = ?, customer_id = ?, seat_in_hall_id = ? where id = ?"
+        );
+
         $this->updateStmt->setFetchMode(\PDO::FETCH_ASSOC);
 
         return $this->updateStmt->execute([$price, $showtime_id, $customer_id, $seat_in_hall_id, $id]);
+    }
+
+    private function getQueryString(): string
+    {
+
+        return "select id, price, showtime_id, customer_id, seat_in_hall_id from tickets where id = ?";
     }
 
     public function delete(int $id): bool

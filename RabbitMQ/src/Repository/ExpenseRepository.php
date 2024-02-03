@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Application\Contracts\ExpenseRepositoryInterface;
 use App\Entity\Expense;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Expense[]    findAll()
  * @method Expense[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ExpenseRepository extends ServiceEntityRepository
+class ExpenseRepository extends ServiceEntityRepository implements ExpenseRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

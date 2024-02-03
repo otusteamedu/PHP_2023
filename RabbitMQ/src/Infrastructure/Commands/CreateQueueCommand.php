@@ -30,7 +30,6 @@ class CreateQueueCommand extends Command
 
         $channel->queueDeclare('events.analytics-service', durable: true);
         $channel->queueBind('events.analytics-service', 'events', 'payment_succeeded');
-        //$channel->publish('{"paymentId": 1}', exchange: 'events', routingKey: 'payment_succeeded');
 
         return self::SUCCESS;
     }

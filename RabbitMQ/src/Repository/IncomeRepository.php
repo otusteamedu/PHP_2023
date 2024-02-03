@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Application\Contracts\IncomeRepositoryInterface;
 use App\Entity\Income;
 use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -15,7 +16,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Income[]    findAll()
  * @method Income[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class IncomeRepository extends ServiceEntityRepository
+class IncomeRepository extends ServiceEntityRepository implements IncomeRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Commands;
 
+use App\Application\Dto\DateIntervalDto;
+use App\Application\UseCase\ConsumeMessageUseCase;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\Channel;
 use Bunny\Message;
@@ -9,11 +11,20 @@ use Exception;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\SerializerInterface;
 
 class CreateConsumerCommand extends Command
 {
-    public function __construct() {
+    private SerializerInterface $serializer;
+    public function __construct(private readonly ConsumeMessageUseCase $consumeMessageUseCase) {
         parent::__construct();
+
+        $encoders = [new JsonEncoder()];
+        $normalizers = [new ObjectNormalizer()];
+        $this->serializer = new Serializer($normalizers, $encoders);
     }
 
     protected function configure()
@@ -27,16 +38,7 @@ class CreateConsumerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $client = RabbitMqClientFactory::create();
-        $channel = $client->channel();
-        $channel->qos(prefetchCount: 1);
-
-        $channel->consume(function (Message $message, Channel $channel): void {
-            var_dump($message->content);
-            $channel->ack($message);
-        }, 'events.analytics-service');
-
-        $client->run();
+        $this->consumeMessageUseCase->run();
 
         return self::SUCCESS;
     }

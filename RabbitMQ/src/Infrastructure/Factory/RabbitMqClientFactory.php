@@ -15,9 +15,9 @@ class RabbitMqClientFactory
     {
         $client = new Client([
             'host'      => 'localhost:5673',
-            'vhost'     => $_ENV['RABBITMQ_VHOST'],
-            'user'      => $_ENV['RABBITMQ_USER'],
-            'password'  => $_ENV['RABBITMQ_PASSWORD'],
+            'vhost'     => '/',
+            'user'      => 'guest',
+            'password'  => 'guest',
         ]);
 
         try {

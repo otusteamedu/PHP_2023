@@ -2,7 +2,6 @@
 
 namespace App\Infrastructure\Factory;
 
-use Bunny\AbstractClient;
 use Bunny\Client;
 use Exception;
 

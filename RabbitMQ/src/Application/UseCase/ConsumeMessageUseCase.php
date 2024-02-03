@@ -2,7 +2,8 @@
 
 namespace App\Application\UseCase;
 
-use App\Application\Dto\DateIntervalDto;
+use App\Application\Dto\TransactionsInfoDto;
+use App\Application\Service\NotifyService;
 use App\Application\Service\TransactionsService;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\AbstractClient;
@@ -20,6 +21,7 @@ class ConsumeMessageUseCase
      */
     public function __construct(
         private readonly TransactionsService $transactionsService,
+        private readonly NotifyService $notifyService,
         private readonly SerializerInterface $serializer
     )
     {
@@ -35,8 +37,12 @@ class ConsumeMessageUseCase
         $channel = $this->client->channel();
         $channel->qos(prefetchCount: 1);
         $channel->consume(function (Message $message, Channel $channel): void {
-            $dateIntervalDto = $this->serializer->deserialize($message->content, DateIntervalDto::class, 'json');
-            $dateIntervalInfo = $this->transactionsService->getTransactionsInfo($dateIntervalDto);
+            /**
+             * @var TransactionsInfoDto $transactionsInfoDto
+             */
+            $transactionsInfoDto = $this->serializer->deserialize($message->content, TransactionsInfoDto::class, 'json');
+            $dateIntervalInfo = $this->transactionsService->getTransactionsInfo($transactionsInfoDto);
+            $this->notifyService->sendMessage($transactionsInfoDto->getChatId(), $dateIntervalInfo);
             $channel->ack($message);
         }, 'events.analytics-service');
 

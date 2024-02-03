@@ -20,6 +20,8 @@
         "symfony/property-access": "7.0.*",
         "symfony/runtime": "7.0.*",
         "symfony/serializer": "7.0.*",
+        "symfony/notifier": "7.0.*",
+        "symfony/telegram-notifier": "7.0.*",
         "symfony/yaml": "7.0.*"
     },
     "config": {

@@ -4,7 +4,7 @@ namespace App\Application\Service;
 
 use App\Application\Contracts\ExpenseRepositoryInterface;
 use App\Application\Contracts\IncomeRepositoryInterface;
-use App\Application\Dto\DateIntervalDto;
+use App\Application\Dto\TransactionsInfoDto;
 
 readonly class TransactionsService
 {
@@ -14,17 +14,17 @@ readonly class TransactionsService
     ) {
     }
 
-    public function getTransactionsInfo(DateIntervalDto $dateIntervalDto): string
+    public function getTransactionsInfo(TransactionsInfoDto $transactionsInfoDto): string
     {
-        $transactionsInfo = '';
+        $transactionsByPeriod = '';
 
         $incomes = $this->incomeRepository->findByBetweenDates(
-            $dateIntervalDto->getDateFrom(),
-            $dateIntervalDto->getDateTo()
+            $transactionsInfoDto->getDateFrom(),
+            $transactionsInfoDto->getDateTo()
         );
 
         foreach ($incomes as $income) {
-            $transactionsInfo .= sprintf(
+            $transactionsByPeriod .= sprintf(
                     '%s: +%s %s',
                     $income->getDate()->format('d.m.Y H:i:s'),
                     $income->getAmount(),
@@ -33,12 +33,12 @@ readonly class TransactionsService
         }
 
         $expenses = $this->expensiveRepository->findByBetweenDates(
-            $dateIntervalDto->getDateFrom(),
-            $dateIntervalDto->getDateTo()
+            $transactionsInfoDto->getDateFrom(),
+            $transactionsInfoDto->getDateTo()
         );
 
         foreach ($expenses as $expense) {
-            $transactionsInfo .= sprintf(
+            $transactionsByPeriod .= sprintf(
                     '%s: %s %s',
                     $expense->getDate()->format('d.m.Y H:i:s'),
                     $expense->getAmount(),
@@ -46,6 +46,6 @@ readonly class TransactionsService
                 ) . PHP_EOL;
         }
 
-        return $transactionsInfo;
+        return $transactionsByPeriod;
     }
 }

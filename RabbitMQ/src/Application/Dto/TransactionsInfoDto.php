@@ -4,9 +4,9 @@ namespace App\Application\Dto;
 
 use DateTime;
 
-readonly class DateIntervalDto
+readonly class TransactionsInfoDto
 {
-    public function __construct(private DateTime $dateFrom, private DateTime $dateTo)
+    public function __construct(private DateTime $dateFrom, private DateTime $dateTo, private string $chatId = '')
     {
     }
 
@@ -18,5 +18,10 @@ readonly class DateIntervalDto
     public function getDateTo(): DateTime
     {
         return $this->dateTo;
+    }
+
+    public function getChatId(): string
+    {
+        return $this->chatId;
     }
 }

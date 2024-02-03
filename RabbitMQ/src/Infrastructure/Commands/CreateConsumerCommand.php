@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Commands;
 
-use App\Application\Dto\DateIntervalDto;
+use App\Application\Dto\TransactionsInfoDto;
 use App\Application\UseCase\ConsumeMessageUseCase;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\Channel;

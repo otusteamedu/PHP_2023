@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
-use App\Application\Dto\DateIntervalDto;
+use App\Application\Dto\TransactionsInfoDto;
+use App\Entity\Exception\ChatIdNotValidException;
+use App\Entity\ValueObject\ChatId;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\AbstractClient;
 use DateTime;
@@ -42,7 +44,14 @@ class BankStatementController extends AbstractController
     {
         $dateTo = new DateTime($request->toArray()['dateTo']);
         $dateFrom = new DateTime($request->toArray()['dateFrom']);
-        $dateIntervalDto = new DateIntervalDto($dateFrom, $dateTo);
+
+        try {
+            $chatId = new ChatId($request->toArray()['chatId']);
+        } catch (ChatIdNotValidException $exception) {
+            throw new Exception($exception->getMessage());
+        }
+
+        $dateIntervalDto = new TransactionsInfoDto($dateFrom, $dateTo, $chatId->getValue());
 
         $serializedDto = $this->serializer->serialize($dateIntervalDto, 'json');
         $channel = $this->client->channel();

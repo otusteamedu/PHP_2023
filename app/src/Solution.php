@@ -4,16 +4,22 @@ namespace Sherweb;
 
 /**
  * Definition for a singly-linked list.
+ *
+ * Временная сложность этого решения составляет O(m + n), где m и n - длины входных списков list1 и list2 соответственно.
+ * Это потому, что нам нужно пройти по каждому списку только один раз, чтобы их объединить.
+ *
+ * Сложность по памяти данного решения составляет O(1).
+ * Количество использованных переменных фиксировано и не зависит от объема переданных данных
  */
 class Solution
 {
     /**
      * Merge two sorted linked lists.
-     * @param ListNode $l1
-     * @param ListNode $l2
+     * @param ListNode|null $l1
+     * @param ListNode|null $l2
      * @return ListNode
      */
-    function mergeTwoLists(ListNode $l1, ListNode $l2): ListNode
+    function mergeTwoLists(?ListNode $l1, ?ListNode $l2): ?ListNode
     {
         $dummy = new ListNode(0);
         $current = $dummy;

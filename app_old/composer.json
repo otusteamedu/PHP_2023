@@ -12,10 +12,5 @@
             "email": "poisonhawk@yandex.ru"
         }
     ],
-    "require": {
-        "php-di/php-di": "^7.0"
-    },
-    "require-dev": {
-        "symfony/var-dumper": "^6.4"
-    }
+    "require": {}
 }

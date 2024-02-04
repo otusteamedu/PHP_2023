@@ -1,10 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Application\Dto\TransactionsInfoDto;
+use App\Application\UseCase\Exception\ConsumeException;
 use App\Entity\Exception\ChatIdNotValidException;
 use App\Entity\ValueObject\ChatId;
+use App\Infrastructure\Constants;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\AbstractClient;
 use DateTime;
@@ -42,8 +46,10 @@ class BankStatementController extends AbstractController
     #[Route('/generate', name: 'app_generate', methods: ['POST'])]
     public function generate(Request $request): JsonResponse
     {
-        $dateTo = new DateTime($request->toArray()['dateTo']);
-        $dateFrom = new DateTime($request->toArray()['dateFrom']);
+        if ((array_key_exists(Constants::DATE_FROM, $request->toArray()) === false) ||
+            (array_key_exists(Constants::DATE_TO, $request->toArray()) === false)) {
+            throw new Exception('Date from and date to are required');
+        }
 
         try {
             $chatId = new ChatId($request->toArray()['chatId']);
@@ -51,11 +57,14 @@ class BankStatementController extends AbstractController
             throw new Exception($exception->getMessage());
         }
 
+        $dateTo = new DateTime($request->toArray()[Constants::DATE_TO]);
+        $dateFrom = new DateTime($request->toArray()[Constants::DATE_FROM]);
+
         $dateIntervalDto = new TransactionsInfoDto($dateFrom, $dateTo, $chatId->getValue());
 
         $serializedDto = $this->serializer->serialize($dateIntervalDto, 'json');
         $channel = $this->client->channel();
-        $channel->publish($serializedDto, exchange: 'events', routingKey: 'payment_succeeded');
+        $channel->publish($serializedDto, exchange: Constants::EXCHANGE_NAME, routingKey: Constants::ROUTING_KEY);
 
         return $this->json([
             'message' => 'Your request has been queued. We will notify you when it is done.',

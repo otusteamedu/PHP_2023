@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Commands;
 
+use App\Infrastructure\Constants;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -14,7 +15,7 @@ class CreateExchangeCommand extends Command
         parent::__construct();
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setName('rabbitMQ:exchange-create');
@@ -27,7 +28,7 @@ class CreateExchangeCommand extends Command
     {
         $client = RabbitMqClientFactory::create();
         $channel = $client->channel();
-        $channel->exchangeDeclare('events', durable: true);
+        $channel->exchangeDeclare(Constants::EXCHANGE_NAME, durable: true);
 
         return self::SUCCESS;
     }

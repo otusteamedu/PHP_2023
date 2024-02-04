@@ -1,10 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\UseCase;
 
 use App\Application\Dto\TransactionsInfoDto;
+use App\Application\Service\Exception\GetTransactionsDataException;
+use App\Application\Service\Exception\SendMessageException;
 use App\Application\Service\NotifyService;
 use App\Application\Service\TransactionsService;
+use App\Infrastructure\Constants;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Bunny\AbstractClient;
 use Bunny\Channel;
@@ -41,10 +46,17 @@ class ConsumeMessageUseCase
              * @var TransactionsInfoDto $transactionsInfoDto
              */
             $transactionsInfoDto = $this->serializer->deserialize($message->content, TransactionsInfoDto::class, 'json');
-            $dateIntervalInfo = $this->transactionsService->getTransactionsInfo($transactionsInfoDto);
-            $this->notifyService->sendMessage($transactionsInfoDto->getChatId(), $dateIntervalInfo);
+
+            try {
+                $dateIntervalInfo = $this->transactionsService->getTransactionsInfo($transactionsInfoDto);
+                $this->notifyService->sendMessage($transactionsInfoDto->getChatId(), $dateIntervalInfo);
+            } catch (SendMessageException|GetTransactionsDataException $exception) {
+                $channel->nack($message);
+                throw new Exception($exception->getMessage());
+            }
+
             $channel->ack($message);
-        }, 'events.analytics-service');
+        }, Constants::QUEUE_NAME);
 
         $this->client->run();
     }

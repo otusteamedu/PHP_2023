@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Application\Service;
 
 use App\Application\Service\Exception\SendMessageException;
-use App\Entity\ValueObject\ChatId;
 use Exception;
 use Symfony\Component\Notifier\Bridge\Telegram\TelegramOptions;
 use Symfony\Component\Notifier\ChatterInterface;
@@ -29,8 +30,8 @@ readonly class NotifyService
             $chatMessage->options($telegramOptions);
 
             $this->chatter->send($chatMessage);
-        } catch (Exception $exception) {
-            throw new SendMessageException($exception);
+        } catch (Exception) {
+            throw new SendMessageException();
         }
     }
 }

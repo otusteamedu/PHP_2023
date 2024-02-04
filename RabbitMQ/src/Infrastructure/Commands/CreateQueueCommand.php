@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Commands;
 
+use App\Infrastructure\Constants;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Exception;
 use Symfony\Component\Console\Command\Command;
@@ -28,8 +29,12 @@ class CreateQueueCommand extends Command
         $client = RabbitMqClientFactory::create();
         $channel = $client->channel();
 
-        $channel->queueDeclare('events.analytics-service', durable: true);
-        $channel->queueBind('events.analytics-service', 'events', 'payment_succeeded');
+        $channel->queueDeclare(Constants::QUEUE_NAME, durable: true);
+        $channel->queueBind(
+            Constants::QUEUE_NAME,
+            Constants::EXCHANGE_NAME,
+            Constants::ROUTING_KEY
+        );
 
         return self::SUCCESS;
     }

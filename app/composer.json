@@ -1,0 +1,15 @@
+{
+    "name": "sherweb/app",
+    "authors": [
+        {
+            "name": "serverwebb",
+            "email": "serverwebb@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Sherweb\\": "src/"
+        }
+    },
+    "require": {}
+}

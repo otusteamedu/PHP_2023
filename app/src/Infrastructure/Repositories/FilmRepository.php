@@ -19,7 +19,6 @@ class FilmRepository extends BaseRepository implements FilmRepositoryInterface
         $films = [];
 
         foreach ($res as $row) {
-
             $films[] = $this->getFilm($row);
         }
 

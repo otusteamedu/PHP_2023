@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yevgen87\App\Infrastructure\Repositories;
 
 use PDO;
+
 class BaseRepository
 {
     protected PDO $pdo;

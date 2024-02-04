@@ -6,8 +6,8 @@ services:
     container_name: rmq-rabbitmq
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-guest}
     ports:
       - "127.0.0.1:5673:5672"
       - "127.0.0.1:15673:15672"
@@ -18,9 +18,9 @@ services:
     container_name: rmq-database
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: rmq_db
-      POSTGRES_USER: rmq-user
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ${POSTGRES_DB:-rmq_db}
+      POSTGRES_USER: ${POSTGRES_USER:-rmq-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
     ports:
       - "5433:5432"
     networks:

@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+#[Route('api/v1', name: 'bank_transactions_api')]
 class BankStatementController extends AbstractController
 {
     /**

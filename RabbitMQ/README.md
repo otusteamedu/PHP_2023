@@ -39,7 +39,7 @@ bin/console rabbitMQ:consumer-create
 ## Запрос для генерации выписки:
 
 ```
-POST /generate
+POST /api/v1/generate 
 
 {
     "chatId": "123456789",

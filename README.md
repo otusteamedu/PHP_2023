@@ -1,3 +1,4 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Домашние задания
+1. [Урок 1 Работа с окружением](./lessons/Lessons_1.md)

@@ -3,6 +3,7 @@
 namespace Dimal\Hw11\Application\UseCase;
 
 use Exception;
+use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
 use Dimal\Hw11\Application\StockSearchInterface;
 use Dimal\Hw11\Application\TableViewInterface;
 use Dimal\Hw11\Domain\Entity\Book;
@@ -81,7 +82,7 @@ class ConsoleSearchUseCase
         return new SearchQuery($title, $category, $minPrice, $maxPrice);
     }
 
-    private function search(SearchQuery $sq): BookRepository
+    private function search(SearchQuery $sq): BookRepositoryInterface
     {
         $bookRepository = $this->stockSearch->search($sq);
         return $bookRepository;

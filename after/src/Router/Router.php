@@ -22,8 +22,7 @@ class Router implements RouterInterface
         private readonly RequestInterface $request,
         private readonly StorageInterface $storage,
         private readonly ValidatorInterface $validator
-    )
-    {
+    ) {
         $this->initRoutes();
     }
 

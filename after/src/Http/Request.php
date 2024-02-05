@@ -10,8 +10,7 @@ class Request implements RequestInterface
         public array $get,
         public array $post,
         public array $server
-    )
-    {
+    ) {
     }
 
     public static function createFromGlobals(): static

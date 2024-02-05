@@ -10,7 +10,15 @@ class EmailValidator
 {
     private array $validators = [];
     /**
-     * @param \ValidationStrategies\EmailValidationStrategy $validator
+     * EmailValidator constructor.
+     * @param array $validators
+     */
+    public function __construct(array $validators = [])
+    {
+        $this->validators = $validators;
+    }
+    /**
+     * @param EmailValidationStrategy $validator
      * @return void
      */
     public function addValidator(EmailValidationStrategy $validator): void
@@ -24,7 +32,6 @@ class EmailValidator
     public function validate(string $email): bool
     {
         $validationResults = $this->validateAll($email);
-        // Проверяем все результаты валидации
         foreach ($validationResults as $result) {
             if (!$result) {
                 return false; // Если хотя бы один валидатор вернул false, весь email считается невалидным
@@ -43,18 +50,5 @@ class EmailValidator
             $results[] = $validator->validate($email);
         }
         return $results;
-    }
-    /**
-     * @param string $email
-     * @return void
-     */
-    public function displayValidationResults(string $email): void
-    {
-        // Пример вывода результатов валидации
-        foreach ($this->validateAll($email) as $index => $result) {
-            echo 'Validator ' . ($index + 1) . ': ' . ($result ? 'Valid' : 'Invalid') . '<br>';
-        }
-        // Пример вывода общего результата
-        echo 'Overall Result: ' . ($this->validate($email) ? 'Valid' : 'Invalid');
     }
 }

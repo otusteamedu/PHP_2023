@@ -3,5 +3,5 @@ mysql/dbdata/*
 postgres/dbdata/*
 code/*
 .env
-hw13/code/vendor
-hw13/docker/postgres/dbdata
+hw15/code/vendor
+hw15/docker/postgres/dbdata

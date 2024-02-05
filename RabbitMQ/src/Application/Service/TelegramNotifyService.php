@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\Service;
 
+use App\Application\Contracts\NotifyServiceInterface;
 use App\Application\Service\Exception\SendMessageException;
 use Exception;
 use Symfony\Component\Notifier\Bridge\Telegram\TelegramOptions;
@@ -11,7 +12,7 @@ use Symfony\Component\Notifier\ChatterInterface;
 use Symfony\Component\Notifier\Exception\TransportExceptionInterface;
 use Symfony\Component\Notifier\Message\ChatMessage;
 
-readonly class NotifyService
+readonly class TelegramNotifyService implements NotifyServiceInterface
 {
     public function __construct(private ChatterInterface $chatter)
     {
@@ -21,7 +22,7 @@ readonly class NotifyService
      * @throws SendMessageException
      * @throws TransportExceptionInterface
      */
-    public function sendMessage(string $chatId, string $message): void
+    public function notify(string $chatId, string $message): void
     {
         try {
             $chatMessage = new ChatMessage($message);

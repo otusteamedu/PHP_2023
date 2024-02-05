@@ -18,10 +18,8 @@ use Elastic\Elasticsearch\ClientBuilder;
 
 class ConsoleSearchUseCase
 {
-
     private TableViewInterface $view;
     private StockSearchInterface $stockSearch;
-
 
     public function __construct()
     {

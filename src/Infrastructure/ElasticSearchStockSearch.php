@@ -2,6 +2,7 @@
 
 namespace Dimal\Hw11\Infrastructure;
 
+use Dimal\Hw11\Application\StockSearchInterface;
 use Dimal\Hw11\Domain\Entity\Book;
 use Dimal\Hw11\Domain\Entity\BookAvailable;
 use Dimal\Hw11\Domain\Entity\SearchQuery;
@@ -11,52 +12,70 @@ use Dimal\Hw11\Domain\ValueObject\Price;
 use Dimal\Hw11\Domain\ValueObject\Title;
 use Elastic\Elasticsearch\Client;
 
-class ElasticSearchStockSearch extends AbstractStockSearch
+
+class ElasticSearchStockSearch implements StockSearchInterface
 {
-    private $client;
+    private Client $client;
 
     public function __construct(Client $cl)
     {
         $this->client = $cl;
-        /*
-        $this->client->setHosts([$host]);
-        if ($password) {
-            $this->client->setApiKey($password);
-        }
-
-        $this->client = $this->client->build();
-        */
     }
 
-    public function search(SearchQuery $sq): BookRepository
+
+    public function search(SearchQuery $searchQuery): BookRepository
+    {
+
+        $results = $this->client->search($this->makeParams($searchQuery));
+
+        $bookRepository = new BookRepository();
+
+        foreach ($results['hits']['hits'] as $item) {
+            $source = $item['_source'];
+
+            $book = new Book(
+                new Id($source['sku']),
+                new Title($source['title']),
+                new Category($source['category']),
+                new Price($source['price']),
+                new BookAvailable($source['stock'])
+            );
+
+            $bookRepository->add($book);
+        }
+
+        return $bookRepository;
+    }
+
+    private function makeParams(SearchQuery $searchQuery): array
     {
         $query = [
             'must' => [
                 'match' => [
                     'title' => [
-                        "query" => $sq->getTitle()->getTitle(),
+                        "query" => $searchQuery->getTitle()->getTitle(),
                         'fuzziness' => "auto"
                     ]
                 ],
             ]
         ];
 
-        if ($sq->getCategory()->getName()) {
+        if ($searchQuery->getCategory()->getName()) {
             $query['filter'] = [
                 'term' => [
-                    'category' => $sq->getCategory()->getName()
+                    'category' => $searchQuery->getCategory()->getName()
                 ],
             ];
         }
 
-        if ($sq->getMinPrice()->getPrice() || $sq->getMaxPrice()->getPrice()) {
+        if ($searchQuery->getMinPrice()->getPrice() || $searchQuery->getMaxPrice()->getPrice()) {
             $range = [];
-            if ($sq->getMinPrice()->getPrice()) {
-                $range['gte'] = $sq->getMinPrice()->getPrice();
+            if ($searchQuery->getMinPrice()->getPrice()) {
+                $range['gte'] = $searchQuery->getMinPrice()->getPrice();
             }
 
-            if ($sq->getMaxPrice()->getPrice()) {
-                $range['lte'] = $sq->getMaxPrice()->getPrice();
+            if ($searchQuery->getMaxPrice()->getPrice()) {
+                $range['lte'] = $searchQuery->getMaxPrice()->getPrice();
             }
             $query['should'] = [
                 'range' => ['price' => $range]
@@ -73,27 +92,6 @@ class ElasticSearchStockSearch extends AbstractStockSearch
             ]
         ];
 
-        $results = $this->client->search($params);
-
-        $bookRepository = new BookRepository();
-
-        foreach ($results['hits']['hits'] as $item) {
-            $source = $item['_source'];
-            //$book = new Book($source['sku'], $source['title'], $source['category'], $source['price'], $avail);
-            //array_push($search_result, $book);
-
-
-            $book = new Book(
-                new Id($source['sku']),
-                new Title($source['title']),
-                new Category($source['category']),
-                new Price($source['price']),
-                new BookAvailable($source['stock'])
-            );
-
-            $bookRepository->add($book);
-        }
-
-        return $bookRepository;
+        return $params;
     }
 }

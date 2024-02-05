@@ -2,15 +2,16 @@
 
 namespace Dimal\Hw11\Presentation;
 
-class ConsoleTableView
+
+use Dimal\Hw11\Application\TableViewInterface;
+
+class ConsoleTableView implements TableViewInterface
 {
     private array $cols = [];
     private array $rows = [];
 
-    public function __construct(array $cols, array $rows)
+    public function __construct()
     {
-        $this->setCols($cols);
-        $this->setRows($rows);
     }
 
     private function setCols($cols): void
@@ -23,8 +24,11 @@ class ConsoleTableView
         $this->rows = $rows;
     }
 
-    public function showTable(): void
+    public function showTable(array $cols, array $rows): void
     {
+        $this->setCols($cols);
+        $this->setRows($rows);
+
         $this->showTableHeader();
         $this->showTableBody();
         $this->showTableFooter();

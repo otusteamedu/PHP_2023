@@ -25,5 +25,4 @@ class Price
     {
         return $this->price ? number_format($this->price, 2, ',', ' ') : '';
     }
-
 }

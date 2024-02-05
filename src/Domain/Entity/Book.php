@@ -16,12 +16,12 @@ class Book
     private BookAvailable $avail;
 
     public function __construct(
-        Id            $id,
-        Title         $title,
-        Category      $category,
-        Price         $price,
-        BookAvailable $avail)
-    {
+        Id $id,
+        Title $title,
+        Category $category,
+        Price $price,
+        BookAvailable $avail
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->category = $category;

@@ -12,7 +12,6 @@ use Dimal\Hw11\Domain\ValueObject\Price;
 use Dimal\Hw11\Domain\ValueObject\Title;
 use Elastic\Elasticsearch\Client;
 
-
 class ElasticSearchStockSearch implements StockSearchInterface
 {
     private Client $client;

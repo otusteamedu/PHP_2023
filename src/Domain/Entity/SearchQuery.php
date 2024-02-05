@@ -14,11 +14,11 @@ class SearchQuery
     private Title $title;
 
     public function __construct(
-        Title    $title,
+        Title $title,
         Category $category,
-        Price    $min_price,
-        Price    $max_price)
-    {
+        Price $min_price,
+        Price $max_price
+    ) {
         $this->min_price = $min_price;
         $this->max_price = $max_price;
         $this->category = $category;

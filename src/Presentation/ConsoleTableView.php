@@ -2,7 +2,6 @@
 
 namespace Dimal\Hw11\Presentation;
 
-
 use Dimal\Hw11\Application\TableViewInterface;
 
 class ConsoleTableView implements TableViewInterface

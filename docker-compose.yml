@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${CINEMA_DB_NAME}
+      POSTGRES_USER: ${CINEMA_DB_USER}
+      POSTGRES_PASSWORD: ${CINEMA_DB_PASSWORD}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+      - .:/docker-entrypoint-initdb.d

@@ -22,7 +22,6 @@ services:
       - "80:80"
     volumes:
       - ../code:/var/www/app.loc
-      - ./php-fpm/socket:/var/run
     networks:
       - otus-network
 

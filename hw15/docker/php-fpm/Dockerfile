@@ -10,9 +10,11 @@ RUN apt-get update && apt-get install -y \
         libssl-dev \
 				libmcrypt-dev \
         libpq-dev \
+        curl \
+        bash \
         && pecl install mcrypt \
 				&& docker-php-ext-enable mcrypt \
-        && docker-php-ext-install -j$(nproc) iconv mbstring pdo pdo_pgsql pgsql \
+        && docker-php-ext-install -j$(nproc) iconv mbstring pdo pdo_pgsql pgsql zip\
 				&& docker-php-ext-configure gd --with-freetype \
         && docker-php-ext-install -j$(nproc) gd
 

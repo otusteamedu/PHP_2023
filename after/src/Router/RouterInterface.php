@@ -6,5 +6,5 @@ namespace App\Router;
 
 interface RouterInterface
 {
-    public function dispatch(string $uri, string $method): void;
+    public function dispatch(string $uri, string $method): string;
 }

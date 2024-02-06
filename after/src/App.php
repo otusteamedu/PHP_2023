@@ -23,7 +23,7 @@ class App
     public StorageInterface $storage;
     public ValidatorInterface $validator;
 
-    public function run(): void
+    public function run(): string
     {
         $this->request = Request::createFromGlobals();
 
@@ -35,6 +35,6 @@ class App
 
         $this->router = new Router($this->request, $this->storage, $this->validator);
 
-        $this->router->dispatch($this->request->uri(), $this->request->method());
+        return $this->router->dispatch($this->request->uri(), $this->request->method());
     }
 }

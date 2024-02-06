@@ -8,7 +8,7 @@ use Exception;
 
 class EventsController extends Controller
 {
-    public function add(): void
+    public function add(): string
     {
         if (!$this->getValidator()->validateArrayIsKeyExists($this->getRequest()->body(), ['conditions', 'priority', 'event'])) {
             $this->wrongBody();
@@ -16,13 +16,15 @@ class EventsController extends Controller
 
         try {
             $this->storage()->add(json_encode($this->getRequest()->body()['conditions']), $this->getRequest()->body()['priority'], $this->getRequest()->body()['event']);
-            echo 'Успешно добавлено новое событие';
+            return 'Успешно добавлено новое событие';
         } catch (Exception $e) {
             $this->errorRequest($e);
         }
+
+        return '';
     }
 
-    public function read(): void
+    public function read(): string
     {
         if (!$this->getValidator()->validateArrayIsKeyExists($this->getRequest()->body(), ['params'])) {
             $this->wrongBody();
@@ -30,24 +32,23 @@ class EventsController extends Controller
 
         try {
             $result = $this->storage()->read(json_encode($this->getRequest()->body()['params']));
-
-            if (!$result) {
-                echo 'Не найдено подходящих событий';
-            } else {
-                echo 'Подходящее событие: ' . $result[0];
-            }
+            return $result[0] ?? 'Не найдено подходящих событий';
         } catch (Exception $e) {
             $this->errorRequest($e);
         }
+
+        return '';
     }
 
-    public function clear(): void
+    public function clear(): string
     {
         try {
             $this->storage()->deleteAll();
-            echo 'События успешно очищены';
+            return 'События успешно очищены';
         } catch (Exception $e) {
             $this->errorRequest($e);
         }
+
+        return '';
     }
 }

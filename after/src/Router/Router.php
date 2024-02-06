@@ -26,7 +26,7 @@ class Router implements RouterInterface
         $this->initRoutes();
     }
 
-    public function dispatch(string $uri, string $method): void
+    public function dispatch(string $uri, string $method): string
     {
         $route = $this->findRoute($uri, $method);
 
@@ -43,9 +43,9 @@ class Router implements RouterInterface
             call_user_func([$controller, 'setRequest'], $this->request);
             call_user_func([$controller, 'setStorage'], $this->storage);
             call_user_func([$controller, 'setValidator'], $this->validator);
-            call_user_func([$controller, $action]);
+            return call_user_func([$controller, $action]);
         } else {
-            call_user_func($route->getAction());
+            return call_user_func($route->getAction());
         }
     }
 

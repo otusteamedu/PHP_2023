@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Storage;
 
-use App\Config\ConfigInterface;
 use Redis;
 use RedisException;
 use RuntimeException;
@@ -13,14 +12,33 @@ class RedisStorage implements StorageInterface
 {
     private Redis $storage;
 
-    public function __construct(ConfigInterface $config)
+    public function __construct()
     {
+        if (!$config = parse_ini_file(dirname(__DIR__) . '/Config/config.ini')) {
+            throw new RuntimeException('Не найден файл конфига');
+        }
+
+        if (!isset($config['host']) || !isset($config['port'])) {
+            throw new RuntimeException('Не найдены переменные конфигурации');
+        }
+
         $this->storage = new Redis();
 
+        $host = $config['host'];
+        $port = (int)$config['port'];
+
         try {
-            $this->storage->connect($config->getHost(), $config->getPort());
-        } catch (RedisException) {
-            throw new RuntimeException('Ошибка подключения к Redis');
+            $this->storage->connect($host, $port);
+        } catch (RedisException $e) {
+            throw new RuntimeException($e->getMessage());
+        }
+
+        try {
+            if (!$this->storage->ping()) {
+                throw new RuntimeException('Хранилище недоступно');
+            }
+        } catch (RedisException $e) {
+            throw new RuntimeException($e->getMessage());
         }
     }
 

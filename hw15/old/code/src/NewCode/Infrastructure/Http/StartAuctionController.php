@@ -2,9 +2,9 @@
 
 namespace old\code\src\NewCode\Infrastructure\Http;
 
+use http\Client\Response;
 use old\code\src\NewCode\Application\UseCase\Request\StartAuctionRequest;
 use old\code\src\NewCode\Application\UseCase\StartAuctionUseCase;
-use http\Client\Response;
 
 class StartAuctionController
 {

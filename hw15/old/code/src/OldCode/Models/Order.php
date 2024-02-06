@@ -2,8 +2,6 @@
 
 namespace old\code\src\OldCode\Models;
 
-use old\code\src\OldCode\Models\ModelEloquent;
-
 class Order extends ModelEloquent
 {
     const STATUS_CREATED = 100;

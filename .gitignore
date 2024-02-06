@@ -1,7 +1,7 @@
 /.idea
 mysql/dbdata/*
 postgres/dbdata/*
-code/*
 .env
 hw15/code/vendor
 hw15/docker/postgres/dbdata
+hw15/code/.env

@@ -3,6 +3,7 @@
 namespace HW11\Elastic\DI\Decorator;
 
 use HW11\Elastic\DI\Product\Product;
+
 // Декоратор
 abstract class ProductDecorator implements Product
 {

@@ -1,5 +1,7 @@
 <?php
+
 namespace HW11\Elastic\DI\Observer;
+
 // Наблюдатель
 class CookingStatusObserver extends \HW11\Elastic\DI\Observer\CookingSubject
 {

@@ -3,6 +3,7 @@
 namespace HW11\Elastic\DI\Proxy;
 
 use HW11\Elastic\DI\Product\Product;
+
 //Прокси
 class CookingProxy implements Product
 {

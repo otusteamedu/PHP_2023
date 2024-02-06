@@ -1,6 +1,7 @@
 <?php
 
 namespace HW11\Elastic\DI\Observer;
+
 // Наблюдатель
 abstract class CookingSubject implements Observer
 {

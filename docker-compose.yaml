@@ -30,6 +30,7 @@ services:
     container_name: '${COMPOSE_PROJECT_NAME}_fpm' # имя контейнера после запуска
     volumes:
        - ./src:/data/mysite.local
+       - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
        - socket:/var/run/
     env_file:
       - .env
@@ -37,52 +38,32 @@ services:
     networks:
       - app-network
 
-  mysql:
+  postgres:
     build:
-      context: ./mysql8
+      context: ./postrgres
       dockerfile: Dockerfile
-    image: mysql8
-    container_name: '${COMPOSE_PROJECT_NAME}_mysql'
+    image: postgres
+    container_name: '${COMPOSE_PROJECT_NAME}_postgres'
     restart: always
-    command: --default-authentication-plugin=mysql_native_password
     ports:
-      - '${MYSQL_PORT:-3306}:3306'
+      - '${POSTGRES_PORT:-5432}:5432'
     volumes:
-      - mysql:/var/lib/mysql
+      - postgres:/var/lib/postgresql/data
+      - ./DDL.sql:/DDL.sql
+      - ./DML.sql:/DML.sql
       - ${LOG_DIR}:/var/log
     env_file:
       - .env
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    networks:
-      - app-network
-
-  redis:
-    image: 'redis:alpine'
-    container_name: '${COMPOSE_PROJECT_NAME}_redis'
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    volumes:
-      - 'redis:/data'
-    networks:
-      - app-network
-
-  memcached:
-    image: 'bitnami/memcached:latest'
-    container_name: '${COMPOSE_PROJECT_NAME}_memcached'
-    ports:
-      - '${MEMCACHED_PORT:-11211}:11211'
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     networks:
       - app-network
 
 volumes:
   socket:
-  redis:
-  mysql:
+  postgres:
     driver: local
 
 #Docker Networks

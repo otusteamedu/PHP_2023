@@ -3,6 +3,7 @@
 declare(strict_types = 1);
 
 use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrderMutation;
+use App\OldCode\GraphQL\Mutations\OldCreateOrderMutation;
 
 return [
     'route' => [
@@ -82,6 +83,7 @@ return [
             ],
             'mutation' => [
                 'create_order' => CreateOrderMutation::class,
+                'create_order_old' => OldCreateOrderMutation::class,
             ],
 
             'types' => [

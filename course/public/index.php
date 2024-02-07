@@ -23,7 +23,7 @@ $ingredientsIterator = new IngredientsIterator($ingredients);
 /**
  * Добавили игредиенты
  */
-$dish->addIngredientsFromIterator($ingredientsIterator);
+$dish?->addIngredientsFromIterator($ingredientsIterator);
 
 /**
  *  цепочка обязанностей

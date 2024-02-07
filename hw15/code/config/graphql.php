@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrderMutation;
+
 return [
     'route' => [
         // The prefix for routes; do NOT use a leading slash!
@@ -73,16 +75,17 @@ return [
     //  ]
     //
     'schemas' => [
+
         'default' => [
             'query' => [
-                // ExampleQuery::class,
-            ],
-            'mutation' => [
 
             ],
-            // The types only available in this schema
+            'mutation' => [
+                'create_order' => CreateOrderMutation::class,
+            ],
+
             'types' => [
-                // ExampleType::class,
+
             ],
 
             // Laravel HTTP middleware

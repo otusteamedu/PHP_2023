@@ -2,6 +2,8 @@
 
 namespace App\Infrastructure\Providers;
 
+use App\Domains\Order\Domain\Repository\OrderRepositoryInterface;
+use App\Domains\Order\Infrastructure\Repository\DatabaseOrderRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->registerRepositories();
     }
 
     /**
@@ -20,5 +22,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         //
+    }
+
+    private function registerRepositories()
+    {
+        $this->app->singleton(OrderRepositoryInterface::class, DatabaseOrderRepository::class);
     }
 }

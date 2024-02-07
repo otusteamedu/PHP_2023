@@ -14,9 +14,9 @@ class DishFactory
     {
         return match ($type) {
             'Burger' => Burger::createClassic(),
-            'Bread' => Sandwich::createClassic(),
+            'Sandwich' => Sandwich::createClassic(),
             'HotDog' => HotDog::createClassic(),
-            default => throw new InvalidArgumentException('invalid'),
+            default => throw new InvalidArgumentException('invalid type'),
         };
 
     }

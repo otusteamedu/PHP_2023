@@ -10,10 +10,16 @@ try {
     $pdo = new DB();
 
     $dates = $pdo->pdo->query("SELECT * FROM service_date")->fetchAll(PDO::FETCH_ASSOC);
-    echo "<pre>"; var_export($dates); echo "</pre>";
+
+    echo "<pre>";
+    var_export($dates);
+    echo "</pre>";
 
     $data = $pdo->pdo->query("SELECT * FROM marketing_data")->fetchAll(PDO::FETCH_ASSOC);
-    echo "<pre>"; var_export($data); echo "</pre>";
+
+    echo "<pre>";
+    var_export($data);
+    echo "</pre>";
 } catch (\PDOException $e) {
     echo $e->getMessage();
 }

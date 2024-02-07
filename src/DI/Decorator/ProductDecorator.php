@@ -8,6 +8,8 @@ use HW11\Elastic\DI\Product\Product;
 abstract class ProductDecorator implements Product
 {
     protected Product $product;
+    abstract public function getName(): string;
+    abstract public function getPrice(): float;
     public function __construct(Product $product)
     {
         $this->product = $product;

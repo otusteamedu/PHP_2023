@@ -1,6 +1,7 @@
 /.idea
 mysql/dbdata/*
-code/*
+postgres/dbdata/*
 .env
-php-fpm/socket/*
-
+hw15/code/vendor
+hw15/docker/postgres/dbdata
+hw15/code/.env

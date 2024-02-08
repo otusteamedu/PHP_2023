@@ -56,7 +56,6 @@ CREATE TABLE movies
     producer_id INT,
     title VARCHAR(255),
     duration INT,
-    country VARCHAR(255),
     age_rating INT,
     user_rating NUMERIC(4, 2),
     critic_rating NUMERIC(4, 2),
@@ -67,6 +66,19 @@ CREATE TABLE movies_genres
 (
 	movies_id int REFERENCES movies (movie_id) ON UPDATE CASCADE ON DELETE cascade,
 	genres_id int REFERENCES genres (genre_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE countries
+(
+    country_id SERIAL PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+
+CREATE TABLE movies_countries 
+(
+	movie_id int REFERENCES movies (movie_id) ON UPDATE CASCADE ON DELETE cascade,
+	contry_id int REFERENCES countries (country_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -87,8 +99,8 @@ CREATE TABLE seances
     seance_id SERIAL PRIMARY KEY,
     hall_id INT, 
     movie_id INT,
-    start_time DATE,
-    end_time DATE,
+    start_time TIMESTAMP,
+    end_time TIMESTAMP,
     base_price NUMERIC(10, 2),
     FOREIGN KEY (hall_id) REFERENCES halls (hall_id),
     FOREIGN KEY (movie_id) REFERENCES movies (movie_id)

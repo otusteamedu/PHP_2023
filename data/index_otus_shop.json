@@ -1,0 +1,52 @@
+{
+    "mappings": {
+        "properties": {
+            "category": {
+                "type": "keyword"
+            },
+            "price": {
+                "type": "float"
+            },
+            "sku": {
+                "type": "keyword"
+            },
+            "stock": {
+                "properties": {
+                    "shop": {
+                        "type": "keyword"
+                    },
+                    "stock": {
+                        "type": "short"
+                    }
+                }
+            },
+            "title": {
+                "type": "text"
+            }
+        }
+    },
+    "settings": {
+        "analysis": {
+            "filter": {
+                "russian_stop": {
+                    "type": "stop",
+                    "stopwords": "_russian_"
+                },
+                "russian_stemmer": {
+                    "type": "stemmer",
+                    "language": "russian"
+                }
+            },
+            "analyzer": {
+                "rebuilt_russian": {
+                    "tokenizer": "standard",
+                    "filter": [
+                        "lowercase",
+                        "russian_stop",
+                        "russian_stemmer"
+                    ]
+                }
+            }
+        }
+    }
+}

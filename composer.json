@@ -1,0 +1,26 @@
+{
+    "name": "working-code/hw11",
+    "description": "home work №11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "WorkingCode\\Hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Galushka Vlad",
+            "email": "galushka.vp@gmail.com"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.12",
+        "symfony/dotenv": "^7.0",
+        "ext-mbstring": "*"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": false
+        }
+    }
+}

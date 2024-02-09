@@ -9,7 +9,7 @@ use Yevgen87\App\Domain\RenderStrategyInterface;
 
 class HtmlFileRenderStrategy implements RenderStrategyInterface
 {
-    public function render(FileSystemItemInterface   $fileSystemItem): string
+    public function render(FileSystemItemInterface $fileSystemItem): string
     {
         $d = fopen($fileSystemItem->name, 'r');
         $content = fread($d, filesize($fileSystemItem->name));

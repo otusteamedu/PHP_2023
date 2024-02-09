@@ -21,8 +21,7 @@ class FileCatalogUseCase
         $directory = $this->fileSystemItemFactory->makeDirectory($path, $level);
 
         while (($name = readdir($dir)) !== false) {
-
-            $tmp = getcwd() . '/' . $name;
+            $tmp = realpath(getcwd() . '/' . $name);
 
             if ($name == '.' || $name == '..') {
                 continue;

@@ -16,7 +16,7 @@ class FileSystemController
 
         $mode = $arguments[2] ?? 1;
 
-        $mode = $mode == 1
+        $mode = (int)$mode === 1
             ? new BaseFileSystemFactory()
             : new AdvancedFileSystemFactory();
 

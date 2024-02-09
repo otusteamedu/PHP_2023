@@ -10,7 +10,7 @@ class App
 {
     public function run()
     {
-        $controller = new FileSystemController;
-        $controller($_SERVER['argv']);
+        $controller = new FileSystemController();
+        $controller(...$_SERVER['argv']);
     }
 }

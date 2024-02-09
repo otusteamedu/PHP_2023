@@ -13,7 +13,7 @@ abstract class FileSystemItem implements FileSystemItemInterface
         $this->name = $name;
     }
 
-    public abstract function render();
+    abstract public function render();
 
-    public abstract function getSize(): int;
+    abstract public function getSize(): int;
 }

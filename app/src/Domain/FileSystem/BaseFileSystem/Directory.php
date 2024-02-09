@@ -28,7 +28,6 @@ class Directory extends FileSystemItem
         $size = 0;
 
         foreach ($this->items as $item) {
-
             $size += $item->getSize();
         }
 
@@ -40,7 +39,6 @@ class Directory extends FileSystemItem
         echo "|--" . $this->name . " (" . $this->getSize() . ")\n";
 
         foreach ($this->items as $item) {
-
             for ($i = 0; $i < $this->level * 2; $i++) {
                 echo "  ";
             }

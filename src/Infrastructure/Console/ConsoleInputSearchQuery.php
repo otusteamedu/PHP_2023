@@ -11,8 +11,6 @@ use Exception;
 
 class ConsoleInputSearchQuery implements InputSearchQueryInterface
 {
-
-
     public function __invoke($params): SearchQueryDTO
     {
         if (count($params) < 2) {

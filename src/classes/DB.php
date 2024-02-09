@@ -14,11 +14,10 @@ class DB
     {
         try {
             $this->pdo = new \PDO(
-                "mysql:host={$_ENV['MYSQL_HOST']};dbname={$_ENV['MYSQL_DATABASE']}",
-                $_ENV['MYSQL_USER'],
-                $_ENV['MYSQL_PASSWORD']
+                "pgsql:host={$_ENV['POSTGRES_HOST']};dbname={$_ENV['POSTGRES_DATABASE']}",
+                $_ENV['POSTGRES_USER'],
+                $_ENV['POSTGRES_PASSWORD']
             );
-            $this->pdo->exec('SET NAMES UTF8');
         } catch (\PDOException $e) {
             throw new \Exception('Ошибка при подключении к базе данных: ' . $e->getMessage());
         }

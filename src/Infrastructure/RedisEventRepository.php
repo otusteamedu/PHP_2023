@@ -1,18 +1,17 @@
 <?php
 
-declare(strict_types=1);
+namespace App\Infrastructure;
 
-namespace App;
+use App\Domain\Contract\EventRepositoryInterface;
+use App\Domain\Entity\Event;
 
-use Predis\Client;
-
-class EventRepository
+class RedisEventRepository implements EventRepositoryInterface
 {
-    private Client $redisClient;
+    private RedisClient $redisClient;
 
     public function __construct(RedisClient $redisClient)
     {
-        $this->redisClient = $redisClient->getClient();
+        $this->redisClient = $redisClient;
     }
 
     public function getAllEvents(): array

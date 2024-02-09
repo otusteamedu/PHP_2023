@@ -2,9 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Domain;
 
-class SourceMask
+use App\Domain\Entity\Event;
+use App\Domain\ValueObject\Source;
+
+class SourceMaskHandler
 {
     public static function calculateMaskFromNames(array $sourceNames): int
     {
@@ -15,10 +18,10 @@ class SourceMask
         return $sourceMask;
     }
 
-    public static function calculateMaskFromSources(array $eventSources): int
+    public static function calculateMaskFromSources(Source $source): int
     {
         $eventSourceMask = 0;
-        foreach ($eventSources as $eventSource) {
+        foreach ($source->getSources() as $eventSource) {
             $eventSourceMask |= Event::SOURCES[$eventSource];
         }
         return $eventSourceMask;

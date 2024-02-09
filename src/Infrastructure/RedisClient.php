@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App;
+namespace App\Infrastructure;
 
-use Predis\Client;
 use Dotenv\Dotenv;
+use Predis\Client;
 
 class RedisClient
 {

@@ -3,23 +3,22 @@
 namespace HW11\Elastic\DI\Decorator;
 
 // Декоратор
-class SaladDecorator extends ProductDecorator
+class SaladDecorator implements ProductInterface
 {
+    protected ProductInterface $product;
+    public function __construct(ProductInterface $product)
+    {
+        $this->product = $product;
+    }
     public function prepare(): void
     {
-        parent::prepare();
+        $this->product->prepare();
         echo "Добавление салата в продукт\n";
     }
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->product->getName() . ', Салат';
     }
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->product->getPrice() + 1.5; // Дополнительная цена за салат

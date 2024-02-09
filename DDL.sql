@@ -61,6 +61,7 @@ CREATE TABLE "movie_attribute_value" (
   "attr_id" int,
   "value_date" date,
   "value_text" text,
+  "value_integer" int,
   "value_numeric" numeric(2,0),
   "value_boolean" boolean
 );

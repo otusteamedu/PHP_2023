@@ -12,10 +12,17 @@ class HtmlFileRenderStrategy implements RenderStrategyInterface
     public function render(FileSystemItemInterface $fileSystemItem): string
     {
         $d = fopen($fileSystemItem->name, 'r');
-        $content = fread($d, filesize($fileSystemItem->name));
-        fclose($d);
 
-        $preview = substr(trim(str_replace(["\r\n", "\n"], "", strip_tags($content))), 0, 50);
+        $preview = '';
+
+        $fileSize = filesize($fileSystemItem->name);
+
+        if ($fileSize > 0) {
+            $content = fread($d, filesize($fileSystemItem->name));
+            $preview = substr(trim(str_replace(["\r\n", "\n"], "", strip_tags($content))), 0, 50);
+        }
+
+        fclose($d);
 
         return sprintf(
             "--%s %sb %s\n",

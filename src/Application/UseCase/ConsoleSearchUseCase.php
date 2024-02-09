@@ -12,7 +12,6 @@ use Dimal\Hw11\Infrastructure\ElasticSearchStockSearch;
 use Dimal\Hw11\Presentation\ConsoleTableView;
 use Elastic\Elasticsearch\ClientBuilder;
 
-
 class ConsoleSearchUseCase
 {
     private TableViewInterface $view;

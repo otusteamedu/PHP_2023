@@ -1,34 +1,59 @@
 <?php
 
-use Cases\Php2023\Domain\Pattern\ChainOfResponsibility\CookingCompleteHandler;
-use Cases\Php2023\Domain\Pattern\ChainOfResponsibility\CookingStatusHandler;
-use Cases\Php2023\Domain\Pattern\Factory\DishFactory;
-use Cases\Php2023\Domain\Pattern\Iterator\IngredientsIterator;
+use Cases\Php2023\Domain\Pattern\Composite\OrderComposite;
+use Cases\Php2023\Domain\Pattern\Factory\DishCreationStrategyFactory;
+use Cases\Php2023\Presentation\Requests\RequestOrder;
 
-$isClassic = $_POST['classic']; // true
-$typeDish = $_POST['typeDish']; // Burger
-$ingredients = $_POST['ingredients']; // ['салат', 'лук']
+$postCreateOrder = '{
+  "order": [
+    {
+      "type": "burger",
+      "quantity": 2,
+      "addIngredients": ["салат", "помидор", "сыр чеддер"],
+      "removeIngredients": []
+    },
+    {
+      "type": "sandwich",
+      "quantity": 1,
+      "addIngredients": ["курица", "салат айсберг", "майонез"],
+      "removeIngredients": []
+    },
+    {
+      "type": "hotdog",
+      "quantity": 1,
+      "addIngredients": ["сосиска", "горчица", "кетчуп", "лук"],
+      "removeIngredients": []
+    },
+    {
+      "type": "burger",
+      "quantity": 1,
+      "addIngredients": [],
+      "removeIngredients": ["горчица"]
+    }
+  ]
+}';
 
+$orders = json_decode($postCreateOrder, true);
 
-/**
- * Создали блюдо
- */
-$dish = null;
-if ($isClassic) {
-    $dish = DishFactory::createDishClassic($typeDish);
+foreach ($orders['order'] as $orderData) {
+    $orderObjects[] = new RequestOrder(
+        $orderData['type'],
+        $orderData['quantity'],
+        $orderData['addIngredients'],
+        $orderData['removeIngredients']
+    );
 }
 
-$ingredientsIterator = new IngredientsIterator($ingredients);
-
 /**
- * Добавили игредиенты
+ * Компоновщик
  */
-$dish?->addIngredientsFromIterator($ingredientsIterator);
+$orderComposite = new OrderComposite();
 
-/**
- *  цепочка обязанностей
- */
-$cookingHandler = new CookingStatusHandler();
-$completeHandler = new CookingCompleteHandler();
-$cookingHandler->setNext($completeHandler);
-$cookingHandler->handle();
+foreach ($orderObjects as $order) {
+    $strategy = DishCreationStrategyFactory::makeStrategy($order->type);
+    $dish = $strategy->createDish($order);
+    $orderComposite->addComponent($dish);
+}
+
+$names = $orderComposite->getNames();
+echo $names;

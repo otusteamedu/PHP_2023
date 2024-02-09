@@ -9,6 +9,7 @@ use Cases\Php2023\Domain\Pattern\Iterator\IngredientsIterator;
 abstract class AbstractDish implements DishInterface
 {
 
+    private string $name;
     private array $ingredients = [];
 
     public function addIngredient($ingredient): void
@@ -22,4 +23,11 @@ abstract class AbstractDish implements DishInterface
             $this->addIngredient($ingredient);
         }
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+
 }

@@ -12,26 +12,23 @@ class FileCatalogUseCase
     {
     }
 
-    private function buildTree($path, $level = 0)
+    private function buildTree(string $path, $level = 0)
     {
         chdir($path);
 
         $dir = opendir('.');
 
-        $directory = $this->fileSystemItemFactory->makeDirectory($dir, $level);
+        $directory = $this->fileSystemItemFactory->makeDirectory($path, $level);
 
         while (($name = readdir($dir)) !== false) {
+
+            $tmp = getcwd() . '/' . $name;
 
             if ($name == '.' || $name == '..') {
                 continue;
             }
-
-            // $path = $path . '/' . $name;
-
             if (!is_dir($name)) {
-
-                $size = filesize($name);
-                $directory->add($this->fileSystemItemFactory->makeFile($name));
+                $directory->add($this->fileSystemItemFactory->makeFile($tmp));
             } else {
                 $directory->add($this->buildTree($name, $level + 1));
             }

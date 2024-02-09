@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Yevgen87\App\Application\FileSystem\BaseFileSystem;
+namespace Yevgen87\App\Domain\FileSystem\BaseFileSystem;
 
-use Yevgen87\App\Application\FileSystem\FileSystemItem;
+use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 
 class File extends FileSystemItem
 {
@@ -23,7 +23,6 @@ class File extends FileSystemItem
 
     public function render()
     {
-        echo "|--" . $this->name . " (" . $this->humanFilesize($this->getSize()). " b)\n";
+        echo "|--" . basename($this->name) . " (" . $this->getSize() . " b)\n";
     }
-    
 }

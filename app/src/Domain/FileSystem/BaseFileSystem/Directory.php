@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Yevgen87\App\Application\FileSystem\AdvancedFileSystem;
+namespace Yevgen87\App\Domain\FileSystem\BaseFileSystem;
 
-use Yevgen87\App\Application\FileSystem\FileSystemItem;
+use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 
 class Directory extends FileSystemItem
 {
@@ -23,18 +23,21 @@ class Directory extends FileSystemItem
         $this->items[] = $item;
     }
 
-    public function size(): int
+    public function getSize(): int
     {
         $size = 0;
+
         foreach ($this->items as $item) {
-            $size += $item->size();
+
+            $size += $item->getSize();
         }
+
         return $size;
     }
 
     public function render()
     {
-        echo "|--" . $this->name . "\n";
+        echo "|--" . $this->name . " (" . $this->getSize() . ")\n";
 
         foreach ($this->items as $item) {
 

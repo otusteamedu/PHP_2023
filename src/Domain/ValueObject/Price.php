@@ -11,11 +11,6 @@ class Price
         $this->price = $price;
     }
 
-    public function setPrice(float $price)
-    {
-        $this->price = $price;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;

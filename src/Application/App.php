@@ -6,8 +6,6 @@ namespace Dimal\Hw11\Application;
 
 class App
 {
-    private TableViewInterface $view;
-    private StockSearchInterface $stockSearch;
     private $useCase;
 
     public function __construct()

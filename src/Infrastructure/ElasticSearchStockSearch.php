@@ -2,10 +2,10 @@
 
 namespace Dimal\Hw11\Infrastructure;
 
+use Dimal\Hw11\Application\SearchQueryDTO;
 use Dimal\Hw11\Application\StockSearchInterface;
 use Dimal\Hw11\Domain\Entity\Book;
 use Dimal\Hw11\Domain\Entity\BookAvailable;
-use Dimal\Hw11\Domain\Entity\SearchQuery;
 use Dimal\Hw11\Domain\ValueObject\Category;
 use Dimal\Hw11\Domain\ValueObject\Id;
 use Dimal\Hw11\Domain\ValueObject\Price;
@@ -22,7 +22,7 @@ class ElasticSearchStockSearch implements StockSearchInterface
     }
 
 
-    public function search(SearchQuery $searchQuery): BookRepository
+    public function search(SearchQueryDTO $searchQuery): BookRepository
     {
 
         $results = $this->client->search($this->makeParams($searchQuery));
@@ -46,7 +46,7 @@ class ElasticSearchStockSearch implements StockSearchInterface
         return $bookRepository;
     }
 
-    private function makeParams(SearchQuery $searchQuery): array
+    private function makeParams(SearchQueryDTO $searchQuery): array
     {
         $query = [
             'must' => [

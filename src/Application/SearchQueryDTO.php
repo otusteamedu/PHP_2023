@@ -1,12 +1,12 @@
 <?php
 
-namespace Dimal\Hw11\Domain\Entity;
+namespace Dimal\Hw11\Application;
 
 use Dimal\Hw11\Domain\ValueObject\Category;
 use Dimal\Hw11\Domain\ValueObject\Price;
 use Dimal\Hw11\Domain\ValueObject\Title;
 
-class SearchQuery
+class SearchQueryDTO
 {
     private Price $min_price;
     private Price $max_price;

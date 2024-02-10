@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  fpm-app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php
+    container_name: fpm-app
+    volumes:
+      - ./app:/data
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  unix_socket:

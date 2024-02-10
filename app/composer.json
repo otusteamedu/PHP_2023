@@ -1,0 +1,18 @@
+{
+    "name": "yevgen87/app",
+    "type": "app",
+    "autoload": {
+        "psr-4": {
+            "Yevgen87\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PoisonHawk",
+            "email": "poisonhawk@yandex.ru"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^6.4"
+    }
+}

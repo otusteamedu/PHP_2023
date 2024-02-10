@@ -16,6 +16,6 @@ class App
         $container = $containerBuilder->build();
 
         $router = new Router($container);
-        $router->handle();
+        return $router->handle();
     }
 }

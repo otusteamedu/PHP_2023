@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Yevgen87\App\Application\Services\Film;
 
 use Yevgen87\App\Application\Services\Film\DTO\FilmDTO;
+use Yevgen87\App\Application\Services\Film\DTO\IndexDTO;
 use Yevgen87\App\Domain\Repositories\FilmRepositoryInterface;
 use Yevgen87\App\Domain\Entity\Film as EntityFilm;
 use Yevgen87\App\Domain\ValueObjects\Description;
@@ -17,9 +18,9 @@ class FilmService
     {
     }
 
-    public function findAll()
+    public function findAll(IndexDTO $dto)
     {
-        return $this->filmRepository->getAll();
+        return $this->filmRepository->select($dto->toArray());
     }
 
     public function store(FilmDTO $dto)

@@ -6,6 +6,7 @@ namespace Yevgen87\App\Infrastructure\Controllers;
 
 use Exception;
 use Yevgen87\App\Application\Services\Film\DTO\FilmDTO;
+use Yevgen87\App\Application\Services\Film\DTO\IndexDTO;
 use Yevgen87\App\Application\Services\Film\FilmService;
 
 class FilmController extends Controller
@@ -14,10 +15,10 @@ class FilmController extends Controller
     {
     }
 
-    public function index()
+    public function index(array $data)
     {
         try {
-            return $this->response($this->filmService->findAll());
+            return $this->response($this->filmService->findAll(IndexDTO::fromArray($data)));
         } catch (Exception $e) {
             return $this->response([
                 'error' => $e->getMessage()

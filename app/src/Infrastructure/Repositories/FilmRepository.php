@@ -12,13 +12,25 @@ use Yevgen87\App\Domain\ValueObjects\Url;
 
 class FilmRepository extends BaseRepository implements FilmRepositoryInterface
 {
-    public function getAll(): array
+    public function select(array $params): array
     {
-        $res = $this->pdo->query('SELECT * FROM films');
+        $orderDirection =  $params['order_direction'];
+
+        $stmt = $this->pdo->prepare("SELECT * FROM films ORDER BY :orderBy $orderDirection limit :limit offset :offset;");
+
+        $stmt->execute([
+            ':limit' => $params['limit'] ?? 10,
+            ':offset' => $params['offset'] ?? 0,
+            ':orderBy' => $params['order_by'] ?? 'id',
+        ]);
+
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
 
         $films = [];
 
-        foreach ($res as $row) {
+        foreach ($result as $row) {
             $films[] = $this->getFilm($row);
         }
 

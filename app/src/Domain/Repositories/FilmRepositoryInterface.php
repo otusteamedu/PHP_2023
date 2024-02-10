@@ -8,7 +8,7 @@ use Yevgen87\App\Domain\Entity\Film;
 
 interface FilmRepositoryInterface
 {
-    public function getAll();
+    public function select(array $params);
 
     public function insert(Film $film);
 

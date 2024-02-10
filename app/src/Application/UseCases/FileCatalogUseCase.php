@@ -42,6 +42,6 @@ class FileCatalogUseCase
     {
         $tree = $this->buildTree($path);
 
-        echo $tree->render();
+        return $tree->render();
     }
 }

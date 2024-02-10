@@ -22,6 +22,6 @@ class FileSystemController
 
         $useCase = new FileCatalogUseCase($mode);
 
-        $useCase->execute($path);
+        return $useCase->execute($path);
     }
 }

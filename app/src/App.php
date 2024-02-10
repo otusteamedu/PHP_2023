@@ -11,6 +11,6 @@ class App
     public function run()
     {
         $controller = new FileSystemController();
-        $controller(...$_SERVER['argv']);
+        return $controller(...$_SERVER['argv']);
     }
 }

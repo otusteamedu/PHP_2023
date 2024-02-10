@@ -11,13 +11,13 @@ class TextFileRenderStrategy implements RenderStrategyInterface
 {
     public function render(FileSystemItemInterface $fileSystemItem): string
     {
-        $d = fopen($fileSystemItem->name, 'r');
+        $d = fopen($fileSystemItem->filePath, 'r');
         $preview = fread($d, 50);
         fclose($d);
 
         return sprintf(
-            "--%s %sb %s\n",
-            basename($fileSystemItem->name),
+            "|--%s %sb %s\n",
+            basename($fileSystemItem->filePath),
             $fileSystemItem->getSize(),
             $preview
         );

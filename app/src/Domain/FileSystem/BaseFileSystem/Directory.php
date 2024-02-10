@@ -8,21 +8,38 @@ use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 
 class Directory extends FileSystemItem
 {
-    private $items = [];
+    /**
+     * @var array
+     */
+    private array $items = [];
 
-    public $level;
+    /**
+     * @var integer
+     */
+    public int $level;
 
-    public function __construct($name, $level)
+    /**
+     * @param string $filePath
+     * @param integer $level
+     */
+    public function __construct(string $filePath, int $level)
     {
-        $this->name = $name;
+        $this->filePath = $filePath;
         $this->level = $level;
     }
 
+    /**
+     * @param FileSystemItem $item
+     * @return void
+     */
     public function add(FileSystemItem $item)
     {
         $this->items[] = $item;
     }
 
+    /**
+     * @return integer
+     */
     public function getSize(): int
     {
         $size = 0;
@@ -34,15 +51,20 @@ class Directory extends FileSystemItem
         return $size;
     }
 
-    public function render()
+    /**
+     * @return string
+     */
+    public function render(): string
     {
-        echo "|--" . $this->name . " (" . $this->getSize() . ")\n";
+        $str = parent::render();
 
         foreach ($this->items as $item) {
             for ($i = 0; $i < $this->level * 2; $i++) {
-                echo "  ";
+                $str .= "  ";
             }
-            echo $item->render();
+            $str .= $item->render();
         }
+
+        return $str;
     }
 }

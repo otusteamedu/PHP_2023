@@ -6,7 +6,7 @@ namespace Yevgen87\App\Domain\FileSystem;
 
 interface FileSystemItemInterface
 {
-    public function getSize();
+    public function getSize(): int;
 
-    public function render();
+    public function render(): string;
 }

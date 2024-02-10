@@ -8,15 +8,21 @@ use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 use Yevgen87\App\Domain\RenderStrategyInterface;
 
 class File extends FileSystemItem
-{
-    private $size;
+{   
+    /**
+     * @var integer
+     */
+    private int $size;
 
+    /**
+     * @var RenderStrategyInterface
+     */
     private RenderStrategyInterface $renderStrategy;
 
-    public function __construct($name, RenderStrategyInterface $renderStrategy)
+    public function __construct(string $filePath, RenderStrategyInterface $renderStrategy)
     {
-        parent::__construct($name);
-        $this->size = filesize($name);
+        parent::__construct($filePath);
+        $this->size = filesize($filePath);
 
         $this->renderStrategy = $renderStrategy;
     }
@@ -26,8 +32,11 @@ class File extends FileSystemItem
         return $this->size;
     }
 
-    public function render()
+    /**
+     * @return string
+     */
+    public function render(): string
     {
-        echo $this->renderStrategy->render($this);
+        return $this->renderStrategy->render($this);
     }
 }

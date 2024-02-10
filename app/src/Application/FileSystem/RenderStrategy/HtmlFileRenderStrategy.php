@@ -11,22 +11,22 @@ class HtmlFileRenderStrategy implements RenderStrategyInterface
 {
     public function render(FileSystemItemInterface $fileSystemItem): string
     {
-        $d = fopen($fileSystemItem->name, 'r');
+        $d = fopen($fileSystemItem->filePath, 'r');
 
         $preview = '';
 
-        $fileSize = filesize($fileSystemItem->name);
+        $fileSize = filesize($fileSystemItem->filePath);
 
         if ($fileSize > 0) {
-            $content = fread($d, filesize($fileSystemItem->name));
+            $content = fread($d, filesize($fileSystemItem->filePath));
             $preview = substr(trim(str_replace(["\r\n", "\n"], "", strip_tags($content))), 0, 50);
         }
 
         fclose($d);
 
         return sprintf(
-            "--%s %sb %s\n",
-            basename($fileSystemItem->name),
+            "|--%s %sb %s\n",
+            basename($fileSystemItem->filePath),
             $fileSystemItem->getSize(),
             $preview
         );

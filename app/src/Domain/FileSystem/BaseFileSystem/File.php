@@ -7,22 +7,26 @@ namespace Yevgen87\App\Domain\FileSystem\BaseFileSystem;
 use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 
 class File extends FileSystemItem
-{
-    private $size;
+{   
+    /**
+     * @var integer
+     */
+    private int $size;
 
-    public function __construct($name)
+    /**
+     * @param string $filePath
+     */
+    public function __construct(string $filePath)
     {
-        $this->name = $name;
-        $this->size = filesize($name);
+        $this->filePath = $filePath;
+        $this->size = filesize($filePath);
     }
 
+    /**
+     * @return integer
+     */
     public function getSize(): int
     {
         return $this->size;
-    }
-
-    public function render()
-    {
-        echo "|--" . basename($this->name) . " (" . $this->getSize() . " b)\n";
     }
 }

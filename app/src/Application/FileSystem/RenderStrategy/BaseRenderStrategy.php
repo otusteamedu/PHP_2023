@@ -12,8 +12,8 @@ class BaseRenderStrategy implements RenderStrategyInterface
     public function render(FileSystemItemInterface $fileSystemItem): string
     {
         return sprintf(
-            "--%s %sb\n",
-            basename($fileSystemItem->name),
+            "|--%s %sb\n",
+            basename($fileSystemItem->filePath),
             $fileSystemItem->getSize()
         );
     }

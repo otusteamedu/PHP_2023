@@ -6,14 +6,20 @@ namespace Yevgen87\App\Domain\FileSystem;
 
 abstract class FileSystemItem implements FileSystemItemInterface
 {
-    public $name;
+    /**
+     * @var string
+     */
+    public string $filePath;
 
-    public function __construct($name)
+    public function __construct(string $filePath)
     {
-        $this->name = $name;
+        $this->filePath = $filePath;
     }
 
-    abstract public function render();
+    public function render(): string
+    {
+        return sprintf("|--%s (%sb)\n", basename($this->filePath), $this->getSize());
+    }
 
     abstract public function getSize(): int;
 }

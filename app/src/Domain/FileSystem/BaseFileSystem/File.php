@@ -7,7 +7,7 @@ namespace Yevgen87\App\Domain\FileSystem\BaseFileSystem;
 use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 
 class File extends FileSystemItem
-{   
+{
     /**
      * @var integer
      */

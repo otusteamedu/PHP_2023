@@ -8,7 +8,7 @@ use Yevgen87\App\Domain\FileSystem\FileSystemItem;
 use Yevgen87\App\Domain\RenderStrategyInterface;
 
 class File extends FileSystemItem
-{   
+{
     /**
      * @var integer
      */

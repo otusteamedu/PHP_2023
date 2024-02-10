@@ -1,0 +1,22 @@
+{
+    "name": "yevgen87/app",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Yevgen87\\App\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "PoisonHawk",
+            "email": "poisonhawk@yandex.ru"
+        }
+    ],
+    "require": {
+        "php-di/php-di": "^7.0",
+        "symfony/http-foundation": "^6.4"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.4"
+    }
+}

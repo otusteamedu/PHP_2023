@@ -30,5 +30,5 @@ abstract class FoodAbstract implements FoodInterface
         return get_class($this);
     }
 
-    abstract function wrap(): string;
+    abstract public function wrap(): string;
 }

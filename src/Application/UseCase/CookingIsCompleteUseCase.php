@@ -9,10 +9,7 @@ use src\Domain\Repository\FoodRepositoryInterface;
 
 class CookingIsCompleteUseCase
 {
-    public function __construct(
-        private FoodRepositoryInterface $foodRepository,
-        private PublisherInterface      $publisher
-    )
+    public function __construct(private FoodRepositoryInterface $foodRepository, private PublisherInterface $publisher)
     {
     }
 

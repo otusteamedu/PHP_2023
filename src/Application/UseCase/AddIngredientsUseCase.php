@@ -9,9 +9,7 @@ use src\Domain\Repository\FoodRepositoryInterface;
 
 class AddIngredientsUseCase
 {
-    public function __construct(
-        private FoodRepositoryInterface $foodRepository,
-    )
+    public function __construct(private FoodRepositoryInterface $foodRepository)
     {
     }
 
@@ -19,6 +17,5 @@ class AddIngredientsUseCase
     {
         $food = $this->foodRepository->getById($foodId);
         $this->foodRepository->update(new AddFillingDecorator($food, $ingredients));
-
     }
 }

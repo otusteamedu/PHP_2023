@@ -9,12 +9,6 @@ abstract class FoodAbstract implements FoodInterface
     private string $dough;
     private string $filling;
 
-    //TODO - Сделал абстрактный метод для того что бы дочерние классы отличались
-
-    /**
-     * @param string $dough
-     * @param string $filling
-     */
     public function __construct(string $dough, string $filling)
     {
         $this->dough = $dough;

@@ -9,7 +9,6 @@ use src\Domain\Repository\FoodRepositoryInterface;
 
 class FoodRepository implements FoodRepositoryInterface
 {
-
     public function getById(int $id): FoodInterface
     {
         // TODO: Implement getById() method.

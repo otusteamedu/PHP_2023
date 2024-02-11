@@ -6,7 +6,7 @@ namespace src\Domain\Entity\Food;
 
 class HotDog extends FoodAbstract
 {
-    function wrap(): string
+    public function wrap(): string
     {
         return 'Завернут в бумагу';
     }

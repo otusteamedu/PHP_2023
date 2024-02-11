@@ -25,7 +25,7 @@ class Publisher implements PublisherInterface
 
     public function notify(FoodAbstract $food, string $status): void
     {
-        foreach ($this->subscribers as $subscriber){
+        foreach ($this->subscribers as $subscriber) {
             $subscriber->update($food, $status);
         }
     }

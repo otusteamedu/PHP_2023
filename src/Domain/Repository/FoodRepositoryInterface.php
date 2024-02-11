@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace src\Domain\Repository;
 
-use src\Domain\Entity\Food\FoodAbstract;
+use src\Domain\Entity\Food\FoodInterface;
 
 interface FoodRepositoryInterface
 {
-    public function getById(int $id): FoodAbstract;
+    public function getById(int $id): FoodInterface;
 
-    public function update(FoodAbstract $food): void;
+    public function update(FoodInterface $food): void;
 
-    public function create(FoodAbstract $food): FoodAbstract;
+    public function create(FoodInterface $food): FoodInterface;
 
     public function delete(int $id): void;
 }

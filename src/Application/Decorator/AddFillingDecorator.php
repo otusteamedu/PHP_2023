@@ -8,11 +8,7 @@ use src\Domain\Entity\Food\FoodInterface;
 
 class AddFillingDecorator implements FoodInterface
 {
-
-    public function __construct(
-        private FoodInterface $food,
-        private string        $newIngredients
-    )
+    public function __construct(private FoodInterface $food, private string $newIngredients)
     {
     }
 

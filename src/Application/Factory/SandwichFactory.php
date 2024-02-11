@@ -9,7 +9,6 @@ use src\Domain\Entity\Food\Sandwich;
 
 class SandwichFactory implements BasicProductFactoryInterface
 {
-
     public function make(string $filling): FoodAbstract
     {
         return new Sandwich('тесто для сендвича', $filling);

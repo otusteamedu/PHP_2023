@@ -8,7 +8,6 @@ use src\Domain\Entity\Food\FoodInterface;
 
 class PizzaAdapter extends Pizza implements FoodInterface
 {
-
     public function getDough(): string
     {
         return $this->getSpecialPizzaDough();

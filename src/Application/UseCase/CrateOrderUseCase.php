@@ -10,8 +10,7 @@ use src\Domain\Entity\Order;
 
 class CrateOrderUseCase
 {
-    public function __construct(private OrderBuilder $orderBuilder)
-    {}
+    public function __construct(private OrderBuilder $orderBuilder){}
 
     public function __invoke(CreateOrderRequest $request): Order
     {

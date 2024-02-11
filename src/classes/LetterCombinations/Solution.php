@@ -4,7 +4,6 @@ namespace Klobkovsky\App\LetterCombinations;
 
 class Solution
 {
-
     /**
      * @param String $digits
      * @return String[]

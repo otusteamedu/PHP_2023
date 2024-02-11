@@ -8,7 +8,7 @@ class Solution
      * @param ListNode $head
      * @return Boolean
      */
-    static function hasCycle($head)
+    public static function hasCycle($head)
     {
         $visitedNodes = [];
         $currentNode = $head;

@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  app:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php 
+    container_name: app 
+    volumes:
+      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - ./code:/data/application.local
+      - phpsocket:/var/run
+
+  webserver:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: ${CONTAINER_NAME_WEBSERVER}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/hosts/application.local.conf:/etc/nginx/conf.d/application.local.conf
+      - ./code:/data/application.local
+      - phpsocket:/var/run
+
+  postgres:
+    image: 'postgres:16.1-alpine3.19'
+    working_dir: /data
+    volumes:
+      - 'dbdata:/data'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    ports:
+      - '${POSTGRES_PORT_EXTERN}:5432'
+
+  redis:
+    image: 'redis:alpine'
+    volumes:
+      - 'redis:/data'
+    ports:
+      - '16379:6379'
+
+  memcached:
+    image: 'memcached:alpine'
+    ports:
+      - '11212:11211'
+
+volumes:
+  dbdata:
+  phpsocket:
+  redis:

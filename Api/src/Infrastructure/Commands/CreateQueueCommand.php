@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Commands;
 
-use App\Infrastructure\Constants;
+use App\Application\Constants;
 use App\Infrastructure\Factory\RabbitMqClientFactory;
 use Exception;
 use Symfony\Component\Console\Command\Command;

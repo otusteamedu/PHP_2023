@@ -2,6 +2,7 @@
 mysql/dbdata/*
 postgres/dbdata/*
 .env
-hw15/code/vendor
-hw15/docker/postgres/dbdata
-hw15/code/.env
+hw16/code/vendor
+hw16/docker/postgres/dbdata
+hw16/code/.env
+hw16/.DS_Store

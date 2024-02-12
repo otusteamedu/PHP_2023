@@ -25,5 +25,4 @@ class StockShopCount
     {
         return $this->stockCount;
     }
-
 }

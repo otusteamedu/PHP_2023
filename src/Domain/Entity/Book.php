@@ -16,13 +16,12 @@ class Book
     private array $stockCount;
 
     public function __construct(
-        Id       $id,
-        Title    $title,
+        Id $id,
+        Title $title,
         Category $category,
-        Price    $price,
-        array    $stockCount
-    )
-    {
+        Price $price,
+        array $stockCount
+    ) {
         $this->id = $id;
         $this->title = $title;
         $this->category = $category;
@@ -54,5 +53,4 @@ class Book
     {
         return $this->stockCount;
     }
-
 }

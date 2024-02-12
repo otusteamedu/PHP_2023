@@ -10,7 +10,6 @@ class ConsoleSearchUseCase
 {
     public function __construct()
     {
-
     }
 
     public function __invoke($params)

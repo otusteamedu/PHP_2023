@@ -15,5 +15,4 @@ class Shop
     {
         return $this->name;
     }
-
 }

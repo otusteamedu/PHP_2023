@@ -4,17 +4,12 @@ namespace App\Application\Dto;
 
 readonly class RequestDto
 {
-    public function __construct(private string $id, private string $status)
+    public function __construct(private string $number)
     {
     }
 
-    public function getId(): string
+    public function getNumber(): string
     {
-        return $this->id;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
+        return $this->number;
     }
 }

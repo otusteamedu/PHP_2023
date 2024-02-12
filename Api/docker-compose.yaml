@@ -3,7 +3,7 @@ version: '3.0'
 services:
   rabbitmq:
     image: rabbitmq:3.7.7-management-alpine
-    container_name: rmq-rabbitmq
+    container_name: api-rabbitmq
     restart: always
     environment:
       RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-guest}
@@ -11,3 +11,13 @@ services:
     ports:
       - "127.0.0.1:5673:5672"
       - "127.0.0.1:15673:15672"
+
+  database:
+    container_name: api-database
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-db}
+      POSTGRES_USER: ${POSTGRES_USER:-user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
+    ports:
+      - "5433:5432"

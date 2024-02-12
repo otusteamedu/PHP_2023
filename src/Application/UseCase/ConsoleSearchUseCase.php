@@ -8,18 +8,14 @@ use Dimal\Hw11\Presentation\ConsoleTableView;
 
 class ConsoleSearchUseCase
 {
-    public function __construct()
-    {
-    }
-
     public function __invoke($params)
     {
         $consoleInputSearchQuery = new ConsoleInputSearchQuery();
 
         $bookRepository = new ElastickBookRepository();
-        $bookRepository->search($consoleInputSearchQuery($params));
+        $books = $bookRepository->search($consoleInputSearchQuery($params));
 
         $consoleTable = new ConsoleTableView();
-        $consoleTable->show($bookRepository);
+        $consoleTable->show($books);
     }
 }

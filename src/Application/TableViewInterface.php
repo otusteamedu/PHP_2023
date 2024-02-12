@@ -6,5 +6,5 @@ use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
 
 interface TableViewInterface
 {
-    public function show(BookRepositoryInterface $booksRepository): void;
+    public function show(array $books): void;
 }

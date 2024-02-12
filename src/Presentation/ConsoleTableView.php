@@ -28,11 +28,10 @@ class ConsoleTableView implements TableViewInterface
         $this->rows = $rows;
     }
 
-    public function show(BookRepositoryInterface $booksRepository): void
+    public function show(array $books): void
     {
 
         $rows = [];
-        $books = $booksRepository->getAll();
         foreach ($books as $book) {
             /** @var Book $book */
 

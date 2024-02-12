@@ -6,7 +6,6 @@ namespace Chernomordov\App;
 
 class Solution
 {
-
     /**
      * @param Integer[] $nums
      * @return Integer

@@ -10,7 +10,7 @@ class Solution
      * @param Integer[] $nums
      * @return Integer
      */
-    function removeDuplicates(&$nums)
+    public function removeDuplicates(&$nums)
     {
         $count = count($nums);
         $writeIndex = 1;
@@ -29,7 +29,7 @@ class Solution
      * @param Integer[] $nums
      * @return Integer
      */
-    function missingNumber($nums)
+    public function missingNumber($nums)
     {
         $len = count($nums);
         $oriLen = $len + 1;
@@ -43,7 +43,7 @@ class Solution
         return $oriSum - $curSum;
     }
 
-    function lengthOfLongestSubstring($s)
+    public function lengthOfLongestSubstring($s)
     {
         $start = 0;
         $length = 0;

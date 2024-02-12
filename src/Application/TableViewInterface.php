@@ -2,7 +2,9 @@
 
 namespace Dimal\Hw11\Application;
 
+use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
+
 interface TableViewInterface
 {
-    public function showTable(array $cols, array $rows): void;
+    public function show(BookRepositoryInterface $booksRepository): void;
 }

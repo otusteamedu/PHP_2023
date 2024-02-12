@@ -3,31 +3,44 @@
 namespace Dimal\Hw11\Infrastructure;
 
 use Dimal\Hw11\Application\SearchQueryDTO;
-use Dimal\Hw11\Application\StockSearchInterface;
 use Dimal\Hw11\Domain\Entity\Book;
 use Dimal\Hw11\Domain\Entity\BookAvailable;
+use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
 use Dimal\Hw11\Domain\ValueObject\Category;
 use Dimal\Hw11\Domain\ValueObject\Id;
 use Dimal\Hw11\Domain\ValueObject\Price;
 use Dimal\Hw11\Domain\ValueObject\Title;
 use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 
-class ElasticSearchStockSearch implements StockSearchInterface
+class ElastickBookRepository implements BookRepositoryInterface
 {
+    private array $books = [];
     private Client $client;
 
-    public function __construct(Client $cl)
+
+    public function __construct()
     {
+        $conf = parse_ini_file(".env");
+        $cl = ClientBuilder::create();
+        $cl->setHosts([$conf['ELASTIC_HOST']]);
+        if ($conf['ELASTIC_PASSWORD']) {
+            $cl->setApiKey($conf['ELASTIC_PASSWORD']);
+        }
+        $cl = $cl->build();
         $this->client = $cl;
     }
 
-
-    public function search(SearchQueryDTO $searchQuery): BookRepository
+    public function add(Book $book): void
     {
+        $this->books[] = $book;
+    }
 
-        $results = $this->client->search($this->makeParams($searchQuery));
+    public function search(SearchQueryDTO $searchQuery): array
+    {
+        $results = $this->client->search($this->makeSearchParams($searchQuery));
 
-        $bookRepository = new BookRepository();
+        $this->books = [];
 
         foreach ($results['hits']['hits'] as $item) {
             $source = $item['_source'];
@@ -40,13 +53,18 @@ class ElasticSearchStockSearch implements StockSearchInterface
                 new BookAvailable($source['stock'])
             );
 
-            $bookRepository->add($book);
+            array_push($this->books, $book);
         }
 
-        return $bookRepository;
+        return $this->books;
     }
 
-    private function makeParams(SearchQueryDTO $searchQuery): array
+    public function getAll(): array
+    {
+        return $this->books;
+    }
+
+    private function makeSearchParams(SearchQueryDTO $searchQuery): array
     {
         $query = [
             'must' => [

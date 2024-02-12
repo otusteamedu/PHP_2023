@@ -3,6 +3,8 @@
 namespace Dimal\Hw11\Presentation;
 
 use Dimal\Hw11\Application\TableViewInterface;
+use Dimal\Hw11\Domain\Entity\Book;
+use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
 
 class ConsoleTableView implements TableViewInterface
 {
@@ -11,23 +13,41 @@ class ConsoleTableView implements TableViewInterface
 
     public function __construct()
     {
+        $this->cols = [
+            'category' => ['title' => 'Категория', 'width' => 20],
+            'title' => ['title' => 'Наименование', 'width' => 50],
+            'id' => ['title' => 'sku', 'width' => 10],
+            'price' => ['title' => 'Цена', 'width' => 10],
+            'avail' => ['title' => 'Наличие', 'width' => 25]
+        ];
     }
 
-    private function setCols($cols): void
-    {
-        $this->cols = $cols;
-    }
 
     private function setRows($rows): void
     {
         $this->rows = $rows;
     }
 
-    public function showTable(array $cols, array $rows): void
+    public function show(BookRepositoryInterface $booksRepository): void
     {
-        $this->setCols($cols);
-        $this->setRows($rows);
 
+        $rows = [];
+        $books = $booksRepository->getAll();
+        foreach ($books as $book) {
+            /** @var Book $book */
+            $row = [
+                'category' => $book->getCategory()->getName(),
+                'title' => $book->getTitle()->getTitle(),
+                'id' => $book->getId()->getId(),
+                'price' => $book->getPrice()->getFormattedPrice(),
+                'avail' => $book->getAvailiable()->getShopCountToString()
+            ];
+
+            array_push($rows, $row);
+        }
+
+
+        $this->setRows($rows);
         $this->showTableHeader();
         $this->showTableBody();
         $this->showTableFooter();

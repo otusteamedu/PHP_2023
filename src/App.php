@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Dimal\Hw11\Application;
+namespace Dimal\Hw11;
 
 class App
 {

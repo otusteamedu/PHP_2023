@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Application\Constants;
@@ -15,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Uid\Uuid;
 
-#[Route('api/v1', name: 'demo_api')]
+#[Route('api/v1/request', name: 'demo_api')]
 class ApiController extends AbstractController
 {
     private AbstractClient $client;
@@ -34,7 +36,7 @@ class ApiController extends AbstractController
         }
     }
 
-    #[Route('/put-to-queue', name: 'app_demo_api_put', methods: ['POST'])]
+    #[Route('/post', name: 'app_demo_api_post', methods: ['POST'])]
     public function index(): JsonResponse
     {
         $requestDto = new RequestDto(Uuid::v1()->toBase32());
@@ -48,7 +50,7 @@ class ApiController extends AbstractController
         ]);
     }
 
-        #[Route('/{requestNumber}/get-status', name: 'app_demo_api_get', methods: ['GET'])]
+    #[Route('/get/{requestNumber}', name: 'app_demo_api_get', methods: ['GET'])]
     public function getStatus(string $requestNumber): JsonResponse
     {
         $request = $this->requestRepository->findOneBy(['number' => $requestNumber]);

@@ -1,0 +1,12 @@
+{
+    "name": "mbazlov/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "src\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=8.0"
+    }
+}

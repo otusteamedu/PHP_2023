@@ -4,11 +4,13 @@ namespace Dimal\Hw11\Infrastructure;
 
 use Dimal\Hw11\Application\SearchQueryDTO;
 use Dimal\Hw11\Domain\Entity\Book;
-use Dimal\Hw11\Domain\Entity\BookAvailable;
+use Dimal\Hw11\Domain\Entity\StockShopCount;
 use Dimal\Hw11\Domain\Repository\BookRepositoryInterface;
 use Dimal\Hw11\Domain\ValueObject\Category;
 use Dimal\Hw11\Domain\ValueObject\Id;
 use Dimal\Hw11\Domain\ValueObject\Price;
+use Dimal\Hw11\Domain\ValueObject\Shop;
+use Dimal\Hw11\Domain\ValueObject\StockCount;
 use Dimal\Hw11\Domain\ValueObject\Title;
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\ClientBuilder;
@@ -45,12 +47,20 @@ class ElastickBookRepository implements BookRepositoryInterface
         foreach ($results['hits']['hits'] as $item) {
             $source = $item['_source'];
 
+            $stockCount = [];
+            foreach ($source['stock'] as $stock) {
+                $stockCount[] = new StockShopCount(
+                    new Shop($stock['shop']),
+                    new StockCount($stock['stock'])
+                );
+            }
+
             $book = new Book(
                 new Id($source['sku']),
                 new Title($source['title']),
                 new Category($source['category']),
                 new Price($source['price']),
-                new BookAvailable($source['stock'])
+                $stockCount
             );
 
             array_push($this->books, $book);

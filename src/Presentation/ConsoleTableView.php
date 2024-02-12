@@ -35,12 +35,20 @@ class ConsoleTableView implements TableViewInterface
         $books = $booksRepository->getAll();
         foreach ($books as $book) {
             /** @var Book $book */
+
+            $availStr = '';
+            foreach ($book->getStockCount() as $stockShopCount) {
+                /** @var StockShopCount $stockShopCount */
+                $availStr .= $stockShopCount->getShop()->getName() . ': ' . $stockShopCount->getStockCount()->getCount() . ', ';
+            }
+            $availStr = substr($availStr, 0, -2);
+
             $row = [
                 'category' => $book->getCategory()->getName(),
                 'title' => $book->getTitle()->getTitle(),
                 'id' => $book->getId()->getId(),
                 'price' => $book->getPrice()->getFormattedPrice(),
-                'avail' => $book->getAvailiable()->getShopCountToString()
+                'avail' => $availStr
             ];
 
             array_push($rows, $row);

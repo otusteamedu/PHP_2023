@@ -13,20 +13,21 @@ class Book
     private Title $title;
     private Category $category;
     private Price $price;
-    private BookAvailable $avail;
+    private array $stockCount;
 
     public function __construct(
-        Id $id,
-        Title $title,
+        Id       $id,
+        Title    $title,
         Category $category,
-        Price $price,
-        BookAvailable $avail
-    ) {
+        Price    $price,
+        array    $stockCount
+    )
+    {
         $this->id = $id;
         $this->title = $title;
         $this->category = $category;
         $this->price = $price;
-        $this->avail = $avail;
+        $this->stockCount = $stockCount;
     }
 
     public function getId(): Id
@@ -49,8 +50,9 @@ class Book
         return $this->category;
     }
 
-    public function getAvailiable(): BookAvailable
+    public function getStockCount(): array
     {
-        return $this->avail;
+        return $this->stockCount;
     }
+
 }

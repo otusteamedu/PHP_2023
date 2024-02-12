@@ -4,7 +4,6 @@ namespace Klobkovsky\App\RecurringDecimal;
 
 class Solution
 {
-
     /**
      * @param Integer $numerator
      * @param Integer $denominator
@@ -22,8 +21,9 @@ class Solution
         $counter = 1;
 
         while ($mod != 0) {
-            if (isset($divisionResult[$mod]))
+            if (isset($divisionResult[$mod])) {
                 break;
+            }
 
             $divisionResult[$mod] = $counter;
             $mod *= 10;
@@ -37,7 +37,8 @@ class Solution
             $part = explode('.', $numerator / $denominator);
 
             return $part[0] . '.' . substr($period, 0, $divisionResult[$mod] - 1) . '(' . substr($period, $divisionResult[$mod] - 1) . ')';
-        } else
+        } else {
             return (string)($numerator / $denominator);
+        }
     }
 }

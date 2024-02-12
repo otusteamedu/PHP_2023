@@ -6,56 +6,111 @@ namespace Chernomordov\App;
 
 class Solution
 {
+    private const VALUES = [
+        'I' => 1,
+        'V' => 5,
+        'X' => 10,
+        'L' => 50,
+        'C' => 100,
+        'D' => 500,
+        'M' => 1000,
+    ];
+
+    private const DIGITS = [
+        'M' => 1000,
+        'CM' => 900,
+        'D' => 500,
+        'CD' => 400,
+        'C' => 100,
+        'XC' => 90,
+        'L' => 50,
+        'XL' => 40,
+        'X' => 10,
+        'IX' => 9,
+        'V' => 5,
+        'IV' => 4,
+        'I' => 1,
+    ];
+
     /**
-     * @param Integer[] $nums
-     * @return Integer
+     * @param string $s
+     * @return int
      */
-    public function removeDuplicates(&$nums)
+    private function romanToInt(string $s): int
     {
-        $count = count($nums);
-        $writeIndex = 1;
+        $result = 0;
+        $prev = 0;
+        $i = 0;
 
-        for ($i = 1; $i < $count; $i++) {
-            if ($nums[$i] !== $nums[$i - 1]) {
-                $nums[$writeIndex] = $nums[$i];
-                $writeIndex++;
-            }
-        }
+        do {
+            $value = self::VALUES[$s[$i]];
+            $result += $value - ($value > $prev ? $prev * 2 : 0);
+            $prev = $value;
+            ++$i;
+        } while ($s[$i]);
 
-        return $writeIndex;
+        return $result;
     }
 
     /**
-     * @param Integer[] $nums
-     * @return Integer
+     * @param int $s
+     * @return string
      */
-    public function missingNumber($nums)
+    private function intToRoman(int $s): string
     {
-        $len = count($nums);
-        $oriLen = $len + 1;
-        $oriSum = ($oriLen - 1) * $oriLen / 2;
+        $result = '';
 
-        $curSum = 0;
-        foreach ($nums as $n) {
-            $curSum += $n;
+        foreach (self::DIGITS as $out => $num) {
+            $c = intdiv($s, $num);
+            $s -= $c * $num;
+            $result .= str_repeat($out, $c);
         }
 
-        return $oriSum - $curSum;
+        return $result;
     }
 
-    public function lengthOfLongestSubstring($s)
+    /**
+     * @param array $board
+     * @return bool
+     */
+    public function isValidSudoku(array $board): bool
     {
-        $start = 0;
-        $length = 0;
-        for ($i = 0; $i < strlen($s); $i++) {
-            $char = $s[$i];
-            if (isset($arr[$char]) && $arr[$char] >= $start) {
-                $start = $arr[$char] + 1;
-            } elseif ($i - $start === $length) {
-                $length++;
+        $rows = $columns = $boxes = [];
+        $i = $j = 0;
+
+        while (true) {
+            $item = $board[$i][$j];
+
+            if ('.' !== $item && isset($rows[$i][$item])) {
+                return false;
             }
-            $arr[$char] = $i;
+
+            if ('.' !== $item && isset($columns[$j][$item])) {
+                return false;
+            }
+
+            $boxIndex = ceil(($i + 1) / 3) . ceil(($j + 1) / 3);
+
+            if ('.' !== $item && isset($boxes[$boxIndex][$item])) {
+                return false;
+            }
+
+            $rows[$i][$item] = $item;
+            $columns[$j][$item] = $item;
+            $boxes[$boxIndex][$item] = $item;
+
+            $j++;
+
+            if (10 === $j) {
+                $j = 0;
+                $i++;
+            }
+
+            if (10 === $i) {
+                break;
+            }
         }
-        return $length;
+
+        return true;
     }
 }

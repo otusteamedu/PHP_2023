@@ -121,8 +121,9 @@ CREATE TABLE tickets
     seance_id INT,
     price NUMERIC(10, 2),
     payment_flag BOOL, 
+    purchased_date DATE,
+
     FOREIGN KEY (viewer_id) REFERENCES viewers (viewer_id),
     FOREIGN KEY (place_id) REFERENCES places (place_id),
     FOREIGN KEY (seance_id) REFERENCES seances (seance_id)
 );
-

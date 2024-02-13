@@ -1,0 +1,17 @@
+{
+    "name": "dev/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Dev\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nirudakov",
+            "email": "nrudakov@marfa-tech.com"
+        }
+    ],
+    "require": {
+        "nrudakov/first-composer-package": "^1.0"
+    }
+}

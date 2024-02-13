@@ -1,0 +1,30 @@
+{
+    "name": "dev/php_2023",
+    "autoload": {
+        "psr-4": {
+            "Dev\\Php2023\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nirudakov",
+            "email": "nrudakov@marfa-tech.com"
+        }
+    ],
+    "require": {
+        "ext-pdo": "*",
+        "elasticsearch/elasticsearch": "^8.6",
+        "guzzlehttp/guzzle": "^7.8",
+        "phplucidframe/console-table": "^1.2"
+    }
+,
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^3.34"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

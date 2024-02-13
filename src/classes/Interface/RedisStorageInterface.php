@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Klobkovsky\App\Interface;
 
-interface RedisStorageInterface
+interface StorageInterface
 {
     /**
      * @param int $priority

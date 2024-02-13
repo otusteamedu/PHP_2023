@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Klobkovsky\App\Services;
 
-use Klobkovsky\App\Interface\RedisStorageInterface;
+use Klobkovsky\App\Interface\StorageInterface;
 use Redis;
 
-class RedisStorageService implements RedisStorageInterface
+class RedisStorageService implements StorageInterface
 {
     private Redis $redisClient;
     private string $eventsKey = 'events';

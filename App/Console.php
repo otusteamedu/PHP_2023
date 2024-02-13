@@ -10,7 +10,7 @@ class Console
     {
         $console = new \src\Queue\Infrastructure\Console\Console();
         match ($argv[1]) {
-            'readQueue' => $console->readAll($argv),
+            'readQueue' => $console->readAll(),
             'completed' => $console->setStatusCompletedStatus($argv)
         };
     }

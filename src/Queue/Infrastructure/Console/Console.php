@@ -11,7 +11,7 @@ use src\Queue\Infrastructure\Repository\RedisElementRepository;
 
 class Console
 {
-    public function readAll(array $argv): void
+    public function readAll(): void
     {
         $useCase = new ReadAllUseCase(new RedisElementRepository());
         $items = $useCase();

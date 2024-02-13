@@ -12,8 +12,7 @@ class AddElementQueueUseCase
 {
     public function __construct(
         private ElementFactory             $elementFactory,
-        private ElementRepositoryInterface $elementRepository
-    )
+        private ElementRepositoryInterface $elementRepository)
     {
     }
 

@@ -6,9 +6,7 @@ namespace src\Queue\Application\UseCase\Request;
 
 class AddElementQueueRequest
 {
-    public function __construct(
-        private string $body
-    )
+    public function __construct(private string $body)
     {
     }
 

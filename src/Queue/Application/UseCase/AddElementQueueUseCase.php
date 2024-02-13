@@ -10,9 +10,7 @@ use src\Queue\Domain\Repository\ElementRepositoryInterface;
 
 class AddElementQueueUseCase
 {
-    public function __construct(
-        private ElementFactory             $elementFactory,
-        private ElementRepositoryInterface $elementRepository)
+    public function __construct(private ElementFactory $elementFactory, private ElementRepositoryInterface $elementRepository)
     {
     }
 

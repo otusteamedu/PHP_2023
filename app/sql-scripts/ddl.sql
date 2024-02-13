@@ -1,10 +1,10 @@
 create table halls
 (
-    id       serial       not null
+    id           serial       not null
         constraint halls_pkey
             primary key,
-    name     varchar(255) not null,
-    capacity integer      not null
+    name         varchar(255) not null,
+    description text         null
 );
 
 create table movies
@@ -22,7 +22,7 @@ create table users
     id      serial       not null
         constraint users_pkey
             primary key,
-    phone   integer      not null,
+    phone   varchar(255) not null,
     name    varchar(255) not null,
     surname varchar(255) not null
 );
@@ -41,17 +41,57 @@ create table sessions
     start_time timestamp not null
 );
 
+create table seats_types
+(
+    id    serial       not null
+        constraint seats_types_pkey
+            primary key,
+    title varchar(255) not null
+);
+
+create table seats
+(
+    id             serial  not null
+        constraint seats_pkey
+            primary key,
+    row            integer not null,
+    place          integer not null,
+    seats_types_id integer
+        constraint seats_seats_types_id_fkey
+            references seats_types,
+    halls_id       integer
+        constraint seats_halls_id_fkey
+            references halls
+);
+
+create table prices
+(
+    id             serial         not null
+        constraint prices_pkey
+            primary key,
+    price          numeric(10, 2) not null,
+    seats_types_id integer
+        constraint prices_seats_types_id_fkey
+            references seats_types,
+    sessions_id    integer
+        constraint prices_sessions_id_fkey
+            references sessions
+);
+
 create table tickets
 (
-    id          serial         not null
+    id          serial not null
         constraint tickets_pkey
             primary key,
     sessions_id integer
         constraint tickets_sessions_id_fkey
             references sessions,
-    seat_row    integer        not null,
-    seat_place  integer        not null,
-    price       numeric(10, 2) not null
+    prices_id   integer
+        constraint tickets_prices_id_fkey
+            references prices,
+    seats_id    integer
+        constraint tickets_seats_id_fkey
+            references seats
 );
 
 create table orders

@@ -8,5 +8,4 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/../App/App.php';
 
 $app = new App();
-$app->run($argv);
-echo 'test';
+$app->run();

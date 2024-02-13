@@ -21,3 +21,9 @@ services:
       - "host.docker.internal:host-gateway"
     environment:
       PHP_IDE_CONFIG: serverName=Docker
+  redis:
+    image: redis:7.0.9
+    ports:
+      - '6379:6379'
+    volumes:
+      - ./docker/redis:/data

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Order\Infrastructure\GraphQL\Mutations;
+namespace App\Domains\Order_1\Infrastructure\GraphQL\Mutations;
 
 use App\Domains\Order\Application\CreateOrderUseCase;
 use App\Domains\Order\Application\Request\CreateOrderRequest;
@@ -8,7 +8,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 
-class CreateOrderMutation extends Mutation
+class CreateOrderShopMutation extends Mutation
 {
     public function __construct(
         private CreateOrderUseCase $createOrderUseCase

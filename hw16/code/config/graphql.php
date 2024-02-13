@@ -2,8 +2,9 @@
 
 declare(strict_types = 1);
 
-use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrderMutation;
-use App\OldCode\GraphQL\Mutations\OldCreateOrderMutation;
+use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderPhoneMutation;
+use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderShopMutation;
+use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderSiteMutation;
 
 return [
     'route' => [
@@ -82,8 +83,9 @@ return [
 
             ],
             'mutation' => [
-                'create_order' => CreateOrderMutation::class,
-                'create_order_old' => OldCreateOrderMutation::class,
+                'create_order_phone' => CreateOrderPhoneMutation::class,
+               // 'create_order_shop' => CreateOrderShopMutation::class,
+               // 'create_order_site' => CreateOrderSiteMutation::class,
             ],
 
             'types' => [

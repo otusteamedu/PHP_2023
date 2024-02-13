@@ -2,11 +2,11 @@
 
 namespace App\Domains\Order\Infrastructure\Repository;
 
-use App\Domains\Order\Domain\Models\Order;
+use App\Domains\Order\Domain\Entity\AbstractOrder;
 use App\Domains\Order\Domain\Repository\OrderRepositoryInterface;
 use App\Domains\Order\Infrastructure\Models\OrderModel;
 
-class DatabaseOrderRepository implements OrderRepositoryInterface
+class OrderDatabaseRepository implements OrderRepositoryInterface
 {
     public function __construct(
         private OrderModel $orderModel,
@@ -14,7 +14,7 @@ class DatabaseOrderRepository implements OrderRepositoryInterface
     {
     }
 
-    public function create(Order $order): int
+    public function create(AbstractOrder $order): int
     {
         $this->orderModel->title = $order->getTitle()->getValue();
         $this->orderModel->description = $order->getDescription()->getValue();

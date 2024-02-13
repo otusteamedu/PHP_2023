@@ -1,17 +1,24 @@
 <?php
 
-namespace App\OldCode\GraphQL\Mutations;
+namespace App\Domains\Order_1\Infrastructure\GraphQL\Mutations;
 
-use App\OldCode\Services\Order\CreateOrderService;
+use App\Domains\Order\Application\CreateOrderUseCase;
+use App\Domains\Order\Application\Request\CreateOrderRequest;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;
 
-class OldCreateOrderMutation extends Mutation
+class CreateOrderSiteMutation extends Mutation
 {
+    public function __construct(
+        private CreateOrderUseCase $createOrderUseCase
+    )
+    {
+    }
+
     protected $attributes = [
-        'name'        => 'create_order_old',
-        'description' => 'Создание заявки старый код',
+        'name'        => 'create_order',
+        'description' => 'Создание заявки',
     ];
 
     public function type(): Type
@@ -39,12 +46,17 @@ class OldCreateOrderMutation extends Mutation
 
     protected function rules(array $args = []): array
     {
-        return CreateOrderService::rules($args);
+        return [
+            'email' => ['required', 'string', 'email'],
+            'title' => ['required', 'string', 'max:50'],
+            'description' => ['required', 'string', 'max:255'],
+        ];
     }
 
     public function resolve($root, $args, $context, ResolveInfo $info)
     {
-        $service = new CreateOrderService();
-        return $service->run($args);
+        $request = CreateOrderRequest::fromArray($args);
+        $response = ($this->createOrderUseCase)($request);
+        return $response->id;
     }
 }

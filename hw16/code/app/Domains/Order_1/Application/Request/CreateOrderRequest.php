@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Order\Application\Request;
+namespace App\Domains\Order_1\Application\Request;
 
 class CreateOrderRequest
 {

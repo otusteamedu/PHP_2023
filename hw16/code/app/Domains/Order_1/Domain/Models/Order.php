@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Order\Domain\Models;
+namespace App\Domains\Order_1\Domain\Models;
 
 use App\Domains\Order\Domain\ValueObjects\Description;
 use App\Domains\Order\Domain\ValueObjects\Email;

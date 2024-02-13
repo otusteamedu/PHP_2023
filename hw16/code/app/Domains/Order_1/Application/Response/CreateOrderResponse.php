@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Domains\Order\Application\Response;
+namespace App\Domains\Order_1\Application\Response;
 
 class CreateOrderResponse
 {
     public function __construct(
-        public readonly int $orderId
+        public int $id,
     )
     {
     }

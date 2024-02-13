@@ -1,10 +1,11 @@
 <?php
 
-namespace App\OldCode\Models;
+namespace App\Domains\Order_1\Infrastructure\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OrderModel extends Model
 {
     protected $table = 'logistic.orders';
+
 }

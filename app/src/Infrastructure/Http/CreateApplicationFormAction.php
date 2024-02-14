@@ -10,6 +10,7 @@ use App\Exception\PublishException;
 use App\Infrastructure\Queues\Publisher\PublisherInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Exception;
 
 class CreateApplicationFormAction
 {
@@ -57,5 +58,4 @@ class CreateApplicationFormAction
             ->withHeader('Content-Type', 'application/json')
             ->withStatus($code);
     }
-
 }

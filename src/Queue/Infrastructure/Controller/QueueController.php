@@ -12,16 +12,16 @@ use src\Queue\Infrastructure\Repository\RedisElementRepository;
 
 class QueueController
 {
-    public function save(array $request): void
+    public function save(): void
     {
         $useCase = new AddElementQueueUseCase(new ElementFactory(), new RedisElementRepository());
-        $uuid = $useCase(new AddElementQueueRequest(json_encode($request)));
+        $uuid = $useCase(new AddElementQueueRequest(json_encode($_POST)));
         echo $uuid;
     }
 
-    public function check(array $request): void
+    public function check(): void
     {
         $useCase = new CheckUseCase(new RedisElementRepository());
-        echo $useCase($request['uuid']);
+        echo $useCase($_POST['uuid']);
     }
 }

@@ -18,13 +18,12 @@ class RedisElementRepository implements ElementRepositoryInterface
 
     public function __construct()
     {
-        $host = 'redis';
-        $port = 6379;
+        $env = parse_ini_file(__DIR__ . '/../../../../.env');
         $connectionParameters = sprintf(
             '%s://%s:%s',
             'tcp',
-            $host,
-            $port
+            $env['QUEUE_HOST'],
+            $env['QUEUE_PORT']
         );
         $this->client = new Client($connectionParameters);
         $this->elementFactory = new ElementFactory();

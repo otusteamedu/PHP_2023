@@ -6,7 +6,6 @@ use Klobkovsky\App\Model\Interface\ElasticEntityInterface;
 
 class OtusShopEntity implements ElasticEntityInterface
 {
-
     public function getIndexName(): string
     {
         return 'otus-shop';

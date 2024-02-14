@@ -12,26 +12,25 @@ use src\Queue\Infrastructure\Repository\RedisElementRepository;
 
 class QueueController
 {
-    public function getFormSave(): void
+    public function getFormSave(): string
     {
-        echo file_get_contents(__DIR__ . '/home.html');
+        return file_get_contents(__DIR__ . '/../../../../public/home.html');
     }
 
-    public function save(): void
+    public function save(): string
     {
         $useCase = new AddElementQueueUseCase(new ElementFactory(), new RedisElementRepository());
-        $uuid = $useCase(new AddElementQueueRequest(json_encode($_POST)));
-        echo $uuid;
+        return $useCase(new AddElementQueueRequest(json_encode($_POST)));
     }
 
-    public function getFromCheck(): void
+    public function getFromCheck(): string
     {
-        echo file_get_contents(__DIR__ . '/check.html');
+        return file_get_contents(__DIR__ . '/../../../../public/check.html');
     }
 
-    public function check(): void
+    public function check(): string
     {
         $useCase = new CheckUseCase(new RedisElementRepository());
-        echo $useCase($_POST['uuid']);
+        return $useCase($_POST['uuid']);
     }
 }

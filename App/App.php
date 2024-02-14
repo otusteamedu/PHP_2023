@@ -8,33 +8,33 @@ use src\Queue\Infrastructure\Controller\QueueController;
 
 class App
 {
-    public function run()
+    public function run(): string
     {
-        match ($_ENV["REQUEST_URI"]) {
+        return match ($_ENV["REQUEST_URI"]) {
             '/' => $this->home(),
             '/check' => $this->check()
         };
     }
 
-    private function home(): void
+    private function home(): string
     {
         $controller = new QueueController();
 
         if ($_ENV["REQUEST_METHOD"] === 'GET') {
-            $controller->getFormSave();
+            return $controller->getFormSave();
         } else {
-            $controller->save();
+            return $controller->save();
         }
     }
 
-    private function check(): void
+    private function check(): string
     {
         $controller = new QueueController();
 
         if ($_ENV["REQUEST_METHOD"] === 'GET') {
-            $controller->getFromCheck();
+            return $controller->getFromCheck();
         } else {
-            $controller->check();
+            return $controller->check();
         }
     }
 }

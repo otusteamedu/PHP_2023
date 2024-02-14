@@ -1,24 +1,27 @@
 <?php
 
-class ListNode
-{
-    public $val = 0;
-    public $next = null;
+/**
+ * Definition for a singly-linked list.
+ * class ListNode {
+ *     public $val = 0;
+ *     public $next = null;
+ *     function __construct($val = 0, $next = null) {
+ *         $this->val = $val;
+ *         $this->next = $next;
+ *     }
+ * }
+ */
 
-    function __construct($val = 0, $next = null)
-    {
-        $this->val = $val;
-        $this->next = $next;
-    }
-}
-class Solution {
+class Solution
+{
 
     /**
      * @param ListNode $list1
      * @param ListNode $list2
      * @return ListNode
      */
-    function mergeTwoLists($list1, $list2) {
+    function mergeTwoLists($list1, $list2)
+    {
 
         $dummyNode = new ListNode();
         $tail = $dummyNode;
@@ -53,17 +56,3 @@ class Solution {
     }
 
 }
-
-$list1 = new ListNode(1, new ListNode(2, new ListNode(4)));
-$list2 = new ListNode(1, new ListNode(3, new ListNode(4)));
-
-$res = (new Solution())->mergeTwoLists($list1, $list2);
-
-print_r($res);
-
-$list1 = new ListNode();
-$list2 = new ListNode(0);
-
-$res = (new Solution())->mergeTwoLists($list1, $list2);
-
-print_r($res);

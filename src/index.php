@@ -9,13 +9,14 @@ use Klobkovsky\App\Exceptions\DocumentCreateException;
 use Klobkovsky\App\Exceptions\DocumentSearchException;
 use Klobkovsky\App\Exceptions\IndexCreateException;
 use Klobkovsky\App\Exceptions\IndexDeleteException;
+use \Klobkovsky\App\Model\OtusShopEntity;
 
 $flag = -1;
 $price = 0;
 $category = '';
 $title = '';
 
-$elasticService = new ElasticService();
+$elasticService = new ElasticService(new OtusShopEntity());
 
 do {
     $flag = (int)readline('To delete an index, type 1, to create an index, type 2, to create a document, type 3, to search books, type 4: ');
@@ -28,7 +29,7 @@ do {
                 echo $e->getMessage();
             }
 
-            echo 'Index ' . ElasticService::INDEX_NAME . ' successfully delete';
+            echo 'Index ' . $elasticService->getIndexName() . ' successfully delete';
             break;
         case 2:
             try {
@@ -37,7 +38,7 @@ do {
                 echo $e->getMessage();
             }
 
-            echo 'Index ' . ElasticService::INDEX_NAME . ' successfully create';
+            echo 'Index ' . $elasticService->getIndexName() . ' successfully create';
             break;
         case 3:
             try {

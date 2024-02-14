@@ -28,10 +28,10 @@ services:
       - discovery.type=single-node
       - http.host=0.0.0.0
       - transport.host=localhost
-      - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=123456
+      - ELASTIC_USERNAME=${ELASTIC_USER}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
     ports:
-      - 9200:9200
+      - '${ELASTIC_PORT:-9200}:9200'
     networks:
       - app-network
 

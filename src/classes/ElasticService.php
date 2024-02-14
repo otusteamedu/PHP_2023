@@ -15,26 +15,33 @@ use Elastic\Elasticsearch\Exception\MissingParameterException;
 use Elastic\Elasticsearch\Exception\ServerResponseException;
 use Elastic\Elasticsearch\Response\Elasticsearch;
 use Http\Promise\Promise;
+use Klobkovsky\App\Model\Interface\ElasticEntityInterface;
 
 class ElasticService
 {
-    public const INDEX_NAME = 'otus-shop';
-    private const BOOKS_DATA =  __DIR__ . '/../books.json';
+    private const FILE_DIR =  __DIR__ . '/../';
 
     private Client $client;
+    private ElasticEntityInterface $elasticEntity;
 
-    public function __construct()
+    public function __construct(ElasticEntityInterface $elasticEntity)
     {
+        $this->elasticEntity = $elasticEntity;
         $this->client = ClientBuilder::create()
-            ->setHosts(['https://elasticsearch:9200'])
+            ->setHosts(['https://elasticsearch:' . $_ENV['ELASTIC_PORT']])
             ->setSSLVerification(false)
-            ->setBasicAuthentication('elastic', '123456')
+            ->setBasicAuthentication($_ENV['ELASTIC_USER'], $_ENV['ELASTIC_PASSWORD'])
             ->build();
+    }
+
+    public function getIndexName(): string
+    {
+        return $this->elasticEntity->getIndexName();
     }
 
     public function createDocument(): void
     {
-        $handle = fopen(self::BOOKS_DATA, 'r');
+        $handle = fopen(self::FILE_DIR . $this->elasticEntity->getDataFile(), 'r');
 
         while (!feof($handle)) {
             $line = fgets($handle);
@@ -69,65 +76,8 @@ class ElasticService
 
     public function createIndex(): void
     {
-        $defaultIndex = [
-            'index' => self::INDEX_NAME,
-            'body' => [
-                'mappings' => [
-                    'properties' => [
-                        'title' => [
-                            'type' => 'text',
-                        ],
-                        'sku' => [
-                            'type' => 'keyword'
-                        ],
-                        'category' => [
-                            'type' => 'text'
-                        ],
-                        'price' => [
-                            'type' => 'short'
-                        ],
-                        'stock' => [
-                            'type' => 'nested',
-                            'properties' => [
-                                'shop' => [
-                                    'type' => 'keyword'
-                                ],
-                                'stock' => [
-                                    'type' => 'short'
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-                'settings' => [
-                    'analysis' => [
-                        'filter' => [
-                            'ru_stop' => [
-                                'type' => 'stop',
-                                'stopwords' => '_russian_'
-                            ],
-                            'ru_stemmer' => [
-                                'type' => 'stemmer',
-                                'language' => 'russian'
-                            ]
-                        ],
-                        "analyzer" => [
-                            "my_russian" => [
-                                'tokenizer' => 'standard',
-                                "filter" => [
-                                    "lowercase",
-                                    "ru_stop",
-                                    "ru_stemmer"
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
         try {
-            $this->client->indices()->create($defaultIndex);
+            $this->client->indices()->create($this->elasticEntity->getIndexParam());
         } catch (ClientResponseException | MissingParameterException | ServerResponseException $e) {
             throw new IndexCreateException($e->getMessage());
         }
@@ -136,7 +86,7 @@ class ElasticService
     public function deleteIndex(): void
     {
         try {
-            $this->client->indices()->delete(['index' => self::INDEX_NAME]);
+            $this->client->indices()->delete(['index' => $this->elasticEntity->getIndexName()]);
         } catch (ClientResponseException | MissingParameterException | ServerResponseException $e) {
             throw new IndexDeleteException($e->getMessage());
         }
@@ -144,56 +94,13 @@ class ElasticService
 
     public function searchDocument(string $title = '', string $category = '', int $price = 0): Elasticsearch|Promise
     {
-        $params = [
-            'index' => self::INDEX_NAME,
-            'body' => [
-                "query" => [
-                    "bool" => [
-                        "must" => [
-                            [
-                                "match" => [
-                                    'title' => [
-                                        'query' => $title,
-                                        'fuzziness' => 'auto'
-                                    ],
-                                ]
-                            ],
-                            [
-                                "match" => [
-                                    "category" => [
-                                        "query" => $category,
-                                        'fuzziness' => 'auto'
-                                    ]
-                                ]
-                            ],
-                            [
-                                "range" => [
-                                    "price" => [
-                                        "lte" => $price
-                                    ]
-                                ]
-                            ],
-                            [
-                                "nested" => [
-                                    "path" => "stock",
-                                    "query" => [
-                                        "range" => [
-                                            "stock.stock" => [
-                                                "gte" => 1
-                                            ]
-                                        ]
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-            ]
-        ];
-
         try {
-            $response = $this->client->search($params);
-        } catch (ClientResponseException | ServerResponseException $e) {
+            $response = $this->client->search($this->elasticEntity->getSearchParam([
+                'title' => $title,
+                'category' => $category,
+                'price' => $price
+            ]));
+        } catch (ClientResponseException | ServerResponseException | DocumentSearchException $e) {
             throw new DocumentSearchException($e->getMessage());
         }
 

@@ -44,7 +44,6 @@ class Solution
             if ($val1 <= $val2) {
                 $tail->next = $list1;
                 $list1 = $list1->next;
-                var_dump($list1);
             } else {
                 $tail->next = $list2;
                 $list2 = $list2->next;

@@ -5,10 +5,18 @@
             "Klobkovsky\\App\\": "classes/"
         }
     },
+    "require": {
+        "elasticsearch/elasticsearch": "^8.11"
+    },
     "authors": [
         {
             "name": "kirill.lobkovsky",
             "email": "kiphirrr@gmail.com"
         }
-    ]
+    ],
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
 }

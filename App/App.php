@@ -18,21 +18,23 @@ class App
 
     private function home(): void
     {
+        $controller = new QueueController();
+
         if ($_ENV["REQUEST_METHOD"] === 'GET') {
-            echo file_get_contents(__DIR__ . '/home.html');
+            $controller->getFormSave();
         } else {
-            $controller = new QueueController();
-            $controller->save($_POST);
+            $controller->save();
         }
     }
 
     private function check(): void
     {
+        $controller = new QueueController();
+
         if ($_ENV["REQUEST_METHOD"] === 'GET') {
-            echo file_get_contents(__DIR__ . '/check.html');
+            $controller->getFromCheck();
         } else {
-            $controller = new QueueController();
-            $controller->check($_POST);
+            $controller->check();
         }
     }
 }

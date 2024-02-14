@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\Message;
+
 class ApplicationForm
 {
     private Email $email;

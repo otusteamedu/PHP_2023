@@ -6,15 +6,24 @@ namespace App\Application\UseCase;
 
 use App\Application\UseCase\Request\CreateApplicationFormRequest;
 use App\Application\UseCase\Response\CreateApplicationFormResponse;
+use App\Domain\Entity\ApplicationForm;
+use App\Domain\Entity\Status;
+use App\Domain\Repository\ApplicationFormRepositoryInterface;
+use App\Domain\Repository\StatusRepositoryInterface;
+use App\Domain\ValueObject\Email;
+use App\Domain\ValueObject\Message;
+use App\Domain\ValueObject\Name;
 use Exception;
 
 class CreateApplicationForm
 {
-    private ApplicationFormInterface $repositoryApplicationForm;
-    private StatusInterface $repositoryStatus;
+    private ApplicationFormRepositoryInterface $repositoryApplicationForm;
+    private StatusRepositoryInterface $repositoryStatus;
 
-    public function __construct(ApplicationFormInterface $repositoryApplicationForm, StatusInterface $repositoryStatus)
-    {
+    public function __construct(
+        ApplicationFormRepositoryInterface $repositoryApplicationForm,
+        StatusRepositoryInterface $repositoryStatus
+    ) {
         $this->repositoryApplicationForm = $repositoryApplicationForm;
         $this->repositoryStatus = $repositoryStatus;
     }
@@ -37,5 +46,4 @@ class CreateApplicationForm
             $applicationForm->getStatus()->getName()->getValue()
         );
     }
-
 }

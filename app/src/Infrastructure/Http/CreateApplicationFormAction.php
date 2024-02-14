@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Infrastructure\Http;
+
 use App\Application\UseCase\CreateApplicationForm;
 use App\Application\UseCase\Request\CreateApplicationFormRequest;
 use App\Exception\PublishException;

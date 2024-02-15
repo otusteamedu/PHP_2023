@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Domains\Order\Domain\Entity;
+namespace App\Domains\Order\Domain\Entity\Product;
 
+use App\Domains\Order\Domain\Entity\Ingredient;
 use App\Domains\Order\Domain\ValueObjects\Description;
 use App\Domains\Order\Domain\ValueObjects\Name;
 
@@ -39,6 +40,4 @@ class Product
     {
         return $this->description;
     }
-
-
 }

@@ -4,38 +4,24 @@ namespace App\Domains\Order\Domain\ValueObjects;
 
 class Address
 {
-    private string $city;
-    private string $street;
-    private string $house;
+    private string $address;
 
-    public function __construct(
-        string $city,
-        string $street,
-        string $house,
-    )
+    public function __construct(string $address)
     {
-        $this->assertValidCity($city);
-        $this->assertValidStreet($street);
-        $this->assertValidHouse($house);
-        $this->city = $city;
-        $this->street = $street;
-        $this->house = $house;
+        $this->assertValidAddress($address);
+        $this->address = $address;
     }
 
-    public function getFullAddress(): int
+    public function getValue(): string
     {
-        return  "{$this->city} {$this->street} {$this->house}";
+        return $this->address;
     }
 
-    private function assertValidCity(string $city): void
+    private function assertValidAddress(string $address): void
     {
-    }
-
-    private function assertValidStreet(string $street): void
-    {
-    }
-
-    private function assertValidHouse(string $house): void
-    {
+        $strlen = mb_strlen($address);
+        if ($strlen < 10 || $strlen > 500) {
+            throw new \InvalidArgumentException('Адрес не валиден');
+        }
     }
 }

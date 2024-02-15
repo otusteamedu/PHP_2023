@@ -1,10 +1,14 @@
 <?php
 
-namespace App\Domains\Order\Domain\Entity;
+namespace App\Domains\Order\Domain\Entity\Order;
+
+use App\Domains\Order\Domain\Entity\Product;
+use App\Domains\Order\Domain\ValueObjects\ShopID;
 
 class AbstractOrder
 {
-    protected int $id;
+    protected ?int $id = null;
+    protected ShopID $shopId;
     protected array $products;
 
     public function addProduct(Product $product): void

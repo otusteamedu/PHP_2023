@@ -8,5 +8,3 @@ class OrderModel extends Model
 {
     protected $table = 'orders';
 }
-{
-}

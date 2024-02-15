@@ -2,16 +2,12 @@
 
 namespace App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder;
 
-use GraphQL\Type\Definition\ResolveInfo;
+use App\Domains\Order\Application\Factories\Order\OrderFactoryInterface;
+use App\Domains\Order\Application\Factories\Order\OrderPhoneFactory;
 use GraphQL\Type\Definition\Type;
 
-class CreateOrderSiteMutation extends AbstractCreateOrderMutation
+class CreateOrderFromPhoneMutation extends AbstractCreateOrderMutation
 {
-    protected $attributes = [
-        'name'        => 'create_order_site',
-        'description' => 'Создание заявки',
-    ];
-
     public function type(): Type
     {
         return Type::int();
@@ -19,28 +15,28 @@ class CreateOrderSiteMutation extends AbstractCreateOrderMutation
 
     public function args(): array
     {
-        return [
-            'email' => [
+        return array_merge(parent::args(), [
+            'phone' => [
                 'type' => Type::string(),
-                'description' => "Обязательный. email",
+                'description' => 'Номер телефона',
             ],
             'delivery_address' => [
                 'type' => Type::string(),
                 'description' => "Обязательный. Адрес доставки",
             ],
-        ];
+        ]);
     }
 
     protected function rules(array $args = []): array
     {
-        return [
-            'email' => ['required', 'string', 'email'],
+        return array_merge(parent::rules(), [
+            'phone' => ['required', 'string', 'max:50'],
             'delivery_address' => ['required', 'string', 'min:10', 'max:500'],
-        ];
+        ]);
     }
 
-    public function resolve($root, $args, $context, ResolveInfo $info)
+    protected function getOrderFactory(): OrderFactoryInterface
     {
-
+        return new OrderPhoneFactory();
     }
 }

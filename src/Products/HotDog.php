@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Products;
+declare(strict_types=1);
+
+namespace Patterns\Daniel\Products;
 
 class HotDog implements ProductInterface
 {
-    protected $name = "Хот-дог";
-    protected $price = 3.99;
-    protected $ingredients = ['Булка для хот-дога', 'Сосиска', 'Горчица', 'Кетчуп'];
+    protected string $name = "Hot dog";
+    protected float $price = 3.99;
+    protected array $ingredients = ['Hot dog bun', 'sausage', 'mustard', 'ketchup'];
 
     public function getName(): string
     {

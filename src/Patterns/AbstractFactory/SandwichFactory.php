@@ -1,35 +1,33 @@
 <?php
 
-namespace App\Patterns\AbstractFactory;
+declare(strict_types=1);
 
-use App\Products\Sandwich;
-use App\Products\ProductInterface;
+namespace Patterns\Daniel\Patterns\AbstractFactory;
+
+use Exception;
+use Patterns\Daniel\Products\ProductInterface;
+use Patterns\Daniel\Products\Sandwich;
 
 class SandwichFactory implements ProductFactoryInterface
 {
-    /**
-     * Создает экземпляр сэндвича.
-     *
-     * @return ProductInterface Возвращает сэндвич, реализующий интерфейс ProductInterface.
-     */
     public function createSandwich(): ProductInterface
     {
         return new Sandwich();
     }
 
     /**
-     * Создание бургера не поддерживается этой фабрикой.
+     * @throws Exception
      */
     public function createBurger(): ProductInterface
     {
-        throw new \Exception("Бургеры не производятся в SandwichFactory");
+        throw new Exception("Burgers are not made at SandwichFactory");
     }
 
     /**
-     * Создание хот-дога не поддерживается этой фабрикой.
+     * @throws Exception
      */
     public function createHotDog(): ProductInterface
     {
-        throw new \Exception("Хот-доги не производятся в SandwichFactory");
+        throw new Exception("Hot dogs are not made at SandwichFactory.");
     }
 }

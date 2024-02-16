@@ -1,31 +1,26 @@
 <?php
 
-namespace App;
+declare(strict_types=1);
 
-use App\Patterns\AbstractFactory\BurgerFactory;
-use App\Patterns\AbstractFactory\ProductFactoryInterface;
-use App\Patterns\Adapter\PizzaAdapter;
-use App\Patterns\Builder\OrderBuilder;
-use App\Patterns\Decorator\IngredientsDecorator;
-use App\Patterns\Observer\PreparationObserver;
-use App\Products\Pizza;
+namespace Patterns\Daniel;
+
+use Patterns\Daniel\Patterns\AbstractFactory\BurgerFactory;
+use Patterns\Daniel\Patterns\AbstractFactory\ProductFactoryInterface;
+use Patterns\Daniel\Patterns\Adapter\PizzaAdapter;
+use Patterns\Daniel\Patterns\Builder\OrderBuilder;
+use Patterns\Daniel\Patterns\Builder\OrderBuilderInterface;
+use Patterns\Daniel\Patterns\Decorator\IngredientsDecorator;
+use Patterns\Daniel\Patterns\Observer\ObserverInterface;
+use Patterns\Daniel\Patterns\Observer\PreparationObserver;
+use Patterns\Daniel\Products\Pizza;
 
 class App
 {
-    /**
-     * @var ProductFactoryInterface
-     */
     private ProductFactoryInterface $productFactory;
 
-    /**
-     * @var OrderBuilder
-     */
-    private OrderBuilder $orderBuilder;
+    private OrderBuilderInterface $orderBuilder;
 
-    /**
-     * @var PreparationObserver
-     */
-    private PreparationObserver $preparationObserver;
+    private ObserverInterface $preparationObserver;
 
     public function __construct()
     {
@@ -34,20 +29,17 @@ class App
         $this->preparationObserver = new PreparationObserver();
     }
 
-    /**
-     * Запуск приложения.
-     */
-    public function run()
+    public function run(): void
     {
-        // Добавление ингредиентов с использованием декоратора
         $burger = $this->productFactory->createBurger();
-        $customBurger = new IngredientsDecorator(new IngredientsDecorator($burger, "Соус", 0.20), "Сыр", 0.50);
 
-// Использование адаптера для пиццы
-        $pizza = new Pizza(); // Пицца, не реализующая ProductInterface изначально.
+        // Adding ingredients using the decorator
+        $customBurger = new IngredientsDecorator(new IngredientsDecorator($burger, "Sauce", 0.20), "Cheese", 0.50);
+
+        // Using the pizza adapter
+        $pizza = new Pizza(); // A pizza that does not implement ProductInterface initially.
         $pizzaAdapter = new PizzaAdapter($pizza);
 
-// Обработка заказа с кастомным бургером и пиццей через адаптер
         $this->orderBuilder->addProduct($customBurger)->addProduct($pizzaAdapter);
         $order = $this->orderBuilder->getOrder();
 
@@ -56,16 +48,16 @@ class App
 
     protected function processOrder($order): void
     {
-        echo "Начало обработки заказа...\n";
+        echo "Start of order processing...\n";
 
-        // Здесь могла бы быть логика проверки и подготовки заказа, например:
+        // There could be logic here to check and prepare the order, for example:
         foreach ($order as $item) {
-            // Имитация обработки каждого элемента заказа
-            echo "Подготавливается: {$item['product']->getName()}\n";
-            // Предполагаем, что у нас есть метод для уведомления наблюдателей
+            // Simulate processing of each order item
+            echo "Preparing: {$item['product']->getName()}\n";
+            // Assume we have a method to notify observers
             $this->preparationObserver->update('order_prepared', ['orderId' => 123, 'status' => 'prepared']);
         }
 
-        echo "Заказ готов и может быть передан клиенту.\n";
+        echo "The order is ready and can be handed over to the customer.\n";
     }
 }

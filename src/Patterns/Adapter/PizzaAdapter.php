@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Patterns\Adapter;
+declare(strict_types=1);
 
-use App\Products\Pizza;
-use App\Products\ProductInterface;
+namespace Patterns\Daniel\Patterns\Adapter;
+
+use Patterns\Daniel\Products\Pizza;
+use Patterns\Daniel\Products\ProductInterface;
 
 class PizzaAdapter implements ProductInterface
 {
@@ -12,43 +14,23 @@ class PizzaAdapter implements ProductInterface
      */
     private Pizza $pizza;
 
-    /**
-     * Конструктор адаптера пиццы.
-     *
-     * @param Pizza $pizza Объект пиццы, который нужно адаптировать.
-     */
     public function __construct(Pizza $pizza)
     {
         $this->pizza = $pizza;
     }
 
-    /**
-     * Получить название продукта.
-     *
-     * @return string
-     */
     public function getName(): string
     {
-        return $this->pizza->getName();
+        return $this->pizza->getPizzaName();
     }
 
-    /**
-     * Получить цену продукта.
-     *
-     * @return float
-     */
     public function getPrice(): float
     {
-        return $this->pizza->getPrice();
+        return $this->pizza->getPizzaPrice();
     }
 
-    /**
-     * Получить список ингредиентов продукта.
-     *
-     * @return array
-     */
     public function getIngredients(): array
     {
-        return $this->pizza->getIngredients();
+        return $this->pizza->getPizzaIngredients();
     }
 }

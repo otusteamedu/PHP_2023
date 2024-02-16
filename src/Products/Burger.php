@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Products;
+declare(strict_types=1);
+
+namespace Patterns\Daniel\Products;
 
 class Burger implements ProductInterface
 {
-    protected string $name = "Бургер";
+    protected string $name = "Burger";
     protected float $price = 5.99;
-    protected array $ingredients = ['Булка', 'Котлета', 'Сыр', 'Салат', 'Помидор'];
+    protected array $ingredients = ['Bun', 'Cutlet', 'Cheese', 'Salad', 'Tomato'];
 
     public function getName(): string
     {

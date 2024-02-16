@@ -1,24 +1,16 @@
 <?php
 
-namespace App\Patterns\Builder;
+declare(strict_types=1);
 
+namespace Patterns\Daniel\Patterns\Builder;
 
-use App\Products\ProductInterface;
 use Exception;
+use Patterns\Daniel\Products\ProductInterface;
 
 class OrderBuilder implements OrderBuilderInterface
 {
-    /**
-     * @var array Список продуктов в заказе.
-     */
     private array $products = [];
 
-    /**
-     * Добавить продукт в заказ.
-     *
-     * @param ProductInterface $product Продукт для добавления.
-     * @return $this
-     */
     public function addProduct(ProductInterface $product): OrderBuilderInterface
     {
         $this->products[] = [
@@ -30,16 +22,12 @@ class OrderBuilder implements OrderBuilderInterface
     }
 
     /**
-     * Добавить ингредиент к последнему добавленному продукту.
-     *
-     * @param string $ingredient Ингредиент для добавления.
-     * @return $this
      * @throws Exception
      */
     public function addIngredient(string $ingredient): OrderBuilderInterface
     {
         if (empty($this->products)) {
-            throw new Exception("Невозможно добавить ингредиент без продукта.");
+            throw new Exception("You can't add an ingredient without a product.");
         }
 
         $lastProductKey = array_key_last($this->products);
@@ -48,11 +36,6 @@ class OrderBuilder implements OrderBuilderInterface
         return $this;
     }
 
-    /**
-     * Получить итоговый заказ.
-     *
-     * @return array Возвращает составленный заказ.
-     */
     public function getOrder(): array
     {
         return $this->products;

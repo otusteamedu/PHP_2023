@@ -1,24 +1,26 @@
 <?php
 
-namespace App\Products;
+declare(strict_types=1);
 
-class Pizza implements ProductInterface
+namespace Patterns\Daniel\Products;
+
+class Pizza
 {
-    protected string $name = "Пицца";
+    protected string $name = "Pizza";
     protected float $price = 7.99;
-    protected array $ingredients = ['Тесто', 'Томатный соус', 'Сыр моцарелла', 'Пепперони'];
+    protected array $ingredients = ['Hot dog bun', 'sausage', 'mustard', 'ketchup'];
 
-    public function getName(): string
+    public function getPizzaName(): string
     {
         return $this->name;
     }
 
-    public function getPrice(): float
+    public function getPizzaPrice(): float
     {
         return $this->price;
     }
 
-    public function getIngredients(): array
+    public function getPizzaIngredients(): array
     {
         return $this->ingredients;
     }

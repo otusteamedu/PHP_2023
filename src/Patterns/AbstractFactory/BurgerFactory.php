@@ -10,7 +10,6 @@ use Patterns\Daniel\Products\ProductInterface;
 
 class BurgerFactory implements ProductFactoryInterface
 {
-
     public function createBurger(): ProductInterface
     {
         return new Burger();

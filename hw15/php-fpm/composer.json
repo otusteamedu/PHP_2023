@@ -1,0 +1,23 @@
+{
+    "name": "shabanov/otusphp",
+    "autoload": {
+        "psr-4": {
+            "Shabanov\\Otusphp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shabanov Vyacheslav",
+            "email": "saveliy@mail.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "*",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}

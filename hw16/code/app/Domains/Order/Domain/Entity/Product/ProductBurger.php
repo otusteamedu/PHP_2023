@@ -2,7 +2,7 @@
 
 namespace App\Domains\Order\Domain\Entity\Product;
 
-class ProductBurger extends Product
+class ProductBurger extends AbstractProduct
 {
 
 }

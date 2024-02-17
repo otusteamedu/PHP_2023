@@ -2,7 +2,7 @@
 
 namespace App\Domains\Order\Domain\Entity\Order;
 
-use App\Domains\Order\Domain\Entity\Product\Product;
+use App\Domains\Order\Domain\Entity\Product\AbstractProduct;
 use App\Domains\Order\Domain\ValueObjects\ShopID;
 
 class AbstractOrder
@@ -11,7 +11,7 @@ class AbstractOrder
     protected ShopID $shopId;
     protected array $products;
 
-    public function addProduct(Product $product): void
+    public function addProduct(AbstractProduct $product): void
     {
         $this->products[] = $product;
     }

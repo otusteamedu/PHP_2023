@@ -3,7 +3,7 @@
 namespace App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder;
 
 use App\Domains\Order\Application\Factories\Order\OrderFactoryInterface;
-use App\Domains\Order\Application\Factories\Order\OrderShopFactory;
+use App\Domains\Order\Domain\Factories\Order\OrderShopFactory;
 use GraphQL\Type\Definition\Type;
 
 class CreateOrderFromShopMutation extends AbstractCreateOrderMutation

@@ -2,9 +2,12 @@
 
 namespace App\Domains\Order\Domain\Repository;
 
-use App\Domains\Order\Domain\Entity\Product\Product;
+use App\Domains\Order\Domain\Entity\Product\AbstractProduct;
 
 interface ProductRepositoryInterface
 {
-    public function create(Product $order): int;
+    public function create(AbstractProduct $product): int;
+
+    public function getAvailableAdditionalIngredientsOfProduct(): array;
+    public function getDefaultIngredientsOfProduct(): array;
 }

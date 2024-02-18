@@ -11,32 +11,56 @@ use WorkingCode\Hw13\Entity\Film;
 
 class FilmRepository
 {
-    private PDOStatement $updateStatement;
+    private PDOStatement $updateFullStatement;
     private PDOStatement $insertStatement;
     private PDOStatement $removeStatement;
     private PDOStatement $selectByIdStatement;
+
+    /** @var Film [] */
+    private array $originalEntity = [];
 
     public function __construct(
         private readonly PDO         $pdo,
         private readonly FilmBuilder $filmBuilder,
         private readonly IdentityMap $identityMap,
     ) {
-        $this->updateStatement     = $this->pdo->prepare("UPDATE film SET name = ?, description = ? WHERE id = ?");
-        $this->insertStatement     = $this->pdo->prepare("INSERT INTO film(name,description) VALUES (?,?)");
-        $this->removeStatement     = $this->pdo->prepare("DELETE FROM film WHERE id = ?");
-        $this->selectByIdStatement = $this->pdo->prepare("SELECT * FROM film WHERE id=?");
+        $this->updateFullStatement        = $this->pdo->prepare("UPDATE film SET name = ?, description = ? WHERE id = ?");
+        $this->updateNameStatement        = $this->pdo->prepare("UPDATE film SET name = ? WHERE id = ?");
+        $this->updateDescriptionStatement = $this->pdo->prepare("UPDATE film SET description = ? WHERE id = ?");
+        $this->insertStatement            = $this->pdo->prepare("INSERT INTO film(name,description) VALUES (?,?)");
+        $this->removeStatement            = $this->pdo->prepare("DELETE FROM film WHERE id = ?");
+        $this->selectByIdStatement        = $this->pdo->prepare("SELECT * FROM film WHERE id=?");
     }
 
     public function update(Film $film): bool
     {
-        $result = $this->updateStatement->execute([
-            $film->getName(),
-            $film->getDescription(),
-            $film->getId(),
-        ]);
+        $originalEntity = $this->originalEntity[$film->getId()];
+
+        if (
+            $originalEntity
+            && $originalEntity->getName() === $film->getName()
+            && $originalEntity->getDescription() !== $film->getDescription()
+        ) {
+            $result = $this->updateDescriptionStatement->execute([$film->getDescription(), $film->getId(),]);
+        } elseif (
+            $originalEntity
+            && $originalEntity->getName() !== $film->getName()
+            && $originalEntity->getDescription() === $film->getDescription()
+        ) {
+            $result = $this->updateNameStatement->execute([$film->getName(), $film->getId(),]);
+        } else {
+            $result = $this->updateFullStatement->execute([
+                $film->getName(),
+                $film->getDescription(),
+                $film->getId(),
+            ]);
+        }
 
         if ($result) {
             $this->identityMap->add($film);
+
+            $originalEntity?->setName($film->getName())
+                ->setDescription($film->getDescription());
         }
 
         return $result;
@@ -52,6 +76,7 @@ class FilmRepository
         if ($result) {
             $film->setId((int)$this->pdo->lastInsertId());
             $this->identityMap->add($film);
+            $this->originalEntity[$film->getId()] = clone $film;
         }
 
         return $result;
@@ -63,6 +88,7 @@ class FilmRepository
 
         if ($result) {
             $this->identityMap->remove($entity);
+            unset($this->originalEntity[$entity->getId()]);
             unset($entity);
         }
 
@@ -76,7 +102,11 @@ class FilmRepository
         if (!$film) {
             $this->selectByIdStatement->execute([$id]);
             $result = $this->selectByIdStatement->fetch(PDO::FETCH_ASSOC);
-            $film   = $result ? $this->filmBuilder->build($result) : null;
+
+            if ($result) {
+                $film                                 = $this->filmBuilder->build($result);
+                $this->originalEntity[$film->getId()] = clone $film;
+            }
         }
 
         return $film;
@@ -96,6 +126,7 @@ class FilmRepository
 
         foreach ($this->identityMap->getAll(Film::class) as $film) {
             $films->add($film);
+            $this->originalEntity[$film->getId()] = clone $film;
         }
 
         foreach ($filmsSource as $filmSource) {

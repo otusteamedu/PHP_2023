@@ -4,12 +4,13 @@ namespace App\Infrastructure\Providers;
 
 use App\Domains\Order\Domain\Factories\AbstractProductFactory;
 use App\Domains\Order\Domain\Factories\ProductFactory;
-use App\Domains\Order\Domain\Publishers\Publisher;
-use App\Domains\Order\Domain\Publishers\PublisherInterface;
+use App\Domains\Order\Domain\Publishers\PublisherProductChangeStatus;
+use App\Domains\Order\Domain\Publishers\PublisherProductChangeStatusInterface;
 use App\Domains\Order\Domain\Repositories\OrderRepositoryInterface;
 use App\Domains\Order\Domain\Repositories\ProductRepositoryInterface;
 use App\Domains\Order\Domain\Strategies\Cock\CockStrategyInterface;
 use App\Domains\Order\Domain\Strategies\Cock\GrillCockStrategy;
+use App\Domains\Order\Domain\Subscribers\SendNotificationsService;
 use App\Domains\Order\Infrastructure\Repository\OrderDatabaseRepository;
 use App\Domains\Order\Infrastructure\Repository\ProductDatabaseRepository;
 use Illuminate\Support\ServiceProvider;
@@ -46,9 +47,9 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerPublishers(): void
     {
-        $this->app->bind(PublisherInterface::class, function ($app) {
-           $publisher = new Publisher();
-           $publisher->subscribe(ProductCha);
+        $this->app->bind(PublisherProductChangeStatusInterface::class, function ($app) {
+           $publisher = new PublisherProductChangeStatus();
+           $publisher->subscribe(new SendNotificationsService());
         });
     }
 }

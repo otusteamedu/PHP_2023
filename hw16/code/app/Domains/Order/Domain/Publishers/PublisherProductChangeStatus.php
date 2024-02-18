@@ -5,7 +5,7 @@ namespace App\Domains\Order\Domain\Publishers;
 use App\Domains\Order\Domain\Entity\Product\AbstractProduct;
 use App\Domains\Order\Domain\Subscribers\ProductChangeStatusSubscriberInterface;
 
-class Publisher implements PublisherInterface
+class PublisherProductChangeStatus implements PublisherProductChangeStatusInterface
 {
     /**
      * @var ProductChangeStatusSubscriberInterface[]

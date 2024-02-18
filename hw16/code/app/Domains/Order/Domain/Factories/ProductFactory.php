@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Domains\Order\Domain\Factories\Product;
+namespace App\Domains\Order\Domain\Factories;
 
-use App\Domains\Order\Application\Factories\Product\AbstractProductFactory;
 use App\Domains\Order\Application\Requests\AddProductToOrderRequest;
 use App\Domains\Order\Domain\Entity\Product\AbstractProduct;
 use App\Domains\Order\Domain\Entity\Product\ProductBurger;

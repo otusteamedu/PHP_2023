@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Domains\Order\Application\Factories\Product;
+namespace App\Domains\Order\Domain\Factories;
 
 use App\Domains\Order\Application\Requests\AddProductToOrderRequest;
 use App\Domains\Order\Domain\Entity\Product\AbstractProduct;
-use App\Domains\Order\Domain\Repository\ProductRepositoryInterface;
-
+use App\Domains\Order\Domain\Repositories\ProductRepositoryInterface;
 
 abstract class AbstractProductFactory
 {

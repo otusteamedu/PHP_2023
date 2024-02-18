@@ -3,8 +3,8 @@
 namespace App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder;
 
 use App\Domains\Order\Application\CreateOrderUseCase;
-use App\Domains\Order\Application\Factories\Order\OrderFactoryInterface;
 use App\Domains\Order\Application\Requests\CreateOrderRequest;
+use App\Domains\Order\Domain\Factories\OrderFactoryInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use GraphQL\Type\Definition\Type;
 use Rebing\GraphQL\Support\Mutation;

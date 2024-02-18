@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Domains\Order\Domain\Factories\Order;
+namespace App\Domains\Order\Domain\Factories;
 
-use App\Domains\Order\Application\Factories\Order\OrderFactoryInterface;
 use App\Domains\Order\Application\Requests\CreateOrderRequest;
 use App\Domains\Order\Domain\Entity\Order\AbstractOrder;
 use App\Domains\Order\Domain\Entity\Order\OrderFromShop;

@@ -2,8 +2,8 @@
 
 namespace App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder;
 
-use App\Domains\Order\Application\Factories\Order\OrderFactoryInterface;
-use App\Domains\Order\Domain\Factories\Order\OrderSiteFactory;
+use App\Domains\Order\Domain\Factories\OrderFactoryInterface;
+use App\Domains\Order\Domain\Factories\OrderSiteFactory;
 use GraphQL\Type\Definition\Type;
 
 class CreateOrderFromSiteMutation extends AbstractCreateOrderMutation

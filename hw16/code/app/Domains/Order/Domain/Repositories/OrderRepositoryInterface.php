@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Order\Domain\Repository;
+namespace App\Domains\Order\Domain\Repositories;
 
 use App\Domains\Order\Domain\Entity\Order\AbstractOrder;
 use App\Domains\Order\Domain\Entity\Product\AbstractProduct;

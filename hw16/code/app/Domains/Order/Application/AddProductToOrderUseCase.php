@@ -2,9 +2,9 @@
 
 namespace App\Domains\Order\Application;
 
-use App\Domains\Order\Application\Factories\Product\AbstractProductFactory;
 use App\Domains\Order\Application\Requests\AddProductToOrderRequest;
-use App\Domains\Order\Domain\Repository\OrderRepositoryInterface;
+use App\Domains\Order\Domain\Factories\AbstractProductFactory;
+use App\Domains\Order\Domain\Repositories\OrderRepositoryInterface;
 
 class AddProductToOrderUseCase
 {

@@ -2,9 +2,14 @@
 
 namespace App\Infrastructure\Providers;
 
-use App\Domains\Order\Application\Factories\Product\AbstractProductFactory;
-use App\Domains\Order\Domain\Repository\OrderRepositoryInterface;
-use App\Domains\Order\Domain\Repository\ProductRepositoryInterface;
+use App\Domains\Order\Domain\Factories\AbstractProductFactory;
+use App\Domains\Order\Domain\Factories\ProductFactory;
+use App\Domains\Order\Domain\Publishers\Publisher;
+use App\Domains\Order\Domain\Publishers\PublisherInterface;
+use App\Domains\Order\Domain\Repositories\OrderRepositoryInterface;
+use App\Domains\Order\Domain\Repositories\ProductRepositoryInterface;
+use App\Domains\Order\Domain\Strategies\Cock\CockStrategyInterface;
+use App\Domains\Order\Domain\Strategies\Cock\GrillCockStrategy;
 use App\Domains\Order\Infrastructure\Repository\OrderDatabaseRepository;
 use App\Domains\Order\Infrastructure\Repository\ProductDatabaseRepository;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +20,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->registerRepositories();
         $this->registerFactory();
+        $this->registerStrategies();
+        $this->registerPublishers();
     }
 
     public function boot(): void
@@ -29,6 +36,19 @@ class AppServiceProvider extends ServiceProvider
 
     private function registerFactory(): void
     {
-        $this->app->singleton(AbstractProductFactory::class, AbstractProductFactory::class);
+        $this->app->singleton(AbstractProductFactory::class, ProductFactory::class);
+    }
+
+    private function registerStrategies(): void
+    {
+        $this->app->singleton(CockStrategyInterface::class, GrillCockStrategy::class);
+    }
+
+    private function registerPublishers(): void
+    {
+        $this->app->bind(PublisherInterface::class, function ($app) {
+           $publisher = new Publisher();
+           $publisher->subscribe(ProductCha);
+        });
     }
 }

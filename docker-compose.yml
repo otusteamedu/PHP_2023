@@ -3,7 +3,7 @@ version: '3.1'
 
 services:
 
-  cinema-db:
+  cinema-env-db:
     image: postgres
     restart: always
     environment:

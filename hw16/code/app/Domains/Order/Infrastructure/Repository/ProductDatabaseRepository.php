@@ -18,4 +18,19 @@ class ProductDatabaseRepository implements ProductRepositoryInterface
     {
         return 1;
     }
+
+    public function getAvailableAdditionalIngredientsOfProduct(): array
+    {
+        // TODO: Implement getAvailableAdditionalIngredientsOfProduct() method.
+    }
+
+    public function getDefaultIngredientsOfProduct(): array
+    {
+        // TODO: Implement getDefaultIngredientsOfProduct() method.
+    }
+
+    public function getProductById(): AbstractProduct
+    {
+        // TODO: Implement getProductById() method.
+    }
 }

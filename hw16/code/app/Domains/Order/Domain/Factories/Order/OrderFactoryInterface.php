@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Order\Domain\Factories;
+namespace App\Domains\Order\Domain\Factories\Order;
 
 use App\Domains\Order\Application\Requests\CreateOrderRequest;
 use App\Domains\Order\Domain\Entity\Order\AbstractOrder;

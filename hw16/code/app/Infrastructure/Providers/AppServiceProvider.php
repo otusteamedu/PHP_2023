@@ -2,8 +2,8 @@
 
 namespace App\Infrastructure\Providers;
 
-use App\Domains\Order\Domain\Factories\AbstractProductFactory;
-use App\Domains\Order\Domain\Factories\ProductFactory;
+use App\Domains\Order\Domain\Factories\Product\AbstractProductFactory;
+use App\Domains\Order\Domain\Factories\Product\ProductFactory;
 use App\Domains\Order\Domain\Publishers\PublisherProductChangeStatus;
 use App\Domains\Order\Domain\Publishers\PublisherProductChangeStatusInterface;
 use App\Domains\Order\Domain\Repositories\OrderRepositoryInterface;

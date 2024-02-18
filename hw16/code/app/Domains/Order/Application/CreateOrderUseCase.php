@@ -4,7 +4,7 @@ namespace App\Domains\Order\Application;
 
 use App\Domains\Order\Application\Requests\CreateOrderRequest;
 use App\Domains\Order\Application\Response\CreateOrderResponse;
-use App\Domains\Order\Domain\Factories\OrderFactoryInterface;
+use App\Domains\Order\Domain\Factories\Order\OrderFactoryInterface;
 use App\Domains\Order\Domain\Repositories\OrderRepositoryInterface;
 
 class CreateOrderUseCase

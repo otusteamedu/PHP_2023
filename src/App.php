@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace Patterns\Daniel;
 
-use Patterns\Daniel\Patterns\AbstractFactory\BurgerFactory;
 use Patterns\Daniel\Patterns\AbstractFactory\ProductFactoryInterface;
 use Patterns\Daniel\Patterns\Adapter\PizzaAdapter;
-use Patterns\Daniel\Patterns\Builder\OrderBuilder;
 use Patterns\Daniel\Patterns\Builder\OrderBuilderInterface;
 use Patterns\Daniel\Patterns\Decorator\IngredientsDecorator;
 use Patterns\Daniel\Patterns\Observer\ObserverInterface;
-use Patterns\Daniel\Patterns\Observer\PreparationObserver;
 use Patterns\Daniel\Products\Pizza;
 
 class App
 {
-    private ProductFactoryInterface $productFactory;
-
-    private OrderBuilderInterface $orderBuilder;
-
-    private ObserverInterface $preparationObserver;
-
-    public function __construct()
+    public function __construct(
+        private readonly ProductFactoryInterface $productFactory,
+        private readonly OrderBuilderInterface   $orderBuilder,
+        private readonly ObserverInterface       $preparationObserver,
+    )
     {
-        $this->productFactory = new BurgerFactory();
-        $this->orderBuilder =  new OrderBuilder();
-        $this->preparationObserver = new PreparationObserver();
+
     }
 
     public function run(): void

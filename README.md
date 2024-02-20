@@ -51,11 +51,11 @@ private function registerStrategies(): void
    ```
 
 5. Создал 3 разных запроса api имитирующий создание заказа с разных мест. 
-    - app/Domains/Order/Infrastructure/GraphQL/Mutations/CreateOrder/CreateOrderFromPhoneMutation.php
+    - app/Domains/Order/Infrastructure/GraphQL/Mutations/CreateOrder/CreateOrderFromPhoneCallMutation.php
     - app/Domains/Order/Infrastructure/GraphQL/Mutations/CreateOrder/CreateOrderFromShopMutation.php
     - app/Domains/Order/Infrastructure/GraphQL/Mutations/CreateOrder/CreateOrderFromSiteMutation.php
 
  в App\Domains\Order\Application\CreateOrderUseCase метод run они передают нужную абстрактную фабрику
- - App\Domains\Order\Domain\Factories\Order\OrderPhoneFactory
+ - App\Domains\Order\Domain\Factories\Order\OrderPhoneCallFactory
  - App\Domains\Order\Domain\Factories\Order\OrderShopFactory
  - App\Domains\Order\Domain\Factories\Order\OrderSiteFactory

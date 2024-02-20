@@ -10,6 +10,7 @@ final class CreateOrderRequest
         public readonly ?string $email,
         public readonly ?string $deliveryAddress,
         public readonly ?int $tableTentNumber,
+        public readonly ?int $employeeId,
     ) {
     }
 
@@ -21,6 +22,7 @@ final class CreateOrderRequest
             $args['email'] ?? null,
             $args['delivery_address'] ?? null,
             $args['table_tent_number'] ?? null,
+            $args['employee_id'] ?? null,
         );
     }
 }

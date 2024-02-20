@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderFromPhoneMutation;
+use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderFromPhoneCallMutation;
 use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderFromShopMutation;
 use App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder\CreateOrderFromSiteMutation;
 
@@ -83,7 +83,7 @@ return [
 
             ],
             'mutation' => [
-                'create_order_from_phone' => CreateOrderFromPhoneMutation::class,
+                'create_order_from_phone' => CreateOrderFromPhoneCallMutation::class,
                 'create_order_from_shop' => CreateOrderFromShopMutation::class,
                 'create_order_from_site' => CreateOrderFromSiteMutation::class,
             ],

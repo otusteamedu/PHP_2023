@@ -3,10 +3,10 @@
 namespace App\Domains\Order\Infrastructure\GraphQL\Mutations\CreateOrder;
 
 use App\Domains\Order\Domain\Factories\Order\OrderFactoryInterface;
-use App\Domains\Order\Domain\Factories\Order\OrderPhoneFactory;
+use App\Domains\Order\Domain\Factories\Order\OrderPhoneCallFactory;
 use GraphQL\Type\Definition\Type;
 
-class CreateOrderFromPhoneMutation extends AbstractCreateOrderMutation
+class CreateOrderFromPhoneCallMutation extends AbstractCreateOrderMutation
 {
     public function type(): Type
     {
@@ -16,6 +16,10 @@ class CreateOrderFromPhoneMutation extends AbstractCreateOrderMutation
     public function args(): array
     {
         return array_merge(parent::args(), [
+            'employee_id' => [
+                'type' => Type::int(),
+                'description' => 'Id сотрудника принимающего звонок',
+            ],
             'phone' => [
                 'type' => Type::string(),
                 'description' => 'Номер телефона',
@@ -30,6 +34,7 @@ class CreateOrderFromPhoneMutation extends AbstractCreateOrderMutation
     protected function rules(array $args = []): array
     {
         return array_merge(parent::rules(), [
+            'employee_id' => ['required'],
             'phone' => ['required', 'string', 'max:50'],
             'delivery_address' => ['required', 'string', 'min:10', 'max:500'],
         ]);
@@ -37,6 +42,6 @@ class CreateOrderFromPhoneMutation extends AbstractCreateOrderMutation
 
     protected function getOrderFactory(): OrderFactoryInterface
     {
-        return new OrderPhoneFactory();
+        return new OrderPhoneCallFactory();
     }
 }

@@ -1,3 +1,7 @@
-# PHP_2023
+Рефакторинг ДЗ № 11 (ElasticSearch):
+<https://github.com/otusteamedu/PHP_2023/tree/DAleynik/hw11>
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Пример запуска:
+```
+php index.php --category роман --min-price 2000 --max-price 4000 рыцари
+```

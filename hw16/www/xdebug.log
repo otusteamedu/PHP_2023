@@ -1,0 +1,161 @@
+[17] Log opened at 2024-02-19 07:30:44.651372
+[17] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.17'
+[17] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[17] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[17] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[17] Log closed at 2024-02-19 07:30:46.764822
+
+[18] Log opened at 2024-02-19 07:32:09.571566
+[18] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.18'
+[18] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[18] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[18] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[18] Log closed at 2024-02-19 07:32:11.671095
+
+[19] Log opened at 2024-02-19 07:32:29.995628
+[19] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.19'
+[19] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[19] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[19] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[19] Log closed at 2024-02-19 07:32:32.103414
+
+[20] Log opened at 2024-02-19 07:37:39.580931
+[20] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.20'
+[20] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[20] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[20] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[20] Log closed at 2024-02-19 07:37:41.680746
+
+[21] Log opened at 2024-02-19 07:37:50.873741
+[21] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.21'
+[21] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[21] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[21] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[21] Log closed at 2024-02-19 07:37:52.963638
+
+[22] Log opened at 2024-02-19 07:38:16.927112
+[22] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.22'
+[22] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[22] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[22] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[22] Log closed at 2024-02-19 07:38:19.025523
+
+[23] Log opened at 2024-02-19 07:38:55.583099
+[23] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.23'
+[23] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[23] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[23] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[23] Log closed at 2024-02-19 07:38:57.683668
+
+[16] Log opened at 2024-02-20 06:26:42.487815
+[16] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.16'
+[16] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[16] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[16] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[16] Log closed at 2024-02-20 06:26:44.587445
+
+[17] Log opened at 2024-02-20 07:23:04.929945
+[17] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.17'
+[17] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[17] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[17] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[17] Log closed at 2024-02-20 07:23:07.018771
+
+[18] Log opened at 2024-02-20 07:23:55.062100
+[18] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.18'
+[18] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[18] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[18] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[18] Log closed at 2024-02-20 07:23:58.203246
+
+[19] Log opened at 2024-02-20 07:24:26.389464
+[19] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.19'
+[19] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[19] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[19] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[19] Log closed at 2024-02-20 07:24:29.474764
+
+[20] Log opened at 2024-02-20 07:25:18.022246
+[20] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.20'
+[20] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[20] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[20] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[20] Log closed at 2024-02-20 07:25:21.119580
+
+[15] Log opened at 2024-02-23 07:41:56.750767
+[15] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.15'
+[15] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[15] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[15] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[15] Log closed at 2024-02-23 07:41:59.822587
+
+[16] Log opened at 2024-02-23 08:09:02.832453
+[16] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.16'
+[16] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[16] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[16] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[16] Log closed at 2024-02-23 08:09:08.943150
+
+[17] Log opened at 2024-02-23 08:10:15.812901
+[17] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.17'
+[17] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[17] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[17] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[17] Log closed at 2024-02-23 08:10:21.909512
+
+[18] Log opened at 2024-02-23 08:29:36.478513
+[18] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.18'
+[18] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[18] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[18] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[18] Log closed at 2024-02-23 08:29:39.583959
+
+[19] Log opened at 2024-02-23 08:29:55.688623
+[19] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.19'
+[19] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[19] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[19] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[19] Log closed at 2024-02-23 08:30:01.782311
+
+[20] Log opened at 2024-02-23 08:37:15.071194
+[20] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.20'
+[20] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[20] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[20] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[20] Log closed at 2024-02-23 08:37:18.173726
+
+[21] Log opened at 2024-02-23 08:38:40.118467
+[21] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.21'
+[21] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[21] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[21] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[21] Log closed at 2024-02-23 08:38:43.210768
+
+[22] Log opened at 2024-02-23 08:39:19.419100
+[22] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.22'
+[22] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[22] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[22] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[22] Log closed at 2024-02-23 08:39:25.518024
+
+[23] Log opened at 2024-02-23 08:40:10.051211
+[23] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.23'
+[23] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[23] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[23] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[23] Log closed at 2024-02-23 08:40:13.150766
+
+[24] Log opened at 2024-02-23 08:40:39.290586
+[24] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.24'
+[24] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[24] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[24] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[24] Log closed at 2024-02-23 08:40:45.391559
+
+[25] Log opened at 2024-02-23 08:43:10.040751
+[25] [Config] INFO: Control socket set up succesfully: '@xdebug-ctrl.25'
+[25] [Step Debug] INFO: Connecting to configured address/port: host.docker.internal:54321.
+[25] [Step Debug] WARN: Creating socket for 'host.docker.internal:54321', getaddrinfo: Success.
+[25] [Step Debug] ERR: Could not connect to debugging client. Tried: host.docker.internal:54321 (through xdebug.client_host/xdebug.client_port).
+[25] Log closed at 2024-02-23 08:43:16.132149
+

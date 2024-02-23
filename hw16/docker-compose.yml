@@ -1,0 +1,7 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm
+    build: ./.docker/php-fpm
+    volumes:
+      - ./www:/var/www/otusphp.local

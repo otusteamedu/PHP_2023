@@ -22,6 +22,8 @@ services:
       context: docker/fpm
       dockerfile: Dockerfile
     image: webserver/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Доступ к хостовой машине по имени host.docker.internal
     volumes:
       - ./code/app:/data/application.local
       - phpsocket:/var/run

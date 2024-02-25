@@ -1,0 +1,74 @@
+---
+version: '3.9'
+
+services:
+  webserver: #2.1. nginx (обрабатывает статику, пробрасывает выполнение скриптов в fpm)
+    container_name: webserver
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: webserver/nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./code/app:/data/application.local
+      - phpsocket:/var/run
+    networks:
+      - app-network
+
+  app: #2.2. php-fpm (соединяется с nginx через unix-сокет)
+    container_name: app
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: webserver/app
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # Доступ к хостовой машине по имени host.docker.internal
+    volumes:
+      - ./code/app:/data/application.local
+      - phpsocket:/var/run
+    networks:
+      - app-network
+
+  db: # БД подключать как отдельную VM (можно на базе Homestead), либо как контейнер (но тогда не забудьте про директории с данными)
+    container_name: db
+    image: mariadb
+    volumes:
+      - ./data/mysql:/var/lib/mysql # директории с данными
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    environment:
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${DB_DATABASE}
+
+  redis: #2.3. redis (соединяется с php по порту)
+    image: redis
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/var/lib/redis
+    networks:
+      - app-network
+
+  memcached: #2.4. memcached (соединяется с php по порту)
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  phpsocket:
+...

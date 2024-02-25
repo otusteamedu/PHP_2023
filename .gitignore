@@ -1,2 +1,7 @@
 .idea
 .env
+/vendor
+/homestead
+/data/mysql/
+.vagrant/
+aliases

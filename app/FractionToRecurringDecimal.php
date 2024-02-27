@@ -7,13 +7,12 @@ namespace App;
 // сложность O(n)
 class Solution
 {
-
     /**
      * @param Integer $numerator
      * @param Integer $denominator
      * @return String
      */
-    function fractionToDecimal(int $numerator, int $denominator): string
+    public function fractionToDecimal(int $numerator, int $denominator): string
     {
         $result = $numerator / $denominator;
         $prefix = $result < 0 ? '-' : '';

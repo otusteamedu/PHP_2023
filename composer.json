@@ -1,0 +1,19 @@
+{
+    "name": "levitanoff/hw4",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Levitanoff\\Hw4\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmitriy Matrenin",
+            "email": "levitanoff@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.4",
+        "guzzlehttp/guzzle": "^7.8"
+    }
+}

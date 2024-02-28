@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+    application:
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        environment:
+            - PHP_IDE_CONFIG=serverName=php-hw
+        volumes:
+            - ./:/data/application.local
+            - ./docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+networks:
+    php-hw-network:
+        driver: bridge

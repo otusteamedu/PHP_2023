@@ -1,0 +1,31 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm-otusphp
+    build: ./php-fpm
+    env_file:
+      - .env
+    environment:
+      - LANG=ru_RU.UTF-8
+    volumes:
+      - ./www:/var/www/otusphp.local
+    networks:
+      - otusphp-network
+
+  elasticsearch:
+    container_name: es-otusphp
+    image: elasticsearch:8.11.3
+    mem_limit: 4g
+    hostname: ${elasticHost}
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: false
+      ELASTIC_PASSWORD: ${elasticPass}
+    ports:
+      - "9200:9200"
+    networks:
+      - otusphp-network
+
+networks:
+  otusphp-network:
+    driver: bridge

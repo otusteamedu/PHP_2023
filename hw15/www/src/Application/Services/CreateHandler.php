@@ -5,19 +5,19 @@ namespace Shabanov\Otusphp\Application\Services;
 
 use Elastic\Elasticsearch\Exception\ElasticsearchException;
 use Exception;
-use Shabanov\Otusphp\Application\Dto\CreateHandlerRequest;
+use Shabanov\Otusphp\Domain\Query\QueryHandlerInterface;
 
 readonly class CreateHandler
 {
-    public function __construct(private CreateHandlerRequest $request) {}
+    public function __construct() {}
 
     /**
      * @throws Exception
      */
-    public function __invoke(): void
+    public function __invoke(QueryHandlerInterface $queryHandler): void
     {
         try {
-            $this->request->createRepository->run();
+            $queryHandler->run();
         } catch (ElasticsearchException $e) {
             throw new Exception('Error create Index: ' . $e->getMessage());
         }

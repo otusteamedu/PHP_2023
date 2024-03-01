@@ -3,6 +3,7 @@
 namespace Shabanov\Otusphp\Infrastructure\Repository;
 
 use Elastic\Elasticsearch\Client;
+use Shabanov\Otusphp\Application\Dto\DataHandlerResponse;
 use Shabanov\Otusphp\Domain\Repository\DataRepositoryInterface;
 use Shabanov\Otusphp\Infrastructure\Db\ConnectionInterface;
 
@@ -10,28 +11,37 @@ class EsDataRepository implements DataRepositoryInterface
 {
     private Client $connection;
     private string $esIndexName;
-    private array $arRequest;
 
     /**
      * @throws \Exception
      */
-    public function __construct(ConnectionInterface $connection, array $arRequest, string $dbName)
+    public function __construct(ConnectionInterface $connection, string $dbName)
     {
         $this->connection = $connection->getClient();
-        $this->arRequest = $arRequest;
         $this->esIndexName = $dbName;
     }
 
-    public function getData(): ?array
+    public function findAll(array $arRequest): ?array
     {
-        $response = $this->connection->search($this->getQuery());
+        $response = $this->connection->search($this->getQuery($arRequest));
         if ($response['hits']['total']['value'] > 0) {
-            return $response['hits']['hits'];
+            $result = [];
+            foreach($response['hits']['hits'] as $item) {
+                $result[] = new DataHandlerResponse(
+                    $item['_source']['sku'],
+                    $item['_source']['title'],
+                    $item['_source']['category'],
+                    $item['_source']['price'],
+                    $item['_source']['shop'],
+                    $item['_source']['stock'],
+                );
+            }
+            return $result;
         }
         return null;
     }
 
-    private function getQuery(): array
+    private function getQuery(array $arRequest): array
     {
         $arReturn = [
             'index' => $this->esIndexName,
@@ -44,31 +54,31 @@ class EsDataRepository implements DataRepositoryInterface
             ],
         ];
 
-        if (!empty($this->arRequest['c'])) {
+        if (!empty($arRequest['c'])) {
             $arReturn['body']['query']['bool']['must'][] = [
                 'match' => [
                     'category' => [
-                        'query' => $this->arRequest['c'],
+                        'query' => $arRequest['c'],
                         'fuzziness' => 'auto',
                     ]
                 ],
             ];
         }
-        if (!empty($this->arRequest['t'])) {
+        if (!empty($arRequest['t'])) {
             $arReturn['body']['query']['bool']['must'][] = [
                 'match' => [
                     'title' => [
-                        'query' => $this->arRequest['t'],
+                        'query' => $arRequest['t'],
                         'fuzziness' => 'auto',
                     ],
                 ],
             ];
         }
-        if (!empty($this->arRequest['p'])) {
+        if (!empty($arRequest['p'])) {
             $arReturn['body']['query']['bool']['must'][] = [
                 'range' => [
                     'price' => [
-                        'lte' => $this->arRequest['p'],
+                        'lte' => $arRequest['p'],
                     ],
                 ],
             ];

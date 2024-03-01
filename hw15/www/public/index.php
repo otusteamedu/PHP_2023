@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-use Shabanov\Otusphp\Infrastructure\App;
+use Shabanov\Otusphp\App;
 
 require '../vendor/autoload.php';
 

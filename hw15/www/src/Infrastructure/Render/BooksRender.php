@@ -14,11 +14,11 @@ readonly class BooksRender implements RenderInterface
     {
         $str = 'SKU | Title | Category | Price | Shop | Stock ' . PHP_EOL;
         if (!empty($this->data)) {
-            foreach ($this->data as $hit) {
-                $str .= $hit['_source']['sku'] . ' | '
-                    . $hit['_source']['title'] . ' | '
-                    . $hit['_source']['category'] . ' | '
-                    . $hit['_source']['price'] . ' | '
+            foreach ($this->data as $item) {
+                $str .= $item['sku'] . ' | '
+                    . $item['title'] . ' | '
+                    . $item['category'] . ' | '
+                    . $item['price'] . ' | '
                     . PHP_EOL;
             }
         }

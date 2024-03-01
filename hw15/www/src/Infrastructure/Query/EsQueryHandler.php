@@ -1,14 +1,14 @@
 <?php
 
-namespace Shabanov\Otusphp\Infrastructure\Repository;
+namespace Shabanov\Otusphp\Infrastructure\Query;
 
 use Elastic\Elasticsearch\Client;
 use Elastic\Elasticsearch\Exception\ElasticsearchException;
-use Shabanov\Otusphp\Domain\Repository\CreateRepositoryInterface;
+use Shabanov\Otusphp\Domain\Query\QueryHandlerInterface;
 use Shabanov\Otusphp\Infrastructure\Db\ConnectionInterface;
 use Exception;
 
-class EsCreateRepository implements CreateRepositoryInterface
+class EsQueryHandler implements QueryHandlerInterface
 {
     private Client $connection;
     private string $dbName;

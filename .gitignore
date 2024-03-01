@@ -1,2 +1,4 @@
-.idea
 .env
+.vagrant/
+data/
+homestead/

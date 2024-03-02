@@ -1,0 +1,15 @@
+{
+    "name": "shabanov/otusphp",
+    "autoload": {
+        "psr-4": {
+            "Shabanov\\Otusphp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vyacheslav Shabanov",
+            "email": "saveliy@mail.ru"
+        }
+    ],
+    "require": {}
+}

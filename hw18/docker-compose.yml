@@ -1,0 +1,7 @@
+version: "3"
+services:
+  php-fpm:
+    container_name: php-fpm-otus
+    image: php:8.2-fpm
+    volumes:
+      - ./www:/var/www/html

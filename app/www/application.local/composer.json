@@ -1,0 +1,26 @@
+{
+    "name": "ayamaliev/hw11",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "AYamaliev\\hw11\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyrcha",
+            "email": "sevrevdan@yandex.ru"
+        }
+    ],
+    "require": {
+        "elasticsearch/elasticsearch": "^8.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.4"
+    }
+}

@@ -3,13 +3,13 @@ version: '3.1'
 
 services:
 
-  cinema-env-db:
+  postgres-sql-env:
     image: postgres
     restart: always
     environment:
       POSTGRES_PASSWORD: 12345
       POSTGRES_USER: postgres
-      POSTGRES_DB: cinema
+      POSTGRES_DB: cinema_env
     volumes:
       - ./db:/var/lib/postgresql/data
     ports:

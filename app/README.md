@@ -8,6 +8,6 @@
 
 Примеры команд:
 
-`php index.php --title="рыцори" --category="Исторический роман" --price="lte 2000"`
+`php public/index.php --title="рыцори" --category="Исторический роман" --price="lte 2000"`
 
-`php index.php --category="Исторический роман" --price="gte 9000"`
+`php public/index.php --category="Исторический роман" --price="gte 9000"`

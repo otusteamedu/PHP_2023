@@ -52,6 +52,8 @@ CREATE TABLE "order" (
        id BIGSERIAL PRIMARY KEY,
        ticket_id integer REFERENCES ticket(id),
        user_id integer REFERENCES "user"(id),
+       price numeric,
+       CHECK (price > 0),
        is_paid bool,
        date timestamptz NOT NULL
 );

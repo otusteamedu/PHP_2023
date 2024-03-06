@@ -1,6 +1,6 @@
 select
     m.title,
-    SUM(tp.price)
+    SUM(o.price)
 from "order" o
     join ticket t on t.id = o.ticket_id
     join ticket_price tp on tp.id = t.ticket_price_id

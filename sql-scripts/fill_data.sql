@@ -223,11 +223,12 @@ VALUES (generate_series(121, 135),
         generate_series(31, 45),
         generate_series(121, 135));
 
-INSERT INTO "order" (id, ticket_id, user_id, is_paid, date)
+INSERT INTO "order" (id, ticket_id, user_id, price, is_paid, date)
 VALUES (
         generate_series(1, 100),
         (floor(random() * 135 + 1)::int),
         (floor(random() * 10 + 1)::int),
+        500 + (floor(random() * 5 + 1)::int) * 100,
         random() > 0.5,
         '2024-01-01 00:00:00'
         );

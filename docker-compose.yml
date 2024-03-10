@@ -33,7 +33,6 @@ services:
       - .env:/var/www/html/.env
       - ./queue:/var/www/html
       - ./my-php.ini:/usr/local/etc/php/conf.d/my-php.ini
-      - ./config.php:/var/www/html/config.php
     depends_on:
       - rabbitmq
     networks:

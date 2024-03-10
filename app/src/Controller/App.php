@@ -10,6 +10,12 @@ class App
     {
     }
 
+    public function showForm()
+    {
+        View::showForm();
+        exit();
+    }
+
     public function showTemplate($templateName, $message = '')
     {
         switch ($templateName) {
@@ -38,5 +44,15 @@ class App
             'start_date' => $startDate,
             'end_date' => $endDate,
         ];
+    }
+
+    public function processResult($result)
+    {
+        if ($result) {
+            $this->showTemplate('success', 'Запрос успешно отправлен в очередь');
+        } else {
+            $this->showError('error', 'Ошибка при отправке запроса в очередь');
+        }
+        exit();
     }
 }

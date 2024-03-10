@@ -6,7 +6,6 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-require 'config.php';
 // Подключение к RabbitMQ
 $connection = new AMQPStreamConnection($_ENV['RABBITMQ_HOST'], $_ENV['RABBITMQ_PORT'], $_ENV['RABBITMQ_USER'], $_ENV['RABBITMQ_PASSWORD']);
 $channel = $connection->channel();

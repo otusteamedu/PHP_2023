@@ -1,0 +1,15 @@
+{
+    "name": "vasilaki/ar",
+    "autoload": {
+        "psr-4": {
+            "Vasilaki\\Ar\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "vasilaki-t",
+            "email": "vasilaki.t@gmail.com"
+        }
+    ],
+    "require": {}
+}

@@ -1,0 +1,11 @@
+{
+    "name": "vasilaki/redis_app",
+    "autoload": {
+        "psr-4": {
+            "RedisApp": "src/"
+        }
+    },
+    "require": {
+        "predis/predis": "^2.2"
+    }
+}

@@ -2,7 +2,7 @@
   "name": "artyr/application.local",
   "autoload": {
     "psr-4": {
-      "App\\": "src/"
+      "AYamaliev\\hw12\\": "src/"
     }
   },
   "authors": [
@@ -12,7 +12,6 @@
     }
   ],
   "require": {
-    "predis/predis": "^2.2",
-    "ext-memcached": "*"
+    "ext-redis": "*"
   }
 }

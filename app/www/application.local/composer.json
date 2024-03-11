@@ -1,0 +1,17 @@
+{
+  "name": "artyr/application.local",
+  "autoload": {
+    "psr-4": {
+      "AYamaliev\\hw12\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "Artyrcha",
+      "email": "sevrevdan@yandex.ru"
+    }
+  ],
+  "require": {
+    "ext-redis": "*"
+  }
+}

@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+require __DIR__ . '/../vendor/autoload.php';
+
+use Shabanov\Otusphp\Command\ConsumerCommand;
+use Symfony\Component\Console\Application;
+
+$application = new Application();
+$application->add(new ConsumerCommand());
+try {
+    $application->run();
+} catch (Exception $e) {
+    throw new \Exception($e->getMessage());
+}

@@ -15,7 +15,12 @@ class RabbitMqConnect implements ConnectionInterface
      */
     public function __construct()
     {
-        $this->connect = new AMQPStreamConnection('rabbitmq', 5672, 'guest', 'guest');
+        $this->connect = new AMQPStreamConnection(
+            $_ENV['BROKER_HOST'],
+            $_ENV['BROKER_PORT'],
+            $_ENV['BROKER_USER'],
+            $_ENV['BROKER_PASSWORD']
+        );
     }
     public function getClient(): AMQPChannel|AbstractChannel
     {

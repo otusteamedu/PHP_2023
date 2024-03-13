@@ -3,10 +3,15 @@ declare(strict_types=1);
 
 namespace Shabanov\Otusphp;
 
+use Symfony\Component\Dotenv\Dotenv;
+
 class App
 {
     public function __construct()
-    {}
+    {
+        $dotenv = new Dotenv();
+        $dotenv->load(__DIR__ . '/../.env');
+    }
 
     public function __invoke(): void
     {

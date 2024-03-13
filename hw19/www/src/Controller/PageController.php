@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Shabanov\Otusphp\Controller;
 
@@ -17,7 +18,8 @@ class PageController
     {
         if (!empty($_REQUEST['send']) && !empty($_REQUEST['date_from'])) {
             $message = 'Date from: ' . $_REQUEST['date_from'] . ' Date to: ' . $_REQUEST['date_to'];
-            (new RabbitMqProducer())->send($message);
+            (new RabbitMqProducer(new $_ENV['BROKER_CONNECT']()))
+                ->send($message);
             echo (new FormSuccessRender())->show();
         }
     }

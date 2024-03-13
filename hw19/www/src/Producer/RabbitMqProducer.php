@@ -11,16 +11,15 @@ use Shabanov\Otusphp\Connection\ConnectionInterface;
 
 class RabbitMqProducer
 {
-    private string $connectClient = 'Shabanov\Otusphp\Connection\RabbitMqConnect';
     private AMQPChannel|AbstractChannel $channel;
-    private string $exchange = 'shabanov';
-    private string $queue = 'otus';
-    private ConnectionInterface $connect;
+    private string $exchange;
+    private string $queue;
 
-    public function __construct()
+    public function __construct(private ConnectionInterface $connect)
     {
-        $this->connect = new $this->connectClient();
         $this->channel = $this->connect->getClient();
+        $this->exchange = $_ENV['EXCHANGE'];
+        $this->queue = $_ENV['QUEUE'];
     }
 
     public function send(string $message): void

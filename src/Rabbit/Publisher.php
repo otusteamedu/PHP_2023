@@ -11,7 +11,6 @@ use PhpAmqpLib\Message\AMQPMessage;
 
 readonly class Publisher implements PublisherInterface
 {
-
     public function __construct(private ClientInterface $client)
     {
     }

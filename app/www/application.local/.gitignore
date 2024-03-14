@@ -1,0 +1,4 @@
+.idea/
+
+# composer vendor dir
+/vendor

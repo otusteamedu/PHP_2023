@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./
+      dockerfile: fpm/Dockerfile
+    container_name: php
+    volumes:
+      - ./www:/var/www
+    networks:
+      - hw11-network
+    env_file:
+      - .env
+    working_dir: ${WORK_DIR}
+
+  elasticsearch:
+    image: elasticsearch:8.12.2
+    ports:
+      - 9200:9200
+    environment:
+      discovery.type: single-node
+      ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ES_PORT: ${ES_PORT}
+    deploy:
+      resources:
+        limits:
+          memory: 4096M
+    networks:
+      - hw11-network
+
+networks:
+  hw11-network:
+    driver: bridge

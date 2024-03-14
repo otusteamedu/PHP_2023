@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./:/data/mysite.local
+
+
+  php-fpm:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    container_name: php-fpm
+    volumes:
+      - ./:/data/mysite.local
+
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: ${RABBITMQ_HOST}
+    hostname: ${RABBITMQ_HOST}
+    ports:
+      - ${RABBITMQ_MANAGE_PORT}:${RABBITMQ_MANAGE_PORT}
+      - ${RABBITMQ_PORT}:${RABBITMQ_PORT}
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}

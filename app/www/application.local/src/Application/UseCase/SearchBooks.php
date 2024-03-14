@@ -2,28 +2,21 @@
 
 declare(strict_types=1);
 
-
 namespace AYamaliev\hw11\Application\UseCase;
 
-
+use AYamaliev\hw11\Application\Dto\SearchDto;
 use AYamaliev\hw11\Application\OutputResult;
-use AYamaliev\hw11\Infrastructure\Repository\ElasticSearchRepository;
-use Elastic\Elasticsearch\ClientBuilder;
-use http\Encoding\Stream\Debrotli;
+use AYamaliev\hw11\Domain\Repository\BookRepositoryInterface;
 
 class SearchBooks
 {
-
-    public function __invoke($argv)
+    public function __construct(private BookRepositoryInterface $client)
     {
-        $client = ClientBuilder::create()
-            ->setHosts(['https://elasticsearch:9200'])
-            ->setSSLVerification(false)
-            ->setBasicAuthentication($_ENV['ELASTIC_USERNAME'], $_ENV['ELASTIC_PASSWORD'])
-            ->build();
+    }
 
-        $app = new ElasticSearchRepository($client, $argv);
-        $response = $app->search();
+    public function __invoke(SearchDto $searchDto)
+    {
+        $response = $this->client->search($searchDto);
         ((new OutputResult())($response));
     }
 }

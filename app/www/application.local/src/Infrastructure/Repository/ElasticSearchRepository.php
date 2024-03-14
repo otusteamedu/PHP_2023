@@ -4,26 +4,36 @@ declare(strict_types=1);
 
 namespace AYamaliev\hw11\Infrastructure\Repository;
 
+use AYamaliev\hw11\Application\Dto\SearchDto;
 use AYamaliev\hw11\Domain\Repository\BookRepositoryInterface;
 use AYamaliev\hw11\Infrastructure\ElasticSearchQuery;
 use Elastic\Elasticsearch\Client;
-use Http\Client\Exception\RequestException;
+use Elastic\Elasticsearch\ClientBuilder;
+use Elastic\Elasticsearch\Response\Elasticsearch;
+use Http\Promise\Promise;
 
 class ElasticSearchRepository implements BookRepositoryInterface
 {
+    private Client $client;
     private const INDEX_NAME = 'otus-shop';
     private const BULK_FILE_NAME = __DIR__ . '/../../../books.json';
 
-    public function __construct(private Client $client, private array $arguments)
+    public function __construct()
     {
+        $this->client = ClientBuilder::create()
+            ->setHosts(['https://elasticsearch:9200'])
+            ->setSSLVerification(false)
+            ->setBasicAuthentication($_ENV['ELASTIC_USERNAME'], $_ENV['ELASTIC_PASSWORD'])
+            ->build();
     }
 
-    public function search(): \Elastic\Elasticsearch\Response\Elasticsearch|\Http\Promise\Promise
+    public function search(SearchDto $searchDto): Elasticsearch|Promise
     {
         if (!$this->isRepositoryExist()) {
             $this->initRepository();
         }
-        $query = ((new ElasticSearchQuery(self::INDEX_NAME, $this->arguments))());
+
+        $query = ((new ElasticSearchQuery(self::INDEX_NAME, $searchDto))());
         return $this->client->search($query);
     }
 
@@ -37,22 +47,6 @@ class ElasticSearchRepository implements BookRepositoryInterface
     {
         $this->createIndex();
         $this->bulkData();
-    }
-
-    /**
-     * @return array
-     */
-    public function getArguments(): array
-    {
-        return $this->arguments;
-    }
-
-    /**
-     * @param array $arguments
-     */
-    public function setArguments(array $arguments): void
-    {
-        $this->arguments = $arguments;
     }
 
     public function createIndex(): void

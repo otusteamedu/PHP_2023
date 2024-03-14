@@ -4,35 +4,16 @@ declare(strict_types=1);
 
 namespace AYamaliev\hw11\Infrastructure;
 
+use AYamaliev\hw11\Application\Dto\SearchDto;
+
 class ElasticSearchQuery
 {
-    public function __construct(private string $indexName, private ?array $arguments)
+    public function __construct(private string $indexName, private SearchDto $searchDto)
     {
     }
 
     public function __invoke(): array
     {
-        $_title = null;
-        $_category = null;
-        $_compareSign = null;
-        $_price = null;
-
-        foreach ($this->arguments as $argument) {
-            [$argumentName, $argumentValue] = explode('=', $argument);
-
-            switch ($argumentName) {
-                case '--title':
-                    $_title = $argumentValue;
-                    break;
-                case '--category':
-                    $_category = $argumentValue;
-                    break;
-                case '--price':
-                    [$_compareSign, $_price] = explode(' ', $argumentValue);
-                    $_price = (int)$_price;
-            }
-        }
-
         $subQuery['filter'][] = [
             'nested' => [
                 'path' => 'stock',
@@ -50,32 +31,32 @@ class ElasticSearchQuery
             ]
         ];
 
-        if ($_title) {
+        if ($this->searchDto->getTitle()) {
             $subQuery['must'][] = [
                 'match' => [
                     'title' => [
-                        "query" => $_title,
+                        "query" => $this->searchDto->getTitle(),
                         'fuzziness' => "auto"
                     ]
                 ],
             ];
         }
 
-        if ($_category) {
+        if ($this->searchDto->getCategory()) {
             $subQuery['must'][] = [
                 'match' => [
                     'category' => [
-                        "query" => $_category,
+                        "query" => $this->searchDto->getCategory(),
                         'fuzziness' => "auto"
                     ]
                 ],
             ];
         }
 
-        if ($_price && $_compareSign) {
+        if ($this->searchDto->getPrice() && $this->searchDto->getCompareSign()) {
             $subQuery['filter'][] = [
                 'range' => [
-                    'price' => [$_compareSign => $_price]
+                    'price' => [$this->searchDto->getCompareSign() => $this->searchDto->getPrice()]
                 ]
             ];
         }

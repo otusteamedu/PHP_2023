@@ -3,8 +3,8 @@ version: '3.8'
 services:
   php:
     build:
-      context: ./fpm
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: fpm/Dockerfile
     container_name: php
     volumes:
       - ./www:/var/www

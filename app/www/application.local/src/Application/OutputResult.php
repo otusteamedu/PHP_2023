@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-
 namespace AYamaliev\hw11\Application;
-
 
 class OutputResult
 {

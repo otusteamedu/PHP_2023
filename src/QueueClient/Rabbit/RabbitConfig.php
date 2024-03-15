@@ -2,12 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Rabbit;
+namespace App\QueueClient\Rabbit;
 
-use App\Rabbit\Interfaces\ConfigInterface;
 use Exception;
 
-class Config implements ConfigInterface
+class RabbitConfig implements RabbitConfigInterface
 {
     private array $config;
 

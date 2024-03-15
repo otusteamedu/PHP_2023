@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace App\Rabbit;
+namespace App\QueueClient\Rabbit;
 
 use App\Queue\QueueConstant;
-use App\Rabbit\Interfaces\ClientInterface;
-use App\Rabbit\Interfaces\ConfigInterface;
+use App\QueueClient\QueueClientInterface;
+use ErrorException;
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Exchange\AMQPExchangeType;
+use PhpAmqpLib\Message\AMQPMessage;
 
-class Client implements ClientInterface
+class RabbitClient implements QueueClientInterface
 {
     private AMQPStreamConnection $connection;
     private AMQPChannel $channel;
@@ -20,7 +21,7 @@ class Client implements ClientInterface
     /**
      * @throws Exception
      */
-    public function __construct(ConfigInterface $config)
+    public function __construct(RabbitConfigInterface $config)
     {
         $this->connection = new AMQPStreamConnection($config->getHost(), $config->getPort(), $config->getUser(), $config->getPassword());
 
@@ -30,14 +31,33 @@ class Client implements ClientInterface
         $this->channel->queue_bind(QueueConstant::QUEUE_NAME, QueueConstant::EXCHANGE_NAME);
     }
 
-    public function getConnection(): AMQPStreamConnection
+    /**
+     * @throws ErrorException
+     */
+    public function consume(): void
     {
-        return $this->connection;
+        echo " [*] Waiting for messages. To exit press CTRL+C\n";
+
+        $callback = function ($msg) {
+            echo $msg->body . PHP_EOL;
+
+            if ($msg->body === 'quit') {
+                $this->close();
+            }
+        };
+
+        $this->channel->basic_consume(QueueConstant::QUEUE_NAME, '', false, true, false, false, $callback);
+        $this->channel->consume();
     }
 
-    public function getChannel(): AMQPChannel
+    /**
+     * @throws Exception
+     */
+    public function publish(string $message): void
     {
-        return $this->channel;
+        $msg = new AMQPMessage($message);
+        $this->channel->basic_publish($msg, QueueConstant::EXCHANGE_NAME);
+        $this->close();
     }
 
     /**

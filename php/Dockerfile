@@ -18,6 +18,10 @@ RUN apt-get update && apt-get install -y \
   && docker-php-ext-install -j$(nproc) gd \
   && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+RUN pecl install redis-5.3.7 \
+  && pecl install xdebug-3.2.1 \
+  && docker-php-ext-enable redis xdebug
+
 WORKDIR /data/mysite.local
 
 CMD ["php-fpm"]

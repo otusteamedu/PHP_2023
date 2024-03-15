@@ -19,7 +19,7 @@ composer install
 
 ```bash
 cd public
-php consumer.php
+php index.php
 ```
 
 В Consumer будут приходить сообщения.

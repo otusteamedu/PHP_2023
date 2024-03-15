@@ -1,6 +1,6 @@
 {
-  "name": "rabbitmq/hw19",
-  "description": "Howework 19 - RabbitMQ",
+  "name": "queue/hw19",
+  "description": "Howework 19 - Queue(RabbitMQ, Redis)",
   "minimum-stability": "dev",
   "license": "Freeware",
   "authors": [
@@ -15,6 +15,7 @@
     }
   },
   "require": {
-    "php-amqplib/php-amqplib": "^3.2"
+    "php-amqplib/php-amqplib": "^3.2",
+    "ext-redis": "*"
   }
 }

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Rabbit\Interfaces;
+namespace App\QueueClient\Rabbit;
 
-interface ConfigInterface
+interface RabbitConfigInterface
 {
     public function getHost(): string;
 

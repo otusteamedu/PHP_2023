@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: http://172.16.10.65.nip.io/
+  version: 1.0.0
+paths:
+  /queue:
+    post:
+      summary: Добавление запроса в очередь
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                requestData:
+                  type: string
+      responses:
+        '200':
+          description: OK
+  /status/{requestId}:
+    get:
+      summary: Получение статуса обработки запроса
+      parameters:
+        - in: path
+          name: requestId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK

@@ -3,31 +3,32 @@ version: '3'
 
 # в этом блоке мы описываем контейнеры, которые будут запускаться
 services:
-  #контейнер с Nginx
-  nginx:
-    build:
-      context: ./nginx
-      dockerfile: Dockerfile
-    image: myapp/nginx
-    container_name: '${COMPOSE_PROJECT_NAME}_nginx'
-    # проброс портов
-    ports:
-      - "80:80"
-    volumes:
-       - ./src:/data/mysite.local
-       - ./nginx/hosts/mysite.local.conf:/etc/nginx/conf.d/mysite.local.conf
-       - socket:/var/run/
-    networks:
-      - app-network
-
   #Контейнер с PHP-FPM
-  fpm:
+  fpm-server:
     # Если нет секции build, то система будет искать образ в репозиториях
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    image: myapp/php # имя будущего образа
-    container_name: '${COMPOSE_PROJECT_NAME}_fpm' # имя контейнера после запуска
+    image: myapp/php-server # имя будущего образа
+    container_name: '${COMPOSE_PROJECT_NAME}_fpm-server' # имя контейнера после запуска
+    volumes:
+       - ./src:/data/mysite.local
+       - socket:/var/run/
+    env_file:
+      - .env
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+  #Контейнер с PHP-FPM
+  fpm-client:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php-client # имя будущего образа
+    depends_on:
+      - fpm-server
+    container_name: '${COMPOSE_PROJECT_NAME}_fpm-client' # имя контейнера после запуска
     volumes:
        - ./src:/data/mysite.local
        - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
@@ -38,53 +39,8 @@ services:
     networks:
       - app-network
 
-  mysql:
-    build:
-      context: ./mysql8
-      dockerfile: Dockerfile
-    image: mysql8
-    container_name: '${COMPOSE_PROJECT_NAME}_mysql'
-    restart: always
-    command: --default-authentication-plugin=mysql_native_password
-    ports:
-      - '${MYSQL_PORT:-3306}:3306'
-    volumes:
-      - mysql:/var/lib/mysql
-      - ${LOG_DIR}:/var/log
-    env_file:
-      - .env
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      MYSQL_ALLOW_EMPTY_PASSWORD: 1
-    networks:
-      - app-network
-
-  redis:
-    image: 'redis:alpine'
-    container_name: '${COMPOSE_PROJECT_NAME}_redis'
-    ports:
-      - '${REDIS_PORT:-6379}:6379'
-    volumes:
-      - 'redis:/data'
-    networks:
-      - app-network
-
-  memcached:
-    image: 'bitnami/memcached:latest'
-    container_name: '${COMPOSE_PROJECT_NAME}_memcached'
-    ports:
-      - '${MEMCACHED_PORT:-11211}:11211'
-    networks:
-      - app-network
-
 volumes:
   socket:
-  redis:
-  mysql:
-    driver: local
 
 #Docker Networks
 networks:

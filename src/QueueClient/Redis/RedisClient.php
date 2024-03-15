@@ -34,7 +34,6 @@ class RedisClient implements QueueClientInterface
         } catch (RedisException $e) {
             throw new Exception($e->getMessage());
         }
-
     }
 
     /**

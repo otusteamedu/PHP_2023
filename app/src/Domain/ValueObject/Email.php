@@ -6,7 +6,11 @@ use Exception;
 
 class Email extends AbstractValueObject
 {
-    protected function validation(string $value): void
+    /**
+     * @param string $value
+     * @return mixed
+     */
+    protected function validation(string $value): mixed
     {
         return;
     }

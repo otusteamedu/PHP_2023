@@ -89,6 +89,7 @@ create table tickets
     prices_id   integer
         constraint tickets_prices_id_fkey
             references prices,
+    price       numeric(10, 2) not null,
     seats_id    integer
         constraint tickets_seats_id_fkey
             references seats

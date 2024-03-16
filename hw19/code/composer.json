@@ -1,0 +1,10 @@
+{
+    "name": "gkarman/rabbitmq",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gkarman\\Rabbitmq\\": "src/"
+        }
+    },
+    "require": {}
+}

@@ -2,16 +2,20 @@
 
 namespace App\Domain\ValueObject;
 
-use Exception;
+use InvalidArgumentException;
 
 class Message extends AbstractValueObject
 {
     /**
      * @param string $value
-     * @return mixed
+     * @return void
+     * @throws InvalidArgumentException
      */
-    protected function validation(string $value): mixed
+    protected function validation(string $value): void
     {
-        return;
+        // Проверяем, что сообщение не пустое
+        if (empty($value)) {
+            throw new InvalidArgumentException('Сообщение не может быть пустым');
+        }
     }
 }

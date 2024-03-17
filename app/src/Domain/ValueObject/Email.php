@@ -2,16 +2,19 @@
 
 namespace App\Domain\ValueObject;
 
-use Exception;
+use InvalidArgumentException;
 
 class Email extends AbstractValueObject
 {
     /**
      * @param string $value
-     * @return mixed
+     * @return void
+     * @throws InvalidArgumentException
      */
-    protected function validation(string $value): mixed
+    protected function validation(string $value): void
     {
-        return;
+        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException('Неверный формат email адреса');
+        }
     }
 }

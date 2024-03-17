@@ -2,8 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Models\Request;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Jobs\ProcessRequestJob;
 use Illuminate\Support\Facades\Queue;
 
@@ -18,8 +18,13 @@ class QueueController
     {
         $requestData = $request->getParsedBody();
 
-        Queue::push(new ProcessRequestJob($requestData));
+        $requestModel = Request::create([
+            'data' => $requestData,
+            'status' => Request::STATUS_PENDING
+        ]);
 
-        return $response->withJson(['message' => 'Request added to queue successfully'], 200);
+        Queue::push(new ProcessRequestJob($requestModel));
+
+        return $response->withJson(['request_id' => $requestModel->id], 200);
     }
 }

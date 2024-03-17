@@ -5,3 +5,4 @@
 3. `docker-compose exec -it php bash`
 4. `cd /var/www/application.local`
 5. `composer install`
+6. `php public/index.php`

@@ -1,49 +1,31 @@
-version: "3"
+version: '3.8'
 
 services:
   nginx:
     build:
       context: ./nginx
       dockerfile: Dockerfile
-    image: myapp/nginx
     container_name: ${NGINX_CONTAINER}
     ports:
-      - "80:80"
+      - ${NGINX_PORTS}
     volumes:
       - ./nginx/hosts:/etc/nginx/conf.d
       - ./www:/var/www
-      - phpsocket:/var/run
     networks:
-      - app-network
+      - hw13-network
 
   php:
     build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: myapp/php
-    container_name: ${PHP_CONTAINER}
+      context: ./
+      dockerfile: fpm/Dockerfile
+    container_name: php
     volumes:
       - ./www:/var/www
-      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
-      - phpsocket:/var/run
+    env_file:
+      - .env
+    working_dir: ${WORK_DIR}
     networks:
-      - app-network
-
-  redis:
-    image: redis
-    container_name: ${REDIS_CONTAINER}
-    ports:
-      - "6379:6379"
-    networks:
-      - app-network
-
-  memcached:
-    image: memcached
-    container_name: ${MEMCACHED_CONTAINER}
-    ports:
-      - "11211:11211"
-    networks:
-      - app-network
+      - hw13-network
 
   postgres:
     image: postgres:latest
@@ -58,11 +40,8 @@ services:
     volumes:
       - ./pgsql:/var/lib/postgresql/data
     networks:
-      - app-network
+      - hw13-network
 
 networks:
-  app-network:
+  hw13-network:
     driver: bridge
-
-volumes:
-  phpsocket:

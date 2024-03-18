@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: .docker/nginx
+      dockerfile: Dockerfile
+    image: hw20/nginx
+    restart: always
+    container_name: nginx-hw20
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/data
+    depends_on:
+      - app
+
+  app:
+    build:
+      context: .docker/
+      dockerfile: Dockerfile
+    image: hw20/php
+    container_name: php-hw20
+    restart: always
+    environment:
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+    volumes:
+      - ./app:/data
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql/mysql-server:8.0
+    container_name: mysql-hw20
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_ROOT_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    volumes:
+      - data:/var/lib/mysql
+
+volumes:
+  data:

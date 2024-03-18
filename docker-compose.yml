@@ -1,0 +1,36 @@
+version: "3"
+
+services:
+
+  # php-cli service
+  otus-cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: cli
+    container_name: otus-cli
+    volumes:
+      - ./www:/www
+    networks:
+      - otus-network
+
+  # ElasticSearch
+  otus-elasticsearch:
+    image: elasticsearch:8.7.0
+    container_name: ${ELASTIC_SERVER}
+    environment:
+      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - node.name=otus_elasticsearch
+      - discovery.type=single-node
+      - http.host=0.0.0.0
+      - transport.host=localhost
+    ports:
+      - "9200:9200"
+    networks:
+      - otus-network
+
+# Docker Network
+networks:
+  otus-network:
+    driver: bridge

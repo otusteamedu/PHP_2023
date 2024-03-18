@@ -25,7 +25,7 @@ abstract class AbstractValueObject
     /**
      * @param string $value
      * @throws Exception
-     * @return void Возвращаемое значение после валидации
+     * @return bool
      */
-    abstract protected function validation(string $value): void;
+    abstract protected function validation(string $value): bool;
 }

@@ -8,13 +8,11 @@ class Email extends AbstractValueObject
 {
     /**
      * @param string $value
-     * @return void
+     * @return bool
      * @throws InvalidArgumentException
      */
-    protected function validation(string $value): void
+    protected function validation(string $value): bool
     {
-        if (!filter_var($value, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException('Неверный формат email адреса');
-        }
+        return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;
     }
 }

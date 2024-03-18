@@ -8,14 +8,11 @@ class Message extends AbstractValueObject
 {
     /**
      * @param string $value
-     * @return void
+     * @return bool
      * @throws InvalidArgumentException
      */
-    protected function validation(string $value): void
+    protected function validation(string $value): bool
     {
-        // Проверяем, что сообщение не пустое
-        if (empty($value)) {
-            throw new InvalidArgumentException('Сообщение не может быть пустым');
-        }
+        return !empty($value);
     }
 }

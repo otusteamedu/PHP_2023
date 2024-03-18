@@ -1,4 +1,5 @@
 .env
-.docker
+.docker/volume
+.docker_old
 .idea
 vendor/

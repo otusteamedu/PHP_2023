@@ -9,6 +9,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Yalanskiy\SearchApp\Application\AddBookBulk;
 use Yalanskiy\SearchApp\Application\Dto\AddBookBulkRequest;
+use Yalanskiy\SearchApp\Application\Dto\AddBookRequest;
+use Yalanskiy\SearchApp\Application\ValueObject\AddBookBulkCollection;
 use Yalanskiy\SearchApp\Domain\Repository\DataRepositoryInterface;
 
 /**
@@ -38,7 +40,7 @@ class LoadCommand extends Command
         $data = file_get_contents(APP_ROOT . '/books.json');
         $lines = explode("\n", $data);
         
-        $request = [];
+        $request = new AddBookBulkCollection();
         $id = '';
         foreach ($lines as $line) {
             if (empty(trim($line))) {
@@ -50,14 +52,15 @@ class LoadCommand extends Command
                 $id = $json['create']['_id'];
             }
             else {
-                $request[] = [
-                    'id' => $id,
-                    'sku' => $json['sku'],
-                    'title' => $json['title'],
-                    'category' => $json['category'],
-                    'price' => $json['price'],
-                    'stock' => $json['stock'],
-                ];
+                
+                $request->add(new AddBookRequest(
+                    $json['sku'],
+                    $json['title'],
+                    $json['category'],
+                    $json['price'],
+                    $json['stock'],
+                    $id
+                ));
             }
         }
         

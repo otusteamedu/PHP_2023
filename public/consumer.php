@@ -41,7 +41,7 @@ $callback = function($msg) use ($telegram, $pdo) {
         $message .= "{$transaction['description']}: {$transaction['amount']}\n";
     }
 
-    if (isset($data['notification_method']) && $data['notification_method'] == 'email') {
+    if (isset($data['notificationMethod']) && $data['notificationMethod'] == 'email') {
 
         try {
             $mail = new PHPMailer(true);
@@ -55,8 +55,8 @@ $callback = function($msg) use ($telegram, $pdo) {
             $mail->Port       = 465;
 
             // Recipients
-            $mail->setFrom('palm6991@gmail.com', 'Mailer');
-            $mail->addAddress($data['email']); // Add a recipient, using email from the data
+            $mail->setFrom('from@example.com', 'Mailer');
+            $mail->addAddress('palm6991@gmail.com'); // Add a recipient, using email from the data
 
             // Content
             $mail->isHTML(true); // Set email format to HTML

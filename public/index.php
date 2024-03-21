@@ -5,12 +5,8 @@ require __DIR__ . '/../vendor/autoload.php';
 use Telegram\Bot\Api;
 use PHPMailer\PHPMailer\PHPMailer;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
-
-// Initialize Telegram Bot API with your bot's token
-$telegram = new Api('6728633417:AAFwSVSsaG9RZCEPiy5EREQSvZI1pg-QO0M');
 
 // Initialize PHPMailer
 $mail = new PHPMailer(true);
@@ -30,63 +26,38 @@ $rabbitmq = new AMQPStreamConnection(
     'user',      // Default user from RABBITMQ_DEFAULT_USER
     'password'   // Default password from RABBITMQ_DEFAULT_PASS
 );
+$queuePublisher = new \Rabbit\Daniel\Queue\QueuePublisher($rabbitmq);
+
 $channel = $rabbitmq->channel();
 $channel->queue_declare('queue_name', false, true, false, false);
 $chat_id = '350843460';
 $email = 'palm6991@gmail.com';
 // Your database connection
 $db = new \PDO('pgsql:host=postgres;dbname=your_db', 'your_username', 'your_password');
-
+$requestHandler = new \Rabbit\Daniel\Request\RequestHandler($db, $queuePublisher);
 // Check if the form was submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Capture the form data
-    $startDate = $_POST['startDate'];
-    $endDate = $_POST['endDate'];
-    $notificationMethod = $_POST['notificationMethod'];
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Assuming form data is sent with a specific structure
+    $requestData = [
+        'startDate' => $_POST['startDate'],
+        'endDate' => $_POST['endDate'],
+        'notificationMethod' => $_POST['notificationMethod'],
+    ];
 
-    // Insert into the database (ensure you have the right SQL according to your table structure)
-    $stmt = $db->prepare("INSERT INTO Requests (start_date, end_date, status) VALUES (?, ?, 'pending')");
-    $stmt->execute([$startDate, $endDate]);
-    $requestId = $db->lastInsertId();
-
-    // Determine the notification method and send the message
-    if ($notificationMethod == 'email') {
-        // Send an email
-        try {
-            $mail->setFrom('from@example.com', 'Mailer');
-            $mail->addAddress($email); // Add a recipient
-            $mail->isHTML(true);
-            $mail->Subject = 'Your request is being processed';
-            $mail->Body    = 'We are processing your request for a bank statement from '.$startDate.' to '.$endDate;
-
-            $mail->send();
-        } catch (Exception $e) {
-            // Handle the error
-            error_log("Mailer Error: {$mail->ErrorInfo}");
-        }
-    } elseif ($notificationMethod == 'telegram') {
-        // Send a Telegram message
-        $response = $telegram->sendMessage([
-            'chat_id' => $chat_id,
-            'text' => 'Your request is being processed'
-        ]);
+    // Determine the notification method based on the request and instantiate the appropriate notifier
+    if ($requestData['notificationMethod'] == 'email') {
+        $notifier = new \Rabbit\Daniel\Notification\EmailNotification($mail, $requestData);
+    } elseif ($requestData['notificationMethod'] == 'telegram') {
+        $telegram = new Api('6728633417:AAFwSVSsaG9RZCEPiy5EREQSvZI1pg-QO0M');
+        $notifier = new \Rabbit\Daniel\Notification\TelegramNotification($telegram, $chat_id);
+        $requestData['chat_id'] = $chat_id;
+    } else {
+        // Default or error handling if the method is not supported
+        throw new Exception("Unsupported notification method: " . $requestData['notificationMethod']);
     }
 
-    // Push a message to the RabbitMQ queue
-    $msg = new AMQPMessage(json_encode([
-        'requestId' => $requestId,
-        'startDate' => $startDate,
-        'endDate' => $endDate,
-        'chat_id' => $chat_id,
-        'notification_method' => $notificationMethod,
-        'email' => $email
-    ]));
-    $channel->basic_publish($msg, '', 'queue_name');
+    // Process the request
+    $response = $requestHandler->handle($requestData, $notifier);
 
-    // Properly close the channel and the connection
-    $channel->close();
-    $rabbitmq->close();
-
-    // Redirect or inform the user of successful submission
-    echo "Request received and notification sent.";
+    echo $response;
 }

@@ -2,11 +2,12 @@
 1. Скачать проект  
 
   ```
-  git clone 
+  git clone git@github.com:otusteamedu/PHP_2023.git
   ```
 2. Зайти в папку проекта и выполнить 
 
 ```
+  git checkout GKarman/hw-19-rabbitMQ
   cd hw19/docker
   docker-compose up -d
 ```

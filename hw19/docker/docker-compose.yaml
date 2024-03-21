@@ -36,6 +36,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - otus-network
 
 networks:
   otus-network:

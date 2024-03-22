@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 // Создание подключения
 $connection = new mysqli();

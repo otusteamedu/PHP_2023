@@ -1,15 +1,7 @@
 <?php
 
-echo "Привет, Otus!<br>".date("Y-m-d H:i:s") ."<br><br>";
-
-// Параметры подключения к базе данных
-$hostname = 'mysql';
-$username = 'user';
-$password = 'pass';
-$database = 'app';
-
 // Создание подключения
-$connection = new mysqli($hostname, $username, $password);
+$connection = new mysqli();
 // Проверка подключения
 if ($connection->connect_error) {
     echo "Ошибка подключения: " . $connection->connect_error;
@@ -17,10 +9,9 @@ if ($connection->connect_error) {
     echo "Подключение к базе данных MySQL успешно установлено!";
 }
 
-define('MEMCACHED_HOST', 'memcached');
-define('MEMCACHED_PORT', '11211');
-$memcache = new Memcached;
-$cacheAvailable = $memcache->addServer(MEMCACHED_HOST, MEMCACHED_PORT);
+$memcache = new Memcached();
+
+$cacheAvailable = $memcache->addServer('memcached', '11211');
 
 if ($cacheAvailable) {
     echo "<br>Memcached подключен!";

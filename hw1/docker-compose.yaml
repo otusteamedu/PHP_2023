@@ -41,11 +41,12 @@ services:
     image: myapp/mysql
     volumes:
       - ./mysql.sock:/var/lib/
-      # - ./mysql:/var/lib/mysqld
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: pass
-      MYSQL_DATABASE: app
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
     ports:
       - 3306:3306
     networks:
@@ -55,7 +56,7 @@ services:
     image: adminer:latest
     restart: always
     environment: 
-      ADMINER_DEFAULT_SERVER: mysql
+      ADMINER_DEFAULT_SERVER: ${ADMINER_DEFAULT_SERVER}
     ports:
       - 8080:8080
     networks:

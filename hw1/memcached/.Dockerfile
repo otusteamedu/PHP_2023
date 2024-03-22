@@ -1,2 +1,2 @@
-﻿FROM memcached:latest
+﻿FROM memcached
 CMD ["memcached", "-D"]

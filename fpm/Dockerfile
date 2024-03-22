@@ -20,6 +20,9 @@ RUN apt-get update && apt-get install -y \
 RUN yes '' | pecl install -f memcached-3.2.0 \
   && docker-php-ext-enable memcached
 
+
+# composer
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY ./php.ini /usr/local/etc/php/conf.d/php-custom.ini

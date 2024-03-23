@@ -1,2 +1,1 @@
-﻿FROM memcached
-CMD ["memcached", "-D"]
+﻿CMD ["memcached", "-D"]

@@ -35,9 +35,6 @@ services:
 
   mysql:
     container_name: mysql
-    build:
-      context: ./mysql
-      dockerfile: Dockerfile
     image: myapp/mysql
     volumes:
       - ./mysql.sock:/var/lib/
@@ -72,7 +69,7 @@ services:
      - /redis:/var/lib/redis
      - /redis/redis.conf:/usr/local/etc/redis/redis.conf
     environment:
-     - REDIS_REPLICATION_MODE=master
+     - REDIS_REPLICATION_MODE=${REDIS_REPLICATION_MODE}
     networks:
      - app-network
 

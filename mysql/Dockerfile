@@ -1,6 +1,4 @@
-﻿FROM mysql
-
-# Set an insecure password
+﻿# Set an insecure password
 
 ENV MYSQL_USER=user
 ENV MYSQL_PASSWORD=pass

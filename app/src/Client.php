@@ -15,7 +15,6 @@ class Client
     public function run(): iterable
     {
         while (true) {
-
             if ($message = trim(fread(STDIN, 1024))) {
                 $socket = socket_create(AF_UNIX, SOCK_STREAM, 0); //возвращает экземпляр Socket в случае успешного выполнения, или false
 

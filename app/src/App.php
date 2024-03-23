@@ -29,11 +29,11 @@ class App
     public function run(): iterable
     {
         if ($this->mode == 'server') {
-            foreach ($this->runServer()  as $message) {
+            foreach ($this->runServer() as $message) {
                 yield $message;
             }
         } elseif ($this->mode == 'client') {
-            foreach ($this->runClient()  as $message) {
+            foreach ($this->runClient() as $message) {
                 yield $message;
             }
         }
@@ -42,7 +42,7 @@ class App
     private function runServer(): iterable
     {
         $server = new Server();
-        foreach ($server->run()  as $message) {
+        foreach ($server->run() as $message) {
             yield $message;
         }
     }
@@ -50,7 +50,7 @@ class App
     private function runClient(): iterable
     {
         $client = new Client();
-        foreach ($client->run()  as $message) {
+        foreach ($client->run() as $message) {
             yield $message;
         }
     }

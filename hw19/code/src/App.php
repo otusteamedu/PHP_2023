@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gkarman\Rabbitmq;
@@ -16,7 +17,6 @@ class App
         }
 
         if (!empty($_SERVER['argv'])) {
-
             $command = new OrderReportCommand();
             return $command->run();
         }

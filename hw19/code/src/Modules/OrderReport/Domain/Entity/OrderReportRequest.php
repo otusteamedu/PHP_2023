@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gkarman\Rabbitmq\Modules\OrderReport\Domain\Entity;
@@ -8,13 +9,13 @@ use Gkarman\Rabbitmq\Modules\OrderReport\Domain\ValueObject\Id;
 use Gkarman\Rabbitmq\Modules\OrderReport\Domain\ValueObject\ReportDateFrom;
 use Gkarman\Rabbitmq\Modules\OrderReport\Domain\ValueObject\ReportDateTo;
 
-class OrderReportRequest
+readonly class OrderReportRequest
 {
     public function __construct(
-        private Id $userId,
-        private ReportDateFrom $dateFrom,
-        private ReportDateTo $dateTo,
-        private Email $emailTo,
+        private readonly Id $userId,
+        private readonly ReportDateFrom $dateFrom,
+        private readonly ReportDateTo $dateTo,
+        private readonly Email $emailTo,
     )
     {
     }

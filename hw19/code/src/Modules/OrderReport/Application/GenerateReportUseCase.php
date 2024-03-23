@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Gkarman\Rabbitmq\Modules\OrderReport\Application;
@@ -17,8 +18,7 @@ class GenerateReportUseCase
     public function __construct(
         private OrderReportRepositoryInterface $repository,
     )
-    {
-    }
+    {}
 
     public function run(GenerateOrderRequest $request): GenerateReportResponse
     {

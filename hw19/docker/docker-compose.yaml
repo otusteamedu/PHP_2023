@@ -12,6 +12,24 @@ services:
     networks:
       - otus-network
 
+  app2:
+    build:
+      context: ./php-fpm
+      dockerfile: Dockerfile
+    image: otus/php-fpm2
+    container_name: otus-php-fpm2
+    depends_on:
+      - rabbitmq
+    command: >
+      sh -c "
+        cd ../app.loc;
+        php index.php;
+      "
+    volumes:
+      - ../code:/var/www/app.loc
+    networks:
+      - otus-network
+
   nginx:
     build:
       context: ./nginx

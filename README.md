@@ -12,13 +12,7 @@
   docker-compose up -d
 ```
 
-3. Зайти внутрь php-fpm и запустить скрипт consumer
-
-``` 
-docker exec otus-php-fpm bash
-cd ../app.loc
-php index.php
-```
+3. consumer стартует автоматически в отдельном контейнере
 
 4. Посылаем post запрос наример через postman
 - на хост http://app.loc/

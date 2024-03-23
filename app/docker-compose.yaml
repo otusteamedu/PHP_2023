@@ -31,7 +31,7 @@ services:
     image: postgres:latest
     container_name: ${POSTGRES_CONTAINER}
     ports:
-      - "5434:5432"
+      - "5432:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -39,6 +39,7 @@ services:
       PGDATA: "/var/lib/postgresql/data/pgdata"
     volumes:
       - ./pgsql:/var/lib/postgresql/data
+      - ./www:/var/www
     networks:
       - hw13-network
 

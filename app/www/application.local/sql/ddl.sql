@@ -1,4 +1,4 @@
-CREATE TABLE news
+CREATE TABLE IF NOT EXISTS news
 (
     id         serial       not null
         constraint users_pkey

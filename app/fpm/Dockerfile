@@ -12,11 +12,12 @@ RUN apt-get update && apt-get install -y \
     curl \
     libmemcached-dev \
     libpq-dev \
+    postgresql-client \
     && docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql \
     && docker-php-ext-install -j$(nproc) iconv mbstring pdo_pgsql pgsql zip gd \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && pecl install memcached \
-    && docker-php-ext-enable memcached
+    && docker-php-ext-enable memcached \
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 

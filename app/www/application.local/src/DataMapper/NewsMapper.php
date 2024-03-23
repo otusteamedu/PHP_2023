@@ -13,7 +13,6 @@ class NewsMapper
     private PDOStatement $selectOneStatement;
     private PDOStatement $selectAllStatement;
     private PDOStatement $insertStatement;
-    private PDOStatement $updateStatement;
     private PDOStatement $deleteStatement;
 
     public function __construct(private PDO $pdo, private IdentityMap $identityMap)
@@ -26,9 +25,6 @@ class NewsMapper
         );
         $this->insertStatement = $pdo->prepare(
             'INSERT INTO news (title, text, image, created_at) VALUES (?, ?, ?, ?)'
-        );
-        $this->updateStatement = $pdo->prepare(
-            'UPDATE news SET title = ?, text = ?, image = ?, created_at = ? WHERE id = ?'
         );
         $this->deleteStatement = $pdo->prepare(
             'DELETE FROM news WHERE id = ?'
@@ -63,6 +59,26 @@ class NewsMapper
         $this->identityMap->set($model);
 
         return $model;
+    }
+
+    public function findByIdFromDb(int $id): ?News
+    {
+        $this->selectOneStatement->setFetchMode(PDO::FETCH_ASSOC);
+        $this->selectOneStatement->execute([$id]);
+
+        $result = $this->selectOneStatement->fetch();
+
+        if (!$result) {
+            return null;
+        }
+
+        return new News(
+            $result['id'],
+            $result['title'],
+            $result['text'],
+            $result['image'],
+            $result['created_at'],
+        );
     }
 
     public function getAll(): array
@@ -102,16 +118,47 @@ class NewsMapper
 
     public function update(News $news): News
     {
-        $this->updateStatement->execute([
-            $news->getTitle(),
-            $news->getText(),
-            $news->getImage(),
-            $news->getCreatedAt(),
-            $news->getId(),
-        ]);
+        $currentNews = $this->findByIdFromDb($news->getId());
+
+        if (!$currentNews) {
+            return $this->identityMap->set($news);
+        }
+
+        $params = [];
+        $_updateStatement = 'UPDATE news SET';
+
+        if ($news->getTitle() !== $currentNews->getTitle()) {
+            $_updateStatement .= ' title = ?,';
+            $params[] = $news->getTitle();
+        }
+
+        if ($news->getText() !== $currentNews->getText()) {
+            $_updateStatement .= ' text = ?,';
+            $params[] = $news->getText();
+        }
+
+        if ($news->getImage() !== $currentNews->getImage()) {
+            $_updateStatement .= ' image = ?,';
+            $params[] = $news->getImage();
+        }
+
+        if ($news->getCreatedAt() !== $currentNews->getCreatedAt()) {
+            $_updateStatement .= ' created_at = ?,';
+            $params[] = $news->getCreatedAt();
+        }
+
+        if (!$params) {
+            return $this->identityMap->set($news);
+        }
+
+        $_updateStatement = rtrim($_updateStatement, ',');
+        $_updateStatement .= ' WHERE id = ?';
+        $params[] = $news->getId();
+
+        $statement = $this->pdo->prepare($_updateStatement);
+        $statement->execute($params);
 
         return $this->identityMap->set($news);
-
     }
 
     public function delete(News $news): bool

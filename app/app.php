@@ -9,7 +9,6 @@ try {
     foreach ($app->run() as $message) {
         echo $message;
     }
-} 
-catch (Exception $e) {
+} catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }

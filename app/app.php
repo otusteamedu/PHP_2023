@@ -10,7 +10,6 @@ try {
         echo $message;
     }
 }
-
 catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
 }

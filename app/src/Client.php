@@ -6,10 +6,13 @@ use Exception;
 
 class Client
 {
-    private $socket_path = '/tmp/socket.sock';
-    private $buffer = 2048;
+    private string $socket_path = '/tmp/socket.sock';
+    private int $buffer = 2048;
 
-    public function run(): void
+    /**
+     * @throws Exception
+     */
+    public function run(): iterable
     {
         while (true) {
 
@@ -32,7 +35,7 @@ class Client
             }
 
             if ($received_data = socket_read($socket, $this->buffer)) {
-                echo $received_data;
+                yield $received_data;
             }
         }
     }

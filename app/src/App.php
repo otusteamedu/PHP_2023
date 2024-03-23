@@ -12,6 +12,9 @@ class App
         'client'
     ];
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
         global $argv;
@@ -23,25 +26,32 @@ class App
         $this->mode = $argv[1];
     }
 
-    public function run(): void
+    public function run(): iterable
     {
         if ($this->mode == 'server') {
-            $this->runServer();
+            foreach ($this->runServer()  as $message) {
+                yield $message;
+            }
         } elseif ($this->mode == 'client') {
-            $this->runClient();
+            foreach ($this->runClient()  as $message) {
+                yield $message;
+            }
         }
     }
 
-    private function runServer()
+    private function runServer(): iterable
     {
         $server = new Server();
-        $server->run();
+        foreach ($server->run()  as $message) {
+            yield $message;
+        }
     }
 
-    private function runClient()
+    private function runClient(): iterable
     {
         $client = new Client();
-        $client->run();
+        foreach ($client->run()  as $message) {
+            yield $message;
+        }
     }
-
 }

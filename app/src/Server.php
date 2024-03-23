@@ -17,7 +17,7 @@ class Server
         }
     }
 
-    public function run(): void
+    public function run(): iterable
     {
         $socket = socket_create(AF_UNIX, SOCK_STREAM, 0);
 
@@ -32,10 +32,6 @@ class Server
         $this->isRunning = true;
 
         while ($this->isRunning) {
-//            if (trim(fread(STDIN, 1024)) == 'stop') {
-//                echo 'stop command' . PHP_EOL;
-//            }
-
             $client = socket_accept($socket); //возвращает экземпляр Socket или false
 
             if ($client !== false) {
@@ -44,8 +40,7 @@ class Server
                 $response = 'Сервером получено ' . strlen($received_data) . ' байт.' . PHP_EOL;
                 socket_write($client, $response, strlen($response));
 
-                echo $received_data;
-                echo PHP_EOL;
+                yield $received_data . PHP_EOL;
 
                 socket_close($client);
             }

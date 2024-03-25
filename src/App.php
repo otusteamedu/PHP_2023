@@ -7,33 +7,20 @@ use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
-use Rabbit\Daniel\Database\DatabaseConnection;
 use Rabbit\Daniel\Notification\EmailNotification;
 use Rabbit\Daniel\Notification\TelegramNotification;
-use Rabbit\Daniel\RabbitMQ\RabbitMQConnection;
 use Rabbit\Daniel\Request\RequestHandler;
 use Telegram\Bot\Api;
 
 class App
 {
-    private $dbConnection;
     private $rabbitMQConnection;
     private $requestHandler;
 
     public function __construct()
     {
-        $this->setUpDatabaseConnection();
         $this->setUpRabbitMQConnection();
         $this->setUpRequestHandler();
-    }
-
-    private function setUpDatabaseConnection(): void
-    {
-        $this->dbConnection = new DatabaseConnection(
-            DB_DSN,
-            DB_USER,
-            DB_PASSWORD
-        );
     }
 
     private function setUpRabbitMQConnection(): void
@@ -87,13 +74,13 @@ class App
         switch ($method) {
             case 'email':
                 $mailer = new PHPMailer(true);
-                $mailer->SMTPDebug = SMTP::DEBUG_SERVER;                    // Enable verbose debug output
-                $mailer->isSMTP();                                          // Send using SMTP
-                $mailer->Host = SMTP_HOST;                                  // Set the SMTP server to send through
-                $mailer->SMTPAuth = true;                                   // Enable SMTP authentication
-                $mailer->Username = SMTP_USER;                              // SMTP username from constants
-                $mailer->Password = SMTP_PASSWORD;                          // SMTP password from constants
-                $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;          // Enable implicit TLS encryption
+                $mailer->SMTPDebug = SMTP::DEBUG_SERVER;
+                $mailer->isSMTP();
+                $mailer->Host = SMTP_HOST;
+                $mailer->SMTPAuth = true;
+                $mailer->Username = SMTP_USER;
+                $mailer->Password = SMTP_PASSWORD;
+                $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
                 $mailer->Port = SMTP_PORT;
                 return new EmailNotification($mailer);
 

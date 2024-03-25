@@ -1,7 +1,7 @@
 <?php
 
 require __DIR__ . '/../vendor/autoload.php';
-require __DIR__ . '/../config/config.php'; // Убедитесь, что путь правильный.
+require __DIR__ . '/../config/config.php';
 
 use Rabbit\Daniel\App;
 
@@ -13,7 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         'startDate' => $_POST['startDate'] ?? null,
         'endDate' => $_POST['endDate'] ?? null,
         'notificationMethod' => $_POST['notificationMethod'] ?? null,
-        'chat_id' => '350843460'
+        'chat_id' => CHAT_ID,
+        'email' => EMAIL
     ];
 
     try {

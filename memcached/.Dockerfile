@@ -1,1 +1,0 @@
-﻿CMD ["memcached", "-D"]

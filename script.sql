@@ -36,7 +36,7 @@ user_id INT;
         end_date DATE := '2024-03-19';
         curr_date DATE;
 BEGIN
-FOR user_id IN 4..6 LOOP
+FOR user_id IN 1..3 LOOP
                 FOR i IN 1..100 LOOP
                         curr_date := start_date + (RANDOM() * (end_date - start_date))::INTEGER;
 INSERT INTO Transactions (user_id, transaction_date, description, amount, transaction_type)

@@ -1,0 +1,89 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    image: myapp/nginx
+    container_name: webserver
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ./code:/data/application.local
+    networks:
+      - app-network
+
+  #Контейнер с PHP-FPM, назовём его app
+  app:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: app # имя контейнера после запуска
+    volumes:
+       - ./code:/data/application.local
+       - ./code/vendor:/data/application.local/vendor
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  mysql:
+    container_name: mysql
+    image: myapp/mysql
+    volumes:
+      - ./mysql.sock:/var/lib/
+    restart: always
+    environment:
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - 3306:3306
+    networks:
+      - app-network
+      
+  adminer:
+    image: adminer:latest
+    restart: always
+    environment: 
+      ADMINER_DEFAULT_SERVER: ${ADMINER_DEFAULT_SERVER}
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+
+  redis:
+    container_name: redis
+    image: redis
+    command: redis-server
+    ports:
+     - "6379:6379"
+    volumes:
+     - /redis:/var/lib/redis
+     - /redis/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+     - REDIS_REPLICATION_MODE=${REDIS_REPLICATION_MODE}
+    networks:
+     - app-network
+
+  memcached:
+    container_name: memcached
+    image: memcached
+    ports:
+      - 11211:11211
+    command:
+      - '--memory-limit=1024'
+    networks:
+     - app-network
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge

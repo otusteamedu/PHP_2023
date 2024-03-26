@@ -10,7 +10,6 @@ use PHPMailer\PHPMailer\SMTP;
 use Rabbit\Daniel\Notification\EmailNotification;
 use Rabbit\Daniel\Notification\TelegramNotification;
 use Rabbit\Daniel\Request\RequestHandler;
-use Rabbit\Daniel\Consumer\Consumer;
 use Telegram\Bot\Api;
 
 class App

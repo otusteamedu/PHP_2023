@@ -1,0 +1,12 @@
+{
+    "name": "alex/code",
+    "authors": [
+        {
+            "name": "alexgaliy",
+            "email": "alex.galiy23@gmail.com"
+        }
+    ],
+    "require": {
+        "alexgaliy/print-hello-world": "^1.0"
+    }
+} 

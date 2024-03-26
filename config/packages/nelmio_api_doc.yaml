@@ -1,0 +1,11 @@
+nelmio_api_doc:
+    documentation:
+        info:
+            title:       hw20
+            description: home work №20
+            version:     1.0.0
+    areas: # to filter documented areas
+        disable_default_routes: true
+        path_patterns:
+            - ^/api(?!/doc$) # Accepts routes under /api except /api/doc
+    use_validation_groups: true

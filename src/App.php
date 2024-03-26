@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\SMTP;
 use Rabbit\Daniel\Notification\EmailNotification;
 use Rabbit\Daniel\Notification\TelegramNotification;
 use Rabbit\Daniel\Request\RequestHandler;
+use Rabbit\Daniel\Consumer\Consumer;
 use Telegram\Bot\Api;
 
 class App
@@ -36,6 +37,30 @@ class App
     private function setUpRequestHandler(): void
     {
         $this->requestHandler = new RequestHandler();
+    }
+
+    public function run(): void
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $requestData = [
+                'startDate' => $_POST['startDate'] ?? null,
+                'endDate' => $_POST['endDate'] ?? null,
+                'notificationMethod' => $_POST['notificationMethod'] ?? null,
+                'chat_id' => CHAT_ID,
+                'email' => EMAIL
+            ];
+
+            try {
+                $response = $this->handleRequest($requestData);
+                echo $response;
+            } catch (Exception $e) {
+                http_response_code(500);
+                echo "Произошла ошибка при обработке запроса: " . $e->getMessage();
+            }
+        } else {
+            http_response_code(405);
+            echo "Метод запроса не поддерживается";
+        }
     }
 
     /**

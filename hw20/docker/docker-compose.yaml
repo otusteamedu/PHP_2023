@@ -39,6 +39,22 @@ services:
     networks:
       - otus-network
 
+  postgres:
+    build:
+      context: ./postgres
+      dockerfile: Dockerfile
+    image: otus/postgres
+    container_name: otus-postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - ./postgres/dbdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "otus"
+      POSTGRES_USER: "otus"
+      POSTGRES_PASSWORD: "otus"
+    networks:
+      - otus-network
 networks:
   otus-network:
     driver: bridge

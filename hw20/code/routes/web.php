@@ -14,5 +14,11 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+   // return response()->json(['message' => 11], 201);
+    return response()->make(json_encode(['message' => 11]), 201, ['Content-Type' => 'application/json']);
+    //return $router->app->version();
+});
+
+$router->group(['namespace' => '\App\Modules\Orders\Infrastructure\Controllers'], function () use ($router) {
+    require __DIR__ . '/../app/Modules/Orders/Infrastructure/Http/Routes/orders_routes.php';
 });

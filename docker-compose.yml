@@ -1,0 +1,75 @@
+version: '3'
+
+services:
+    application:
+        build:
+            context: ./docker/php-fpm
+        image:       php-hw/php-fpm
+        environment:
+            - PHP_IDE_CONFIG=serverName=php-hw
+        volumes:
+            - ./:/data/application.local
+            - ./docker/php-fpm/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+            - sock:/sock
+        working_dir: /data/application.local
+        networks:
+            - php-hw-network
+
+    supervisor:
+        build: docker/supervisor
+        depends_on:
+            - rabbitmq
+        volumes:
+            - ./:/data/application.local
+            - ./docker/supervisor/supervisord.conf:/etc/supervisor/supervisord.conf
+        working_dir: /data/application.local
+        command: [ "supervisord", "-c", "/etc/supervisor/supervisord.conf" ]
+        networks:
+            - php-hw-network
+
+    webserver:
+        image: nginx:alpine3.18
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/data/application.local
+            - ./docker/nginx/application.local.conf:/etc/nginx/conf.d/default.conf
+            - sock:/sock
+        networks:
+            - php-hw-network
+
+    rabbitmq:
+        image:       rabbitmq:3.13.0-management-alpine
+        working_dir: /data/application.local
+        hostname:    rabbit-mq
+        ports:
+            - 15672:15672
+            - 5672:5672
+        environment:
+            RABBITMQ_DEFAULT_USER: user
+            RABBITMQ_DEFAULT_PASS: password
+        networks:
+            php-hw-network:
+
+    db:
+        image: postgres:15.5-alpine3.18
+        command: postgres -c work_mem=16MB -c shared_buffers=1024MB -c maintenance_work_mem=1024MB
+        ports:
+            - "5432:5432"
+        volumes:
+            - postgres_data_hw20:/var/lib/postgresql/data
+        environment:
+            POSTGRES_DB: ${POSTGRES_DB}
+            POSTGRES_USER: ${POSTGRES_USER}
+            POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+        networks:
+            - php-hw-network
+
+volumes:
+    sock:
+    postgres_data_hw20:
+
+networks:
+    php-hw-network:
+        driver: bridge

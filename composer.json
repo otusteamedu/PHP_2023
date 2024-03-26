@@ -1,0 +1,20 @@
+{
+    "name": "rabbit/daniel",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Rabbit\\Daniel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Daniel"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^3.2",
+        "irazasyed/telegram-bot-sdk": "^3.14",
+        "phpmailer/phpmailer": "^6.9",
+        "vlucas/phpdotenv": "^5.6"
+    }
+}

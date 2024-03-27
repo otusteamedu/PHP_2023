@@ -4,41 +4,28 @@ namespace Ashishak\Balancer\code;
 
 class Validator
 {
-    public static function ValidateText(string $postVar): array{
-        $message = [];
-        //Проверяем строку регуляркой, чтобы не прошла строка )(
-        if (preg_match("/^\(.*\)/", $postVar)){
-            if (preg_match_all("/(\()/u", $postVar, $m)){
-                //количество открытых скобок
-                $openCount = count($m[1]);
+    public static function ValidateText(string $postVar): bool{
+        $counter = 0;
 
-                //Удаляем по парам открытые и закрытые скобки
-                for ($i=1; $i<=$openCount; $i++){
-                    //Если в процессе выполнение понимаем что строка пуста, отдаем 200 код, все ок
-                    if (empty($postVar)){
-                        $message['code'] = 200;
-                        $message['request'] = "Строка корректна!";
-                        return $message;
-                    } else {
-                        $postVar = str_replace('()', '', $postVar);
-                    }
+        $postVarArray = str_split($postVar);
 
-                }
-                //После прохождения цикла делаем контрольную проверку
-                if(!empty($postVar)){
-                    $message['code'] = '400';
-                    $message['request'] = "В строке выявлены ОШИБКИ!!!";
-                } else{
-                    $message['code'] = 200;
-                    $message['request'] = "Строка корректна!";
-                }
+        foreach ($postVarArray as $value){
+            if ($value == '('){
+                $counter++;
+            } elseif($value == ')'){
+                $counter--;
             }
-        } else {
-            $message['code'] = '400';
-            $message['request'] = "В строке выявлены ОШИБКИ!!!";
+            if ($counter < 0){
+                return false;
+            }
         }
 
-        return $message;
+        if ($counter === 0){
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
 }

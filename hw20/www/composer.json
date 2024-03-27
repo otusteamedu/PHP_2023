@@ -1,0 +1,25 @@
+{
+    "name": "shabanov/otusphp",
+    "autoload": {
+        "psr-4": {
+            "Shabanov\\Otusphp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shabanov Vyacheslav",
+            "email": "saveliy@mail.ru"
+        }
+    ],
+    "require": {
+        "php-amqplib/php-amqplib": "^3.0",
+        "symfony/console": "^7.0",
+        "symfony/dotenv": "^7.0",
+        "nikic/fast-route": "^1.3",
+        "symfony/http-foundation": "^7.0",
+        "doctrine/orm": "^3.1",
+        "symfony/cache": "^7.0",
+        "symfony/validator": "^7.0",
+        "ramsey/uuid": "^4.7"
+    }
+}

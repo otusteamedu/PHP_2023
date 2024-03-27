@@ -1,0 +1,69 @@
+version: "3"
+services:
+  nginx:
+    container_name: nginx-otusphp
+    build: ./.docker/nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - php-fpm
+    networks:
+      - otusphp
+
+  php-fpm:
+    container_name: php-fpm-otusphp
+    build: ./.docker/php-fpm/
+    env_file:
+      - ./.env
+    volumes:
+      - ./www:/var/www/html
+    depends_on:
+      - rabbitmq
+    networks:
+      - otusphp
+
+  postgres:
+    container_name: postgres-otusphp
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_DB}
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    networks:
+      - otusphp
+
+  adminer:
+    container_name: adminer-otusphp
+    image: adminer
+    depends_on:
+      - postgres
+    environment:
+      - ADMINER_DEFAULT_SERVER=${DATABASE_HOST}
+    ports:
+      - "8080:8080"
+    networks:
+      - otusphp
+
+  rabbitmq:
+    container_name: rabbitmq-otusphp
+    image: rabbitmq:3.10.7-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    networks:
+      - otusphp
+
+  swaggerui:
+    image: swaggerapi/swagger-ui
+    ports:
+      - 8888:8080
+    volumes:
+      - ./swagger/swagger.json:/usr/share/nginx/html/swagger.json
+
+networks:
+  otusphp:
+    driver: bridge

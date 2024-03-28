@@ -21,20 +21,8 @@ services:
     container_name: app
     volumes:
       - .:/data
-    networks:
-      - app-network
-
-  postgres:
-    container_name: postgresql
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-    ports:
-      - "15432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - app-network
 
@@ -52,8 +40,13 @@ services:
     networks:
       - app-network
 
-volumes:
-  postgres_data:
+  memcached:
+    image: memcached:alpine
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
 
 networks:
   app-network:

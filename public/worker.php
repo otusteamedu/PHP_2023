@@ -3,26 +3,37 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
 $connection = new AMQPStreamConnection('rabbitmq', 5672, 'user', 'password');
 $channel = $connection->channel();
 
 $channel->queue_declare('task_queue', false, true, false, false);
 
-$memcached = new Memcached();
-$memcached->addServer('localhost', 11211);
+// Путь к файлу статусов
+$statusFile = __DIR__ . '/../data/statuses.json';
 
-$callback = function($msg) use ($memcached) {
+// Создаем директорию для статусов задач, если она не существует
+$dataDir = __DIR__ . '/../data';
+if (!file_exists($dataDir)) {
+    mkdir($dataDir, 0777, true);
+}
+
+$callback = function($msg) use ($statusFile) {
     $taskData = json_decode($msg->body, true);
     $correlationId = $msg->get('correlation_id');
 
     // Здесь обрабатываем задачу...
-    sleep(100); // Имитация обработки задачи
+    sleep(10); // Имитация обработки задачи
 
-    // Обновляем статус задачи в Memcached
-    $memcached->set($correlationId, 'Обработано');
+    // Читаем текущие статусы задач
+    $statuses = file_exists($statusFile) ? json_decode(file_get_contents($statusFile), true) : [];
 
-    echo 'Задача обработана', "\n";
+    // Обновляем статус задачи в файле
+    $statuses[$correlationId] = 'Обработано';
+    file_put_contents($statusFile, json_encode($statuses));
+
+    echo "Задача {$correlationId} обработана", "\n";
     $msg->ack();
 };
 
@@ -35,4 +46,3 @@ while ($channel->is_consuming()) {
 
 $channel->close();
 $connection->close();
-

@@ -6,6 +6,9 @@ namespace App\Modules\Orders\Infrastructure\Repository;
 
 use App\Modules\Orders\Domain\Entity\Order;
 use App\Modules\Orders\Domain\Repository\OrderRepositoryInterface;
+use App\Modules\Orders\Domain\ValueObject\Comment;
+use App\Modules\Orders\Domain\ValueObject\Email;
+use App\Modules\Orders\Domain\ValueObject\UUID;
 use App\Modules\Orders\Infrastructure\Models\OrderModel;
 
 class OrderDBRepository implements OrderRepositoryInterface
@@ -17,5 +20,28 @@ class OrderDBRepository implements OrderRepositoryInterface
         $model->email = $order->getEmail()->getValue();
         $model->comment = $order->getComment()->getValue();
         $model->save();
+    }
+
+    public function getList(): array
+    {
+        $orders = OrderModel::query()
+            ->get()
+            ->toArray();
+
+        return $orders;
+    }
+
+    public function findByUuid(UUID $uuid): ?Order
+    {
+        $orderModel = OrderModel::find($uuid->getValue());
+        if (!$orderModel) {
+            return null;
+        }
+
+        return new Order(
+            new UUID($orderModel->uuid),
+            new Email($orderModel->email),
+            new Comment($orderModel->comment),
+        );
     }
 }

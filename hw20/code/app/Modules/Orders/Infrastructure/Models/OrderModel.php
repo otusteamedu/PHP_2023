@@ -10,5 +10,6 @@ class OrderModel extends Model
 {
     protected $table = 'public.orders';
     public $primaryKey = 'uuid';
+    public $keyType = 'string';
 
 }

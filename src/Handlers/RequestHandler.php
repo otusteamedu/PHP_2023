@@ -1,16 +1,16 @@
 <?php
 
-namespace Api\Daniel;
+namespace Api\Daniel\Handlers;
 
 use Api\Daniel\Services\FileManager;
 use Api\Daniel\Services\RabbitMQClient;
 
 class RequestHandler
 {
-    private $rabbitMQClient;
-    private $fileManager;
+    private RabbitMQClient $rabbitMQClient;
+    private FileManager $fileManager;
     private $dataDir;
-    private $statusFile;
+    private string $statusFile;
 
     public function __construct(RabbitMQClient $rabbitMQClient, FileManager $fileManager, $dataDir)
     {

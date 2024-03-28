@@ -4,7 +4,7 @@ namespace Api\Daniel\Services;
 
 class FileManager
 {
-    public function ensureDirectoryExists($directory)
+    public function ensureDirectoryExists($directory): void
     {
         if (!file_exists($directory)) {
             mkdir($directory, 0777, true);
@@ -16,7 +16,7 @@ class FileManager
         return file_exists($filePath) ? json_decode(file_get_contents($filePath), true) : [];
     }
 
-    public function writeJsonFile($filePath, $data)
+    public function writeJsonFile($filePath, $data): void
     {
         file_put_contents($filePath, json_encode($data));
     }

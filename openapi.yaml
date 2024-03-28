@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Домашнее задание №20 - Проектирование API
+  description: |-
+    
+    Использование:
+    - Задаем переменные окружения _**.env**_. Пример в _**.env.example**_
+    - В **hosts** добавить запись **127.0.0.1 mysite.local** (Для моих настроек веб-сервера, у Вас могут быть другие)
+    - Устанавливаем зависимости _**composer install**_
+    - Устанавливаем миграции _**php artisan migrate**_
+  contact:
+    email: alexchugunov@mail.ru
+  version: 1.0.0
+servers:
+  - url: http://mysite.local/api/v1
+paths:
+  /user:
+    post:
+      tags:
+        - User
+      summary: Создание нового пользователя и обработка пользователя (постановка в очередь)
+      operationId: newUser
+      requestBody:
+        description: Создание нового пользователя 
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewUser'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Неверные аргументы
+          
+  /user/{id}:
+    get:
+      tags:
+        - User
+      summary: Узнать данные пользователя и статус заявки
+      operationId: getUser
+      parameters: 
+        - name: id
+          in: path
+          required: true
+          description: Идентификатор пользователя
+          schema:
+            type: integer
+            example: 10
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullUser'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/FullUser'
+        '400':
+          description: Неверные аргументы
+ 
+components:
+  schemas:
+    NewUser:
+        type: object
+        properties:
+          username:
+            type: string
+            example: theUser
+          email:
+            type: string
+            example: john@email.com
+        xml:
+          name: newUser
+    FullUser:
+        type: object
+        properties:
+          username:
+            type: string
+            example: theUser
+          email:
+            type: string
+            example: john@email.com
+          status:
+            type: string
+            example: In Progress
+        xml:
+          name: fullUser
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+      xml:
+        name: user

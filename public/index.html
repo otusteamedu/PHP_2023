@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Очередь задач</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Отправка задачи в очередь</h2>
+    <form id="taskForm">
+        <div class="form-group">
+            <label for="taskInput">Описание задачи</label>
+            <input type="text" class="form-control" id="taskInput" name="task" placeholder="Введите описание задачи" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+    </form>
+    <div id="response" class="mt-4"></div>
+
+    <h2 class="mb-4 mt-5">Проверка статуса задачи</h2>
+    <form id="statusForm">
+        <div class="form-group">
+            <label for="correlationIdInput">Идентификатор задачи</label>
+            <input type="text" class="form-control" id="correlationIdInput" name="correlationId" placeholder="Введите идентификатор задачи" required>
+        </div>
+        <button type="submit" class="btn btn-info">Проверить статус</button>
+    </form>
+    <div id="statusResponse" class="mt-4"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#taskForm').on('submit', function(e) {
+            e.preventDefault();
+            var taskData = $(this).serialize();
+            $.ajax({
+                type: 'POST',
+                url: '/send',
+                data: taskData,
+                success: function(response) {
+                    var jsonData = JSON.parse(response);
+                    if (jsonData.status === 'success') {
+                        $('#response').html('<div class="alert alert-success">Задача успешно добавлена. Идентификатор задачи: ' + jsonData.correlationId + '</div>');
+                    } else {
+                        $('#response').html('<div class="alert alert-danger">Произошла ошибка при добавлении задачи.</div>');
+                    }
+                },
+                error: function() {
+                    $('#response').html('<div class="alert alert-danger">Произошла ошибка при обработке запроса.</div>');
+                }
+            });
+        });
+
+        $('#statusForm').on('submit', function(e) {
+            e.preventDefault();
+            var correlationId = $('#correlationIdInput').val();
+            $.ajax({
+                type: 'GET',
+                url: '/status',
+                data: { correlationId: correlationId },
+                success: function(response) {
+                    var jsonData = JSON.parse(response);
+                    if (jsonData.error) {
+                        $('#statusResponse').html('<div class="alert alert-warning">' + jsonData.error + '</div>');
+                    } else {
+                        $('#statusResponse').html('<div class="alert alert-success">Статус задачи: ' + jsonData.status + '</div>');
+                    }
+                },
+                error: function() {
+                    $('#statusResponse').html('<div class="alert alert-danger">Произошла ошибка при обработке запроса статуса.</div>');
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

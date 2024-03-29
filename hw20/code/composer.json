@@ -6,12 +6,13 @@
     "type": "project",
     "require": {
         "php": "^8.1",
-        "darkaonline/l5-swagger": "^8.6",
+        "darkaonline/swagger-lume": "^10.1",
         "illuminate/database": "*",
         "laravel/lumen-framework": "^10.0",
         "php-amqplib/php-amqplib": "^3.6",
         "ramsey/uuid": "^4.7",
-        "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.0"
+        "vladimir-yuldashev/laravel-queue-rabbitmq": "^14.0",
+        "zircote/swagger-php": "3.3.7"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

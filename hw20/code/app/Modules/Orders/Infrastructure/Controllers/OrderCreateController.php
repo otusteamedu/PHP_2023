@@ -15,7 +15,17 @@ class OrderCreateController extends Controller
     public function __construct(
         private OrderCreateUseCase $useCase
     )
-    {}
+    {
+        /**
+         * @OA\Get(
+         *     path="/api/data.json",
+         *     @OA\Response(
+         *         response="200",
+         *         description="The data"
+         *     )
+         * )
+         */
+    }
 
     public function run(Request $request): JsonResponse
     {

@@ -23,9 +23,9 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
-// $app->withFacades();
+ $app->withFacades();
 
-// $app->withEloquent();
+ $app->withEloquent();
 
 /*
 |--------------------------------------------------------------------------
@@ -61,10 +61,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('queue');
-
-$app->withFacades();
-$app->withEloquent();
-
+$app->configure('swagger-lume');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -99,9 +96,10 @@ $app->withEloquent();
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
-$app->register(\App\Modules\Orders\Infrastructure\Providers\OrderModuleProvider::class);
+$app->register(App\Modules\Orders\Infrastructure\Providers\OrderModuleProvider::class);
 $app->register(VladimirYuldashev\LaravelQueueRabbitMQ\LaravelQueueRabbitMQServiceProvider::class);
 $app->register(App\Lumen\Providers\AppServiceProvider::class);
+$app->register(\SwaggerLume\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

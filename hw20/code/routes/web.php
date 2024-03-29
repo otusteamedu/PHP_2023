@@ -2,6 +2,7 @@
 
 /** @var \Laravel\Lumen\Routing\Router $router */
 
+use SwaggerLume\Facades\SwaggerLume;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -14,9 +15,11 @@
 */
 
 $router->get('/', function () use ($router) {
-   // return response()->json(['message' => 11], 201);
-    return response()->make(json_encode(['message' => 11]), 201, ['Content-Type' => 'application/json']);
-    //return $router->app->version();
+    return $router->app->version();
+});
+
+$router->get('api/documentation', function () {
+    return redirect('/api/documentation/index.html');
 });
 
 $router->group(['namespace' => '\App\Modules\Orders\Infrastructure\Controllers'], function () use ($router) {

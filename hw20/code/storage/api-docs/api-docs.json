@@ -1,0 +1,20 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "var/www/app.loc/app/Lumen/Http/Controllers/Controller.php": {},
+        "/api/data.json": {
+            "get": {
+                "operationId": "558505885657852e3598090b08e1ad8c",
+                "responses": {
+                    "200": {
+                        "description": "The data"
+                    }
+                }
+            }
+        }
+    }
+}

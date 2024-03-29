@@ -25,10 +25,10 @@ class OrderCreateController extends Controller
                 $request->input('comment')
             );
             $response = ($this->useCase)($createOrderRequest);
-            return response()->json(['message' => $response->uid], 201);
+            return response()->json(['success' => true, 'message' => $response->uid], 201);
         }
         catch (\Throwable $e) {
-            return response()->json(['message' => $e->getMessage()], 400);
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 400);
         }
     }
 }

@@ -44,4 +44,11 @@ class OrderDBRepository implements OrderRepositoryInterface
             new Comment($orderModel->comment),
         );
     }
+
+    public function deleteByUuid(UUID $uuid): void
+    {
+        OrderModel::query()
+            ->where('uuid', $uuid->getValue())
+            ->delete();
+    }
 }

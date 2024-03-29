@@ -14,4 +14,6 @@ interface OrderRepositoryInterface
     public function getList(): array;
 
     public function findByUuid(UUID $uuid): ?Order;
+
+    public function deleteByUuid(UUID $uuid): void;
 }

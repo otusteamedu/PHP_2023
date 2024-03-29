@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Orders\Application\UseCase;
 
-use App\Modules\Orders\Application\Request\CreateOrderRequest;
+use App\Modules\Orders\Application\Request\OrderCreateRequest;
 use App\Modules\Orders\Application\Response\CreateOrderResponse;
 use App\Modules\Orders\Domain\Entity\Order;
 use App\Modules\Orders\Domain\ValueObject\Comment;
@@ -13,9 +13,9 @@ use App\Modules\Orders\Domain\ValueObject\UUID;
 use App\Modules\Orders\Infrastructure\Jobs\SaveOrderInDBJob;
 use Illuminate\Support\Facades\Queue;
 
-class CreateOrderUseCase
+class OrderCreateUseCase
 {
-    public function __invoke(CreateOrderRequest $request): CreateOrderResponse
+    public function __invoke(OrderCreateRequest $request): CreateOrderResponse
     {
         $uuid = uuid_create();
         $order = new Order(

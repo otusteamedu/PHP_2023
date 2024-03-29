@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Orders\Infrastructure\Jobs;
 
-use App\Modules\Orders\Application\UseCase\SaveOrderInDBUseCase;
+use App\Modules\Orders\Application\UseCase\OrderSaveInDBUseCase;
 use App\Modules\Orders\Domain\Entity\Order;
 use App\Modules\Orders\Infrastructure\Repository\OrderDBRepository;
 use Illuminate\Bus\Queueable;
@@ -23,7 +23,7 @@ class SaveOrderInDBJob implements ShouldQueue
 
     public function handle(): void
     {
-        $useCase = new SaveOrderInDBUseCase(new OrderDBRepository());
+        $useCase = new OrderSaveInDBUseCase(new OrderDBRepository());
         ($useCase)($this->order);
     }
 }

@@ -7,7 +7,7 @@ namespace App\Modules\Orders\Application\UseCase;
 use App\Modules\Orders\Domain\Entity\Order;
 use App\Modules\Orders\Domain\Repository\OrderRepositoryInterface;
 
-class SaveOrderInDBUseCase
+class OrderSaveInDBUseCase
 {
     public function __construct(
         private OrderRepositoryInterface $repository
@@ -16,6 +16,6 @@ class SaveOrderInDBUseCase
 
     public function __invoke(Order $order)
     {
-        $this->repository->save($order);
+        $this->repository->create($order);
     }
 }

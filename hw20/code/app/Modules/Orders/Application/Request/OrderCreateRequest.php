@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Modules\Orders\Application\Request;
 
-class CreateOrderRequest
+class OrderCreateRequest
 {
     public function __construct(
         public string $email,

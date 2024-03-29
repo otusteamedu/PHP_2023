@@ -13,13 +13,23 @@ use App\Modules\Orders\Infrastructure\Models\OrderModel;
 
 class OrderDBRepository implements OrderRepositoryInterface
 {
-    public function save(Order $order): void
+    public function create(Order $order): void
     {
         $model = new OrderModel();
         $model->uuid = $order->getUuid()->getValue();
         $model->email = $order->getEmail()->getValue();
         $model->comment = $order->getComment()->getValue();
         $model->save();
+    }
+
+    public function update(Order $order): void
+    {
+         OrderModel::query()
+            ->where('uuid', $order->getUuid()->getValue())
+            ->update([
+                'email' => $order->getEmail()->getValue(),
+                'comment' =>  $order->getComment()->getValue(),
+            ]);
     }
 
     public function getList(): array

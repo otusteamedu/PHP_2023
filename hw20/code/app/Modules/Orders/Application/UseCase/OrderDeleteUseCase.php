@@ -8,7 +8,7 @@ use App\Modules\Orders\Application\Request\OrderDeleteRequest;
 use App\Modules\Orders\Domain\Repository\OrderRepositoryInterface;
 use App\Modules\Orders\Domain\ValueObject\UUID;
 
-class DeleteOrderUseCase
+class OrderDeleteUseCase
 {
     public function __construct(
         private OrderRepositoryInterface $repository

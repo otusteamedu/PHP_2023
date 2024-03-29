@@ -9,7 +9,8 @@ use App\Modules\Orders\Domain\ValueObject\UUID;
 
 interface OrderRepositoryInterface
 {
-    public function save(Order $order): void;
+    public function create(Order $order): void;
+    public function update(Order $order): void;
 
     public function getList(): array;
 

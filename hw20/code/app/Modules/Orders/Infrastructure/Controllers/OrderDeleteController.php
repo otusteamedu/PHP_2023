@@ -6,13 +6,13 @@ namespace App\Modules\Orders\Infrastructure\Controllers;
 
 use App\Lumen\Http\Controllers\Controller;
 use App\Modules\Orders\Application\Request\OrderDeleteRequest;
-use App\Modules\Orders\Application\UseCase\DeleteOrderUseCase;
+use App\Modules\Orders\Application\UseCase\OrderDeleteUseCase;
 use Illuminate\Http\JsonResponse;
 
 class OrderDeleteController extends Controller
 {
     public function __construct(
-        private DeleteOrderUseCase $useCase
+        private OrderDeleteUseCase $useCase
     )
     {}
 

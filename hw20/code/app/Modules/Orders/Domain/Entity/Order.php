@@ -17,6 +17,22 @@ class Order
     )
     {}
 
+    /**
+     * @param Email $email
+     */
+    public function setEmail(Email $email): void
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function setComment(Comment $comment): void
+    {
+        $this->comment = $comment;
+    }
+
     public function getUuid(): UUID
     {
         return $this->uid;

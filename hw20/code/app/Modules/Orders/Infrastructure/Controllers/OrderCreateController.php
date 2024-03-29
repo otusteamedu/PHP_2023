@@ -5,23 +5,22 @@ declare(strict_types=1);
 namespace App\Modules\Orders\Infrastructure\Controllers;
 
 use App\Lumen\Http\Controllers\Controller;
-use App\Modules\Orders\Application\Request\CreateOrderRequest;
-use App\Modules\Orders\Application\UseCase\CreateOrderUseCase;
+use App\Modules\Orders\Application\Request\OrderCreateRequest;
+use App\Modules\Orders\Application\UseCase\OrderCreateUseCase;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class OrderCreateController extends Controller
 {
     public function __construct(
-        private CreateOrderUseCase $useCase
+        private OrderCreateUseCase $useCase
     )
     {}
 
     public function run(Request $request): JsonResponse
     {
         try {
-            $createOrderRequest = new CreateOrderRequest(
+            $createOrderRequest = new OrderCreateRequest(
                 $request->input('email'),
                 $request->input('comment')
             );

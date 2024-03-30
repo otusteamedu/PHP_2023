@@ -16,8 +16,7 @@ readonly class OrderReportRequest
         private readonly ReportDateFrom $dateFrom,
         private readonly ReportDateTo $dateTo,
         private readonly Email $emailTo,
-    )
-    {
+    ) {
     }
 
     public function getUserId(): Id

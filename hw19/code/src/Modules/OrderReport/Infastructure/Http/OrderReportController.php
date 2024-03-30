@@ -13,15 +13,16 @@ class OrderReportController
 {
     public function __construct(
         private GenerateReportUseCase $useCase
-    )
-    {}
+    ) {
+    }
 
     public function run(array $request): string
     {
         try {
             $generateOrderRequest = GenerateOrderRequest::createFromArray($request);
             $response = $this->useCase->run($generateOrderRequest);
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             $response = new GenerateReportResponse($e->getMessage());
         }
 

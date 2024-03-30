@@ -9,6 +9,7 @@ use InvalidArgumentException;
 class ReportDateTo
 {
     private \DateTime $dateTo;
+
     public function __construct(string $date)
     {
         $this->assertValidValue($date);
@@ -31,7 +32,7 @@ class ReportDateTo
 
         $nowDate = new \DateTime();
         if ($dateTo > $nowDate) {
-            throw new InvalidArgumentException('Дата не должна быть более '.  $nowDate->format('Y-m-d'));
+            throw new InvalidArgumentException('Дата не должна быть более ' . $nowDate->format('Y-m-d'));
         }
     }
 }

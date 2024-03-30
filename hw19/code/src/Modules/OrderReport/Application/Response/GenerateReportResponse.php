@@ -8,6 +8,6 @@ class GenerateReportResponse
 {
     public function __construct(
         public string $message
-    )
-    {}
+    ) {
+    }
 }

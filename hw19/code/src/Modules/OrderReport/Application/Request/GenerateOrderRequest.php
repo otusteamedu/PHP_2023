@@ -10,11 +10,10 @@ class GenerateOrderRequest
         public string $emailTo,
         public string $createDateFrom,
         public string $createDateTo,
-    )
-    {
+    ) {
     }
 
-    public static function createFromArray(array $data) :self
+    public static function createFromArray(array $data): self
     {
         return new self(
             $data['email_to'] ?? '',

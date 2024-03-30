@@ -9,6 +9,7 @@ use InvalidArgumentException;
 class ReportDateFrom
 {
     private \DateTime $dateFrom;
+
     public function __construct(string $date)
     {
         $this->assertValidValue($date);
@@ -31,7 +32,7 @@ class ReportDateFrom
 
         $earliestDate = new \DateTime('2020-01-01');
         if ($dateFrom < $earliestDate) {
-            throw new InvalidArgumentException('Дата должна быть более '.  $earliestDate->format('Y-m-d'));
+            throw new InvalidArgumentException('Дата должна быть более ' . $earliestDate->format('Y-m-d'));
         }
     }
 }

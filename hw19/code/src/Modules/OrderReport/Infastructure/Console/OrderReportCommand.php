@@ -11,8 +11,8 @@ class OrderReportCommand
 {
     public function __construct(
         private readonly RabbitMQConfigs $configs
-    )
-    {}
+    ) {
+    }
 
     public function run()
     {
@@ -33,7 +33,8 @@ class OrderReportCommand
 
         try {
             $channel->consume();
-        } catch (\Throwable $exception) {
+        }
+        catch (\Throwable $exception) {
             echo $exception->getMessage();
         }
     }

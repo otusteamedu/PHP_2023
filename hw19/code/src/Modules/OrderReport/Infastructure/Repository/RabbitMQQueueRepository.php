@@ -12,7 +12,8 @@ class RabbitMQQueueRepository implements OrderReportRepositoryInterface
 {
     public function __construct(
         private RabbitAMQPLib $rabbitAMQPLib,
-    ) {}
+    ) {
+    }
 
     public function save(OrderReportRequest $request): void
     {

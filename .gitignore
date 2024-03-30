@@ -1,6 +1,6 @@
 /.idea
-mysql/dbdata/*
-code/*
-.env
-php-fpm/socket/*
+hw19/code/vendor
+hw19/code/.idea
+hw20/
+
 

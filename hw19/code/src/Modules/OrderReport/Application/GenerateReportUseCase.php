@@ -16,9 +16,8 @@ use Gkarman\Rabbitmq\Modules\OrderReport\Domain\ValueObject\ReportDateTo;
 class GenerateReportUseCase
 {
     public function __construct(
-        private OrderReportRepositoryInterface $repository,
-    )
-    {}
+        private OrderReportRepositoryInterface $repository
+    ) {}
 
     public function run(GenerateOrderRequest $request): GenerateReportResponse
     {

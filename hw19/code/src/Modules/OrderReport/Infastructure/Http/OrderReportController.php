@@ -21,8 +21,7 @@ class OrderReportController
         try {
             $generateOrderRequest = GenerateOrderRequest::createFromArray($request);
             $response = $this->useCase->run($generateOrderRequest);
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $response = new GenerateReportResponse($e->getMessage());
         }
 

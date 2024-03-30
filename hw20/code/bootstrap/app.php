@@ -59,9 +59,9 @@ $app->singleton(
 |
 */
 
+$app->configure('swagger-lume');
 $app->configure('app');
 $app->configure('queue');
-$app->configure('swagger-lume');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware

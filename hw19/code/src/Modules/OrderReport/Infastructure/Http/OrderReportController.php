@@ -11,12 +11,16 @@ use Gkarman\Rabbitmq\Modules\OrderReport\Infastructure\Repository\RabbitMQQueueR
 
 class OrderReportController
 {
+    public function __construct(
+        private GenerateReportUseCase $useCase
+    )
+    {}
+
     public function run(array $request): string
     {
         try {
             $generateOrderRequest = GenerateOrderRequest::createFromArray($request);
-            $useCase = new GenerateReportUseCase(new RabbitMQQueueRepository());
-            $response = $useCase->run($generateOrderRequest);
+            $response = $this->useCase->run($generateOrderRequest);
         } catch (\Exception $e) {
             $response = new GenerateReportResponse($e->getMessage());
         }

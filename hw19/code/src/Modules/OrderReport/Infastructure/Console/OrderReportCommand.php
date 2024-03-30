@@ -33,8 +33,7 @@ class OrderReportCommand
 
         try {
             $channel->consume();
-        }
-        catch (\Throwable $exception) {
+        } catch (\Throwable $exception) {
             echo $exception->getMessage();
         }
     }

@@ -14,19 +14,39 @@ class OrderCreateController extends Controller
 {
     public function __construct(
         private OrderCreateUseCase $useCase
-    )
-    {
-        /**
-         * @OA\Get(
-         *     path="/api/data.json",
-         *     @OA\Response(
-         *         response="200",
-         *         description="The data"
-         *     )
-         * )
-         */
-    }
+    ) {}
 
+    /**
+     * @OA\Post(
+     *     path="/api/v1/orders",
+     *     summary="Create a new order",
+     *     description="Create a new order with email and comment",
+     *     tags={"Orders"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", example="example@example.com"),
+     *             @OA\Property(property="comment", type="string", example="Sample comment")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="201",
+     *         description="Order created successfully",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=true),
+     *             @OA\Property(property="message", type="string", example="Order created successfully")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Invalid input data",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="success", type="boolean", example=false),
+     *             @OA\Property(property="message", type="string", example="Invalid input data")
+     *         )
+     *     )
+     * )
+     */
     public function run(Request $request): JsonResponse
     {
         try {

@@ -1,83 +1,122 @@
 version: '3'
 
 services:
-  nginx:
-    # Если нет секции build, то система будет искать образ в репозиториях
+
+  # Контейнер с Nginx-балансировщиком
+  nginx-balancer:
+    # имя будущего образа
+    image: nginx
     build:
-      context: ./nginx
+      context: ./docker/nginx
       dockerfile: Dockerfile
-    image: balance/nginx  # имя будущего образа
-    container_name: nginx # имя контейнера после запуска
+    # имя контейнера после запуска
+    container_name: nginx-balancer
+    # проброс портов
     ports:
       - "80:80"
     volumes:
-      - ./src/:/data/app.local
+      - ./nginx/balancer.conf:/etc/nginx/conf.d/app.local.conf
     networks:
       - app-network
 
-  php-fpm-01:
+  # Контейнеры с Nginx
+  nginx1:
+    # имя будущего образа
+    image: nginx
     build:
-      context: ./fpm
+      context: ./docker/nginx
       dockerfile: Dockerfile
-    image: balance/php
-    container_name: php-fpm-01
-    volumes:
-      - ./src/:/data/app.local
-    networks:
-      - app-network
-
-  php-fpm-02:
-    build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: balance/php
-    container_name: php-fpm-02
-    volumes:
-      - ./src/:/data/app.local
-    networks:
-      - app-network
-
-  php-fpm-03:
-    build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: balance/php
-    container_name: php-fpm-03
-    volumes:
-      - ./src/:/data/app.local
-    networks:
-      - app-network
-
-  php-fpm-04:
-    build:
-      context: ./fpm
-      dockerfile: Dockerfile
-    image: balance/php
-    container_name: php-fpm-04
-    volumes:
-      - ./src/:/data/app.local
-    networks:
-      - app-network
-
-  memcache01:
-    build:
-      context: ./memcached
-      dockerfile: Dockerfile
-    image: balance/memcached
-    container_name: memcache01
+    # имя контейнера после запуска
+    container_name: nginx1
+    # проброс портов, т.к. 80й уже занят балансировщиком, указываем 81
     ports:
-      - '11201:11211'
+      - "81:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx1.conf:/etc/nginx/conf.d/app.local.conf
     networks:
       - app-network
 
-  memcache02:
+  nginx2:
+    # имя будущего образа
+    image: nginx
     build:
-      context: ./memcached
+      context: ./docker/nginx
       dockerfile: Dockerfile
-    image: balance/memcached
-    container_name: memcache02
+    # имя контейнера после запуска
+    container_name: nginx2
+    # проброс портов
     ports:
-      - '11202:11211'
+      - "82:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx2.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  nginx3:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx3
+    # проброс портов
+    ports:
+      - "83:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx3.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  memcached01:
+    image: memcached:latest
+    container_name: memcached01
+    ports:
+      - "11201:11211"
+    networks:
+      - app-network
+
+  memcached02:
+    image: memcached:latest
+    container_name: memcached02
+    ports:
+      - "11202:11211"
     networks:
       - app-network
 

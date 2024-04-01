@@ -1,4 +1,4 @@
-create table halls
+CREATE TABLE halls
 (
     id           serial       not null
         constraint halls_pkey
@@ -7,7 +7,7 @@ create table halls
     description text         null
 );
 
-create table movies
+CREATE TABLE movies
 (
     id       serial       not null
         constraint movies_pkey
@@ -17,7 +17,7 @@ create table movies
     duration integer      not null
 );
 
-create table users
+CREATE TABLE users
 (
     id      serial       not null
         constraint users_pkey
@@ -27,7 +27,7 @@ create table users
     surname varchar(255) not null
 );
 
-create table sessions
+CREATE TABLE sessions
 (
     id         serial    not null
         constraint sessions_pkey
@@ -41,7 +41,7 @@ create table sessions
     start_time timestamp not null
 );
 
-create table seats_types
+CREATE TABLE seats_types
 (
     id    serial       not null
         constraint seats_types_pkey
@@ -49,7 +49,7 @@ create table seats_types
     title varchar(255) not null
 );
 
-create table seats
+CREATE TABLE seats
 (
     id             serial  not null
         constraint seats_pkey
@@ -64,7 +64,7 @@ create table seats
             references halls
 );
 
-create table prices
+CREATE TABLE prices
 (
     id             serial         not null
         constraint prices_pkey
@@ -78,7 +78,7 @@ create table prices
             references sessions
 );
 
-create table tickets
+CREATE TABLE tickets
 (
     id          serial not null
         constraint tickets_pkey
@@ -95,7 +95,7 @@ create table tickets
             references seats
 );
 
-create table orders
+CREATE TABLE orders
 (
     id        serial not null
         constraint orders_pkey
@@ -107,3 +107,45 @@ create table orders
         constraint orders_user_id_fkey
             references users
 );
+
+CREATE TABLE attributes_types
+(
+    id   serial       not null
+        constraint attributes_types_pkey
+            primary key,
+    name varchar(255) not null
+);
+
+CREATE TABLE attributes_names
+(
+    id                  serial not null
+        constraint attributes_names_pkey
+            primary key,
+    name                varchar(255),
+    attributes_types_id integer
+        constraint attributes_names_attributes_types_id_fkey
+            references attributes_types
+);
+
+CREATE INDEX ON attributes_names (attributes_types_id);
+
+CREATE TABLE attributes_values
+(
+    id                  serial not null
+        constraint attributes_values_pkey
+            primary key,
+    movies_id           integer
+        constraint attributes_values_movies_id_fkey
+            references movies,
+    attributes_names_id integer
+        constraint attributes_values_attributes_names_id_fkey
+            references attributes_names,
+    value_text          text,
+    value_int           integer,
+    value_bool          boolean,
+    value_date          date,
+    value_numeric       numeric(10, 2)
+);
+
+CREATE INDEX ON attributes_values (movies_id);
+CREATE INDEX ON attributes_values (attributes_names_id);

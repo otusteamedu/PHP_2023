@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AYamaliev\hw13\Db;
+namespace AYamaliev\hw13\Application\Db;
 
 final class Connection
 {

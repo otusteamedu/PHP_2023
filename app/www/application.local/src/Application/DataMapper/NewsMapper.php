@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace AYamaliev\hw13\DataMapper;
+namespace AYamaliev\hw13\Application\DataMapper;
 
-use AYamaliev\hw13\IdentityMap\IdentityMap;
+use AYamaliev\hw13\Domain\IdentityMap\IdentityMap;
+use AYamaliev\hw13\Domain\News;
 use PDO;
 use PDOStatement;
 

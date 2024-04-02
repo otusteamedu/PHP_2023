@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace AYamaliev\hw13\DataMapper;
+namespace AYamaliev\hw13\Domain;
 
-use AYamaliev\hw13\IdentityMap\IdentityMapInterface;
+use AYamaliev\hw13\Domain\IdentityMap\IdentityMapInterface;
 
 class News implements IdentityMapInterface
 {

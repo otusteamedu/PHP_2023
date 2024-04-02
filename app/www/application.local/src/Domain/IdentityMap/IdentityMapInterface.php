@@ -1,6 +1,6 @@
 <?php
 
-namespace AYamaliev\hw13\IdentityMap;
+namespace AYamaliev\hw13\Domain\IdentityMap;
 
 interface IdentityMapInterface
 {

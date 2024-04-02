@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace AYamaliev\hw13\IdentityMap;
+namespace AYamaliev\hw13\Domain\IdentityMap;
 
 class IdentityMap
 {

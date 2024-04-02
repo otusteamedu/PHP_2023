@@ -14,7 +14,7 @@ class Validator
         $counter = 0;
         $bracket = preg_replace('/[^()]/', '', $bracket);
 
-        if($bracket === '') {
+        if ($bracket === '') {
             throw new Exception("Пустая строка", 400);
         }
 
@@ -25,7 +25,7 @@ class Validator
                 $counter--;
             }
 
-            if($counter < 0) {
+            if ($counter < 0) {
                 throw new Exception("Не хватает открывающей скобки", 400);
             }
         }

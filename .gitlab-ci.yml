@@ -1,0 +1,18 @@
+image: registry.gitlab.com/webpractik/.../
+
+stages:
+  - deploy
+
+before_script:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+
+prod_deploy:
+  stage: deploy
+  script:
+    - cd $CI_PROJECT_DIR
+    - php /root/.composer/vendor/bin/dep deploy $CI_COMMIT_BRANCH -o branch=$CI_COMMIT_BRANCH -o repo_path=$CI_PROJECT_PATH -vvv
+    - curl -ILk b2c.ru/clearcache.php
+
+  only:
+    - master

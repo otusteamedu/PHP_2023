@@ -1,3 +1,6 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+###Quick Sort
+
+Временная сложность в среднем случае: O(n log n)
+Это один из самых эффективных алгоритмов сортировки в среднем случае. Он широко используется в стандартных библиотеках сортировки.

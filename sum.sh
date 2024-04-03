@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-CHECK_REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
+#CHECK_REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
+CHECK_REGEX="^[0-9]+$"
 
 echo -n 'Введите первое число: '
 read -r a

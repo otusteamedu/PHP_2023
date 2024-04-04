@@ -1,0 +1,80 @@
+---
+version: '3.8'
+
+services:
+  balancer:
+    container_name: balancer
+    build:
+      context: docker/balancer
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    networks:
+      - app-network
+    depends_on:
+      - nginx-1
+      - nginx-2
+
+  nginx-1:
+    container_name: nginx-1
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: webserver/nginx
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+    depends_on:
+      - app-1
+      - app-2
+
+  nginx-2:
+    container_name: nginx-2
+    build:
+      context: docker/nginx
+      dockerfile: Dockerfile
+    image: webserver/nginx
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+    depends_on:
+      - app-1
+      - app-2
+
+  app-1: #2.2. php-fpm (соединяется с nginx через unix-сокет)
+    container_name: app-1
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: webserver/app
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  app-2: #2.2. php-fpm (соединяется с nginx через unix-сокет)
+    container_name: app-2
+    build:
+      context: docker/fpm
+      dockerfile: Dockerfile
+    image: webserver/app
+    volumes:
+      - ./code:/data/application.local
+    networks:
+      - app-network
+
+  memcached: #2.4. memcached (соединяется с php по порту)
+    image: memcached
+    container_name: memcached
+    ports:
+      - "11211:11211"
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge
+...

@@ -1,0 +1,15 @@
+{
+    "name": "dmatrenin/bracket",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dmatrenin\\Bracket\\": "app"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmireiy Matrenin"
+        }
+    ],
+    "require": {}
+}

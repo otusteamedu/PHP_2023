@@ -6,4 +6,4 @@ use Dmatrenin\Bracket\Application;
 
 require_once "../vendor/autoload.php";
 
-Application::run();
+echo Application::run();

@@ -12,10 +12,10 @@ class Application
     {
         try {
             http_response_code(200);
-            echo Validator::validate($_POST['string']);
+            return Validator::validate($_POST['string']);
         } catch (Exception $e) {
             http_response_code($e->getCode());
-            echo $e->getMessage();
+            return $e->getMessage();
         }
     }
 }

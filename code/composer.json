@@ -3,7 +3,7 @@
     "type": "project",
     "autoload": {
         "psr-4": {
-            "Dmatrenin\\Bracket\\": "src/"
+            "Dmatrenin\\Bracket\\": "app"
         }
     },
     "authors": [

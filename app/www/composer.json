@@ -1,0 +1,19 @@
+{
+    "name": "alisa/hw6",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "application.local/src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Alisa",
+            "email": "kolosovaalisa@gmail.com"
+        }
+    ],
+    "require": {
+        "ext-sockets": "*",
+        "ext-readline": "*"
+    }
+}

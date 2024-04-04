@@ -1,0 +1,54 @@
+stages:
+    - build
+    - switching
+    - rollback
+
+before_script:
+    - apt-get update -qq
+    - apt-get install -qq git
+    - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$SSH_PRIVATE_KEY" | base64 -d)
+    - mkdir -p ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+
+build:
+    stage: build
+    image: ubuntu:22.04
+    script:
+        - export DIR=$(date +%Y%m%d_%H%M%S)
+        - echo "DIR=$DIR" >> file_with_env
+        - ssh $SSH_USER@$PROD_SERVER "mkdir -p /var/www/otus_php_prof_hw21 &&
+            cd /var/www/otus_php_prof_hw21 &&
+            git clone http://gitlab+deploy-token-2:gldt-YnrqttNPWJnvszrGFTqt@gitlab.local/svk/otus_php_prof_hw21.git $DIR &&
+            sudo chown www-data:www-data $DIR -R &&
+            cd $DIR &&
+            sh ./deploy/deploy.sh $DOMAIN_NAME $DATABASE_HOST $DATABASE_USER $DATABASE_PASSWORD $DATABASE_NAME $RABBITMQ_HOST $RABBITMQ_USER $RABBITMQ_PASSWORD"
+    only:
+        - master
+    artifacts:
+        paths:
+            - file_with_env
+
+switching:
+    stage: switching
+    image: ubuntu:22.04
+    script:
+        - source file_with_env
+        - ssh $SSH_USER@$PROD_SERVER "mkdir -p /var/www/otus_php_prof_hw21/shared/log &&
+            cd /var/www/otus_php_prof_hw21/$DIR &&
+            ln -s /var/www/otus_php_prof_hw21/shared/log /var/www/otus_php_prof_hw21/$DIR/var/log &&
+            ( [ ! -d /var/www/otus_php_prof_hw21/current ] || mv -Tf /var/www/otus_php_prof_hw21/current /var/www/otus_php_prof_hw21/previous ) &&
+            ln -s /var/www/otus_php_prof_hw21/$DIR /var/www/otus_php_prof_hw21/current"
+    only:
+        - master
+
+rollback:
+    stage: rollback
+    image: ubuntu:22.04
+    script:
+        - ssh $SSH_USER@$PROD_SERVER "unlink /var/www/otus_php_prof_hw21/current &&
+            mv -Tf /var/www/otus_php_prof_hw21/previous /var/www/otus_php_prof_hw21/current &&
+            cd /var/www/otus_php_prof_hw21/current &&
+            sh ./deploy/rollback.sh $DOMAIN_NAME"
+    when: manual

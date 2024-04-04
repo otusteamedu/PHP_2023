@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
-#CHECK_REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
-CHECK_REGEX="^[0-9]+$"
+CHECK_REGEX="^[+-]?[0-9]+([.][0-9]+)?$"
 
 echo -n 'Введите первое число: '
 read -r a
@@ -21,5 +20,5 @@ then
   exit 2
 fi
 
-
-echo "$a + $b = $((a+b))"
+result = $(echo "$a + $b" | bc)
+echo "$a + $b = $result"

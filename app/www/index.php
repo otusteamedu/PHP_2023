@@ -5,85 +5,41 @@ use App\MainElasticsearch;
 require __DIR__ . '/vendor/autoload.php';
 
 try {
-    $client = new MainElasticsearch();
 
-    // Формируем запрос к Elasticsearch
-    $params = [
-        'index' => 'otus-shop',
-        'body' => [
-            'query' => [
-                'match' => [
-                    'title' => 'Кто подставил поручика Ржевского на Луне'
-                ]
-            ]
-        ]
-    ];
+    $mainElasticsearch = new MainElasticsearch();
 
-    // Выполняем запрос к Elasticsearch
-    $response = $client->search($params);
+    if($argv[1] == 'createIndex'){
+        $mainElasticsearch->createIndex();
+        $mainElasticsearch->bulkData();
+    }elseif ($argv[1] == 'allData'){
+        $mainElasticsearch->getAllData();
+    }elseif ($argv[1] == 'search'){
+        $title = null;
+        $category = null;
+        $minPrice = null;
+        $maxPrice = null;
 
-    // Обрабатываем результаты запроса
-    $hits = $response['hits']['hits'];
-    foreach ($hits as $hit) {
-        echo $hit['_source']['title'] . '<br>'; // Выводим найденные заголовки книг
+        foreach ($argv as $arg){
+            $item = explode("=", $arg);
+            if($item[0] == 'title'){
+                $title = $item[1];
+            }elseif ($item[0] == 'category'){
+                $category = $item[1];
+            }elseif ($item[0] == 'minPrice'){
+                $minPrice = $item[1];
+            }elseif ($item[0] == 'maxPrice'){
+                $maxPrice = $item[1];
+            }
+        }
+        //php index.php search "title=рыцОри" "category=Исторический роман" "minPrice=0" "maxPrice=2000"
+
+        $mainElasticsearch->searchData($title, $category, $minPrice, $maxPrice);
     }
 
-//    $searchDto = new SearchDto($argv);
-//
-//    ((new SearchBooks($client))($searchDto));
+
 } catch (\Exception $e) {
-    echo $e->getMessage();
+    echo 'Произошла ошибка при выполнении программы!' . PHP_EOL .
+        'Текст ошибки: ' . $e->getMessage() . PHP_EOL .
+        $e->getTraceAsString();
 }
-
-
-//try {
-//    // Создаем клиент Elasticsearch
-////    $client = ClientBuilder::create()
-////        ->setHosts(['https://localhost:9200'])
-////        ->setSSLVerification(false)
-////        ->setBasicAuthentication('elastic', 'elastic123')
-////        ->build();
-//
-//    // Загружаем содержимое файла books.json
-//    $booksData = file_get_contents(__DIR__ . '/books.json');
-//    $books = json_decode($booksData, true);
-//
-//
-//
-//
-//
-//
-//    // Формируем запрос к Elasticsearch
-//    $params = [
-//        'index' => 'otus-shop', // Имя индекса Elasticsearch
-//        'body' => [
-//            'query' => [
-//                'bool' => [
-//                    'should' => []
-//                ]
-//            ],
-//            'size' => 10 // Указываем количество возвращаемых документов (книг)
-//        ]
-//    ];
-//
-//    // Добавляем условия поиска для каждой книги из файла books.json
-//    foreach ($books as $book) {
-//        $params['body']['query']['bool']['should'][] = [
-//            'match' => [
-//                'title' => $book['title']
-//            ]
-//        ];
-//    }
-//
-//    // Выполняем запрос к Elasticsearch
-//    $response = $client->search($params);
-//
-//    // Обрабатываем результаты запроса
-//    $hits = $response['hits']['hits'];
-//    foreach ($hits as $hit) {
-//        echo $hit['_source']['title'] . '<br>'; // Выводим найденные заголовки книг
-//    }
-//} catch (\Exception $e) {
-//    echo $e->getMessage();
-//}
 

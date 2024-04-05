@@ -2,7 +2,8 @@
   "name": "alisa/hw11",
   "type": "project",
   "require": {
-    "elasticsearch/elasticsearch": "^8.12"
+    "elasticsearch/elasticsearch": "^8.12",
+    "shasoft/console": "^2.0"
   },
   "autoload": {
     "psr-4": {

@@ -19,52 +19,51 @@ class ListNode {
 }
 
 class Solution {
-    /**
-     * @param ListNode $headA
-     * @param ListNode $headB
-     * @return ListNode
-     */
-
-    function getLength($head) {
-        $length = 0;
-        while ($head !== null) {
-            $length++;
-            $head = $head->next;
-        }
-        return $length;
-    }
 
     function getIntersectionNode($headA, $headB) {
+        $tailA = null;
+        $tailB = null;
 
-        $lenA = $this->getLength($headA);
-        $lenB = $this->getLength($headB);
-        $lastA = $headA;
-        $lastB = $headB;
-        while ($lastA->next !== null) {
-            $lastA = $lastA->next;
+        $currentA = $headA;
+        $currentB = $headB;
+
+        $lenA = 0;
+        $lenB = 0;
+        while ($currentA !== null) {
+            $lenA++;
+            $tailA = $currentA;
+            $currentA = $currentA->next;
         }
-        while ($lastB->next !== null) {
-            $lastB = $lastB->next;
+        while ($currentB !== null) {
+            $lenB++;
+            $tailB = $currentB;
+            $currentB = $currentB->next;
         }
 
-        if ($lastA !== $lastB) {
+        if ($tailA !== $tailB) {
             return null;
         }
 
+        $currentA = $headA;
+        $currentB = $headB;
+
         $diff = abs($lenA - $lenB);
-
-        $longer = $lenA > $lenB ? $headA : $headB;
-        $shorter = $lenA > $lenB ? $headB : $headA;
-        for ($i = 0; $i < $diff; $i++) {
-            $longer = $longer->next;
+        if ($lenA > $lenB) {
+            for ($i = 0; $i < $diff; $i++) {
+                $currentA = $currentA->next;
+            }
+        } else {
+            for ($i = 0; $i < $diff; $i++) {
+                $currentB = $currentB->next;
+            }
         }
 
-        while ($longer !== $shorter) {
-            $longer = $longer->next;
-            $shorter = $shorter->next;
+        while ($currentA !== $currentB) {
+            $currentA = $currentA->next;
+            $currentB = $currentB->next;
         }
 
-        return $longer;
+        return $currentA;
     }
 }
 

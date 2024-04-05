@@ -3,7 +3,7 @@ version: "3"
 services:
   server:
     build:
-      context: ./fpm
+      context: ./cli
       dockerfile: Dockerfile
     image: hw6/server
     container_name: server
@@ -12,10 +12,11 @@ services:
       - ./socket:/var/www/application.local/socket/
     networks:
       - app-network
+    command: php /var/www/application.local/app.php server
 
   client:
     build:
-      context: ./fpm
+      context: ./cli
       dockerfile: Dockerfile
     image: hw6/client
     container_name: client

@@ -40,3 +40,5 @@ catch(Exception $e){
 3. docker-compose run server php app.php server
 4. docker-compose run server php app.php client
 5. exit
+
+

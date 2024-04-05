@@ -92,20 +92,11 @@ CREATE TABLE tickets
     price       numeric(10, 2) not null,
     seats_id    integer
         constraint tickets_seats_id_fkey
-            references seats
-);
-
-CREATE TABLE orders
-(
-    id        serial not null
-        constraint orders_pkey
-            primary key,
-    ticket_id integer
-        constraint orders_ticket_id_fkey
-            references tickets,
-    user_id   integer
-        constraint orders_user_id_fkey
-            references users
+            references seats,
+    users_id    integer
+        constraint tickets_users_id_fkey
+            references users,
+    created_at timestamp not null
 );
 
 CREATE TABLE attributes_types

@@ -1,51 +1,32 @@
 -- Подсчёт проданных билетов за неделю
 EXPLAIN ANALYSE
 SELECT COUNT(*)
-FROM orders
-         JOIN tickets ON orders.ticket_id = tickets.id
-         JOIN sessions ON tickets.sessions_id = sessions.id
-WHERE sessions.start_time >= CURRENT_DATE - INTERVAL '7 days';
+FROM tickets
+WHERE tickets.created_at >= CURRENT_DATE - INTERVAL '7 days';
 
--- Finalize Aggregate  (cost=605361.31..605361.32 rows=1 width=8) (actual time=6489.982..6489.982 rows=1 loops=1)
---   ->  Gather  (cost=605361.09..605361.30 rows=2 width=8) (actual time=6488.178..7093.049 rows=3 loops=1)
+-- Finalize Aggregate  (cost=158059.46..158059.47 rows=1 width=8) (actual time=2237.419..2237.419 rows=1 loops=1)
+--   ->  Gather  (cost=158059.24..158059.45 rows=2 width=8) (actual time=2237.136..2240.851 rows=3 loops=1)
 --         Workers Planned: 2
 --         Workers Launched: 2
---         ->  Partial Aggregate  (cost=604361.09..604361.10 rows=1 width=8) (actual time=6464.917..6464.917 rows=1 loops=3)
---               ->  Parallel Hash Join  (cost=378691.80..593944.57 rows=4166608 width=0) (actual time=5237.646..6338.602 rows=3333333 loops=3)
---                     Hash Cond: (tickets.sessions_id = sessions.id)
---                     ->  Parallel Hash Join  (cost=173719.79..329206.22 rows=4166608 width=4) (actual time=1995.992..3167.907 rows=3333333 loops=3)
---                           Hash Cond: (orders.ticket_id = tickets.id)
---                           ->  Parallel Seq Scan on orders  (cost=0.00..95721.08 rows=4166608 width=4) (actual time=0.017..378.716 rows=3333333 loops=3)
---                           ->  Parallel Hash  (cost=105361.13..105361.13 rows=4166613 width=8) (actual time=1020.242..1020.242 rows=3333333 loops=3)
---                                 Buckets: 131072  Batches: 256  Memory Usage: 2592kB
---                                 ->  Parallel Seq Scan on tickets  (cost=0.00..105361.13 rows=4166613 width=8) (actual time=0.057..411.053 rows=3333333 loops=3)
---                     ->  Parallel Hash  (cost=136611.67..136611.67 rows=4166667 width=4) (actual time=1506.681..1506.681 rows=3333333 loops=3)
---                           Buckets: 131072  Batches: 256  Memory Usage: 2592kB
---                           ->  Parallel Seq Scan on sessions  (cost=0.00..136611.67 rows=4166667 width=4) (actual time=0.013..939.457 rows=3333333 loops=3)
---                                 Filter: (start_time >= (CURRENT_DATE - '7 days'::interval))
--- Planning Time: 0.370 ms
--- Execution Time: 7093.166 ms
+--         ->  Partial Aggregate  (cost=157059.24..157059.25 rows=1 width=8) (actual time=2218.703..2218.703 rows=1 loops=3)
+--               ->  Parallel Seq Scan on tickets  (cost=0.00..156251.25 rows=323197 width=0) (actual time=0.131..2201.733 rows=266002 loops=3)
+--                     Filter: (created_at >= (CURRENT_DATE - '7 days'::interval))
+--                     Rows Removed by Filter: 3067331
+-- Planning Time: 1.246 ms
+-- Execution Time: 2240.975 ms
 
-CREATE INDEX ON orders (ticket_id);
-CREATE INDEX ON tickets (sessions_id);
-CREATE INDEX ON sessions (start_time);
+CREATE INDEX ON tickets (created_at);
 
--- Finalize Aggregate  (cost=605369.56..605369.57 rows=1 width=8) (actual time=6270.773..6270.773 rows=1 loops=1)
---   ->  Gather  (cost=605369.34..605369.55 rows=2 width=8) (actual time=6268.728..6857.358 rows=3 loops=1)
+-- Finalize Aggregate  (cost=146142.93..146142.94 rows=1 width=8) (actual time=631.495..631.495 rows=1 loops=1)
+--   ->  Gather  (cost=146142.72..146142.93 rows=2 width=8) (actual time=630.669..637.255 rows=3 loops=1)
 --         Workers Planned: 2
 --         Workers Launched: 2
---         ->  Partial Aggregate  (cost=604369.34..604369.35 rows=1 width=8) (actual time=6245.802..6245.803 rows=1 loops=3)
---               ->  Parallel Hash Join  (cost=378694.01..593952.68 rows=4166667 width=0) (actual time=5050.636..6115.497 rows=3333333 loops=3)
---                     Hash Cond: (tickets.sessions_id = sessions.id)
---                     ->  Parallel Hash Join  (cost=173722.00..329212.17 rows=4166667 width=4) (actual time=1880.932..3009.511 rows=3333333 loops=3)
---                           Hash Cond: (orders.ticket_id = tickets.id)
---                           ->  Parallel Seq Scan on orders  (cost=0.00..95721.67 rows=4166667 width=4) (actual time=0.018..351.346 rows=3333333 loops=3)
---                           ->  Parallel Hash  (cost=105361.67..105361.67 rows=4166667 width=8) (actual time=982.130..982.130 rows=3333333 loops=3)
---                                 Buckets: 131072  Batches: 256  Memory Usage: 2592kB
---                                 ->  Parallel Seq Scan on tickets  (cost=0.00..105361.67 rows=4166667 width=8) (actual time=0.058..402.852 rows=3333333 loops=3)
---                     ->  Parallel Hash  (cost=136611.67..136611.67 rows=4166667 width=4) (actual time=1490.314..1490.314 rows=3333333 loops=3)
---                           Buckets: 131072  Batches: 256  Memory Usage: 2592kB
---                           ->  Parallel Seq Scan on sessions  (cost=0.00..136611.67 rows=4166667 width=4) (actual time=0.035..938.018 rows=3333333 loops=3)
---                                 Filter: (start_time >= (CURRENT_DATE - '7 days'::interval))
--- Planning Time: 0.936 ms
--- Execution Time: 6857.569 ms
+--         ->  Partial Aggregate  (cost=145142.72..145142.73 rows=1 width=8) (actual time=607.569..607.569 rows=1 loops=3)
+--               ->  Parallel Bitmap Heap Scan on tickets  (cost=14531.86..144334.73 rows=323195 width=0) (actual time=47.188..595.820 rows=266002 loops=3)
+--                     Recheck Cond: (created_at >= (CURRENT_DATE - '7 days'::interval))
+--                     Rows Removed by Index Recheck: 1217056
+--                     Heap Blocks: exact=16984 lossy=11340
+--                     ->  Bitmap Index Scan on tickets_created_at_idx  (cost=0.00..14337.94 rows=775667 width=0) (actual time=63.665..63.665 rows=798007 loops=1)
+--                           Index Cond: (created_at >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 0.327 ms
+-- Execution Time: 637.299 ms

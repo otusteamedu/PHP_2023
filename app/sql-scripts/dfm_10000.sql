@@ -32,22 +32,19 @@ SELECT seq.num % 10000 + 1,
        (seq.num % 10 + 1) * 50
 FROM generate_series(1, 10000) AS seq(num);
 
-INSERT INTO tickets (seats_id, sessions_id, prices_id, price)
-SELECT seq.num % 10000 + 1,
-       seq.num % 10000 + 1,
-       seq.num % 10000 + 1,
-       (seq.num % 10 + 1) * 50
-FROM generate_series(1, 10000) AS seq(num);
-
 INSERT INTO users (phone, name, surname)
 SELECT '+7' || lpad((seq.num % 9999999 + 1)::text, 7, '0'),
        'Имя ' || seq.num,
        'Фамилия ' || seq.num
 FROM generate_series(1, 10000) AS seq(num);
 
-INSERT INTO orders (ticket_id, user_id)
+INSERT INTO tickets (seats_id, sessions_id, prices_id, price, users_id, created_at)
 SELECT seq.num % 10000 + 1,
-       seq.num % 10000 + 1
+       seq.num % 10000 + 1,
+       seq.num % 10000 + 1,
+       (seq.num % 10 + 1) * 50,
+       seq.num % 10000 + 1,
+       generate_random_date('2024-01-01', CURRENT_DATE)
 FROM generate_series(1, 10000) AS seq(num);
 
 INSERT INTO attributes_types (name)

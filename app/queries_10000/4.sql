@@ -4,65 +4,58 @@ SELECT movies.title, SUM(tickets.price) AS total_revenue
 FROM movies
          JOIN sessions ON movies.id = sessions.movie_id
          JOIN tickets ON tickets.sessions_id = sessions.id
-         JOIN orders ON orders.ticket_id = tickets.id
-WHERE sessions.start_time >= CURRENT_DATE - INTERVAL '7 days'
-GROUP BY movies.title
+WHERE tickets.created_at >= CURRENT_DATE - INTERVAL '7 days'
+GROUP BY movies.id
 ORDER BY total_revenue DESC
 LIMIT 3;
 
--- Limit  (cost=1500.03..1500.04 rows=3 width=47) (actual time=23.241..23.242 rows=3 loops=1)
---   ->  Sort  (cost=1500.03..1525.03 rows=10000 width=47) (actual time=23.240..23.240 rows=3 loops=1)
+-- Limit  (cost=754.48..754.49 rows=3 width=51) (actual time=6.016..6.016 rows=3 loops=1)
+--   ->  Sort  (cost=754.48..756.89 rows=961 width=51) (actual time=6.014..6.015 rows=3 loops=1)
 --         Sort Key: (sum(tickets.price)) DESC
 --         Sort Method: top-N heapsort  Memory: 25kB
---         ->  HashAggregate  (cost=1245.78..1370.78 rows=10000 width=47) (actual time=18.222..21.176 rows=10000 loops=1)
---               Group Key: movies.title
---               ->  Hash Join  (cost=962.00..1195.78 rows=10000 width=20) (actual time=7.589..14.615 rows=10000 loops=1)
---                     Hash Cond: (sessions.movie_id = movies.id)
---                     ->  Hash Join  (cost=653.00..860.52 rows=10000 width=9) (actual time=5.672..10.777 rows=10000 loops=1)
---                           Hash Cond: (tickets.sessions_id = sessions.id)
---                           ->  Hash Join  (cost=289.00..470.26 rows=10000 width=9) (actual time=2.194..5.277 rows=10000 loops=1)
---                                 Hash Cond: (orders.ticket_id = tickets.id)
---                                 ->  Seq Scan on orders  (cost=0.00..155.00 rows=10000 width=4) (actual time=0.012..0.859 rows=10000 loops=1)
---                                 ->  Hash  (cost=164.00..164.00 rows=10000 width=13) (actual time=2.144..2.144 rows=10000 loops=1)
---                                       Buckets: 16384  Batches: 1  Memory Usage: 597kB
---                                       ->  Seq Scan on tickets  (cost=0.00..164.00 rows=10000 width=13) (actual time=0.007..1.060 rows=10000 loops=1)
---                           ->  Hash  (cost=239.00..239.00 rows=10000 width=8) (actual time=3.399..3.399 rows=10000 loops=1)
---                                 Buckets: 16384  Batches: 1  Memory Usage: 519kB
---                                 ->  Seq Scan on sessions  (cost=0.00..239.00 rows=10000 width=8) (actual time=0.009..2.373 rows=10000 loops=1)
---                                       Filter: (start_time >= (CURRENT_DATE - '7 days'::interval))
---                     ->  Hash  (cost=184.00..184.00 rows=10000 width=19) (actual time=1.878..1.878 rows=10000 loops=1)
---                           Buckets: 16384  Batches: 1  Memory Usage: 636kB
---                           ->  Seq Scan on movies  (cost=0.00..184.00 rows=10000 width=19) (actual time=0.009..0.804 rows=10000 loops=1)
--- Planning Time: 0.734 ms
--- Execution Time: 23.847 ms
+--         ->  HashAggregate  (cost=730.05..742.06 rows=961 width=51) (actual time=5.554..5.802 rows=961 loops=1)
+--               Group Key: movies.id
+--               ->  Hash Join  (cost=494.13..725.25 rows=961 width=24) (actual time=3.849..5.169 rows=961 loops=1)
+--                     Hash Cond: (movies.id = sessions.movie_id)
+--                     ->  Seq Scan on movies  (cost=0.00..184.00 rows=10000 width=19) (actual time=0.009..0.525 rows=10000 loops=1)
+--                     ->  Hash  (cost=482.12..482.12 rows=961 width=9) (actual time=3.829..3.829 rows=961 loops=1)
+--                           Buckets: 1024  Batches: 1  Memory Usage: 47kB
+--                           ->  Hash Join  (cost=271.01..482.12 rows=961 width=9) (actual time=2.447..3.721 rows=961 loops=1)
+--                                 Hash Cond: (sessions.id = tickets.sessions_id)
+--                                 ->  Seq Scan on sessions  (cost=0.00..164.00 rows=10000 width=8) (actual time=0.006..0.537 rows=10000 loops=1)
+--                                 ->  Hash  (cost=259.00..259.00 rows=961 width=9) (actual time=2.431..2.432 rows=961 loops=1)
+--                                       Buckets: 1024  Batches: 1  Memory Usage: 50kB
+--                                       ->  Seq Scan on tickets  (cost=0.00..259.00 rows=961 width=9) (actual time=0.009..2.288 rows=961 loops=1)
+--                                             Filter: (created_at >= (CURRENT_DATE - '7 days'::interval))
+--                                             Rows Removed by Filter: 9039
+-- Planning Time: 0.342 ms
+-- Execution Time: 6.127 ms
 
 CREATE INDEX ON sessions (movie_id);
-CREATE INDEX ON tickets (sessions_id);
-CREATE INDEX ON orders (ticket_id);
 CREATE INDEX ON sessions (start_time);
+CREATE INDEX ON tickets (sessions_id);
+CREATE INDEX ON tickets (created_at);
 
--- Limit  (cost=1500.03..1500.04 rows=3 width=47) (actual time=21.799..21.800 rows=3 loops=1)
---   ->  Sort  (cost=1500.03..1525.03 rows=10000 width=47) (actual time=21.799..21.799 rows=3 loops=1)
+-- Limit  (cost=616.04..616.05 rows=3 width=51) (actual time=4.131..4.132 rows=3 loops=1)
+--   ->  Sort  (cost=616.04..618.44 rows=961 width=51) (actual time=4.131..4.131 rows=3 loops=1)
 --         Sort Key: (sum(tickets.price)) DESC
 --         Sort Method: top-N heapsort  Memory: 25kB
---         ->  HashAggregate  (cost=1245.78..1370.78 rows=10000 width=47) (actual time=17.176..19.776 rows=10000 loops=1)
---               Group Key: movies.title
---               ->  Hash Join  (cost=962.00..1195.78 rows=10000 width=20) (actual time=7.455..13.752 rows=10000 loops=1)
---                     Hash Cond: (sessions.movie_id = movies.id)
---                     ->  Hash Join  (cost=653.00..860.52 rows=10000 width=9) (actual time=5.557..10.105 rows=10000 loops=1)
---                           Hash Cond: (tickets.sessions_id = sessions.id)
---                           ->  Hash Join  (cost=289.00..470.26 rows=10000 width=9) (actual time=2.143..4.876 rows=10000 loops=1)
---                                 Hash Cond: (orders.ticket_id = tickets.id)
---                                 ->  Seq Scan on orders  (cost=0.00..155.00 rows=10000 width=4) (actual time=0.009..0.699 rows=10000 loops=1)
---                                 ->  Hash  (cost=164.00..164.00 rows=10000 width=13) (actual time=2.096..2.096 rows=10000 loops=1)
---                                       Buckets: 16384  Batches: 1  Memory Usage: 597kB
---                                       ->  Seq Scan on tickets  (cost=0.00..164.00 rows=10000 width=13) (actual time=0.006..0.902 rows=10000 loops=1)
---                           ->  Hash  (cost=239.00..239.00 rows=10000 width=8) (actual time=3.378..3.378 rows=10000 loops=1)
---                                 Buckets: 16384  Batches: 1  Memory Usage: 519kB
---                                 ->  Seq Scan on sessions  (cost=0.00..239.00 rows=10000 width=8) (actual time=0.010..2.368 rows=10000 loops=1)
---                                       Filter: (start_time >= (CURRENT_DATE - '7 days'::interval))
---                     ->  Hash  (cost=184.00..184.00 rows=10000 width=19) (actual time=1.862..1.862 rows=10000 loops=1)
---                           Buckets: 16384  Batches: 1  Memory Usage: 636kB
---                           ->  Seq Scan on movies  (cost=0.00..184.00 rows=10000 width=19) (actual time=0.007..0.803 rows=10000 loops=1)
--- Planning Time: 1.065 ms
--- Execution Time: 22.384 ms
+--         ->  HashAggregate  (cost=591.61..603.62 rows=961 width=51) (actual time=3.653..3.920 rows=961 loops=1)
+--               Group Key: movies.id
+--               ->  Hash Join  (cost=355.69..586.80 rows=961 width=24) (actual time=1.844..3.225 rows=961 loops=1)
+--                     Hash Cond: (movies.id = sessions.movie_id)
+--                     ->  Seq Scan on movies  (cost=0.00..184.00 rows=10000 width=19) (actual time=0.006..0.556 rows=10000 loops=1)
+--                     ->  Hash  (cost=343.68..343.68 rows=961 width=9) (actual time=1.830..1.830 rows=961 loops=1)
+--                           Buckets: 1024  Batches: 1  Memory Usage: 47kB
+--                           ->  Hash Join  (cost=132.57..343.68 rows=961 width=9) (actual time=0.415..1.709 rows=961 loops=1)
+--                                 Hash Cond: (sessions.id = tickets.sessions_id)
+--                                 ->  Seq Scan on sessions  (cost=0.00..164.00 rows=10000 width=8) (actual time=0.005..0.503 rows=10000 loops=1)
+--                                 ->  Hash  (cost=120.56..120.56 rows=961 width=9) (actual time=0.400..0.400 rows=961 loops=1)
+--                                       Buckets: 1024  Batches: 1  Memory Usage: 50kB
+--                                       ->  Bitmap Heap Scan on tickets  (cost=19.74..120.56 rows=961 width=9) (actual time=0.084..0.290 rows=961 loops=1)
+--                                             Recheck Cond: (created_at >= (CURRENT_DATE - '7 days'::interval))
+--                                             Heap Blocks: exact=84
+--                                             ->  Bitmap Index Scan on tickets_created_at_idx  (cost=0.00..19.50 rows=961 width=0) (actual time=0.075..0.075 rows=961 loops=1)
+--                                                   Index Cond: (created_at >= (CURRENT_DATE - '7 days'::interval))
+-- Planning Time: 0.805 ms
+-- Execution Time: 4.272 ms

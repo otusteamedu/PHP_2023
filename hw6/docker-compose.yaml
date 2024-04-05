@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  server:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: hw6/server
+    container_name: server
+    volumes:
+      - ./www:/var/www
+      - ./socket:/var/www/application.local/socket/
+    networks:
+      - app-network
+    command: php /var/www/application.local/app.php server
+
+  client:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile
+    image: hw6/client
+    container_name: client
+    volumes:
+      - ./www:/var/www
+      - ./socket:/var/www/application.local/socket/
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  socket:

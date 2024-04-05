@@ -1,3 +1,4 @@
 # PHP_2023
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+https://leetcode.com/problems/intersection-of-two-linked-lists/ сложность O(m + n)
+https://leetcode.com/problems/fraction-to-recurring-decimal/  сложность O(знаменатель) 

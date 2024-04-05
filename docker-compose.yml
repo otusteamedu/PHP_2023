@@ -15,16 +15,16 @@ services:
         networks:
             - symfony
 
-#    nginx:
-#        image: nginx:latest
-#        ports:
-#            - "8080:80"
-#        volumes:
-#            - ./app:/var/www/html
-#            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-#        restart: always
-#        networks:
-#            - symfony
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8081:80"
+        volumes:
+            - ./app:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        restart: always
+        networks:
+            - symfony
 
     db:
         image: mysql:8.0.33

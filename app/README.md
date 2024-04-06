@@ -2,10 +2,11 @@
 
 разворачиваем проект docker-compose up --build -d
 переходим в app/www, запускаем composer install
-через postman проверяем что всё работает https://localhost:9200/_cluster/health
-
 
 docker compose exec -it php bash   для выполнения команд внутри контейнера
-- php index.php createIndex
-- php index.php search  "title=Кто подставил поручика Ржевского на Луне" "category=Исторический роман" "minPrice=0" "maxPrice=2000"
-- php index.php search "title=рыцОри" "minPrice=0" "maxPrice=2000"
+
+- Очистить эластик : php index.php cleanup
+- Загружаем индексы и данные : php index.php createIndex
+https://localhost:9200/otus-shop/_search  проверяем данные
+- Посмотреть все данные :  php index.php allData
+- Поиск по названию, категории и цене : php index.php search  "title=Кто подставил поручика Ржевского на Луне" "category=Исторический роман" "minPrice=0" "maxPrice=2000"

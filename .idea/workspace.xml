@@ -8,6 +8,11 @@
       </path>
       <path>
         <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:AKolosova" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
         <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
       <path>
@@ -860,26 +865,18 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c1765e69-ab31-4f2d-b7d0-43a38e3ca129" name="Default Changelist" comment="hw_11">
-      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/PHP_2023.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.env.example" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/books.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/composer.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/composer.lock" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/index.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/www/src/MainElasticsearch.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/2024-04-05_01-35-56.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/2024-04-05_23-25-30.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/2024-04-05_23-31-09.png" afterDir="false" />
+    <list default="true" id="3bae8029-bf1f-4fdb-8439-c49572fe0fdc" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/www/src/ElasticsearchBase.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchCleanup.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchStart.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/www/src/Service/SearchService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/www/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/www/index.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/www/src/MainElasticsearch.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -892,7 +889,7 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="ProjectId" id="2ehGn9WLxDwbqYHi1O34XyuSNqL" />
+  <component name="ProjectId" id="2ej27ElwAaziS1FElswNbUfgdqY" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -900,26 +897,18 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/app/www" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\Homa\Desktop\PHP_2023\app\www" />
-      <recent name="C:\Users\Homa\Desktop\PHP_2023\app" />
-      <recent name="C:\Users\Homa\Desktop\PHP_2023" />
-    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c1765e69-ab31-4f2d-b7d0-43a38e3ca129" name="Default Changelist" comment="" />
-      <created>1712349561065</created>
+      <changelist id="3bae8029-bf1f-4fdb-8439-c49572fe0fdc" name="Default Changelist" comment="" />
+      <created>1712403499003</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1712349561065</updated>
-      <workItem from="1712349562133" duration="437000" />
+      <updated>1712403499003</updated>
+      <workItem from="1712403500737" duration="631000" />
     </task>
     <servers />
   </component>

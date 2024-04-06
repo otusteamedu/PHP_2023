@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: php
+    volumes:
+      - ./www:/var/www
+    ports:
+      - "9000:9000"
+    networks:
+      - hw11-network
+
+  elasticsearch:
+    image: elasticsearch:8.12.2
+    container_name: elasticsearch
+    environment:
+      discovery.type: single-node
+      ELASTIC_USERNAME: ${ELASTIC_USERNAME}
+      ELASTIC_PASSWORD: ${ELASTIC_PASSWORD}
+      ES_PORT: ${ES_PORT}
+    ports:
+      - "9200:9200"
+    networks:
+      - hw11-network
+
+networks:
+  hw11-network:
+    driver: bridge

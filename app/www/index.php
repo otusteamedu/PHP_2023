@@ -1,19 +1,28 @@
 <?php
 
-use App\MainElasticsearch;
+use App\ElasticsearchBase;
+use App\ElasticsearchStart;
+use App\Service\ElasticsearchCleanup;
+use App\Service\ElasticsearchService;
 
 require __DIR__ . '/vendor/autoload.php';
 
 try {
 
-    $mainElasticsearch = new MainElasticsearch();
+    $mainElasticsearch = new ElasticsearchBase();
 
-    if($argv[1] == 'createIndex'){
-        $mainElasticsearch->createIndex();
-        $mainElasticsearch->bulkData();
+    if ($argv[1] == 'cleanup'){
+        $cleanup = new ElasticsearchCleanup();
+        $cleanup->clearIndex();
+    }elseif ($argv[1] == 'createIndex'){
+        $start = new ElasticsearchStart();
+        $start->createIndex();
+        $start->bulkData();
     }elseif ($argv[1] == 'allData'){
-        $mainElasticsearch->getAllData();
+        $service = new ElasticsearchService();
+        $service->allData();
     }elseif ($argv[1] == 'search'){
+        $service = new ElasticsearchService();
         $title = null;
         $category = null;
         $minPrice = null;
@@ -31,9 +40,8 @@ try {
                 $maxPrice = $item[1];
             }
         }
-        //php index.php search "title=рыцОри" "category=Исторический роман" "minPrice=0" "maxPrice=2000"
 
-        $mainElasticsearch->searchData($title, $category, $minPrice, $maxPrice);
+        $service->searchData($title, $category, $minPrice, $maxPrice);
     }
 
 

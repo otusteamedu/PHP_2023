@@ -2,12 +2,12 @@
 
 namespace Api\Daniel\Services;
 
-use PhpAmqpLib\Connection\AMQPStreamConnection;
-use PhpAmqpLib\Message\AMQPMessage;
 use PhpAmqpLib\Channel\AbstractChannel;
 use PhpAmqpLib\Channel\AMQPChannel;
+use PhpAmqpLib\Connection\AMQPStreamConnection;
+use PhpAmqpLib\Message\AMQPMessage;
 
-class RabbitMQClient
+class RabbitMQClient implements MessageQueueClientInterface
 {
     private AbstractChannel|AMQPChannel $channel;
     private AMQPStreamConnection $connection;

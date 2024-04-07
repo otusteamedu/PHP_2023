@@ -3,16 +3,16 @@
 namespace Api\Daniel\Handlers;
 
 use Api\Daniel\Services\FileManager;
-use Api\Daniel\Services\RabbitMQClient;
+use Api\Daniel\Services\MessageQueueClientInterface;
 
 class RequestHandler
 {
-    private RabbitMQClient $rabbitMQClient;
+    private MessageQueueClientInterface $rabbitMQClient;
     private FileManager $fileManager;
     private $dataDir;
     private string $statusFile;
 
-    public function __construct(RabbitMQClient $rabbitMQClient, FileManager $fileManager, $dataDir)
+    public function __construct(MessageQueueClientInterface $rabbitMQClient, FileManager $fileManager, $dataDir)
     {
         $this->rabbitMQClient = $rabbitMQClient;
         $this->fileManager = $fileManager;

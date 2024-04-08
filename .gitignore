@@ -1,6 +1,7 @@
 vendor
 
 ###> symfony/framework-bundle ###
+app/.env
 app/.env.local
 app/.env.local.php
 app/.env.*.local

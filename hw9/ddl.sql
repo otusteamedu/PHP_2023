@@ -1,6 +1,6 @@
 CREATE TABLE movies (
     id SERIAL PRIMARY KEY,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE attributes (
@@ -18,9 +18,11 @@ CREATE TABLE attribute_types (
 
 CREATE TABLE attributes_values (
     id SERIAL PRIMARY KEY,
-    movie_id INT REFERENCES movies(movie_id),
-    attribute_id INT REFERENCES attributes(attribute_id),
-    value TEXT
+    movie_id INT REFERENCES movies(id),
+    attribute_id INT REFERENCES attributes(id),
+    int_value INTEGER,
+    string_value VARCHAR(255),
+    bool_value BOOLEAN
 );
 
 CREATE INDEX movie_id_index ON attributes_values (movie_id);

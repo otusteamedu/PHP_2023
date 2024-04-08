@@ -1,14 +1,14 @@
 <?php
 require __DIR__ ."/../code/Validator.php";
 
-if (isset($_POST['validator'])){
-    if (!empty($_POST['validator'])){
+if (isset($_POST['validator'])) {
+    if (!empty($_POST['validator'])) {
         $result = \Ashishak\Balancer\code\Validator::ValidateText($_POST['validator']);
-        if ($result === true){
-            $message = '"'.$_POST['validator'].'" - Строка корректна';
+        if ($result === true) {
+            $message = '"'. $_POST['validator'] .'" - Строка корректна';
             http_response_code(200);
         } else {
-            $message = '"'.$_POST['validator'].'" - В строке ошибки';
+            $message = '"'. $_POST['validator'] .'" - В строке ошибки';
             http_response_code(400);
         }
     } else {

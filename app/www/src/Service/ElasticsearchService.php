@@ -3,11 +3,70 @@
 
 namespace App\Service;
 
+use App\Dto\SearchDto;
 use App\ElasticsearchBase;
 use Shasoft\Console\Console;
 
 class ElasticsearchService extends ElasticsearchBase
 {
+
+    public function __construct()
+    {
+        parent::__construct();
+    }
+
+    public function executeCommand(SearchDto $argv): void
+    {
+
+        $arg_1 = $argv->getCommand();
+
+        if (empty($arg_1)) {
+            echo "Не указана команда." . PHP_EOL;
+            return;
+        }
+
+        switch ($arg_1) {
+            case 'cleanup':
+                $cleanup = new ElasticsearchCleanup();
+                $cleanup->clearIndex();
+                break;
+            case 'createIndex':
+                $start = new ElasticsearchStart();
+                $start->createIndex();
+                $start->bulkData();
+                break;
+            case 'allData':
+                $this->allData();
+                break;
+            case 'search':
+                $this->searchArgv($argv);
+                break;
+            default:
+                echo "Неверная команда." . PHP_EOL;
+        }
+    }
+
+    private function searchArgv(SearchDto $argv): void
+    {
+        $title = $category = $minPrice = $maxPrice = null;
+
+        foreach ($argv as $arg) {
+            $item = explode("=", $arg);
+            if ($item[0] == 'title') {
+                $title = $item[1];
+            } elseif ($item[0] == 'category') {
+                $category = $item[1];
+            } elseif ($item[0] == 'minPrice') {
+                $minPrice = $item[1];
+            } elseif ($item[0] == 'maxPrice') {
+                $maxPrice = $item[1];
+            }
+        }
+
+        $this->searchData($title, $category, $minPrice, $maxPrice);
+    }
+
+
 
     public function allData()
     {

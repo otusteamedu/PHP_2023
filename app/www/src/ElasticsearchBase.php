@@ -14,7 +14,7 @@ class ElasticsearchBase
     public function __construct()
     {
         $this->client = ClientBuilder::create()
-            ->setHosts(['https://elasticsearch:9200'])
+            ->setHosts([$_ENV['ES_PORT']])
             ->setSSLVerification(false)
             ->setBasicAuthentication($_ENV['ELASTIC_USERNAME'], $_ENV['ELASTIC_PASSWORD'])
             ->build();
@@ -28,6 +28,67 @@ class ElasticsearchBase
     protected function getFileName()
     {
         return self::FILE_NAME;
+    }
+
+    protected function getSettings()
+    {
+        $settings = [
+            'index' => $this->getIndexName(),
+            'body' => [
+                'mappings' => [
+                    'properties' => [
+                        'title' => [
+                            'type' => 'text',
+                        ],
+                        'sku' => [
+                            'type' => 'keyword'
+                        ],
+                        'category' => [
+                            'type' => 'text'
+                        ],
+                        'price' => [
+                            'type' => 'integer'
+                        ],
+                        'stock' => [
+                            'type' => 'nested',
+                            'properties' => [
+                                'shop' => [
+                                    'type' => 'keyword'
+                                ],
+                                'stock' => [
+                                    'type' => 'short'
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'settings' => [
+                    'analysis' => [
+                        'filter' => [
+                            'ru_stop' => [
+                                'type' => 'stop',
+                                'stopwords' => '_russian_'
+                            ],
+                            'ru_stemmer' => [
+                                'type' => 'stemmer',
+                                'language' => 'russian'
+                            ]
+                        ],
+                        "analyzer" => [
+                            "my_russian" => [
+                                'tokenizer' => 'standard',
+                                "filter" => [
+                                    "lowercase",
+                                    "ru_stop",
+                                    "ru_stemmer"
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        return $settings;
     }
 
 }

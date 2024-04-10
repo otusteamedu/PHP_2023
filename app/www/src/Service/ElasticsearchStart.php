@@ -1,80 +1,26 @@
 <?php
 
-namespace App;
+namespace App\Service;
 
+use App\ElasticsearchBase;
 
 class ElasticsearchStart extends ElasticsearchBase
 {
 
     public function createIndex(): void
     {
-        $settings = [
-            'index' => $this->getIndexName(),
-            'body' => [
-                'mappings' => [
-                    'properties' => [
-                        'title' => [
-                            'type' => 'text',
-                        ],
-                        'sku' => [
-                            'type' => 'keyword'
-                        ],
-                        'category' => [
-                            'type' => 'text'
-                        ],
-                        'price' => [
-                            'type' => 'integer'
-                        ],
-                        'stock' => [
-                            'type' => 'nested',
-                            'properties' => [
-                                'shop' => [
-                                    'type' => 'keyword'
-                                ],
-                                'stock' => [
-                                    'type' => 'short'
-                                ]
-                            ]
-                        ]
-                    ]
-                ],
-                'settings' => [
-                    'analysis' => [
-                        'filter' => [
-                            'ru_stop' => [
-                                'type' => 'stop',
-                                'stopwords' => '_russian_'
-                            ],
-                            'ru_stemmer' => [
-                                'type' => 'stemmer',
-                                'language' => 'russian'
-                            ]
-                        ],
-                        "analyzer" => [
-                            "my_russian" => [
-                                'tokenizer' => 'standard',
-                                "filter" => [
-                                    "lowercase",
-                                    "ru_stop",
-                                    "ru_stemmer"
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-
-        $this->client->indices()->create($settings);
+        var_dump('createIndex');
+        $this->client->indices()->create($this->getSettings());
     }
 
     public function bulkData(){
 
         $data = file_get_contents($this->getFileName());
+        var_dump('$data: '. $data);
 
         // Проверяем, что файл содержит данные
         if (empty($data)) {
-            die('Файл books.json пуст или отсутствует.');
+            die('Файл json пуст или отсутствует.');
         }
 
         $params = ['body' => $data];

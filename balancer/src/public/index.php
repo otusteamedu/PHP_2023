@@ -5,10 +5,10 @@ if (isset($_POST['validator'])) {
     if (!empty($_POST['validator'])) {
         $result = \Ashishak\Balancer\code\Validator::validateText($_POST['validator']);
         if ($result === true) {
-            $message = '"'. $_POST['validator'] .'" - Строка корректна';
+            $message = '"' . $_POST['validator'] . '" - Строка корректна';
             http_response_code(200);
         } else {
-            $message = '"'. $_POST['validator'] .'" - В строке ошибки';
+            $message = '"' . $_POST['validator'] . '" - В строке ошибки';
             http_response_code(400);
         }
     } else {

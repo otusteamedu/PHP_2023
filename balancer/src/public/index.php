@@ -3,7 +3,7 @@ require __DIR__ ."/../code/Validator.php";
 
 if (isset($_POST['validator'])) {
     if (!empty($_POST['validator'])) {
-        $result = \Ashishak\Balancer\code\Validator::ValidateText($_POST['validator']);
+        $result = \Ashishak\Balancer\code\Validator::validateText($_POST['validator']);
         if ($result === true) {
             $message = '"'. $_POST['validator'] .'" - Строка корректна';
             http_response_code(200);

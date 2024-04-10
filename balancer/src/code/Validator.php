@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Ashishak\Balancer\code;
 
 class Validator
 {
-    public static function ValidateText(string $postVar): bool
+    public static function validateText(string $postVar): bool
     {
         $counter = 0;
 

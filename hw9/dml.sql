@@ -10,10 +10,10 @@ VALUES
 
 INSERT INTO attributes (name, data_id)
 VALUES
-    ('Оскар', 2),
-    ('BAFTA', 2),
     ('Рецензии критиков', 1),
     ('Отзыв кинолюбителя', 1),
+    ('Оскар', 2),
+    ('BAFTA', 2),
     ('Мировая премьера', 3),
     ('Премьера в РФ', 3),
     ('Дата начала продажи билетов', 4),
@@ -27,7 +27,7 @@ INSERT INTO attribute_types (name) VALUES
     ('служебные даты');
 
 
-INSERT INTO attributes_values (movies_id, attributes_names_id, value_text)
+INSERT INTO attributes_values (movie_id, attribute_id, string_value)
 VALUES
     (1, 1,
      'Очень интересный и захватывающий фильм. Отличная игра актеров и захватывающий сюжет.'),
@@ -43,16 +43,16 @@ VALUES
      'Браво! Отличная работа. Фильм, который несет в себе много смысла и прекрасно передает атмосферу вселенной Marvel.');
 
 
-INSERT INTO attributes_values (movies_id, attributes_names_id, value_int)
+INSERT INTO attributes_values (movie_id, attribute_id, int_value)
 VALUES
-    (1, 4, 5),
     (1, 3, 11),
+    (1, 4, 5),
     (2, 3, 2),
     (3, 3, 6),
     (2, 4, 1),
     (3, 4, 5);
 
-INSERT INTO attributes_values (movies_id, attributes_names_id, value_date)
+INSERT INTO attributes_values (movie_id, attribute_id, value_date)
 VALUES
     (1, 5, '2023-11-01'),
     (2, 5, '1980-05-17'),
@@ -63,4 +63,3 @@ VALUES
     (1, 7, CURRENT_DATE + INTERVAL '20 days'),
     (2, 7, CURRENT_DATE + INTERVAL '20 days'),
     (3, 7, CURRENT_DATE + INTERVAL '20 days');
-

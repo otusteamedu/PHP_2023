@@ -2,7 +2,7 @@
 
 session_start();
 
-echo "Контейнер nginx: {$_SERVER['HOSTNAME']}<br><br>";
+echo "Контейнер nginx: {$_SERVER['HOSTNAME']} <br><br>";
 
 echo 'ID Сессии: ' . session_id() . '<br><br>';
 

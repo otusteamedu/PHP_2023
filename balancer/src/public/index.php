@@ -1,5 +1,5 @@
 <?php
-require __DIR__ ."/../code/Validator.php";
+require __DIR__ . "/../code/Validator.php";
 
 if (isset($_POST['validator'])) {
     if (!empty($_POST['validator'])) {
@@ -50,7 +50,7 @@ if (isset($_POST['validator'])) {
                 <div class="alert alert-success" role="alert">
                     <?php echo $message;?>
                 </div>
-            <?php } else if(!empty($message) && http_response_code() == 400) {?>
+            <?php } else if (!empty($message) && http_response_code() == 400) {?>
                 <div class="alert alert-danger" role="alert">
                     <?php echo $message;?>
                 </div>

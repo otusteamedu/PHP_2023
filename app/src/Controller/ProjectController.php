@@ -19,7 +19,7 @@ class ProjectController extends AbstractController
 {
     /**
      * Get all projects.
-     * 
+     *
      * This call takes into account all confirmed awards, but not pending or refused awards.
 
      */
@@ -53,10 +53,11 @@ class ProjectController extends AbstractController
 
         return $this->json($data);
     }
-    
+
     #[Route('/projects', name: 'project_create', methods:['POST'])]
     #[OA\RequestBody(
-        content: [new OA\MediaType(mediaType: "application/x-www-form-urlencoded",
+        content: [new OA\MediaType(
+            mediaType: "application/x-www-form-urlencoded",
             schema: new OA\Schema(
                 type: "object",
                 properties: [
@@ -70,7 +71,8 @@ class ProjectController extends AbstractController
     #[OA\Response(
         response: 200,
         description: 'Returns the created project',
-        content: [new OA\MediaType(mediaType: "application/json",
+        content: [new OA\MediaType(
+            mediaType: "application/json",
             schema: new OA\Schema(
                 type: "object",
                 properties: [
@@ -106,7 +108,7 @@ class ProjectController extends AbstractController
     }
 
 
-   
+
     #[Route('/projects/{id}', name: 'project_show', methods:['GET'])]
     #[OA\Parameter(
         name: "id",
@@ -126,7 +128,7 @@ class ProjectController extends AbstractController
     )]
     #[OA\Tag(name: 'projects')]
     #[Security(name: 'Bearer')]
-   public function show(EntityManagerInterface $entityManager, int $id): JsonResponse
+    public function show(EntityManagerInterface $entityManager, int $id): JsonResponse
     {
         $project = $entityManager->getRepository(Project::class)->find($id);
 
@@ -143,6 +145,4 @@ class ProjectController extends AbstractController
 
         return $this->json($data);
     }
-
 }
-

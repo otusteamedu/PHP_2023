@@ -860,16 +860,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3bae8029-bf1f-4fdb-8439-c49572fe0fdc" name="Default Changelist" comment="git">
-      <change afterPath="$PROJECT_DIR$/app/www/src/Dto/SearchDto.php" afterDir="false" />
+    <list default="true" id="3bae8029-bf1f-4fdb-8439-c49572fe0fdc" name="Default Changelist" comment="сделала index.php точкой входа, логику обработки запроса перенесла в Dto">
+      <change afterPath="$PROJECT_DIR$/app/www/src/SearchApp.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/app/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/app/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/www/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/www/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/www/src/ElasticsearchBase.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/www/src/ElasticsearchBase.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchService.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchStart.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/www/src/Service/ElasticsearchStart.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/www/src/Service/SearchService.php" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -914,8 +908,17 @@
       <option name="presentableId" value="Default" />
       <updated>1712403499003</updated>
       <workItem from="1712403500737" duration="631000" />
-      <workItem from="1712787379538" duration="5158000" />
+      <workItem from="1712787379538" duration="5539000" />
+      <workItem from="1712823639463" duration="3106000" />
     </task>
+    <task id="LOCAL-00001" summary="сделала index.php точкой входа, логику обработки запроса перенесла в Dto">
+      <created>1712792764168</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1712792764168</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -933,19 +936,23 @@
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="сделала index.php точкой входа, логику обработки запроса перенесла в Dto" />
+    <option name="LAST_COMMIT_MESSAGE" value="сделала index.php точкой входа, логику обработки запроса перенесла в Dto" />
+  </component>
   <component name="WindowStateProjectService">
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1712789915439">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="499" y="167" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1536.824@0.0.1536.824" timestamp="1712789915439" />
-    <state x="522" y="135" key="NewPhpClassDialog" timestamp="1712788650244">
+    <state x="522" y="135" key="NewPhpClassDialog" timestamp="1712826341580">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="522" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1712788650244" />
-    <state x="604" y="336" key="NewPhpFileDialog" timestamp="1712788465460">
+    <state x="522" y="135" key="NewPhpClassDialog/0.0.1536.824@0.0.1536.824" timestamp="1712826341580" />
+    <state x="604" y="336" key="NewPhpFileDialog" timestamp="1712826327272">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="604" y="336" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1712788465460" />
+    <state x="604" y="336" key="NewPhpFileDialog/0.0.1536.824@0.0.1536.824" timestamp="1712826327272" />
     <state x="478" y="11" width="579" height="801" key="find.popup" timestamp="1712791591864">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

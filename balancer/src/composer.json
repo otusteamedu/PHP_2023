@@ -1,0 +1,17 @@
+{
+    "name": "ashishak/balancer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "ashishak\\balancer\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Anton Shishak",
+            "email": "shishak-anton@yandex.ru"
+        }
+    ],
+
+    "require": {}
+}

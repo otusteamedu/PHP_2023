@@ -1,0 +1,125 @@
+version: '3'
+
+services:
+
+  # Контейнер с Nginx-балансировщиком
+  nginx-balancer:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx-balancer
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/balancer.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  # Контейнеры с Nginx
+  nginx1:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx1
+    # проброс портов, т.к. 80й уже занят балансировщиком, указываем 81
+    ports:
+      - "81:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx1.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  nginx2:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx2
+    # проброс портов
+    ports:
+      - "82:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx2.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  nginx3:
+    # имя будущего образа
+    image: nginx
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    # имя контейнера после запуска
+    container_name: nginx3
+    # проброс портов
+    ports:
+      - "83:80"
+    volumes:
+      - ./src/:/data/app.local
+      - ./nginx/nginx3.conf:/etc/nginx/conf.d/app.local.conf
+    networks:
+      - app-network
+
+  app1:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app1
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  app2:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app2
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  app3:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: balance/php
+    container_name: app3
+    volumes:
+      - ./src/:/data/app.local
+    networks:
+      - app-network
+
+  memcached01:
+    image: memcached:latest
+    container_name: memcached01
+    ports:
+      - "11201:11211"
+    networks:
+      - app-network
+
+  memcached02:
+    image: memcached:latest
+    container_name: memcached02
+    ports:
+      - "11202:11211"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

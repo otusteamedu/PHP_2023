@@ -11,6 +11,8 @@
         "doctrine/doctrine-bundle": "^2.12",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^3.1",
+        "nelmio/api-doc-bundle": "^4.25",
+        "symfony/asset": "7.0.*",
         "symfony/console": "7.0.*",
         "symfony/doctrine-messenger": "7.0.*",
         "symfony/dotenv": "7.0.*",
@@ -18,6 +20,7 @@
         "symfony/framework-bundle": "7.0.*",
         "symfony/messenger": "7.0.*",
         "symfony/runtime": "7.0.*",
+        "symfony/twig-bundle": "7.0.*",
         "symfony/yaml": "7.0.*"
     },
     "config": {

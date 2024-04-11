@@ -1,8 +1,4 @@
-FROM ubuntu:latest
-
-RUN apt-get update
-
-RUN apt-get install -y nginx
+FROM nginx:1.25.2-alpine3.18
 
 WORKDIR /data
 

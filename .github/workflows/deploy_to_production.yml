@@ -1,0 +1,39 @@
+name: Deploy App
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Copy app directory via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "app"
+          target: "/var/www"
+
+      - name: Clone secrets repository
+        uses: actions/checkout@v2
+        with:
+          repository: your-org/secrets-repo
+          path: .secrets
+          ref: main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set environment variable
+        run: echo "env.environment=production" >> $GITHUB_ENV
+
+      - name: Copy .env file via SSH
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} .secrets/.env.production ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/path/to/remote/directory/.env
+        
+      - name: Clean up secrets
+        run: rm -rf .secrets

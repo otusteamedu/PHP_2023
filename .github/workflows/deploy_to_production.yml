@@ -19,6 +19,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "app"
           target: "/var/www"
+        continue-on-error: true
 
       - name: Clone secrets repository
         uses: actions/checkout@v2
@@ -34,6 +35,22 @@ jobs:
 
       - name: Copy .env file via SSH
         run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} .secrets/.env.production ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/path/to/remote/directory/.env
-        
+        continue-on-error: true
+
       - name: Clean up secrets
         run: rm -rf .secrets
+
+      - name: Update code on server
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /path/to/remote/directory && git pull https://github.com/${{ github.repository }}.git main'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check SHA256 checksum
+        run: |
+          cd app
+          sha256sum -c checksums.txt
+
+      - name: Compare HEAD with deployed files
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /path/to/remote/directory && git diff --exit-code'

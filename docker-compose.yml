@@ -1,0 +1,38 @@
+#docker-compose.yml
+version: "3.8"
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        volumes:
+            - ./app:/var/www/html
+        depends_on:
+            - db
+        networks:
+            - symfony
+
+    nginx:
+        image: nginx:latest
+        ports:
+            - "8080:80"
+        volumes:
+            - ./app:/var/www/html
+            - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+        restart: always
+        networks:
+            - symfony
+
+    db:
+        image: mysql:8.0.33
+        environment:
+            MYSQL_ROOT_PASSWORD: secret
+            MYSQL_DATABASE: symfony
+            MYSQL_USER: symfony
+            MYSQL_PASSWORD: secret
+        networks:
+            - symfony
+
+networks:
+    symfony:

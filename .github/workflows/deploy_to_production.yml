@@ -1,0 +1,51 @@
+name: Deploy App
+
+on:
+  release:
+    types: [published]
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Copy app directory via SSH
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "app"
+          target: "/var/www-${{ github.sha }}"
+        continue-on-error: false
+
+      - name: Clone secrets repository
+        uses: actions/checkout@v3
+        with:
+          repository: your-org/secrets-repo
+          path: .secrets
+          ref: main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set environment variable
+        run: echo "env.environment=production" >> $GITHUB_ENV
+
+      - name: Copy .env file via SSH
+        run: scp -i ${{ secrets.SSH_PRIVATE_KEY }} .secrets/.env.production ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:/path/to/remote/directory/.env
+        continue-on-error: true
+
+      - name: Clean up secrets
+        run: rm -rf .secrets
+
+      - name: Update code on server
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /var/www && ln -sfn /var/www-${{ github.sha }} www-new && mv -T www-new www'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Remove old deployments
+        run: |
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'find /var/www-* -maxdepth 0 ! -name "/var/www-${{ github.sha }}" -exec rm -rf {} +'

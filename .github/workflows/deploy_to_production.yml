@@ -18,11 +18,11 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "app"
-          target: "/var/www"
-        continue-on-error: true
+          target: "/var/www-${{ github.sha }}"
+        continue-on-error: false
 
       - name: Clone secrets repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: your-org/secrets-repo
           path: .secrets
@@ -42,15 +42,10 @@ jobs:
 
       - name: Update code on server
         run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /path/to/remote/directory && git pull https://github.com/${{ github.repository }}.git main'
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /var/www && ln -sfn /var/www-${{ github.sha }} www-new && mv -T www-new www'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Check SHA256 checksum
+      - name: Remove old deployments
         run: |
-          cd app
-          sha256sum -c checksums.txt
-
-      - name: Compare HEAD with deployed files
-        run: |
-          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'cd /path/to/remote/directory && git diff --exit-code'
+          ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} 'find /var/www-* -maxdepth 0 ! -name "/var/www-${{ github.sha }}" -exec rm -rf {} +'

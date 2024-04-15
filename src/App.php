@@ -11,14 +11,11 @@ use Dmitry\Hw16\Application\Decorator\SaladDecorator;
 use Dmitry\Hw16\Application\Factory\BurgerFactory;
 use Dmitry\Hw16\Application\Factory\ProductFactory;
 use Dmitry\Hw16\Application\Publisher\Publisher;
-use Dmitry\Hw16\Application\Publisher\PublisherInterface;
 use Dmitry\Hw16\Application\Services\CookingInterface;
 use Dmitry\Hw16\Application\Services\CookingService;
-use Dmitry\Hw16\Domain\Entity\ProductInterface;
 
 class App
 {
-
     private $useCase;
     private CookingInterface $cookingService;
     private array $products;

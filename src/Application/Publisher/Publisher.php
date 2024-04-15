@@ -4,7 +4,6 @@ namespace Dmitry\Hw16\Application\Publisher;
 
 class Publisher implements PublisherInterface
 {
-
     private $subscribers = [];
 
     public function subscribe(SubscriberInterface $subscriber): void

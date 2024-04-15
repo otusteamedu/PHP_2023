@@ -6,7 +6,6 @@ use Dmitry\Hw16\Domain\Entity\ProductInterface;
 
 class OnionDecorator implements ProductInterface
 {
-
     private $product;
 
     public function __construct($product)

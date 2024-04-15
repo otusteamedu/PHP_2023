@@ -7,7 +7,6 @@ use Dmitry\Hw16\Domain\Entity\ProductInterface;
 
 class CookingService implements CookingInterface
 {
-
     private PublisherInterface $publisher;
 
     public function __construct(PublisherInterface $publisher)

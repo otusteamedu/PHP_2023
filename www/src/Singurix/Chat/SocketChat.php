@@ -8,7 +8,6 @@ use Exception;
 
 class SocketChat
 {
-
     public \Socket $socket;
     private string $socket_file;
 

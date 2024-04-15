@@ -10,7 +10,6 @@ spl_autoload_register(function (string $className) {
 
 try {
     $app = new App($argv);
-    $app->start();
 } catch (Exception $e) {
-    fputs(STDOUT, $e->getMessage()."\n");
+    fputs(STDOUT, $e->getMessage() . "\n");
 }

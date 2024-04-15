@@ -8,7 +8,6 @@ use Exception;
 
 class Server
 {
-
     public bool $serverStarted;
 
     /**

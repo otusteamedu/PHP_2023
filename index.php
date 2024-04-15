@@ -6,5 +6,12 @@ require 'vendor/autoload.php';
 
 use Dmitry\Hw16\App;
 
-$app = new App();
-$app->run();
+
+try {
+    $app = new App();
+    $app->run();
+} catch (\Exception $e) {
+    throw new \Exception($e->getMessage());
+}
+
+

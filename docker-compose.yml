@@ -1,111 +1,45 @@
 version: '3'
 
 services:
-    nginx:
-        hostname: ${HOSTNAME}
-        image: nginx:1.25.3
-        ports:
-            - "80:80"
-        volumes:
-            - ./nginx/templates:/etc/nginx/templates
-            - ./www:${HOME_PATH}
-            - phpsocket:/var/run/
-            - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
-        working_dir: /home/singurix
-        environment:
-            - NGINX_HOST=${HOSTNAME}
-            - NGINX_PORT=80
-            - NGINX_SITEDIR=${HOME_PATH}
-            - PHP_UNIX_SOCKET=/var/run/php-fpm.sock
-        networks:
-            - default
-
-    php-fpm:
-        container_name: php-fpm
+    server:
         build:
             context: .
             dockerfile_inline: |
-                FROM php:8.2-fpm
-                RUN apt-get update && apt-get upgrade \
-                    && apt-get install -y \
-                    zlib1g-dev \
-                    libjpeg-dev \
-                    libpng-dev \
-                    libwebp-dev \
-                    libfreetype6-dev \
-                    && pecl install redis \
-                    && pecl install memcache \
-                    && docker-php-ext-enable redis \
-                    && docker-php-ext-enable memcache \
-                    && docker-php-ext-install mysqli \
-                    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp\
-                    && docker-php-ext-install gd \
-                    && docker-php-ext-install opcache
-                RUN usermod -u ${UID} www-data && groupmod -g ${GID} www-data;
-        image: php-fpm:8.2
+                FROM php:8.2-cli
+                WORKDIR ${HOME_PATH}
+                RUN apt-get update && apt-get install -y && docker-php-ext-install -j$(nproc) sockets
+                VOLUME ${HOME_PATH}
+        container_name: server
+        image: chat-server
         working_dir: ${HOME_PATH}
         volumes:
             - ./www:${HOME_PATH}
             - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
             - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
             - ./php-fpm/log:/var/log/php-fpm
-            - phpsocket:/var/run/
+            - phpsocket:/var/run/php/
         networks:
             - default
 
-    redis:
-        image: redis:latest
-        networks:
-            - default
-        expose:
-            - 6379
-
-    mysql:
-        image: mysql:8.2
-        volumes:
-            - ./db:/var/lib/mysql
-            - ./mysql/conf:/etc/mysql/conf.d
-        environment:
-            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-            - MYSQL_DATABASE=${MYSQL_DATABASE}
-            - MYSQL_USER=${MYSQL_USER}
-            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-        networks:
-            - default
-        ports:
-            - "3306:3306"
-
-    memcached:
-        image: memcached:latest
-        networks:
-            - default
-        expose:
-            - 11211
-
-    php-cli:
+    client:
         build:
             context: .
             dockerfile_inline: |
                 FROM php:8.2-cli
                 WORKDIR ${HOME_PATH}
-                COPY --from=composer /usr/bin/composer /usr/bin/composer
-                RUN apt-get update && apt-get upgrade \
-                    && apt-get install -y --fix-missing \
-                    libjpeg-dev \
-                    libpng-dev \
-                    libwebp-dev \
-                    libfreetype6-dev \
-                    git \
-                    && docker-php-ext-install gd \
-                    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp
-                RUN chown www-data:www-data /var/www \
-                    && usermod -u ${UID} www-data && groupmod -g ${GID} www-data
-                USER www-data:www-data
-        image: php-cli
-        user: www-data:www-data
+                RUN apt-get update && apt-get install -y && docker-php-ext-install -j$(nproc) sockets
+                VOLUME ${HOME_PATH}
+        container_name: client
+        image: chat-client
+        depends_on:
+            - server
         working_dir: ${HOME_PATH}
         volumes:
             - ./www:${HOME_PATH}
+            - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
+            - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./php-fpm/log:/var/log/php-fpm
+            - phpsocket:/var/run/php/
         networks:
             - default
 

@@ -6,10 +6,6 @@ namespace Singurix\Chat;
 
 class Client
 {
-
-    /**
-     * @throws \Exception
-     */
     public function start(): void
     {
         $clientStarted = true;

@@ -40,9 +40,9 @@ class Server
     {
         $socketMsg = false;
         do {
-            if($socketMsg) {
+            if ($socketMsg) {
                 socket_set_nonblock($socketMsg);
-                if($message = socket_read($socketMsg, 2048)) {
+                if ($message = socket_read($socketMsg, 2048)) {
                     Stdout::printToConsole('Incoming message - ' . $message);
                     socket_write($socketMsg, 'Received ' . strlen($message) . ' bytes');
                 }

@@ -1,0 +1,15 @@
+{
+    "name": "dmitry/hw16",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Dmitry\\Hw16\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dmitry Aleynik"
+        }
+    ],
+    "require": {}
+}

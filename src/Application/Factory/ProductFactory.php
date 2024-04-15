@@ -9,7 +9,12 @@ use Dmitry\Hw16\Domain\Entity\Hotdog;
 
 class ProductFactory
 {
-    public function makeFood(string $type): Product
+    private function __construct()
+    {
+        //Method disabled
+    }
+
+    public static function makeFood(string $type): Product
     {
         switch ($type) {
             case 'burger':

@@ -8,10 +8,9 @@ use Dmitry\Hw16\Domain\Entity\ProductInterface;
 class CookingUseCase
 {
     public function __invoke(
-        CookingInterface   $cookingService,
-        ProductInterface   ...$product
-    )
-    {
+        CookingInterface $cookingService,
+        ProductInterface ...$product
+    ) {
         foreach ($product as $item) {
             $cookingService->cook($item);
         }

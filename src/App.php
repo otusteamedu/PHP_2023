@@ -13,16 +13,14 @@ use Dmitry\Hw16\Application\Factory\ProductFactory;
 use Dmitry\Hw16\Application\Publisher\Publisher;
 use Dmitry\Hw16\Application\Services\CookingInterface;
 use Dmitry\Hw16\Application\Services\CookingService;
+use Dmitry\Hw16\Application\UseCase\CookingUseCase;
 
 class App
 {
-    private $useCase;
     private CookingInterface $cookingService;
-    private array $products;
 
     public function __construct()
     {
-        $this->useCase = 'Dmitry\Hw16\Application\UseCase\CookingUseCase';
         $this->cookingService = new CookingService(new Publisher());
     }
 
@@ -31,8 +29,7 @@ class App
         $burger = ProductFactory::makeFood('burger');
         $sandwich = new PepperDecorator(new OnionDecorator(new SaladDecorator(ProductFactory::makeFood('sandwich'))));
         $pizza = new PizzaAdapter();
-
-        $useCase = new $this->useCase();
-        $useCase($this->cookingService, $burger, $sandwich, $pizza);
+        $usecase = new CookingUseCase();
+        $usecase($this->cookingService, $burger, $sandwich, $pizza);
     }
 }

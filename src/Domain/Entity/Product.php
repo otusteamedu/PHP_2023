@@ -5,7 +5,7 @@ namespace Dmitry\Hw16\Domain\Entity;
 abstract class Product implements ProductInterface
 {
     protected $name;
-    private $is_cooked = false;
+    private bool $is_cooked = false;
 
     abstract public function __construct();
 

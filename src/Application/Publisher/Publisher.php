@@ -8,12 +8,12 @@ class Publisher implements PublisherInterface
 
     public function subscribe(SubscriberInterface $subscriber): void
     {
-        $this->subscribers[] = $subscriber;
+        $this->subscribers[spl_object_id($subscriber)] = $subscriber;
     }
 
     public function unsubscribe(SubscriberInterface $subscriber): void
     {
-        // TODO: Implement unsubscribe() method.
+        unset($this->subscribers[spl_object_id($subscriber)]);
     }
 
     public function notify($product, $status)

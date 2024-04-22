@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  server:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: server
+    container_name: server
+    volumes:
+      - ./../chat:/var/www
+      - ./phpsocket:/var/run/socket
+    command: "tail -f /dev/null"
+    networks:
+      - otus-network
+
+  client:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    image: client
+    container_name: client
+    volumes:
+      - ./../chat:/var/www
+      - ./phpsocket:/var/run/socket
+    command: "tail -f /dev/null"
+    networks:
+      - otus-network
+
+networks:
+  otus-network:
+    driver: bridge

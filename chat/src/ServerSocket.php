@@ -18,7 +18,7 @@ class ServerSocket extends Socket
                 continue;
             }
             if (($message = socket_read($connect, 1024)) !== false) {
-                echo $message;
+                yield $message;
                 socket_write($connect, 'Received ' . mb_strlen($message, '8bit') . ' bytes' . PHP_EOL);
             }
         }

@@ -19,7 +19,7 @@ class App
     /**
      * @throws Exception
      */
-    public function run(): void
+    public function run() : iterable
     {
         if (!isset($_SERVER['argv'][1])) {
             throw new Exception('Empty command.');
@@ -28,7 +28,7 @@ class App
         if (!isset($this->sockets[$socket])) {
             throw new Exception('Unknown command.');
         }
-        $this->setSocket($socket)->run();
+        return $this->setSocket($socket)->run();
     }
 
     private function setSocket($socket): Socket

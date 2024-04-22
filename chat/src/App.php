@@ -19,7 +19,7 @@ class App
     /**
      * @throws Exception
      */
-    public function run() : iterable
+    public function run(): iterable
     {
         if (!isset($_SERVER['argv'][1])) {
             throw new Exception('Empty command.');

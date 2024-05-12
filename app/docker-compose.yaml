@@ -11,34 +11,54 @@ services:
     volumes:
       - ./nginx/hosts:/etc/nginx/conf.d
       - ./www:/var/www
+      - phpsocket:/var/run
     networks:
-      - hw12-network
+      - hw19-network
 
-  php:
+  producer:
     build:
       context: ./fpm
       dockerfile: Dockerfile
-    container_name: ${PHP_CONTAINER}
+    container_name: producer
     volumes:
       - ./www:/var/www
-    working_dir: /var/www
+      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - phpsocket:/var/run
+    working_dir: /var/www/application.local
+    env_file:
+      - .env
     networks:
-      - hw12-network
+      - hw19-network
 
-  redis:
-    image: redis
-    container_name: ${REDIS_CONTAINER}
-    ports:
-      - ${REDIS_PORTS}
+  consumer:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: consumer
     volumes:
-      - redis_data:/data
+      - ./www:/var/www
+    working_dir: /var/www/application.local
+    env_file:
+      - .env
     networks:
-      - hw12-network
+      - hw19-network
 
-networks:
-  hw12-network:
-    driver: bridge
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: ${RABBITMQ_CONTAINER}
+    hostname: ${RABBITMQ_HOST}
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    networks:
+      - hw19-network
 
 volumes:
   phpsocket:
-  redis_data:
+
+networks:
+  hw19-network:
+    driver: bridge

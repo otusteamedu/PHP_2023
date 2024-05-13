@@ -1,0 +1,16 @@
+{
+    "name": "ayamaliev/hw16",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "AYamaliev\\Hw16\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artyrcha",
+            "email": "sevrevdan@yandex.ru"
+        }
+    ],
+    "require": {}
+}

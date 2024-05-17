@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: ${NGINX_CONTAINER}
+    ports:
+      - ${NGINX_PORTS}
+    volumes:
+      - ./nginx/hosts:/etc/nginx/conf.d
+      - ./www:/var/www
+      - phpsocket:/var/run
+    networks:
+      - hw19-network
+
+  producer:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: producer
+    volumes:
+      - ./www:/var/www
+      - ./fpm/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+      - phpsocket:/var/run
+    working_dir: /var/www/application.local
+    env_file:
+      - .env
+    networks:
+      - hw19-network
+
+  consumer:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    container_name: consumer
+    volumes:
+      - ./www:/var/www
+    working_dir: /var/www/application.local
+    env_file:
+      - .env
+    networks:
+      - hw19-network
+
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: ${RABBITMQ_CONTAINER}
+    hostname: ${RABBITMQ_HOST}
+    ports:
+      - 15672:15672
+      - 5672:5672
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    networks:
+      - hw19-network
+
+volumes:
+  phpsocket:
+
+networks:
+  hw19-network:
+    driver: bridge

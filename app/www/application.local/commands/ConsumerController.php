@@ -2,19 +2,18 @@
 
 namespace app\commands;
 
-use app\models\RabbitMq;
-use app\models\RabbitMqConsumer;
-use Exception;
+use app\components\RabbitMqConsumer;
 use yii\console\Controller;
 
 class ConsumerController extends Controller
 {
-    /**
-     * @throws Exception
-     */
+    public function __construct($id, $module, private RabbitMqConsumer $rabbitMqConsumer, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+    }
+
     public function actionIndex(): void
     {
-        $rabbit = new RabbitMq('bank_statement');
-        (new RabbitMqConsumer($rabbit))();
+        $this->rabbitMqConsumer->consume('bank_statement');
     }
 }

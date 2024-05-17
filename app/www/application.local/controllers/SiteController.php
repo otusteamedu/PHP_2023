@@ -2,16 +2,20 @@
 
 namespace app\controllers;
 
+use app\components\RabbitMqProducer;
 use app\models\BankStatementForm;
-use app\models\RabbitMq;
-use app\models\RabbitMqProducer;
 use Yii;
 use yii\filters\AccessControl;
-use yii\web\Controller;
 use yii\filters\VerbFilter;
+use yii\web\Controller;
 
 class SiteController extends Controller
 {
+    public function __construct($id, $module, private RabbitMqProducer $rabbitMQ, $config = [])
+    {
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -64,10 +68,12 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             $message = ['start_time' => $model->start_time, 'end_time' => $model->end_time];
 
-            $rabbit = new RabbitMq('bank_statement');
-            (new RabbitMqProducer($rabbit))($message);
+            if ($this->rabbitMQ->sendMessage('bank_statement', $message)) {
+                Yii::$app->session->setFlash('success', 'Запрос принят в обработку');
+            } else {
+                Yii::$app->session->setFlash('error', 'Произошла ошибка при отправке запроса');
+            }
 
-            Yii::$app->session->setFlash('success', 'Запрос принят в обработку');
             return $this->redirect(['index']);
         }
 

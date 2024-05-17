@@ -2,22 +2,21 @@
 
 declare(strict_types=1);
 
-namespace app\models;
+namespace app\components;
 
 use Exception;
 use PhpAmqpLib\Channel\AMQPChannel;
 use PhpAmqpLib\Connection\AMQPStreamConnection;
+use yii\base\Component;
 
-class RabbitMq
+class RabbitMq extends Component
 {
     private AMQPStreamConnection $connection;
     private AMQPChannel $channel;
 
-    /**
-     * @throws Exception
-     */
-    public function __construct(public string $queueName)
+    public function init(): void
     {
+        parent::init();
         $this->connection = new AMQPStreamConnection(
             $_ENV['RABBITMQ_HOST'],
             5672,
@@ -25,12 +24,6 @@ class RabbitMq
             $_ENV['RABBITMQ_PASS']
         );
         $this->channel = $this->connection->channel();
-        $this->queueDeclare();
-    }
-
-    private function queueDeclare(): void
-    {
-        $this->channel->queue_declare($this->queueName, false, true, false, false);
     }
 
     public function getChannel(): AMQPChannel

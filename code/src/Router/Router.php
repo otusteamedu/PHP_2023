@@ -21,7 +21,7 @@ class Router
     public function dispatch(Route $route): void
     {
         if ($this->issetRoute($route)) {
-            $call = new $this->routes[$route->getCommandName()];
+            $call = new $this->routes[$route->getCommandName()]();
             $call();
         } else {
             throw new Exception('Command not found');

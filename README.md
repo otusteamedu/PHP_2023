@@ -1,3 +1,7 @@
-# PHP_2023
+# Консольный чат на сокетах
 
-https://otus.ru/lessons/razrabotchik-php/?utm_source=github&utm_medium=free&utm_campaign=otus
+## Запуск
+```
+php app.php start-server
+php app.php start-client
+```

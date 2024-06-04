@@ -1,0 +1,25 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: propan13/php
+    container_name: server
+    volumes:
+      - ./code:/data/
+    networks:
+      - app-network
+  client:
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: propan13/php
+    container_name: client
+    volumes:
+      - ./code:/data/
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge

@@ -8,7 +8,6 @@ use Generator;
 
 class Server extends Socket
 {
-
     public function init(): void
     {
         $this->create();

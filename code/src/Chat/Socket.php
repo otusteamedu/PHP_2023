@@ -8,10 +8,9 @@ use Generator;
 abstract class Socket
 {
     private \Socket $socket;
-    
-    abstract function init(): void;
 
-    abstract function launch(): Generator;
+    abstract public function init(): void;
+    abstract public function launch(): Generator;
 
     public function __construct()
     {
@@ -49,7 +48,7 @@ abstract class Socket
 
     public function listen(): void
     {
-        $listen = socket_listen($this->socket,1);
+        $listen = socket_listen($this->socket, 1);
         if ($listen === false) {
             throw new Exception('Could not listen on socket');
         }

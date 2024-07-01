@@ -1,0 +1,14 @@
+{
+    "name": "root/myapp",
+    "autoload": {
+        "psr-4": {
+            "Root\\Myapp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aleksandra Malykhina"
+        }
+    ],
+    "require": {}
+}

@@ -1,5 +1,4 @@
 FROM nginx
-LABEL authors="pauti"
 
 COPY ./mysite.local.conf /etc/nginx/conf.d/mysite.local.conf
 
@@ -9,4 +8,7 @@ WORKDIR /data
 
 EXPOSE 80
 
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD ["nginx", "-g", "daemon off;"]
+
+# docker build -t sf/nginx .
+# docker run -d -p 80:80 sf/nginx

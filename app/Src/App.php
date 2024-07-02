@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace App\Src;
 
 use Exception;
@@ -12,12 +14,14 @@ class App
     private $validator = null;
     private $auth = null;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->validator = new Validator();
         $this->auth = new Auth();
     }
 
-    public function run() {
+    public function run()
+    {
 
         try {
             $this->auth->auth();
@@ -29,7 +33,7 @@ class App
             header('HTTP/1.1 ' . 400);
             $message = $e->getMessage();
         }
-        
+
         $this->auth->info();
         echo "<br><br>string: " . $string . '<br>';
         echo "Обработка строки string: " . $message;

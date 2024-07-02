@@ -26,18 +26,12 @@ class Auth
         }
     }
 
-    public function info() {
-        
+    public function info()
+    {
+
         echo "Редис работает<br/>";
         echo 'Session id: ' . session_id() . '<br>';
         echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . '<br>';
         echo "Запрос обработал сервер nginx c IP: " . $_SERVER['SERVER_ADDR'] . '<br>';
-
     }
-
-    // function __destruct()
-    // {
-    //     print "Уничтожается " . __CLASS__  . "\n";
-    // }
-    
 }

@@ -30,9 +30,9 @@ class App
             $result = $e->getMessage();
         }
 
-        return json_encode([
+        return [
             'result' => $result,
             'auth' => $this->auth->info()
-        ], JSON_UNESCAPED_UNICODE);
+        ];
     }
 }

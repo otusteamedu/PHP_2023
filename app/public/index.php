@@ -8,4 +8,5 @@ use App\Src\App;
 
 header('Content-Type: application/json');
 $app = new App();
-echo $app->run();
+$result =  $app->run();
+echo json_encode($result, JSON_UNESCAPED_UNICODE);

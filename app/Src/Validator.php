@@ -31,7 +31,7 @@ class Validator
             if (count($stack)) {
                 $this->error("Не хватает " . (count($stack) . " закрывающих скобок"));
             } else {
-                return true;
+                return "Строка корректна";
             }
 
         } else {
@@ -42,6 +42,7 @@ class Validator
 
     private function error(string $message = "error") 
     {
+        header('HTTP/1.1 ' . 400);
         throw new Exception($message);
     }
 

@@ -22,20 +22,17 @@ class App
 
     public function run()
     {
-
         try {
             $this->auth->auth();
             $string = $_POST['string'] ?? '';
-            $message = "Cтрока корректна";
-            header('HTTP/1.1 ' . 200);
-            $this->validator->validate($string);
+            $result = $this->validator->validate($string);
         } catch (Exception $e) {
-            header('HTTP/1.1 ' . 400);
-            $message = $e->getMessage();
+            $result = $e->getMessage();
         }
 
-        $this->auth->info();
-        echo "<br><br>string: " . $string . '<br>';
-        echo "Обработка строки string: " . $message;
+        return json_encode([
+            'result' => $result,
+            'auth' => $this->auth->info()
+        ], JSON_UNESCAPED_UNICODE);
     }
 }

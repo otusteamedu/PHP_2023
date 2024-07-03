@@ -28,10 +28,10 @@ class Auth
 
     public function info()
     {
-
-        echo "Редис работает<br/>";
-        echo 'Session id: ' . session_id() . '<br>';
-        echo "Запрос обработал контейнер: " . $_SERVER['HOSTNAME'] . '<br>';
-        echo "Запрос обработал сервер nginx c IP: " . $_SERVER['SERVER_ADDR'] . '<br>';
+        return [
+            'session_id' => session_id(),
+            'container' => $_SERVER['HOSTNAME'],
+            'server_addr' => $_SERVER['SERVER_ADDR'],
+        ];
     }
 }

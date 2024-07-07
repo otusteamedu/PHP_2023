@@ -3,7 +3,12 @@
     "autoload": {
         "psr-4": {
             "Root\\Myapp\\": "src/"
-        }
+        },
+        "files": [
+            "app/Src/Auth.php",
+            "app/Src/Validator.php",
+            "app/Src/App.php"
+        ]
     },
     "authors": [
         {

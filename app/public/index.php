@@ -2,7 +2,6 @@
 
 require '../../vendor/autoload.php';
 
-include("../Src/App.php");
 
 use App\Src\App;
 

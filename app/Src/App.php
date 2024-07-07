@@ -6,9 +6,6 @@ namespace App\Src;
 
 use Exception;
 
-include('Validator.php');
-include('Auth.php');
-
 class App
 {
     private $validator = null;

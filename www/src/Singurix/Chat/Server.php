@@ -13,9 +13,9 @@ class Server
     /**
      * @throws Exception
      */
-    public function start(): void
+    public function start(SocketChat $socketChat): void
     {
-        $sock = (new SocketChat())
+        $sock = $socketChat
             ->create()
             ->bind()
             ->listen();
@@ -38,19 +38,24 @@ class Server
 
     private function readMessage($sock): void
     {
-        $socketMsg = false;
         do {
-            if ($socketMsg) {
+            if($socketMsg = socket_accept($sock->socket)) {
+                break;
+            }
+            $this->checkStop();
+        } while ($this->serverStarted);
+
+        while ($this->serverStarted) {
+            if($socketMsg) {
                 socket_set_nonblock($socketMsg);
                 if ($message = socket_read($socketMsg, 2048)) {
                     Stdout::printToConsole('Incoming message - ' . $message);
                     socket_write($socketMsg, 'Received ' . strlen($message) . ' bytes');
                 }
-            } else {
-                $socketMsg = socket_accept($sock->socket);
             }
             $this->checkStop();
-        } while ($this->serverStarted);
+        }
+
         Stdout::printToConsole('Server stopped at ' . date('H:i:s'), true);
         $sock->close();
     }

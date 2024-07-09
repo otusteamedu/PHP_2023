@@ -14,13 +14,14 @@ class SocketChat
     /**
      * @throws Exception
      */
-    public function __construct()
+    public function __construct(Config $config)
     {
-        $configFile = '/app/config.ini';
-        $config = parse_ini_file($configFile, true);
-        $this->socket_file = $config['socket']['file'];
+        $this->socket_file = $config->getSocketFile();
     }
 
+    /**
+     * @throws Exception
+     */
     public function create(): self
     {
         if (!$this->socket = socket_create(AF_UNIX, SOCK_STREAM, IPPROTO_IP)) {
@@ -43,6 +44,9 @@ class SocketChat
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function listen(): self
     {
         if (!socket_listen($this->socket, 1)) {
@@ -51,6 +55,9 @@ class SocketChat
         return $this;
     }
 
+    /**
+     * @throws Exception
+     */
     public function connect(): self
     {
         if (!socket_connect($this->socket, $this->socket_file)) {
@@ -65,11 +72,24 @@ class SocketChat
         unlink($this->socket_file);
     }
 
+    /**
+     * @throws Exception
+     */
     public function isServerRun(): self
     {
         if (!file_exists($this->socket_file)) {
             throw new Exception('server not running' . "\n");
         }
         return $this;
+    }
+
+    public function write($consoleMessage): void
+    {
+        socket_write($this->socket, $consoleMessage, strlen($consoleMessage));
+    }
+
+    public function read(): bool|string
+    {
+        return socket_read($this->socket, 2048);
     }
 }

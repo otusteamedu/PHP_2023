@@ -4,23 +4,26 @@ declare(strict_types=1);
 
 namespace Singurix\Chat;
 
+use Exception;
+
 class Client
 {
-    public function start(): void
+    /**
+     * @throws Exception
+     */
+    public function start(SocketChat $socketChat): void
     {
-        $clientStarted = true;
-        $sock = (new SocketChat())->isServerRun()->create()->connect();
+        $socketChat->isServerRun()->create()->connect();
         Stdout::printToConsole("Connected to server successful", true);
         Stdout::printToConsole("To stop the client, type 'stop'", true);
-        while ($clientStarted) {
+        while (true) {
             $consoleMessage = fgets(STDIN);
             if (trim($consoleMessage) == 'stop') {
-                $clientStarted = false;
-            } else {
-                socket_write($sock->socket, $consoleMessage, strlen($consoleMessage));
-                $message = socket_read($sock->socket, 2048);
-                Stdout::printToConsole($message);
+                break;
             }
+            $socketChat->write($consoleMessage);
+            $message = $socketChat->read();
+            Stdout::printToConsole($message);
         }
     }
 }

@@ -39,14 +39,14 @@ class Server
     private function readMessage($sock): void
     {
         do {
-            if($socketMsg = socket_accept($sock->socket)) {
+            if ($socketMsg = socket_accept($sock->socket)) {
                 break;
             }
             $this->checkStop();
         } while ($this->serverStarted);
 
         while ($this->serverStarted) {
-            if($socketMsg) {
+            if ($socketMsg) {
                 socket_set_nonblock($socketMsg);
                 if ($message = socket_read($socketMsg, 2048)) {
                     Stdout::printToConsole('Incoming message - ' . $message);

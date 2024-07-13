@@ -17,11 +17,11 @@ class App
         if ($argv[1] == 'server-start') {
             $this->type = 'server';
             $server = new Server();
-            $server->start(new SocketChat($config));
+            $server->start(new SocketChat($config->getSocketFile()));
         } elseif ($argv[1] == 'client-start') {
             $this->type = 'client';
             $client = new Client();
-            $client->start(new SocketChat($config));
+            $client->start(new SocketChat($config->getSocketFile()));
         }
     }
 }

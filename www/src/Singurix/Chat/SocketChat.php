@@ -9,14 +9,22 @@ use Exception;
 class SocketChat
 {
     public \Socket $socket;
-    private string $socket_file;
 
     /**
      * @throws Exception
      */
-    public function __construct(Config $config)
+    public function __construct(string $socket_file)
     {
-        $this->socket_file = $config->getSocketFile();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function startServer(): self
+    {
+        $this->create()->bind()->listen();
+        socket_set_nonblock($this->socket);
+        return $this;
     }
 
     /**

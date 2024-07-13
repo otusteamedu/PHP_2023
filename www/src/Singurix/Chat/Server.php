@@ -15,11 +15,7 @@ class Server
      */
     public function start(SocketChat $socketChat): void
     {
-        $sock = $socketChat
-            ->create()
-            ->bind()
-            ->listen();
-        socket_set_nonblock($sock->socket);
+        $sock = $socketChat->startServer();
         Stdout::printToConsole('Server started at ' . date('H:i:s'));
         Stdout::printToConsole("To stop the server, type 'stop'", true);
         $this->serverStarted = true;

@@ -1,0 +1,70 @@
+# версия синтаксиса
+version: '3'
+
+# в этом блоке мы описываем контейнеры, которые будут запускаться
+services:
+  #контейнер с Nginx
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    image: myapp/nginx
+    container_name: nginx
+    # проброс портов
+    ports:
+      - "80:80"
+    volumes:
+       - ${APPLICATION_ROOT}
+       - phpsocket:/var/run
+    networks:
+      - app-network
+    depends_on:
+      - php
+
+  #Контейнер с PHP-FPM, назовём его app
+  php:
+    # Если нет секции build, то система будет искать образ в репозиториях
+    build:
+      context: ./fpm
+      dockerfile: Dockerfile
+    image: myapp/php # имя будущего образа
+    container_name: php # имя контейнера после запуска
+    volumes:
+       - ${APPLICATION_ROOT}
+       - phpsocket:/var/run
+    # мы можем создать для контейнеров внутреннюю сеть
+    networks:
+      - app-network
+
+  #Контейнер с MySQL
+  mysql:
+    image: mysql
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    #command: --default-authentication-plugin=mysql_native_password
+    volumes:
+      - ./mysql/db_data:/var/lib/mysql
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - app-network
+    depends_on:
+      - php
+      - nginx
+
+#Docker Networks
+networks:
+  app-network:
+    driver: bridge
+volumes:
+  phpsocket:
+  # db_data:
+    # external: true

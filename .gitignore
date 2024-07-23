@@ -1,0 +1,11 @@
+.idea
+vendor/
+db_data/
+composer.lock
+*.env
+
+**/logs
+*.log
+.tmp/
+
+*-local.php

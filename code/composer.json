@@ -1,0 +1,5 @@
+{
+    "require": {
+        "vladimirpetrov/otus-string-helper": "^0.0.1"
+    }
+}

@@ -1,5 +1,7 @@
 {
     "require": {
-        "vladimirpetrov/otus-string-helper": "^0.0.1"
+        "php": ">=8.0",
+        "vladimirpetrov/otus-string-helper": "^0.0.1",
+        "php-telegram-bot/telegram-bot-manager": "*"
     }
 }

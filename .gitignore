@@ -9,3 +9,5 @@ composer.lock
 .tmp/
 
 *-local.php
+config.php
+code/config/config.php

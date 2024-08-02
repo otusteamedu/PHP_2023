@@ -40,5 +40,7 @@ function writeLogFile($string, $clear = false): void
 $data = file_get_contents('php://input');
 writeLogFile($data, true);
 
+require __DIR__ . '/hook.php';
+
 // phpinfo();
 

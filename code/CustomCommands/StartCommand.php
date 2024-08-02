@@ -46,7 +46,7 @@ class StartCommand extends SystemCommand
     /**
      * @var string
      */
-    protected $version = '1.0.0';
+    protected $version = '1.2.0';
 
     /**
      * @var bool

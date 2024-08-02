@@ -54,6 +54,11 @@ class StartCommand extends SystemCommand
     protected $private_only = false;
 
     /**
+     * @var bool
+     */
+    protected $need_mysql = false;
+
+    /**
      * Main command execution
      *
      * @return ServerResponse

@@ -12,18 +12,18 @@ $config = array_merge(
 //$exitCode = $application->run();
 //exit($exitCode);
 
-// Проверяем mysql
-try {
-    echo "Проверяем mysql:<br>";
-    $dsn = $config['dns'];
-    $username = $config['username'];
-    $password = $config['password'];
-
-    $dbh = new PDO($dsn, $username, $password);
-    echo "SQL. It's work!";
-} catch (PDOException $exception) {
-    echo $exception->getMessage();
-}
+//// Проверяем mysql
+//try {
+//    echo "Проверяем mysql:<br>";
+//    $dsn = $config['dns'];
+//    $username = $config['username'];
+//    $password = $config['password'];
+//
+//    $dbh = new PDO($dsn, $username, $password);
+//    echo "SQL. It's work!";
+//} catch (PDOException $exception) {
+//    echo $exception->getMessage();
+//}
 
 function writeLogFile($string, $clear = false): void
 {

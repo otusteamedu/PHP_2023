@@ -29,7 +29,7 @@ try {
     $telegram = new Longman\TelegramBot\Telegram($config['api_key'], $config['bot_username']);
 
     // Enable admin users
-    $telegram->enableAdmins($config['admins']);
+    // $telegram->enableAdmins($config['admins']);
 
     // Add commands paths containing your custom commands
     $telegram->addCommandsPaths($config['commands']['paths']);
@@ -39,17 +39,17 @@ try {
 
     // Logging (Error, Debug and Raw Updates)
     // https://github.com/php-telegram-bot/core/blob/master/doc/01-utils.md#logging
-    //
+
     // (this example requires Monolog: composer require monolog/monolog)
-    // Longman\TelegramBot\TelegramLog::initialize(
-    //    new Monolog\Logger('telegram_bot', [
-    //        (new Monolog\Handler\StreamHandler($config['logging']['debug'], Monolog\Logger::DEBUG))->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true)),
-    //        (new Monolog\Handler\StreamHandler($config['logging']['error'], Monolog\Logger::ERROR))->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true)),
-    //    ]),
-    //    new Monolog\Logger('telegram_bot_updates', [
-    //        (new Monolog\Handler\StreamHandler($config['logging']['update'], Monolog\Logger::INFO))->setFormatter(new Monolog\Formatter\LineFormatter('%message%' . PHP_EOL)),
-    //    ])
-    // );
+    Longman\TelegramBot\TelegramLog::initialize(
+        new Monolog\Logger('telegram_bot', [
+            (new Monolog\Handler\StreamHandler($config['logging']['debug'], Monolog\Logger::DEBUG))->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true)),
+            (new Monolog\Handler\StreamHandler($config['logging']['error'], Monolog\Logger::ERROR))->setFormatter(new Monolog\Formatter\LineFormatter(null, null, true)),
+        ]),
+        new Monolog\Logger('telegram_bot_updates', [
+            (new Monolog\Handler\StreamHandler($config['logging']['update'], Monolog\Logger::INFO))->setFormatter(new Monolog\Formatter\LineFormatter('%message%' . PHP_EOL)),
+        ])
+     );
 
     // Set custom Download and Upload paths
     // $telegram->setDownloadPath($config['paths']['download']);

@@ -1,0 +1,53 @@
+version: "3"
+
+services:
+    app:
+        build:
+            context: ./docker/app
+        volumes:
+            - ./code:/app
+        depends_on:
+            - db
+        networks:
+            - app-network
+
+    web:
+        build:
+            context: ./docker/web
+        volumes:
+            - ./code:/app
+        depends_on:
+            - app
+        ports:
+            - 80:80
+        networks:
+            - app-network
+
+    db:
+        restart: always
+        image: postgres:15-alpine
+        volumes:
+            - ./db_restore:/data/db_restore
+            - db_data:/var/lib/postgresql/data
+        environment:
+            - POSTGRES_DB=${DB_DATABASE}
+            - POSTGRES_USER=${DB_USERNAME}
+            - POSTGRES_PASSWORD=${DB_PASSWORD}
+        networks:
+            - app-network  
+
+    redis:
+        image: redis:6.0
+        networks:
+            - app-network
+
+    memcached:
+        image: memcached:1.6.19
+        networks:
+            - app-network  
+  
+networks:
+    app-network:
+
+volumes:
+    db_data:

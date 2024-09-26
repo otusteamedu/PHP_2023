@@ -1,0 +1,7 @@
+[mysqld]
+# Basic mysql server configuration
+user = mysql
+port = 3306
+
+#Timezone
+default-time-zone = '+03:00'

@@ -8,12 +8,20 @@ use Exception;
 
 class Client
 {
+
+    private SocketChat $socketChat;
+
+    public function __construct(SocketChat $socketChat)
+    {
+        $this->socketChat = $socketChat;
+    }
+
     /**
      * @throws Exception
      */
-    public function start(SocketChat $socketChat): void
+    public function start(): void
     {
-        $socketChat->isServerRun()->create()->connect();
+        $this->socketChat->isServerRun()->create()->connect();
         Stdout::printToConsole("Connected to server successful", true);
         Stdout::printToConsole("To stop the client, type 'stop'", true);
         while (true) {
@@ -21,8 +29,8 @@ class Client
             if (trim($consoleMessage) == 'stop') {
                 break;
             }
-            $socketChat->write($consoleMessage);
-            $message = $socketChat->read();
+            $this->socketChat->write($consoleMessage);
+            $message = $this->socketChat->read();
             Stdout::printToConsole($message);
         }
     }

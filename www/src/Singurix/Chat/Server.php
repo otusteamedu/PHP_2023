@@ -9,17 +9,20 @@ use Exception;
 class Server
 {
     public bool $serverStarted;
+    private SocketChat $socketChat;
+
+    public function __construct(SocketChat $socketChat)
+    {
+        $this->socketChat = $socketChat;
+    }
 
     /**
      * @throws Exception
      */
-    public function start(SocketChat $socketChat): void
+    public function start(): void
     {
-        $sock = $socketChat->startServer();
-        Stdout::printToConsole('Server started at ' . date('H:i:s'));
-        Stdout::printToConsole("To stop the server, type 'stop'", true);
-        $this->serverStarted = true;
-        $this->readMessage($sock);
+        $this->socketChat->startServer();
+        $this->readMessage();
     }
 
     private function checkStop(): void
@@ -32,27 +35,31 @@ class Server
         }
     }
 
-    private function readMessage($sock): void
+    private function readMessage(): void
     {
+        $this->serverStarted = true;
+        Stdout::printToConsole('Server started at ' . date('H:i:s'));
+        Stdout::printToConsole("To stop the server, type 'stop'", true);
+
         do {
-            if ($socketMsg = socket_accept($sock->socket)) {
+            if($this->socketChat->accept()) {
                 break;
             }
             $this->checkStop();
         } while ($this->serverStarted);
 
         while ($this->serverStarted) {
-            if ($socketMsg) {
-                socket_set_nonblock($socketMsg);
-                if ($message = socket_read($socketMsg, 2048)) {
+            if ($this->socketChat->isConnected()) {
+                $this->socketChat->setNonBlock();
+                if ($message = $this->socketChat->read(true)) {
                     Stdout::printToConsole('Incoming message - ' . $message);
-                    socket_write($socketMsg, 'Received ' . strlen($message) . ' bytes');
+                    $this->socketChat->write('Received ' . strlen($message) . ' bytes', true);
                 }
             }
             $this->checkStop();
         }
 
         Stdout::printToConsole('Server stopped at ' . date('H:i:s'), true);
-        $sock->close();
+        $this->socketChat->close();
     }
 }

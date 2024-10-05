@@ -8,13 +8,18 @@ use Exception;
 
 class SocketChat
 {
-    public \Socket $socket;
+    private \Socket $socket;
+
+    private bool|\Socket $connection;
+
+    private string $socket_file;
 
     /**
      * @throws Exception
      */
     public function __construct(string $socket_file)
     {
+        $this->socket_file = $socket_file;
     }
 
     /**
@@ -91,13 +96,30 @@ class SocketChat
         return $this;
     }
 
-    public function write($consoleMessage): void
+    public function write($consoleMessage, $isServer = false): void
     {
-        socket_write($this->socket, $consoleMessage, strlen($consoleMessage));
+        $socket = $isServer ? $this->connection : $this->socket;
+        socket_write($socket, $consoleMessage, strlen($consoleMessage));
     }
 
-    public function read(): bool|string
+    public function read($isServer = false): bool|string
     {
-        return socket_read($this->socket, 2048);
+        $socket = $isServer ? $this->connection : $this->socket;
+        return socket_read($socket, 2048);
+    }
+
+    public function accept(): bool
+    {
+        return (bool)(($this->connection = socket_accept($this->socket)));
+    }
+
+    public function setNonBlock(): void
+    {
+        socket_set_nonblock($this->connection);
+    }
+
+    public function isConnected(): \Socket|Bool
+    {
+        return $this->connection;
     }
 }

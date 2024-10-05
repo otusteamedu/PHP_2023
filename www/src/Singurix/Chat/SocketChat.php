@@ -118,7 +118,7 @@ class SocketChat
         socket_set_nonblock($this->connection);
     }
 
-    public function isConnected(): \Socket|Bool
+    public function isConnected(): \Socket|bool
     {
         return $this->connection;
     }

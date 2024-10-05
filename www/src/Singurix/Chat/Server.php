@@ -42,7 +42,7 @@ class Server
         Stdout::printToConsole("To stop the server, type 'stop'", true);
 
         do {
-            if($this->socketChat->accept()) {
+            if ($this->socketChat->accept()) {
                 break;
             }
             $this->checkStop();

@@ -8,7 +8,6 @@ use Exception;
 
 class Client
 {
-
     private SocketChat $socketChat;
 
     public function __construct(SocketChat $socketChat)

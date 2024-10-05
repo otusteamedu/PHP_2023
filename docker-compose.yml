@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+    server:
+        build:
+            context: .
+            dockerfile_inline: |
+                FROM php:8.2-cli
+                WORKDIR ${HOME_PATH}
+                RUN apt-get update && apt-get install -y && docker-php-ext-install -j$(nproc) sockets
+                VOLUME ${HOME_PATH}
+        container_name: server
+        image: chat-server
+        working_dir: ${HOME_PATH}
+        volumes:
+            - ./www:${HOME_PATH}
+            - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
+            - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./php-fpm/log:/var/log/php-fpm
+            - phpsocket:/var/run/php/
+        networks:
+            - default
+
+    client:
+        build:
+            context: .
+            dockerfile_inline: |
+                FROM php:8.2-cli
+                WORKDIR ${HOME_PATH}
+                RUN apt-get update && apt-get install -y && docker-php-ext-install -j$(nproc) sockets
+                VOLUME ${HOME_PATH}
+        container_name: client
+        image: chat-client
+        depends_on:
+            - server
+        working_dir: ${HOME_PATH}
+        volumes:
+            - ./www:${HOME_PATH}
+            - ./php-fpm/config/docker-fpm.ini:/usr/local/etc/php/conf.d/docker-fpm.ini
+            - ./php-fpm/config/zz-docker.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+            - ./php-fpm/log:/var/log/php-fpm
+            - phpsocket:/var/run/php/
+        networks:
+            - default
+
+networks:
+    default:
+        driver: bridge
+
+volumes:
+    phpsocket:

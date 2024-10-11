@@ -19,13 +19,10 @@ class Client
     {
         // Основной код
         try {
-            while (true) {
-                $chatClient = new Client($this->socketPath);
-                $chatClient->connect();
-                // Вводим сообщение
-                $message = readline("Введите сообщение: ");
+            foreach ($this->getUserInput() as $message) {
+                $this->connect();
                 // Получаем ответ от сервера
-                $response = $chatClient->sendMessage($message);
+                $response = $this->sendMessage($message);
                 echo "Ответ от сервера: $response\n";
             }
         } catch (Exception $e) {
@@ -59,6 +56,17 @@ class Client
     public function disconnect()
     {
         // Закрываем соединение с сервером
-        socket_close($this->client);
+        if ($this->client) {
+            socket_close($this->client);
+        }
+    }
+
+    private function getUserInput()
+    {
+        while (true) {
+            // Вводим сообщение
+            $message = readline("Введите сообщение: ");
+            yield $message; // Возвращаем введенное сообщение
+        }
     }
 }

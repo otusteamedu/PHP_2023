@@ -14,7 +14,7 @@ class ValidatorMX
         $this->email = $email;
     }
 
-    public function validate()
+    public function validate(): bool
     {
         // Извлечь домен из email адреса
         $domain = strrchr($this->email, "@");

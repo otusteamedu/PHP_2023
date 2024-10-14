@@ -14,15 +14,18 @@ class ValidatorMX
         $this->email = $email;
     }
 
-    public function validate(): bool
+    public function validate()
     {
         // Извлечь домен из email адреса
-        $domain = substr(strrchr($this->email, "@"), 1);
-        // Получить MX записи для домена
-        if (getmxrr($domain, $mxRecords)) {
-            return true; // Домен имеет MX записи
+        $domain = strrchr($this->email, "@");
+        if (!$domain) {
+            throw new Exception($this->email . ' не является email');
         } else {
-            return false; // Домен не имеет MX записей
+            if (getmxrr($domain, $mxRecords)) {
+                return true; // Домен имеет MX записи
+            } else {
+                return false; // Домен не имеет MX записей
+            }
         }
     }
 }
